@@ -7,7 +7,6 @@ supabase
 nltk
 transformers
 langdetect
-torch
 deep-translator
 werkzeug
 google-genai
@@ -51,3 +50,4 @@ googleapis-common-protos==1.63.2
 dotenv
 aiosqlite
 psycopg2-binary
+psycopg2
