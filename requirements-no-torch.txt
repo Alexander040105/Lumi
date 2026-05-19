@@ -51,3 +51,4 @@ dotenv
 aiosqlite
 psycopg2-binary
 psycopg2
+fastapi
