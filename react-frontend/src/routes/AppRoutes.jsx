@@ -5,7 +5,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import NotFound from "../pages/NotFound";
-import ProtectedRoute from "../components/ProtectedRoute";
+import ProtectedRoute from "../components/shared/ProtectedRoute";
 
 export default function AppRoutes() {
   return (

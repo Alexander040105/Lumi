@@ -1,6 +1,8 @@
 import { Navigate, useLocation } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function Login() {
   const { session, signInWithProvider } = useAuth();
@@ -12,17 +14,21 @@ export default function Login() {
   }
 
   return (
-    <section>
-      <h1>Sign in</h1>
-      <p>Use an OAuth provider configured in Supabase.</p>
-      <div>
-        <button type="button" onClick={() => signInWithProvider("google")}>
-          Continue with Google
-        </button>
-        <button type="button" onClick={() => signInWithProvider("github")}>
-          Continue with GitHub
-        </button>
-      </div>
+    <section className="page-container">
+      <Card className="mx-auto max-w-md">
+        <CardHeader>
+          <CardTitle>Welcome back</CardTitle>
+          <CardDescription>Sign in with an OAuth provider configured in Supabase.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <Button className="w-full" onClick={() => signInWithProvider("google")}>
+            Continue with Google
+          </Button>
+          <Button className="w-full" variant="outline" onClick={() => signInWithProvider("github")}>
+            Continue with GitHub
+          </Button>
+        </CardContent>
+      </Card>
     </section>
   );
 }

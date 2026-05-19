@@ -1,29 +1,21 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
-import { useAuth } from "../hooks/useAuth";
+import Navbar from "@/components/layout/Navbar";
+import Sidebar from "@/components/layout/Sidebar";
 
 export default function MainLayout() {
-  const { session, signOut } = useAuth();
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/dashboard");
 
   return (
-    <div>
-      <header>
-        <Link to="/">Lumi Starter</Link>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/dashboard">Dashboard</Link>
-          {session ? (
-            <button type="button" onClick={signOut}>
-              Logout
-            </button>
-          ) : (
-            <Link to="/login">Login</Link>
-          )}
-        </nav>
-      </header>
-      <main>
-        <Outlet />
-      </main>
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <div className="flex">
+        {isDashboard && <Sidebar />}
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 }
