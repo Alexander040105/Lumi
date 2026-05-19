@@ -51,3 +51,4 @@ googleapis-common-protos==1.63.2
 dotenv
 aiosqlite
 psycopg2-binary
+selenium==4.23.1
