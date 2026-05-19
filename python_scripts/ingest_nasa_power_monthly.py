@@ -23,6 +23,8 @@ PARAMETERS = [
     "PRECTOTCORR",
     "WS10M",
     "ALLSKY_SFC_SW_DWN",
+    "CLOUD_AMT",
+    "PS",
 ]
 MISSING_VALUES = {-999, -999.0, -9999, -9999.0}
 
@@ -42,6 +44,7 @@ class Config:
     rate_limit_seconds: float
     request_timeout: int
     only_missing: bool
+    update_existing: bool
     batch_size: int
     max_retries: int
     backoff_factor: float
@@ -59,6 +62,7 @@ def load_config() -> Config:
         rate_limit_seconds=float(os.getenv("NASA_RATE_LIMIT_SECONDS", "0.6")),
         request_timeout=int(os.getenv("NASA_REQUEST_TIMEOUT", "30")),
         only_missing=parse_bool(os.getenv("ONLY_MISSING"), True),
+        update_existing=parse_bool(os.getenv("UPDATE_EXISTING"), True),
         batch_size=int(os.getenv("BATCH_SIZE", "500")),
         max_retries=int(os.getenv("NASA_MAX_RETRIES", "5")),
         backoff_factor=float(os.getenv("NASA_BACKOFF_FACTOR", "1.5")),
@@ -300,6 +304,8 @@ def build_rows(
             "prectotcorr": coerce_value(parameter_map.get("PRECTOTCORR", {}).get(key)),
             "ws10m": coerce_value(parameter_map.get("WS10M", {}).get(key)),
             "allsky_sfc_sw_dwn": coerce_value(parameter_map.get("ALLSKY_SFC_SW_DWN", {}).get(key)),
+            "cloud_amt": coerce_value(parameter_map.get("CLOUD_AMT", {}).get(key)),
+            "surface_pressure": coerce_value(parameter_map.get("PS", {}).get(key)),
         }
         rows.append(row)
     return rows
@@ -356,7 +362,7 @@ def main() -> None:
                 config.start_year,
                 config.end_year,
             )
-            if not missing_months:
+            if not missing_months and not config.update_existing:
                 logging.info(
                     "[%s/%s] %s already complete. Skipping.",
                     index,
@@ -364,7 +370,11 @@ def main() -> None:
                     name,
                 )
                 continue
-            start_year, start_month = min(missing_months)
+            if config.update_existing:
+                start_year = config.start_year
+                start_month = 1
+            else:
+                start_year, start_month = min(missing_months)
         else:
             start_year = config.start_year
             start_month = 1

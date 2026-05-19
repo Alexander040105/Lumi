@@ -1,7 +1,7 @@
 .env
+.env.*
 altea-booking-system-9bb45fa21aeb.json
 client_secret_64241280734-dfat02rr7fc1q48u898aiqb1fgij9t5d.apps.googleusercontent.com.json
-.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -219,3 +219,14 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / frontend
+node_modules/
+react-frontend/node_modules/
+react-frontend/dist/
+react-frontend/.vite/
+
+# Local data outputs
+output/
+scraped_data/output/
+scraped_data/runtime/

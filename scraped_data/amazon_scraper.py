@@ -14,13 +14,13 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-SEARCH_URL = "https://www.amazon.com/s?k=hydro+generator"
+SEARCH_URL = "https://www.amazon.com/s?k=wind+turbine+generator"
 
 load_dotenv(override=True)
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RUNTIME_DIR = os.path.join(os.path.dirname(__file__), "runtime")
-CSV_PATH = os.path.join(OUTPUT_DIR, "amazon_products.csv")
+CSV_PATH = os.path.join(OUTPUT_DIR, "amazon_products_wind_turbine.csv")
 JSON_PATH = os.path.join(OUTPUT_DIR, "amazon_products.json")
 
 

@@ -14,14 +14,14 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-SEARCH_URL = "https://www.lazada.com.ph/tag/home-wind-turbine-generator/"
+SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=solar%20panel"
 
 load_dotenv(override=True)
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RUNTIME_DIR = os.path.join(os.path.dirname(__file__), "runtime")
-CSV_PATH = os.path.join(OUTPUT_DIR, "lazada_products.csv")
-JSON_PATH = os.path.join(OUTPUT_DIR, "lazada_products.json")
+CSV_PATH = os.path.join(OUTPUT_DIR, "lazada_products_solar_panel.csv")
+JSON_PATH = os.path.join(OUTPUT_DIR, "lazada_products_solar_panel.json")
 
 
 @dataclass
