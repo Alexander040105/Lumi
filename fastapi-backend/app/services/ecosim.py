@@ -38,5 +38,16 @@ def consumption_calculator(current_electricity_bill: float, electricity_rate: fl
         "target_monthly_consumption_kwh": target_monthly_consumption_kwh
     }
     
+    
+# | LUMI Variable      | NASA POWER Column       | Use Case                          |
+# | ------------------ | ----------------------- | --------------------------------- |
+# | `solar_irradiance` | `avg_allsky_sfc_sw_dwn` | Solar energy calculations         |
+# | `wind_speed`       | `avg_ws10m`             | Wind energy calculations          |
+# | `rainfall`         | `avg_prectotcorr`       | Hydropower suitability            |
+# | `temperature`      | `avg_t2m`               | Solar efficiency adjustments      |
+# | `humidity`         | `avg_rh2m`              | Environmental/climate scoring     |
+# | `cloud_cover`      | `avg_cloud_amt`         | Solar suitability penalties       |
+# | `surface_pressure` | `avg_surface_pressure`  | Advanced wind analysis (optional) |
+    
 def renewable_energy_calculator():
     pass
