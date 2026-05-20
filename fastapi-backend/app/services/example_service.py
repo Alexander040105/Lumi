@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from app.schemas.example import ItemCreate, ItemOut
+from app.schemas.ecosim import GetHouse, PostHouse, HouseList
 
 _ITEMS: list[ItemOut] = []
 
@@ -10,6 +10,6 @@ async def list_items() -> list[ItemOut]:
 
 
 async def create_item(payload: ItemCreate) -> ItemOut:
-    item = ItemOut(id=str(uuid4()), name=payload.name, description=payload.description)
-    _ITEMS.append(item)
-    return item
+    
+    
+    return 
