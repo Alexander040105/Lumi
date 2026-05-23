@@ -34,6 +34,14 @@ export function AuthProvider({ children }) {
       accessToken: session?.access_token ?? null,
       loading,
       signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
+      signInWithPassword: (email, password) =>
+        supabase.auth.signInWithPassword({ email, password }),
+      signUp: (email, password) => supabase.auth.signUp({ email, password }),
+      resetPassword: (email) =>
+        supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`
+        }),
+      updatePassword: (newPassword) => supabase.auth.updateUser({ password: newPassword }),
       signOut: () => supabase.auth.signOut()
     }),
     [session, loading]
