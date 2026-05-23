@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { useAuth } from "../hooks/useAuth";
 import { getProtectedMe, getHealth } from "../services/apiClient";
+import { supabase } from "../services/supabaseClient";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,9 +30,16 @@ const formSchema = z.object({
 
 export default function Dashboard() {
   const { accessToken, user } = useAuth();
+  const emailVerified = Boolean(user?.email_confirmed_at || user?.confirmed_at);
   const [profile, setProfile] = useState(null);
   const [health, setHealth] = useState(null);
   const [error, setError] = useState(null);
+  const [mfaStatus, setMfaStatus] = useState({ currentLevel: null, nextLevel: null });
+  const [totpFactorId, setTotpFactorId] = useState("");
+  const [totpQr, setTotpQr] = useState("");
+  const [totpSecret, setTotpSecret] = useState("");
+  const [mfaCode, setMfaCode] = useState("");
+  const [mfaBusy, setMfaBusy] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: { label: "" }
@@ -48,9 +56,78 @@ export default function Dashboard() {
       .catch((err) => setError(err.message));
   }, [accessToken]);
 
+  useEffect(() => {
+    if (!accessToken) return;
+
+    const loadMfa = async () => {
+      const { data: assurance, error: assuranceError } =
+        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (!assuranceError && assurance) {
+        setMfaStatus({
+          currentLevel: assurance.currentLevel,
+          nextLevel: assurance.nextLevel
+        });
+      }
+
+      const { data: factorsData } = await supabase.auth.mfa.listFactors();
+      const totpFactor = factorsData?.totp?.[0];
+      if (totpFactor?.id) {
+        setTotpFactorId(totpFactor.id);
+      }
+    };
+
+    loadMfa();
+  }, [accessToken]);
+
   const onSubmit = (values) => {
     toast.success(`Saved: ${values.label}`);
     form.reset();
+  };
+
+  const handleEnrollTotp = async () => {
+    setMfaBusy(true);
+    try {
+      const { data, error: enrollError } = await supabase.auth.mfa.enroll({
+        factorType: "totp"
+      });
+      if (enrollError) throw enrollError;
+      setTotpFactorId(data.id);
+      setTotpQr(data.totp.qr_code);
+      setTotpSecret(data.totp.secret);
+      toast.success("MFA enrolled. Scan the QR code and verify.");
+    } catch (error) {
+      toast.error(error?.message || "MFA enrollment failed");
+    } finally {
+      setMfaBusy(false);
+    }
+  };
+
+  const handleVerifyTotp = async () => {
+    if (!totpFactorId) {
+      toast.error("Enroll MFA first");
+      return;
+    }
+
+    setMfaBusy(true);
+    try {
+      const { data: challenge, error: challengeError } =
+        await supabase.auth.mfa.challenge({ factorId: totpFactorId });
+      if (challengeError) throw challengeError;
+
+      const { error: verifyError } = await supabase.auth.mfa.verify({
+        factorId: totpFactorId,
+        challengeId: challenge.id,
+        code: mfaCode
+      });
+      if (verifyError) throw verifyError;
+
+      toast.success("MFA verified");
+      setMfaCode("");
+    } catch (error) {
+      toast.error(error?.message || "MFA verification failed");
+    } finally {
+      setMfaBusy(false);
+    }
   };
 
   return (
@@ -91,6 +168,15 @@ export default function Dashboard() {
 
       {error && <Card className="border-destructive text-destructive">{error}</Card>}
 
+      {!emailVerified && (
+        <Card className="border-warning text-warning">
+          <CardHeader>
+            <CardTitle>Email not verified</CardTitle>
+            <CardDescription>Check your inbox and verify your email to unlock API access.</CardDescription>
+          </CardHeader>
+        </Card>
+      )}
+
       {!profile && !error && <LoadingSkeleton />}
 
       {profile && (
@@ -128,6 +214,45 @@ export default function Dashboard() {
                   <DropdownMenuItem>View logs</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>MFA (TOTP)</CardTitle>
+              <CardDescription>Enroll and verify a TOTP authenticator.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <div className="space-y-1">
+                <p>Current assurance: {mfaStatus.currentLevel || "-"}</p>
+                <p>Next assurance: {mfaStatus.nextLevel || "-"}</p>
+              </div>
+
+              {totpQr && (
+                <div className="rounded-md border bg-muted p-3">
+                  <div
+                    className="flex justify-center"
+                    dangerouslySetInnerHTML={{ __html: totpQr }}
+                  />
+                  <p className="mt-2 break-all text-xs text-muted-foreground">
+                    Secret: {totpSecret}
+                  </p>
+                </div>
+              )}
+
+              <div className="flex flex-col gap-2">
+                <Button type="button" variant="outline" onClick={handleEnrollTotp} disabled={mfaBusy}>
+                  Enroll TOTP
+                </Button>
+                <Input
+                  placeholder="Authenticator code"
+                  value={mfaCode}
+                  onChange={(event) => setMfaCode(event.target.value)}
+                />
+                <Button type="button" onClick={handleVerifyTotp} disabled={mfaBusy || !mfaCode}>
+                  Verify code
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
