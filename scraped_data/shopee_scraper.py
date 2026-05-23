@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import time
 from dataclasses import dataclass, asdict
 from typing import List, Optional, Set
 
@@ -14,14 +15,14 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-SEARCH_URL = "https://www.amazon.com/s?k=solar+panel"
+SEARCH_URL = "https://shopee.ph/search?keyword=wind%20power%20generator"
 
 load_dotenv(override=True)
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RUNTIME_DIR = os.path.join(os.path.dirname(__file__), "runtime")
-CSV_PATH = os.path.join(OUTPUT_DIR, "amazon_products_solar_panel.csv")
-JSON_PATH = os.path.join(OUTPUT_DIR, "amazon_products_solar_panel.json")
+CSV_PATH = os.path.join(OUTPUT_DIR, "shopee_products_wind_power_generator.csv")
+JSON_PATH = os.path.join(OUTPUT_DIR, "shopee_products_wind_power_generator.json")
 
 
 @dataclass
@@ -29,43 +30,61 @@ class Product:
     name: str
     price: str
     ratings: str
-    reviews: str
     url: str
 
 
 CARD_SELECTORS = [
-    "div[data-component-type='s-search-result']",
-    "div.s-result-item"
+    "div[data-sqe='item']",
+    "div.shopee-search-item-result__item",
+    "li[data-sqe='item']",
+    "li.shopee-search-item-result__item"
 ]
 
 NAME_SELECTORS = [
-    "h2 a span",
-    "h2 span",
-    "span.a-size-medium.a-color-base.a-text-normal",
-    "span.a-size-base-plus.a-color-base.a-text-normal",
-    "h2 a"
+    "div[data-sqe='name']",
+    "div[aria-label][role='link']",
+    "a[data-sqe='link'] div[aria-label]",
+    "a[aria-label]"
 ]
 
 PRICE_SELECTORS = [
-    "span.a-price > span.a-offscreen",
-    "span.a-price-whole"
+    "span.truncate.text-base\\/5.font-medium",
+    "span[data-testid='item-card-price']",
+    "div[data-testid='item-card-price']",
+    "span[aria-label*='price' i]",
+    "span[class*='price']",
+    "span[class*='Price']",
+    "div[class*='price'] span"
 ]
 
 RATING_SELECTORS = [
-    "i.a-icon-star-small span.a-icon-alt",
-    "i.a-icon-star span.a-icon-alt",
-    "span.a-icon-alt",
-    "span[aria-label*='out of 5']"
-]
-
-REVIEW_COUNT_SELECTORS = [
-    "span.a-size-base.s-underline-text",
-    "span[aria-label$='ratings']"
+    "span[aria-label*='rating' i]",
+    "span[class*='rating']"
 ]
 
 LINK_SELECTORS = [
-    "h2 a"
+    "a[data-sqe='link']",
+    "a[aria-label]",
+    "a[href*='/product/']"
 ]
+
+
+def scroll_to_load(driver, max_scrolls: int = 12, delay_seconds: float = 1.0) -> None:
+    last_count = 0
+    stable_rounds = 0
+    for _ in range(max_scrolls):
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(delay_seconds)
+        current_count = len(get_cards(driver))
+        if current_count <= last_count:
+            stable_rounds += 1
+        else:
+            stable_rounds = 0
+        last_count = current_count
+        if stable_rounds >= 2:
+            break
+    driver.execute_script("window.scrollTo(0, 0);")
+    time.sleep(0.2)
 
 
 def setup_driver(headless: bool = False) -> webdriver.Chrome:
@@ -128,23 +147,17 @@ def safe_find_attr(card, selectors: List[str], attr: str) -> str:
     return ""
 
 
-def normalize_amazon_url(url: str) -> str:
-    if not url:
-        return ""
-    if url.startswith("/ "):
-        url = url.strip()
-    if url.startswith("/"):
-        return f"https://www.amazon.com{url}"
-    return url
-
-
 def scrape_product_card(card) -> Optional[Product]:
     name = safe_find_text(card, NAME_SELECTORS)
     price = safe_find_text(card, PRICE_SELECTORS)
+    if not price:
+        try:
+            price_container = card.find_element(By.CSS_SELECTOR, "div[data-testid='item-card-price']")
+            price = "".join([span.text for span in price_container.find_elements(By.CSS_SELECTOR, "span")]).strip()
+        except Exception:
+            price = ""
     ratings = safe_find_text(card, RATING_SELECTORS)
-    reviews = safe_find_text(card, REVIEW_COUNT_SELECTORS)
     url = safe_find_attr(card, LINK_SELECTORS, "href")
-    url = normalize_amazon_url(url)
 
     if not name:
         return None
@@ -153,30 +166,28 @@ def scrape_product_card(card) -> Optional[Product]:
         name=name,
         price=price or "N/A",
         ratings=ratings or "N/A",
-        reviews=reviews or "N/A",
         url=url or "N/A",
     )
 
 
 def get_cards(driver) -> List:
-    main_slot = driver.find_elements(By.CSS_SELECTOR, "div.s-main-slot")
-    scope = main_slot[0] if main_slot else driver
     for selector in CARD_SELECTORS:
-        cards = scope.find_elements(By.CSS_SELECTOR, selector)
+        cards = driver.find_elements(By.CSS_SELECTOR, selector)
         if cards:
             return cards
     return []
 
 
-def scrape_page(driver, seen: Set[str], debug_label: str) -> List[Product]:
+def scrape_page(driver, seen: Set[str]) -> List[Product]:
     wait = WebDriverWait(driver, 25)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "body")))
     try:
+        scroll_to_load(driver, max_scrolls=12, delay_seconds=1.0)
         wait.until(lambda d: len(get_cards(d)) > 0)
     except TimeoutException:
         os.makedirs(OUTPUT_DIR, exist_ok=True)
-        driver.save_screenshot(os.path.join(OUTPUT_DIR, "amazon_last_page.png"))
-        with open(os.path.join(OUTPUT_DIR, "amazon_last_page.html"), "w", encoding="utf-8") as f:
+        driver.save_screenshot(os.path.join(OUTPUT_DIR, "shopee_last_page.png"))
+        with open(os.path.join(OUTPUT_DIR, "shopee_last_page.html"), "w", encoding="utf-8") as f:
             f.write(driver.page_source)
         return []
 
@@ -193,31 +204,21 @@ def scrape_page(driver, seen: Set[str], debug_label: str) -> List[Product]:
         seen.add(dedupe_key)
         products.append(product)
 
-    if not products:
-        os.makedirs(OUTPUT_DIR, exist_ok=True)
-        driver.save_screenshot(os.path.join(OUTPUT_DIR, f"amazon_empty_{debug_label}.png"))
-        with open(os.path.join(OUTPUT_DIR, f"amazon_empty_{debug_label}.html"), "w", encoding="utf-8") as f:
-            f.write(driver.page_source)
-
     return products
 
 
-def build_amazon_page_url(base_url: str, page_index: int) -> str:
-    if page_index <= 1:
+def build_shopee_page_url(base_url: str, page_index: int) -> str:
+    if page_index <= 0:
         return base_url
-    if "page=" in base_url:
-        return base_url
-    joiner = "&" if "?" in base_url else "?"
-    return f"{base_url}{joiner}page={page_index}"
+    if "?" in base_url:
+        return f"{base_url}&page={page_index}"
+    return f"{base_url}?page={page_index}"
 
 
 def save_to_csv(products: List[Product], path: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(
-            f,
-            fieldnames=["name", "price", "ratings", "reviews", "url"]
-        )
+        writer = csv.DictWriter(f, fieldnames=["name", "price", "ratings", "url"])
         writer.writeheader()
         for product in products:
             writer.writerow(asdict(product))
@@ -230,11 +231,11 @@ def save_to_json(products: List[Product], path: str) -> None:
 
 
 def main() -> None:
-    headless = os.getenv("AMAZON_HEADLESS", "false").lower() == "true"
+    headless = False
     driver = setup_driver(headless=headless)
     all_products: List[Product] = []
     seen: Set[str] = set()
-    manual_challenge = os.getenv("AMAZON_MANUAL_CHALLENGE", "false").lower() == "true"
+    manual_challenge = False
     run_error: Optional[Exception] = None
 
     try:
@@ -242,14 +243,15 @@ def main() -> None:
         if manual_challenge:
             input("Solve any on-page checks, then press Enter to continue...")
 
-        page_index = 1
+        page_index = 0
         while True:
-            products = scrape_page(driver, seen, f"page_{page_index}")
+            products = scrape_page(driver, seen)
             all_products.extend(products)
-            print(f"Page {page_index}: collected {len(products)} items")
+            print(f"Page {page_index + 1}: collected {len(products)} items")
 
             page_index += 1
-            next_url = build_amazon_page_url(SEARCH_URL, page_index)
+            time.sleep(1)
+            next_url = build_shopee_page_url(SEARCH_URL, page_index)
             driver.get(next_url)
             try:
                 WebDriverWait(driver, 25).until(lambda d: len(get_cards(d)) > 0)
