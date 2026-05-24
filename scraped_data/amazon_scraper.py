@@ -14,14 +14,28 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-SEARCH_URL = "https://www.amazon.com/s?k=solar+panel"
+# SEARCH_URL = "https://www.amazon.com/s?k=solar+panel"
+# SEARCH_URL = "https://www.amazon.com/s?k=Hybrid+solar+inverter"
+# SEARCH_URL = "https://www.amazon.com/s?k=solar+battery+84V&crid=C911LBCHTI4I&sprefix=solar+battery+84v%2Caps%2C346&ref=nb_sb_noss_2"
+# SEARCH_URL = "https://www.amazon.com/s?k=Solar+charge+controller"
+# SEARCH_URL = "https://www.amazon.com/s?k=solar+mounting+brackets"
+# SEARCH_URL = "https://www.amazon.com/s?k=Smart+energy+meter"
+# SEARCH_URL = "https://www.amazon.com/s?k=Home+wind+turbine"
+# SEARCH_URL = "https://www.amazon.com/s?k=Wind+turbine+controller"
+# SEARCH_URL = "https://www.amazon.com/s?k=Wind+turbine+dump+load"
+# SEARCH_URL = "https://www.amazon.com/s?k=Wind+turbine+breakers"
+# SEARCH_URL = "https://www.amazon.com/s?k=Pelton+turbine"
+# SEARCH_URL = "https://www.amazon.com/s?k=Micro+hydro+turbine+generator"
+# SEARCH_URL = "https://www.amazon.com/s?k=Permanent+magnet+generator"
+SEARCH_URL = "https://www.amazon.com/s?k=Hydro+turbine+controller"
+
 
 load_dotenv(override=True)
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RUNTIME_DIR = os.path.join(os.path.dirname(__file__), "runtime")
-CSV_PATH = os.path.join(OUTPUT_DIR, "amazon_products_solar_panel.csv")
-JSON_PATH = os.path.join(OUTPUT_DIR, "amazon_products_solar_panel.json")
+CSV_PATH = os.path.join(OUTPUT_DIR, f"amazon_products_{SEARCH_URL.split('k=')[-1].replace('+', '_')}.csv")
+JSON_PATH = os.path.join(OUTPUT_DIR, f"amazon_products_{SEARCH_URL.split('k=')[-1].replace('+', '_')}.json")
 
 
 @dataclass

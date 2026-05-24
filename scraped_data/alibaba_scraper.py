@@ -15,8 +15,9 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-# SEARCH_URL = "https://www.alibaba.com/showroom/micro-hydro-turbine.html"
-SEARCH_URL = "https://www.alibaba.com/showroom/wind-turbine-alibaba.html"
+# # SEARCH_URL = "https://www.alibaba.com/showroom/micro-hydro-turbine.html"
+# SEARCH_URL = "https://www.alibaba.com/showroom/wind-turbine-alibaba.html"
+SEARCH_URL = "https://www.alibaba.com/showroom/solar-panels.html"
 
 load_dotenv(override=True)
 

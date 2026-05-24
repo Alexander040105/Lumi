@@ -14,14 +14,22 @@ from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 
-SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=solar%20panel"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=solar%20panel"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=Hybrid%20solar%20inverter"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=battery%20for%20solar%20panels"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=MPPT%20charge%20controller"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=PWM%20charge%20controller"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=Solar%20panel%20mounting%20brackets"
+# SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=Smart%20energy%20meter"
+SEARCH_URL = "https://www.lazada.com.ph/catalog/?q=Wind%20MPPT%20controller"
+
 
 load_dotenv(override=True)
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 RUNTIME_DIR = os.path.join(os.path.dirname(__file__), "runtime")
-CSV_PATH = os.path.join(OUTPUT_DIR, "lazada_products_solar_panel.csv")
-JSON_PATH = os.path.join(OUTPUT_DIR, "lazada_products_solar_panel.json")
+CSV_PATH = os.path.join(OUTPUT_DIR, f"lazada_products_{SEARCH_URL.split('q=')[-1].replace('%20', '_')}.csv")
+JSON_PATH = os.path.join(OUTPUT_DIR, f"lazada_products_{SEARCH_URL.split('q=')[-1].replace('%20', '_')}.json")
 
 
 @dataclass
