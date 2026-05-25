@@ -1,6 +1,4 @@
 from fastapi import APIRouter, status
-
-from app.services.example_service import list_items, create_item
 from app.schemas.ecosim import GetHouse, PostHouse
 from app.services.ecosim import get_municipality_data, renewable_energy_calculator, consumption_calculator
 router = APIRouter()
