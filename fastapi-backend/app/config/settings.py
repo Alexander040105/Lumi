@@ -1,9 +1,16 @@
 import json
+from pathlib import Path
 from functools import lru_cache
 from typing import List
 
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import field_validator
+from pydantic import AliasChoices, Field, field_validator
+
+
+ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
+print(f"Loading settings from: {ENV_FILE}")
+load_dotenv(ENV_FILE)
 
 
 class Settings(BaseSettings):
@@ -12,11 +19,19 @@ class Settings(BaseSettings):
     cors_origins: List[str] = ["http://localhost:5173"]
 
     supabase_url: str
-    supabase_anon_key: str
-    supabase_service_role_key: str | None = None
+    supabase_anon_key: str = Field(
+        validation_alias=AliasChoices("SUPABASE_JWT_ANON_KEY", "SUPABASE_ANON_KEY")
+    )
+    supabase_service_role_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "SUPABASE_JWT_SERVICE_ROLE_KEY",
+            "SUPABASE_SERVICE_ROLE_KEY",
+        ),
+    )
     supabase_jwt_secret: str
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    model_config = SettingsConfigDict(extra="ignore")
 
     @field_validator("cors_origins", mode="before")
     @classmethod
@@ -30,4 +45,5 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
+    print(f"Settings env file path: {ENV_FILE}")
     return Settings()
