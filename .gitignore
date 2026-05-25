@@ -227,7 +227,5 @@ react-frontend/node_modules/
 react-frontend/dist/
 react-frontend/.vite/
 
-# Local data outputs
-output/
-scraped_data/output/
+#runtime data
 scraped_data/runtime/
