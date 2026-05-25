@@ -1,10 +1,10 @@
 import supabase
 import pandas as pd
 import os
-from datetime import datatime as dt
+import datetime as dt
 from app.schemas.ecosim import PostHouse
 current_dir = os.getcwd()
-df = pd.read_csv(f'{current_dir}/local_data/municipality_climate_averages.csv')
+df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
 def get_municipality_data(municipality: str):
     municipality_result = (
@@ -30,7 +30,7 @@ def get_municipality_data(municipality: str):
 def consumption_calculator(current_electricity_bill: float, electricity_rate: float, desired_savings: float):
     monthly_consumption_kwh = current_electricity_bill / electricity_rate
     daily_consumption_kwh = (
-        monthly_consumption_kwh / dt.now().days_in_month
+        monthly_consumption_kwh / dt.datetime.now().days_in_month
     )
     target_monthly_consumption_kwh = monthly_consumption_kwh * (1 - desired_savings)
     return {
