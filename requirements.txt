@@ -58,3 +58,15 @@ dotenv
 aiosqlite
 psycopg2-binary
 selenium==4.23.1
+pymupdf
+pdfplumber
+camelot-py[cv]
+tabula-py
+pytesseract
+paddleocr
+langchain-text-splitters
+opencv-python
+pillow
+pandera
+python-dateutil
+tqdm

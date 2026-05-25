@@ -1,20 +1,39 @@
-import supabase
 import pandas as pd
 import os
 import datetime as dt
+import calendar
+from fastapi import HTTPException, status
+from postgrest.exceptions import APIError
 from app.schemas.ecosim import PostHouse
+from app.services.supabase_service import get_supabase_client
 current_dir = os.getcwd()
 df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
 def get_municipality_data(municipality: str):
-    municipality_result = (
-        supabase
-        .table("municipalities")
-        .select()
-        .eq("name", municipality)
-        .single()
-        .execute()
-    )
+    client = get_supabase_client()
+    try:
+        municipality_result = (
+            client
+            .table("municipalities")
+            .select()
+            .eq("name", municipality.upper())
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict) and error.get("code") == "PGRST116":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Municipality not found",
+            )
+        raise
+
+    if not municipality_result.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Municipality not found",
+        )
 
     municipality_id = (
         municipality_result.data["municipality_id"]
@@ -29,9 +48,9 @@ def get_municipality_data(municipality: str):
 
 def consumption_calculator(current_electricity_bill: float, electricity_rate: float, desired_savings: float):
     monthly_consumption_kwh = current_electricity_bill / electricity_rate
-    daily_consumption_kwh = (
-        monthly_consumption_kwh / dt.datetime.now().days_in_month
-    )
+    today = dt.datetime.now()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+    daily_consumption_kwh = monthly_consumption_kwh / days_in_month
     target_monthly_consumption_kwh = monthly_consumption_kwh * (1 - desired_savings)
     return {
         "monthly_consumption_kwh": monthly_consumption_kwh,
@@ -70,7 +89,12 @@ def solar_calc(panel_wattage, number_of_panels, solar_irradiance, performance_ra
         "monthly_solar_output": monthly_solar_output
     }
 
-def renewable_energy_calculator(municipality):
+def renewable_energy_calculator(
+    municipality: str,
+    current_electricity_bill: float,
+    electricity_rate: float,
+    desired_savings: float,
+):
     solar_panel_default_config = {
         "panel_wattage": 550,               # Watts
         "panel_efficiency": 0.20,           # 20%
@@ -90,9 +114,13 @@ def renewable_energy_calculator(municipality):
         inverter_efficiency
     )
 
-    get_municipality_data = get_municipality_data(municipality)
-    consumption_calculator = consumption_calculator(PostHouse.current_electricity_bill, PostHouse.electricity_rate, PostHouse.desired_savings)
-    municipality_data = get_municipality_data[0]
+    municipality_results = get_municipality_data(municipality)
+    consumption_results = consumption_calculator(
+        current_electricity_bill,
+        electricity_rate,
+        desired_savings,
+    )
+    municipality_data = municipality_results[0]
     solar_irradiance = municipality_data['avg_allsky_sfc_sw_dwn']           # kWh/m²/day
     wind_speed = municipality_data['avg_ws10m']              # m/s
     rainfall = municipality_data['avg_prectotcorr']       # mm/year      
@@ -106,5 +134,5 @@ def renewable_energy_calculator(municipality):
     
     return {
         "solar_output": solar_output,
-        "consumption_results": consumption_calculator
+        "consumption_results": consumption_results
     }

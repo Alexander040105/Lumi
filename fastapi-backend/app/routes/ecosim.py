@@ -1,24 +1,30 @@
 from fastapi import APIRouter, status
-from app.schemas.ecosim import GetHouse, PostHouse
+from app.schemas.ecosim import EcosimResponse, GetHouse, PostHouse
 from app.services.ecosim import get_municipality_data, renewable_energy_calculator, consumption_calculator
 router = APIRouter()
 
 
 @router.get("/", response_model=GetHouse)
 async def get_ecosim_results():
-    
-    
     return {"What the sigmam": "ok"}
 
 
-@router.post("/", response_model=PostHouse, status_code=status.HTTP_201_CREATED)
-async def post_item(municipality: PostHouse, electricity_rate: float, 
-                    current_electricity_bill: float, desired_savings: float):
-    municipality_data = get_municipality_data(PostHouse.municipality)
-    consumption_results = consumption_calculator(current_electricity_bill, electricity_rate, desired_savings)
-    renewable_energy_results = renewable_energy_calculator(PostHouse.municipality)
+@router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
+async def post_item(body: PostHouse):
+    municipality_data = get_municipality_data(body.municipality)
+    consumption_results = consumption_calculator(
+        body.current_electricity_bill,
+        body.electricity_rate,
+        body.desired_savings,
+    )
+    renewable_energy_results = renewable_energy_calculator(
+        body.municipality,
+        body.current_electricity_bill,
+        body.electricity_rate,
+        body.desired_savings,
+    )
     return {
         "municipality_data": municipality_data,
         "consumption_results": consumption_results,
-        "renewable_energy_results": renewable_energy_results
+        "renewable_energy_results": renewable_energy_results,
     }

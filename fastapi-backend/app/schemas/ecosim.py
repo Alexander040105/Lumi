@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class GetHouse(BaseModel):
@@ -7,16 +7,52 @@ class GetHouse(BaseModel):
     electricity_rate : float = 14.35
     current_electricity_bill : float = 0.0
     # default is 50% savings but users may change it blah blah blah
-    desired_savings : float = 0.50
+    desired_savings : float = Field(0.50, ge=0.0, le=1.0)
 
 
 class PostHouse(BaseModel):
     municipality: str
     # pesos per kilowhuttttttttt-hour
-    electricity_rate : float = 14.35
-    current_electricity_bill : float = 0.0
+    electricity_rate : float
+    current_electricity_bill : float
     # default is 50% savings but users may change it blah blah blah
-    desired_savings : float = 0.50
+    desired_savings : float = Field(..., ge=0.0, le=1.0)
+
+
+class MunicipalityClimate(BaseModel):
+    municipality_id: int
+    avg_t2m: float
+    avg_t2m_max: float
+    avg_t2m_min: float
+    avg_rh2m: float
+    avg_prectotcorr: float
+    avg_ws10m: float
+    avg_allsky_sfc_sw_dwn: float
+    avg_cloud_amt: float
+    avg_surface_pressure: float
+
+
+class ConsumptionResults(BaseModel):
+    monthly_consumption_kwh: float
+    daily_consumption_kwh: float
+    target_monthly_consumption_kwh: float
+
+
+class SolarOutput(BaseModel):
+    system_kwp: float
+    daily_solar_output: float
+    monthly_solar_output: float
+
+
+class RenewableEnergyResults(BaseModel):
+    solar_output: SolarOutput
+    consumption_results: ConsumptionResults
+
+
+class EcosimResponse(BaseModel):
+    municipality_data: list[MunicipalityClimate]
+    consumption_results: ConsumptionResults
+    renewable_energy_results: RenewableEnergyResults
 
 
 # we get house list in order for the users to have more than one house on their accounts
