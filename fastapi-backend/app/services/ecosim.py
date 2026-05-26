@@ -6,6 +6,7 @@ from fastapi import HTTPException, status
 from postgrest.exceptions import APIError
 from app.schemas.ecosim import PostHouse
 from app.services.supabase_service import get_supabase_client
+from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc
 current_dir = os.getcwd()
 df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
@@ -44,6 +45,12 @@ def get_municipality_data(municipality: str):
         .to_dict(orient="records")
     )
 
+    if not municipality_data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No climate average data found for this municipality.",
+        )
+        
     return municipality_data
 
 def consumption_calculator(current_electricity_bill: float, electricity_rate: float, desired_savings: float):
@@ -68,26 +75,7 @@ def consumption_calculator(current_electricity_bill: float, electricity_rate: fl
 # | `humidity`         | `avg_rh2m`              | Environmental/climate scoring     |
 # | `cloud_cover`      | `avg_cloud_amt`         | Solar suitability penalties       |
 # | `surface_pressure` | `avg_surface_pressure`  | Advanced wind analysis (optional) |
-    
-def solar_calc(panel_wattage, number_of_panels, solar_irradiance, performance_ratio):
-    system_kwp = (
-        (panel_wattage * number_of_panels) / 1000
-    )
 
-    daily_solar_output = (
-        system_kwp *
-        solar_irradiance *
-        performance_ratio
-    )
-
-    monthly_solar_output = (
-        daily_solar_output * 30
-    )
-    return {
-        "system_kwp": system_kwp,
-        "daily_solar_output": daily_solar_output,
-        "monthly_solar_output": monthly_solar_output
-    }
 
 def renewable_energy_calculator(
     municipality: str,
@@ -96,43 +84,87 @@ def renewable_energy_calculator(
     desired_savings: float,
 ):
     solar_panel_default_config = {
-        "panel_wattage": 550,               # Watts
-        "panel_efficiency": 0.20,           # 20%
-        "system_efficiency": 0.80,          # Base system efficiency
-        "number_of_panels": 2
+        "panel_wattage": 550,
+        "number_of_panels": 2,
+        "system_efficiency": 0.80,
+        "temp_coeff_per_c": -0.004,
+        "dust_loss": 0.97,
+        "inverter_efficiency": 0.96,
+        "mismatch_loss": 0.98,
+        "wiring_loss": 0.98,
+        "degradation_loss": 0.99,
     }
 
-    temperature_loss = 0.95
-    dust_loss = 0.97
-    inverter_efficiency = 0.96
-
-    # Combined Performance Ratio
-    performance_ratio = (
-        solar_panel_default_config["system_efficiency"] *
-        temperature_loss *
-        dust_loss *
-        inverter_efficiency
-    )
-
     municipality_results = get_municipality_data(municipality)
+    municipality_data = municipality_results[0]
+
     consumption_results = consumption_calculator(
         current_electricity_bill,
         electricity_rate,
         desired_savings,
     )
-    municipality_data = municipality_results[0]
-    solar_irradiance = municipality_data['avg_allsky_sfc_sw_dwn']           # kWh/m²/day
-    wind_speed = municipality_data['avg_ws10m']              # m/s
-    rainfall = municipality_data['avg_prectotcorr']       # mm/year      
+
+    solar_irradiance = municipality_data.get("avg_allsky_sfc_sw_dwn") or 0.0
+    avg_temp = municipality_data.get("avg_t2m")
+    cloud_amt = municipality_data.get("avg_cloud_amt")
+    rainfall = municipality_data.get("avg_prectotcorr")
+    wind_speed = municipality_data.get("avg_ws10m")
+    humidity = municipality_data.get("avg_rh2m")
+    surface_pressure = municipality_data.get("avg_surface_pressure")
+    elevation = municipality_data.get("avg_elevation")
+
+    today = dt.datetime.now()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+
+    temperature_factor = calculate_temperature_factor(
+        avg_temp_c=avg_temp,
+        temp_coeff_per_c=solar_panel_default_config["temp_coeff_per_c"],
+    )
+
+    performance_ratio = calculate_performance_ratio(
+        system_efficiency=solar_panel_default_config["system_efficiency"],
+        temperature_factor=temperature_factor,
+        dust_loss=solar_panel_default_config["dust_loss"],
+        inverter_efficiency=solar_panel_default_config["inverter_efficiency"],
+        mismatch_loss=solar_panel_default_config["mismatch_loss"],
+        wiring_loss=solar_panel_default_config["wiring_loss"],
+        degradation_loss=solar_panel_default_config["degradation_loss"],
+    )
+
     solar_output = solar_calc(
         panel_wattage=solar_panel_default_config["panel_wattage"],
         number_of_panels=solar_panel_default_config["number_of_panels"],
         solar_irradiance=solar_irradiance,
-        performance_ratio=performance_ratio
+        performance_ratio=performance_ratio,
+        days_in_month=days_in_month,
     )
 
-    
     return {
+        "municipality": municipality.upper(),
+        "municipality_id": municipality_data.get("municipality_id"),
+        #json climate data coming from the NASA Power
+        "climate": {
+            "avg_t2m": avg_temp,
+            "avg_t2m_max": municipality_data.get("avg_t2m_max"),
+            "avg_t2m_min": municipality_data.get("avg_t2m_min"),
+            "avg_rh2m": humidity,
+            "avg_prectotcorr": rainfall,
+            "avg_ws10m": wind_speed,
+            "avg_allsky_sfc_sw_dwn": solar_irradiance,
+            "avg_cloud_amt": cloud_amt,
+            "avg_surface_pressure": surface_pressure,
+            "elevation": elevation,
+        },
+        #json estimates and assumptions for the renewable energy calculations, which can be used for transparency and future adjustments
+        "assumptions": {
+            "temperature_factor": temperature_factor,
+            "performance_ratio": performance_ratio,
+            "days_in_month": days_in_month,
+            "panel_wattage": solar_panel_default_config["panel_wattage"],
+            "number_of_panels": solar_panel_default_config["number_of_panels"],
+        },
+        # json for the solar outputs
         "solar_output": solar_output,
-        "consumption_results": consumption_results
+        # json for the consumption calculations
+        "consumption_results": consumption_results,
     }
