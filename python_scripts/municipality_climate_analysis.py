@@ -8,12 +8,14 @@
 # IMPORTS
 # =========================
 import os
+import re
 import sys
 from typing import List, Dict, Any
-
+from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
+import httpx
 from supabase import create_client, Client
 
 
@@ -36,15 +38,31 @@ NASA_POWER_COLUMNS = [
     "surface_pressure",
 ]
 
+ELEVATION_COLUMN = "elevation"
+JWT_PATTERN = re.compile(r"^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$")
+
 
 # =========================
 # ENVIRONMENT SETUP
 # =========================
 def load_env() -> Dict[str, str]:
     """Load required environment variables."""
-    load_dotenv()
+    repo_root = Path(__file__).resolve().parents[1]
+    load_dotenv(dotenv_path=repo_root / ".env", override=False)
+    print(f"Loaded environment variables from: {repo_root / '.env'}")
     supabase_url = os.getenv("SUPABASE_URL")
-    supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+    supabase_key = None
+    for key_name in (
+        "SUPABASE_JWT_SERVICE_ROLE_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_JWT_ANON_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_KEY",
+    ):
+        value = os.getenv(key_name)
+        if value:
+            supabase_key = value
+            break
 
     if not supabase_url or not supabase_key:
         raise EnvironmentError(
@@ -54,13 +72,62 @@ def load_env() -> Dict[str, str]:
     return {"SUPABASE_URL": supabase_url, "SUPABASE_KEY": supabase_key}
 
 
+def is_jwt_key(key: str | None) -> bool:
+    return bool(key) and JWT_PATTERN.match(key) is not None
+
+
+class SupabaseRestQuery:
+    def __init__(self, client: "SupabaseRestClient", table: str):
+        self._client = client
+        self._table = table
+        self._select = "*"
+        self._filters: list[tuple[str, str]] = []
+
+    def select(self, columns: str = "*") -> "SupabaseRestQuery":
+        self._select = columns
+        return self
+
+    def range(self, start: int, end: int) -> "SupabaseRestQuery":
+        self._range = (start, end)
+        return self
+
+    def execute(self):
+        params: dict[str, str] = {"select": self._select}
+        headers = dict(self._client.headers)
+        if hasattr(self, "_range"):
+            start, end = self._range
+            headers["Range"] = f"{start}-{end}"
+        url = f"{self._client.base_url}/rest/v1/{self._table}"
+        response = self._client.http.get(url, params=params, headers=headers)
+        response.raise_for_status()
+        return type("Resp", (), {"data": response.json()})
+
+
+class SupabaseRestClient:
+    def __init__(self, base_url: str, api_key: str):
+        self.base_url = base_url.rstrip("/")
+        self.headers = {
+            "apikey": api_key,
+            "Authorization": f"Bearer {api_key}",
+        }
+        self.http = httpx.Client(timeout=10.0)
+
+    def table(self, table_name: str) -> SupabaseRestQuery:
+        return SupabaseRestQuery(self, table_name)
+
+
 # =========================
 # SUPABASE CLIENT
 # =========================
 def get_supabase_client() -> Client:
     """Initialize and return a Supabase client."""
     env = load_env()
-    return create_client(env["SUPABASE_URL"], env["SUPABASE_KEY"])
+    if is_jwt_key(env["SUPABASE_KEY"]):
+        try:
+            return create_client(env["SUPABASE_URL"], env["SUPABASE_KEY"])
+        except Exception:
+            return SupabaseRestClient(env["SUPABASE_URL"], env["SUPABASE_KEY"])
+    return SupabaseRestClient(env["SUPABASE_URL"], env["SUPABASE_KEY"])
 
 
 # =========================
@@ -190,13 +257,27 @@ def plot_municipality_distribution(df: pd.DataFrame, column: str, sample_size: i
 # =========================
 def compute_all_time_averages(df: pd.DataFrame) -> pd.DataFrame:
     """Compute all-time averages per municipality for NASA POWER parameters."""
+    if ELEVATION_COLUMN not in df.columns:
+        df[ELEVATION_COLUMN] = pd.NA
+
     avg_df = (
         df.groupby("municipality_id")[NASA_POWER_COLUMNS]
-          .mean(numeric_only=True)
-          .reset_index()
+        .mean(numeric_only=True)
+        .reset_index()
     )
 
-    return avg_df.rename(columns={
+    elevation_df = (
+        df[["municipality_id", ELEVATION_COLUMN]]
+        .dropna(subset=[ELEVATION_COLUMN])
+        .drop_duplicates(subset=["municipality_id"])
+        .rename(columns={ELEVATION_COLUMN: "elevation"})
+    )
+
+    merged = avg_df.merge(elevation_df, on="municipality_id", how="left")
+    if "elevation" not in merged.columns:
+        merged["elevation"] = pd.NA
+
+    return merged.rename(columns={
         "t2m": "avg_t2m",
         "t2m_max": "avg_t2m_max",
         "t2m_min": "avg_t2m_min",
