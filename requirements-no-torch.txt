@@ -59,3 +59,10 @@ aiosqlite
 psycopg2-binary
 psycopg2
 fastapi
+rasterio
+geopandas
+shapely
+rasterstats
+pyproj
+richdem
+whitebox
