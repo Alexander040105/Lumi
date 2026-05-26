@@ -70,3 +70,9 @@ pillow
 pandera
 python-dateutil
 tqdm
+geopandas
+shapely
+pyproj
+rasterio
+pandas
+numpy
