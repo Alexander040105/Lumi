@@ -44,8 +44,16 @@ class SolarOutput(BaseModel):
     monthly_solar_output: float
 
 
+class HydroOutput(BaseModel):
+    system_kwp: float
+    daily_hydro_output: float
+    monthly_hydro_output: float
+    hydro_score: float
+
+
 class RenewableEnergyResults(BaseModel):
     solar_output: SolarOutput
+    hydro_output: HydroOutput
     consumption_results: ConsumptionResults
 
 
