@@ -8,6 +8,7 @@ from app.schemas.ecosim import PostHouse
 from app.services.supabase_service import get_supabase_client
 from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, calculate_dust_loss_from_wind, calculate_degradation_from_humidity    
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
+from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
 current_dir = os.getcwd()
 df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
@@ -122,6 +123,7 @@ def renewable_energy_calculator(municipality: str, current_electricity_bill: flo
     wind_speed = municipality_data.get("avg_ws10m")
     humidity = municipality_data.get("avg_rh2m")
     surface_pressure = municipality_data.get("avg_surface_pressure")
+    air_density = municipality_data.get("avg_rhoa")
     elevation = municipality_data.get("avg_elevation")
     today = dt.datetime.now()
     days_in_month = calendar.monthrange(today.year, today.month)[1]
@@ -174,6 +176,10 @@ def renewable_energy_calculator(municipality: str, current_electricity_bill: flo
         head_m=hydraulic_head_m,
         days_in_month=days_in_month
     )
+    
+    #NOTE: WIND CALCULATIONS
+    wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
+
     renewable_energy_results = {
         "municipality": municipality.upper(),
         "municipality_id": municipality_data.get("municipality_id"),
@@ -183,6 +189,7 @@ def renewable_energy_calculator(municipality: str, current_electricity_bill: flo
             "avg_t2m_max": municipality_data.get("avg_t2m_max"),
             "avg_t2m_min": municipality_data.get("avg_t2m_min"),
             "avg_rh2m": humidity,
+            "avg_rhoa": air_density,
             "avg_prectotcorr": rainfall,
             "avg_ws10m": wind_speed,
             "avg_allsky_sfc_sw_dwn": solar_irradiance,
@@ -201,6 +208,7 @@ def renewable_energy_calculator(municipality: str, current_electricity_bill: flo
         # json for the solar outputs
         "solar_output": solar_output,
         "hydro_output": hydro_output,
+        "wind_output": wind_output,
         # json for the consumption calculations
         "consumption_results": consumption_results,
     }

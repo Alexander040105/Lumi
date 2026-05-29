@@ -11,6 +11,8 @@ class GetHouse(BaseModel):
 
 
 class PostHouse(BaseModel):
+    # NOTE: We'll get the house name to label the current house the user puts so that in case some of them got more than one house, they can easily identify which one is which
+    house_name: str
     municipality: str
     # pesos per kilowhuttttttttt-hour
     electricity_rate : float
@@ -49,11 +51,19 @@ class HydroOutput(BaseModel):
     daily_hydro_output: float
     monthly_hydro_output: float
     hydro_score: float
+    
+class WindOutput(BaseModel):
+    swept_area_m2: float
+    rated_power_kw: float
+    capacity_factor: float
+    daily_energy_kwh: float
+    monthly_energy_kwh: float
 
 
 class RenewableEnergyResults(BaseModel):
     solar_output: SolarOutput
     hydro_output: HydroOutput
+    wind_output: WindOutput
     consumption_results: ConsumptionResults
 
 

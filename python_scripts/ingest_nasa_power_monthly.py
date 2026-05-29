@@ -5,6 +5,7 @@ import calendar
 from dataclasses import dataclass
 from datetime import date
 from typing import Iterable
+from pathlib import Path
 
 import requests
 from urllib3.util.retry import Retry
@@ -20,6 +21,7 @@ PARAMETERS = [
     "T2M_MAX",
     "T2M_MIN",
     "RH2M",
+    "RHOA",
     "PRECTOTCORR",
     "WS10M",
     "ALLSKY_SFC_SW_DWN",
@@ -52,11 +54,24 @@ class Config:
 
 
 def load_config() -> Config:
-    load_dotenv()
+    repo_root = Path(__file__).resolve().parents[1]
+    load_dotenv(dotenv_path=repo_root / ".env", override=False)
+    supabase_key = None
+    for key_name in (
+        "SUPABASE_JWT_SERVICE_ROLE_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_JWT_ANON_KEY",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_KEY",
+    ):
+        value = os.getenv(key_name)
+        if value:
+            supabase_key = value
+            break
     date_formats = "YYYY"
     return Config(
         supabase_url=os.getenv("SUPABASE_URL"),
-        supabase_key=os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_KEY"),
+        supabase_key=supabase_key,
         start_year=MIN_INGEST_YEAR,
         end_year=MAX_INGEST_YEAR,
         rate_limit_seconds=float(os.getenv("NASA_RATE_LIMIT_SECONDS", "0.6")),
@@ -72,7 +87,7 @@ def load_config() -> Config:
 
 def build_supabase_client(config: Config) -> Client:
     if not config.supabase_url or not config.supabase_key:
-        raise SystemExit("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_KEY.")
+        raise SystemExit("Missing SUPABASE_URL or SUPABASE_*_KEY in .env.")
     return create_client(config.supabase_url, config.supabase_key)
 
 
@@ -301,6 +316,7 @@ def build_rows(
             "t2m_max": coerce_value(parameter_map.get("T2M_MAX", {}).get(key)),
             "t2m_min": coerce_value(parameter_map.get("T2M_MIN", {}).get(key)),
             "rh2m": coerce_value(parameter_map.get("RH2M", {}).get(key)),
+            "rhoa": coerce_value(parameter_map.get("RHOA", {}).get(key)),
             "prectotcorr": coerce_value(parameter_map.get("PRECTOTCORR", {}).get(key)),
             "ws10m": coerce_value(parameter_map.get("WS10M", {}).get(key)),
             "allsky_sfc_sw_dwn": coerce_value(parameter_map.get("ALLSKY_SFC_SW_DWN", {}).get(key)),
@@ -309,6 +325,18 @@ def build_rows(
         }
         rows.append(row)
     return rows
+
+
+def build_rhoa_rows(rows: Iterable[dict]) -> list[dict]:
+    return [
+        {
+            "municipality_id": row["municipality_id"],
+            "year": row["year"],
+            "month": row["month"],
+            "rhoa": row.get("rhoa"),
+        }
+        for row in rows
+    ]
 
 
 def upsert_rows(supabase: Client, rows: Iterable[dict]) -> int:
@@ -402,10 +430,26 @@ def main() -> None:
         parameter_map = parse_nasa_payload(payload)
         rows = build_rows(municipality_id, parameter_map, start_year, config.end_year)
 
+        existing_set = set(existing)
+        missing_rows = [
+            row
+            for row in rows
+            if (row["year"], row["month"]) not in existing_set
+        ]
+        existing_rows = [
+            row
+            for row in rows
+            if (row["year"], row["month"]) in existing_set
+        ]
+        rhoa_rows = build_rhoa_rows(existing_rows) if config.update_existing else []
+
         inserted = 0
         try:
-            for i in range(0, len(rows), config.batch_size):
-                batch = rows[i : i + config.batch_size]
+            for i in range(0, len(missing_rows), config.batch_size):
+                batch = missing_rows[i : i + config.batch_size]
+                inserted += upsert_rows(supabase, batch)
+            for i in range(0, len(rhoa_rows), config.batch_size):
+                batch = rhoa_rows[i : i + config.batch_size]
                 inserted += upsert_rows(supabase, batch)
         except Exception as exc:
             logging.error(

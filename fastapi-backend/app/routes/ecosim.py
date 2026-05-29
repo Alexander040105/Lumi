@@ -16,5 +16,6 @@ async def post_item(body: PostHouse):
         body.current_electricity_bill,
         body.electricity_rate,
         body.desired_savings,
+        body.house_name
     )
     return response_data
