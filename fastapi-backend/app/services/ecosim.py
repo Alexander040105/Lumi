@@ -106,7 +106,7 @@ def consumption_calculator(current_electricity_bill: float, electricity_rate: fl
 
 
 
-def renewable_energy_calculator(municipality: str, current_electricity_bill: float, electricity_rate: float, desired_savings: float) -> dict:
+def renewable_energy_calculator(house:str, municipality: str, current_electricity_bill: float, electricity_rate: float, desired_savings: float) -> dict:
     # NOTE: Data fetching 
     municipality_results = get_municipality_data(municipality)
     municipality_data = municipality_results[0]

@@ -12,10 +12,10 @@ async def get_ecosim_results():
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
 async def post_item(body: PostHouse):
     response_data = renewable_energy_calculator(
+        body.house_name,
         body.municipality,
         body.current_electricity_bill,
         body.electricity_rate,
-        body.desired_savings,
-        body.house_name
+        body.desired_savings
     )
     return response_data
