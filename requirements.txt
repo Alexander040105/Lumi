@@ -70,3 +70,10 @@ pillow
 pandera
 python-dateutil
 tqdm
+rasterio
+geopandas
+shapely
+rasterstats
+pyproj
+richdem
+whitebox
