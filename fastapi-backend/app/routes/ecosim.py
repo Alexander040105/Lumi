@@ -1,12 +1,28 @@
-from fastapi import APIRouter, status
-from app.schemas.ecosim import EcosimResponse, GetHouse, PostHouse
-from app.services.ecosim import renewable_energy_calculator
+from fastapi import APIRouter, Depends, status
+from app.schemas.ecosim import (
+    EcosimDashboardResponse,
+    EcosimQueryParams,
+    EcosimResponse,
+    GetHouse,
+    MunicipalityListResponse,
+    PostHouse,
+)
+from app.services.ecosim import build_ecosim_dashboard_response, list_municipalities, renewable_energy_calculator
 router = APIRouter()
 
 
-@router.get("/", response_model=GetHouse)
-async def get_ecosim_results():
-    return {"What the sigmam": "ok"}
+@router.get("/", response_model=EcosimDashboardResponse)
+async def get_ecosim_results(params: EcosimQueryParams = Depends()):
+    return build_ecosim_dashboard_response(
+        municipality_id=params.municipality_id,
+        monthly_consumption=params.monthly_consumption,
+        monthly_bill=params.monthly_bill,
+    )
+
+
+@router.get("/municipalities", response_model=MunicipalityListResponse)
+async def get_municipalities():
+    return {"items": list_municipalities()}
 
 
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)

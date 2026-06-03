@@ -20,6 +20,9 @@ export default function Navbar() {
           <Link to="/dashboard" className="text-sm text-muted-foreground">
             Dashboard
           </Link>
+          <Link to="/ecosim" className="text-sm text-muted-foreground">
+            Ecosim
+          </Link>
           {session ? (
             <Button variant="outline" size="sm" onClick={signOut}>
               Logout

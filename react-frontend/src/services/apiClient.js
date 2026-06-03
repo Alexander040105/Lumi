@@ -39,3 +39,17 @@ export function createItem(token, payload) {
     body: JSON.stringify(payload)
   });
 }
+
+export function getEcosim(params) {
+  const search = new URLSearchParams({
+    municipality_id: params.municipalityId,
+    monthly_consumption: params.monthlyConsumption,
+    monthly_bill: params.monthlyBill
+  });
+
+  return request(`/ecosim/?${search.toString()}`);
+}
+
+export function getMunicipalities() {
+  return request("/ecosim/municipalities");
+}

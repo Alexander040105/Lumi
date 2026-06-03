@@ -15,6 +15,11 @@ logger = logging.getLogger(__name__)
 current_dir = os.getcwd()
 df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
+COST_PER_KW_SOLAR = 60000.0
+COST_PER_KW_WIND = 80000.0
+COST_PER_KW_HYDRO = 100000.0
+CO2_KG_PER_KWH = 0.7
+
 
 def get_municipality_terrain_data(municipality: str) -> dict | None:
     """
@@ -83,6 +88,69 @@ def get_municipality_data(municipality: str):
         )
         
     return municipality_data
+
+
+def list_municipalities() -> list[dict]:
+    client = get_supabase_client()
+    try:
+        result = (
+            client
+            .table("municipalities")
+            .select("municipality_id,name")
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict):
+            message = error.get("message") or "Failed to load municipalities"
+        else:
+            message = "Failed to load municipalities"
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=message,
+        )
+
+    items = result.data or []
+    return sorted(
+        (
+            {
+                "municipality_id": item.get("municipality_id"),
+                "name": item.get("name"),
+            }
+            for item in items
+            if item.get("municipality_id") and item.get("name")
+        ),
+        key=lambda item: item["name"].upper(),
+    )
+
+
+def get_municipality_name_by_id(municipality_id: int) -> str:
+    client = get_supabase_client()
+    try:
+        municipality_result = (
+            client
+            .table("municipalities")
+            .select("name")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict) and error.get("code") == "PGRST116":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Municipality not found",
+            )
+        raise
+
+    if not municipality_result.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Municipality not found",
+        )
+
+    return municipality_result.data["name"]
 
 def consumption_calculator(current_electricity_bill: float, electricity_rate: float, desired_savings: float):
     monthly_consumption_kwh = current_electricity_bill / electricity_rate
@@ -263,4 +331,139 @@ def renewable_energy_calculator(
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
+    }
+
+
+def _calculate_option_summary(
+    source: str,
+    estimated_generation_kwh: float,
+    source_score: float,
+    monthly_consumption_kwh: float,
+    electricity_rate: float,
+    installation_cost_per_kw: float,
+) -> dict:
+    generation_kwh = max(float(estimated_generation_kwh or 0.0), 0.0)
+    consumption_kwh = max(float(monthly_consumption_kwh or 0.0), 0.0)
+    usable_kwh = min(generation_kwh, consumption_kwh)
+    monthly_savings = usable_kwh * electricity_rate
+    system_kw = generation_kwh / 30.0 / 4.0 if generation_kwh > 0 else 0.0
+    installation_cost = system_kw * installation_cost_per_kw
+    payback_years = (
+        installation_cost / (monthly_savings * 12.0)
+        if monthly_savings > 0
+        else None
+    )
+    energy_ratio = min(generation_kwh / consumption_kwh, 1.0) if consumption_kwh > 0 else 0.0
+    suitability_score = round((0.6 * energy_ratio) + (0.4 * source_score), 3)
+    carbon_reduction = usable_kwh * CO2_KG_PER_KWH
+
+    return {
+        "source": source,
+        "suitability_score": suitability_score,
+        "estimated_generation_kwh": generation_kwh,
+        "monthly_savings": monthly_savings,
+        "installation_cost": installation_cost,
+        "payback_years": payback_years,
+        "carbon_reduction": carbon_reduction,
+    }
+
+
+def build_ecosim_dashboard_response(
+    municipality_id: int,
+    monthly_consumption: float,
+    monthly_bill: float,
+) -> dict:
+    if monthly_consumption <= 0 or monthly_bill <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="monthly_consumption and monthly_bill must be greater than zero",
+        )
+
+    electricity_rate = monthly_bill / monthly_consumption
+    municipality_name = get_municipality_name_by_id(municipality_id)
+
+    base_results = renewable_energy_calculator(
+        house="Ecosim",
+        municipality=municipality_name,
+        current_electricity_bill=monthly_bill,
+        electricity_rate=electricity_rate,
+        desired_savings=0.5,
+        include_ai=False,
+    )
+
+    renewable_results = base_results["renewable_energy_results"]
+    solar_output = renewable_results.get("solar_output", {})
+    wind_output = renewable_results.get("wind_output", {})
+    hydro_output = renewable_results.get("hydro_output", {})
+
+    solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
+    hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
+    wind_score = min(float(wind_output.get("capacity_factor", 0.0)) * 1.5, 1.0)
+
+    options = [
+        _calculate_option_summary(
+            source="Solar",
+            estimated_generation_kwh=solar_output.get("monthly_solar_output", 0.0),
+            source_score=solar_score,
+            monthly_consumption_kwh=monthly_consumption,
+            electricity_rate=electricity_rate,
+            installation_cost_per_kw=COST_PER_KW_SOLAR,
+        ),
+        _calculate_option_summary(
+            source="Wind",
+            estimated_generation_kwh=wind_output.get("monthly_energy_kwh", 0.0),
+            source_score=wind_score,
+            monthly_consumption_kwh=monthly_consumption,
+            electricity_rate=electricity_rate,
+            installation_cost_per_kw=COST_PER_KW_WIND,
+        ),
+        _calculate_option_summary(
+            source="Hydropower",
+            estimated_generation_kwh=hydro_output.get("monthly_hydro_output", 0.0),
+            source_score=hydro_score,
+            monthly_consumption_kwh=monthly_consumption,
+            electricity_rate=electricity_rate,
+            installation_cost_per_kw=COST_PER_KW_HYDRO,
+        ),
+    ]
+
+    for option in options:
+        option["explanation"] = (
+            f"Estimated {option['estimated_generation_kwh']:.0f} kWh/month with "
+            f"{option['suitability_score']:.2f} suitability score."
+        )
+
+    recommended = max(
+        options,
+        key=lambda item: (item["suitability_score"], item["estimated_generation_kwh"]),
+    )
+
+    net_consumption = max(monthly_consumption - recommended["estimated_generation_kwh"], 0.0)
+    net_bill = net_consumption * electricity_rate
+
+    explanation = (
+        f"{recommended['source']} scores highest for this municipality based on climate data and "
+        "expected generation compared with your monthly usage."
+    )
+
+    return {
+        "municipality": municipality_name.upper(),
+        "municipality_id": municipality_id,
+        "monthly_consumption_kwh": monthly_consumption,
+        "monthly_bill": monthly_bill,
+        "recommended_source": recommended["source"],
+        "suitability_score": recommended["suitability_score"],
+        "estimated_generation_kwh": recommended["estimated_generation_kwh"],
+        "monthly_savings": recommended["monthly_savings"],
+        "installation_cost": recommended["installation_cost"],
+        "payback_years": recommended["payback_years"],
+        "carbon_reduction": recommended["carbon_reduction"],
+        "explanation": explanation,
+        "options": options,
+        "comparison": {
+            "current_monthly_consumption_kwh": monthly_consumption,
+            "current_monthly_bill": monthly_bill,
+            "renewable_monthly_consumption_kwh": net_consumption,
+            "renewable_monthly_bill": net_bill,
+        },
     }

@@ -74,6 +74,56 @@ class EcosimResponse(BaseModel):
     ai_analysis: dict | None = None
 
 
+class EcosimQueryParams(BaseModel):
+    municipality_id: int = Field(..., gt=0)
+    monthly_consumption: float = Field(..., gt=0)
+    monthly_bill: float = Field(..., gt=0)
+
+
+class EcosimOption(BaseModel):
+    source: str
+    suitability_score: float
+    estimated_generation_kwh: float
+    monthly_savings: float
+    installation_cost: float
+    payback_years: float | None = None
+    carbon_reduction: float
+    explanation: str
+
+
+class EcosimComparison(BaseModel):
+    current_monthly_consumption_kwh: float
+    current_monthly_bill: float
+    renewable_monthly_consumption_kwh: float
+    renewable_monthly_bill: float
+
+
+class EcosimDashboardResponse(BaseModel):
+    municipality: str
+    municipality_id: int
+    monthly_consumption_kwh: float
+    monthly_bill: float
+    recommended_source: str
+    suitability_score: float
+    estimated_generation_kwh: float
+    monthly_savings: float
+    installation_cost: float
+    payback_years: float | None = None
+    carbon_reduction: float
+    explanation: str
+    options: list[EcosimOption]
+    comparison: EcosimComparison
+
+
+class MunicipalityOption(BaseModel):
+    municipality_id: int
+    name: str
+
+
+class MunicipalityListResponse(BaseModel):
+    items: list[MunicipalityOption]
+
+
 # we get house list in order for the users to have more than one house on their accounts
 class HouseList(BaseModel):
     items: list[PostHouse]
