@@ -1,3 +1,8 @@
+import calendar
+import datetime as dt
+import datetime
+
+
 def normalize(value, min_value, max_value):
     if value is None:
         return 0.0
@@ -55,37 +60,102 @@ def estimate_discharge(rainfall_mm_monthly: float, basin_area_km2: float, runoff
     Rational-method inspired runoff estimation.
     Q = (P × A × C) / seconds_year
     """
-    annual_precip_m = (rainfall_mm_monthly * 12) / 1000.0
-    basin_area_m2 = (basin_area_km2 * 1_000_000)
-    q = (annual_precip_m * basin_area_m2 *runoff_coefficient) / 31_536_000
+    monthly_precip_m = rainfall_mm_monthly / 1000
+
+    basin_area_m2 = basin_area_km2 * 1_000_000
+    today = dt.datetime.now()
+    days_in_month = calendar.monthrange(today.year, today.month)[1]
+    seconds_month = datetime.timedelta(days=days_in_month).total_seconds()  # approximate month as 30 days
+
+    q = (
+        monthly_precip_m *
+        basin_area_m2 *
+        runoff_coefficient
+    ) / seconds_month
+    # annual_precip_m = (rainfall_mm_monthly * 12) / 1000.0
+    # basin_area_m2 = (basin_area_km2 * 1_000_000)
+    # q = (annual_precip_m * basin_area_m2 *runoff_coefficient) / 31_536_000
     
     return max(q, 0.0)
 
-def calculate_hydropower(days_in_month: int, flow_rate_cms: float, head_m: float,
-        water_density: float = 1000.0, gravity: float = 9.81,
-        turbine_efficiency: float = 0.85, generator_efficiency: float = 0.95) -> dict:
-    """
-    Hydropower equation:
-    P = ρ . g . h . Q
+# def calculate_hydropower(days_in_month: int, flow_rate_cms: float, head_m: float,
+#         water_density: float = 1000.0, gravity: float = 9.81,
+#         turbine_efficiency: float = 0.85, generator_efficiency: float = 0.95) -> dict:
+#     """
+#     Hydropower equation:
+#     P = ρ . g . h . Q
     
-    Source: https://www.irejournals.com/formatedpaper/1704572.pdf Page 8 hehe
-    """
-    # flow_rate_cms is yung galing sa estimated_flow_rate function, which should already be non-negative, but we safeguard here just in case
-    if flow_rate_cms < 0:
-        flow_rate_cms = 0.0
-    # hydraulic_head_m is yung galing sa municipality_terrain_metrics table, which should also be non-negative, but we safeguard here as well
-    if head_m < 0:
-        head_m = 0.0
-    power_kw = (water_density * gravity * head_m * flow_rate_cms) / 1000.0  # convert to kW
-    overall_efficiency = turbine_efficiency * generator_efficiency
-    effective_power_kw = power_kw * overall_efficiency
-    daily_hydro_output = effective_power_kw * 24.0
-    monthly_hydro_output = daily_hydro_output * days_in_month
-    hydro_score = min((flow_rate_cms / 10.0) * 100, 100)  # simplistic scoring based on flow rate, capped at 100
-    return {
-        "system_kwp": power_kw,
-        "daily_hydro_output": daily_hydro_output,
-        "monthly_hydro_output": monthly_hydro_output,
-        "hydro_score": hydro_score
-    }
+#     Source: https://www.irejournals.com/formatedpaper/1704572.pdf Page 8 hehe
+#     """
+#     # flow_rate_cms is yung galing sa estimated_flow_rate function, which should already be non-negative, but we safeguard here just in case
+#     if flow_rate_cms < 0:
+#         flow_rate_cms = 0.0
+#     # hydraulic_head_m is yung galing sa municipality_terrain_metrics table, which should also be non-negative, but we safeguard here as well
+#     if head_m < 0:
+#         head_m = 0.0
+#     power_kw = (water_density * gravity * head_m * flow_rate_cms) / 1000.0  # convert to kW
+#     overall_efficiency = turbine_efficiency * generator_efficiency
+#     effective_power_kw = power_kw * overall_efficiency
+#     daily_hydro_output = effective_power_kw * 24.0
+#     monthly_hydro_output = daily_hydro_output * days_in_month
+#     hydro_score = min((flow_rate_cms / 10.0) * 100, 100)  # simplistic scoring based on flow rate, capped at 100
+#     return {
+#         "system_kwp": power_kw,
+#         "daily_hydro_output": daily_hydro_output,
+#         "monthly_hydro_output": monthly_hydro_output,
+#         "hydro_score": hydro_score
+#     }
+def calculate_hydropower(
+    days_in_month,
+    flow_rate_cms,
+    head_m,
+    water_density=1000,
+    gravity=9.81,
+    turbine_efficiency=0.75,
+    generator_efficiency=0.90
+):
 
+    # physical limits
+    flow_rate_cms = min(max(flow_rate_cms, 0), 5)
+
+    head_m = min(max(head_m, 0), 50)
+
+
+    hydraulic_power_kw = (
+        water_density *
+        gravity *
+        flow_rate_cms *
+        head_m
+    ) / 1000
+
+
+    efficiency = (
+        turbine_efficiency *
+        generator_efficiency
+    )
+
+
+    electrical_power_kw = (
+        hydraulic_power_kw *
+        efficiency
+    )
+
+
+    daily_energy = electrical_power_kw * 24
+
+    monthly_energy = daily_energy * days_in_month
+
+
+    hydro_score = normalize(
+        monthly_energy,
+        0,
+        5000
+    )
+
+
+    return {
+        "available_power_kw": round(electrical_power_kw,3),
+        "daily_energy_kwh": round(daily_energy,3),
+        "monthly_energy_kwh": round(monthly_energy,3),
+        "hydro_score": round(hydro_score*100,2)
+    }

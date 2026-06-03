@@ -1,7 +1,9 @@
-import pandas as pd
-import os
-import datetime as dt
 import calendar
+import datetime as dt
+import logging
+import os
+
+import pandas as pd
 from fastapi import HTTPException, status
 from postgrest.exceptions import APIError
 from app.schemas.ecosim import PostHouse
@@ -9,6 +11,7 @@ from app.services.supabase_service import get_supabase_client
 from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, calculate_dust_loss_from_wind, calculate_degradation_from_humidity    
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
 from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
+logger = logging.getLogger(__name__)
 current_dir = os.getcwd()
 df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
 
@@ -106,7 +109,16 @@ def consumption_calculator(current_electricity_bill: float, electricity_rate: fl
 
 
 
-def renewable_energy_calculator(house:str, municipality: str, current_electricity_bill: float, electricity_rate: float, desired_savings: float) -> dict:
+def renewable_energy_calculator(
+    house: str,
+    municipality: str,
+    current_electricity_bill: float,
+    electricity_rate: float,
+    desired_savings: float,
+    include_ai: bool = False,
+    use_rag: bool = False,
+    rag_query: str | None = None,
+) -> dict:
     # NOTE: Data fetching 
     municipality_results = get_municipality_data(municipality)
     municipality_data = municipality_results[0]
@@ -171,11 +183,17 @@ def renewable_energy_calculator(house:str, municipality: str, current_electricit
         mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
         gravity_flow_potential=terrain_data.get("gravity_flow_potential") if terrain_data else 0.0,
     )
-    hydro_output = calculate_hydropower(
+    hydro_output_raw = calculate_hydropower(
         flow_rate_cms=flow_rate_cms,
         head_m=hydraulic_head_m,
         days_in_month=days_in_month
     )
+    hydro_output = {
+        "system_kwp": hydro_output_raw.get("available_power_kw", 0.0),
+        "daily_hydro_output": hydro_output_raw.get("daily_energy_kwh", 0.0),
+        "monthly_hydro_output": hydro_output_raw.get("monthly_energy_kwh", 0.0),
+        "hydro_score": hydro_output_raw.get("hydro_score", 0.0),
+    }
     
     #NOTE: WIND CALCULATIONS
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
@@ -213,8 +231,36 @@ def renewable_energy_calculator(house:str, municipality: str, current_electricit
         "consumption_results": consumption_results,
     }
     
+    ai_analysis = None
+    if include_ai:
+        try:
+            analysis_payload = {
+                "municipality_data": municipality_results,
+                "consumption_results": consumption_results,
+                "renewable_energy_results": renewable_energy_results,
+            }
+
+            if use_rag and rag_query:
+                from app.services.rag_gemini_funcs import analyze_with_rag
+
+                ai_analysis = analyze_with_rag(analysis_payload, rag_query)
+            else:
+                from app.services.gemini_funcs import analyze_renewable_results
+
+                ai_analysis = analyze_renewable_results(analysis_payload)
+        except Exception:
+            logger.exception("Gemini analysis failed in Ecosim")
+            ai_analysis = {
+                "summary": "Gemini analysis failed.",
+                "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
+                "recommendation": {"best_option": "", "reason": ""},
+                "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},
+                "environmental_impact": "",
+            }
+
     return {
         "municipality_data": municipality_results,
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
+        "ai_analysis": ai_analysis,
     }

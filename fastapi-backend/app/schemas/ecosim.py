@@ -71,6 +71,7 @@ class EcosimResponse(BaseModel):
     municipality_data: list[MunicipalityClimate]
     consumption_results: ConsumptionResults
     renewable_energy_results: RenewableEnergyResults
+    ai_analysis: dict | None = None
 
 
 # we get house list in order for the users to have more than one house on their accounts
