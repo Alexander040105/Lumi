@@ -10,10 +10,13 @@ Lumi/
 ├── react-frontend/       # React + Vite + Tailwind + shadcn/ui
 ├── expo-mobile/          # React Native + Expo
 ├── docs/                 # Architecture and setup guides
-├── supabase_tables_scripts/
-├── python_scripts/
-├── regionalData/
-└── scraped_data/
+├── data/                 # Datasets, raster data, and pipeline scripts
+│   ├── municipality_climate_averages.csv
+│   ├── phl_msk_alt/      # Raster elevation data
+│   ├── regionalData/     # Regional datasets
+│   ├── scraped_data/     # Scraped source data
+│   ├── scripts/          # Python data processing pipelines
+│   └── supabase/         # SQL schema scripts
 ```
 
 ## Quick Start
