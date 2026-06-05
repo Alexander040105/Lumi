@@ -44,6 +44,7 @@ class SolarOutput(BaseModel):
     system_kwp: float
     daily_solar_output: float
     monthly_solar_output: float
+    solar_score: float | None = None
 
 
 class HydroOutput(BaseModel):
@@ -61,6 +62,10 @@ class WindOutput(BaseModel):
 
 
 class RenewableEnergyResults(BaseModel):
+    municipality: str | None = None
+    municipality_id: int | None = None
+    climate: dict | None = None
+    assumptions: dict | None = None
     solar_output: SolarOutput
     hydro_output: HydroOutput
     wind_output: WindOutput
@@ -113,6 +118,11 @@ class EcosimDashboardResponse(BaseModel):
     explanation: str
     options: list[EcosimOption]
     comparison: EcosimComparison
+    climate: dict | None = None
+    renewable_energy_results: RenewableEnergyResults | None = None
+    consumption_results: ConsumptionResults | None = None
+    municipality_data: list[MunicipalityClimate] | None = None
+    ai_analysis: dict | None = None
 
 
 class MunicipalityOption(BaseModel):

@@ -372,6 +372,9 @@ def build_ecosim_dashboard_response(
     municipality_id: int,
     monthly_consumption: float,
     monthly_bill: float,
+    include_ai: bool = False,
+    use_rag: bool = False,
+    rag_query: str | None = None,
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
@@ -388,7 +391,9 @@ def build_ecosim_dashboard_response(
         current_electricity_bill=monthly_bill,
         electricity_rate=electricity_rate,
         desired_savings=0.5,
-        include_ai=False,
+        include_ai=include_ai,
+        use_rag=use_rag,
+        rag_query=rag_query,
     )
 
     renewable_results = base_results["renewable_energy_results"]
@@ -466,4 +471,9 @@ def build_ecosim_dashboard_response(
             "renewable_monthly_consumption_kwh": net_consumption,
             "renewable_monthly_bill": net_bill,
         },
+        "climate": renewable_results.get("climate"),
+        "renewable_energy_results": renewable_results,
+        "consumption_results": base_results.get("consumption_results"),
+        "municipality_data": base_results.get("municipality_data"),
+        "ai_analysis": base_results.get("ai_analysis"),
     }

@@ -23,6 +23,7 @@ export default function Ecosim() {
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
+  const [includeAi, setIncludeAi] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
@@ -41,7 +42,7 @@ export default function Ecosim() {
         if (!isActive) return;
         const items = data?.items || [];
         setMunicipalities(items);
-        if (!municipalityId && items.length) {
+        if (items.length) {
           setMunicipalityId(String(items[0].municipality_id));
         }
       } catch (err) {
@@ -54,7 +55,7 @@ export default function Ecosim() {
     return () => {
       isActive = false;
     };
-  }, [municipalityId]);
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -64,8 +65,9 @@ export default function Ecosim() {
     try {
       const data = await getEcosim({
         municipalityId: String(municipalityId).trim(),
-        monthlyConsumption: String(monthlyConsumption).trim(),
-        monthlyBill: String(monthlyBill).trim()
+        monthlyConsumption: Number(monthlyConsumption),
+        monthlyBill: Number(monthlyBill),
+        includeAi,
       });
       setResult(data);
     } catch (err) {
@@ -98,7 +100,7 @@ export default function Ecosim() {
                 type="number"
                 min="1"
                 value={monthlyConsumption}
-                onChange={(event) => setMonthlyConsumption(event.target.value)}
+                onChange={(event) => setMonthlyConsumption(Number(event.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -107,7 +109,7 @@ export default function Ecosim() {
                 type="number"
                 min="1"
                 value={monthlyBill}
-                onChange={(event) => setMonthlyBill(event.target.value)}
+                onChange={(event) => setMonthlyBill(Number(event.target.value))}
               />
             </div>
             <div className="space-y-2">
@@ -116,6 +118,7 @@ export default function Ecosim() {
                 className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                 value={municipalityId}
                 onChange={(event) => setMunicipalityId(event.target.value)}
+                disabled={loading}
               >
                 {municipalities.map((item) => (
                   <option key={item.municipality_id} value={item.municipality_id}>
@@ -126,6 +129,18 @@ export default function Ecosim() {
               {municipalitiesError && (
                 <p className="text-xs text-destructive">{municipalitiesError}</p>
               )}
+            </div>
+            <div className="flex items-end space-x-2">
+              <label className="flex items-center space-x-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={includeAi}
+                  onChange={(e) => setIncludeAi(e.target.checked)}
+                  disabled={loading}
+                  className="h-4 w-4 rounded border-gray-300"
+                />
+                <span>Include AI analysis</span>
+              </label>
             </div>
             <div className="flex items-end">
               <Button type="submit" disabled={loading || !municipalityId} className="w-full">
@@ -149,6 +164,7 @@ export default function Ecosim() {
 
       {result && !loading && (
         <div className="grid gap-6">
+          {/* Recommendation */}
           <Card>
             <CardHeader>
               <CardTitle>Recommendation</CardTitle>
@@ -175,6 +191,7 @@ export default function Ecosim() {
             </CardContent>
           </Card>
 
+          {/* KPIs */}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
             <Card>
               <CardHeader>
@@ -224,6 +241,205 @@ export default function Ecosim() {
             </Card>
           </div>
 
+          {/* Climate data */}
+          {result.climate && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Climate data</CardTitle>
+                <CardDescription>Average conditions for this municipality (NASA POWER)</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
+                <div>
+                  <p className="text-sm text-muted-foreground">Temperature</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_t2m, 1)} °C</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Humidity</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_rh2m, 1)} %</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Rainfall</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_prectotcorr, 1)} mm/day</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Solar irradiance</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_allsky_sfc_sw_dwn, 2)} kWh/m²/day</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Wind speed</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_ws10m, 2)} m/s</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Cloud coverage</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_cloud_amt, 1)} %</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Surface pressure</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.avg_surface_pressure, 1)} kPa</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Elevation</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.climate.elevation, 0)} m</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Detailed renewable outputs */}
+          {result.renewable_energy_results && (
+            <div className="grid gap-4 md:grid-cols-3">
+              {/* Solar */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Solar output</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">System size</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.system_kwp, 2)} kWp</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Daily output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.daily_solar_output, 2)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Monthly output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.monthly_solar_output, 1)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Solar score</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.solar_score, 0)} / 100</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Wind */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Wind output</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Swept area</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.swept_area_m2, 1)} m²</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Rated power</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.rated_power_kw, 3)} kW</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Capacity factor</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.capacity_factor, 2)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Daily output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.daily_energy_kwh, 2)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Monthly output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.monthly_energy_kwh, 1)} kWh</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Hydro */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Hydro output</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">System size</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.system_kwp, 2)} kWp</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Daily output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.daily_hydro_output, 1)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Monthly output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.monthly_hydro_output, 0)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Hydro score</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.hydro_score, 0)} / 100</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Consumption results */}
+          {result.consumption_results && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Consumption breakdown</CardTitle>
+              </CardHeader>
+              <CardContent className="grid gap-3 md:grid-cols-3">
+                <div>
+                  <p className="text-sm text-muted-foreground">Monthly consumption</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.consumption_results.monthly_consumption_kwh, 1)} kWh</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Daily consumption</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.consumption_results.daily_consumption_kwh, 2)} kWh</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Target (50% savings)</p>
+                  <p className="text-lg font-semibold">{formatNumber(result.consumption_results.target_monthly_consumption_kwh, 1)} kWh</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* AI Analysis */}
+          {result.ai_analysis && (
+            <Card>
+              <CardHeader>
+                <CardTitle>AI Analysis</CardTitle>
+                <CardDescription>Gemini-powered insights</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-4">
+                {result.ai_analysis.summary && (
+                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                    <p className="font-medium mb-1">Summary</p>
+                    <p className="text-muted-foreground">{result.ai_analysis.summary}</p>
+                  </div>
+                )}
+                {result.ai_analysis.renewable_analysis && (
+                  <div className="grid gap-2 md:grid-cols-3">
+                    {["solar", "wind", "hydro"].map((key) =>
+                      result.ai_analysis.renewable_analysis[key] ? (
+                        <div key={key} className="rounded-md border bg-muted/30 p-3 text-sm">
+                          <p className="font-medium capitalize mb-1">{key}</p>
+                          <p className="text-muted-foreground">{result.ai_analysis.renewable_analysis[key]}</p>
+                        </div>
+                      ) : null
+                    )}
+                  </div>
+                )}
+                {result.ai_analysis.recommendation?.best_option && (
+                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                    <p className="font-medium mb-1">Recommendation</p>
+                    <p className="text-muted-foreground">
+                      <strong>{result.ai_analysis.recommendation.best_option}</strong>
+                      {result.ai_analysis.recommendation.reason && (
+                        <span> — {result.ai_analysis.recommendation.reason}</span>
+                      )}
+                    </p>
+                  </div>
+                )}
+                {result.ai_analysis.environmental_impact && (
+                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                    <p className="font-medium mb-1">Environmental impact</p>
+                    <p className="text-muted-foreground">{result.ai_analysis.environmental_impact}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Renewable comparison bars */}
           <Card>
             <CardHeader>
               <CardTitle>Renewable comparison</CardTitle>
@@ -250,6 +466,7 @@ export default function Ecosim() {
             </CardContent>
           </Card>
 
+          {/* Scenario comparison table */}
           <Card>
             <CardHeader>
               <CardTitle>Scenario comparison</CardTitle>

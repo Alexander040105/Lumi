@@ -17,8 +17,23 @@ async function request(path, { token, ...options } = {}) {
   });
 
   if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message || "Request failed");
+    let message = "Request failed";
+    try {
+      const errorBody = await response.json();
+      if (Array.isArray(errorBody.detail)) {
+        message = errorBody.detail.map((d) => d.msg || String(d)).join("; ");
+      } else if (typeof errorBody.detail === "string") {
+        message = errorBody.detail;
+      } else if (errorBody.message) {
+        message = errorBody.message;
+      } else {
+        message = JSON.stringify(errorBody);
+      }
+    } catch {
+      const text = await response.text();
+      if (text) message = text;
+    }
+    throw new Error(message);
   }
 
   return response.json();
@@ -44,8 +59,15 @@ export function getEcosim(params) {
   const search = new URLSearchParams({
     municipality_id: params.municipalityId,
     monthly_consumption: params.monthlyConsumption,
-    monthly_bill: params.monthlyBill
+    monthly_bill: params.monthlyBill,
   });
+  if (params.includeAi) {
+    search.append("include_ai", "true");
+  }
+  if (params.useRag && params.ragQuery) {
+    search.append("use_rag", "true");
+    search.append("rag_query", params.ragQuery);
+  }
 
   return request(`/ecosim/?${search.toString()}`);
 }

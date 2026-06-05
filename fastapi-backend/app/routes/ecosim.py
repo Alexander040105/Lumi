@@ -12,11 +12,19 @@ router = APIRouter()
 
 
 @router.get("/", response_model=EcosimDashboardResponse)
-async def get_ecosim_results(params: EcosimQueryParams = Depends()):
+async def get_ecosim_results(
+    params: EcosimQueryParams = Depends(),
+    include_ai: bool = False,
+    use_rag: bool = False,
+    rag_query: str | None = None,
+):
     return build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
         monthly_consumption=params.monthly_consumption,
         monthly_bill=params.monthly_bill,
+        include_ai=include_ai,
+        use_rag=use_rag,
+        rag_query=rag_query,
     )
 
 

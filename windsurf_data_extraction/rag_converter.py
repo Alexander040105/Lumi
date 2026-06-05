@@ -149,6 +149,12 @@ def run_conversion() -> dict[str, Any]:
             continue
         category = cat_dir.name
         for csv_file in cat_dir.glob("*.csv"):
+            # Skip mega-consolidated files; they only contain common columns
+            # (usually just metadata) and produce empty chunks. The individual
+            # *_consolidated_*.csv files have the full schema.
+            if csv_file.name.endswith("_all.csv"):
+                logger.info("Skipping mega-consolidated file: %s", csv_file.name)
+                continue
             chunks = convert_csv_to_chunks(csv_file, category)
             if chunks:
                 all_chunks_by_cat.setdefault(category, []).extend(chunks)
