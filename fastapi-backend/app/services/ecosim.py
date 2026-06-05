@@ -18,7 +18,10 @@ df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climat
 COST_PER_KW_SOLAR = 60000.0
 COST_PER_KW_WIND = 80000.0
 COST_PER_KW_HYDRO = 100000.0
-CO2_KG_PER_KWH = 0.7
+# Philippines DOE 2019–2021 National Grid Emission Factor (Luzon–Visayas grid).
+# Official Operating Margin EF = 0.6835 kg CO2 / kWh (DOE, 2022).
+# See: ecosim_economic_formula_references.md
+CO2_KG_PER_KWH = 0.6835
 
 
 def get_municipality_terrain_data(municipality: str) -> dict | None:
@@ -97,6 +100,8 @@ def list_municipalities() -> list[dict]:
             client
             .table("municipalities")
             .select("municipality_id,name")
+            .order("name")
+            .limit(20000)
             .execute()
         )
     except APIError as exc:
@@ -342,10 +347,61 @@ def _calculate_option_summary(
     electricity_rate: float,
     installation_cost_per_kw: float,
 ) -> dict:
+    """
+    Compute economic and environmental indicators for a single renewable option.
+
+    Formulas and their academic support (APA 7th):
+    ------------------------------------------------------------------------
+    1. Simple Payback Period (SPP)
+       SPP = installation_cost / (monthly_savings × 12)
+       Source: Ngwakwe (2025) — quasi-systematic review confirming SPP as the
+       dominant first-screening metric in residential PV techno-economic studies.
+       Also applied by Huda et al. (2024) for Indonesian PV systems.
+
+    2. CO₂ displacement
+       carbon_reduction = usable_kwh × CO2_KG_PER_KWH
+       Uses the Philippines DOE 2019–2021 National Grid Emission Factor
+       (Luzon–Visayas OMEF = 0.6835 kg CO₂/kWh) (DOE, 2022).
+
+    3. System-size proxy (for cost estimation)
+       system_kw = monthly_generation / 30 days / 4.0 equivalent peak-sun hrs
+       The 4 hr/day figure is a conservative Philippines national estimate;
+       Taduran & Piao (2025) measured 3.01 kWh/kWp/day (Final Yield) in
+       Tarlac City, while NREL data show 4.0–6.0 kWh/m²/day nationwide.
+
+    4. Weighted suitability score
+       score = 0.6 × energy_ratio + 0.4 × source_score
+       Standard weighted linear combination (WLC) used in GIS-MCDA
+       renewable-energy site-selection (Asadi et al., 2023).
+
+    References
+    ----------
+    Asadi, M., Pourhossein, K., Noorollahi, Y., Marzband, M., & Iglesias, G. (2023).
+        A new decision framework for hybrid solar and wind power plant site selection
+        using linear regression modeling based on GIS-AHP. Sustainability, 15(10), 8359.
+        https://doi.org/10.3390/su15108359
+
+    Department of Energy (Philippines). (2022). 2019–2021 National Grid Emission Factor.
+        Energy Regulatory Commission. https://www.foi.gov.ph/requests/national-grid-emission-factor/
+
+    Huda, A., Kurniawan, I., Purba, K. F., Ichwani, R., Aryansyah, & Fionasari, R. (2024).
+        Techno-economic assessment of residential and farm-based photovoltaic systems in Indonesia.
+        Renewable Energy, 219, Article 119886. https://doi.org/10.1016/j.renene.2023.119886
+
+    Ngwakwe, C. C. (2025). Estimating the financial payback period for renewable energy
+        investment: A quasi-systematic review. Oblik i finansi, (1), 59–66.
+        https://ideas.repec.org/a/iaf/journl/y2025i1p59-66.html
+
+    Taduran, A. J. R., & Piao, L. P. (2025). Analyzing the performance of a 2.72 kWp rooftop
+        grid-tied photovoltaic system in Tarlac City, Philippines. International Journal of
+        Engineering Trends and Technology, 73(9), 318–327.
+        https://doi.org/10.14445/22315381/IJETT-V73I9P127
+    """
     generation_kwh = max(float(estimated_generation_kwh or 0.0), 0.0)
     consumption_kwh = max(float(monthly_consumption_kwh or 0.0), 0.0)
     usable_kwh = min(generation_kwh, consumption_kwh)
     monthly_savings = usable_kwh * electricity_rate
+    # 30 days × 4 equivalent peak-sun hours ≈ 120 kWh/kWp/month (conservative PH estimate)
     system_kw = generation_kwh / 30.0 / 4.0 if generation_kwh > 0 else 0.0
     installation_cost = system_kw * installation_cost_per_kw
     payback_years = (

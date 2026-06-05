@@ -44,6 +44,24 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))"
+        },
+        brand: {
+          dark: "#195b16",
+          DEFAULT: "#305731",
+          light: "#9ad68b",
+          lighter: "#c0e7a8",
+          pale: "#ddffdc",
+          success: "#67bb63"
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))"
+        },
+        chart: {
+          solar: "#ffe476",
+          wind: "#67bb63",
+          hydro: "#305731",
+          accent: "#ffe476"
         }
       },
       borderRadius: {

@@ -7,19 +7,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export default function Home() {
   return (
     <section className="page-container stack">
-      <div className="space-y-3">
-        <Badge variant="secondary">React + Tailwind + shadcn/ui</Badge>
-        <h1>Build your next full-stack product faster.</h1>
+      <div className="space-y-3 rounded-xl bg-gradient-to-br from-card to-muted/40 p-6 shadow-sm border">
+        <Badge variant="default" className="bg-primary text-primary-foreground">Lumi Environmental Intelligence</Badge>
+        <h1 className="text-primary">Renewable energy insights for every community.</h1>
         <p>
           A clean UI foundation with Supabase auth, FastAPI integration, and a scalable component
-          system ready for dashboards and SaaS workflows.
+          system ready for dashboards and environmental data workflows.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link to="/dashboard">
             <Button>Open dashboard</Button>
           </Link>
-          <Link to="/login">
-            <Button variant="outline">Go to login</Button>
+          <Link to="/ecosim">
+            <Button variant="outline">Try Ecosim</Button>
           </Link>
         </div>
       </div>

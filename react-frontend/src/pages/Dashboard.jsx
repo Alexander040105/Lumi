@@ -166,12 +166,18 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {error && <Card className="border-destructive text-destructive">{error}</Card>}
+      {error && (
+        <Card className="border-l-4 border-l-destructive bg-destructive/5">
+          <CardContent className="py-4 text-sm font-medium text-destructive">
+            {error}
+          </CardContent>
+        </Card>
+      )}
 
       {!emailVerified && (
-        <Card className="border-warning text-warning">
+        <Card className="border-l-4 border-l-warning bg-accent/10">
           <CardHeader>
-            <CardTitle>Email not verified</CardTitle>
+            <CardTitle className="text-warning-foreground">Email not verified</CardTitle>
             <CardDescription>Check your inbox and verify your email to unlock API access.</CardDescription>
           </CardHeader>
         </Card>

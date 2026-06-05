@@ -21,12 +21,20 @@ export default function Ecosim() {
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
+  const [muniQuery, setMuniQuery] = useState("");
+  const [muniOpen, setMuniOpen] = useState(false);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
   const [includeAi, setIncludeAi] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  const filteredMunicipalities = useMemo(() => {
+    const q = muniQuery.trim().toLowerCase();
+    if (!q) return municipalities;
+    return municipalities.filter((m) => m.name.toLowerCase().includes(q));
+  }, [municipalities, muniQuery]);
 
   const comparisonMax = useMemo(() => {
     if (!result?.options?.length) return 0;
@@ -44,6 +52,7 @@ export default function Ecosim() {
         setMunicipalities(items);
         if (items.length) {
           setMunicipalityId(String(items[0].municipality_id));
+          setMuniQuery(items[0].name);
         }
       } catch (err) {
         if (!isActive) return;
@@ -112,20 +121,51 @@ export default function Ecosim() {
                 onChange={(event) => setMonthlyBill(Number(event.target.value))}
               />
             </div>
-            <div className="space-y-2">
+            <div className="relative space-y-2">
               <label className="text-sm font-medium">Municipality</label>
-              <select
-                className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                value={municipalityId}
-                onChange={(event) => setMunicipalityId(event.target.value)}
+              <Input
+                type="text"
+                placeholder="Search municipality..."
+                value={muniQuery}
+                onChange={(e) => {
+                  setMuniQuery(e.target.value);
+                  setMuniOpen(true);
+                }}
+                onFocus={() => setMuniOpen(true)}
+                onBlur={() => setMuniOpen(false)}
                 disabled={loading}
-              >
-                {municipalities.map((item) => (
-                  <option key={item.municipality_id} value={item.municipality_id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
+                autoComplete="off"
+              />
+              {muniOpen && (
+                <div className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md border border-input bg-popover shadow-md">
+                  {filteredMunicipalities.length ? (
+                    filteredMunicipalities.map((item) => (
+                      <button
+                        key={item.municipality_id}
+                        type="button"
+                        className={
+                          "w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent " +
+                          (String(item.municipality_id) === municipalityId
+                            ? "bg-accent font-medium"
+                            : "")
+                        }
+                        onMouseDown={(e) => e.preventDefault()}
+                        onClick={() => {
+                          setMunicipalityId(String(item.municipality_id));
+                          setMuniQuery(item.name);
+                          setMuniOpen(false);
+                        }}
+                      >
+                        {item.name}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-3 py-2 text-sm text-muted-foreground">
+                      No results found
+                    </div>
+                  )}
+                </div>
+              )}
               {municipalitiesError && (
                 <p className="text-xs text-destructive">{municipalitiesError}</p>
               )}
@@ -137,7 +177,7 @@ export default function Ecosim() {
                   checked={includeAi}
                   onChange={(e) => setIncludeAi(e.target.checked)}
                   disabled={loading}
-                  className="h-4 w-4 rounded border-gray-300"
+                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary"
                 />
                 <span>Include AI analysis</span>
               </label>
@@ -289,9 +329,12 @@ export default function Ecosim() {
           {result.renewable_energy_results && (
             <div className="grid gap-4 md:grid-cols-3">
               {/* Solar */}
-              <Card>
+              <Card className="border-t-4 border-t-chart-solar">
                 <CardHeader>
-                  <CardTitle>Solar output</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 rounded-full bg-chart-solar" />
+                    Solar output
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -314,9 +357,12 @@ export default function Ecosim() {
               </Card>
 
               {/* Wind */}
-              <Card>
+              <Card className="border-t-4 border-t-chart-wind">
                 <CardHeader>
-                  <CardTitle>Wind output</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 rounded-full bg-chart-wind" />
+                    Wind output
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -343,9 +389,12 @@ export default function Ecosim() {
               </Card>
 
               {/* Hydro */}
-              <Card>
+              <Card className="border-t-4 border-t-chart-hydro">
                 <CardHeader>
-                  <CardTitle>Hydro output</CardTitle>
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 rounded-full bg-chart-hydro" />
+                    Hydro output
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -446,23 +495,31 @@ export default function Ecosim() {
               <CardDescription>Monthly generation and savings across options.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
-              {result.options.map((option) => (
-                <div key={option.source} className="space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium">{option.source}</span>
-                    <span className="text-muted-foreground">
-                      {formatNumber(option.estimated_generation_kwh)} kWh/mo
-                    </span>
+              {result.options.map((option) => {
+                const barColor =
+                  option.source === "Solar"
+                    ? "bg-chart-solar"
+                    : option.source === "Wind"
+                    ? "bg-chart-wind"
+                    : "bg-chart-hydro";
+                return (
+                  <div key={option.source} className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-medium">{option.source}</span>
+                      <span className="text-muted-foreground">
+                        {formatNumber(option.estimated_generation_kwh)} kWh/mo
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-muted">
+                      <div
+                        className={`h-2 rounded-full ${barColor}`}
+                        style={{ width: `${(option.estimated_generation_kwh / comparisonMax) * 100}%` }}
+                      />
+                    </div>
+                    <div className="text-xs text-muted-foreground">{option.explanation}</div>
                   </div>
-                  <div className="h-2 rounded-full bg-muted">
-                    <div
-                      className="h-2 rounded-full bg-primary"
-                      style={{ width: `${(option.estimated_generation_kwh / comparisonMax) * 100}%` }}
-                    />
-                  </div>
-                  <div className="text-xs text-muted-foreground">{option.explanation}</div>
-                </div>
-              ))}
+                );
+              })}
             </CardContent>
           </Card>
 
