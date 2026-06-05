@@ -1,0 +1,75 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+16
+Figure 13. Power Generation Output and Fuel Input, by Fuel Shares: 2023 vs 2024
+2023
+Total Fuel Input: 36.7 MTOE
+Total Generation Output: 118.0 TWh
+2024
+Total Fuel Input: 38.9 MTOE
+Total Generation Output: 126.9 TWh
+56.9%
+62.5%
+6.7%
+14.1%
+9.1%
+25.1%
+8.7%
+7.0%
+1.1%
+2.2%
+1.2%
+0.3%
+0.6%
+1.5%
+1.1%
+1.9%
+1.0%
+3.0%
+1.1%
+0.3%
+0.8%
+1.4%
+57.6%
+62.5%
+7.0%
+8.6%
+8.5%
+23.8%
+14.2%
+7.2%
+1.8%
+1.1%
+Coal
+Natural Gas
+Oil-Based
+Geothermal
+Hydro
+Wind
+Solar
+Biomass
+The volume of domestically refined diesel and gasoline, with an aggregate share of 
+64.1 percent to the country’s refinery mix, contracted by 12.5 percent and 0.9 percent, 
+respectively, as imports met a larger share of market demand. LPG (3.8 percent 
+share), kerosene (0.3 percent share) and naphtha (0.3 percent share) exhibited the 
+same downtrend with negative growths of 2.4 percent, 7.2 percent and 87.9 percent, 
+respectively. Aggregate output of other petroleum products, which accounted for 12.9 
+percent share, also fell by 10.4 percent. In contrast, refinery output for jet kerosene 
+(0.3. percent share) improved by 12.8 percent, while that of fuel oil (0.9 percent share) 
+increased by 20.7 percent.
+B. Power Generation and Fuel Input
+Aggregate power generation reached 126.9 terawatt-hours (TWh) in 2024, 7.6 percent 
+more than its 2023 level of 118.0 TWh. The increase was in response to robust economic 
+performance and continued expansion in electricity demand across sectors during the 
+year.
+Coal-fired power plants remained the dominant source of supply, accounting for 62.5 
+percent (Figure 13) of the total generation mix or 79.4 TWh in 2024, a significant 
+increase of 7.6 percent from its 2023 level of 73.8 TWh. Natural gas power generation 
+also grew steadily, contributing 18.0 TWh or 14.2 percent of total generation, up from 
+its previous year’s level of 16.7 TWh. Oil-based power plants also posted increased in 
+their generation output at 2.9 percent. 
+Meanwhile, renewable energy sources supplied 22.2 percent of the total generation 
+output in 2024. Geothermal and hydropower, with combined shares of 17.1 percent, each 
+contributed more than 10 TWh. Solar energy showed a notable 49.8 percent growth, 
+as it produced 3.8 TWh of power. Wind power dropped by 5.3 percent to 1.2 TWh with 
+only 1.0 percent share, while biomass generation stood at 1.4 TWh, equivalent to a 1.1 
+percent share of the generation mix.

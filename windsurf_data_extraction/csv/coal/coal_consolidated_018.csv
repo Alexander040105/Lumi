@@ -1,0 +1,5 @@
+﻿sector_and_activity,gr,gr_numeric,gr_unit,source_pdf,detected_category
+Liquid Fossils (Oil),3.9%,3.9,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv,coal
+Solid Fossils (Coal),7.7%,7.7,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv,coal
+Gaseous Fossil (Natural Gas),21.0%,21.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv,coal
+TOTAL,6.8%,6.8,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv,coal

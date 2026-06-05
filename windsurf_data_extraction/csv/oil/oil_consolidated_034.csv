@@ -1,0 +1,37 @@
+﻿unnamed_0,coal,natural_gas,condensate,crude,gasoline,kerosene,diesel,fuel_oil,lpg,jet_a_1,avgas,diesel_numeric,fuel_oil_numeric,lpg_numeric,source_pdf,detected_category
+"Chemical and 
+petrochemical",60.97,-,-,-,-,5.20,42.15,21.74,28.00,-,-,42.15,21.74,28.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+"Chemicals Except 
+Fertilizer",32.32,-,-,-,-,5.20,39.80,21.74,27.93,-,-,39.8,21.74,27.93,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Fertilizer,28.65,-,-,-,-,-,2.34,-,0.07,-,-,2.34,,0.07,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Lube Refining,-,-,-,-,-,-,-,-,-,-,-,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Non-metallic minerals,916.84,-,-,-,-,-,37.75,72.49,2.03,-,-,37.75,72.49,2.03,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Glass/Glass Products,-,-,-,-,-,-,7.24,48.63,1.37,-,-,7.24,48.63,1.37,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Cement,905.79,-,-,-,-,-,28.93,23.15,0.61,-,-,28.93,23.15,0.61,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+"Other Non-Metlc 
+Minerals",11.06,-,-,-,-,-,1.59,0.70,0.05,-,-,1.59,0.7,0.05,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Iron and steel,224.98,-,-,-,-,0.99,15.01,91.33,15.15,-,-,15.01,91.33,15.15,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Basic Metal,224.98,-,-,-,-,0.99,15.01,91.33,15.15,-,-,15.01,91.33,15.15,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Machinery,-,-,-,-,-,1.33,71.17,17.02,19.71,-,-,71.17,17.02,19.71,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Machinery/Equipment,-,-,-,-,-,1.33,71.17,17.02,19.71,-,-,71.17,17.02,19.71,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Not elsewhere specified,216.57,-,-,-,-,-,36.56,3.67,24.03,-,-,36.56,3.67,24.03,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Other Manufacturing,200.63,-,-,-,-,-,34.90,3.52,23.22,-,-,34.9,3.52,23.22,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+"Rubber/ Rubber 
+Products",15.94,-,-,-,-,-,1.66,0.15,0.81,-,-,1.66,0.15,0.81,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Mining,-,-,-,-,-,0.00,396.83,49.20,-,-,-,396.83,49.2,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Construction,-,-,-,-,-,0.16,350.98,1.48,5.54,-,-,350.98,1.48,5.54,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+TRANSPORT,-,-,-,-,"5,589.82",-,"6,111.32",219.35,-,384.74,3.89,6111.32,219.35,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Railway,-,-,-,-,-,-,2.13,-,-,-,-,2.13,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Road  Transport,-,-,-,-,"5,415.67",-,"5,623.20",-,-,-,-,5623.2,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Water Transport,-,-,-,-,174.15,-,485.99,219.35,-,-,-,485.99,219.35,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Domestic Air Transport,-,-,-,-,-,-,-,-,-,384.74,3.89,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+HOUSEHOLDS,-,-,-,-,-,31.87,-,-,"1,317.67",-,-,,,1317.67,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+SERVICES,-,-,-,-,-,-,"1,479.65",150.81,486.86,-,-,1479.65,150.81,486.86,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+AGRICULTURE,-,-,-,-,10.46,-,133.42,0.70,-,-,-,133.42,0.7,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Agri-Industry,-,-,-,-,9.14,-,31.80,-,-,-,-,31.8,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Agri Crops Product,-,-,-,-,9.13,-,29.92,-,-,-,-,29.92,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Livestock/Poultry,-,-,-,-,0.01,-,1.88,-,-,-,-,1.88,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Agri Services,-,-,-,-,-,-,-,-,-,-,-,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Forestry,-,-,-,-,-,-,-,-,-,-,-,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+Fishery,-,-,-,-,1.33,-,101.62,0.70,-,-,-,101.62,0.7,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil
+NON-ENERGY USE,80.06,-,-,-,-,-,-,-,-,-,-,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv,oil

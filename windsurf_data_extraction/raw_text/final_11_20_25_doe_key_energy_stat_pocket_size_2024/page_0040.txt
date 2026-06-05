@@ -1,0 +1,83 @@
+KEY ENERGY STATISTICS
+38
+Geothermal
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 1,928 
+ 1,928 
+ 1,952 
+ 1,952 
+ 1,952 
+Dependable Generating 
+Capacity (MW) 
+ 1,753 
+ 1,753 
+ 1,763 
+ 1,708 
+ 1,708 
+Electricity Generation 
+(GWh) 
+ 10,757 
+ 10,016 
+ 10,425 
+ 10,730 
+ 10,789 
+Hydropower
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 3,779 
+ 3,752 
+ 3,745 
+ 3,799 
+ 3,836 
+Dependable Generating 
+Capacity (MW) 
+ 3,527 
+3,500 
+ 3,444 
+ 3,499 
+ 3,485 
+Electricity Generation 
+(GWh) 
+ 7,192 
+ 9,185 
+ 10,085 
+ 10,287 
+ 10,909 
+ Wind
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 443 
+427
+ 427 
+ 427 
+ 427 
+Dependable Generating 
+Capacity (MW) 
+ 443 
+427 
+ 412 
+ 412 
+ 412 
+Electricity Generation 
+(GWh) 
+ 1,026 
+ 1,270 
+ 1,030 
+ 1,308 
+ 1,239 

@@ -1,0 +1,73 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+17
+In 2024, TPES rose to 69.0 MTOE, a 5.2 percent increase from 65.6 MTOE in 2023, driven 
+by stronger energy demand and expanded power generation. Although the growth 
+in net energy imports slowed to 8.2 percent in 2024 vis-à-vis 13.9 in 2023, it remained 
+substantial with 55.0 percent share to TPES at 38.0 MTOE. It compensated for the 
+sluggish 1.7 percent increment in domestic energy production as it reached 31.0 
+MTOE in 2024 from 30.5 MTOE the previous year. As a result, energy self-sufficiency 
+declined further by 1.6 percentage points to 45.0 percent from 46.5 percent in 2023 
+(Figure 14).
+III. TOTAL PRIMARY ENERGY 
+SUPPLY (TPES)
+Power plants’ total fuel input rose by 6.0 percent to 38.9 MTOE in 2024, from 36.7 MTOE 
+in 2023. Due to higher demand from baseload operations, coal consumption for power 
+generation went up by 7.3 percent to 22.4 MTOE and accounted for 57.6 percent of the 
+total fuel input (Figure 13). Natural gas increased by 13.9 percent to 2.8 MTOE from 
+2.5 MTOE in 2023 spurred by LNG imports and additional gas-fired capacity that came 
+online during the year. Geothermal energy input remained relatively stable at 9.3 MTOE, 
+while hydro increased slightly by 6.0 percent to 2.7 MTOE during the period. Solar and 
+wind inputs for power generation mirrored their generation output growth trend, with 
+inputs of 0.3 MTOE and 0.1 MTOE, respectively. Meanwhile, biomass consumption for 
+power applications rose modestly by 2.5 percent from 0.5 MTOE in 2023 to 0.6 MTOE 
+in 2024.
+Figure 14. TPES, by Fuel Shares: 2023 vs 2024
+2023 = 65.64 MTOE
+2024 = 69.04 MTOE
+Geothermal 
+14.1%
+Coal 12.3%
+Biomass 11.9%
+Hydro 3.9%
+Natural Gas 2.9%
+Oil 0.4%
+Wind & Solar 0.5%
+Biofuels 0.3%
+Oil 29.5%
+Coal 22.7%
+LNG 1.0%
+Ethanol 0.3%
+Geothermal 
+13.4%
+Coal 12.2%
+Biomass 11.4%
+Hydro 3.9%
+Natural Gas 2.4%
+Oil 29.2%
+Coal 23.5%
+LNG 2.1%
+Ethanol 0.3%
+Net Imported
+Energy:
+53.5%
+Oil 0.3%
+Wind & Solar 0.6%
+Biofuels 0.3%
+0
+10.0
+20.0
+30.0
+40.0
+50.0
+60.0
+70.0
+80.0
+Indigenous
+Energy:
+46.5%
+Net Imported
+Energy:
+55.0%
+Indigenous
+Energy:
+45.0%

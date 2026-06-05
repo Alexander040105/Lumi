@@ -1,0 +1,24 @@
+﻿philippines,2014,2015,2016,2017,2018,2019,2014_numeric,2015_numeric,2016_numeric,2017_numeric,2018_numeric,2019_numeric,2019_unit,source_pdf,detected_category
+Coal,"33,054","36,686","43,303","46,847","51,932","57,890",33054.0,36686.0,43303.0,46847.0,51932.0,57890.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Oil,"5,708","5,886","5,661","3,787","3,173","3,752",5708.0,5886.0,5661.0,3787.0,3173.0,3752.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Natural Gas,"18,690","18,878","19,854","20,547","21,334","22,354",18690.0,18878.0,19854.0,20547.0,21334.0,22354.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Renewable Energy,"19,810","20,963","21,979","23,189","23,326","22,044",19810.0,20963.0,21979.0,23189.0,23326.0,22044.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Geothermal,"10,308","11,044","11,070","10,270","10,435","10,691",10308.0,11044.0,11070.0,10270.0,10435.0,10691.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Hydro,"9,137","8,665","8,111","9,611","9,384","8,025",9137.0,8665.0,8111.0,9611.0,9384.0,8025.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Biomass,196,367,726,"1,013","1,105","1,040",196.0,367.0,726.0,1013.0,1105.0,1040.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Solar (a),17,139,"1,097","1,201","1,249","1,246",17.0,139.0,1097.0,1201.0,1249.0,1246.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Wind,152,748,975,"1,094","1,153","1,042",152.0,748.0,975.0,1094.0,1153.0,1042.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Total,"77,261","82,413","90,798","94,370","99,765","106,041",77261.0,82413.0,90798.0,94370.0,99765.0,106041.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+**Self-sufficiency level (%),53,53,51,54,51,47,53.0,53.0,51.0,54.0,51.0,47.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Philippines,2020,2021,2022,2023,2024,AAGR*,2020.0,2021.0,2022.0,2023.0,2024.0,,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Coal,"58,176","62,052","66,430","73,754","79,359",9%,58176.0,62052.0,66430.0,73754.0,79359.0,9.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Oil,"2,474","1,616","2,519","1,304","1,342",-13%,2474.0,1616.0,2519.0,1304.0,1342.0,-13.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Natural Gas,"19,497","19,060","17,884","16,668","18,047",0%,19497.0,19060.0,17884.0,16668.0,18047.0,0.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Renewable Energy,"21,609","23,386","24,684","26,278","28,193",4%,21609.0,23386.0,24684.0,26278.0,28193.0,4.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Geothermal,"10,757","10,016","10,425","10,730","10,789",0.5%,10757.0,10016.0,10425.0,10730.0,10789.0,0.5,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Hydro,"7,192","9,185","10,085","10,287","10,909",1.8%,7192.0,9185.0,10085.0,10287.0,10909.0,1.8,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Biomass,"1,261","1,445","1,322","1,409","1,446",22%,1261.0,1445.0,1322.0,1409.0,1446.0,22.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Solar (a),"1,373","1,470","1,822","2,544","3,811",45%,1373.0,1470.0,1822.0,2544.0,3811.0,45.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Wind,"1,026","1,270","1,030","1,308","1,239",23%,1026.0,1270.0,1030.0,1308.0,1239.0,23.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+Total,"101,756","106,115","111,516","118,004","126,941",5%,101756.0,106115.0,111516.0,118004.0,126941.0,5.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar
+**Self-sufficiency level (%),47,45,43,42,39,,47.0,45.0,43.0,42.0,39.0,,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv,solar

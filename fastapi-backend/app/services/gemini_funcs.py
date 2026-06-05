@@ -3,11 +3,13 @@ import json
 import logging
 import os
 import re
+import time
 from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
 from google import genai
+from google.genai import errors as genai_errors
 
 _repo_root = Path(__file__).resolve().parents[3]
 load_dotenv(dotenv_path=_repo_root / ".env")
@@ -20,6 +22,15 @@ DEFAULT_MAX_OUTPUT_TOKENS = int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS", "3000"))
 GEMINI_DEBUG = os.getenv("GEMINI_DEBUG", "false").lower() in {"1", "true", "yes"}
 if GEMINI_DEBUG:
     logger.setLevel(logging.INFO)
+
+# Fallback chain when the primary model is overloaded.
+# Verified working models for this API version / key:
+#   gemini-2.5-flash   -> works but often 503
+#   gemini-2.0-flash   -> works but may 429 (rate limit)
+# Others (1.5-flash, 1.5-flash-8b, 1.5-pro) return 404 for v1beta.
+FALLBACK_GEMINI_MODELS = [
+    "gemini-2.0-flash",
+]
 
 _client: genai.Client | None = None
 
@@ -35,31 +46,13 @@ def _get_gemini_client() -> genai.Client:
     return _client
 
 
-def generate_gemini_response(
+def _generate_once(
+    client: genai.Client,
+    model_name: str,
     content: str,
-    *,
-    model: str | None = None,
-    temperature: float | None = None,
-    max_output_tokens: int | None = None,
+    config: Any,
 ) -> str:
-    client = _get_gemini_client()
-    model_name = model or DEFAULT_GEMINI_MODEL
-    temp_value = DEFAULT_TEMPERATURE if temperature is None else temperature
-    token_limit = DEFAULT_MAX_OUTPUT_TOKENS if max_output_tokens is None else max_output_tokens
-
-    try:
-        config = genai.types.GenerateContentConfig(
-            temperature=temp_value,
-            max_output_tokens=token_limit,
-            response_mime_type="application/json",
-        )
-    except AttributeError:
-        config = {
-            "temperature": temp_value,
-            "max_output_tokens": token_limit,
-            "response_mime_type": "application/json",
-        }
-
+    """Single Gemini call — no retry logic here."""
     try:
         response = client.models.generate_content(
             model=model_name,
@@ -99,6 +92,111 @@ def generate_gemini_response(
     else:
         logger.warning("Gemini returned an empty response")
     return ""
+
+
+def generate_gemini_response(
+    content: str,
+    *,
+    model: str | None = None,
+    temperature: float | None = None,
+    max_output_tokens: int | None = None,
+    max_retries: int = 3,
+) -> str:
+    """
+    Generate a response from Gemini with retry + model fallback.
+
+    If the primary model returns 503 UNAVAILABLE, we retry with exponential
+    backoff and then fall back to less-loaded free models.
+    """
+    client = _get_gemini_client()
+    model_name = model or DEFAULT_GEMINI_MODEL
+    temp_value = DEFAULT_TEMPERATURE if temperature is None else temperature
+    token_limit = DEFAULT_MAX_OUTPUT_TOKENS if max_output_tokens is None else max_output_tokens
+
+    try:
+        config = genai.types.GenerateContentConfig(
+            temperature=temp_value,
+            max_output_tokens=token_limit,
+            response_mime_type="application/json",
+        )
+    except AttributeError:
+        config = {
+            "temperature": temp_value,
+            "max_output_tokens": token_limit,
+            "response_mime_type": "application/json",
+        }
+
+    # Build the full fallback chain: primary -> fallback models
+    models_to_try = [model_name]
+    for fallback in FALLBACK_GEMINI_MODELS:
+        if fallback not in models_to_try:
+            models_to_try.append(fallback)
+
+    last_error: Exception | None = None
+
+    for attempt_model in models_to_try:
+        for attempt in range(1, max_retries + 1):
+            try:
+                if GEMINI_DEBUG:
+                    logger.info(
+                        "Gemini attempt %s/%s on model=%s",
+                        attempt,
+                        max_retries,
+                        attempt_model,
+                    )
+                return _generate_once(client, attempt_model, content, config)
+            except genai_errors.ServerError as exc:
+                last_error = exc
+                # 503 / 529 — back off and retry
+                if attempt < max_retries:
+                    wait = 2 ** attempt  # 2, 4, 8 seconds
+                    logger.warning(
+                        "Gemini model=%s attempt=%s failed (%s). "
+                        "Retrying in %ss...",
+                        attempt_model,
+                        attempt,
+                        exc,
+                        wait,
+                    )
+                    time.sleep(wait)
+                else:
+                    logger.warning(
+                        "Gemini model=%s exhausted all %s retries.",
+                        attempt_model,
+                        max_retries,
+                    )
+            except genai_errors.ClientError as exc:
+                last_error = exc
+                code = getattr(exc, "code", None)
+                # 429 RESOURCE_EXHAUSTED is transient — retry it
+                if code == 429 and attempt < max_retries:
+                    wait = 2 ** attempt
+                    logger.warning(
+                        "Gemini model=%s rate-limited (429). "
+                        "Retrying in %ss...",
+                        attempt_model,
+                        wait,
+                    )
+                    time.sleep(wait)
+                else:
+                    logger.error(
+                        "Gemini model=%s client error: %s",
+                        attempt_model,
+                        exc,
+                    )
+                    break
+            except Exception as exc:
+                # Non-retryable error (auth, bad request, etc.)
+                last_error = exc
+                logger.error(
+                    "Gemini model=%s non-retryable error: %s",
+                    attempt_model,
+                    exc,
+                )
+                break
+
+    # All models exhausted
+    raise last_error or RuntimeError("All Gemini models failed")
 
 
 def _extract_json_block(text: str) -> str | None:
@@ -200,23 +298,25 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
 def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any]:
     try:
         prompt = _build_renewable_analysis_prompt(analysis_payload)
-        response_text = generate_gemini_response(prompt)
+        # Use unified client so Groq fallback works when Gemini is rate-limited
+        from app.services.llm_client import generate_response, parse_json_response
+        response_text = generate_response(prompt)
         if GEMINI_DEBUG:
             snippet = response_text[:500] if response_text else ""
             logger.info("Gemini prompt chars=%s response chars=%s", len(prompt), len(response_text))
             logger.info("Gemini response snippet=%s", snippet)
-        parsed = parse_gemini_json_response(response_text)
+        parsed = parse_json_response(response_text)
         if not parsed:
-            logger.warning("Gemini returned empty or invalid JSON")
+            logger.warning("LLM returned empty or invalid JSON")
             if response_text:
                 fallback = _normalize_analysis_output({})
                 fallback["summary"] = _extract_summary(response_text)
                 return fallback
         return _normalize_analysis_output(parsed)
     except Exception as exc:
-        logger.exception("Gemini analysis failed")
+        logger.exception("LLM analysis failed")
         return {
-            "summary": "Gemini analysis failed.",
+            "summary": "LLM analysis failed.",
             "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
             "recommendation": {"best_option": "", "reason": ""},
             "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},

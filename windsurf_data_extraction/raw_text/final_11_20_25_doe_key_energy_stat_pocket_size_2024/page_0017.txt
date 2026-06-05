@@ -1,0 +1,36 @@
+KEY ENERGY STATISTICS
+15
+2023
+2024
+GR
+In MB
+Total Oil
+ 501 
+ 448 
+-10.6%
+Galoc
+ 501 
+ 448 
+-10.6%
+Alegria
+ 0 
+ - 
+Total Condensate
+ 1,904 
+ 1,733 
+-9.0%
+Malampaya Condensate
+ 1,904 
+ 1,733 
+-9.0%
+in MMSCF
+Total Gas 
+ 80,660 
+ 70,338 
+-12.8%
+Malampaya Gas 
+ 80,660 
+ 70,338 
+-12.8%
+Oil and Gas
+Oil and Gas Production, by Source

@@ -1,0 +1,11 @@
+﻿energy_to_gdp_toe_php_1m,3_12,3_10,0_5,3_12_numeric,3_10_numeric,0_5_numeric,0_5_unit,source_pdf,detected_category
+"Oil to GDP
+(BBL/Php 100,000)",7.60,7.47,-1.6%,7.6,7.47,-1.6,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+"Electricity to GDP
+(Wh/Php)",5.61,5.71,1.8%,5.61,5.71,1.8,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+Elasticity,,,,,,,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+Energy to GDP,1.30,0.91,-30.1%,1.3,0.91,-30.1,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+Oil to GDP,0.16,0.70,327.4%,0.16,0.7,327.4,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+Electricity to GDP,1.05,1.33,26.2%,1.05,1.33,26.2,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil
+"Energy Per Capita
+(TOE/person)",0.59,0.61,4.3%,0.59,0.61,4.3,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv,oil

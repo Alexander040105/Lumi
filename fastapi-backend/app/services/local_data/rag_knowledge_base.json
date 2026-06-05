@@ -1,0 +1,3991 @@
+[
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Hydro battery equipment cost: Prices range from PHP 168 to PHP 83,866. Median PHP 6,414, average PHP 11,727. Based on 15 product listings. Sources: alibaba, amazon. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Hydro generator equipment cost: Prices range from PHP 168 to PHP 252,000. Median PHP 7,848, average PHP 17,778. Based on 138 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Hydro turbine equipment cost: Prices range from PHP 53 to PHP 560,000,000. Median PHP 56,000, average PHP 1,358,296. Based on 1135 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Solar battery equipment cost: Prices range from PHP 22 to PHP 179,000. Median PHP 2,922, average PHP 6,891. Based on 1232 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Solar charge controller equipment cost: Prices range from PHP 18 to PHP 225,370. Median PHP 2,147, average PHP 8,433. Based on 739 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Solar controller equipment cost: Prices range from PHP 33 to PHP 36,977. Median PHP 162, average PHP 622. Based on 156 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Solar generator equipment cost: Prices range from PHP 150 to PHP 126,105. Median PHP 5,294, average PHP 16,817. Based on 30 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Solar inverter equipment cost: Prices range from PHP 5 to PHP 507,541. Median PHP 15,816, average PHP 44,333. Based on 749 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Solar meter equipment cost: Prices range from PHP 673 to PHP 5,207. Median PHP 800, average PHP 1,412. Based on 15 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Solar mounting system equipment cost: Prices range from PHP 54 to PHP 10,784. Median PHP 500, average PHP 948. Based on 49 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Solar panel equipment cost: Prices range from PHP 6 to PHP 473,224. Median PHP 1,291, average PHP 5,782. Based on 3611 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Solar turbine equipment cost: Prices range from PHP 130 to PHP 329,736. Median PHP 16,639, average PHP 53,476. Based on 59 product listings. Sources: alibaba, amazon, lazada. converted from USD to PHP at approximate rate 1 USD = 56 PHP",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Wind battery equipment cost: Prices range from PHP 901 to PHP 22,403. Median PHP 3,636, average PHP 5,611. Based on 18 product listings. Sources: amazon, lazada.",
+    "sources": [
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Wind generator equipment cost: Prices range from PHP 123 to PHP 213,483. Median PHP 2,010, average PHP 13,258. Based on 109 product listings. Sources: amazon, lazada, istabreeze.",
+    "sources": [
+      "amazon",
+      "lazada",
+      "istabreeze"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Wind turbine equipment cost: Prices range from PHP 96 to PHP 215,643. Median PHP 1,970, average PHP 10,019. Based on 581 product listings. Sources: amazon, lazada, istabreeze.",
+    "sources": [
+      "amazon",
+      "lazada",
+      "istabreeze"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "installation_cost",
+    "product_type": "system",
+    "content": "Hydro installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 1,194,922 (median PHP 37,985). Installation is estimated at 40-70% of equipment cost. Therefore a typical system installation may add PHP 477,969 - PHP 836,446 on top of equipment prices. Micro-hydro installation involves intake design, penstock laying, civil works for the powerhouse, electrical connection, and regulatory permits. Head and flow measurements are required beforehand.",
+    "sources": [
+      "aggregated_scraped_data"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "installation_cost",
+    "product_type": "system",
+    "content": "Solar installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 10,606 (median PHP 1,687). Installation is estimated at 30-50% of equipment cost. Therefore a typical system installation may add PHP 3,182 - PHP 5,303 on top of equipment prices. Residential solar installation typically includes mounting structures, wiring, inverter installation, labour, permits, and net-metering setup. Small residential systems (1-2 kWp) may have higher per-watt installation costs.",
+    "sources": [
+      "aggregated_scraped_data"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "installation_cost",
+    "product_type": "system",
+    "content": "Wind installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 10,340 (median PHP 1,974). Installation is estimated at 20-40% of equipment cost. Therefore a typical system installation may add PHP 2,068 - PHP 4,136 on top of equipment prices. Wind system installation includes tower erection, foundation, wiring, controller setup, and safety equipment. Off-grid or hybrid setups may require additional battery integration labour.",
+    "sources": [
+      "aggregated_scraped_data"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "maintenance_cost",
+    "product_type": "system",
+    "content": "Solar maintenance cost: Annual maintenance for residential solar is typically 0.5-1% of total system cost per year. Key tasks include panel cleaning (2-4 times/year), inverter health checks, and visual inspection of mounting hardware. Panel lifespan is 20-25 years; inverters usually last 10-15 years and may need replacement once during system life. Batteries (if off-grid) last 5-10 years depending on cycle depth.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "maintenance_cost",
+    "product_type": "system",
+    "content": "Wind maintenance cost: Small wind turbines require annual inspection of blades, tower bolts, and controller electronics. Maintenance is roughly 1-3% of initial system cost per year. Turbine lifespan is 15-20 years; blades may need replacement or repair after 10 years. Grease bearings every 6-12 months. Off-grid systems also need battery bank monitoring.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "maintenance_cost",
+    "product_type": "system",
+    "content": "Hydro maintenance cost: Micro-hydro systems have low ongoing maintenance if the intake screen is kept clear. Annual maintenance is roughly 1-2% of system cost. Key tasks: trash-rack cleaning, penstock inspection, turbine runner checks for cavitation or debris damage, and generator brush replacement. Turbine lifespan can exceed 25 years; electronic controllers may need replacement after 10-15 years.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "components",
+    "product_type": "system",
+    "content": "Solar system required components: photovoltaic (PV) panels, DC/AC inverter (string or micro), mounting structure (roof or ground), DC combiner box, AC disconnect, electrical wiring, net-metering equipment (if grid-tied), optional battery bank with charge controller (if off-grid). Residential systems in the Philippines are typically 1-5 kWp.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "components",
+    "product_type": "system",
+    "content": "Wind system required components: rotor blades, permanent-magnet generator or alternator, tower (guyed or freestanding), charge controller or grid-tie inverter, dump load (off-grid), battery bank (off-grid), deep-cycle batteries, wind-direction tail or yaw mechanism, guy wires and foundation anchors, electrical wiring and disconnects. Small residential turbines are typically 0.5-10 kW rated.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "components",
+    "product_type": "system",
+    "content": "Hydro system required components: intake/weir structure, trash rack, penstock (PVC or steel pipe), forebay tank with overflow, turbine (Pelton, Francis, or Kaplan depending on head/flow), generator/alternator, governor or load controller, electrical wiring, powerhouse structure, tailrace channel, grid-tie inverter or battery charge controller (off-grid). Micro-hydro systems are typically 0.5-100 kW.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "capacity_info",
+    "product_type": "system",
+    "content": "Solar capacity assumptions: A typical 550 W mono PERC panel produces ~2.0-2.5 kWh/day in the Philippines depending on location and season. A 2-panel (1.1 kWp) system can generate ~60-80 kWh/month. Residential installs range from 1-5 kWp. Grid-tied systems can be larger; off-grid sizing depends on battery storage.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "capacity_info",
+    "product_type": "system",
+    "content": "Wind capacity assumptions: Small wind turbines (0.5-5 kW) need average wind speeds above 4-5 m/s to be viable. A 1 kW turbine at 5 m/s average generates roughly 100-150 kWh/month depending on capacity factor (15-25%). Tower height is critical; every doubling of height can increase wind speed by ~10-15%. Philippine wind resources are strongest in northern Luzon and some coastal areas.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "capacity_info",
+    "product_type": "system",
+    "content": "Hydro capacity assumptions: Micro-hydro output depends on head (vertical drop) and flow rate. Power (kW) ≈ 9.81 × flow (m³/s) × head (m) × system efficiency (0.50-0.70). A typical micro-hydro site with 10 m head and 0.05 m³/s flow yields ~3-5 kW. Run-of-river designs are preferred for minimal environmental impact. Philippine highland municipalities with steep terrain and perennial streams are best suited.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "all",
+    "category": "comparison",
+    "product_type": "system",
+    "content": "Solar vs Wind vs Hydro cost comparison (Philippines context): Solar has the lowest upfront cost per kW installed (PHP ~60,000-80,000/kW) and the widest availability, but output is reduced during cloudy months (June-October). Wind requires higher tower costs and good wind resource; upfront cost is PHP ~80,000-120,000/kW; maintenance is moderate but wind is intermittent. Hydro has the highest civil-works cost (PHP ~100,000-150,000/kW) but the longest lifespan and most stable output, provided a suitable stream exists. Solar is usually the safest default for Philippine households; hydro is best for remote off-grid sites with perennial water; wind is niche and site-specific.",
+    "sources": [
+      "industry_standard"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "pricing_assumptions",
+    "product_type": "system",
+    "content": "Hydro pricing assumptions: Prices were scraped from alibaba, amazon, lazada. Original currencies: USD, PHP. Non-PHP prices were converted using approximate rates and may differ from current market rates. Prices reflect individual component listings, not complete turn-key systems. Shipping, import duties, and local taxes are not included.",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "pricing_assumptions",
+    "product_type": "system",
+    "content": "Solar pricing assumptions: Prices were scraped from alibaba, amazon, lazada. Original currencies: USD, PHP. Non-PHP prices were converted using approximate rates and may differ from current market rates. Prices reflect individual component listings, not complete turn-key systems. Shipping, import duties, and local taxes are not included.",
+    "sources": [
+      "alibaba",
+      "amazon",
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "pricing_assumptions",
+    "product_type": "system",
+    "content": "Wind pricing assumptions: Prices were scraped from amazon, lazada, istabreeze. Original currencies: PHP, EUR. Non-PHP prices were converted using approximate rates and may differ from current market rates. Prices reflect individual component listings, not complete turn-key systems. Shipping, import duties, and local taxes are not included.",
+    "sources": [
+      "amazon",
+      "lazada",
+      "istabreeze"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DB-168 Micro Hydro Generator DC5V Micro Water Turbine for Battery Charging Hydroelectric Power G1/2 Male Thre 150mA Sensor. Type: hydro battery. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-168-DC5V-Micro-Water-Turbine_1600556119965.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DB-168 OEM Plastic Micro Hydro Generator DC5V Water Turbine Battery Charging Hydroelectric Power G1/2 Male Thre 150mA Sensor. Type: hydro battery. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-168-Plastic-Micro-Hydro-Generator_1601650630772.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DIJIANG G1/2“ DB-168 Micro Hydro Generator DC 5V Water Turbine for Battery Charging Hydroelectric Power 150mA Sensor. Type: hydro battery. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-168-Micro-Hydro-Generator-DC5V_1601726411355.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DB-168 Micro Hydro Generator 1/2\" Female Thre DIY Tap Water Turbine generator 12V/DC5V For Lithium Battery Charging. Type: hydro battery. Price: PHP 234 (original USD 4.175). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-168-Micro-Hydro-Generator-1_1601567273530.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DC12V Micro Hydro Turbine Generator Hydraulic Water Charging for LED Light Mini Battery. Type: hydro battery. Price: PHP 241 (original USD 4.305). Source: alibaba. URL: https://www.alibaba.com/product-detail/DC12V-Micro-Hydro-Turbine-Generator-Hydraulic_1601607910556.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 36W 50W 100W Micro Hydro Turbine Generator DC 18V 36V for Off-Grid Village Rural Battery Charging Stream River Power System. Type: hydro battery. Price: PHP 2,072 (original USD 37.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/36W-50W-Micro-Hydro-Generator-DC_10000038040872.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 36W 50W 100W Micro Hydro Turbine Generator Supports 12V/24V Battery Charging for Off-grid and Rural Microgrid Power Systems. Type: hydro battery. Price: PHP 2,089 (original USD 37.3). Source: alibaba. URL: https://www.alibaba.com/product-detail/Micro-Hydro-Generator-Compatible-with-Smart_10000037930129.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: SJ18A Water Turbine Generator - Permanent Magnet Brushless Motor, Remote Control, Micro Hydroelectric Generator for Garden, 12V/24V Battery Charging. Type: hydro battery. Price: PHP 6,414 (original PHP 6414.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: SJ18A Water Turbine Generator - Permanent Magnet Brushless Motor, Remote Control, Micro Hydroelectric Generator for Garden, 12V/24V Battery Charging. Type: hydro battery. Price: PHP 6,423 (original PHP 6423.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: PIURIFY Hydrogen Water Bottle Generator | 17 OZ | UP TO 6,290 PPB H2 Molecular Hydrogen | SPE/PEM Electrolysis | Ergonomic Handle | Dual-Mode | 2200 mAh Battery | Certified by H2 Analytics | Dark Blue. Type: hydro battery. Price: PHP 8,861 (original PHP 8861.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Outdoor Emergency Portable Micro Hydro Turbine Generator Dual USB Output for Photo/LED 100W Generator DC12V for Battery. Type: hydro battery. Price: PHP 8,960 (original USD 160.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/Outdoor-emergency-portable-micro-hydro-turbine_1600859063987.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 50W Micro Hydro Generator, Permanent Magnet Brushless Water Turbine Generator For 12V Battery Charging, Small Hydroelectric Power Generator(36w). Type: hydro battery. Price: PHP 11,142 (original PHP 11142.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 50W Micro Hydro Generator, Permanent Magnet Brushless Water Turbine Generator For 12V Battery Charging, Small Hydroelectric Power Generator(36w). Type: hydro battery. Price: PHP 11,157 (original PHP 11157.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 2000W 24/36/48/60/72/220V 3-Phase Brushless Permanent-Magnet Generator, Pure Copper Wire Multi-Voltage Generator With B-Pulley For Wind, Hydro, Battery Charging & Lighting(36V). Type: hydro battery. Price: PHP 33,947 (original PHP 33947.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1800W Pelton Water Turbine Generator, Micro Hydroelectric Generator With 20–70m He , 63mm Inlet, Stable Voltage For Battery Charging & Off-Grid Home Power Supply. Type: hydro battery. Price: PHP 83,866 (original PHP 83866.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 5Kw 10Kw 30Kw Micro Hydro Grid-Tie Controller with Power Curve Optimization Manual Braking Overlo & IP65 Protection Power. Type: hydro controller. Price: PHP 79,884 (original USD 1426.5). Source: alibaba. URL: https://www.alibaba.com/product-detail/5Kw-10Kw-30Kw-Micro-Hydro-Grid_1601596922214.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: DB-268 12V Hydroelectric Power Micro-hydro Generator Portable Water Charger Micro Hydro Generator Water Flow Generator. Type: hydro generator. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-268-12V-Hydroelectric-Power-Micro_1601726534605.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: DB-268 12V Hydroelectric Power Micro-hydro Generator Portable Water Charger Micro Hydro Generator Water Flow Generator. Type: hydro generator. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/Hydroelectric-power-Micro-hydro-generator-Portable_1600071837882.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: SEA Micro Hydro Generator Tap Water Flow Hydraulic High Power Flow Generator. Type: hydro generator. Price: PHP 210 (original USD 3.745). Source: alibaba. URL: https://www.alibaba.com/product-detail/SEA-Micro-Hydro-Generator-Tap-Water_1600086393004.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Portable 12V Micro-Hydro Power Generator Hydroelectric Water Flow Sensor Micro Hydro Generator for Water Charging. Type: hydro generator. Price: PHP 210 (original USD 3.75). Source: alibaba. URL: https://www.alibaba.com/product-detail/Portable-12V-Micro-Hydro-Power-Generator_1601346061019.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Newest DC Hydroelectric Power Hydro Generator Tap Flow Micro-hydro Piped Water Generator Pipeline Water Charger. Type: hydro generator. Price: PHP 311 (original USD 5.550000000000001). Source: alibaba. URL: https://www.alibaba.com/product-detail/Newest-DC-Hydroelectric-Power-Hydro-Generator_1601008873045.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: LEDUO | Water Flow Generator Mini Hydroelectric Power High Efficiency. Type: hydro generator. Price: PHP 542 (original PHP 542.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15418296431.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Micro 3 Phase AC Mini Hand Brushless Motor Generator Model Science Experiment Teaching Aid Kit DIY. Type: hydro generator. Price: PHP 615 (original PHP 615.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: DB-3682 3W AC20V Micro Hydro Generator 1/2 Inch Portable Water Charger 5V 6V 12V 20V Customized Voltage for Led Shower Bathroom. Type: hydro generator. Price: PHP 644 (original USD 11.5). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-3682-3W-AC20V-Micro-Hydro_1600510213911.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: DB-3682 3W AC20V Micro Hydro Generator 1/2 Inch Portable Water Charger 5V 6V 12V 20V Customized Voltage for Led Shower Bathroom. Type: hydro generator. Price: PHP 644 (original USD 11.5). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-3682-3W-AC20V-Micro-Hydro_1601727041540.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Jeanoko AC0-20V Hydraulic Generator Tubular DC 3 Phase Water Generator Micro Hydroelectric Charging Tool High Power G1/2in Male Thre Power Generator for Sanitary Ware. Type: hydro generator. Price: PHP 670 (original PHP 670.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Hydroelectric Micro Hydro Generator 1/2 Inch Portable Water Flow Generator Charger 10W 12V. Type: hydro generator. Price: PHP 726 (original PHP 726.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Hydroelectric Micro Hydro Generator 1/2 Inch Portable Water Flow Generator Charger 10W 12V. Type: hydro generator. Price: PHP 727 (original PHP 727.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: F50 Hydroelectric Generator,12v 1/2in Micro Hydro Generators, Hydro Generator Kit for All Kinds of Intelligent Faucets Shower Room Lighting and Sound System (F50 12V transparent yellow). Type: hydro generator. Price: PHP 817 (original PHP 817.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: F50 Hydroelectric Generator,12v 1/2in Micro Hydro Generators, Hydro Generator Kit for All Kinds of Intelligent Faucets Shower Room Lighting and Sound System (F50 12V transparent yellow). Type: hydro generator. Price: PHP 819 (original PHP 819.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: ULTECHNOVO Dynamo Small Generator Model Water Generator Kit Mini Hydroelectric Generator Hydro Generator Plastic Wind Generator Plastic Water Power Generator Plastic Teaching Model Suite Mini. Type: hydro generator. Price: PHP 996 (original PHP 996.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: ULTECHNOVO Dynamo Small Generator Model Water Generator Kit Mini Hydroelectric Generator Hydro Generator Plastic Wind Generator Plastic Water Power Generator Plastic Teaching Model Suite Mini. Type: hydro generator. Price: PHP 997 (original PHP 997.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Yosoo DC water, 12V DC 10W micro-hydro portable water generator charging power tool. Type: hydro generator. Price: PHP 1,008 (original PHP 1008.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Yosoo DC water, 12V DC 10W micro-hydro portable water generator charging power tool. Type: hydro generator. Price: PHP 1,009 (original PHP 1009.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Hand Crank 220V Permanent Magnet DC Generator Wind Water Power Phone Charging DIY. Type: hydro generator. Price: PHP 1,046 (original PHP 1045.66). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15436601070.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Small Portable Micro-hydro Generator Water Charger Hydroelectric Power 3.5w. Type: hydro generator. Price: PHP 1,107 (original PHP 1107.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Small Portable Micro-hydro Generator Water Charger Hydroelectric Power 3.5w. Type: hydro generator. Price: PHP 1,108 (original PHP 1108.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: MOVOCA Hydrogen Water Bottle, 3Min 2200PPB Rapid Hydrogen Water Generator -SPE PEM Tech, 15OZ Portable Hydro Water Machine, Health Care Gifts for Husband, Wife, Family, Friends, Travel. Type: hydro generator. Price: PHP 1,230 (original PHP 1230.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 80 miniature disc coreless permanent magnet generator high efficiency mini low speed low resistance DIY wind power and water power. Type: hydro generator. Price: PHP 1,277 (original PHP 1276.64). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5022630502.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 80 miniature disc coreless permanent magnet generator high efficiency mini low speed low resistance DIY wind power and water power. Type: hydro generator. Price: PHP 1,277 (original PHP 1276.64). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4821313500.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: DC Miniature Hand-Cranked Generator, Portable Dynamotor for Backup Power, Charging, Teaching, and Hydroelectric Use. Type: hydro generator. Price: PHP 1,433 (original PHP 1433.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Hydrogen Water Bottle Generator with SPE/PEM Technology, Ionized Water Bottle, Portable Hydrogen Water Ionizer Machine 420 ml for Gym, Hiking, Cycling, Running & Outdoor Use. Type: hydro generator. Price: PHP 1,476 (original PHP 1476.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Fakllod Hydrogen Water Bottle Generator, Portable Rechargeable aquahealth Hydrogen Water, Hydrogen Water Ionizer Machine, with SPE/PEM Technology, for Home Office Travel Fitness Drinking. Type: hydro generator. Price: PHP 1,753 (original PHP 1753.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Hydrogen Water Bottle Generator 2pack, Glass Hydrogenated Water Bottles Health Cup, Hydrogen Water Generator w SPE/PEM Tech Improve Water for Home/Office/Travel/Daily Drinking Gift for Mom Father Day. Type: hydro generator. Price: PHP 1,808 (original PHP 1808.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 24V Permanent Magnet Electric Motor Generator 250W Small Brushed Permanent Magnet. Type: hydro generator. Price: PHP 1,845 (original PHP 1845.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Wind generator, 5V/12V/80V Micro Hydro Water Generator Flow Pump Hydroelectric Power Energy,for Home Boat Marine(F50-12V With voltage regulation). Type: hydro generator. Price: PHP 2,035 (original PHP 2035.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Custom Precision CNC Machining Casting Service Aluminum Titanium Nickel Alloy Turbine Bl es Hydro Water Wheel Impeller. Type: hydro turbine. Price: PHP 53 (original USD 0.95). Source: alibaba. URL: https://www.alibaba.com/product-detail/Custom-Precision-CNC-Machining-Casting-Service_1601582136872.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Custom Precision CNC Machining Casting Service Aluminum Titanium Nickel Alloy Turbine Bl es Hydro Water Wheel Impeller. Type: hydro turbine. Price: PHP 53 (original USD 0.95). Source: alibaba. URL: https://www.alibaba.com/product-detail/Custom-Precision-CNC-Machining-Casting-Service_1601581419994.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Factory Custom OEM Investment Casting Parts Jet Engine Spare Parts Inconel 713 718 Engine Turbine Wheel Disk Impeller. Type: hydro turbine. Price: PHP 53 (original USD 0.95). Source: alibaba. URL: https://www.alibaba.com/product-detail/Factory-Custom-OEM-Investment-Casting-Parts_1601581434941.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: F50 5V/12V/80V Micro Hydro DC Water Generator Flow Pump Turbine Hydroelectric Power Energy Generator. Type: hydro turbine. Price: PHP 63 (original USD 1.125). Source: alibaba. URL: https://www.alibaba.com/product-detail/F50-5V-12V-80V-Micro-Hydro_1601784558313.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: ZJ-B5 1-60L/min Large Volume G 3/4\" Micro-hydro Water Turbine Generator Liquid Meter Sensor for Water Dispenser Coffee Machine. Type: hydro turbine. Price: PHP 162 (original USD 2.895). Source: alibaba. URL: https://www.alibaba.com/product-detail/1-60L-min-large-volume-G_1600589903978.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DIJIANG G1/2“ DB-268 Micro Hydro Generator DC 12V Water Turbine for Charging Hydroelectric Power 150mA Sensor. Type: hydro turbine. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/DIJIANG-G1-2-DB-268-Micro_1601785431123.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: New Hydro Power Water Turbine Model Plastic Working Energy Device. Type: hydro turbine. Price: PHP 168 (original USD 3.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/Hydro-Power-Working-energy-water-turbine_1601361358039.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 11mm Quick Fit Water Turbine Generator Micro Hydro Power Energy Saving for Kitchen Bathroom Faucet Tap. Type: hydro turbine. Price: PHP 173 (original USD 3.09). Source: alibaba. URL: https://www.alibaba.com/product-detail/11mm-Quick-Fit-Water-Turbine-Generator_1601519244309.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 11mm Quick Fit Connection Water Turbine Micro Hydro Electricity Generator Energy Saving Application For Kitchen Bathroom Faucet. Type: hydro turbine. Price: PHP 182 (original USD 3.25). Source: alibaba. URL: https://www.alibaba.com/product-detail/11mm-Quick-Fit-Connection-Water-Turbine_1601280797435.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DB-268 12V Micro Hydro Generator 1/2 Inch Portable Water Turbine Hydropower Energy Harvesting for Pipeline. Type: hydro turbine. Price: PHP 201 (original USD 3.59). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-268-12V-Micro-Hydro-Generator_1601761929210.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 5V/12V/80V Micro-hydro Direct Current Water Generator Flow Pump Turbines Hydroelectric Power Energy Generator. Type: hydro turbine. Price: PHP 237 (original USD 4.24). Source: alibaba. URL: https://www.alibaba.com/product-detail/5V-12V-80V-Micro-hydro-Direct_1601433156875.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Water Turbine Generator Water 12V DC 5W Micro-Hydro Water Charging Tool. Type: hydro turbine. Price: PHP 241 (original USD 4.300000000000001). Source: alibaba. URL: https://www.alibaba.com/product-detail/Water-Turbine-Generator-Water-12V-DC_1600135076304.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 5V/12V/80V Micro-hydro Direct Current Water Generator Flow Pump Turbines Hydroelectric Power Energy Generator. Type: hydro turbine. Price: PHP 243 (original USD 4.34). Source: alibaba. URL: https://www.alibaba.com/product-detail/5V-12V-80V-Micro-hydro-Direct_1601433168922.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【Home Accessory Store】 Miniature Hydroelectric Turbine Generator Motor for Energy Efficiency Studies 【Durable New Arrival Goods】. Type: hydro turbine. Price: PHP 257 (original PHP 257.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15454016021.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 5V12V DC Water Flow Generator Faucet Micro Small Hydro Turbine Pipe Tap Water Mini High Power. Type: hydro turbine. Price: PHP 268 (original USD 4.785). Source: alibaba. URL: https://www.alibaba.com/product-detail/5V12V-DC-Water-Flow-Generator-Faucet_1601738223085.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【LeeandHan】 Complete Set Small Wind Turbine Hydro Generator Motor for Student Engagement. Type: hydro turbine. Price: PHP 268 (original PHP 268.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15427398052.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 12V Generator 10W Hydro Water Turbine Generator Water Charging PZ Home Supplies Hydroelectric Generator Home Devices. Type: hydro turbine. Price: PHP 299 (original PHP 299.15). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5040374468.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DB-3682 3W 1/2\" Micro Hydro Generator AC20V Portable Water Turbine Charger 5V-20V for LED Shower Bathroom. Type: hydro turbine. Price: PHP 320 (original USD 5.710000000000001). Source: alibaba. URL: https://www.alibaba.com/product-detail/DB-3682-3W-1-2-Micro_1601519169945.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 🚀Local Warehouse🚀10W 12V micro hydro Water Turbine generator, LED power supply DIY Hydropower Station. Type: hydro turbine. Price: PHP 329 (original PHP 329.3). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4300695661.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 1 Piece Micro-Hydro Generator DC Water Flow Generator Turbine Generator Hydropower 80V 10W Tap Water Flow Hydraulic DIY. Type: hydro turbine. Price: PHP 343 (original PHP 342.6). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5227988666.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: YF-G1 1-Inch 1-100L/min Mini Water Fl-ow Meter Micro-hydro Generator Water Turbine Industrial Gr e Pipe Water Pump. Type: hydro turbine. Price: PHP 348 (original USD 6.220000000000001). Source: alibaba. URL: https://www.alibaba.com/product-detail/YF-G1-1-inch-1-100L_1600589672963.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Dolity DC12V Micro Hydro Turbine Generator High Power Flow Hydraulic Water Charging. Type: hydro turbine. Price: PHP 370 (original PHP 369.96). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i319094920.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DIY Micro Hydro Generator 80V/12V/5V10W DC water flow generator turbine generator hydroelectric Tap Water Flow Hydraulic. Type: hydro turbine. Price: PHP 371 (original USD 6.625). Source: alibaba. URL: https://www.alibaba.com/product-detail/DIY-Micro-Hydro-Generator-80V-12V_1600590146198.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Micro-hydro Generator DC Water Flow Pump Turbine Hydroelectric Power Energy Generators mini water turbinen generator. Type: hydro turbine. Price: PHP 371 (original USD 6.625). Source: alibaba. URL: https://www.alibaba.com/product-detail/Micro-hydro-Generator-DC-Water-Flow_1600590044565.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DC12V Micro Hydro Turbine Generator High Power Flow Hydraulic Water Charging. Type: hydro turbine. Price: PHP 382 (original PHP 381.61). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5171564981.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Micro-hydro Generator DC Water Flow Pump Turbine Hydroelectric Power Energy Generators Mini Water Turbinen Generator. Type: hydro turbine. Price: PHP 386 (original USD 6.9). Source: alibaba. URL: https://www.alibaba.com/product-detail/Micro-hydro-Generator-DC-Water-Flow_1601362341020.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Cs TH AC 0-20V Three Phase Micro Hydro Generator Hydroelectric Water Turbine New. Type: hydro turbine. Price: PHP 392 (original USD 7.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/AC-0-20V-Three-Phase-Micro_1600847205081.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Fityle DC 12V 10W Water Turbine Mini Hydroelectric Generator for Light Charging. Type: hydro turbine. Price: PHP 417 (original PHP 417.39). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i581584403.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: diymore DC 5V/12V/80V Micro Hydro Generator DC Water Flow Generator Turbine Generator Hydroelectric Tap Water Flow Hydraulic DIY. Type: hydro turbine. Price: PHP 452 (original PHP 452.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3081401532.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "hydro",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Water Powered 5V Micro Hydro Turbine Generator 0.5W G1/2 G1/4 Thre for Smart Bathroom Sensor Faucet Energy Harvesting. Type: hydro turbine. Price: PHP 462 (original USD 8.25). Source: alibaba. URL: https://www.alibaba.com/product-detail/Water-Powered-5V-Micro-Hydro-Turbine_1601701133213.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1.2V AA NI-CD 1.2V 700mAh Rechargeable Battery for Outdoor Gutter Garden Lawn Fence Wall Led Solar 2A700Bmax. Type: solar battery. Price: PHP 22 (original PHP 22.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1739848254.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 2A 1.2V AA NI-CD 1.2V 700mAh Rechargeable Battery for Outdoor Garden Lawn Fence Wall Led Solar 2A700Bmax. Type: solar battery. Price: PHP 22 (original PHP 22.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1734022170.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Double-A 1.2V AA NI-CD 1.2V 700mAh Rechargeable Battery for Outdoor Gutter Garden Lawn Fence Wall Led Solar 2A700Bmax. Type: solar battery. Price: PHP 28 (original PHP 28.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1734018324.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 2A700Bmax 1.2V AA NI-CD 1.2V 700mAh Rechargeable Battery for Outdoor Gutter Garden Lawn Fence Wall Led Solar. Type: solar battery. Price: PHP 28 (original PHP 28.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1733980465.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lifepo4 3.2v LFP1100mAh battery for solar light.. Type: solar battery. Price: PHP 48 (original PHP 48.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3461121555.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lifepo4 3.2v 1100mAh battery for solar light.. Type: solar battery. Price: PHP 51 (original PHP 51.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3936485280.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1/5/10PCS 1S 3.7V 3A Li-ion BMS PCM Battery Protection Board Pcm for 18650 Lithium Ion Li Battery. Type: solar battery. Price: PHP 53 (original PHP 53.14). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4546467956.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lifepo4 3.2v LFP1100mAh battery for solar light.. Type: solar battery. Price: PHP 56 (original PHP 56.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3461080613.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lifepo4 3.2v LFP1100mAh battery for solar light.. Type: solar battery. Price: PHP 56 (original PHP 56.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3461161332.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1PC 18650 Lifepo4 3.2v LFP1100mAh battery for solar light.. Type: solar battery. Price: PHP 56 (original PHP 56.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3461185164.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Xl4015 5A Constant Current And Voltage Current 5A Lithium-Ion Battery Charging LED. Type: solar battery. Price: PHP 56 (original PHP 56.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5007947890.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lifepo4 1100mah, 1500 mAh, 2000mah Rechargeable Battery Cell 3.2V for Solar Light.. Type: solar battery. Price: PHP 57 (original PHP 57.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3931387515.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 3.2v LFP 1500mAh/1100mAh/2000mAh battery rechargeable lifepo4 for solar etc. (1pc). Type: solar battery. Price: PHP 57 (original PHP 57.24). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3936415944.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1500mAh LFP 18650 3.2v Cell Rechargeable Lifepo4 For Solar etc. (1pc). Type: solar battery. Price: PHP 58 (original PHP 58.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4404493440.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1100mAh 18650 3.2v Lifepo4 Cell for solar light.. Type: solar battery. Price: PHP 58 (original PHP 58.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4404532456.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: MPPT Solar Charge Controller Board Lithium Li-ion 18650 3.7V Battery Charger Controller Module Board. Type: solar battery. Price: PHP 59 (original PHP 59.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4161249236.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lithium Rechargeable Battery 3.7v 2500mah 7.4v 8000mah 32700 liion battery DIY for speaker solar lights. Type: solar battery. Price: PHP 65 (original PHP 64.99). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5025276408.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lithium Rechargeable Battery 3.7v 2500mah 7.4v 8000mah 32700 liion battery DIY for speaker solar lights. Type: solar battery. Price: PHP 65 (original PHP 65.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5025378095.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: LED Flashlight USB rechargeable super bright with back clip and battery portable handheld emergency work light with laser magnetic heavy duty 10000 lumens germany tactical led military XPH70 3 led long range outdoor searchlight camping lantern. Type: solar battery. Price: PHP 68 (original PHP 67.62). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4342902796.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 2S 20A 7.4V 8.4V 18650 Lithium Battery Protection Board/BMS Board Standard/Balance For DIY. Type: solar battery. Price: PHP 75 (original PHP 75.31). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4926550625.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 2/5PCS 5V 1A Micro/Type-c/Mini 18650 TP4056 Lithium Battery Charger Module Charging Board With Protection Dual Functions Li-ion. Type: solar battery. Price: PHP 78 (original PHP 77.83). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4323671084.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: AC & DC 1Pole 2Pole Mini Circuit Breaker For Solar Battery Switch 10A 16A 20A 32A 40A 50A 63A 125A (1000V) Pemzz Lowcost. Type: solar battery. Price: PHP 81 (original PHP 81.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5391548824.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 / 32650 Lithium Rechargeable Battery with BMS 3.2V / 3.7V Lithium Lip04 Replacement XH2.54 2P Connector for Solar Fan , LED Flood & Street Light , etc.. Type: solar battery. Price: PHP 87 (original PHP 87.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4708489531.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 【 】XH-M609 12-36V Battery Low Voltage Disconnect Protection Module Voltage Protection Module Low voltage Disconnect Protection Output 6-60V 6V-60V. Type: solar battery. Price: PHP 94 (original PHP 94.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4822127209.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 1~5PCS YX850 Power failure automatic switching standby battery lithium battery module DC 5V-48V universal emergency converter. Type: solar battery. Price: PHP 96 (original PHP 96.44). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4409155652.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 18650 Lithium Rechargeable Battery 3.7v 2500mah 7.4v 8000mah liion battery for speaker solar lights. Type: solar battery. Price: PHP 98 (original PHP 98.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4665319747.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: JP 18650 / 32650 Lithium Rechargeable Battery with BMS 3.2V / 3.7V / 6.4V / 7.4V Lithium Lip04 Replacement XH2.54 2P Connector for Solar Fan , LED Flood & Street Light , etc.. Type: solar battery. Price: PHP 100 (original PHP 99.56). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4923156240.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Ni-MH AAA RECHARGEABLE BATTERY, AAA700mAh 1.2V, BEST FOR SOLAR OUTDOR LIGHTS LAMP GARDEN123. Type: solar battery. Price: PHP 100 (original PHP 100.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3456422463.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Ni-MH AAA RECHARGEABLE BATTERY, AAA700mAh 1.2V, BEST FOR SOLAR OUTDOR LIGHTS LAMP GARDEN. Type: solar battery. Price: PHP 100 (original PHP 100.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3456443459.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Ni-MH AAA RECHARGEABLE BATTERY, AAA700mAh 1.2V, BEST FOR SOLAR OUTDOR LIGHTS LAMP GARDEN. Type: solar battery. Price: PHP 100 (original PHP 100.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3456315765.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 3kw Solar Energy Systems Wind Charge Controller System 3000w Micro Hydro Turbine 3kw. Type: solar charge_controller. Price: PHP 18 (original USD 0.32). Source: alibaba. URL: https://www.alibaba.com/product-detail/3kw-Solar-Energy-Systems-Wind-Charge_1600502326890.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: QIUWU Universal 3.2 3.7 4 11.1 12V Solar Controller Charging Street Light Switch Module. Type: solar charge_controller. Price: PHP 31 (original PHP 31.1). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5174895360.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Fast Charging Solar Charger with Dual USB Ports Portable and Lightweight USB-C Solar Charge Controller 3A Step-Down Module. Type: solar charge_controller. Price: PHP 75 (original PHP 75.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15480688130.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: SDO5CRMA MPPT Solar Charge Controller 1A 4.2V Li Ion Li Po,. Type: solar charge_controller. Price: PHP 98 (original PHP 98.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5339448024.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: XYX Solar Controller Charger Board 3A Charging Module Intelligent Automatic Control for Small Solar Generator Kits. Type: solar charge_controller. Price: PHP 105 (original PHP 104.98). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15468459750.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Automatic Board Solar Controller Solar Controller Charger 3a Charging Module. Type: solar charge_controller. Price: PHP 105 (original PHP 105.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5325128190.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 3A Charging Module Automatic Board Solar Controller Solar Controller Charger. Type: solar charge_controller. Price: PHP 105 (original PHP 105.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5350939315.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 3A Dual Usb Output Solar Controller Charger Module Solar Controller. Type: solar charge_controller. Price: PHP 105 (original PHP 105.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5326417873.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Solar Controller Charger 3A Dual Usb Output Solar Controller Charger Module Solar Controller. Type: solar charge_controller. Price: PHP 105 (original PHP 105.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5326414090.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 6V 40V DC Input Solar Controller Charger with 3A Dual USB Output Module. Type: solar charge_controller. Price: PHP 118 (original PHP 118.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5107900906.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: PowMr 10A 20A 30A PWM Solar Controller 12V 24V LCD Display Auto with Dual 5V USB Solar Charge Controller RBL. Type: solar charge_controller. Price: PHP 120 (original PHP 120.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i278272793.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 4TH Solar Light Controller with Remote Control Solar Generator Charge Controller Portable Multi-function Practical Creative Human Body Induction. Type: solar charge_controller. Price: PHP 122 (original PHP 122.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4658959589.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Outdoor Charging Solar Controller USB Charging Module Solar Controller 50x35x12mm 92 Efficiency Wide Input 6V-40V. Type: solar charge_controller. Price: PHP 124 (original PHP 123.96). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15394713466.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 6V 40V DC Input Solar Controller Charger with 3A Dual USB Output Module. Type: solar charge_controller. Price: PHP 129 (original PHP 129.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15495874493.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: PowMr 10A 20A 30A PWM Solar Controller 12V 24V Auto LCD Display Work For Le Acid And Lithium Batt Solar Charge Controller RBL-LI. Type: solar charge_controller. Price: PHP 140 (original PHP 140.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i949936642.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 【Auto Parts Storeshop】 1*Solar Controller Charger 3a Charging Module Automatic Board Solar-Controller#. Type: solar charge_controller. Price: PHP 149 (original PHP 149.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4549116791.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Solar Charge Controller PWM 30/60A Solar Power Regulator 12V 24V Auto Dual USB LCD Display Lo Discharger. Type: solar charge_controller. Price: PHP 153 (original PHP 153.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15453593501.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: DC10-60V DC motor speed regulator 12V 24V 36V 48V High power drive module PWM controller 20A current regulator. Type: solar charge_controller. Price: PHP 161 (original PHP 160.87). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1334378331.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: JDSTAR YJSS Solar Charge Controller 10A/20A/30A PWM 12V/24V Solar Controller 5V Dual USB Output. Type: solar charge_controller. Price: PHP 165 (original PHP 165.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5030418276.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: MPPT Solar Charge Controller PWM 30/40/50A Solar Power Regulator 12V 24V Auto Dual USB LCD Display Lo Discharger. Type: solar charge_controller. Price: PHP 175 (original PHP 175.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3882612138.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: MPPT Solar Charge Controller PWM 30/40/50A Solar Power Regulator 12V 24V Auto Dual USB LCD Display Lo Discharger【COD/FAST delivery】. Type: solar charge_controller. Price: PHP 177 (original PHP 177.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15452272369.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: DC10-60V DC 10-60V Motor Speed Control PWM Controller Switch 20A Current Voltage regulator High Power Drive Module. Type: solar charge_controller. Price: PHP 180 (original PHP 180.36). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5108289972.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 【LeeandHan】 Smart Charging Solution Dual USB Ports on MPPT For Solar Regulator Unit. Type: solar charge_controller. Price: PHP 185 (original PHP 185.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15427672744.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: Solar Controller Semper Brand 10A 20A 30A 12V/24V PWM solar Charge Controller LCD display Dual USB Charge Regulator SEMPER. Type: solar charge_controller. Price: PHP 185 (original PHP 185.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1303332711.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: LED intelligent charge and discharge controller 10A/20A/30A solar controller PWM. Type: solar charge_controller. Price: PHP 186 (original PHP 186.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5411322644.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: [Local seller+COD]PWM Solar Charge Controller 12V/24V Dual USB Solar Voltage Regulator LCD Display With Power-off Memory Function. Type: solar charge_controller. Price: PHP 188 (original PHP 188.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2840888617.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: [tfsdfvd]MPPT Solar Controller QC2.0/3.0 Solar Controller with Voltage Stabilizer, for DIY Solar Chargers. Type: solar charge_controller. Price: PHP 188 (original PHP 188.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15426374462.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: diymore DC 6V 12V 24V 3A Reversible Motor Speed Regulator Controller PWM Controller justable reversible switch control diy electronic pcb board. Type: solar charge_controller. Price: PHP 194 (original PHP 194.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1074624475.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: [In Stock] N-Power 60A/50A/40A/30A/20A/10A Solar Charger Controller 12V 24V Auto PWM Controllers LCD Display 5V Dual USB Output Controller. Type: solar charge_controller. Price: PHP 195 (original PHP 195.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2060106412.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "charge_controller",
+    "content": "Product: 30A Auto Solar Charge Controller PWM Dual USB Output Solar Cell Panel Charger Regulator 12V24V Power HD LCD Display. Type: solar charge_controller. Price: PHP 196 (original PHP 196.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2857609456.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 3PCS Mini 5A PWM Max 90W DC Motor Speed Controller Board Module DC-DC 5V-35V Speed Control Switch. Type: solar controller. Price: PHP 33 (original PHP 33.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4972299281.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: ALLAN 5A 3V-35V DC Motor Speed Controller PWM Regulator Speed Control Switch Function. Type: solar controller. Price: PHP 34 (original PHP 34.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4407881180.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 5PCS Motor Controller PWM DC 4.5V-35V 5A 20khz motor speed controller for motor electric motor speed regulator LED Speed Control Switch Function. Type: solar controller. Price: PHP 36 (original PHP 36.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3877323702.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: AqToCna 1.8V 3V 5V 6V 12V 2A PWM Dc Motor Speed Controller Variable Speed Regulator Governor Switch,Switch Function 1803BK. Type: solar controller. Price: PHP 37 (original PHP 36.63). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5131463787.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: ALLAN DC Motor Speed Controller PWM Regulator 5A 3V-35V Speed Control Switch Function. Type: solar controller. Price: PHP 38 (original PHP 38.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4407774150.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: JCSYFAC 1.8V 3V 5V 6V 12V 2A PWM Dc Motor Speed Controller Variable Speed Regulator Governor Switch,Switch Function 1803BK. Type: solar controller. Price: PHP 38 (original PHP 38.1). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5179345338.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: CHENJ 1.8V 3V 5V 6V 12V 2A PWM Dc Motor Speed Controller Variable Speed Regulator Governor Switch,Switch Function 1803BK. Type: solar controller. Price: PHP 41 (original PHP 41.01). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4704285706.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: SHPYHT 5V 12V 10A PWM DC motor speed controller governor stepless speed regulator. Type: solar controller. Price: PHP 42 (original PHP 42.36). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5144846225.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 3PCS Mini 5A PWM Max 90W DC Motor Speed Controller Board Module DC-DC 3V-35V Speed Control Switch. Type: solar controller. Price: PHP 43 (original PHP 43.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5180839053.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: [COD] CHENJ 1.8V 3V 5V 6V 12V 2A Low Voltage Motor Speed Controller PWM 1803B M216. Type: solar controller. Price: PHP 48 (original PHP 47.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4518038075.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 5A PWM DC Motor Speed Controller Board Module 3V-35V Speed Control Switch Regulator LED Dimmer. Type: solar controller. Price: PHP 49 (original PHP 49.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5159842483.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: QIUWU PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 53 (original PHP 53.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15480943055.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: TBRBG 1.8V 3V 5V 6V 12V 2A PWM Dc Motor Speed Controller Variable Speed Regulator Governor Switch,Switch Function 1803BK. Type: solar controller. Price: PHP 53 (original PHP 53.32). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5318685636.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: Motor Controller PWM DC 4.5V-35V 5A 20khz motor speed controller for motor electric motor speed regulator LED Speed Control Switch Function. Type: solar controller. Price: PHP 55 (original PHP 55.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5066995093.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 5A 90W PWM DC Motor Speed Controller DC 3-35V. Type: solar controller. Price: PHP 55 (original PHP 55.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3459448710.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 【E-WOITD】 5V 12V 10A PWM DC motor speed controller governor stepless speed regulator. Type: solar controller. Price: PHP 59 (original PHP 58.93). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15392478052.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: PWM 2A DC Motor Speed Controller 1.8V 3V 5V 6V 12V Governor Switch 1803BK. Type: solar controller. Price: PHP 59 (original PHP 59.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4226039029.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: SHPYHT PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 59 (original PHP 59.28). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4551589071.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 【E-WOITD】 PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 60 (original PHP 59.87). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15456255213.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 【Local shipping】 PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 61 (original PHP 60.72). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5376818926.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: DomeDecor PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 62 (original PHP 62.14). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4886004925.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 【JCSYFAC】 PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 63 (original PHP 62.52). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446825627.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: PIAO PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 63 (original PHP 63.39). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15419661298.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: [COD] PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 65 (original PHP 64.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15424229540.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: [COD]🔥🔥🔥 5V 12V 10A PWM DC motor speed controller governor stepless speed regulator. Type: solar controller. Price: PHP 66 (original PHP 65.98). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5343965017.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 5V 12V 10A Voltage Regulator PWM DC Motor Speed Controller Governor Stepless Speed Regulator LED Dimmer Power Controller. Type: solar controller. Price: PHP 66 (original PHP 66.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4964881269.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: 2/3/5/10A Voltage Regulator PWM DC Motor Speed Controller Governor Stepless Speed Regulator LED Dimmer Power Controller Module. Type: solar controller. Price: PHP 69 (original PHP 69.2). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15501428598.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: AqToCna PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 70 (original PHP 69.63). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15418183516.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: E-WOITD DC 8V-24V Brushless DC Motor Driver Controller Board PWM Driver Fan Motor Speed Governor Forward And Backward Control 18KHz. Type: solar controller. Price: PHP 71 (original PHP 70.86). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15403730832.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "controller",
+    "content": "Product: [COD] CHENJ PWM DC Motor Speed Controller 6V 12V 24V 28V 3A Speed Regulator Switch. Type: solar controller. Price: PHP 72 (original PHP 72.4). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4517687959.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: diymore DC stepper motor pulse signal generator module 12 v 24 v for speed controller 8 24 24 v of stepper motor driver controller. Type: solar generator. Price: PHP 150 (original PHP 150.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1036898982.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: diymore 12V/24V Stepper Motor Driver, Forward/Reverse Controller, Speed Control Module, PWM Pulse Signal Generator. Type: solar generator. Price: PHP 192 (original PHP 192.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5210874510.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: ZAVE | Solar Wind Generator. Type: solar generator. Price: PHP 200 (original PHP 200.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5399904774.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: diymore | 12V/24V PWM Pulse Signal Generator Stepper Motor Driver Forward/Reverse Controller Speed Control Module. Type: solar generator. Price: PHP 222 (original PHP 222.16). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15439623693.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: PWM Board Module Signal Generator XY-PWM1 PWM Motor Speed Controller LCD Display DC Motor 3.3V-30V. Type: solar generator. Price: PHP 223 (original PHP 222.98). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5342322880.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Stepper Motor Controller 12V 24V with PWM Pulse Signal Generator Reversible Rotation & Speed Control for Automation. Type: solar generator. Price: PHP 269 (original PHP 269.19). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5321454522.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 1PCS High-Power PWM DC Motor Speed Controller 5V 12V 24V 150W Signal Generator Driver Module Speed Regulator. Type: solar generator. Price: PHP 270 (original PHP 270.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4062959792.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Solar Wind Power Generator Aluminum Alloy Electric Bike Range Extending Generator 12V to 125V for Electric Vehicles. Type: solar generator. Price: PHP 1,191 (original PHP 1190.82). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4609987218.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 12V 30W Permanent Magnet DC Motor, 3000RPM High Speed CW/CCW Electric Gear Motor for DIY Generator and 12V-40V 10A PWM DC Motor Speed Controller Fan Controller with Knob-High Efficiency. Type: solar generator. Price: PHP 1,416 (original PHP 1416.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Solar Wind Power Generator 12V-125V Electric Vehicle Range Extender Waterproof for Electric 4 Wheeler. Type: solar generator. Price: PHP 1,951 (original PHP 1951.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5051866925.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Y ea, a two-wheeled and three-wheeled wind generator with solar energy extended range endurance for electric vehicles, fully automatically charges while walking.. Type: solar generator. Price: PHP 2,581 (original PHP 2580.71). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4953427941.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Electric vehicle solar extended range endurance 48v60 wind generator 72v full-automatic charging artifact while walking. Type: solar generator. Price: PHP 2,720 (original PHP 2720.35). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5255505963.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 240Wh River 2 Portable Power Station Solar Generator with LiFeP04 Quick Charge in 1 Hour Up to 500 W Power for Emergency Power Camping Motor Homes Home. Type: solar generator. Price: PHP 2,958 (original PHP 2957.53). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15449308527.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【LingRuii】3-month extended warranty 3-month virtual extended warranty 3-month virtual extended warranty 3-month extended warranty 3-month virtual extended warranty 3-month extended warranty 3-month 800W Outdoor Solar Generator Power Station. Type: solar generator. Price: PHP 3,298 (original PHP 3298.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15428615066.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【VONSHEF】3-month extended warranty 3-month virtual extended warranty 3-month virtual extended warranty 3-month extended warranty 3-month virtual warranty 3-month warranty 1000W Power Station With 150W Solar Charging Board Heavy Duty Outdoor Generator. Type: solar generator. Price: PHP 5,088 (original PHP 5088.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15488775999.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 150W Power Station with FREE Solar charger, portable home generator multi-function power station. Type: solar generator. Price: PHP 5,499 (original PHP 5499.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15466182377.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Full-automatic wind generator with intelligent charging while running for new energy electric vehicle with solar extended range and endurance artifact. Type: solar generator. Price: PHP 5,690 (original PHP 5689.72). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5073156416.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Full-automatic wind generator with intelligent charging while running for new energy electric vehicle with solar extended range and endurance artifact. Type: solar generator. Price: PHP 5,690 (original PHP 5689.72). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5154417063.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Fortrust C2002 Speed Controller For DC Motor Speed Governor Diesel Generator Intelligent Control Board Original Parts. Type: solar generator. Price: PHP 5,992 (original PHP 5992.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5198412083.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: MX321 Automatic Voltage Regulator Red PMG Permanent Magnet Generator Automatic Voltage Regulator Stabilizer Control Panel Three Phase Genset Spare Parts(MX321 C). Type: solar generator. Price: PHP 8,342 (original PHP 8342.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: MX321 Automatic Voltage Regulator PMG Permanent Magnet Generator Automatic Voltage Regulator Stabilizer Control Panel Three Phase Genset Spare Parts(MX321). Type: solar generator. Price: PHP 11,491 (original PHP 11491.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: AFERIY DC060 600W Alternator Charger, Fast DC to DC 12V/24V to 48V, 6X Faster Charging for Portable Power Station, Compatible with 95% Solar Generators, for RV, SUV, Camping. Type: solar generator. Price: PHP 12,264 (original PHP 12264.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Portable wind solar integrated generator kit, 120W DC12V, wind power generation, 360 degree rotation, compact and lightweight. Type: solar generator. Price: PHP 13,847 (original PHP 13847.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 1000W Alternator Charger, DC to DC Charger for Portable Power Stations, Solar Generator, Charges 1kWh in 1H，Sutible for RVs,SUVs,Diesel Cars, Boats. Type: solar generator. Price: PHP 14,174 (original PHP 14174.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Jingneng 200W1500W Wind-Solar Complementary Controller 12V24V48V Smart Home Wind Generator Charging. Type: solar generator. Price: PHP 14,737 (original PHP 14736.54). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4949348340.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 4KW Steam Generator-Quick start continuous steam，with Black digital control panel Self-Draining System, 95-131°F Temp Control,Can be used for heating a space area of 4m³/141Cu.ft. (4KW 220V). Type: solar generator. Price: PHP 26,485 (original PHP 26485.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 7.5KW Steam Generator-Quick start continuous steam，with Blackdigital control panel Self-Draining System, 95-131°F Temp Control,Can be used for heating a space area of 7.5m³/247Cu.ft. (7.5KW 220V). Type: solar generator. Price: PHP 33,034 (original PHP 33034.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Wind power generator home 220V small wind energy high power 12v24v permanent magnet wind-solar power generation complementary system.. Type: solar generator. Price: PHP 75,416 (original PHP 75416.38). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4928191047.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Executive 9 KW QuickStart ACU-Steam Bath Generator Package with Built-in Auto Drain and Install Kit in Matte Black | Steam Generator Kit with Dual Control Panel Steamhe 240V | EXT900MB-A. Type: solar generator. Price: PHP 123,028 (original PHP 123028.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Executive 12 KW QuickStart ACU-Steam Bath Generator Package with Built-in Auto Drain in Oil Rubbed Bronze | Steam Generator Kit with Dual Control Panel Steamhe s 240V | SS-EXT1200OB-A. Type: solar generator. Price: PHP 126,105 (original PHP 126105.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: PowMr MPPT 3.2KW Pure Sine Wave Solar Hybrid Inverter 24V Off Grid Built-in 80A Solar Controller PV 30-400VOC for LiFePO4 Battery. Type: solar inverter. Price: PHP 5 (original PHP 5.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15491803031.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: [Bside Tool Store] Super Arc 400KV High Voltage Generator Module Inverter Transformer Pulse. Type: solar inverter. Price: PHP 102 (original PHP 102.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1652250347.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: JCSYFAC 12V To 220V DC-AC Boost Inverter Dual Channel Inverse Converter Booster Module Regulator Step UP Power Module. Type: solar inverter. Price: PHP 103 (original PHP 103.44). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5333512255.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Inverter module 40W DC-AC 12V to 220V step-up transformer step-up module inverter. Type: solar inverter. Price: PHP 129 (original PHP 129.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4266207756.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V to AC 220V Fully automatic solar current conversion Modified Sine Wave Inverter High Frequency 220W with 2.4A Dual USB Port as A Emergency Equipment for Car Travel Fishing Outdoor【Local delivery】COD. Type: solar inverter. Price: PHP 181 (original PHP 181.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5040807178.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: MPPT Solar Controller with Voltage Stabilizer, Inverter,Quick Charge QC2.0/3.0,Type-C & DC Output for DIY Solar Chargers. Type: solar inverter. Price: PHP 211 (original PHP 211.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5382888713.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 【Latest model】MPPT Solar Charger Controller with Voltage Stabilizer, Quick Charge QC2.0/3.0, Type-C& DC Output, Inverter for DIY Systems. Type: solar inverter. Price: PHP 216 (original PHP 216.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446769521.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 【Ntcpefy】MPPT Solar Charger Controller with Voltage Stabilizer, Quick Charge QC2.0/3.0, Type-C& DC Output, Inverter for DIY Systems. Type: solar inverter. Price: PHP 224 (original PHP 224.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446578703.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 【Planet age】MPPT Solar Charger Controller with Voltage Stabilizer, Quick Charge QC2.0/3.0, Type-C& DC Output, Inverter for DIY Systems. Type: solar inverter. Price: PHP 224 (original PHP 224.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446491989.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: ◎TZT MALL◎2PCS Original 40N60NPFD TO-3P 40N60 600V 40A IGBT Transistor for Inverter Welding Machine Brand New SGT40N60NPFDPN TO3P. Type: solar inverter. Price: PHP 238 (original PHP 237.74). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4155732597.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 3.2V 32650 24000mAh LiFePO4 Battery –High-Power Rechargeable Cell Safe for Inverters,Lights,Tools. Type: solar inverter. Price: PHP 260 (original PHP 260.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5214610708.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Solar Power Inverter Pure Sine Wave Converter DC12V to AC220V Electric Vehicle Car Appliance Travel. Type: solar inverter. Price: PHP 275 (original PHP 275.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5281458518.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V To AC 220V Fully Automatic Solar Current Conversion Modified Sine Wave Inverter High Frequency 220W with 2.4A Dual USB Port As A Emergency Equipment for Car Travel Fishing Outdoor【Fast Ship】. Type: solar inverter. Price: PHP 276 (original PHP 275.5). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5403445104.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Boost Module 300W Power Frequency Inverter 50Hz Square Wave Low Frequency Inverter Driver Board DC12V to AC220V. Type: solar inverter. Price: PHP 282 (original PHP 282.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15443433006.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Solar Power Inverter Pure Sine Wave inverter 12v to 220 220W 1000/500W Power Supply BT. Type: solar inverter. Price: PHP 289 (original PHP 289.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15435367371.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Top Sale Car INVETER 12V/24V TO 220V 500w 1000w 12V DCTo 220-230V AC Car Solar Power Inverter【Original+24hours delivery】. Type: solar inverter. Price: PHP 289 (original PHP 289.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15452336182.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V To AC 220V Fully Automatic Solar Current Conversion Modified Sine Wave Inverter High Frequency 220W with 2.4A Dual USB Port As A Emergency Equipment for Car Travel Fishing Outdoor. Type: solar inverter. Price: PHP 292 (original PHP 292.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4550725649.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V to AC 220V Fully automatic solar current conversion Modified Sine Wave Inverter High Frequency 220W/500W/1000W with 2.4A Dual USB Port as A Emergency Equipment for Car Travel Fishing Outdoor. Type: solar inverter. Price: PHP 295 (original PHP 295.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4780925577.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V to AC 220V Fully automatic solar current conversion Modified Sine Wave Inverter High Frequency 220W/500W/1000W with 2.4A Dual USB Port as A Emergency Equipment for Car Travel Fishing Outdoor. Type: solar inverter. Price: PHP 295 (original PHP 295.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5167476392.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 3000W Power Inverter DC Modified Sine Wave Solar Converter DC 12V To AC 220V with 2 USB Fast Charger. Type: solar inverter. Price: PHP 295 (original PHP 295.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5278475885.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Modified Sine Wave Inverter Peak Power 3000W Modified Sine Wave Inverter High Frequency Power Inverter DC 12V to AC 220V Converter Car Power Charger Inverter with 2.1A Dual USB Port Battery Clip 4.2A. Type: solar inverter. Price: PHP 295 (original PHP 295.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3227640033.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 12V To 220V Step UP Power Module 120W DC-AC Boost Inverter Module Dual Channel Inverse Converter Booster Module Power Regulator. Type: solar inverter. Price: PHP 310 (original PHP 309.85). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5292653749.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: diymore 150W Inverter DC12V to 110V/220V High-Power Home Battery Inverter Converter Boost Board Module. Type: solar inverter. Price: PHP 311 (original PHP 311.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3423046491.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Solar Controller Regulator Voltage Stabilizer Inverter QC 2.0 3.0 Quick Charge Type-C PD DC Output Solar Charger. Type: solar inverter. Price: PHP 312 (original PHP 312.45). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5190807001.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Power Inverter DC 12V To AC 220V Fully Automatic Solar Current Conversion Modified Sine Wave Inverter High Frequency 220W with 2.4A Dual USB Port As A Emergency Equipment for Car Travel Fishing Outdoor COD【Free ship】. Type: solar inverter. Price: PHP 315 (original PHP 315.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5404811398.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: 21V Portable Mini Intelligent Inverter Power Converter Universal Socket LED Voltage display Supported device up to 120W Power Station Generator. Type: solar inverter. Price: PHP 369 (original PHP 369.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5210606260.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: ◎TZT MALL◎2pcs Original 40N60NPFD TO-3P 40N60 40A/600V IGBT Transistor for Inverter Welding Machine Brand New SGT40N60NPFDPN TO3P. Type: solar inverter. Price: PHP 379 (original PHP 378.92). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4155799249.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Solar Inverter 300w Solar Power Supply Inverter DC 12V TO AC 230V Output Max Inverter. Type: solar inverter. Price: PHP 396 (original PHP 396.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1302774883.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: Solar Power Inverter 300w 500W Household Inverter 12V DC TO 220V AC With Charger Car Power Inverter. Type: solar inverter. Price: PHP 410 (original PHP 410.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15427585111.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "inverter",
+    "content": "Product: FM-P2 21V Portable Mini Intelligent Inverter Power Converter Power Station Generator. Type: solar inverter. Price: PHP 449 (original PHP 449.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4718790981.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Smart Bi-directional WiFi Energy Meter with CT 80A for Solar Systems Buzzer Overlo Alarm App Monitor Export&Import Power. Type: solar meter. Price: PHP 673 (original PHP 672.91). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5223485096.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Smart Life WIFI Energy Meter Current Sensor Statistician for Electrical Lighting Solar KWH Monitor 100-240V. Type: solar meter. Price: PHP 688 (original PHP 688.01). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5190953449.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: LCD Digital Panel Wattmeter Energy Power Meter Voltage Voltmeter Current Ammeter Frequency Indicator AC 110V 220V 380V 100A. Type: solar meter. Price: PHP 691 (original PHP 690.77). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i1558176093.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Smart Life WIFI Energy Meter Current Sensor Statistician for Electrical Lighting Solar KWH Monitor 100-240V. Type: solar meter. Price: PHP 699 (original PHP 699.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5202267466.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Tuya WiFi Energy Smart Meter 1CH 2CH 80A Current Transformer Clamp Monitor Solar PV System Power Production Consumption Monitor. Type: solar meter. Price: PHP 724 (original PHP 723.92). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5249131651.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Tuya Smart WiFi Energy Meter Current Transformer Clamp Monitor 1CH 2CH 80A Solar PV System Power Production Consumption Monitor. Type: solar meter. Price: PHP 735 (original PHP 735.1). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5262666824.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Smart Life WIFI Energy Meter Current Sensor Statistician for Electrical Lighting Solar KWH Monitor 100-240V. Type: solar meter. Price: PHP 780 (original PHP 780.49). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4597090449.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Tuya WiFi Smart Meter Digital Energy Meter 80A Current Transformer Solar PV Power Production Consumption Monitor. Type: solar meter. Price: PHP 800 (original PHP 799.73). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5223195521.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Smart Bi-directional 120A WiFi Energy Meter with CT for Solar Systems Buzzer Overlo Alarm App Monitor Export&Import Power. Type: solar meter. Price: PHP 945 (original PHP 944.8). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5369333943.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Tuya Smart Life ZigBee Energy Meter Bidirectional with Clamp CT App Monitor Solar Power,80A,110V 240VAC. Type: solar meter. Price: PHP 1,239 (original PHP 1239.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5221928631.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: 1Set Tuya Solar PV Bidirectional WiFi Energy Meter with CT 150A Two Way Clamp Current Sensor Transformer App Monitor Power White Plastic. Type: solar meter. Price: PHP 1,372 (original PHP 1371.95). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5183502733.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: 3 Phase Energy Meter 220/380V 20-80A Digital KWh Power Meter 4 Wire DIN Rail Electric Power Consumption Panel Meter Two Connection Modes. Type: solar meter. Price: PHP 1,723 (original PHP 1723.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Manage Your Solar Energy with Tuya Solar Bidirectional Energy Meter RMDZT-GF/4P 100A. Type: solar meter. Price: PHP 1,763 (original PHP 1763.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4254278245.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: Multi-function Power Panel 3 Phase Smart Energy Meter 96*96mm RS485 Modbus RTU 4 Wire Panel Meter. Type: solar meter. Price: PHP 3,141 (original PHP 3141.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4383566380.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "meter",
+    "content": "Product: CHNT | Smart Dual-Channel DC Bidirectional Rail-Mounted Photovoltaic Energy Meter. Type: solar meter. Price: PHP 5,207 (original PHP 5207.09). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5241984288.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 6pcs Aluminum French Cleat Picture Hanger / Heavy Duty Interlocking Z-Clamps / Wall Mounting Bracket Panels / for Display Boards Wall. Type: solar mounting_system. Price: PHP 54 (original PHP 54.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15498571617.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: High Quality L-type Panel Mounting bracket Solar End Clamp 100% Aluminum Solar Clamp for Framed. Type: solar mounting_system. Price: PHP 85 (original PHP 85.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2245966942.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: High Quality L-type Panel Mounting bracket Solar End Clamp 100% Aluminum Solar Clamp for Framed. Type: solar mounting_system. Price: PHP 85 (original PHP 85.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2387569341.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: High Quality L-type Panel Mounting bracket Solar End Clamp 100% Aluminum Solar Clamp for Framed. Type: solar mounting_system. Price: PHP 85 (original PHP 85.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2292679867.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: High Quality L-type Panel Mounting bracket Solar End Clamp 100% Aluminum Solar Clamp for Framed. Type: solar mounting_system. Price: PHP 85 (original PHP 85.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3070914208.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: QIUWU Solar Module Rails Profile Connectors Quick Fit Aluminium Mounting Bracket for DIY Solar Energy Projects. Type: solar mounting_system. Price: PHP 106 (original PHP 105.61). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15466140875.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 【Re y Stock】2PCS Bracket Motor DC Reciprocating Motor Portable Mounting Bracket Motor Linear Actuator Mounting Bracket Support For Linear Actuator Motor Mounting Bracket. Type: solar mounting_system. Price: PHP 144 (original PHP 143.89). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4226756863.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Reinforced Factory Solar Bracket Accessories. Type: solar mounting_system. Price: PHP 153 (original PHP 153.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4863560297.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Galvanized C-Section Solar Mounting Bracket Hole-Punched Internal Connection. Type: solar mounting_system. Price: PHP 157 (original PHP 157.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4260136738.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: gumahus | Galvanized C-Steel Weld-Free Base Solar Bracket Accessory. Type: solar mounting_system. Price: PHP 183 (original PHP 182.55). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5360753752.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Aluminum Alloy Roofing Wind Resistant Clamp Solar Pv Mounting Bracket Fastener Zinc Coated Versatile Clamps for House Roof. Type: solar mounting_system. Price: PHP 191 (original PHP 191.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5188263995.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: UPLift SkyWave 100% Stainless Steel Bracket Element for Parabolic Hybrid LPDA Panel Antenna Spare Mounting Bracket Clamp Stainless Steel Bakal. Type: solar mounting_system. Price: PHP 195 (original PHP 195.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3754819500.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Solar bracket accessories. Type: solar mounting_system. Price: PHP 200 (original PHP 200.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i374216425.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Solar bracket accessories. Type: solar mounting_system. Price: PHP 200 (original PHP 200.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5392469104.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 50CM Pole Pick Arm Aluminum Alloy LED Light/Solar Light/Solar Street Light Mounting Bracket. Type: solar mounting_system. Price: PHP 250 (original PHP 250.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4517810091.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 【VALUESP】 1/2/4/8Pcs Mounting Rail Solar Solar Bracket Mounting Guide Rail Solar Power. Type: solar mounting_system. Price: PHP 306 (original PHP 306.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15406643409.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: FUXING Mounting Guide Rail Mounting Rail Photovoltaic Bracket Pv Solar Solar Bracket. Type: solar mounting_system. Price: PHP 313 (original PHP 313.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15420419411.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 【FURONGHUA】 Foldable Mounting Bracket Optimal Sunlight Exposure Durable And Stable. Type: solar mounting_system. Price: PHP 382 (original PHP 382.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15470357474.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Chint Solar Bracket for Streetlight. Type: solar mounting_system. Price: PHP 410 (original PHP 409.75). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2541172500.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: FEIZHUXIANSEN | Solar Street Light Pole Mounting Bracket. Type: solar mounting_system. Price: PHP 414 (original PHP 413.69). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5326657446.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: COUPLECOL Large Clear Numbers Rain Measure Gauge Solar Fence Mounting Bracket Rain Meter Portable Freeze-Proof Outdoor Rain Gauge Garden. Type: solar mounting_system. Price: PHP 433 (original PHP 432.57). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15467007790.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: MYTOOLS Easy to Install Aluminum Solar Energy Panel Mounting Brackets 4pcs Set 【Re y Stock】. Type: solar mounting_system. Price: PHP 446 (original PHP 446.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15465527047.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: FUXING 50pcs Stainless Steel Solar Cable Clamp for Mounting on Solar Brackets. Type: solar mounting_system. Price: PHP 456 (original PHP 456.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15500840061.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Bosca Solar Mounting System Accessories Parts Solar Mounting Brackets Rail L, Foot End clamp, Tile hook, Hanger bolt, Splice End clamp, Inter clamp, Grounding clip lug. Type: solar mounting_system. Price: PHP 487 (original PHP 487.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15455658628.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 1set L-Type Roof Panel Mounting Bracket 90 Degree Solar End Clamp 100% Aluminum Solar Clamp For Framed Module Pv Bracket. Type: solar mounting_system. Price: PHP 500 (original PHP 500.3). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15456042007.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 【WELIBA】 Set of 5 Aluminum Alloy Solar Brackets for Multiple Panel Installation Options. Type: solar mounting_system. Price: PHP 552 (original PHP 552.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15424655865.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: Anti-vibration Solar Mounting Bracket. Type: solar mounting_system. Price: PHP 581 (original PHP 581.04). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15479799024.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 10Pcs Solar Mounting System Grounding Clip Lug Bracket Clamps Photovoltaic Support Parts. Type: solar mounting_system. Price: PHP 618 (original PHP 617.81). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5357112826.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: 【Latest model】Metal Solar Street Light Arm Mounting Bracket 1 Set Outdoor Street Light Poles Installation Supports. Type: solar mounting_system. Price: PHP 746 (original PHP 746.47). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446955040.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "mounting_system",
+    "content": "Product: GENGXIZINIAN | Anti-seismic Solar Bracket C Steel & U Channel. Type: solar mounting_system. Price: PHP 867 (original PHP 867.33). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15417353475.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Stainless Steel Solar Panel Mounting Clamp Set Heavy Duty Solar Railing End Splice and Clamp for DIY Solar Installation. Type: solar panel. Price: PHP 6 (original PHP 6.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4403458369.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Panel Mounting Accessory for Grounding Plate for solar installation || GELAN SOLAR. Type: solar panel. Price: PHP 10 (original PHP 10.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5298886128.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Panel Mounting Kits 30-50mm Roof PV Aluminum Mid Clamp L-Foot End Clamps Splice Cable Clips Hanger Bolts Grounding Clips. Type: solar panel. Price: PHP 35 (original PHP 35.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4538904588.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: E-WOITD 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 39 (original PHP 38.69). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5106609813.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Global MartT 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 40 (original PHP 39.63). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15422296603.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: JCSYFAC 5pcs 21.2mm 22.3mm 23.7mm Solar Panel Mounting Aluminum Alloy Bracket End Mid Clamp T-Blocks Square Nuts M8 T-Sliding Nut. Type: solar panel. Price: PHP 40 (original PHP 40.13). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15501409829.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Mounting Accessory for Glound Lug End Clamp Mid Clamp Z Bracket for Solar Panel Mounting. Type: solar panel. Price: PHP 43 (original PHP 42.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4533484248.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Mounting Accessory for Z Bracket Rail Splice Mid Clamp Glound Lug for Solar Panel Mounting. Type: solar panel. Price: PHP 43 (original PHP 42.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4533394696.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Panel Mounting Accessory for L Foot Mid Clamp End Clamp Z Bracket Glound Lug for solar install. Type: solar panel. Price: PHP 43 (original PHP 42.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4533205848.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 【JCSYFAC】 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 43 (original PHP 43.41). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446983281.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: [COD] AqToCna Ship within 24 hours 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 45 (original PHP 44.6). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15432731096.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: [COD] 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 45 (original PHP 45.16). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15445876879.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 45 (original PHP 45.16). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446044436.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Ground Lug Solar Panel Mounting Accessory. Type: solar panel. Price: PHP 47 (original PHP 47.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3718702468.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 47 (original PHP 47.38). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15446172173.html?spm=a2o4l.searchlist.list.152.110c62b3Op5RL8.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 🚚【Local Express Delivery】🚚 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 48 (original PHP 47.62). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15458503142.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 【Y2E2noa】 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 48 (original PHP 47.62). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15457774934.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Panel Aluminum Solar End Clamp PV Mounting Bracket Z Clips for Mounting Solar Panel. Type: solar panel. Price: PHP 48 (original PHP 48.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3971265862.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Panel End Clamp Solar PV Mounting Accessories for Solar Panel 30mm || GELAN SOLAR. Type: solar panel. Price: PHP 48 (original PHP 48.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5165234009.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: [COD] SHGMYD 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 48 (original PHP 48.44). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5341752372.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Portable Mini 1.2W 6V Solar Panel Solar Energy ClassA. Type: solar panel. Price: PHP 49 (original PHP 49.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4041063778.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: BuildIt Mid Clamp | Solar Mounting Accessories for Solar Panel. Type: solar panel. Price: PHP 50 (original PHP 50.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3035520435.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: BuildIt End Clamp | Solar Mounting Accessories for Solar Panel. Type: solar panel. Price: PHP 50 (original PHP 50.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3035141019.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: E-WOITD 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 52 (original PHP 51.98). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15447137287.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: QIUWU 5pcs 21.2mm 22.3mm 23.7mm Solar Panel Mounting Aluminum Alloy Bracket End Mid Clamp T-Blocks Square Nuts M8 T-Sliding Nut. Type: solar panel. Price: PHP 53 (original PHP 53.17). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5174805999.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 1 Pair MC4 Connector Solar Panel Cable Connectors 1x Male 1x Female IP67 30A waterproof. Type: solar panel. Price: PHP 54 (original PHP 54.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4064371674.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: 【E-WOITD】 1Pc Solar Panel 5V 60MA For Mini Solar Panel Charging And Generating Electricity. Type: solar panel. Price: PHP 55 (original PHP 54.51). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15435163466.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Solar Power Solar Panel Kit Polysilicon Board Emergency Lights Home Lights Small Solar Systems. Type: solar panel. Price: PHP 55 (original PHP 55.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5318087395.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: Grounding Lug Solar Mounting Accessories for Solar Panel. Type: solar panel. Price: PHP 55 (original PHP 55.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3971273990.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "panel",
+    "content": "Product: BuildIt Grounding Lug | Solar Mounting Accessories for Solar Panel. Type: solar panel. Price: PHP 55 (original PHP 55.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3035518769.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: High Airflow Barbecue Oven Fan DC Turbine Car Seat Wind 12032 12V Turbine Blower Durable Computer Hardware Monitor Cooling Fan. Type: solar turbine. Price: PHP 130 (original PHP 130.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4088801035.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 2Pcs DC2V 3500RPM Mini Generator Motors Solar Rotary Speed Mini Electric Motor for Car CD Player DIY Wind Turbine Generator. Type: solar turbine. Price: PHP 430 (original PHP 430.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【FURONGHUA】 Hydraulic Generator Plastic 12V Water flow Pump Micro Turbine Solar energy 【New product】. Type: solar turbine. Price: PHP 547 (original PHP 547.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15471018558.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 400W 12V 24V Mini Wind Turbine Generator Controller Wind Generator Controller IP67 Waterproof. Type: solar turbine. Price: PHP 592 (original PHP 592.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4049755812.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Powered Windmill Model, Desktop Wind Turbine Model Tools Wind Turbine Science Project Kit for Desk Home Decor Craft Education. Type: solar turbine. Price: PHP 849 (original PHP 849.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Quantum Paint Pro Ultra Efficient Photovoltaic Coating Micro Hydro Turbine Matrix kW from Minimal Flow. Type: solar turbine. Price: PHP 924 (original USD 16.5). Source: alibaba. URL: https://www.alibaba.com/product-detail/Solar-Quantum-Paint-Pro-Ultra-Efficient_10000032139326.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Mini Solar Energy Wind Mill, ABS Plastic Solar Desktop Wind Turbine Model White Windmills Office Home Decoration for Science Teaching Tool. Type: solar turbine. Price: PHP 1,125 (original PHP 1125.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Mini Solar Energy Wind Mill, ABS Plastic Solar Desktop Wind Turbine Model White Windmills Office Home Decoration for Science Teaching Tool. Type: solar turbine. Price: PHP 1,127 (original PHP 1127.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Powered Windmill Model, Assembled Rotating Wind Turbine Generator Science Teaching Tool, DIY Solar Windmill Model Desk Home Decor Craft Education Gift. Type: solar turbine. Price: PHP 1,403 (original PHP 1403.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Powered Windmill Model, Assembled Rotating Wind Turbine Generator Science Teaching Tool, DIY Solar Windmill Model Desk Home Decor Craft Education Gift. Type: solar turbine. Price: PHP 1,405 (original PHP 1405.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: BOSTO Winds Generator Regulator PWM 12V 24V Auto Recognition Wind Turbine Low Voltage Controller for Power Generation Equipment. Type: solar turbine. Price: PHP 1,412 (original PHP 1412.29). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15417352601.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【No-profit】 2 in 1 Solar Wind Turbine Generator Model and Exhibition Stand Windmill Educational Assembly Kit Desktop Decoratio. Type: solar turbine. Price: PHP 1,515 (original PHP 1515.47). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i3155502858.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Waterproof Auto-Switching Wind Turbine Controller. Type: solar turbine. Price: PHP 1,619 (original PHP 1619.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15457176266.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar 3D Windmill Model, Children's Educational Fun Gift, Wind Turbine Generator, Home Desktop Decoration Office Desk Decoration. Type: solar turbine. Price: PHP 1,650 (original PHP 1650.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind Turbine Science Kit, Generate Electricity Solar Power Renewable Energy Learning Windmill Generator Kit for Ages Over 8. Type: solar turbine. Price: PHP 1,914 (original PHP 1914.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Small Horizontal Axis Wind Turbine Generator 100W 200W 300W 400W for Home Use Street Lighting Wind And Solar Complementary Light. Type: solar turbine. Price: PHP 6,203 (original PHP 6203.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5077116453.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Eight-Bl e Wind Turbine Micro-Wind Startup and Solar/Wind Complementary System. Type: solar turbine. Price: PHP 7,142 (original PHP 7142.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15456571957.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 600W Solar Wind Controller Digital Intelligent Control PWM Charging & Unlo ing Functions LCD Display PV Module Power & Wind Turbines Power 600W for Aluminum Alloy Rated 12V. Type: solar turbine. Price: PHP 7,703 (original PHP 7703.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5301695877.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind Turbine 12V 24V 48V S-type Horizontal Axis 6 Bl e 800W Breeze Activated Wind Solar Complementary Street Light Wind Turbine Generator. Type: solar turbine. Price: PHP 9,690 (original PHP 9690.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5158186583.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind Generator Kit Magnetic Wind Turbine 3 Bl e High Wind Energy Utilization Aluminum Alloy Die Casting for Wind Solar Hybrid Street Light. Type: solar turbine. Price: PHP 12,120 (original PHP 12120.01). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15496874420.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: KKmoon Wind Turbine Generator Environmentally Friendly Wind Generator Kit 3 Bl es 50M/S Survival Wind Speed for Marine Rv Home for Hybrid Solar Wind System. Type: solar turbine. Price: PHP 12,263 (original PHP 12263.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15483976261.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Meterk Wind Generator Kit 12m/s Rated Wind Speed 1200W Wind Turbine Kit for Charging Boats Terraces Cabins for Solar and Wind Hybrid System. Type: solar turbine. Price: PHP 13,900 (original PHP 13899.75). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15485968515.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Quantum Paint Elite Ultra Efficient Photovoltaic Coating Micro Hydro Turbine Nexus 25kW from Minimal Flow. Type: solar turbine. Price: PHP 13,944 (original USD 249.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/Solar-Quantum-Paint-Elite-Ultra-Efficient_10000031670446.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Solar Quantum Infinity Ultra Efficient Photovoltaic Surface and the Micro Hydro Turbine Quantum of kW from Minimal Water Flow. Type: solar turbine. Price: PHP 13,944 (original USD 249.0). Source: alibaba. URL: https://www.alibaba.com/product-detail/Solar-Quantum-Infinity-Ultra-Efficient-Photovoltaic_11000025699362.html.",
+    "sources": [
+      "alibaba"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: BOSTO Small Windmill Generator Magnetic Wind Turbine Accurate Injection Moulding 3 Bl e for Wind Solar Hybrid Street Light. Type: solar turbine. Price: PHP 14,461 (original PHP 14460.97). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15444394174.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind turbine vertical-axis lighting for household street lamps. Micro wind-driven startup. Solar energy complementation. Magnetic levitation power generation.. Type: solar turbine. Price: PHP 15,500 (original PHP 15500.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15466276317.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind Turbine 200W max 220W 12V 5 Bl e Wind Vertical Axis Generator 3 Phase AC Permanent Magnet Generator Wind Turbine Kit with Controller for Hybrid Wind Solar System. Type: solar turbine. Price: PHP 16,616 (original PHP 16616.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 400W Wind Turbine Generator AC 12Volt Economy 3 Bl es Windmill for Wind Solar Hybrid System 2.5m/s Start Wind Speed,400w Windmill Generator for Home. Type: solar turbine. Price: PHP 16,616 (original PHP 16616.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Wind Turbine 200W max 220W 12V 5 Bl e Wind Vertical Axis Generator 3 Phase AC Permanent Magnet Generator Wind Turbine Kit with Controller for Hybrid Wind Solar System. Type: solar turbine. Price: PHP 16,639 (original PHP 16639.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "solar",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 400W Wind Turbine Generator AC 12Volt Economy 3 Bl es Windmill for Wind Solar Hybrid System 2.5m/s Start Wind Speed,400w Windmill Generator for Home. Type: solar turbine. Price: PHP 16,639 (original PHP 16639.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: KKmoon BLW‑12/24 400W Wind Generator Turbine Controller Waterproof Battery Charging Regulator. Type: wind battery. Price: PHP 901 (original PHP 901.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15483977254.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Meterk BLW‑12/24 400W Wind Generator Turbine Controller Waterproof Battery Charging Regulator. Type: wind battery. Price: PHP 983 (original PHP 983.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15485528644.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Wind Generator Controller Waterproof Battery Charging Regulator for Home Use. Type: wind battery. Price: PHP 1,106 (original PHP 1106.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5068403901.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 12V/24V 9000W Wind Turbines Generator Controller Waterproof Battery Charge Overvoltage Protection Controller Regulator. Type: wind battery. Price: PHP 1,151 (original PHP 1150.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5206132772.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 12V/24V 9000W Wind Turbines Generator Controller Waterproof Battery Charge Overvoltage Protection Controller Regulator. Type: wind battery. Price: PHP 1,178 (original PHP 1177.9). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5216618392.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Wind Turbine Controller, 12V/24V 300W/600W Wind Turbine Generator Regulator Battery Charging Regulator. Type: wind battery. Price: PHP 1,435 (original PHP 1435.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Wind Turbine Controller, 12V/24V 300W/600W Wind Turbine Generator Regulator Battery Charging Regulator. Type: wind battery. Price: PHP 1,553 (original PHP 1553.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Fdit 12V 300W Wind Turbine Generator Charging Controller, Single Phase/Three Phase, Aluminum, Black, Battery Protection Regulator. Type: wind battery. Price: PHP 1,931 (original PHP 1931.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Fdit 12V 300W Wind Turbine Generator Charging Controller, Single Phase/Three Phase, Aluminum, Black, Battery Protection Regulator. Type: wind battery. Price: PHP 2,276 (original PHP 2276.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Permanent magnet DC generator 12v, 24v, 100w, 180w, 300w Hand-operated wind-driven pedal hydraulic battery charging.. Type: wind battery. Price: PHP 4,996 (original PHP 4996.24). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5102805047.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 100W-1000W waterproof wind turbine charging controller with battery protection function.. Type: wind battery. Price: PHP 6,068 (original PHP 6067.98). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5292249510.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DC Generator 550W Permanent Magnet Generator 36V/48V/60V/72V/220V DC Wind Turbine Battery Car Charging Permanent Tape Pulley (Color : 48V, Size : 550W). Type: wind battery. Price: PHP 8,634 (original PHP 8634.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DC Generator 550W Permanent Magnet Generator 36V/48V/60V/72V/220V DC Wind Turbine Battery Car Charging Permanent Tape Pulley (Color : 48V, Size : 550W). Type: wind battery. Price: PHP 8,646 (original PHP 8646.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: DC Generator 550W Permanent Magnet Generator 36V/48V/60V/72V/220V DC Wind Turbine Battery Car Charging Permanent Tape Pulley (Color : 72V, Size : 550W). Type: wind battery. Price: PHP 8,646 (original PHP 8646.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: New permanent magnet DC generator 12v, 24v, 100W18H0W, 300W hand-operated, wind-driven and pedal hydraulic battery.. Type: wind battery. Price: PHP 8,836 (original PHP 8835.62). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5058590354.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 550W DC Generator 36V/48V/60V/72V/220V Permanent Magnet Generator DC Wind Turbine Battery Car Charging Permanent Tape Pulley (Color : 48V, Size : 550W). Type: wind battery. Price: PHP 10,118 (original PHP 10118.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: 550W DC Generator 36V/48V/60V/72V/220V Permanent Magnet Generator DC Wind Turbine Battery Car Charging Permanent Tape Pulley (Color : 48V, Size : 550W). Type: wind battery. Price: PHP 10,131 (original PHP 10131.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "battery",
+    "content": "Product: Low-speed hand-cranked generator 80 to 12V, 36V and 350W permanent magnet pedal wind power hydraulic high-power battery charging.. Type: wind battery. Price: PHP 22,403 (original PHP 22402.69). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4820978942.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Educational Wind Generator Model Set with Degree Rotation DIY Experiment. Type: wind generator. Price: PHP 123 (original PHP 123.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15423915962.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Student Science Experiment Materials Wind Power Generator Set Led Light Fan Maker Tool Physics Experiment for Learning And Education. Type: wind generator. Price: PHP 135 (original PHP 135.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i2849225684.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind Energy Generator Kit Assembly Home Use Micro Motor Wind Power Experiment Electric Model Kit Small Generator Model. Type: wind generator. Price: PHP 148 (original PHP 148.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4585092874.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Wind Power Hand Cranked Generator Hand Cranked Generator Motor Three Phase AC Micro-Brushless 3-24V Micro-Hydraulic Generater Power Equipment. Type: wind generator. Price: PHP 204 (original PHP 204.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5257731314.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【liuxiaomei】Wind Power Hand Cranked Generator Hand Cranked Generator Motor Three Phase AC Micro-Brushless 3-24V Micro-Hydraulic Generater Power EquipmentHope you have a pleasant shopping experience. Type: wind generator. Price: PHP 218 (original PHP 218.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15402214367.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【XINJIA】Wind Power Hand Cranked Generator Hand Cranked Generator High Quality Motor Three Phase AC Micro-Brushless 3-24V Micro-Hydraulic Generater Power Equipment. Type: wind generator. Price: PHP 218 (original PHP 218.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15397631118.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Wind Power Hand Cranked Generator Motor Three Phase AC Micro-Brushless 3-24V Micro-Hydraulic Generater Power Equipment. Type: wind generator. Price: PHP 231 (original PHP 231.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15459434048.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【L-BEANS】 DIY Wind Energy Generator Kit for Teaching and Practical Learning Activities. Type: wind generator. Price: PHP 387 (original PHP 387.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15422199100.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 2X Wind Power Hand Cranked Generator Motor Three Phase AC Micro-Brushless 3-24V Micro-Hydraulic. Type: wind generator. Price: PHP 421 (original PHP 421.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15457781236.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Educational Mini Wind Generator Kit for Students and Children Experimentation. Type: wind generator. Price: PHP 428 (original PHP 428.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15397988945.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: [DHGO] Wind Motor Generator Kit with 120mm Leaf P dle for Science Demonstrations. Type: wind generator. Price: PHP 455 (original PHP 455.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15455165333.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【XIXINBO】 Rotatable Wind Generator Model Kit for Learning About Sustainable Energy [not miss it][New product release]. Type: wind generator. Price: PHP 477 (original PHP 477.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15470192478.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【WELIBA】 For DIY Wind Energy Generator Accessories for Creative Science Projects. Type: wind generator. Price: PHP 479 (original PHP 479.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15427102593.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【XIXINBO】 For DIY Wind Power Generator Set with Motor Bl es for Educational Projects [not miss it][New product release]. Type: wind generator. Price: PHP 495 (original PHP 495.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15424663974.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: MYTOOLS DIY Wind Power Generator Kit with Holder and Bl es for Innovative Learning 【Re y Stock】. Type: wind generator. Price: PHP 524 (original PHP 524.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15465163704.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Micro 3 Phase AC Mini Hand Brushless Motor Generator Model Science Experiment Teaching Aid Kit DIY. Type: wind generator. Price: PHP 614 (original PHP 614.0). Source: amazon. URL: nan.",
+    "sources": [
+      "amazon"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 633 (original PHP 633.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5109426461.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 642 (original PHP 641.8). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4444614623.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: tobbehere-Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 642 (original PHP 642.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15422955192.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 651 (original PHP 651.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5229104324.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【Latest model】Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 661 (original PHP 661.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15432442790.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 670.8). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15425908930.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【 JJM MALL】-Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 670.8). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4719940149.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 671.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15463133089.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: (TNAQ) Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 671.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4446587655.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 671.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15455105154.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 671 (original PHP 671.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15462476983.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【XIXINBO】 For Mini Portable Wind Generator for Outdoor Activities USB Charging Device [not miss it][New product release]. Type: wind generator. Price: PHP 684 (original PHP 684.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15490658757.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 1PC brushless wind generator brushless DC motor Wind Generator Hand Generator DIY power generation experiment accessories. Type: wind generator. Price: PHP 688 (original PHP 688.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5290038022.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "generator",
+    "content": "Product: 【Gfryerty】Mini Wind DC Generator Hand Dynamo Hydraulic Test DC 12V 24V Motor Machine Supply Emergency Generator. Type: wind generator. Price: PHP 691 (original PHP 691.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5313067985.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 1pcs Mini Wind Turbine Bl e Vertical Axis Micro-generator Bl es Small Kit. Type: wind turbine. Price: PHP 96 (original PHP 96.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5233935317.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【Rockhouse】 Mini Wind Turbine DIY Bl e Set 4 Pack of Vertical Generator Accessories [New Products]. Type: wind turbine. Price: PHP 105 (original PHP 105.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5375451956.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【XIXINBO】 Mini Wind Turbine DIY Bl e Set for Micro Generator Bl e Set Included [not miss it][New product release]. Type: wind turbine. Price: PHP 106 (original PHP 106.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5378301575.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: SIMAIJIE | Educational Mini Wind Turbine Generator. Type: wind turbine. Price: PHP 121 (original PHP 121.35). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15431696820.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Miniature Turbine Bl e 12cm Diameter Wind Generator Model Aeronautical Simulation Micro Mini Wind Power Plant Bl e. Type: wind turbine. Price: PHP 132 (original PHP 132.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4846598504.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Online Electr 300-6000 Revolutions 5v Power Three-phase Wind Turbines Alternator Generator. Type: wind turbine. Price: PHP 148 (original PHP 148.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15464481626.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: MUHUALAN | Mini Waterproof AC Generating Wind Turbine. Type: wind turbine. Price: PHP 163 (original PHP 163.18). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15424825154.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Gemvan Wind Turbine Generator. Type: wind turbine. Price: PHP 172 (original PHP 171.61). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4588458403.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【FURONGHUA】 Wind Turbine Generator Kit for Middle School Science Curriculum and Projects. Type: wind turbine. Price: PHP 192 (original PHP 192.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15470146892.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【L-BEANS】 Student Science Wind Turbine Generator Kit with 3000rpm Motor and Diode. Type: wind turbine. Price: PHP 195 (original PHP 195.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15445474415.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【LeeandHan】 Wind Turbine Generator Kit for Renewable Energy Lessons and Student Projects. Type: wind turbine. Price: PHP 195 (original PHP 195.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15427138690.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: FUXING Wind Turbine Generator Kit with Bl es Motor Diode for Student Experiments. Type: wind turbine. Price: PHP 195 (original PHP 195.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15491904592.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【Auto Parts Storeshop】 DIY Handm e Wind Turbine Generator Kit for Environmentally Friendly Projects. Type: wind turbine. Price: PHP 196 (original PHP 196.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15467144454.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: BBST Micro Wind Turbine Generator Inspire Young Minds with DIY Power Generation. Type: wind turbine. Price: PHP 198 (original PHP 198.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15465785390.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Moon Riverr Mini Wind Generator Wind Turbine Model Set Kits Teaching Tool. Type: wind turbine. Price: PHP 200 (original PHP 200.35). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15420703279.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: MYTOOLS Student Science Kit Wind Turbine Generator with 0.1-12V Output Voltage Range 【Re y Stock】. Type: wind turbine. Price: PHP 202 (original PHP 202.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15465046411.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: 【NEWELECTR】 Handm e Wind Turbine Generator Inspire Sustainable Thinking in Students. Type: wind turbine. Price: PHP 202 (original PHP 202.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15460604780.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: ZUNYI | Quiet Science Experiment Home Use Wind Turbine 12V DC. Type: wind turbine. Price: PHP 205 (original PHP 204.77). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15419295057.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Baosity Mini Wind Generator Wind Turbine Model Set Kits Teaching Tool. Type: wind turbine. Price: PHP 212 (original PHP 212.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5346930143.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: funtasica Turbines, Small Wind Motor for DIY Assembly Kits. Type: wind turbine. Price: PHP 212 (original PHP 212.36). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5107922696.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Mini Wind Turbines Generator Hydraulic Water Generator Teaching DIY Kit Test. Type: wind turbine. Price: PHP 214 (original PHP 213.79). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15392135474.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: [LeeandHan] STEM Wind Turbine Generator Kit for School Lab Teaching and DIY Assembly New. Type: wind turbine. Price: PHP 215 (original PHP 215.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15492023303.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Fityle DIY Mini Micro Small 3-phase Miniature AC Wind Turbine Hand Alternator Generator 3V-24V Power Source Teaching Model. Type: wind turbine. Price: PHP 219 (original PHP 219.33). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i252456137.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Dolity 90mm Micro Wind Turbine Small Wind Generator Kits DC Motor Turbines. Type: wind turbine. Price: PHP 228 (original PHP 227.58). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i319684776.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Flameer Mini Wind Generator Wind Turbine Model Set Kits Teaching Tool. Type: wind turbine. Price: PHP 230 (original PHP 229.58). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15422068509.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: petsola Mini Wind Generator Wind Turbine Model Set Kits Teaching Tool. Type: wind turbine. Price: PHP 230 (original PHP 229.58). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15486864338.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DIY Kit Small Motor Vertical Wind Turbines Bl es Breeze Electricity Generator Science Model Wind Energy Vertical Wind Generator. Type: wind turbine. Price: PHP 232 (original PHP 231.68). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i5282789803.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Fityle 360 Degreen Micro Vertical Wind Turbines Generator Mini Motor Bl e Parts LED DIY Teaching Model. Type: wind turbine. Price: PHP 234 (original PHP 234.0). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i252582079.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: Science Model Vertical Wind Generator DIY Kit Small Motor Vertical Wind Turbines Bl es Breeze Electricity Generator Wind Energy. Type: wind turbine. Price: PHP 238 (original PHP 237.82). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i15475553647.html.",
+    "sources": [
+      "lazada"
+    ]
+  },
+  {
+    "renewable_type": "wind",
+    "category": "equipment_cost",
+    "product_type": "turbine",
+    "content": "Product: DIY Kit Small DC Motor Vertical Wind Turbines Bl es Generator Micro Motor Wind Turbine Generator. Type: wind turbine. Price: PHP 238 (original PHP 237.96). Source: lazada. URL: https://www.lazada.com.ph/products/pdp-i4670657937.html.",
+    "sources": [
+      "lazada"
+    ]
+  }
+]

@@ -1,0 +1,46 @@
+﻿in GWh,
+Luzon,2019
+Coal,"40,508"
+Oil,"2,674"
+Natural Gas,"22,354"
+Renewable Energy,"10,640"
+Geothermal,"3,647"
+Hydro,"5,084"
+Biomass,592
+Solar (a),493
+Wind,824
+Total,"76,177"
+Luzon,AAGR*
+Coal,8%
+Oil,-13%
+Natural Gas,0%
+Renewable Energy,6%
+Geothermal,2%
+Hydro,2.0%
+Biomass,26%
+Solar (a),52%
+Wind,21%
+Total,5%
+in GWh,
+Visayas,2019
+Coal,"7,962"
+Oil,524
+Natural Gas (a),-
+Renewable Energy,"7,573"
+Geothermal,"6,278"
+Hydro,57
+Biomass,356
+Solar,665
+Wind (b),218
+Total,"16,060"
+Visayas,AAGR*
+Coal,7%
+Oil,-4%
+Natural Gas (a),-
+Renewable Energy,2%
+Geothermal,-0.4%
+Hydro,16%
+Biomass,16%
+Solar,47%
+Wind (b),3%
+Total,4%

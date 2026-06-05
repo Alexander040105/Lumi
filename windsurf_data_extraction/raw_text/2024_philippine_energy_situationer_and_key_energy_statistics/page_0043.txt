@@ -1,0 +1,182 @@
+KEY ENERGY STATISTICS
+43
+Energy and Environment
+GHG Emission by Sector and Activity
+Sector and Activity
+2014
+2015
+2016
+2017
+2018
+2019
+Industry
+12.88 
+13.20 
+15.29 
+16.63 
+14.22 
+13.18 
+Transport
+26.45 
+30.60 
+33.11 
+34.19 
+35.38 
+36.63 
+Others(2)
+7.15 
+7.06 
+8.59 
+10.16 
+10.63 
+11.27 
+Electricity Generation
+43.63 
+47.49 
+51.61 
+59.00 
+64.60 
+70.32 
+Energy(3)
+1.11 
+0.96 
+0.66 
+0.71 
+0.75 
+1.05 
+TOTAL
+ 91.22 
+ 99.30 
+ 109.25 
+ 120.69 
+ 125.58 
+ 132.45 
+MTCO2e(1)
+Sector and Activity
+2020
+2021
+2022
+2023
+2024
+AAGR*
+Industry
+11.27 
+12.50 
+12.94 
+12.75 
+12.96 
+0.1%
+Transport
+28.26 
+31.53 
+35.42 
+36.93 
+38.81 
+3.9%
+Others(2)
+11.33 
+12.13 
+9.88 
+10.35 
+11.15 
+4.5%
+Electricity Generation
+70.92 
+73.88 
+76.28 
+90.22 
+97.46 
+8.4%
+Energy(3)
+0.41 
+0.40 
+1.16 
+1.51 
+1.75 
+4.7%
+TOTAL
+ 122.20 
+ 130.45 
+ 135.68 
+ 151.75 
+ 162.13 
+5.9%
+Notes:
+(1) Million tons of CO2 Equivalent (MTCO2e)
+(2) includes Household, Services and Agriculture Sectors
+(3) includes Oil refining, Electricity and other Energy sector own use and losses 
+         
+*average annual growth rate
+GHG Emission by Fuel Type
+Fuel type
+2014
+2015
+2016
+2017
+2018
+2019
+Liquid Fossils (Oil)
+42.56 
+47.15 
+50.47 
+52.47 
+53.06 
+55.31 
+Solid Fossils (Coal)
+41.56 
+45.48 
+51.13 
+60.67 
+64.10 
+68.66 
+Gaseous Fossil (Natural Gas)
+7.10 
+6.68 
+7.65 
+7.55 
+8.42 
+8.48 
+TOTAL
+ 91.22 
+ 99.30 
+ 109.25 
+ 120.69 
+ 125.58 
+ 132.45 
+MTCO2e
+Fuel type
+2020
+2021
+2022
+2023
+2024
+AAGR*
+Liquid Fossils (Oil)
+45.88 
+49.81 
+54.40 
+55.70 
+57.89 
+3.1%
+Solid Fossils (Coal)
+68.63 
+74.05 
+75.17 
+90.15 
+97.10 
+8.9%
+Gaseous Fossil (Natural Gas)
+7.69 
+6.60 
+6.11 
+5.90 
+7.14 
+0.1%
+TOTAL
+ 122.20 
+ 130.45 
+ 135.68 
+ 151.75 
+ 162.13 
+5.9%
+*average annual growth rate

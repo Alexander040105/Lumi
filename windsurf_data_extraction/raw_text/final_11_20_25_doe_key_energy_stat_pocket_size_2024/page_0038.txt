@@ -1,0 +1,5 @@
+KEY ENERGY STATISTICS
+36
+Renewable Energy 
+Biomass Production, by Fuel Type
+kTOE

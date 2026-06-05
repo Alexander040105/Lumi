@@ -1,0 +1,345 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+30
+Coal
+Natural 
+Gas
+Condensate
+Crude
+Gasoline
+Kerosene
+Diesel
+Fuel Oil
+LPG
+Jet A-1
+Avgas
+Chemicals Except 
+Fertilizer 
+ 33.60 
+ - 
+ - 
+ - 
+ - 
+ 4.30 
+ 37.48 
+ 42.74 
+ 22.96 
+ - 
+ - 
+Fertilizer 
+ 24.01 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 2.58 
+ - 
+ 0.52 
+ - 
+ - 
+Lube Refining 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+Glass/Glass Products 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 7.46 
+ 51.58 
+ 1.58 
+ - 
+ - 
+Cement 
+ 1,211.05 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 24.30 
+ 24.67 
+ 0.67 
+ - 
+ - 
+Other Non-Metlc 
+Minerals 
+ 4.56 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 1.49 
+ 0.62 
+ 0.05 
+ - 
+ - 
+Basic Metal 
+ 225.18 
+ - 
+ - 
+ - 
+ - 
+ 0.00 
+ 13.87 
+ 74.88 
+ 14.99 
+ - 
+ - 
+Machinery/Equipment 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 0.67 
+ 49.57 
+ 6.07 
+ 19.40 
+ - 
+ - 
+Other Manufacturing 
+ 203.47 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 44.64 
+ 4.79 
+ 21.58 
+ - 
+ - 
+Rubber/ Rubber 
+Products 
+ 22.61 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 1.13 
+ 0.13 
+ 1.03 
+ - 
+ - 
+Mining 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 0.00 
+ 419.77 
+ 49.37 
+ - 
+ - 
+ - 
+Construction 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 0.19 
+ 257.31 
+ 1.75 
+ 4.17 
+ - 
+ - 
+Transport 
+ - 
+ - 
+ - 
+ - 
+ 5,921.36 
+ - 
+ 6,420.35 
+ 231.45 
+ - 
+ 361.08 
+ 4.21 
+Railway 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 1.08 
+ - 
+ - 
+ - 
+ - 
+Road  Transport 
+ - 
+ - 
+ - 
+ - 
+ 5,720.14 
+ - 
+ 5,979.85 
+ - 
+ - 
+ - 
+ - 
+Water Transport 
+ - 
+ - 
+ - 
+ - 
+ 201.22 
+ - 
+ 439.42 
+ 231.45 
+ - 
+ - 
+ - 
+Domestic Air 
+Transport 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 361.08 
+ 4.21 
+Households 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 29.90 
+ - 
+ - 
+ 1,343.36 
+ - 
+ - 
+Services 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ 1,690.91 
+ 147.16 
+ 519.40 
+ - 
+ - 
+Agriculture 
+ - 
+ - 
+ - 
+ - 
+ 4.37 
+ 0.01 
+ 142.73 
+ 0.89 
+ - 
+ - 
+ - 
+Agri-Industry 
+ - 
+ - 
+ - 
+ - 
+ 3.05 
+ 0.00 
+ 27.62 
+ - 
+ - 
+ - 
+ - 
+Agri Crops Product 
+ - 
+ - 
+ - 
+ - 
+ 3.04 
+ 0.00 
+ 25.95 
+ - 
+ - 
+ - 
+ - 
+Livestock/Poultry 
+ - 
+ - 
+ - 
+ - 
+ 0.01 
+ - 
+ 1.67 
+ - 
+ - 
+ - 
+ - 
+Agri Services 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+Forestry 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+Fishery 
+ - 
+ - 
+ - 
+ - 
+ 1.33 
+ 0.00 
+ 115.10 
+ 0.89 
+ - 
+ - 
+ - 
+Non-Energy Use 
+ 82.80 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+ - 
+Self-sufficiency
+2024 Energy Balance Table 
+in thousand tons of oil equivalent (kTOE)

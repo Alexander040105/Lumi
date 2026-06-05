@@ -1,0 +1,72 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+20
+v.	 Wind
+Wind energy fell by 5.3 percent to 106.5 kTOE in 2024 compared to 112.5 kTOE in 2023. 
+While it accounted for 0.2 percent of the energy mix during the year, offshore wind 
+(OSW) development remained on the upswing. As of December 2024, 291 OSW service 
+contracts have been issued which are expected to expand the country’s current 
+installed capacity of 426.9 MW20.
+vi.	Biofuels
+In 2024, local production of biofuels continued to rise in response to increased 
+demand for transport fuels and compliance with Biofuels Act of 2006. Biodiesel 
+production reached 218.8 kTOE or 17.6 percent higher than its year-ago level, while 
+bioethanol output increased by 1.2 percent to 216.6 kTOE. These expansions reflected 
+the operational performance of twelve (12) biodiesel production facilities with a 
+combined annual capacity of 615.3 million liters per year (MLPY)21, as well as twelve 
+(12) bioethanol plants, with an aggregate capacity of 438.0 MLPY22.
+B. Net Energy Imports
+The volume of total net energy 
+inflows rose by 8.6 percent to 
+38.0 MTOE in 2024, up from 35.1 
+MTOE in the previous year. This 
+surge helped sustain the country’s 
+energy 
+needs 
+amidst 
+rising 
+domestic demand and subdued 
+local energy production during 
+the year. Crude oil and finished 
+petroleum products accounted for 
+the largest share at 53.0 percent, 
+followed closely by coal with 42.7 
+percent share, while liquefied 
+natural gas (LNG) and ethanol 
+contributed the remaining portion 
+(4.3 percent) (Figure 15).
+Combined import volume of crude and finished petroleum products in 2024 slowed 
+down by 2.1 percent compared to the 4.9 percent increase registered in 2023. Total oil 
+imports reached 22.9 MTOE, as finished petroleum products accounted for 73.4 percent 
+and crude oil contributed the remaining 26.6 percent. Crude oil imports fell by 4.5 
+percent from 6.4 MTOE in 2023 to 6.1 MTOE during the year, attributed to constrained 
+domestic refining, geopolitical tensions and regional economic uncertainties. This 
+contraction was offset by the 4.6 percent hike imports of finished petroleum products, 
+which emerged as a more economically viable solution, and helped sustain requirement 
+of the transport sector, specifically for diesel and gasoline.
+Coal
+42.7%
+Ethanol
+0.6%
+Oil & Oil
+Product
+53.0%
+Natural Gas
+3.7%
+15.2%
+11.3%
+19.2%
+4.7%
+2.4%
+0.3%
+Crude
+Gasoline
+Diesel
+LPG
+Fuel Oil
+Other Products
+Figure 15.Net energy imports, by Fuel Shares: 2024
+20    Ibid
+21	 Department of Energy (Philippines), Renewable Energy Management Bureau, Biomass Energy Management Division. (2024, December 31). List of Accredited 
+Biodiesel Producers / Distributors / Projects as of 31 December 2024
+22	 Department of Energy (Philippines), Renewable Energy Management Bureau, Biomass Energy Management Division. (2024, December 31). List of Accredited 
+Bioethanol Producers / Distributors / Projects as of 31 December 2024. 

@@ -1,0 +1,19 @@
+﻿Sector,"CO2 Emission 
+(MTCO2e)",,"Total NonCO2 
+Emission 
+(MTCO2e)","Total GHG 
+Emission*** 
+(MTCO2e)","Total GHG 
+Emission
+(% Change)"
+,2023,2024,2023,2023,2023-2024
+Oil,55.35,57.89,0.35,55.70,3.94
+Coal,89.75,97.10,0.40,90.15,7.71
+Gas,5.9,7.14,0.01,5.90,21.05
+Total,150.99,162.13,0.76,151.75,6.84
+% Distribution,,,,,"Change in 
+Distribution"
+Oil,36.66,35.71,46.14,36.71,(1.00)
+Coal,59.44,59.89,53.10,59.41,0.48
+Gas,3.9,4.41,0.76,3.89,0.52
+Total,100.0,100.0,100.0,100.0,

@@ -1,0 +1,20 @@
+﻿in MB,
+Fuel,2019
+Diesel,"49,462"
+Gasoline,"18,726"
+LPG,"15,957"
+IFO/Fuel Oil,"5,061"
+Jet Fuel,"11,708"
+Kerosene,134
+Others**,"7,889"
+Total,"108,936"
+Fuel,AAGR*
+Diesel,5.9%
+Gasoline,9.0%
+LPG,7.7%
+IFO/Fuel Oil,3.0%
+Jet Fuel,3.1%
+Kerosene,-9.3%
+Others**,11.6%
+Total,6.8%
+*average annual growth rate,

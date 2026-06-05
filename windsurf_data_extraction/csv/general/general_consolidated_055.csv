@@ -1,0 +1,16 @@
+﻿sector,co2_emission_mtco2e,unnamed_2,total_nonco2_emission_mtco2e,total_ghg_emission_mtco2e,total_ghg_emission_change,co2_emission_mtco2e_numeric,unnamed_2_numeric,total_nonco2_emission_mtco2e_numeric,total_ghg_emission_mtco2e_numeric,total_ghg_emission_change_numeric,source_pdf,detected_category
+,2023,2024,2023,2023,2023-2024,2023.0,2024.0,2023.0,2023.0,,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Electricity,89.86,97.46,0.36,90.22,8.02,89.86,97.46,0.36,90.22,8.02,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Transport,36.67,38.81,0.26,36.93,5.10,36.67,38.81,0.26,36.93,5.1,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Industry,12.68,12.96,0.07,12.75,1.68,12.68,12.96,0.07,12.75,1.68,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Other Sectors*,10.28,11.15,0.07,10.35,7.73,10.28,11.15,0.07,10.35,7.73,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Energy**,1.5,1.75,0.00,1.51,16.48,1.5,1.75,0.0,1.51,16.48,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Total,150.99,162.13,0.76,151.75,6.84,150.99,162.13,0.76,151.75,6.84,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+% Distribution,,,,,"Change in 
+Distribution",,,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Electricity,56.51,60.11,47.61,59.45,0.66,56.51,60.11,47.61,59.45,0.66,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Transport,24.29,23.94,33.92,24.34,(0.40),24.29,23.94,33.92,24.34,-0.4,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Industry,8.40,7.99,9.06,8.40,(0.41),8.4,7.99,9.06,8.4,-0.41,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Other,6.81,6.87,8.78,6.82,0.06,6.81,6.87,8.78,6.82,0.06,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Energy,0.99,1.08,0.62,0.99,0.09,0.99,1.08,0.62,0.99,0.09,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general
+Total,100.0,100.0,100.0,100.0,,100.0,100.0,100.0,100.0,,2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv,general

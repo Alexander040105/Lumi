@@ -1,0 +1,33 @@
+KEY ENERGY STATISTICS
+32
+Country
+2023
+2024
+GR
+Indonesia
+ 34,822 
+ 40,139 
+15.3%
+Australia
+ 207 
+ 82 
+-60.6%
+China
+0.35
+0.33
+-7.5%
+Vietnam
+ 164 
+ 134 
+-18.4%
+Others*
+ 341 
+ 1 
+-99.6%
+Total
+ 35,535 
+ 40,356 
+13.6%
+Coal Importation, by Country of Source
+in MMT at 10,000 BTU/lb
+*Imports from India, Malaysia, Peru, Russia, Taiwan, South Korea, South Africa and USA
