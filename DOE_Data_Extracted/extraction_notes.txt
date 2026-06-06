@@ -1,0 +1,54 @@
+EXTRACTION NOTES — DOE 2024 Power Statistics Summary
+=====================================================
+
+UPDATE: All tables have been successfully extracted using Tabula from the original DOE PDF.
+All values are now complete and accurate. No uncertain cells remain.
+
+Image Quality Assessment (Initial):
+- Resolution: Low. Many numeric cells were unreadable in the screenshot.
+- Blue background with white text reduced contrast.
+- Initial manual extraction had ~400+ flagged cells.
+
+Resolution:
+===========
+User provided a Tabula-extracted CSV file (Tabula_DOE_Data.csv) containing all 6 tables.
+All 6 generated CSV files have been updated with the correct, comma-stripped values.
+
+Data Completeness by File:
+
+1. electricity_consumption_by_sector_GWh.csv
+   - 9 rows (Residential, Commercial, Industrial, Others, Electricity Sales, Utilities Own Use, System Losses, Total)
+   - 22 year columns (2003-2024)
+   - All values complete
+
+2. system_peak_demand_MW.csv
+   - 4 rows (Luzon, Visayas, Mindanao, Total Non-Coincident Peak Demand)
+   - 22 year columns
+   - All values complete
+
+3. gross_power_generation_by_grid_GWh.csv
+   - 4 rows (Luzon, Visayas, Mindanao, Total)
+   - 22 year columns
+   - All values complete
+
+4. gross_power_generation_by_plant_type_GWh.csv
+   - 14 rows (Coal, Oil-Based, Combined Cycle, Diesel, Gas Turbine, Oil Thermal, Natural Gas, RE, Geothermal, Hydro, Biomass, Solar, Wind, Total)
+   - 22 year columns
+   - All values complete
+
+5. installed_capacity_by_plant_type_MW.csv
+   - 10 rows (Coal, Oil Based, Natural Gas, RE, Geothermal, Hydro, Biomass, Solar, Wind, Total)
+   - 22 year columns
+   - All values complete
+
+6. dependable_capacity_by_plant_type_MW.csv
+   - 10 rows (Coal, Oil Based, Natural Gas, RE, Geothermal, Hydro, Biomass, Solar, Wind, Total)
+   - 22 year columns
+   - All values complete
+
+Total tables extracted: 6
+Total rows across all tables: 51
+Total flagged cells: 0
+
+Original DOE source:
+https://doe.gov.ph/site/epimb/articles/group/statistics?category=Philippine+Power+Statistics&display_type=Card
