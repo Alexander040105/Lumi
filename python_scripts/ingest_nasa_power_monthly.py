@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from supabase import Client, create_client
 
 NASA_BASE_URL = "https://power.larc.nasa.gov/api/temporal/monthly/point"
-MIN_INGEST_YEAR = 2018
+MIN_INGEST_YEAR = 2010
 MAX_INGEST_YEAR = 2025
 PARAMETERS = [
     "T2M",

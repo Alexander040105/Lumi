@@ -1,5 +1,7 @@
 """
-Build structured renewable-energy knowledge documents from scraped product data.
+Build structured renewable-energy knowledge documents from scraped product data
+AND all other LUMI data sources (national energy statistics, municipality climate,
+terrain metrics).
 
 The input is scraped e-commerce listings (Alibaba, Amazon, Lazada).  Instead of
 indexing raw product rows, we aggregate them into *knowledge chunks* that a
@@ -13,6 +15,9 @@ Knowledge categories
 - components       : required parts for each renewable type
 - capacity_info    : typical system sizes and outputs
 - pricing_assumptions: how prices were derived, currency notes, source caveats
+- national_energy_statistics: DOE national energy annual data
+- municipality_climate: NASA POWER climate averages per municipality
+- terrain_metrics: terrain and hydropower suitability per municipality
 """
 
 from __future__ import annotations
@@ -36,6 +41,12 @@ DEFAULT_CSV = REPO_ROOT / "scraped_data" / "output" / "cleaned" / "cleaned_produ
 LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 LOCAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
 KNOWLEDGE_JSON_PATH = LOCAL_DATA_DIR / "rag_knowledge_base.json"
+
+# LUMI data sources for RAG
+NATIONAL_ENERGY_CSV = REPO_ROOT / "DOE_Data_Extracted" / "national_energy_annual_ready.csv"
+MUNICIPALITIES_CSV = REPO_ROOT / "regionalData" / "municipalities.csv"
+CLIMATE_CSV = REPO_ROOT / "fastapi-backend" / "app" / "services" / "local_data" / "municipality_climate_averages.csv"
+TERRAIN_CSV = REPO_ROOT / "regionalData" / "output" / "terrain_metrics" / "municipality_terrain_metrics.csv"
 
 # ---------------------------------------------------------------------------
 # Re-classification rules (fixes the wind/hydro mis-labelling in the CSV)
@@ -449,6 +460,275 @@ def build_raw_product_chunks(df: pd.DataFrame, max_per_group: int = 30) -> list[
 
 
 # ---------------------------------------------------------------------------
+# National energy statistics knowledge
+# ---------------------------------------------------------------------------
+
+def build_national_energy_knowledge() -> list[dict[str, Any]]:
+    """Build knowledge documents from DOE national energy annual data."""
+    docs: list[dict[str, Any]] = []
+    if not NATIONAL_ENERGY_CSV.exists():
+        logger.warning("National energy CSV not found: %s", NATIONAL_ENERGY_CSV)
+        return docs
+
+    df = pd.read_csv(NATIONAL_ENERGY_CSV)
+    df = df.sort_values("year")
+
+    # Per-year detailed documents
+    for _, row in df.iterrows():
+        year = int(row["year"])
+        content = (
+            f"In {year}, the Philippines total electricity consumption was {row['total_consumption_gwh']:,.2f} GWh. "
+            f"Residential sector consumed {row['residential_consumption_gwh']:,.2f} GWh, "
+            f"commercial {row['commercial_consumption_gwh']:,.2f} GWh, "
+            f"industrial {row['industrial_consumption_gwh']:,.2f} GWh, "
+            f"others {row['others_consumption_gwh']:,.2f} GWh. "
+            f"Total electricity sales were {row['electricity_sales_gwh']:,.2f} GWh with system losses of {row['system_losses_gwh']:,.2f} GWh "
+            f"and utilities own use of {row['utilities_own_use_gwh']:,.2f} GWh. "
+            f"Peak demand reached {row['total_peak_demand_mw']:,.2f} MW nationally: "
+            f"{row['luzon_peak_demand_mw']:,.2f} MW in Luzon, "
+            f"{row['visayas_peak_demand_mw']:,.2f} MW in Visayas, "
+            f"{row['mindanao_peak_demand_mw']:,.2f} MW in Mindanao. "
+            f"Gross generation totaled {row['luzon_generation_gwh'] + row['visayas_generation_gwh'] + row['mindanao_generation_gwh']:,.2f} GWh: "
+            f"{row['luzon_generation_gwh']:,.2f} GWh in Luzon, "
+            f"{row['visayas_generation_gwh']:,.2f} GWh in Visayas, "
+            f"{row['mindanao_generation_gwh']:,.2f} GWh in Mindanao. "
+            f"By fuel type: coal {row['coal_generation_gwh']:,.2f} GWh, "
+            f"oil-based {row['oil_based_generation_gwh']:,.2f} GWh, "
+            f"natural gas {row['natural_gas_generation_gwh']:,.2f} GWh, "
+            f"renewable {row['renewable_generation_gwh']:,.2f} GWh. "
+            f"Renewable breakdown: geothermal {row['geothermal_generation_gwh']:,.2f} GWh, "
+            f"hydro {row['hydro_generation_gwh']:,.2f} GWh, "
+            f"biomass {row['biomass_generation_gwh']:,.2f} GWh, "
+            f"solar {row['solar_generation_gwh']:,.2f} GWh, "
+            f"wind {row['wind_generation_gwh']:,.2f} GWh. "
+            f"Installed capacity was {row['total_installed_capacity_mw']:,.2f} MW and dependable capacity {row['total_dependable_capacity_mw']:,.2f} MW."
+        )
+        docs.append({
+            "renewable_type": "general",
+            "category": "national_energy_statistics",
+            "product_type": "annual_report",
+            "content": content,
+            "sources": ["DOE national_energy_annual_ready.csv"],
+        })
+
+    # Trend documents: year-over-year changes
+    for i in range(1, len(df)):
+        prev = df.iloc[i - 1]
+        curr = df.iloc[i]
+        year = int(curr["year"])
+        prev_year = int(prev["year"])
+        total_change = ((curr["total_consumption_gwh"] - prev["total_consumption_gwh"]) / prev["total_consumption_gwh"] * 100) if prev["total_consumption_gwh"] else 0
+        solar_change = ((curr["solar_generation_gwh"] - prev["solar_generation_gwh"]) / prev["solar_generation_gwh"] * 100) if prev["solar_generation_gwh"] else 0
+        wind_change = ((curr["wind_generation_gwh"] - prev["wind_generation_gwh"]) / prev["wind_generation_gwh"] * 100) if prev["wind_generation_gwh"] else 0
+        peak_change = ((curr["total_peak_demand_mw"] - prev["total_peak_demand_mw"]) / prev["total_peak_demand_mw"] * 100) if prev["total_peak_demand_mw"] else 0
+        content = (
+            f"From {prev_year} to {year}, total electricity consumption changed by {total_change:+.1f}% "
+            f"from {prev['total_consumption_gwh']:,.2f} to {curr['total_consumption_gwh']:,.2f} GWh. "
+            f"Peak demand changed by {peak_change:+.1f}% from {prev['total_peak_demand_mw']:,.2f} to {curr['total_peak_demand_mw']:,.2f} MW. "
+            f"Solar generation changed by {solar_change:+.1f}% from {prev['solar_generation_gwh']:,.2f} to {curr['solar_generation_gwh']:,.2f} GWh. "
+            f"Wind generation changed by {wind_change:+.1f}% from {prev['wind_generation_gwh']:,.2f} to {curr['wind_generation_gwh']:,.2f} GWh. "
+            f"Coal generation was {curr['coal_generation_gwh']:,.2f} GWh vs {prev['coal_generation_gwh']:,.2f} GWh previously. "
+            f"Renewable generation was {curr['renewable_generation_gwh']:,.2f} GWh vs {prev['renewable_generation_gwh']:,.2f} GWh previously."
+        )
+        docs.append({
+            "renewable_type": "general",
+            "category": "national_energy_statistics",
+            "product_type": "trend",
+            "content": content,
+            "sources": ["DOE national_energy_annual_ready.csv"],
+        })
+
+    # Long-term summary
+    first = df.iloc[0]
+    last = df.iloc[-1]
+    first_year = int(first["year"])
+    last_year = int(last["year"])
+    total_growth = ((last["total_consumption_gwh"] - first["total_consumption_gwh"]) / first["total_consumption_gwh"] * 100)
+    solar_growth = ((last["solar_generation_gwh"] - first["solar_generation_gwh"]) / first["solar_generation_gwh"] * 100) if first["solar_generation_gwh"] else 0
+    wind_growth = ((last["wind_generation_gwh"] - first["wind_generation_gwh"]) / first["wind_generation_gwh"] * 100) if first["wind_generation_gwh"] else 0
+    peak_growth = ((last["total_peak_demand_mw"] - first["total_peak_demand_mw"]) / first["total_peak_demand_mw"] * 100)
+    content = (
+        f"Long-term Philippine energy trends from {first_year} to {last_year}: "
+        f"Total electricity consumption grew by {total_growth:.1f}% from {first['total_consumption_gwh']:,.2f} to {last['total_consumption_gwh']:,.2f} GWh. "
+        f"Peak demand grew by {peak_growth:.1f}% from {first['total_peak_demand_mw']:,.2f} to {last['total_peak_demand_mw']:,.2f} MW. "
+        f"Coal generation grew from {first['coal_generation_gwh']:,.2f} to {last['coal_generation_gwh']:,.2f} GWh. "
+        f"Natural gas generation changed from {first['natural_gas_generation_gwh']:,.2f} to {last['natural_gas_generation_gwh']:,.2f} GWh. "
+        f"Oil-based generation declined from {first['oil_based_generation_gwh']:,.2f} to {last['oil_based_generation_gwh']:,.2f} GWh. "
+        f"Renewable generation grew from {first['renewable_generation_gwh']:,.2f} to {last['renewable_generation_gwh']:,.2f} GWh. "
+        f"Solar generation grew by {solar_growth:.1f}% from {first['solar_generation_gwh']:,.2f} to {last['solar_generation_gwh']:,.2f} GWh. "
+        f"Wind generation grew by {wind_growth:.1f}% from {first['wind_generation_gwh']:,.2f} to {last['wind_generation_gwh']:,.2f} GWh. "
+        f"Installed capacity expanded from {first['total_installed_capacity_mw']:,.2f} to {last['total_installed_capacity_mw']:,.2f} MW."
+    )
+    docs.append({
+        "renewable_type": "general",
+        "category": "national_energy_statistics",
+        "product_type": "summary",
+        "content": content,
+        "sources": ["DOE national_energy_annual_ready.csv"],
+    })
+
+    logger.info("Built %s national energy knowledge documents", len(docs))
+    return docs
+
+
+# ---------------------------------------------------------------------------
+# Municipality climate knowledge
+# ---------------------------------------------------------------------------
+
+def _load_municipality_names() -> dict[int, str]:
+    """Load municipality_id -> name mapping."""
+    name_map: dict[int, str] = {}
+    if not MUNICIPALITIES_CSV.exists():
+        return name_map
+    df = pd.read_csv(MUNICIPALITIES_CSV)
+    for _, row in df.iterrows():
+        mid = int(row["municipality_id"])
+        name_map[mid] = str(row["name"]).strip()
+    return name_map
+
+
+def build_municipality_climate_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
+    """Build knowledge documents from NASA POWER climate averages per municipality."""
+    docs: list[dict[str, Any]] = []
+    if not CLIMATE_CSV.exists():
+        logger.warning("Climate CSV not found: %s", CLIMATE_CSV)
+        return docs
+
+    name_map = _load_municipality_names()
+    df = pd.read_csv(CLIMATE_CSV)
+
+    # Sort by municipality_id and limit to avoid overwhelming the index
+    df = df.sort_values("municipality_id")
+    if len(df) > max_docs:
+        # Prioritize diverse climates: sample across wind speed and solar irradiance quartiles
+        df["ws_q"] = pd.qcut(df["avg_ws10m"], q=4, labels=False, duplicates="drop")
+        df["sol_q"] = pd.qcut(df["avg_allsky_sfc_sw_dwn"], q=4, labels=False, duplicates="drop")
+        sampled = df.groupby(["ws_q", "sol_q"]).head(max_docs // 16)
+        remaining = max_docs - len(sampled)
+        if remaining > 0:
+            remaining_ids = df[~df["municipality_id"].isin(sampled["municipality_id"])]["municipality_id"].head(remaining)
+            df = pd.concat([sampled, df[df["municipality_id"].isin(remaining_ids)]])
+        else:
+            df = sampled
+
+    for _, row in df.iterrows():
+        mid = int(row["municipality_id"])
+        name = name_map.get(mid, f"Municipality {mid}")
+        content = (
+            f"{name} has an average temperature of {row['avg_t2m']:.1f}°C "
+            f"(max {row['avg_t2m_max']:.1f}°C, min {row['avg_t2m_min']:.1f}°C), "
+            f"relative humidity of {row['avg_rh2m']:.1f}%, "
+            f"average wind speed of {row['avg_ws10m']:.2f} m/s, "
+            f"solar irradiance of {row['avg_allsky_sfc_sw_dwn']:.2f} kWh/m²/day, "
+            f"and elevation of {row['elevation']:.0f} meters. "
+            f"Annual precipitation averages {row['avg_prectotcorr']:.2f} mm/day. "
+            f"Surface pressure is {row['avg_surface_pressure']:.2f} kPa and air density {row['avg_rhoa']:.3f} kg/m³. "
+            f"Cloud amount averages {row['avg_cloud_amt']:.1f}%."
+        )
+        docs.append({
+            "renewable_type": "general",
+            "category": "municipality_climate",
+            "product_type": "climate_profile",
+            "content": content,
+            "sources": ["NASA POWER municipality_climate_averages.csv"],
+        })
+
+    # Add a few high-wind and high-solar highlights for better retrieval
+    df_all = pd.read_csv(CLIMATE_CSV)
+    for label, col, threshold in [("high wind", "avg_ws10m", 5.0), ("high solar", "avg_allsky_sfc_sw_dwn", 5.5)]:
+        top = df_all.nlargest(20, col)
+        for _, row in top.iterrows():
+            mid = int(row["municipality_id"])
+            name = name_map.get(mid, f"Municipality {mid}")
+            content = (
+                f"{name} is a {label} municipality with {col.replace('avg_', '').replace('_', ' ')} "
+                f"of {row[col]:.2f}. "
+                f"Temperature {row['avg_t2m']:.1f}°C, wind {row['avg_ws10m']:.2f} m/s, "
+                f"solar {row['avg_allsky_sfc_sw_dwn']:.2f} kWh/m²/day, elevation {row['elevation']:.0f}m."
+            )
+            docs.append({
+                "renewable_type": "general",
+                "category": "municipality_climate",
+                "product_type": f"{label}_highlight",
+                "content": content,
+                "sources": ["NASA POWER municipality_climate_averages.csv"],
+            })
+
+    logger.info("Built %s municipality climate knowledge documents", len(docs))
+    return docs
+
+
+# ---------------------------------------------------------------------------
+# Terrain / hydropower knowledge
+# ---------------------------------------------------------------------------
+
+def build_terrain_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
+    """Build knowledge documents from municipality terrain metrics."""
+    docs: list[dict[str, Any]] = []
+    if not TERRAIN_CSV.exists():
+        logger.warning("Terrain CSV not found: %s", TERRAIN_CSV)
+        return docs
+
+    df = pd.read_csv(TERRAIN_CSV)
+    df = df.sort_values("municipality_id")
+    if len(df) > max_docs:
+        # Prioritize high-hydropower-potential and high-terrain-diversity municipalities
+        df["hydro_q"] = pd.qcut(df["hydro_suitability_score"], q=4, labels=False, duplicates="drop")
+        sampled = df.groupby("hydro_q").head(max_docs // 4)
+        remaining = max_docs - len(sampled)
+        if remaining > 0:
+            remaining_ids = df[~df["municipality_id"].isin(sampled["municipality_id"])]["municipality_id"].head(remaining)
+            df = pd.concat([sampled, df[df["municipality_id"].isin(remaining_ids)]])
+        else:
+            df = sampled
+
+    for _, row in df.iterrows():
+        name = str(row["municipality_name"]).strip()
+        province = str(row["province"]).strip()
+        content = (
+            f"{name} in {province} has terrain characteristics: "
+            f"elevation {row['elevation_m']:.0f} m (mean {row['mean_elevation_m']:.1f} m, range {row['elevation_range_m']:.0f} m), "
+            f"mean slope {row['mean_slope_deg']:.1f}°, hydraulic head {row['hydraulic_head_m']:.0f} m, "
+            f"terrain ruggedness {row['terrain_ruggedness']:.1f}, watershed gradient {row['watershed_gradient']:.4f}, "
+            f"runoff potential {row['runoff_potential']:.4f}, gravity flow potential {row['gravity_flow_potential']:.4f}. "
+            f"Hydropower suitability score is {row['hydro_suitability_score']:.3f}. "
+            f"Estimated hydropower potential is {row['estimated_hydropower_potential_kw']:.2f} kW. "
+            f"Slope classification: {row['slope_classification']}. Elevation classification: {row['elevation_classification']}."
+        )
+        docs.append({
+            "renewable_type": "hydro",
+            "category": "terrain_metrics",
+            "product_type": "terrain_profile",
+            "content": content,
+            "sources": ["municipality_terrain_metrics.csv"],
+        })
+
+    # Add high-hydropower highlights
+    df_all = pd.read_csv(TERRAIN_CSV)
+    top_hydro = df_all.nlargest(20, "estimated_hydropower_potential_kw")
+    for _, row in top_hydro.iterrows():
+        name = str(row["municipality_name"]).strip()
+        province = str(row["province"]).strip()
+        content = (
+            f"{name} in {province} is a high-hydropower-potential site with "
+            f"estimated capacity of {row['estimated_hydropower_potential_kw']:.2f} kW, "
+            f"hydraulic head {row['hydraulic_head_m']:.0f} m, "
+            f"mean slope {row['mean_slope_deg']:.1f}°, "
+            f"and hydro suitability score {row['hydro_suitability_score']:.3f}."
+        )
+        docs.append({
+            "renewable_type": "hydro",
+            "category": "terrain_metrics",
+            "product_type": "hydro_highlight",
+            "content": content,
+            "sources": ["municipality_terrain_metrics.csv"],
+        })
+
+    logger.info("Built %s terrain knowledge documents", len(docs))
+    return docs
+
+
+# ---------------------------------------------------------------------------
 # Orchestrator
 # ---------------------------------------------------------------------------
 
@@ -457,6 +737,7 @@ def build_knowledge_base(csv_path: Path = DEFAULT_CSV) -> list[dict[str, Any]]:
     logger.info("Loaded %s rows after cleaning/fixes", len(df))
 
     docs: list[dict[str, Any]] = []
+    # Product / scraped data
     docs.extend(build_equipment_cost_knowledge(df))
     docs.extend(build_installation_cost_knowledge(df))
     docs.extend(build_maintenance_cost_knowledge())
@@ -465,6 +746,11 @@ def build_knowledge_base(csv_path: Path = DEFAULT_CSV) -> list[dict[str, Any]]:
     docs.extend(build_comparison_knowledge())
     docs.extend(build_pricing_assumptions_knowledge(df))
     docs.extend(build_raw_product_chunks(df))
+
+    # LUMI data sources
+    docs.extend(build_national_energy_knowledge())
+    docs.extend(build_municipality_climate_knowledge())
+    docs.extend(build_terrain_knowledge())
 
     # Deduplicate by content hash
     seen: set[str] = set()

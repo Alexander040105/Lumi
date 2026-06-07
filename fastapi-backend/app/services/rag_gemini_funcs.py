@@ -24,11 +24,14 @@ def _build_rag_prompt(
     return (
         "You are LUMI, an AI assistant for renewable energy analysis in the Philippines.\n\n"
         "GROUNDING RULES (STRICT):\n"
-        "1. ALL cost figures, price ranges, and equipment names MUST come from the RETRIEVED KNOWLEDGE below.\n"
-        "2. If the retrieved knowledge does not contain a specific number, say so—do NOT hallucinate a price.\n"
-        "3. When giving budgets, cite the renewable type and category (e.g., 'solar panel equipment cost', 'wind installation cost').\n"
-        "4. Use the ECOSIM DATA to tailor the recommendation to the municipality's climate and generation potential.\n"
-        "5. Do not use your internal parametric knowledge for Philippine-specific pricing.\n\n"
+        "1. ALL facts, figures, and data in your response MUST come from the RETRIEVED KNOWLEDGE below.\n"
+        "2. If the retrieved knowledge does not contain a specific number or fact, say so—do NOT hallucinate.\n"
+        "3. Cite the relevant category when using data (e.g., 'solar panel equipment cost', 'national_energy_statistics', 'municipality_climate', 'terrain_metrics').\n"
+        "4. Use the ECOSIM DATA to tailor recommendations to the municipality's climate and generation potential.\n"
+        "5. Use NATIONAL ENERGY STATISTICS for context on Philippine energy trends, grid composition, and peak demand.\n"
+        "6. Use MUNICIPALITY CLIMATE data to discuss local solar, wind, and temperature conditions.\n"
+        "7. Use TERRAIN METRICS when discussing hydropower suitability or site-specific topography.\n"
+        "8. Do not use your internal parametric knowledge for Philippine-specific data—rely only on the retrieved knowledge.\n\n"
         "OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:\n"
         "{\n"
         '  "recommended_energy_source": "solar|wind|hydro",\n'
@@ -38,13 +41,13 @@ def _build_rag_prompt(
         '    "maintenance": "annual estimate with source"\n'
         '  },\n'
         '  "cost_range": "total system cost range in PHP",\n'
-        '  "explanation": "concise reasoning based on climate + retrieved knowledge",\n'
+        '  "explanation": "concise reasoning based on climate + retrieved knowledge + national energy context",\n'
         '  "limitations": "caveats, missing data, or site-specific requirements"\n'
         "}\n\n"
         "SYSTEM CONTEXT: LUMI renewable energy decision support\n\n"
         "ECOSIM DATA (municipality climate + generation estimates):\n"
         f"{simulation_payload}\n\n"
-        "RETRIEVED KNOWLEDGE (use ONLY this for pricing and equipment facts):\n"
+        "RETRIEVED KNOWLEDGE (use ONLY this for all facts and figures in your response):\n"
         f"{context_payload}\n\n"
         "USER QUESTION:\n"
         f"{user_query}\n"
