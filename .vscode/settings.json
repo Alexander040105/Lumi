@@ -18,5 +18,6 @@
         "titleBar.inactiveBackground": "#30573199",
         "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#305731"
+    "peacock.color": "#305731",
+    "python.terminal.useEnvFile": true
 }
