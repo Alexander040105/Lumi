@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
+import About from "../pages/About";
 import Login from "../pages/Login";
 import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
@@ -25,6 +26,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          <Route path="about" element={<About />} />
           <Route path="ecosim" element={<Ecosim />} />
         </Route>
         <Route path="*" element={<NotFound />} />
