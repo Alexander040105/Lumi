@@ -1,75 +1,116 @@
+# =============================================================================
+# LUMI - Comprehensive Python Dependencies
+# =============================================================================
+# This file aggregates every third-party package used across the LUMI repo:
+#   - fastapi-backend/          (API, RAG, LLM clients)
+#   - python_scripts/            (terrain pipeline, climate analysis, ETL)
+#   - scraped_data/              (e-commerce web scrapers)
+#   - windsurf_data_extraction/  (PDF extraction, cleaning, RAG conversion)
+#   - DOE_Data_Extracted/      (Jupyter notebooks for ARIMA preprocessing)
+#
+# Install everything:
+#   pip install -r requirements.txt
+#
+# For heavy ML / GIS packages, install inside a virtual environment.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Web Framework & Server
+# ---------------------------------------------------------------------------
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
-pydantic-settings==2.4.0
-supabase==2.10.0
-python-jose[cryptography]==3.3.0
-httpx==0.27.2
 flask
-redis 
-beautifulsoup4
-google-generativeai
-folium
-supabase
-nltk
-transformers
-langdetect
-torch
-deep-translator
-werkzeug
-google-genai
-logging
-uvicorn
-pandas
-matplotlib
-numpy
-requests
-scikit-learn
-Flask
+flask-cors
+flask-restful
 Flask-SQLAlchemy
 Flask-Migrate
 Flask-Login
 Flask-WTF
-email-validator
-Flask-Mail 
+Flask-Mail
 Flask-Session
 Flask-Bcrypt
-python-dotenv
-gunicorn 
-flask_mysqldb
+gunicorn
+werkzeug
+
+# ---------------------------------------------------------------------------
+# Database & Storage
+# ---------------------------------------------------------------------------
+supabase==2.10.0
+psycopg2-binary
+aiosqlite
+redis==5.0.8
+
+# ---------------------------------------------------------------------------
+# Auth & Security
+# ---------------------------------------------------------------------------
+python-jose[cryptography]==3.3.0
+email-validator
 cryptography
-python-escpos
-langchain
-langchain-ollama
-langchain-chroma
-lxml
+
+# ---------------------------------------------------------------------------
+# HTTP Clients & Web Scraping
+# ---------------------------------------------------------------------------
+httpx==0.27.2
+requests
+selenium==4.23.1
 playwright
-flask
-flask-cors
-flask-restful
-ipykernel
-notebook
+beautifulsoup4
+lxml
+urllib3
+
+# ---------------------------------------------------------------------------
+# Google / LLM APIs
+# ---------------------------------------------------------------------------
+google-genai==0.6.0
+google-generativeai
 google-api-core==2.19.1
 google-api-python-client==2.137.0
 google-auth==2.32.0
 google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.1
 googleapis-common-protos==1.63.2
-dotenv
-aiosqlite
-psycopg2-binary
-selenium==4.23.1
+groq==0.18.0
+
+# ---------------------------------------------------------------------------
+# RAG & NLP
+# ---------------------------------------------------------------------------
+faiss-cpu==1.9.0.post1
+sentence-transformers==3.0.1
+transformers
+nltk
+langdetect
+langchain
+langchain-ollama
+langchain-chroma
+langchain-text-splitters
+deep-translator
+
+# ---------------------------------------------------------------------------
+# Data Science & Time-Series
+# ---------------------------------------------------------------------------
+pandas
+numpy
+matplotlib
+scikit-learn
+statsmodels
+python-dateutil
+tqdm
+torch
+
+# ---------------------------------------------------------------------------
+# PDF & Document Processing
+# ---------------------------------------------------------------------------
 pymupdf
 pdfplumber
 camelot-py[cv]
 tabula-py
 pytesseract
 paddleocr
-langchain-text-splitters
-opencv-python
 pillow
-pandera
-python-dateutil
-tqdm
+
+# ---------------------------------------------------------------------------
+# GIS / Raster / Terrain
+# ---------------------------------------------------------------------------
 rasterio
 geopandas
 shapely
@@ -77,3 +118,24 @@ rasterstats
 pyproj
 richdem
 whitebox
+folium
+
+# ---------------------------------------------------------------------------
+# Validation & Config
+# ---------------------------------------------------------------------------
+pydantic
+pydantic-settings==2.4.0
+python-dotenv==1.0.1
+pandera
+
+# ---------------------------------------------------------------------------
+# POS / Misc
+# ---------------------------------------------------------------------------
+python-escpos
+flask_mysqldb
+
+# ---------------------------------------------------------------------------
+# Jupyter (for notebooks under DOE_Data_Extracted/)
+# ---------------------------------------------------------------------------
+ipykernel
+notebook

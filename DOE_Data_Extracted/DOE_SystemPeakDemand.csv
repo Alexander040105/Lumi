@@ -1,5 +1,5 @@
 Year,LuzonPeakDemand,LuzonDifference,Luzon%GrowthRate,VisayasPeakDemand,VisayasDifference,Visayas%GrowthRate,MindanaoPeakDemand,MindanaoDifference,Mindanao%GrowthRate,PHNon-CoincidentalPeakDemand,PHDifference,PH%GrowthRate
-2001,"5,646",-,-,898,-,-,953,-,-,"7,497",-,-
+2001,"5,646",0,0,898,0,0,953,0,0,"7,497",0,0
 2002,"5,823",177,3.1,903,5,0.6,995,42,4.4,"7,721",224,3
 2003,"6,149",326,5.6,995,92,10.2,"1,131",136,13.7,"8,275",554,7.2
 2004,"6,323",174,2.8,"1,025",30,3,"1,177",46,4.1,"8,525",250,3
