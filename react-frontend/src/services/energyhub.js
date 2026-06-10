@@ -1,0 +1,44 @@
+import { request } from "./apiClient";
+
+const ENERGYHUB_BASE = "/energyhub";
+
+export function getEnergyHubOverview() {
+  return request(`${ENERGYHUB_BASE}/overview`);
+}
+
+export function getEnergyHubForecast(metric = "consumption") {
+  return request(`${ENERGYHUB_BASE}/forecast?metric=${encodeURIComponent(metric)}`);
+}
+
+export function getEnergyHubTrends() {
+  return request(`${ENERGYHUB_BASE}/trends`);
+}
+
+export function getEnergyHubMapData(metric = "renewable_potential") {
+  return request(`${ENERGYHUB_BASE}/map-data?metric=${encodeURIComponent(metric)}`);
+}
+
+export function getEnergyHubSourceBreakdown(year) {
+  const qs = year ? `?year=${year}` : "";
+  return request(`${ENERGYHUB_BASE}/source-breakdown${qs}`);
+}
+
+export function getEnergyHubGridBreakdown(year) {
+  const qs = year ? `?year=${year}` : "";
+  return request(`${ENERGYHUB_BASE}/grid-breakdown${qs}`);
+}
+
+export function getEnergyHubModelComparison() {
+  return request(`${ENERGYHUB_BASE}/model-comparison`);
+}
+
+export function getEnergyHubAiInsight(useLlm = false) {
+  return request(`${ENERGYHUB_BASE}/ai-insight?use_llm=${useLlm}`);
+}
+
+export function analyzeChart(chartType, chartData) {
+  return request(`${ENERGYHUB_BASE}/analyze-chart`, {
+    method: "POST",
+    body: JSON.stringify({ chart_type: chartType, chart_data: chartData }),
+  });
+}

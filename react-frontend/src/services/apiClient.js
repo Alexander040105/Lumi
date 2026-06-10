@@ -2,7 +2,7 @@ import { getApiBaseUrl } from "../utils/env";
 
 const BASE_URL = getApiBaseUrl();
 
-async function request(path, { token, ...options } = {}) {
+export async function request(path, { token, ...options } = {}) {
   const headers = new Headers(options.headers || {});
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);

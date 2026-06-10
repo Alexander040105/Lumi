@@ -7,5 +7,8 @@ export function getSupabaseAnonKey() {
 }
 
 export function getApiBaseUrl() {
+  if (import.meta.env.DEV) {
+    return "/api/v1";
+  }
   return import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 }

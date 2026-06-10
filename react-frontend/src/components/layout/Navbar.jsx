@@ -8,7 +8,8 @@ const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/dashboard", label: "Dashboard" },
-  { to: "/ecosim", label: "Ecosim" }
+  { to: "/ecosim", label: "Ecosim" },
+  { to: "/energyhub", label: "EnergyHub" },
 ];
 
 export default function Navbar() {
