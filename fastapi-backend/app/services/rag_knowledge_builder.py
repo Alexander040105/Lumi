@@ -71,9 +71,9 @@ PRODUCT_TYPE_RULES: list[tuple[str, list[str]]] = [
 
 CURRENCY_TO_PHP = {
     "PHP": 1.0,
-    "USD": 56.0,   # approximate; documents will note this is an estimate
-    "CNY": 7.8,
-    "EUR": 60.0,
+    "USD": 60.0,   # approximate; documents will note this is an estimate
+    "CNY": 8.96,
+    "EUR": 70.0,
 }
 
 # ---------------------------------------------------------------------------
@@ -106,9 +106,9 @@ def to_php(price: float, currency: str) -> float:
 
 def _currency_note(currency: str) -> str:
     if currency.upper() == "USD":
-        return "converted from USD to PHP at approximate rate 1 USD = 56 PHP"
+        return "converted from USD to PHP at approximate rate 1 USD = 60 PHP"
     if currency.upper() == "CNY":
-        return "converted from CNY to PHP at approximate rate 1 CNY = 7.8 PHP"
+        return "converted from CNY to PHP at approximate rate 1 CNY = 8.96 PHP"
     return ""
 
 

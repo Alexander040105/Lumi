@@ -17,12 +17,12 @@ load_dotenv(dotenv_path=_repo_root / ".env")
 logger = logging.getLogger(__name__)
 
 DEFAULT_GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
-DEFAULT_TEMPERATURE = float(os.getenv("GEMINI_TEMPERATURE", "0.2"))
+DEFAULT_TEMPERATURE = float(os.getenv("GEMINI_TEMPERATURE", "0.3"))
 DEFAULT_MAX_OUTPUT_TOKENS = int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS", "3000"))
 GEMINI_DEBUG = os.getenv("GEMINI_DEBUG", "false").lower() in {"1", "true", "yes"}
 if GEMINI_DEBUG:
     logger.setLevel(logging.INFO)
-
+L
 # Fallback chain when the primary model is overloaded.
 # Verified working models for this API version / key:
 #   gemini-2.5-flash   -> works but often 503
@@ -273,7 +273,7 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
         "Summarize the simulation results concisely without changing calculations.\n\n"
         "RULES:\n"
         "- Return ONLY valid JSON. No markdown.\n"
-        "- Keep each text field under 300 characters.\n"
+        "- Keep each text field under 1000 characters.\n"
         "- Use short sentences, no bullet lists.\n"
         "- Mention key drivers: solar irradiance, wind speed, rainfall, elevation, "
         "temperature, humidity, cloud coverage.\n"

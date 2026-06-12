@@ -26,8 +26,8 @@ load_dotenv(dotenv_path=_repo_root / ".env")
 logger = logging.getLogger(__name__)
 
 DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.2"))
-DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "3000"))
+DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
+DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "4000"))
 
 # Free-tier Groq models that work well for structured JSON output
 FALLBACK_GROQ_MODELS = [

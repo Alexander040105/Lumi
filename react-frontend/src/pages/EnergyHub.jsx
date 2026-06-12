@@ -108,23 +108,41 @@ export default function EnergyHub() {
     }
   };
 
-  const handleAnalyzeChart = async (chartType) => {
-    if (chartAnalyses[chartType]) return;
+  const handleAnalyzeChart = async (chartType, forceRefresh = false) => {
+    if (chartAnalyses[chartType] && !forceRefresh) return;
     setLlmLoading(true);
     try {
       let chartData = {};
       if (chartType === "trends" && trends) {
         chartData = {
           years: trends.years,
-          consumption: trends.series?.consumption || [],
+          consumption: trends.series?.total_consumption_gwh || [],
           forecast: trends.forecast?.forecast_values || [],
+        };
+      } else if (chartType === "consumption_trend" && trends) {
+        chartData = {
+          years: trends.years,
+          consumption: trends.series?.total_consumption_gwh || [],
+          forecast_years: trends.forecast?.forecast_years || [],
+          forecast_values: trends.forecast?.forecast_values || [],
+        };
+      } else if (chartType === "peak_demand" && trends) {
+        chartData = {
+          years: trends.years,
+          peak_demand: trends.series?.total_peak_demand_mw || [],
+        };
+      } else if (chartType === "renewable_generation" && trends) {
+        chartData = {
+          years: trends.years,
+          renewable_generation: trends.series?.renewable_generation_gwh || [],
+          total_generation: trends.series?.total_generation_gwh || [],
         };
       } else if (chartType === "sources" && sourceBreakdown) {
         chartData = { shares: sourceBreakdown.share_pct || {} };
       } else if (chartType === "map") {
         chartData = { metric: mapMetric };
       }
-      const result = await analyzeChart(chartType, chartData);
+      const result = await analyzeChart(chartType, chartData, forceRefresh);
       setChartAnalyses((prev) => ({ ...prev, [chartType]: result }));
     } catch (err) {
       toast.error(`Failed to analyze ${chartType}`, { description: err.message });
@@ -171,7 +189,12 @@ export default function EnergyHub() {
 
         {/* Section 3: Energy Trends */}
         <section>
-          <EnergyTrends trends={trends} />
+          <EnergyTrends
+            trends={trends}
+            chartAnalyses={chartAnalyses}
+            llmLoading={llmLoading}
+            onAnalyzeChart={handleAnalyzeChart}
+          />
         </section>
 
         {/* Section 4: Energy Source Comparison */}

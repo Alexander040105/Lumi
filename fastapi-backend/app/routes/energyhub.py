@@ -105,11 +105,17 @@ async def get_ai_insight(
 
 
 @router.post("/analyze-chart", response_model=AnalyzeChartResponse)
-async def analyze_chart(payload: AnalyzeChartRequest):
+async def analyze_chart(
+    payload: AnalyzeChartRequest,
+    force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
+):
     """Send chart data to the LLM and receive a narrative explanation.
 
     Use this endpoint to get AI-powered interpretations of specific
     visualizations (trends, source breakdown, or map).
+
+    Set force_refresh=true to bypass the database cache and generate a
+    brand-new explanation (useful for rotating responses).
     """
     svc = get_energyhub_service()
-    return svc.analyze_chart(payload.chart_type, payload.chart_data)
+    return svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)

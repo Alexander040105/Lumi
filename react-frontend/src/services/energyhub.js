@@ -36,8 +36,9 @@ export function getEnergyHubAiInsight(useLlm = false) {
   return request(`${ENERGYHUB_BASE}/ai-insight?use_llm=${useLlm}`);
 }
 
-export function analyzeChart(chartType, chartData) {
-  return request(`${ENERGYHUB_BASE}/analyze-chart`, {
+export function analyzeChart(chartType, chartData, forceRefresh = false) {
+  const qs = forceRefresh ? "?force_refresh=true" : "";
+  return request(`${ENERGYHUB_BASE}/analyze-chart${qs}`, {
     method: "POST",
     body: JSON.stringify({ chart_type: chartType, chart_data: chartData }),
   });

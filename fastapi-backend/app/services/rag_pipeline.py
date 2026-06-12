@@ -73,7 +73,7 @@ def _sentences(text: str) -> list[str]:
 
 def _semantic_chunks(
     text: str,
-    max_words: int = 120,
+    max_words: int = 150,
     overlap_sentences: int = 1,
 ) -> list[str]:
     """

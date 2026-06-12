@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Sparkles, Loader2 } from "lucide-react";
 
 function SimpleLine({ data, color = "#3b82f6", height = 160 }) {
   if (!data || data.length === 0) return null;
@@ -50,7 +51,48 @@ function SimpleBar({ data, color = "#3b82f6", height = 160 }) {
   );
 }
 
-export default function EnergyTrends({ trends }) {
+function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
+  if (!analysis && !loading) {
+    return (
+      <button
+        onClick={onAnalyze}
+        className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors"
+      >
+        <Sparkles className="h-3 w-3" />
+        AI Explain
+      </button>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-700 border border-amber-200">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Generating analysis...
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-2 rounded-lg bg-amber-50 border border-amber-100 p-3">
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-xs leading-relaxed text-amber-900 whitespace-pre-line flex-1">{analysis?.insight}</p>
+        {onRefresh && (
+          <button
+            onClick={onRefresh}
+            title="Get a different explanation"
+            className="shrink-0 inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700 border border-amber-200 hover:bg-amber-200 transition-colors"
+          >
+            <Sparkles className="h-3 w-3" />
+            Refresh
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnalyzeChart }) {
   const years = trends?.years || [];
   const series = trends?.series || {};
   const forecast = trends?.forecast || {};
@@ -91,8 +133,11 @@ export default function EnergyTrends({ trends }) {
         </div>
       </div>
 
+      {/* Consumption trend */}
       <div className="mt-4">
-        <p className="text-sm text-muted-foreground mb-2">Total Consumption (GWh) — Historical vs Forecast</p>
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">Total Consumption (GWh) — Historical vs Forecast</p>
+        </div>
         <div className="relative rounded-lg border bg-white p-3">
           <SimpleLine data={consumptionSeries.values} color="#3b82f6" height={200} />
           <div className="mt-2 flex justify-between text-xs text-muted-foreground">
@@ -100,20 +145,48 @@ export default function EnergyTrends({ trends }) {
             <span>{consumptionSeries.years[consumptionSeries.years.length - 1]}</span>
           </div>
         </div>
+        {onAnalyzeChart && (
+          <ChartAiPanel
+            chartKey="consumption_trend"
+            analysis={chartAnalyses?.consumption_trend}
+            onAnalyze={() => onAnalyzeChart("consumption_trend")}
+            onRefresh={() => onAnalyzeChart("consumption_trend", true)}
+            loading={llmLoading}
+          />
+        )}
       </div>
 
+      {/* Peak demand + Renewable generation */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">Peak Demand (MW)</p>
           <div className="rounded-lg border bg-white p-3">
             <SimpleLine data={series.total_peak_demand_mw || []} color="#f43f5e" height={140} />
           </div>
+          {onAnalyzeChart && (
+            <ChartAiPanel
+              chartKey="peak_demand"
+              analysis={chartAnalyses?.peak_demand}
+              onAnalyze={() => onAnalyzeChart("peak_demand")}
+              onRefresh={() => onAnalyzeChart("peak_demand", true)}
+              loading={llmLoading}
+            />
+          )}
         </div>
         <div>
           <p className="text-sm text-muted-foreground mb-2">Renewable Generation (GWh)</p>
           <div className="rounded-lg border bg-white p-3">
             <SimpleBar data={series.renewable_generation_gwh || []} color="#10b981" height={140} />
           </div>
+          {onAnalyzeChart && (
+            <ChartAiPanel
+              chartKey="renewable_generation"
+              analysis={chartAnalyses?.renewable_generation}
+              onAnalyze={() => onAnalyzeChart("renewable_generation")}
+              onRefresh={() => onAnalyzeChart("renewable_generation", true)}
+              loading={llmLoading}
+            />
+          )}
         </div>
       </div>
     </div>
