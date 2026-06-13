@@ -1,4 +1,3 @@
-
 def calculate_temperature_factor(avg_temp_c: float | None, temp_coeff_per_c: float = -0.004) -> float:
     if avg_temp_c is None:
         return 1.0

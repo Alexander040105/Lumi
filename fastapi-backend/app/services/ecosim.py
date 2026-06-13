@@ -216,7 +216,7 @@ def renewable_energy_calculator(
     # NOTE: SOLAR CALCULATIONS:
     # NOTE: this default config is estimated based on typical residential solar panel setups and can be adjusted in the future for more customization or to reflect different market conditions. It is currently hardcoded for simplicity and to provide a baseline for calculations.   
     solar_panel_default_config = {
-        "panel_wattage": 550,
+        "panel_wattage": 400,
         "number_of_panels": 2,
         "system_efficiency": 0.80,
         "temp_coeff_per_c": -0.004,
