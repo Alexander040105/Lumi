@@ -15,6 +15,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 ## Key Features
 
 ### EcoSim — Household Renewable Energy Simulator
+
 - **Municipality-level climate lookup** across 1,600+ Philippine municipalities
 - **Solar output estimation** using irradiance, temperature, humidity, and dust-loss adjustments
 - **Wind output estimation** via physics-based power-coefficient and capacity-factor calculations
@@ -23,6 +24,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **AI-powered recommendations** via Google Gemini, optionally enhanced with Retrieval-Augmented Generation (RAG)
 
 ### EnergyHub — National Energy Analytics & Forecasting
+
 - **Interactive historical dashboard**: Philippine national energy statistics (2003–2024)
 - **ARIMA-based demand forecasts**: 2025–2030 projections with confidence intervals
 - **Interactive choropleth maps**: Province-level renewable potential using Leaflet
@@ -31,6 +33,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **AI-assisted data-driven insights** for policy and planning contexts
 
 ### Authentication & Security
+
 - Email/password and Google OAuth authentication via **Supabase Auth**
 - JWT-protected FastAPI routes with role-based access
 - Row-Level Security (RLS) on PostgreSQL tables
@@ -41,6 +44,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 ## Tech Stack
 
 ### Frontend
+
 - **React 18** with Vite
 - **Tailwind CSS** + **shadcn/ui** component primitives
 - **Leaflet** + **React-Leaflet** for interactive mapping
@@ -48,6 +52,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **Zod** + **React Hook Form** for validation
 
 ### Backend
+
 - **FastAPI** (Python) — RESTful API with Pydantic validation
 - **Uvicorn** — ASGI server
 - **Supabase** — Managed PostgreSQL + Auth
@@ -55,6 +60,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **python-jose** — JWT encoding/decoding
 
 ### Machine Learning & AI
+
 - **ARIMA(1,1,1)** — Core national energy demand forecasting model
 - **statsmodels** — Statistical modeling and time-series diagnostics
 - **scikit-learn** — Controlled Random Forest experiment and metrics
@@ -63,6 +69,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **LangChain + NLTK** — Document chunking and preprocessing for RAG
 
 ### Data & GIS
+
 - **NASA POWER API** — Municipal climate data (solar irradiance, wind, rainfall, temperature)
 - **USGS SRTM / HydroSHEDS** — DEM and terrain data for hydropower
 - **rasterio, geopandas, richdem, whitebox** — Raster and terrain processing
@@ -73,6 +80,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 ## Quick Start
 
 ### Prerequisites
+
 - **Node.js** 18+
 - **Python** 3.11+
 - A **Supabase** account (free tier sufficient)
@@ -180,7 +188,7 @@ Lumi/
 The EnergyHub forecasting module uses a **pre-trained ARIMA(1,1,1)** model, trained offline on DOE data (2003–2020) and evaluated on 2021–2024.
 
 | Model | MAE | RMSE | MAPE |
-|-------|-----|------|------|
+| --- | --- | --- | --- |
 | Linear Trend Regression | 5,994 | 7,342 | 4.97 % |
 | Holt Linear Smoothing | 6,558 | 7,998 | 5.44 % |
 | Naive with Drift | 6,709 | 8,128 | 5.57 % |
@@ -197,11 +205,10 @@ See `docs/04-ML-Data-Science/` for full methodology, data sources, and model ana
 ## Data Sources
 
 | Source | Data | Usage |
-|--------|------|-------|
+| --- | --- | --- |
 | **DOE Philippines** | National power statistics (2003–2024) | Historical trends, ARIMA training, generation mix |
 | **NASA POWER API** | Municipal climate (irradiance, wind, rainfall, temp) | EcoSim solar, wind, and hydro calculations |
 | **USGS SRTM / HydroSHEDS** | DEM, elevation, river networks | Hydropower hydraulic head and terrain analysis |
-| **PSA** | Household energy baselines | Consumption reference data |
 | **E-commerce scrapers** | Equipment pricing (solar, wind, hydro) | RAG knowledge base for AI cost estimates |
 
 ---
@@ -209,12 +216,14 @@ See `docs/04-ML-Data-Science/` for full methodology, data sources, and model ana
 ## API Endpoints (Key)
 
 ### EcoSim
+
 - `GET /api/v1/ecosim/municipalities` — List all municipalities
 - `GET /api/v1/ecosim/?municipality_id={id}&monthly_consumption=...&monthly_bill=...` — Run simulation
 - `GET /api/v1/ecosim/...&include_ai=true` — Simulation + Gemini analysis
 - `GET /api/v1/ecosim/...&include_ai=true&use_rag=true` — Simulation + RAG-backed analysis
 
 ### EnergyHub
+
 - `GET /api/v1/energyhub/overview` — Latest statistics + forecast summary
 - `GET /api/v1/energyhub/forecast?metric=consumption` — 2025–2030 forecast
 - `GET /api/v1/energyhub/trends` — Historical time-series data
@@ -228,7 +237,7 @@ See `docs/04-ML-Data-Science/` for full methodology, data sources, and model ana
 All project documentation has been organized into categorized folders under `docs/`:
 
 | Category | Location |
-|----------|----------|
+| --- | --- |
 | Project Overview & Setup | `docs/01-Project-Overview/` |
 | System Architecture | `docs/02-Architecture/` |
 | Module Specifications | `docs/03-Modules/` |
@@ -243,14 +252,17 @@ All project documentation has been organized into categorized folders under `doc
 ## Deployment
 
 ### Frontend
+
 - **Recommended:** [Vercel](https://vercel.com) — zero-config static hosting
 - **Alternative:** Cloudflare Pages
 
 ### Backend
+
 - **Recommended:** [Render](https://render.com) — free-tier FastAPI hosting
 - **Note:** The free tier has 512 MB RAM and 100 s request limits. ARIMA artifacts are pre-computed to avoid heavy inference at runtime.
 
 ### Database & Cache
+
 - **Supabase** — PostgreSQL + Auth (free tier)
 - **Upstash Redis** — Session caching (free tier)
 
@@ -258,7 +270,7 @@ All project documentation has been organized into categorized folders under `doc
 
 ## Contributing
 
-This is a thesis project for the **Bachelor of Science in Information Technology** at the **University of the Cordilleras**. Contributions, feedback, and academic collaboration are welcome.
+This is a thesis project for the **Bachelor of Science in Computer Science Major in Data Science** at the **University of Perpetual Help System DALTA - Molino Campus**. Contributions, feedback, and academic collaboration are welcome.
 
 ---
 
