@@ -74,16 +74,25 @@ Data Tier (Supabase PostgreSQL + Filesystem)
 | Technology | Version | Purpose |
 |------------|---------|---------|
 | React | 18.3.1 | UI library for component-based interfaces |
+| React DOM | 18.3.1 | React renderer for the DOM |
 | Vite | 5.4.2 | Build tool and development server |
 | React Router DOM | 6.26.0 | Client-side routing |
 | TailwindCSS | 4.0.0 | Utility-first CSS framework |
-| Radix UI | 1.1.2 | Accessible UI primitives (Dialog, Dropdown, Tooltip) |
+| @tailwindcss/postcss / @tailwindcss/vite | 4.0.0 | Tailwind PostCSS / Vite integrations |
+| Radix UI | 1.1.2 | Accessible UI primitives (Dialog, Dropdown, Tooltip, Slot) |
+| class-variance-authority | 0.7.0 | Component variant management |
+| clsx | 2.1.1 | Conditional className construction |
+| tailwind-merge | 2.6.1 | Tailwind class deduplication |
+| tailwindcss-animate | 1.0.7 | Tailwind animation utilities |
 | Lucide React | 0.445.0 | Icon library |
 | Leaflet / React-Leaflet | 1.9.4 / 4.2.1 | Interactive maps |
 | React Hook Form | 7.53.0 | Form state management |
+| @hookform/resolvers | 3.9.1 | Form resolver integrations (Zod) |
 | Zod | 3.23.8 | Schema validation |
 | Sonner | 1.5.0 | Toast notifications |
 | Supabase JS Client | 2.45.0 | Direct database queries |
+| @vitejs/plugin-react | 4.3.1 | Official Vite React plugin |
+| PostCSS / Autoprefixer | 8.4.45 / 10.5.0 | CSS processing |
 
 ### 3.4.2 Backend
 
@@ -94,6 +103,16 @@ Data Tier (Supabase PostgreSQL + Filesystem)
 | Python | 3.13.2 | Primary language |
 | Pydantic / Pydantic-Settings | 2.x / 2.4.0 | Data validation and configuration |
 | python-dotenv | 1.0.1 | Environment variable management |
+| supabase-py | 2.10.0 | Python Supabase REST client |
+| python-jose[cryptography] | 3.3.0 | JWT token handling |
+| httpx | 0.27.2 | Async HTTP client |
+| redis | 5.0.8 | Async Redis client (Upstash) |
+| google-genai | 0.6.0 | Google Gemini SDK |
+| groq | 0.18.0 | Groq LLM API client |
+| sentence-transformers | 3.0.1 | Text embeddings (RAG) |
+| faiss-cpu | 1.9.0.post1 | Vector similarity search (RAG) |
+| pandas | >=2.0.0 | Data manipulation |
+| numpy | >=1.24.0 | Numerical computing |
 
 ### 3.4.3 Database
 
@@ -102,6 +121,7 @@ Data Tier (Supabase PostgreSQL + Filesystem)
 | Supabase (PostgreSQL) | Managed relational database with RLS |
 | psycopg2-binary | PostgreSQL Python adapter |
 | supabase-py | 2.10.0 | Python REST client |
+| postgrest | Supabase Python client internal REST library |
 
 ### 3.4.4 Machine Learning & Data Science
 
@@ -109,19 +129,22 @@ Data Tier (Supabase PostgreSQL + Filesystem)
 |---------|---------|
 | pandas | Data manipulation |
 | numpy | Numerical computing |
-| matplotlib | Visualization |
-| scikit-learn | Regression, Random Forest, metrics (MAE, RMSE, MAPE) |
+| matplotlib | Visualization (notebooks + backend plots) |
+| scikit-learn | Linear Regression, Random Forest, metrics (MAE, RMSE, MAPE) |
 | statsmodels | ARIMA, SARIMAX, Holt smoothing, ADF test |
+| scipy | Scientific computing (used via statsmodels/sklearn)
 
 ### 3.4.5 AI & NLP
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Google GenAI | 0.6.0 | Gemini LLM client |
+| Google GenAI | 0.6.0 | Gemini LLM client (primary) |
+| google-generativeai | — | Legacy Gemini client (migrated to google-genai) |
 | Groq | 0.18.0 | Fallback LLM API |
-| FAISS (CPU) | 1.9.0.post1 | Vector similarity search |
-| Sentence-Transformers | 3.0.1 | Text embeddings |
-| LangChain | — | LLM orchestration |
+| FAISS (CPU) | 1.9.0.post1 | Vector similarity search (RAG) |
+| Sentence-Transformers | 3.0.1 | Text embeddings (all-MiniLM-L6-v2) |
+
+> **Note:** LangChain and related packages (`langchain`, `langchain-ollama`, `langchain-chroma`, `langchain-text-splitters`) are listed in `requirements.txt` but are **not actually imported or used** in any source code. The RAG pipeline is fully custom-built with direct FAISS + sentence-transformers integration.
 
 ### 3.4.6 GIS & Terrain
 
@@ -130,24 +153,72 @@ Data Tier (Supabase PostgreSQL + Filesystem)
 | rasterio | DEM raster I/O |
 | geopandas / shapely | Geospatial DataFrame and geometry |
 | rasterstats | Zonal statistics |
-| richdem | DEM analysis (slope, ruggedness) |
+| pyproj | Coordinate reference system transformations |
+| whitebox | WhiteboxTools wrapper for D8 flow direction / accumulation |
+| richdem | DEM analysis (slope, ruggedness) — **currently disabled** |
+| folium | Interactive map visualization (notebooks)
 
 ### 3.4.7 PDF Processing
 
 | Library | Purpose |
 |---------|---------|
-| pymupdf / pdfplumber | Text and table extraction |
-| camelot-py | PDF table extraction |
-| pytesseract / paddleocr | OCR |
+| pymupdf | PDF text extraction |
+| pdfplumber | PDF text + table extraction |
+| camelot-py[cv] | PDF table extraction |
+| tabula-py | Alternative PDF table extraction |
+| pytesseract | OCR (Tesseract wrapper) |
+| paddleocr | OCR (PaddleOCR) |
+| pillow | Image processing (OCR pre-processing)
 
-### 3.4.8 Development Tools
+### 3.4.8 Web Scraping
+
+| Library | Purpose |
+|---------|---------|
+| selenium | Browser automation (Amazon, Lazada scrapers) |
+| beautifulsoup4 | HTML parsing |
+| lxml | XML / HTML parser backend |
+| requests | HTTP requests |
+| urllib3 | HTTP client (used by requests / selenium) |
+
+### 3.4.9 Jupyter & Prototyping
+
+| Library | Purpose |
+|---------|---------|
+| ipykernel | Jupyter kernel for notebooks |
+| notebook | Classic Jupyter notebook server |
+
+### 3.4.10 Development Tools
 
 | Tool | Purpose |
 |------|---------|
 | Git / GitHub | Version control |
 | Visual Studio Code | IDE |
-| Jupyter Notebook | Data exploration and prototyping |
 | Postman / HTTPie | API testing |
+| concurrently | Run frontend + backend dev servers simultaneously |
+
+### 3.4.11 Listed but Unused Dependencies
+
+The following packages appear in `requirements.txt` / `requirements-no-torch.txt` but are **not imported or actively used** in the current LUMI codebase. They were either included speculatively, are transitive dependencies, or belong to legacy experiments:
+
+| Package | Reason for Exclusion |
+|---------|----------------------|
+| `langchain`, `langchain-ollama`, `langchain-chroma`, `langchain-text-splitters` | Not imported in any Python file; RAG is custom-built |
+| `flask`, `flask-cors`, `flask-restful`, `Flask-SQLAlchemy`, `Flask-Migrate`, `Flask-Login`, `Flask-WTF`, `Flask-Mail`, `Flask-Session`, `Flask-Bcrypt` | No Flask apps in the LUMI repo |
+| `gunicorn` | Not used (Uvicorn is the ASGI server) |
+| `werkzeug` | Not used directly |
+| `playwright` | Not imported in scrapers (Selenium is used instead) |
+| `torch` | Transitive dependency of `sentence-transformers`; no direct PyTorch code |
+| `nltk` | Not imported |
+| `langdetect` | Not imported |
+| `deep-translator` | Not imported |
+| `aiosqlite` | Not imported |
+| `email-validator` | Not imported |
+| `cryptography` | Not imported directly (pulled in by `python-jose`) |
+| `python-escpos` | Not imported |
+| `flask_mysqldb` | Not imported |
+| `pandera` | Not imported |
+| `tqdm` | Not imported |
+| `python-dateutil` | Transitive dependency (used by pandas) |
 
 ---
 
@@ -288,13 +359,20 @@ AI responses are cached in `chart_ai_insights`:
 
 | Component | Technology |
 |-----------|------------|
-| Document ingestion | `pymupdf`, `pdfplumber` |
-| Text splitting | LangChain |
-| Embeddings | Sentence-Transformers |
-| Vector store | FAISS (CPU) |
-| Generation | Gemini 2.5 Flash |
+| Document ingestion | `pymupdf`, `pdfplumber`, custom extraction scripts |
+| Text splitting | Custom sentence-aware chunker (regex-based, ~150 words, 1-sentence overlap) |
+| Embeddings | Sentence-Transformers (`all-MiniLM-L6-v2`) with normalized vectors |
+| Vector store | FAISS (`IndexFlatIP` — exact cosine similarity on normalized embeddings) |
+| Generation | Gemini 2.5 Flash via `google-genai` SDK |
 
-**Workflow**: Simulate → construct query → FAISS retrieves relevant chunks → inject into Gemini prompt → generate personalized recommendation.
+**Workflow**:
+1. **Knowledge Building** (`rag_knowledge_builder.py`): Aggregate scraped products, DOE energy stats, NASA POWER climate data, and terrain metrics into structured documents with metadata (`renewable_type`, `category`, `product_type`).
+2. **Chunking** (`rag_pipeline.py`): Sentence-aware semantic chunking with HTML cleaning and overlap.
+3. **Indexing** (`rag_pipeline.py`): Embed with `all-MiniLM-L6-v2`, build FAISS `IndexFlatIP`, persist to `rag_faiss.index` + `rag_chunks.json`.
+4. **Retrieval** (`rag_gemini_funcs.py`): Embed query, FAISS search (score threshold 0.25), optional metadata filtering by renewable type.
+5. **Generation**: Inject retrieved chunks + ECOSIM simulation data into a strictly grounded prompt → force JSON output with budget, source recommendation, and caveats.
+
+> **Important:** LangChain is **not used** in the RAG pipeline. The entire pipeline is custom-built with direct FAISS + sentence-transformers integration for full control over chunking, metadata, and retrieval logic.
 
 ---
 
@@ -398,6 +476,86 @@ AI responses are cached in `chart_ai_insights`:
 - **Secrets**: API keys stored in `.env`; excluded from version control.
 - **RLS**: Supabase Row Level Security policies enforce data access control.
 - **Validation**: Pydantic schemas enforce type-safe API contracts.
+
+---
+
+## 3.13 Research & System Development Checklist — Repo Mapping
+
+This section maps each required research and system development deliverable to the corresponding files and documentation available in the LUMI repository.
+
+### 3.13.1 Research Foundation
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| Conceptual Model of the Study | Available | `lumi-details/Thesis-Lumi.docx.pdf`, `lumi-details/Chapter1_Solis-Torreno-Virata.pdf`, `lumi-details/chapter1_full.txt` |
+| Document Reviews | Available | `regionalData/DOE_Data/` — DOE PDFs (Pocket Size 2024, Grid Gross Generation, Philippine Energy Situationer, Compendium) |
+| Observation | Available | Covered in thesis Chapter 1; see `lumi-details/chapter1_full.txt` |
+
+### 3.13.2 Project Planning
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| Project Development Methodology (SDLC) | Partial | Covered in thesis documents (`lumi-details/`); no dedicated SDLC doc |
+| Planning | Partial | Covered in thesis scope and objectives (`lumi-details/`) |
+| Project Schedule: Gantt Chart | Not found | — |
+| Feasibility Study | Partial | Thesis Chapter 1 covers problem justification; `windsurf_data_extraction/reports/data_quality_report.md` |
+| Development and Operational Cost | Not found | — |
+| Benefits and Return of Investment | Not found | — |
+| Commercialization and Monetization Plan | Not found | — |
+
+### 3.13.3 Requirements & Specifications
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| Requirements Specifications: Tools, Technologies, or Platforms Used | Available | Section 3.4 of this document |
+| Functional Requirements | Available | `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md` describe endpoints and features |
+| Software / Framework / Tools, AI, Algorithms Requirements | Available | Section 3.4 and 3.7 of this document; `TECH_STACK_MVP_GUIDE.md` |
+| Hardware Requirements | Not found | — |
+
+### 3.13.4 Software Design
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| Software Design | Available | `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md`, `FASTAPI_ARCHITECTURE_GUIDE.md` |
+| Conceptual Design | Available | ASCII architecture diagrams in `ECOSIM_ARCHITECTURE.md` and `ENERGYHUB_ARCHITECTURE.md` |
+| Technical Design | Available | `API_STRUCTURE_GUIDE.md`, `FRONTEND_STRUCTURE_GUIDE.md`, `FASTAPI_ARCHITECTURE_GUIDE.md` |
+| Context Data Flow Diagram | Partial | ASCII data-flow diagrams in `ECOSIM_ARCHITECTURE.md` (Section 4) and `ENERGYHUB_ARCHITECTURE.md` (Section 4) |
+| Top-Down Data Flow Diagram | Not found | No formal DFD image or diagram file |
+| Logical Data Flow Diagram | Not found | No formal DFD image or diagram file |
+| Physical Data Flow Diagram | Not found | No formal DFD image or diagram file |
+| Entity Relationship Diagram | Partial | `SUPABASE_GUIDE.md` describes tables and relationships; no formal ERD image |
+| Data Dictionary | Partial | Table schemas and field descriptions in this document (Sections 3.6, 3.8), `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md` |
+| System Flow Chart | Partial | ASCII flow diagrams in architecture guides |
+| Algorithm Structure | Available | `LUMI_ML_MODEL_ANALYSIS.md`, `DOE_Data_Extracted/DOE_arima_forecasting.ipynb`, `LUMI_METHODOLOGY_ML.md` |
+| AI Tools and APIs | Available | Sections 3.7 and 3.7.4 of this document; `ECOSIM_ARCHITECTURE.md` (Section 4.2) |
+
+### 3.13.5 Development & Testing
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| System Development Procedures | Available | `DEVELOPMENT_GUIDE.md`, `FASTAPI_ARCHITECTURE_GUIDE.md` |
+| Testing Scripts / Code | Available | `fastapi-backend/app/services/test_rag_pipeline.py`, `test_full_pipeline.py`, `test_retrieval_only.py`, `test_rag_normalize.py`, `test_prompt_inspection.py`, `test_gemini_mock.py` |
+| Testing Procedures | Available | Manual test procedures in `ECOSIM_ARCHITECTURE.md` (Section 7), `ENERGYHUB_ARCHITECTURE.md` (Section 7) |
+| System Test Plan | Partial | Test scripts and manual curl commands exist; no formal test plan document |
+
+### 3.13.6 Deployment
+
+| Checklist Item | Status | Repo File(s) / Location |
+|---|---|---|
+| Deployment | Available | `DEVELOPMENT_GUIDE.md` (Vercel section), `README.md` |
+
+### 3.13.7 Game-Specific (N/A)
+
+| Checklist Item | Status | Notes |
+|---|---|---|
+| Story Board | N/A | LUMI is not a game |
+| Mechanics | N/A | LUMI is not a game |
+
+### 3.13.8 Summary
+
+- **Available / Partially Available**: 18 items
+- **Not Found / Missing**: 8 items (Gantt Chart, Cost/ROI/Monetization, Hardware Requirements, formal DFDs, formal ERD image, formal Test Plan document)
+- **N/A**: 2 items (Story Board, Mechanics)
 
 ---
 
