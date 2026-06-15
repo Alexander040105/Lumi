@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
-import { getEcosim, getMunicipalities } from "@/services/apiClient";
+import { getEcosim, getHomes, getMunicipalities, getSeasonalEcosim, saveSimulation } from "@/services/apiClient";
+import { AuthContext } from "@/context/AuthContext";
 
 const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
@@ -18,6 +20,8 @@ const formatCurrency = (value) =>
   }).format(value ?? 0);
 
 export default function Ecosim() {
+  const { session, accessToken } = useContext(AuthContext);
+
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
@@ -29,6 +33,21 @@ export default function Ecosim() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  // Save-to-home state
+  const [homes, setHomes] = useState([]);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [selectedHomeId, setSelectedHomeId] = useState("");
+  const [simulationName, setSimulationName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Seasonal state
+  const [seasonalMode, setSeasonalMode] = useState(false);
+  const [seasonalData, setSeasonalData] = useState(null);
+  const [seasonalLoading, setSeasonalLoading] = useState(false);
+  const [seasonalError, setSeasonalError] = useState(null);
 
   const filteredMunicipalities = useMemo(() => {
     const q = muniQuery.trim().toLowerCase();
@@ -70,6 +89,7 @@ export default function Ecosim() {
     event.preventDefault();
     setError(null);
     setLoading(true);
+    setSaveSuccess(false);
 
     try {
       const data = await getEcosim({
@@ -83,6 +103,83 @@ export default function Ecosim() {
       setError(err?.message || "Unable to load Ecosim data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const openSaveModal = async () => {
+    setSaveError(null);
+    setSaveSuccess(false);
+    setSimulationName(`${result.recommended_source} — ${result.municipality}`);
+    try {
+      const data = await getHomes(accessToken);
+      setHomes(data?.items || []);
+      if (data?.items?.length) {
+        setSelectedHomeId(data.items[0].home_id);
+      }
+      setShowSaveModal(true);
+    } catch (err) {
+      setSaveError(err?.message || "Unable to load your homes.");
+    }
+  };
+
+  const handleSaveSimulation = async () => {
+    if (!selectedHomeId) {
+      setSaveError("Please select a home.");
+      return;
+    }
+    setSaving(true);
+    setSaveError(null);
+    setSaveSuccess(false);
+
+    const payload = {
+      simulation_name: simulationName || `${result.recommended_source} — ${result.municipality}`,
+      recommended_source: result.recommended_source,
+      suitability_score: result.suitability_score,
+      estimated_generation_kwh: result.estimated_generation_kwh,
+      monthly_savings_php: result.monthly_savings,
+      installation_cost_php: result.installation_cost,
+      payback_years: result.payback_years,
+      carbon_reduction_kg: result.carbon_reduction,
+      independence_score: result.independence_score,
+      results_json: {
+        options: result.options,
+        comparison: result.comparison,
+        climate: result.climate,
+        renewable_energy_results: result.renewable_energy_results,
+      },
+      ai_analysis_json: result.ai_analysis,
+    };
+
+    try {
+      await saveSimulation(accessToken, selectedHomeId, payload);
+      setSaveSuccess(true);
+      setTimeout(() => setShowSaveModal(false), 1200);
+    } catch (err) {
+      setSaveError(err?.message || "Failed to save simulation.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const fetchSeasonalData = async () => {
+    if (!municipalityId) return;
+    setSeasonalLoading(true);
+    setSeasonalError(null);
+    try {
+      const data = await getSeasonalEcosim(String(municipalityId).trim());
+      setSeasonalData(data);
+    } catch (err) {
+      setSeasonalError(err?.message || "Failed to load seasonal data.");
+    } finally {
+      setSeasonalLoading(false);
+    }
+  };
+
+  const toggleSeasonal = () => {
+    const next = !seasonalMode;
+    setSeasonalMode(next);
+    if (next && !seasonalData) {
+      fetchSeasonalData();
     }
   };
 
@@ -182,6 +279,18 @@ export default function Ecosim() {
                 <span>Include AI analysis</span>
               </label>
             </div>
+            <div className="flex items-end space-x-2">
+              <label className="flex items-center space-x-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={seasonalMode}
+                  onChange={toggleSeasonal}
+                  disabled={loading}
+                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary"
+                />
+                <span>Seasonal breakdown</span>
+              </label>
+            </div>
             <div className="flex items-end">
               <Button type="submit" disabled={loading || !municipalityId} className="w-full">
                 {loading ? "Running simulation..." : "Run simulation"}
@@ -232,7 +341,7 @@ export default function Ecosim() {
           </Card>
 
           {/* KPIs */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm">Estimated monthly generation</CardTitle>
@@ -279,7 +388,86 @@ export default function Ecosim() {
                 </p>
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Energy independence</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-semibold">
+                  {formatNumber(result.independence_score)} %
+                </p>
+              </CardContent>
+            </Card>
           </div>
+
+          {/* Save-to-home action */}
+          {session && (
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={openSaveModal}>
+                Save to Home
+              </Button>
+            </div>
+          )}
+
+          {/* Save modal */}
+          {showSaveModal && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+              <Card className="w-full max-w-md">
+                <CardHeader>
+                  <CardTitle>Save Simulation</CardTitle>
+                  <CardDescription>Save this result to one of your homes.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {homes.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">
+                      You have no homes yet. Create one in the My Homes page first.
+                    </p>
+                  ) : (
+                    <>
+                      <div className="space-y-2">
+                        <Label>Home</Label>
+                        <select
+                          className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={selectedHomeId}
+                          onChange={(e) => setSelectedHomeId(e.target.value)}
+                        >
+                          {homes.map((h) => (
+                            <option key={h.home_id} value={h.home_id}>
+                              {h.name} — {h.municipality_name || "Unknown"}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Simulation name</Label>
+                        <Input
+                          value={simulationName}
+                          onChange={(e) => setSimulationName(e.target.value)}
+                          placeholder="e.g., Solar option — January 2026"
+                        />
+                      </div>
+                    </>
+                  )}
+                  {saveError && (
+                    <p className="text-sm text-destructive">{saveError}</p>
+                  )}
+                  {saveSuccess && (
+                    <p className="text-sm text-green-600">Simulation saved successfully!</p>
+                  )}
+                </CardContent>
+                <CardContent className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setShowSaveModal(false)}>
+                    Cancel
+                  </Button>
+                  {homes.length > 0 && (
+                    <Button onClick={handleSaveSimulation} disabled={saving}>
+                      {saving ? "Saving..." : "Save"}
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* Climate data */}
           {result.climate && (
@@ -553,6 +741,52 @@ export default function Ecosim() {
               </Table>
             </CardContent>
           </Card>
+
+          {/* Seasonal breakdown */}
+          {seasonalMode && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Seasonal Breakdown</CardTitle>
+                <CardDescription>
+                  Monthly renewable generation across 12 months using latest NASA POWER data.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {seasonalLoading && <p className="text-sm text-muted-foreground">Loading seasonal data...</p>}
+                {seasonalError && <p className="text-sm text-destructive">{seasonalError}</p>}
+                {seasonalData && !seasonalLoading && (
+                  <div className="overflow-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Month</TableHead>
+                          <TableHead>Solar (kWh)</TableHead>
+                          <TableHead>Wind (kWh)</TableHead>
+                          <TableHead>Hydro (kWh)</TableHead>
+                          <TableHead>Irradiance</TableHead>
+                          <TableHead>Wind Speed</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {seasonalData.map((row) => (
+                          <TableRow key={row.month}>
+                            <TableCell className="font-medium">
+                              {new Date(2024, row.month - 1).toLocaleString("default", { month: "short" })}
+                            </TableCell>
+                            <TableCell>{formatNumber(row.solar_output_kwh, 1)}</TableCell>
+                            <TableCell>{formatNumber(row.wind_output_kwh, 1)}</TableCell>
+                            <TableCell>{formatNumber(row.hydro_output_kwh, 1)}</TableCell>
+                            <TableCell>{formatNumber(row.solar_irradiance, 2)}</TableCell>
+                            <TableCell>{formatNumber(row.wind_speed, 2)} m/s</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
       )}
     </section>

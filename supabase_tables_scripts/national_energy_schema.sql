@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS public.ml_model_registry (
     model_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     model_name        text NOT NULL,
     model_version     text NOT NULL,
-    model_type        text NOT NULL CHECK (model_type IN ('SARIMA', 'LightGBM', 'XGBoost', 'Prophet')),
+    model_type        text NOT NULL CHECK (model_type IN ('SARIMA', 'ARIMA', 'LinearTrend', 'HoltWinters', 'RandomForest', 'LightGBM', 'XGBoost', 'Prophet')),
     target_variable   text NOT NULL,  -- e.g. 'total_consumption_gwh', 'total_peak_demand_mw'
     train_date        date NOT NULL,
     metrics           jsonb,           -- {'mape': 5.2, 'rmse': 1234.5, 'mae': 890.1}

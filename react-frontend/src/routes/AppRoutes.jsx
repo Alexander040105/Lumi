@@ -8,6 +8,8 @@ import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
+import MyHomes from "../pages/MyHomes";
+import HomeDetail from "../pages/HomeDetail";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
 
@@ -29,6 +31,22 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="homes"
+            element={
+              <ProtectedRoute>
+                <MyHomes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="homes/:homeId"
+            element={
+              <ProtectedRoute>
+                <HomeDetail />
               </ProtectedRoute>
             }
           />

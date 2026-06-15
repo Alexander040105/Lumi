@@ -119,3 +119,62 @@ async def analyze_chart(
     """
     svc = get_energyhub_service()
     return svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)
+
+
+@router.post("/rag/ingest")
+async def rag_ingest(
+    documents: list[dict],
+    rebuild_index: bool = Query(default=True, description="Rebuild FAISS index after ingestion"),
+):
+    """Ingest documents into the RAG knowledge base.
+
+    Each document should have:
+    - text (str): the document body
+    - renewable_type (str, optional): solar, wind, hydro
+    - category (str, optional): technology, policy, pricing, tutorial
+    - product_type (str, optional): panel, turbine, inverter, battery
+    - sources (list[str], optional): reference URLs
+    """
+    from app.services.rag_pipeline import build_faiss_index
+
+    docs = []
+    for doc in documents:
+        docs.append({
+            "text": doc.get("text", ""),
+            "renewable_type": doc.get("renewable_type", ""),
+            "category": doc.get("category", ""),
+            "product_type": doc.get("product_type", ""),
+            "sources": doc.get("sources", []),
+        })
+
+    result = build_faiss_index(docs, save=rebuild_index)
+    return {"status": "ingested", **result}
+
+
+@router.get("/rag/stats")
+async def rag_stats():
+    """Return RAG index statistics for diagnostics."""
+    from app.services.rag_pipeline import index_stats
+
+    return index_stats()
+
+
+@router.post("/rag/retrieve")
+async def rag_retrieve(
+    query: str,
+    top_k: int = 5,
+    renewable_type: str | None = None,
+    category: str | None = None,
+):
+    """Retrieve relevant RAG chunks for a given query."""
+    from app.services.rag_pipeline import retrieve_with_filter
+
+    return {
+        "query": query,
+        "results": retrieve_with_filter(
+            query=query,
+            top_k=top_k,
+            renewable_type=renewable_type,
+            category=category,
+        ),
+    }

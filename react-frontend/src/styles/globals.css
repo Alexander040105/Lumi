@@ -113,4 +113,27 @@
   .grid-cards {
     @apply grid gap-6 md:grid-cols-2;
   }
+
+  .mobile-scroll {
+    @apply overflow-x-auto;
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+@media (max-width: 640px) {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  .page-container {
+    @apply px-3 py-4;
+  }
 }

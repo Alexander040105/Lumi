@@ -75,3 +75,79 @@ export function getEcosim(params) {
 export function getMunicipalities() {
   return request("/ecosim/municipalities");
 }
+
+export function getSeasonalEcosim(municipalityId) {
+  const search = new URLSearchParams({ municipality_id: municipalityId });
+  return request(`/ecosim/seasonal?${search.toString()}`);
+}
+
+// ========================================================================
+// Homes API
+// ========================================================================
+
+export function getHomes(token) {
+  return request("/homes", { token });
+}
+
+export function createHome(token, payload) {
+  return request("/homes", { token, method: "POST", body: JSON.stringify(payload) });
+}
+
+export function getHome(token, homeId) {
+  return request(`/homes/${homeId}`, { token });
+}
+
+export function updateHome(token, homeId, payload) {
+  return request(`/homes/${homeId}`, { token, method: "PUT", body: JSON.stringify(payload) });
+}
+
+export function deleteHome(token, homeId) {
+  return request(`/homes/${homeId}`, { token, method: "DELETE" });
+}
+
+export function getHomeSimulations(token, homeId) {
+  return request(`/homes/${homeId}/simulations`, { token });
+}
+
+export function saveSimulation(token, homeId, payload) {
+  return request(`/homes/${homeId}/simulations`, {
+    token,
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getDashboardStats(token) {
+  return request("/homes/dashboard/stats", { token });
+}
+
+// ========================================================================
+// ML API
+// ========================================================================
+
+export function trainModels(token, params = {}) {
+  const search = new URLSearchParams();
+  if (params.targetVariable) search.append("target_variable", params.targetVariable);
+  if (params.modelType) search.append("model_type", params.modelType);
+  if (params.trainEndYear) search.append("train_end_year", params.trainEndYear);
+  if (params.testYears) search.append("test_years", params.testYears);
+  if (params.horizonYears) search.append("horizon_years", params.horizonYears);
+  return request(`/ml/train?${search.toString()}`, { token, method: "POST" });
+}
+
+export function getMlModels(token, targetVariable) {
+  const search = new URLSearchParams();
+  if (targetVariable) search.append("target_variable", targetVariable);
+  return request(`/ml/models?${search.toString()}`, { token });
+}
+
+export function activateModel(token, modelId) {
+  return request(`/ml/models/${modelId}/activate`, { token, method: "PUT" });
+}
+
+export function getMlForecast(token, targetVariable, horizonYears) {
+  const search = new URLSearchParams();
+  search.append("target_variable", targetVariable);
+  search.append("horizon_years", horizonYears);
+  return request(`/ml/forecast?${search.toString()}`, { token });
+}

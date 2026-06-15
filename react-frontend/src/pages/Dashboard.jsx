@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 
 import { useAuth } from "../hooks/useAuth";
-import { getProtectedMe, getHealth } from "../services/apiClient";
-import { supabase } from "../services/supabaseClient";
-import { Badge } from "@/components/ui/badge";
+import { getDashboardStats, getHealth, getHomes } from "../services/apiClient";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,309 +11,191 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
-const formSchema = z.object({
-  label: z.string().min(2, "Label must be at least 2 characters")
-});
+const formatNumber = (value, digits = 0) =>
+  new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
 
 export default function Dashboard() {
   const { accessToken, user } = useAuth();
-  const emailVerified = Boolean(user?.email_confirmed_at || user?.confirmed_at);
-  const [profile, setProfile] = useState(null);
+  const [stats, setStats] = useState(null);
+  const [homes, setHomes] = useState([]);
   const [health, setHealth] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [mfaStatus, setMfaStatus] = useState({ currentLevel: null, nextLevel: null });
-  const [totpFactorId, setTotpFactorId] = useState("");
-  const [totpQr, setTotpQr] = useState("");
-  const [totpSecret, setTotpSecret] = useState("");
-  const [mfaCode, setMfaCode] = useState("");
-  const [mfaBusy, setMfaBusy] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: { label: "" }
-  });
 
   useEffect(() => {
     if (!accessToken) return;
 
-    Promise.all([getProtectedMe(accessToken), getHealth()])
-      .then(([me, healthStatus]) => {
-        setProfile(me.user);
+    Promise.all([
+      getDashboardStats(accessToken),
+      getHomes(accessToken),
+      getHealth(),
+    ])
+      .then(([statsData, homesData, healthStatus]) => {
+        setStats(statsData);
+        setHomes(homesData?.items?.slice(0, 3) || []);
         setHealth(healthStatus);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }, [accessToken]);
 
-  useEffect(() => {
-    if (!accessToken) return;
-
-    const loadMfa = async () => {
-      const { data: assurance, error: assuranceError } =
-        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (!assuranceError && assurance) {
-        setMfaStatus({
-          currentLevel: assurance.currentLevel,
-          nextLevel: assurance.nextLevel
-        });
-      }
-
-      const { data: factorsData } = await supabase.auth.mfa.listFactors();
-      const totpFactor = factorsData?.totp?.[0];
-      if (totpFactor?.id) {
-        setTotpFactorId(totpFactor.id);
-      }
-    };
-
-    loadMfa();
-  }, [accessToken]);
-
-  const onSubmit = (values) => {
-    toast.success(`Saved: ${values.label}`);
-    form.reset();
-  };
-
-  const handleEnrollTotp = async () => {
-    setMfaBusy(true);
-    try {
-      const { data, error: enrollError } = await supabase.auth.mfa.enroll({
-        factorType: "totp"
-      });
-      if (enrollError) throw enrollError;
-      setTotpFactorId(data.id);
-      setTotpQr(data.totp.qr_code);
-      setTotpSecret(data.totp.secret);
-      toast.success("MFA enrolled. Scan the QR code and verify.");
-    } catch (error) {
-      toast.error(error?.message || "MFA enrollment failed");
-    } finally {
-      setMfaBusy(false);
-    }
-  };
-
-  const handleVerifyTotp = async () => {
-    if (!totpFactorId) {
-      toast.error("Enroll MFA first");
-      return;
-    }
-
-    setMfaBusy(true);
-    try {
-      const { data: challenge, error: challengeError } =
-        await supabase.auth.mfa.challenge({ factorId: totpFactorId });
-      if (challengeError) throw challengeError;
-
-      const { error: verifyError } = await supabase.auth.mfa.verify({
-        factorId: totpFactorId,
-        challengeId: challenge.id,
-        code: mfaCode
-      });
-      if (verifyError) throw verifyError;
-
-      toast.success("MFA verified");
-      setMfaCode("");
-    } catch (error) {
-      toast.error(error?.message || "MFA verification failed");
-    } finally {
-      setMfaBusy(false);
-    }
-  };
+  if (loading) return <LoadingSkeleton />;
 
   return (
     <section className="page-container stack">
-      <div className="page-header">
-        <div className="space-y-2">
-          <h1>Dashboard</h1>
-          <p>Signed in as {user?.email || "unknown"}</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline">Open filters</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Filters</SheetTitle>
-                <SheetDescription>Use filters to narrow down data.</SheetDescription>
-              </SheetHeader>
-              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-                Add filtering controls here.
-              </div>
-            </SheetContent>
-          </Sheet>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Create item</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create item</DialogTitle>
-                <DialogDescription>Connect this dialog to your form logic.</DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
+      <div className="space-y-2">
+        <h1>Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome back, {user?.email || "User"}. Here is your renewable energy overview.
+        </p>
       </div>
 
       {error && (
-        <Card className="border-l-4 border-l-destructive bg-destructive/5">
-          <CardContent className="py-4 text-sm font-medium text-destructive">
-            {error}
+        <Card className="border-destructive text-destructive">
+          <CardContent className="py-4">{error}</CardContent>
+        </Card>
+      )}
+
+      {/* Stats Cards */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm">Total Homes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold">{stats?.total_homes || 0}</p>
           </CardContent>
         </Card>
-      )}
-
-      {!emailVerified && (
-        <Card className="border-l-4 border-l-warning bg-accent/10">
+        <Card>
           <CardHeader>
-            <CardTitle className="text-warning-foreground">Email not verified</CardTitle>
-            <CardDescription>Check your inbox and verify your email to unlock API access.</CardDescription>
+            <CardTitle className="text-sm">Total Simulations</CardTitle>
           </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold">{stats?.total_simulations || 0}</p>
+          </CardContent>
         </Card>
-      )}
-
-      {!profile && !error && <LoadingSkeleton />}
-
-      {profile && (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <Card>
-            <CardHeader>
-              <CardTitle>JWT Claims</CardTitle>
-              <CardDescription>Validated by FastAPI.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="whitespace-pre-wrap text-xs text-muted-foreground">
-                {JSON.stringify(profile, null, 2)}
-              </pre>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>API Health</CardTitle>
-              <CardDescription>Live status from FastAPI.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Badge variant={health?.status === "ok" ? "default" : "secondary"}>
-                {health?.status || "unknown"}
-              </Badge>
-              <p className="text-sm text-muted-foreground">Service: {health?.service || "-"}</p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    Quick actions
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Refresh status</DropdownMenuItem>
-                  <DropdownMenuItem>View logs</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>MFA (TOTP)</CardTitle>
-              <CardDescription>Enroll and verify a TOTP authenticator.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="space-y-1">
-                <p>Current assurance: {mfaStatus.currentLevel || "-"}</p>
-                <p>Next assurance: {mfaStatus.nextLevel || "-"}</p>
-              </div>
-
-              {totpQr && (
-                <div className="rounded-md border bg-muted p-3">
-                  <div
-                    className="flex justify-center"
-                    dangerouslySetInnerHTML={{ __html: totpQr }}
-                  />
-                  <p className="mt-2 break-all text-xs text-muted-foreground">
-                    Secret: {totpSecret}
-                  </p>
-                </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm">Carbon Reduced</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold">
+              {formatNumber(stats?.total_carbon_reduction_kg || 0)} kg
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm">Avg Independence</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold">
+              {formatNumber(stats?.avg_independence_score || 0)} %
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-sm">API Status</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-lg font-semibold">
+              {health?.status === "ok" ? (
+                <span className="text-green-600">Online</span>
+              ) : (
+                <span className="text-red-600">Offline</span>
               )}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
-              <div className="flex flex-col gap-2">
-                <Button type="button" variant="outline" onClick={handleEnrollTotp} disabled={mfaBusy}>
-                  Enroll TOTP
-                </Button>
-                <Input
-                  placeholder="Authenticator code"
-                  value={mfaCode}
-                  onChange={(event) => setMfaCode(event.target.value)}
-                />
-                <Button type="button" onClick={handleVerifyTotp} disabled={mfaBusy || !mfaCode}>
-                  Verify code
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick form</CardTitle>
-              <CardDescription>Example of form + input + validation.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="label"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Label</FormLabel>
-                        <FormControl>
-                          <Input placeholder="New label" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Save</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+      {/* Homes Preview */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">Your Homes</h2>
+          <Link to="/homes">
+            <Button variant="outline" size="sm">View All</Button>
+          </Link>
         </div>
-      )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent activity</CardTitle>
-          <CardDescription>Example table layout.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Module</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Owner</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {["Auth", "Billing", "Analytics"].map((row) => (
-                <TableRow key={row}>
-                  <TableCell>{row}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">In progress</Badge>
-                  </TableCell>
-                  <TableCell>Team Lumi</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+        {homes.length === 0 ? (
+          <Card className="text-center">
+            <CardContent className="py-10">
+              <p className="text-muted-foreground">
+                You have no homes yet. Add one to start tracking your renewable energy potential.
+              </p>
+              <Link to="/homes" className="inline-block mt-4">
+                <Button>Add Your First Home</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {homes.map((home) => (
+              <Link key={home.home_id} to={`/homes/${home.home_id}`}>
+                <Card className="h-full transition-shadow hover:shadow-md">
+                  <CardHeader>
+                    <CardTitle className="text-base">{home.name}</CardTitle>
+                    <CardDescription>{home.municipality_name || "Unknown"}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Simulations</span>
+                      <span className="font-medium">{home.total_simulations ?? 0}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">Carbon reduced</span>
+                      <span className="font-medium">
+                        {formatNumber(home.total_carbon_reduction_kg || 0)} kg
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Run Simulation</CardTitle>
+            <CardDescription>Evaluate renewable options for any municipality.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/ecosim">
+              <Button className="w-full">Go to EcoSim</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">National Analytics</CardTitle>
+            <CardDescription>Explore energy trends and forecasts.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/energyhub">
+              <Button variant="outline" className="w-full">Go to EnergyHub</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">Manage Homes</CardTitle>
+            <CardDescription>Add, edit, or remove properties.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Link to="/homes">
+              <Button variant="outline" className="w-full">My Homes</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
     </section>
   );
 }

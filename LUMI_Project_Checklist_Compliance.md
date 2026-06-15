@@ -1116,7 +1116,22 @@ This section consolidates all checklist items that are **Missing** or **Partial*
 | 3 | **Frontend UI tests** (Vitest + React Testing Library) | Low | 6–10 hours |
 | 4 | **End-to-end tests** (Playwright) | Low | 8–12 hours |
 
-## 8.4 Missing Implementation
+## 8.4 LUMI v2 Implementation Updates (Completed)
+
+| # | Feature | Status | Evidence |
+|---|---|---|---|
+| 1 | **EcoSim Homes (Persistent Profiles)** | Completed | `user_homes`, `home_energy_profiles`, `home_simulations` tables; `/homes` API; `MyHomes.jsx`, `HomeDetail.jsx` |
+| 2 | **Save Simulation to Home** | Completed | `saveSimulation()` in `apiClient.js`; save modal in `Ecosim.jsx` |
+| 3 | **Simulation Comparison** | Completed | `simulation_comparisons` table; comparison tab in `HomeDetail.jsx` |
+| 4 | **Energy Independence Score** | Completed | Added to `_calculate_option_summary()` in `ecosim.py`; displayed in `Ecosim.jsx` |
+| 5 | **Carbon Tracker** | Completed | `carbon_reduction_kg` in `home_simulations`; aggregated in dashboard stats view |
+| 6 | **Seasonal EcoSim** | Completed | `build_seasonal_ecosim_response()` in `ecosim.py`; `/ecosim/seasonal` endpoint; toggle in `Ecosim.jsx` |
+| 7 | **Redesigned Dashboard** | Completed | `Dashboard.jsx` now shows homes preview, quick actions, aggregated stats |
+| 8 | **ML Model Registry & Training** | Completed | `ml_model_registry` table; `Trainer` class; `/ml/train`, `/ml/models`, `/ml/forecast` endpoints |
+| 9 | **RAG Document Ingestion** | Completed | `/energyhub/rag/ingest`, `/energyhub/rag/retrieve`, `/energyhub/rag/stats` endpoints |
+| 10 | **Supabase v2 Schema** | Completed | `lumi_v2_complete_schema.sql` and `lumi_v2_migration.sql` |
+
+## 8.5 Missing Implementation
 
 | # | Missing Item | Priority | Notes |
 |---|---|---|---|
@@ -1176,6 +1191,15 @@ These items are nice-to-have and can be deferred until after defense or future d
 
 The LUMI project has a **strong foundation** of implemented features, documented architecture, and working code. The core system (EnergyHub, EcoSim, RAG/AI, ML forecasting, terrain pipeline) is fully functional and well-documented across multiple architecture guides.
 
+**LUMI v2 improvements** have been implemented including:
+- Persistent user home profiles with saved simulations and comparison sets
+- Energy Independence Score and Carbon Tracker in EcoSim
+- Seasonal 12-month renewable breakdown
+- Redesigned Dashboard with aggregated user stats and quick actions
+- Live ML training pipeline with model registry and automated model selection
+- RAG document ingestion and retrieval endpoints
+- Full Supabase v2 schema with RLS policies
+
 The **primary gaps** are in **visual documentation** (diagrams, DFDs, ERD, flowcharts) and **formal project management artifacts** (Gantt chart, feasibility study, test plan, cost analysis). These are typical for research projects where development effort prioritizes functionality over documentation.
 
 **Recommendation:** Focus defense preparation on creating the 7 high-priority items in Section 9.1. These are standard thesis deliverables that directly support Chapters 2 and 3 of the thesis document.
@@ -1183,3 +1207,4 @@ The **primary gaps** are in **visual documentation** (diagrams, DFDs, ERD, flowc
 ---
 
 *End of LUMI Project Checklist Compliance Report*
+*Updated: June 2026 — LUMI v2 Phase Complete*

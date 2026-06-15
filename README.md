@@ -32,6 +32,15 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 - **Grid-level analysis**: Luzon, Visayas, and Mindanao generation and peak demand
 - **AI-assisted data-driven insights** for policy and planning contexts
 
+### EcoSim Homes (LUMI v2)
+
+- **Persistent user home profiles** linked to Supabase Auth accounts
+- **Saved simulations** per home with full input/output history
+- **Side-by-side simulation comparisons** (2–3 simulations)
+- **Energy Independence Score** — percentage of consumption offset by renewables
+- **Carbon Tracker** — cumulative CO₂ reduction across all simulations
+- **Seasonal EcoSim** — 12-month breakdown of solar, wind, and hydro generation
+
 ### Authentication & Security
 
 - Email/password and Google OAuth authentication via **Supabase Auth**

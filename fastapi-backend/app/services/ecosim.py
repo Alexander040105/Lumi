@@ -61,8 +61,20 @@ def get_municipality_data(municipality: str):
             .execute()
         )
     except APIError as exc:
-        error = getattr(exc, "args", [{}])[0]
-        if isinstance(error, dict) and error.get("code") == "PGRST116":
+        # Robust extraction: postgrest stores error data in different
+        # shapes depending on the library version.
+        err_code = None
+        arg0 = getattr(exc, "args", [{}])[0]
+        if isinstance(arg0, dict):
+            err_code = arg0.get("code")
+        if not err_code and hasattr(exc, "code"):
+            err_code = exc.code
+        if not err_code:
+            import ast, re
+            m = re.search(r"'code':\s*'([^']+)'", str(exc))
+            if m:
+                err_code = m.group(1)
+        if err_code == "PGRST116":
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Municipality not found",
@@ -105,11 +117,12 @@ def list_municipalities() -> list[dict]:
             .execute()
         )
     except APIError as exc:
-        error = getattr(exc, "args", [{}])[0]
-        if isinstance(error, dict):
-            message = error.get("message") or "Failed to load municipalities"
-        else:
-            message = "Failed to load municipalities"
+        message = "Failed to load municipalities"
+        arg0 = getattr(exc, "args", [{}])[0]
+        if isinstance(arg0, dict):
+            message = arg0.get("message") or message
+        elif hasattr(exc, "message"):
+            message = exc.message or message
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=message,
@@ -141,8 +154,18 @@ def get_municipality_name_by_id(municipality_id: int) -> str:
             .execute()
         )
     except APIError as exc:
-        error = getattr(exc, "args", [{}])[0]
-        if isinstance(error, dict) and error.get("code") == "PGRST116":
+        err_code = None
+        arg0 = getattr(exc, "args", [{}])[0]
+        if isinstance(arg0, dict):
+            err_code = arg0.get("code")
+        if not err_code and hasattr(exc, "code"):
+            err_code = exc.code
+        if not err_code:
+            import re
+            m = re.search(r"'code':\s*'([^']+)'", str(exc))
+            if m:
+                err_code = m.group(1)
+        if err_code == "PGRST116":
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Municipality not found",
@@ -412,6 +435,7 @@ def _calculate_option_summary(
     energy_ratio = min(generation_kwh / consumption_kwh, 1.0) if consumption_kwh > 0 else 0.0
     suitability_score = round((0.6 * energy_ratio) + (0.4 * source_score), 3)
     carbon_reduction = usable_kwh * CO2_KG_PER_KWH
+    independence_score = round(energy_ratio * 100, 2)
 
     return {
         "source": source,
@@ -421,7 +445,119 @@ def _calculate_option_summary(
         "installation_cost": installation_cost,
         "payback_years": payback_years,
         "carbon_reduction": carbon_reduction,
+        "independence_score": independence_score,
     }
+
+
+def get_monthly_climate_data(municipality_id: int) -> list[dict]:
+    """Fetch the latest year of monthly climate data for a municipality."""
+    client = get_supabase_client()
+    try:
+        result = (
+            client
+            .table("municipality_climate_monthly")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .order("year", desc=True)
+            .limit(12)
+            .execute()
+        )
+        items = result.data or []
+        if not items:
+            return []
+        max_year = max(item["year"] for item in items)
+        return [item for item in items if item["year"] == max_year]
+    except APIError:
+        return []
+
+
+def _monthly_renewable_calculation(
+    monthly_data: dict,
+    terrain_data: dict | None,
+    days_in_month: int,
+) -> dict:
+    """Run renewable calculations for a single month."""
+    solar_irradiance = monthly_data.get("allsky_sfc_sw_dwn") or 0.0
+    avg_temp = monthly_data.get("t2m")
+    cloud_amt = monthly_data.get("cloud_amt")
+    rainfall = monthly_data.get("prectotcorr")
+    wind_speed = monthly_data.get("ws10m")
+    humidity = monthly_data.get("rh2m")
+    surface_pressure = monthly_data.get("surface_pressure")
+    air_density = monthly_data.get("rhoa")
+
+    temperature_factor = calculate_temperature_factor(
+        avg_temp_c=avg_temp,
+        temp_coeff_per_c=-0.004,
+    )
+    performance_ratio = calculate_performance_ratio(
+        system_efficiency=0.80,
+        temperature_factor=temperature_factor,
+        dust_loss=calculate_dust_loss_from_wind(ws10m=wind_speed, base_dust_loss=0.97),
+        inverter_efficiency=0.96,
+        mismatch_loss=0.98,
+        wiring_loss=0.98,
+        degradation_loss=calculate_degradation_from_humidity(rh2m=humidity, base_degradation=0.99),
+    )
+    solar = solar_calc(
+        panel_wattage=400,
+        number_of_panels=2,
+        solar_irradiance=solar_irradiance,
+        performance_ratio=performance_ratio,
+        days_in_month=days_in_month,
+    )
+
+    hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
+    flow_rate = estimated_flow_rate(
+        rainfall_mm_monthly=rainfall,
+        runoff_potential=terrain_data.get("runoff_potential") if terrain_data else 0.0,
+        watershed_gradient=terrain_data.get("watershed_gradient") if terrain_data else 0.0,
+        mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
+        gravity_flow_potential=terrain_data.get("gravity_flow_potential") if terrain_data else 0.0,
+    )
+    hydro_raw = calculate_hydropower(flow_rate_cms=flow_rate, head_m=hydraulic_head_m, days_in_month=days_in_month)
+    hydro = {
+        "system_kwp": hydro_raw.get("available_power_kw", 0.0),
+        "daily_hydro_output": hydro_raw.get("daily_energy_kwh", 0.0),
+        "monthly_hydro_output": hydro_raw.get("monthly_energy_kwh", 0.0),
+    }
+
+    wind = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
+
+    return {
+        "month": monthly_data.get("month"),
+        "year": monthly_data.get("year"),
+        "solar_output_kwh": solar.get("monthly_solar_output", 0.0),
+        "wind_output_kwh": wind.get("monthly_energy_kwh", 0.0),
+        "hydro_output_kwh": hydro.get("monthly_hydro_output", 0.0),
+        "solar_irradiance": solar_irradiance,
+        "wind_speed": wind_speed,
+        "rainfall": rainfall,
+        "temperature": avg_temp,
+    }
+
+
+def build_seasonal_ecosim_response(municipality_id: int) -> list[dict]:
+    """Build a 12-month seasonal breakdown of renewable generation."""
+    municipality_name = get_municipality_name_by_id(municipality_id)
+    terrain_data = get_municipality_terrain_data(municipality_name)
+    monthly_climate = get_monthly_climate_data(municipality_id)
+
+    if not monthly_climate:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No monthly climate data found for this municipality.",
+        )
+
+    monthly_climate.sort(key=lambda x: x["month"])
+    results = []
+    for data in monthly_climate:
+        month = int(data.get("month", 1))
+        year = int(data.get("year", 2024))
+        days_in_month = calendar.monthrange(year, month)[1]
+        result = _monthly_renewable_calculation(data, terrain_data, days_in_month)
+        results.append(result)
+    return results
 
 
 def build_ecosim_dashboard_response(
@@ -519,6 +655,7 @@ def build_ecosim_dashboard_response(
         "installation_cost": recommended["installation_cost"],
         "payback_years": recommended["payback_years"],
         "carbon_reduction": recommended["carbon_reduction"],
+        "independence_score": recommended["independence_score"],
         "explanation": explanation,
         "options": options,
         "comparison": {

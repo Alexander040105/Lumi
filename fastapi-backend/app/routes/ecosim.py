@@ -7,7 +7,7 @@ from app.schemas.ecosim import (
     MunicipalityListResponse,
     PostHouse,
 )
-from app.services.ecosim import build_ecosim_dashboard_response, list_municipalities, renewable_energy_calculator
+from app.services.ecosim import build_ecosim_dashboard_response, build_seasonal_ecosim_response, list_municipalities, renewable_energy_calculator
 router = APIRouter()
 
 
@@ -31,6 +31,11 @@ async def get_ecosim_results(
 @router.get("/municipalities", response_model=MunicipalityListResponse)
 async def get_municipalities():
     return {"items": list_municipalities()}
+
+
+@router.get("/seasonal")
+async def get_seasonal_results(municipality_id: int):
+    return build_seasonal_ecosim_response(municipality_id)
 
 
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
