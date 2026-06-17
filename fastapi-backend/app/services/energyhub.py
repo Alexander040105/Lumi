@@ -147,7 +147,117 @@ class EnergyHubService:
                 "lon": 121.7740,
             })
 
+        elif metric == "geothermal_potential":
+            items = self._build_geothermal_potential_map()
+
         return {"items": items, "metric": metric}
+
+    def _build_geothermal_potential_map(self) -> list[dict[str, Any]]:
+        """Aggregate municipality-level geothermal scores to province level."""
+        client = get_supabase_client()
+        items: list[dict[str, Any]] = []
+
+        try:
+            prov_resp = client.table("provinces").select(
+                "province_id,name,lat,lon"
+            ).execute()
+            prov_rows = prov_resp.data or []
+
+            muni_resp = client.table("municipalities").select(
+                "municipality_id,province_id"
+            ).execute()
+            muni_rows = muni_resp.data or []
+
+            geo_resp = client.table("geothermal_suitability").select(
+                "municipality_id,geothermal_score"
+            ).execute()
+            geo_rows = geo_resp.data or []
+
+            muni_to_prov = {m["municipality_id"]: m["province_id"] for m in muni_rows}
+
+            prov_geo: dict[int, list[float]] = {}
+            for row in geo_rows:
+                mid = row.get("municipality_id")
+                pid = muni_to_prov.get(mid)
+                if pid is not None:
+                    score = float(row.get("geothermal_score") or 0)
+                    prov_geo.setdefault(pid, []).append(score)
+
+            province_data: dict[str, dict[str, Any]] = {}
+            for p in prov_rows:
+                pid = p.get("province_id")
+                pname = p.get("name", "").strip()
+                if not pid or not pname:
+                    continue
+                scores = prov_geo.get(pid, [0])
+                avg = (sum(scores) / len(scores) * 100) if scores else 0
+                province_data[pname.lower()] = {
+                    "region": "",
+                    "province": pname,
+                    "value": round(avg, 2),
+                    "lat": p.get("lat"),
+                    "lon": p.get("lon"),
+                }
+
+            geojson_path = _GEOJSON_DIR / "philippine_geojson_file_per_region.json"
+            geojson_provinces: list[dict[str, Any]] = []
+            if geojson_path.exists():
+                with open(geojson_path, "r", encoding="utf-8") as f:
+                    geo_data = json.load(f)
+                for feat in geo_data.get("features", []):
+                    adm2 = (feat.get("properties", {}).get("adm2_en") or "").strip()
+                    if adm2:
+                        geojson_provinces.append({
+                            "name": adm2,
+                            "name_lower": adm2.lower(),
+                        })
+
+            seen = set()
+            for gp in geojson_provinces:
+                gname = gp["name_lower"]
+                if gname in seen:
+                    continue
+                seen.add(gname)
+                data = province_data.get(gname)
+                if not data:
+                    for api_name, geo_name in _PROVINCE_NAME_MAP.items():
+                        if geo_name.lower() == gname and api_name in province_data:
+                            data = province_data[api_name]
+                            break
+                if data:
+                    items.append({
+                        "region": data["region"],
+                        "province": gp["name"],
+                        "municipality": None,
+                        "value": data["value"],
+                        "metric": "geothermal_potential",
+                        "lat": data["lat"],
+                        "lon": data["lon"],
+                    })
+                else:
+                    items.append({
+                        "region": "",
+                        "province": gp["name"],
+                        "municipality": None,
+                        "value": None,
+                        "metric": "geothermal_potential",
+                        "lat": None,
+                        "lon": None,
+                    })
+
+        except Exception as exc:
+            logger.warning("Supabase query failed for geothermal map data: %s", exc)
+            items.append({
+                "region": "Philippines",
+                "province": None,
+                "municipality": None,
+                "value": 50.0,
+                "metric": "geothermal_potential",
+                "lat": 12.8797,
+                "lon": 121.7740,
+            })
+
+        return items
 
     def _build_renewable_potential_map(self) -> list[dict[str, Any]]:
         """Aggregate municipality-level climate/terrain into
@@ -167,6 +277,12 @@ class EnergyHubService:
                 "province,municipality_name,hydro_suitability_score"
             ).execute()
             hydro_rows = hydro_resp.data or []
+
+            # 2b. Fetch geothermal suitability scores
+            geo_resp = client.table("geothermal_suitability").select(
+                "municipality_id,geothermal_score"
+            ).execute()
+            geo_rows = geo_resp.data or []
 
             # 3. Fetch municipality → province mapping
             muni_resp = client.table("municipalities").select(
@@ -200,6 +316,15 @@ class EnergyHubService:
                     score = float(row.get("hydro_suitability_score") or 0)
                     hydro_by_prov.setdefault(prov, []).append(score)
 
+            # Aggregate geothermal by province_id
+            geo_by_prov: dict[int, list[float]] = {}
+            for row in geo_rows:
+                mid = row.get("municipality_id")
+                pid = muni_to_prov.get(mid)
+                if pid is not None:
+                    score = float(row.get("geothermal_score") or 0)
+                    geo_by_prov.setdefault(pid, []).append(score)
+
             # Build province data dict keyed by normalized name
             province_data: dict[str, dict[str, Any]] = {}
             for p in prov_rows:
@@ -218,10 +343,14 @@ class EnergyHubService:
                 hydro_scores = hydro_by_prov.get(prov_lower, [0])
                 hydro_avg = sum(hydro_scores) / len(hydro_scores) if hydro_scores else 0
 
+                geo_scores = geo_by_prov.get(pid, [0])
+                geo_avg = sum(geo_scores) / len(geo_scores) if geo_scores else 0
+
                 composite = (
-                    (min(solar_avg / 6.0, 1.0) * 0.4)
-                    + (min(wind_avg / 10.0, 1.0) * 0.3)
-                    + (hydro_avg * 0.3)
+                    (min(solar_avg / 6.0, 1.0) * 0.30)
+                    + (min(wind_avg / 10.0, 1.0) * 0.20)
+                    + (hydro_avg * 0.25)
+                    + (geo_avg * 0.25)
                 )
                 composite = round(composite * 100, 2)
 
@@ -464,42 +593,113 @@ class EnergyHubService:
 
     @staticmethod
     def _clean_llm_text(text: str) -> str:
-        """Strip JSON wrappers and clean LLM output for display."""
+        """Strip JSON wrappers, markdown fences, and clean LLM output for display."""
+        if not text:
+            return ""
+
         text = text.strip()
 
-        def _extract_text(obj) -> str:
-            """Recursively extract all string values from a nested dict/list."""
+        # 1. Strip markdown code fences
+        if text.startswith("```"):
+            lines = text.splitlines()
+            if lines[0].startswith("```"):
+                lines = lines[1:]
+            if lines and lines[-1].strip() == "```":
+                lines = lines[:-1]
+            text = "\n".join(lines).strip()
+
+        def _find_json_blocks(s: str) -> list[str]:
+            """Find all top-level JSON objects/arrays in a string."""
+            blocks: list[str] = []
+            depth = 0
+            in_string = False
+            escape_next = False
+            start: int | None = None
+            for i, ch in enumerate(s):
+                if escape_next:
+                    escape_next = False
+                    continue
+                if ch == "\\":
+                    escape_next = True
+                    continue
+                if ch == '"' and (i == 0 or s[i - 1] != "\\"):
+                    in_string = not in_string
+                    continue
+                if in_string:
+                    continue
+                if ch in "{[":
+                    if depth == 0:
+                        start = i
+                    depth += 1
+                elif ch in "]}":
+                    depth -= 1
+                    if depth == 0 and start is not None:
+                        blocks.append(s[start : i + 1])
+                        start = None
+            return blocks
+
+        def _extract_text(obj: Any) -> str:
+            """Recursively extract narrative text from parsed JSON."""
             if isinstance(obj, str):
-                return obj
+                return obj.strip()
             if isinstance(obj, list):
                 parts = [_extract_text(item) for item in obj if item is not None]
                 return "\n\n".join(p for p in parts if p)
             if isinstance(obj, dict):
-                # Prefer narrative keys first
-                for key in ("analysis", "insight", "explanation", "response", "text", "content", "result"):
+                # Exact narrative keys
+                for key in ("analysis", "insight", "explanation", "response", "text", "content", "result", "answer", "narrative"):
                     if key in obj:
                         return _extract_text(obj[key])
+                # Keys that *contain* narrative words
+                lower_keys = {k.lower(): k for k in obj.keys()}
+                for word in ("analysis", "insight", "explanation", "response", "text", "content", "result", "answer", "narrative"):
+                    for lk, orig in lower_keys.items():
+                        if word in lk:
+                            return _extract_text(obj[orig])
                 # Fallback: concatenate all values
-                parts = [_extract_text(v) for v in obj.values() if v is not None]
-                return "\n\n".join(p for p in parts if p)
+                parts = []
+                for v in obj.values():
+                    extracted = _extract_text(v)
+                    if extracted:
+                        parts.append(extracted)
+                return "\n\n".join(parts)
             return str(obj) if obj is not None else ""
 
-        # If the response is wrapped in a JSON object, extract the narrative content
-        if text.startswith("{") and text.endswith("}"):
+        best_text = text
+
+        # 2. Try to find and parse JSON blocks embedded anywhere
+        for block in _find_json_blocks(text):
             try:
-                import json
+                parsed = json.loads(block)
+                extracted = _extract_text(parsed)
+                if extracted and len(extracted) > len(best_text) * 0.3:
+                    best_text = extracted
+            except json.JSONDecodeError:
+                continue
+
+        # 3. If the whole text is JSON, try that too
+        if text.startswith(("{", "[")) and text.endswith(("}", "]")):
+            try:
                 parsed = json.loads(text)
                 extracted = _extract_text(parsed)
-                if extracted and len(extracted) > 20:
-                    text = extracted
+                if extracted:
+                    best_text = extracted
             except json.JSONDecodeError:
                 pass
 
-        # Normalize escaped newlines
-        text = text.replace("\\n", "\n").replace("\\t", "\t")
-        # Remove remaining JSON artifact braces if any
-        text = text.strip()
-        return text
+        # 4. Normalize escaped newlines/tabs
+        best_text = best_text.replace("\\n", "\n").replace("\\t", "\t")
+        # 5. Strip outer quotes if the result is a quoted string
+        best_text = best_text.strip()
+        if (best_text.startswith('"') and best_text.endswith('"')) or (
+            best_text.startswith("'") and best_text.endswith("'")
+        ):
+            try:
+                best_text = json.loads(best_text)
+            except json.JSONDecodeError:
+                best_text = best_text[1:-1]
+
+        return str(best_text).strip()
 
     def _build_chart_prompt(self, chart_type: str, chart_data: dict[str, Any]) -> str:
         if chart_type == "trends":

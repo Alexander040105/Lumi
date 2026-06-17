@@ -6,11 +6,14 @@ export default function AiInsightPanel({
   insight,
   onToggleLlm,
   useLlm = false,
-  llmLoading = false,
+  llmLoading = {},
   chartAnalyses = {},
   onAnalyzeChart,
 }) {
   const [activeTab, setActiveTab] = useState("overview");
+
+  const anyLoading = Object.values(llmLoading || {}).some(Boolean);
+  const tabLoading = !!(llmLoading || {})[activeTab];
 
   if (!insight) {
     return (
@@ -37,10 +40,10 @@ export default function AiInsightPanel({
           variant={useLlm ? "default" : "outline"}
           size="sm"
           onClick={onToggleLlm}
-          disabled={llmLoading}
+          disabled={anyLoading}
           className="gap-1.5"
         >
-          {llmLoading ? (
+          {anyLoading ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
           ) : (
             <Sparkles className="h-3.5 w-3.5" />
@@ -72,7 +75,8 @@ export default function AiInsightPanel({
                   onAnalyzeChart(tab.key);
                 }
               }}
-              className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
+              disabled={!!(llmLoading || {})[tab.key]}
+              className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors disabled:opacity-50 ${
                 activeTab === tab.key
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
@@ -86,7 +90,7 @@ export default function AiInsightPanel({
       )}
 
       <div className="mt-4 rounded-lg bg-amber-50 border border-amber-100 p-4">
-        {llmLoading && !activeAnalysis?.insight ? (
+        {tabLoading && !activeAnalysis?.insight ? (
           <div className="flex items-center gap-2 text-sm text-amber-800">
             <Loader2 className="h-4 w-4 animate-spin" />
             Generating LLM analysis...

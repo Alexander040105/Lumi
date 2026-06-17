@@ -1,29 +1,56 @@
 import { useMemo, useState } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 
-function SimpleLine({ data, color = "#3b82f6", height = 160 }) {
+function SimpleLine({ data, color = "#3b82f6", height = 160, isForecast = [] }) {
   if (!data || data.length === 0) return null;
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;
   const width = data.length;
-  const points = data
-    .map((v, i) => {
-      const x = (i / (width - 1 || 1)) * 100;
-      const y = 100 - ((v - min) / range) * 100;
-      return `${x},${y}`;
-    })
-    .join(" ");
+
+  const buildPoints = (indices) =>
+    indices
+      .map((i) => {
+        const x = (i / (width - 1 || 1)) * 100;
+        const y = 100 - ((data[i] - min) / range) * 100;
+        return `${x},${y}`;
+      })
+      .join(" ");
+
+  const histIndices = data.map((_, i) => i).filter((i) => !isForecast[i]);
+  const forecastIndices = data.map((_, i) => i).filter((i) => isForecast[i]);
+
+  // Include junction point in both series so the line is continuous
+  const lastHist = histIndices.length > 0 ? histIndices[histIndices.length - 1] : null;
+  const firstForecast = forecastIndices.length > 0 ? forecastIndices[0] : null;
+
+  const histPoints = buildPoints(histIndices);
+  const forecastPoints =
+    lastHist !== null && firstForecast !== null
+      ? buildPoints([lastHist, ...forecastIndices])
+      : buildPoints(forecastIndices);
 
   return (
     <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full" style={{ height }}>
-      <polyline
-        fill="none"
-        stroke={color}
-        strokeWidth="2"
-        vectorEffect="non-scaling-stroke"
-        points={points}
-      />
+      {histPoints && (
+        <polyline
+          fill="none"
+          stroke={color}
+          strokeWidth="2"
+          vectorEffect="non-scaling-stroke"
+          points={histPoints}
+        />
+      )}
+      {forecastPoints && (
+        <polyline
+          fill="none"
+          stroke="#f87171"
+          strokeWidth="2"
+          strokeDasharray="4 3"
+          vectorEffect="non-scaling-stroke"
+          points={forecastPoints}
+        />
+      )}
     </svg>
   );
 }
@@ -139,7 +166,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           <p className="text-sm text-muted-foreground">Total Consumption (GWh) — Historical vs Forecast</p>
         </div>
         <div className="relative rounded-lg border bg-white p-3">
-          <SimpleLine data={consumptionSeries.values} color="#3b82f6" height={200} />
+          <SimpleLine data={consumptionSeries.values} color="#3b82f6" height={200} isForecast={consumptionSeries.isForecast} />
           <div className="mt-2 flex justify-between text-xs text-muted-foreground">
             <span>{consumptionSeries.years[0]}</span>
             <span>{consumptionSeries.years[consumptionSeries.years.length - 1]}</span>
@@ -151,7 +178,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             analysis={chartAnalyses?.consumption_trend}
             onAnalyze={() => onAnalyzeChart("consumption_trend")}
             onRefresh={() => onAnalyzeChart("consumption_trend", true)}
-            loading={llmLoading}
+            loading={llmLoading?.["consumption_trend"] || false}
           />
         )}
       </div>
@@ -169,7 +196,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
               analysis={chartAnalyses?.peak_demand}
               onAnalyze={() => onAnalyzeChart("peak_demand")}
               onRefresh={() => onAnalyzeChart("peak_demand", true)}
-              loading={llmLoading}
+              loading={llmLoading?.["peak_demand"] || false}
             />
           )}
         </div>
@@ -184,7 +211,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
               analysis={chartAnalyses?.renewable_generation}
               onAnalyze={() => onAnalyzeChart("renewable_generation")}
               onRefresh={() => onAnalyzeChart("renewable_generation", true)}
-              loading={llmLoading}
+              loading={llmLoading?.["renewable_generation"] || false}
             />
           )}
         </div>

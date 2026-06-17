@@ -61,6 +61,7 @@ module.exports = {
           solar: "#ffe476",
           wind: "#67bb63",
           hydro: "#305731",
+          geothermal: "#d97706",
           accent: "#ffe476"
         }
       },

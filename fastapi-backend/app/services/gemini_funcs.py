@@ -22,7 +22,7 @@ DEFAULT_MAX_OUTPUT_TOKENS = int(os.getenv("GEMINI_MAX_OUTPUT_TOKENS", "3000"))
 GEMINI_DEBUG = os.getenv("GEMINI_DEBUG", "false").lower() in {"1", "true", "yes"}
 if GEMINI_DEBUG:
     logger.setLevel(logging.INFO)
-L
+
 # Fallback chain when the primary model is overloaded.
 # Verified working models for this API version / key:
 #   gemini-2.5-flash   -> works but often 503
@@ -235,6 +235,7 @@ def _normalize_analysis_output(data: dict[str, Any]) -> dict[str, Any]:
             "solar": "",
             "wind": "",
             "hydro": "",
+            "geothermal": "",
         },
         "recommendation": {
             "best_option": "",
@@ -244,6 +245,7 @@ def _normalize_analysis_output(data: dict[str, Any]) -> dict[str, Any]:
             "solar": {},
             "wind": {},
             "hydro": {},
+            "geothermal": {},
         },
         "environmental_impact": "",
     }
@@ -276,17 +278,18 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
         "- Keep each text field under 1000 characters.\n"
         "- Use short sentences, no bullet lists.\n"
         "- Mention key drivers: solar irradiance, wind speed, rainfall, elevation, "
-        "temperature, humidity, cloud coverage.\n"
+        "temperature, humidity, cloud coverage, heat flow, fault proximity, aquifer permeability.\n"
         "- Cost estimates must be labeled as estimates.\n\n"
         "OUTPUT FORMAT (exact keys):\n"
         "{\n"
         "  \"summary\": \"\",\n"
-        "  \"renewable_analysis\": {\"solar\": \"\", \"wind\": \"\", \"hydro\": \"\"},\n"
+        "  \"renewable_analysis\": {\"solar\": \"\", \"wind\": \"\", \"hydro\": \"\", \"geothermal\": \"\"},\n"
         "  \"recommendation\": {\"best_option\": \"\", \"reason\": \"\"},\n"
         "  \"cost_estimation\": {\n"
         "    \"solar\": {\"panels\": \"\", \"inverter\": \"\", \"battery\": \"\", \"installation\": \"\"},\n"
         "    \"wind\": {\"turbine\": \"\", \"tower\": \"\", \"controller\": \"\", \"installation\": \"\"},\n"
-        "    \"hydro\": {\"turbine\": \"\", \"generator\": \"\", \"civil_works\": \"\", \"installation\": \"\"}\n"
+        "    \"hydro\": {\"turbine\": \"\", \"generator\": \"\", \"civil_works\": \"\", \"installation\": \"\"},\n"
+        "    \"geothermal\": {\"drilling\": \"\", \"plant\": \"\", \"pumps\": \"\", \"installation\": \"\"}\n"
         "  },\n"
         "  \"environmental_impact\": \"\"\n"
         "}\n\n"
@@ -317,9 +320,9 @@ def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any
         logger.exception("LLM analysis failed")
         return {
             "summary": "LLM analysis failed.",
-            "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
             "recommendation": {"best_option": "", "reason": ""},
-            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
             "environmental_impact": "",
             "error": str(exc),
         }

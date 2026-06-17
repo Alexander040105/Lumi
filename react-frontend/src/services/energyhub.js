@@ -36,6 +36,10 @@ export function getEnergyHubAiInsight(useLlm = false) {
   return request(`${ENERGYHUB_BASE}/ai-insight?use_llm=${useLlm}`);
 }
 
+export function getGeothermalSummary() {
+  return request("/geothermal/ecohub/geothermal-summary");
+}
+
 export function analyzeChart(chartType, chartData, forceRefresh = false) {
   const qs = forceRefresh ? "?force_refresh=true" : "";
   return request(`${ENERGYHUB_BASE}/analyze-chart${qs}`, {

@@ -52,7 +52,21 @@ class HydroOutput(BaseModel):
     daily_hydro_output: float
     monthly_hydro_output: float
     hydro_score: float
-    
+
+
+class GeothermalOutput(BaseModel):
+    energy_type: str = "geothermal"
+    suitability_score: float | None = None
+    classification: str | None = None
+    reservoir_temperature_c: float | None = None
+    thermal_power_mw: float | None = None
+    electric_power_mw: float | None = None
+    annual_energy_gwh: float | None = None
+    confidence: float | None = None
+    source: str | None = None
+    assumption: str | None = None
+
+
 class WindOutput(BaseModel):
     swept_area_m2: float
     rated_power_kw: float
@@ -69,6 +83,7 @@ class RenewableEnergyResults(BaseModel):
     solar_output: SolarOutput
     hydro_output: HydroOutput
     wind_output: WindOutput
+    geothermal_output: GeothermalOutput
     consumption_results: ConsumptionResults
 
 

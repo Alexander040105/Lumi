@@ -2,6 +2,7 @@ import calendar
 import datetime as dt
 import logging
 import os
+from pathlib import Path
 
 import pandas as pd
 from fastapi import HTTPException, status
@@ -11,13 +12,19 @@ from app.services.supabase_service import get_supabase_client
 from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, calculate_dust_loss_from_wind, calculate_degradation_from_humidity    
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
 from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
+from app.services.geothermal.features import (
+    compute_geothermal_suitability,
+    compute_geothermal_output,
+)
 logger = logging.getLogger(__name__)
-current_dir = os.getcwd()
-df = pd.read_csv(f'{current_dir}\\app\\services\\local_data\\municipality_climate_averages.csv')
+_LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
+_CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
+df = pd.read_csv(str(_CLIMATE_CSV))
 
 COST_PER_KW_SOLAR = 60000.0
 COST_PER_KW_WIND = 80000.0
 COST_PER_KW_HYDRO = 100000.0
+COST_PER_KW_GEOTHERMAL = 150000.0
 # Philippines DOE 2019–2021 National Grid Emission Factor (Luzon–Visayas grid).
 # Official Operating Margin EF = 0.6835 kg CO2 / kWh (DOE, 2022).
 # See: ecosim_economic_formula_references.md
@@ -57,6 +64,7 @@ def get_municipality_data(municipality: str):
             .table("municipalities")
             .select()
             .eq("name", municipality.upper())
+            .limit(1)
             .single()
             .execute()
         )
@@ -127,6 +135,95 @@ def list_municipalities() -> list[dict]:
         ),
         key=lambda item: item["name"].upper(),
     )
+
+
+def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict:
+    """
+    Fetch pre-computed geothermal output from Supabase.
+    Falls back to on-the-fly estimation if pre-computed row is missing.
+    """
+    client = get_supabase_client()
+    mid = municipality_data.get("municipality_id")
+    try:
+        output_result = (
+            client
+            .table("geothermal_output")
+            .select("*")
+            .eq("municipality_id", mid)
+            .single()
+            .execute()
+        )
+        if output_result.data:
+            data = output_result.data
+            # Fetch true geothermal suitability score and classification
+            geo_score = 0.0
+            classification = "Unknown"
+            try:
+                suit_result = (
+                    client
+                    .table("geothermal_suitability")
+                    .select("geothermal_score,classification")
+                    .eq("municipality_id", mid)
+                    .single()
+                    .execute()
+                )
+                if suit_result.data:
+                    geo_score = suit_result.data.get("geothermal_score") or 0.0
+                    classification = suit_result.data.get("classification", "Unknown")
+            except APIError:
+                pass
+            return {
+                "energy_type": "geothermal",
+                "suitability_score": round(geo_score * 100, 2),
+                "classification": classification,
+                "reservoir_temperature_c": data.get("reservoir_temperature_c"),
+                "thermal_power_mw": data.get("thermal_power_mw"),
+                "electric_power_mw": data.get("electric_power_mw"),
+                "annual_energy_gwh": data.get("annual_energy_gwh"),
+                "confidence": data.get("confidence_score"),
+                "source": data.get("source", "Supabase pre-computed"),
+                "assumption": data.get("assumption", ""),
+            }
+    except APIError:
+        pass
+
+    # Fallback: compute on-the-fly using NASA POWER surface temp
+    surface_temp = municipality_data.get("avg_t2m")
+    lat = municipality_data.get("lat")
+    lon = municipality_data.get("lon")
+
+    if lat is None or lon is None:
+        return {
+            "energy_type": "geothermal",
+            "suitability_score": 0.0,
+            "thermal_power_mw": None,
+            "electric_power_mw": None,
+            "annual_energy_gwh": None,
+            "confidence": 0.0,
+            "source": "Fallback on-the-fly estimation",
+            "assumption": "Pre-computed data unavailable; using measured NASA POWER temperature and inferred aquifer/heatflow.",
+        }
+
+    suitability = compute_geothermal_suitability(lat, lon, surface_temp)
+    output = compute_geothermal_output(
+        surface_temp,
+        suitability.get("_gradient_c_km"),
+        suitability.get("aquifer_score"),
+        suitability.get("_perm_log10"),
+    )
+
+    return {
+        "energy_type": "geothermal",
+        "suitability_score": round(suitability.get("geothermal_score", 0) * 100, 2),
+        "classification": suitability.get("classification", "Unknown"),
+        "reservoir_temperature_c": output.get("reservoir_temperature_c"),
+        "thermal_power_mw": output.get("thermal_power_mw"),
+        "electric_power_mw": output.get("electric_power_mw"),
+        "annual_energy_gwh": output.get("annual_energy_gwh"),
+        "confidence": output.get("confidence_score"),
+        "source": output.get("source"),
+        "assumption": output.get("assumption"),
+    }
 
 
 def get_municipality_name_by_id(municipality_id: int) -> str:
@@ -267,7 +364,10 @@ def renewable_energy_calculator(
         "monthly_hydro_output": hydro_output_raw.get("monthly_energy_kwh", 0.0),
         "hydro_score": hydro_output_raw.get("hydro_score", 0.0),
     }
-    
+
+    # NOTE: GEOTHERMAL CALCULATIONS
+    geothermal_output = get_geothermal_data(municipality, municipality_data)
+
     #NOTE: WIND CALCULATIONS
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
 
@@ -300,6 +400,7 @@ def renewable_energy_calculator(
         "solar_output": solar_output,
         "hydro_output": hydro_output,
         "wind_output": wind_output,
+        "geothermal_output": geothermal_output,
         # json for the consumption calculations
         "consumption_results": consumption_results,
     }
@@ -325,11 +426,20 @@ def renewable_energy_calculator(
             logger.exception("Gemini analysis failed in Ecosim")
             ai_analysis = {
                 "summary": "Gemini analysis failed.",
-                "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
+                "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
                 "recommendation": {"best_option": "", "reason": ""},
-                "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},
+                "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
                 "environmental_impact": "",
             }
+
+    # Merge static fallback explanations so every renewable type always has text
+    if ai_analysis:
+        static_explanations = _build_static_renewable_explanations(renewable_energy_results)
+        ra = ai_analysis.get("renewable_analysis") or {}
+        for key, text in static_explanations.items():
+            if not ra.get(key):
+                ra[key] = text
+        ai_analysis["renewable_analysis"] = ra
 
     return {
         "municipality_data": municipality_results,
@@ -337,6 +447,82 @@ def renewable_energy_calculator(
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
     }
+
+
+def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
+    """Create deterministic fallback explanations from actual simulation data."""
+    climate = results.get("climate") or {}
+    solar = results.get("solar_output") or {}
+    wind = results.get("wind_output") or {}
+    hydro = results.get("hydro_output") or {}
+    geo = results.get("geothermal_output") or {}
+
+    explanations: dict[str, str] = {}
+
+    # Solar
+    if solar:
+        irradiance = climate.get("avg_allsky_sfc_sw_dwn")
+        cloud = climate.get("avg_cloud_amt")
+        temp = climate.get("avg_t2m")
+        parts = ["Solar energy generation is influenced by"]
+        if irradiance is not None:
+            parts.append(f" an average solar irradiance of {float(irradiance):.2f} kWh/m²/day")
+        if cloud is not None:
+            parts.append(f" and {float(cloud):.2f}% cloud coverage" if irradiance else f" {float(cloud):.2f}% cloud coverage")
+        if temp is not None:
+            parts.append(f". The average temperature is {float(temp):.2f}°C")
+        monthly = solar.get("monthly_solar_output")
+        if monthly:
+            parts.append(f". The simulated system is estimated to produce {float(monthly):.2f} kWh monthly")
+        explanations["solar"] = "".join(parts) + "."
+
+    # Wind
+    if wind:
+        ws = climate.get("avg_ws10m")
+        parts = ["Wind energy potential is driven by"]
+        if ws is not None:
+            parts.append(f" an average wind speed of {float(ws):.2f} m/s")
+        monthly = wind.get("monthly_energy_kwh")
+        if monthly:
+            parts.append(f". This speed allows for a monthly energy output of {float(monthly):.2f} kWh from the simulated wind turbine system")
+        explanations["wind"] = "".join(parts) + "."
+
+    # Hydro
+    if hydro:
+        rainfall = climate.get("avg_prectotcorr")
+        elevation = climate.get("elevation")
+        parts = ["Hydro energy generation is limited by"]
+        if rainfall is not None:
+            parts.append(f" an average rainfall of {float(rainfall):.2f} mm/day")
+        if elevation is not None:
+            parts.append(f" and an elevation of {float(elevation):.0f} meters")
+        monthly = hydro.get("monthly_hydro_output")
+        if monthly:
+            parts.append(f". The simulated micro-hydro system is estimated to produce {float(monthly):.2f} kWh monthly")
+        explanations["hydro"] = "".join(parts) + "."
+
+    # Geothermal
+    if geo:
+        reservoir_temp = geo.get("reservoir_temperature_c")
+        thermal = geo.get("thermal_power_mw")
+        electric = geo.get("electric_power_mw")
+        annual = geo.get("annual_energy_gwh")
+        confidence = geo.get("confidence")
+        classification = geo.get("classification")
+        parts = ["Geothermal potential is determined by subsurface heat conditions"]
+        if reservoir_temp is not None:
+            parts.append(f" with a reservoir temperature of {float(reservoir_temp):.1f}°C")
+        if thermal is not None and electric is not None:
+            parts.append(f". Estimated thermal power is {float(thermal):.3f} MW and electric power is {float(electric):.3f} MW")
+        if annual is not None:
+            parts.append(f", yielding {float(annual):.3f} GWh annually")
+        if classification:
+            parts.append(f". Site classification: {classification}")
+        if confidence is not None:
+            parts.append(f" (confidence score {float(confidence):.2f})")
+        explanations["geothermal"] = "".join(parts) + "."
+
+    return explanations
 
 
 def _calculate_option_summary(
@@ -456,10 +642,16 @@ def build_ecosim_dashboard_response(
     solar_output = renewable_results.get("solar_output", {})
     wind_output = renewable_results.get("wind_output", {})
     hydro_output = renewable_results.get("hydro_output", {})
+    geothermal_output = renewable_results.get("geothermal_output", {})
 
     solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
     hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
     wind_score = min(float(wind_output.get("capacity_factor", 0.0)) * 1.5, 1.0)
+    geo_score = float(geothermal_output.get("suitability_score", 0.0)) / 100.0
+
+    # Convert geothermal annual GWh to monthly kWh for comparison
+    geo_annual_gwh = geothermal_output.get("annual_energy_gwh") or 0.0
+    geo_monthly_kwh = (geo_annual_gwh * 1_000_000) / 12.0
 
     options = [
         _calculate_option_summary(
@@ -485,6 +677,14 @@ def build_ecosim_dashboard_response(
             monthly_consumption_kwh=monthly_consumption,
             electricity_rate=electricity_rate,
             installation_cost_per_kw=COST_PER_KW_HYDRO,
+        ),
+        _calculate_option_summary(
+            source="Geothermal",
+            estimated_generation_kwh=geo_monthly_kwh,
+            source_score=geo_score,
+            monthly_consumption_kwh=monthly_consumption,
+            electricity_rate=electricity_rate,
+            installation_cost_per_kw=COST_PER_KW_GEOTHERMAL,
         ),
     ]
 

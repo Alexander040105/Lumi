@@ -327,7 +327,7 @@ export default function Ecosim() {
 
           {/* Detailed renewable outputs */}
           {result.renewable_energy_results && (
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {/* Solar */}
               <Card className="border-t-4 border-t-chart-solar">
                 <CardHeader>
@@ -415,6 +415,38 @@ export default function Ecosim() {
                   </div>
                 </CardContent>
               </Card>
+
+              {/* Geothermal */}
+              <Card className="border-t-4 border-t-chart-geothermal">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <span className="inline-block h-3 w-3 rounded-full bg-chart-geothermal" />
+                    Geothermal output
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Reservoir temp</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.reservoir_temperature_c, 1)} C</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Thermal power</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.thermal_power_mw, 2)} MW</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Electric power</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.electric_power_mw, 2)} MW</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Annual energy</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.annual_energy_gwh, 2)} GWh/yr</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Confidence</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.confidence, 2)}</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           )}
 
@@ -456,8 +488,8 @@ export default function Ecosim() {
                   </div>
                 )}
                 {result.ai_analysis.renewable_analysis && (
-                  <div className="grid gap-2 md:grid-cols-3">
-                    {["solar", "wind", "hydro"].map((key) =>
+                  <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+                    {["solar", "wind", "hydro", "geothermal"].map((key) =>
                       result.ai_analysis.renewable_analysis[key] ? (
                         <div key={key} className="rounded-md border bg-muted/30 p-3 text-sm">
                           <p className="font-medium capitalize mb-1">{key}</p>
@@ -501,6 +533,8 @@ export default function Ecosim() {
                     ? "bg-chart-solar"
                     : option.source === "Wind"
                     ? "bg-chart-wind"
+                    : option.source === "Geothermal"
+                    ? "bg-chart-geothermal"
                     : "bg-chart-hydro";
                 return (
                   <div key={option.source} className="space-y-2">

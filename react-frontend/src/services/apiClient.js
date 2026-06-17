@@ -75,3 +75,7 @@ export function getEcosim(params) {
 export function getMunicipalities() {
   return request("/ecosim/municipalities");
 }
+
+export function getGeothermal(municipalityId) {
+  return request(`/geothermal/${municipalityId}`);
+}

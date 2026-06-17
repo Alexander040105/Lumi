@@ -3,6 +3,7 @@ import { MapPin, Layers } from "lucide-react";
 
 const METRIC_OPTIONS = [
   { value: "renewable_potential", label: "Renewable Potential" },
+  { value: "geothermal_potential", label: "Geothermal Potential" },
   { value: "energy_consumption", label: "Energy Consumption" },
   { value: "peak_demand", label: "Peak Demand" },
   { value: "generation", label: "Generation" },
@@ -13,7 +14,7 @@ function getColorForValue(value, metric) {
   if (value === null || value === undefined) {
     return "#94a3b8"; // slate-400 for no data
   }
-  if (metric === "renewable_potential") {
+  if (metric === "renewable_potential" || metric === "geothermal_potential") {
     if (value >= 70) return "#15803d";
     if (value >= 50) return "#22c55e";
     if (value >= 30) return "#eab308";
@@ -194,7 +195,7 @@ export default function EnergyMap({ mapData, metric, onMetricChange }) {
         )}
       </div>
 
-      {metric === "renewable_potential" && (
+      {(metric === "renewable_potential" || metric === "geothermal_potential") && (
         <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <span className="inline-block h-3 w-3 rounded-sm bg-green-700" />

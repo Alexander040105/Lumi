@@ -25,7 +25,7 @@ export default function EnergyHub() {
   const [mapMetric, setMapMetric] = useState("renewable_potential");
   const [loading, setLoading] = useState(true);
   const [useLlm, setUseLlm] = useState(true);
-  const [llmLoading, setLlmLoading] = useState(false);
+  const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function EnergyHub() {
 
     async function loadAll() {
       setLoading(true);
-      setLlmLoading(true);
+      setLlmLoading((prev) => ({ ...prev, overview: true }));
       try {
         const [ov, tr, mp, src] = await Promise.all([
           getEnergyHubOverview(),
@@ -69,7 +69,7 @@ export default function EnergyHub() {
           } catch {}
         }
       } finally {
-        if (!cancelled) setLlmLoading(false);
+        if (!cancelled) setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
     }
 
@@ -96,21 +96,21 @@ export default function EnergyHub() {
     const next = !useLlm;
     setUseLlm(next);
     if (next && !insight?.insight?.includes("LLM")) {
-      setLlmLoading(true);
+      setLlmLoading((prev) => ({ ...prev, overview: true }));
       try {
         const ai = await getEnergyHubAiInsight(true);
         setInsight(ai);
       } catch (err) {
         toast.error("LLM insight failed", { description: err.message });
       } finally {
-        setLlmLoading(false);
+        setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
     }
   };
 
   const handleAnalyzeChart = async (chartType, forceRefresh = false) => {
     if (chartAnalyses[chartType] && !forceRefresh) return;
-    setLlmLoading(true);
+    setLlmLoading((prev) => ({ ...prev, [chartType]: true }));
     try {
       let chartData = {};
       if (chartType === "trends" && trends) {
@@ -147,7 +147,7 @@ export default function EnergyHub() {
     } catch (err) {
       toast.error(`Failed to analyze ${chartType}`, { description: err.message });
     } finally {
-      setLlmLoading(false);
+      setLlmLoading((prev) => ({ ...prev, [chartType]: false }));
     }
   };
 
