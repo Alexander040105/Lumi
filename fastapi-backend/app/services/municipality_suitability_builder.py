@@ -51,6 +51,21 @@ def get_classification(score: float | None) -> str | None:
 # Score computation
 # ---------------------------------------------------------------------------
 
+def _estimate_solar_from_lat(lat: float) -> tuple[float, float]:
+    """Estimate solar irradiance (kWh/m2/day) and temperature (C) from latitude.
+    Philippines: ~5-20°N. Lower latitudes = higher irradiance.
+    """
+    abs_lat = abs(lat)
+    irradiance = max(5.0 - (abs_lat / 20.0) * 1.5, 3.5)
+    temperature = 26.0 + (abs_lat / 20.0) * 4.0
+    return round(irradiance, 2), round(temperature, 1)
+
+
+def _estimate_wind_from_lat(lat: float, lon: float) -> float:
+    """Estimate wind speed from coordinates. Philippines average ~3.2 m/s."""
+    return 3.2
+
+
 def _compute_solar_score(irradiance: float | None, temperature: float | None) -> tuple[float | None, dict[str, Any]]:
     if irradiance is None:
         return None, {}
@@ -115,7 +130,7 @@ def _fetch_all_municipalities(client) -> list[dict[str, Any]]:
     while True:
         resp = (
             client.table("municipalities")
-            .select("municipality_id, name, province_id, provinces(name)")
+            .select("municipality_id, name, province_id, lat, lon, provinces(name)")
             .range(start, start + batch - 1)
             .execute()
         )
@@ -131,10 +146,10 @@ def _fetch_all_municipalities(client) -> list[dict[str, Any]]:
 
 
 def _fetch_climate_data(client) -> dict[int, dict[str, Any]]:
-    """Fetch 2010 annual averages per municipality."""
+    """Fetch multi-year annual averages per municipality (all available years)."""
     resp = client.table("municipality_climate_monthly").select(
         "municipality_id, allsky_sfc_sw_dwn, ws10m, t2m, cloud_amt"
-    ).eq("year", 2010).execute()
+    ).execute()
     rows = resp.data or []
     data: dict[int, dict[str, Any]] = defaultdict(dict)
     for r in rows:
@@ -146,7 +161,7 @@ def _fetch_climate_data(client) -> dict[int, dict[str, Any]]:
             val = r.get(key)
             if val is not None:
                 entry.setdefault(key, []).append(float(val))
-    # Average across months
+    # Average across all months/years
     averaged: dict[int, dict[str, Any]] = {}
     for mid, vals in data.items():
         averaged[mid] = {}
@@ -219,10 +234,28 @@ def build_suitability_for_municipality(
     h = hydro.get(mid, {})
     g = geo.get(mid, {})
 
-    solar_score, solar_factors = _compute_solar_score(
-        c.get("allsky_sfc_sw_dwn"), c.get("t2m")
-    )
-    wind_score, wind_factors = _compute_wind_score(c.get("ws10m"))
+    # Use actual NASA POWER data if available; otherwise fall back to lat-based estimates
+    irradiance = c.get("allsky_sfc_sw_dwn")
+    temperature = c.get("t2m")
+    wind_speed = c.get("ws10m")
+
+    if irradiance is None or temperature is None:
+        lat = muni.get("lat")
+        if lat is not None:
+            est_irr, est_temp = _estimate_solar_from_lat(float(lat))
+            if irradiance is None:
+                irradiance = est_irr
+            if temperature is None:
+                temperature = est_temp
+
+    if wind_speed is None:
+        lat = muni.get("lat")
+        lon = muni.get("lon")
+        if lat is not None and lon is not None:
+            wind_speed = _estimate_wind_from_lat(float(lat), float(lon))
+
+    solar_score, solar_factors = _compute_solar_score(irradiance, temperature)
+    wind_score, wind_factors = _compute_wind_score(wind_speed)
     hydro_score, hydro_factors = _compute_hydro_score(
         h.get("hydro_suitability_score"), h.get("hydraulic_head_m")
     )
@@ -302,15 +335,29 @@ def warm_suitability_cache(client) -> None:
             )
             if has_factors:
                 select_cols += f", {factors_col}"
-            resp = (
-                client.table("municipalities")
-                .select(select_cols)
-                .not_.is_(score_col, "null")
-                .execute()
-            )
-            rows = resp.data or []
+
+            # Paginate through all municipalities with scores
+            all_rows = []
+            offset = 0
+            batch = 1000
+            while True:
+                resp = (
+                    client.table("municipalities")
+                    .select(select_cols)
+                    .not_.is_(score_col, "null")
+                    .range(offset, offset + batch - 1)
+                    .execute()
+                )
+                rows = resp.data or []
+                if not rows:
+                    break
+                all_rows.extend(rows)
+                if len(rows) < batch:
+                    break
+                offset += batch
+
             items = []
-            for r in rows:
+            for r in all_rows:
                 province_obj = r.get("provinces")
                 province_name = province_obj.get("name", "") if province_obj else ""
                 items.append({

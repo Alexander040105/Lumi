@@ -63,6 +63,8 @@ def load_config() -> Config:
         "SUPABASE_JWT_ANON_KEY",
         "SUPABASE_ANON_KEY",
         "SUPABASE_KEY",
+        "VITE_SUPABASE_SERVICE_ROLE_KEY",
+        "VITE_SUPABASE_ANON_KEY",
     ):
         value = os.getenv(key_name)
         if value:
@@ -70,7 +72,7 @@ def load_config() -> Config:
             break
     date_formats = "YYYY"
     return Config(
-        supabase_url=os.getenv("SUPABASE_URL"),
+        supabase_url=os.getenv("SUPABASE_URL") or os.getenv("VITE_SUPABASE_URL"),
         supabase_key=supabase_key,
         start_year=MIN_INGEST_YEAR,
         end_year=MAX_INGEST_YEAR,
