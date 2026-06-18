@@ -81,7 +81,10 @@ class MapDataItem(BaseModel):
     region: str
     province: str | None = None
     municipality: str | None = None
+    municipality_id: int | None = None
     value: float | None = None
+    classification: str | None = None
+    factors: Any = None
     metric: str
     lat: float | None = None
     lon: float | None = None
@@ -90,6 +93,7 @@ class MapDataItem(BaseModel):
 class MapDataResponse(BaseModel):
     items: list[MapDataItem]
     metric: str
+    level: str = "province"
 
 
 class TrendsResponse(BaseModel):

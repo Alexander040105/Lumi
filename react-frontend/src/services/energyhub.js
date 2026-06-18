@@ -14,8 +14,10 @@ export function getEnergyHubTrends() {
   return request(`${ENERGYHUB_BASE}/trends`);
 }
 
-export function getEnergyHubMapData(metric = "renewable_potential") {
-  return request(`${ENERGYHUB_BASE}/map-data?metric=${encodeURIComponent(metric)}`);
+export function getEnergyHubMapData(metric = "renewable_potential", level = "province") {
+  return request(
+    `${ENERGYHUB_BASE}/map-data?metric=${encodeURIComponent(metric)}&level=${encodeURIComponent(level)}`
+  );
 }
 
 export function getEnergyHubSourceBreakdown(year) {

@@ -6,6 +6,10 @@ from typing import Any
 
 from app.ml.predictor import get_energyhub_ml
 from app.services.supabase_service import get_supabase_client
+from app.services.redis_client import (
+    get_suitability_cache_sync,
+    set_suitability_cache_sync,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +103,11 @@ class EnergyHubService:
 
     # --- Map Data ---
 
-    def build_map_data(self, metric: str = "renewable_potential") -> dict[str, Any]:
+    def build_map_data(
+        self,
+        metric: str = "renewable_potential",
+        level: str = "province",
+    ) -> dict[str, Any]:
         """Build choropleth-ready data.
 
         Because the DOE dataset is national-level only, sub-national
@@ -107,8 +115,27 @@ class EnergyHubService:
         1. Existing Supabase climate / terrain tables (renewable potential).
         2. Grid-level generation shares (Luzon / Visayas / Mindanao)
            apportioned to regions based on known geographic membership.
+
+        Args:
+            metric: Metric to visualise.
+            level: "province" or "municipality". Municipality level uses
+                pre-computed suitability scores from the municipalities table.
         """
         items: list[dict[str, Any]] = []
+
+        # Municipality-level suitability metrics
+        municipality_metrics = {
+            "renewable_potential": "composite",
+            "solar_potential": "solar",
+            "wind_potential": "wind",
+            "hydro_potential": "hydro",
+            "geothermal_potential": "geothermal",
+        }
+
+        if metric in municipality_metrics and level == "municipality":
+            column_prefix = municipality_metrics[metric]
+            items = self._build_municipality_potential_map(column_prefix)
+            return {"items": items, "metric": metric, "level": level}
 
         if metric in ("energy_consumption", "peak_demand", "generation"):
             # National only — return a single national point
@@ -130,8 +157,7 @@ class EnergyHubService:
             })
 
         elif metric == "renewable_potential":
-            # Query Supabase for municipal climate averages and aggregate
-            # to province / region level.
+            # Province-level aggregation (backward compatible)
             items = self._build_renewable_potential_map()
 
         elif metric == "forecasted_demand":
@@ -150,7 +176,7 @@ class EnergyHubService:
         elif metric == "geothermal_potential":
             items = self._build_geothermal_potential_map()
 
-        return {"items": items, "metric": metric}
+        return {"items": items, "metric": metric, "level": level}
 
     def _build_geothermal_potential_map(self) -> list[dict[str, Any]]:
         """Aggregate municipality-level geothermal scores to province level."""
@@ -434,6 +460,61 @@ class EnergyHubService:
 
         return items
 
+    def _build_municipality_potential_map(self, column_prefix: str) -> list[dict[str, Any]]:
+        """Return pre-computed municipality suitability scores from Supabase.
+
+        Uses Redis cache first, then falls back to the municipalities table.
+        """
+        metric_name = f"{column_prefix}_potential" if column_prefix != "composite" else "renewable_potential"
+        cached = get_suitability_cache_sync(metric_name, "municipality")
+        if cached:
+            logger.info("Cache hit for municipality %s suitability", metric_name)
+            return cached  # type: ignore[return-value]
+
+        client = get_supabase_client()
+        items: list[dict[str, Any]] = []
+
+        score_col = f"{column_prefix}_suitability_score"
+        class_col = f"{column_prefix}_classification"
+        factors_col = f"{column_prefix}_factors"
+        # composite_factors may not exist yet; omit from select if composite
+        has_factors_col = column_prefix != "composite"
+        select_cols = (
+            f"municipality_id, name, province_id, lat, lon, "
+            f"provinces(name), {score_col}, {class_col}"
+        )
+        if has_factors_col:
+            select_cols += f", {factors_col}"
+
+        try:
+            resp = (
+                client.table("municipalities")
+                .select(select_cols)
+                .not_.is_(score_col, "null")
+                .execute()
+            )
+            rows = resp.data or []
+            for r in rows:
+                province_obj = r.get("provinces")
+                province_name = province_obj.get("name", "") if province_obj else ""
+                items.append({
+                    "region": "",
+                    "province": province_name,
+                    "municipality": r.get("name"),
+                    "municipality_id": r.get("municipality_id"),
+                    "value": float(r.get(score_col) or 0),
+                    "classification": r.get(class_col),
+                    "factors": r.get(factors_col) if has_factors_col else None,
+                    "metric": metric_name,
+                    "lat": r.get("lat"),
+                    "lon": r.get("lon"),
+                })
+            set_suitability_cache_sync(metric_name, "municipality", items)
+        except Exception as exc:
+            logger.warning("Supabase query failed for municipality map data: %s", exc)
+
+        return items
+
     # --- AI Insight ---
 
     def get_ai_insight(self, use_llm: bool = False) -> dict[str, str]:
@@ -597,113 +678,12 @@ class EnergyHubService:
 
     @staticmethod
     def _clean_llm_text(text: str) -> str:
-        """Strip JSON wrappers, markdown fences, and clean LLM output for display."""
-        if not text:
-            return ""
+        """Strip JSON wrappers, markdown fences, and clean LLM output for display.
 
-        text = text.strip()
-
-        # 1. Strip markdown code fences
-        if text.startswith("```"):
-            lines = text.splitlines()
-            if lines[0].startswith("```"):
-                lines = lines[1:]
-            if lines and lines[-1].strip() == "```":
-                lines = lines[:-1]
-            text = "\n".join(lines).strip()
-
-        def _find_json_blocks(s: str) -> list[str]:
-            """Find all top-level JSON objects/arrays in a string."""
-            blocks: list[str] = []
-            depth = 0
-            in_string = False
-            escape_next = False
-            start: int | None = None
-            for i, ch in enumerate(s):
-                if escape_next:
-                    escape_next = False
-                    continue
-                if ch == "\\":
-                    escape_next = True
-                    continue
-                if ch == '"' and (i == 0 or s[i - 1] != "\\"):
-                    in_string = not in_string
-                    continue
-                if in_string:
-                    continue
-                if ch in "{[":
-                    if depth == 0:
-                        start = i
-                    depth += 1
-                elif ch in "]}":
-                    depth -= 1
-                    if depth == 0 and start is not None:
-                        blocks.append(s[start : i + 1])
-                        start = None
-            return blocks
-
-        def _extract_text(obj: Any) -> str:
-            """Recursively extract narrative text from parsed JSON."""
-            if isinstance(obj, str):
-                return obj.strip()
-            if isinstance(obj, list):
-                parts = [_extract_text(item) for item in obj if item is not None]
-                return "\n\n".join(p for p in parts if p)
-            if isinstance(obj, dict):
-                # Exact narrative keys
-                for key in ("analysis", "insight", "explanation", "response", "text", "content", "result", "answer", "narrative"):
-                    if key in obj:
-                        return _extract_text(obj[key])
-                # Keys that *contain* narrative words
-                lower_keys = {k.lower(): k for k in obj.keys()}
-                for word in ("analysis", "insight", "explanation", "response", "text", "content", "result", "answer", "narrative"):
-                    for lk, orig in lower_keys.items():
-                        if word in lk:
-                            return _extract_text(obj[orig])
-                # Fallback: concatenate all values
-                parts = []
-                for v in obj.values():
-                    extracted = _extract_text(v)
-                    if extracted:
-                        parts.append(extracted)
-                return "\n\n".join(parts)
-            return str(obj) if obj is not None else ""
-
-        best_text = text
-
-        # 2. Try to find and parse JSON blocks embedded anywhere
-        for block in _find_json_blocks(text):
-            try:
-                parsed = json.loads(block)
-                extracted = _extract_text(parsed)
-                if extracted and len(extracted) > len(best_text) * 0.3:
-                    best_text = extracted
-            except json.JSONDecodeError:
-                continue
-
-        # 3. If the whole text is JSON, try that too
-        if text.startswith(("{", "[")) and text.endswith(("}", "]")):
-            try:
-                parsed = json.loads(text)
-                extracted = _extract_text(parsed)
-                if extracted:
-                    best_text = extracted
-            except json.JSONDecodeError:
-                pass
-
-        # 4. Normalize escaped newlines/tabs
-        best_text = best_text.replace("\\n", "\n").replace("\\t", "\t")
-        # 5. Strip outer quotes if the result is a quoted string
-        best_text = best_text.strip()
-        if (best_text.startswith('"') and best_text.endswith('"')) or (
-            best_text.startswith("'") and best_text.endswith("'")
-        ):
-            try:
-                best_text = json.loads(best_text)
-            except json.JSONDecodeError:
-                best_text = best_text[1:-1]
-
-        return str(best_text).strip()
+        Delegates to the unified llm_sanitizer module.
+        """
+        from app.services.llm_sanitizer import sanitize_llm_output
+        return sanitize_llm_output(text)
 
     def _build_chart_prompt(self, chart_type: str, chart_data: dict[str, Any]) -> str:
         if chart_type == "trends":

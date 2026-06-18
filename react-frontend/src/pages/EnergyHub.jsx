@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 
 import {
@@ -16,6 +16,14 @@ import EnergyTrends from "@/components/energyhub/EnergyTrends";
 import EnergySources from "@/components/energyhub/EnergySources";
 import AiInsightPanel from "@/components/energyhub/AiInsightPanel";
 
+const SUITABILITY_METRICS = [
+  "renewable_potential",
+  "solar_potential",
+  "wind_potential",
+  "hydro_potential",
+  "geothermal_potential",
+];
+
 export default function EnergyHub() {
   const [overview, setOverview] = useState(null);
   const [trends, setTrends] = useState(null);
@@ -23,11 +31,39 @@ export default function EnergyHub() {
   const [sourceBreakdown, setSourceBreakdown] = useState(null);
   const [insight, setInsight] = useState(null);
   const [mapMetric, setMapMetric] = useState("renewable_potential");
+  const [mapLevel, setMapLevel] = useState("province");
   const [loading, setLoading] = useState(true);
   const [useLlm, setUseLlm] = useState(true);
   const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
+  const [mapLoading, setMapLoading] = useState(false);
 
+  // Cache for map data: { [metric]: { [level]: response } }
+  const mapCacheRef = useRef({});
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+  const getCachedMapData = (metric, level) => {
+    return mapCacheRef.current[metric]?.[level] ?? null;
+  };
+
+  const setCachedMapData = (metric, level, data) => {
+    if (!mapCacheRef.current[metric]) mapCacheRef.current[metric] = {};
+    mapCacheRef.current[metric][level] = data;
+  };
+
+  const fetchAndCacheMapData = async (metric, level) => {
+    const cached = getCachedMapData(metric, level);
+    if (cached) return cached;
+    const data = await getEnergyHubMapData(metric, level);
+    setCachedMapData(metric, level, data);
+    return data;
+  };
+
+  // ---------------------------------------------------------------------------
+  // Initial load — overview + trends + province map + pre-fetch all metrics
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     let cancelled = false;
 
@@ -38,7 +74,7 @@ export default function EnergyHub() {
         const [ov, tr, mp, src] = await Promise.all([
           getEnergyHubOverview(),
           getEnergyHubTrends(),
-          getEnergyHubMapData(mapMetric),
+          fetchAndCacheMapData("renewable_potential", "province"),
           getEnergyHubSourceBreakdown(),
         ]);
         if (!cancelled) {
@@ -55,6 +91,13 @@ export default function EnergyHub() {
         if (!cancelled) setLoading(false);
       }
 
+      // Pre-fetch all suitability metrics in background (province level)
+      Promise.all(
+        SUITABILITY_METRICS.filter((m) => m !== "renewable_potential").map((m) =>
+          fetchAndCacheMapData(m, "province").catch(() => null)
+        )
+      );
+
       // Load LLM insight in background
       try {
         const ai = await getEnergyHubAiInsight(true);
@@ -62,7 +105,6 @@ export default function EnergyHub() {
       } catch (err) {
         if (!cancelled) {
           toast.error("LLM insight failed", { description: err.message });
-          // Fallback to static
           try {
             const staticAi = await getEnergyHubAiInsight(false);
             if (!cancelled) setInsight(staticAi);
@@ -79,18 +121,29 @@ export default function EnergyHub() {
     };
   }, []);
 
-  // Refetch map data when metric changes
+  // ---------------------------------------------------------------------------
+  // Switch metric or level — use cache if available, else fetch + cache
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     let cancelled = false;
-    getEnergyHubMapData(mapMetric)
+    const cached = getCachedMapData(mapMetric, mapLevel);
+    if (cached) {
+      setMapData(cached);
+      return;
+    }
+    setMapLoading(true);
+    fetchAndCacheMapData(mapMetric, mapLevel)
       .then((mp) => {
         if (!cancelled) setMapData(mp);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setMapLoading(false);
+      });
     return () => {
       cancelled = true;
     };
-  }, [mapMetric]);
+  }, [mapMetric, mapLevel]);
 
   const handleToggleLlm = async () => {
     const next = !useLlm;
@@ -183,7 +236,10 @@ export default function EnergyHub() {
           <EnergyMap
             mapData={mapData}
             metric={mapMetric}
+            level={mapLevel}
             onMetricChange={setMapMetric}
+            onLevelChange={setMapLevel}
+            mapLoading={mapLoading}
           />
         </section>
 

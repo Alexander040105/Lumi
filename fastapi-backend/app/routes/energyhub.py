@@ -53,20 +53,28 @@ async def get_map_data(
         default="renewable_potential",
         description=(
             "Metric for choropleth coloring. "
-            "Options: renewable_potential, energy_consumption, peak_demand, generation, forecasted_demand"
+            "Options: renewable_potential, solar_potential, wind_potential, hydro_potential, "
+            "geothermal_potential, energy_consumption, peak_demand, generation, forecasted_demand"
         ),
-    )
+    ),
+    level: str = Query(
+        default="province",
+        description="Geographic level: province or municipality. Municipality requires pre-computed suitability scores.",
+    ),
 ):
     """Return geographic data points for the choropleth map.
 
     *renewable_potential* uses municipality-level climate and terrain
     data from Supabase aggregated to province level.
+    *solar_potential*, *wind_potential*, *hydro_potential*,
+    *geothermal_potential* return pre-computed municipality-level
+    suitability scores when level=municipality.
     *energy_consumption*, *peak_demand*, *generation*, and
     *forecasted_demand* return national-level values (the DOE dataset
     does not include sub-national consumption statistics).
     """
     svc = get_energyhub_service()
-    return svc.build_map_data(metric)
+    return svc.build_map_data(metric, level)
 
 
 @router.get("/source-breakdown", response_model=SourceBreakdownResponse)

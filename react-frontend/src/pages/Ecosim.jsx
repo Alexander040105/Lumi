@@ -482,16 +482,57 @@ export default function Ecosim() {
             <Card>
               <CardHeader>
                 <CardTitle>AI Analysis</CardTitle>
-                <CardDescription>Gemini-powered insights</CardDescription>
+                <CardDescription>Prescriptive renewable energy insights</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-4">
-                {result.ai_analysis.summary && (
-                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
-                    <p className="font-medium mb-1">Summary</p>
-                    <p className="text-muted-foreground">{result.ai_analysis.summary}</p>
+                {/* Prescriptive Recommendation (new structure) */}
+                {result.ai_analysis.prescriptive_recommendation && (
+                  <div className="grid gap-3">
+                    {result.ai_analysis.prescriptive_recommendation.observation && (
+                      <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                        <p className="font-semibold text-emerald-700 mb-1">Observation</p>
+                        <p className="text-muted-foreground whitespace-pre-line">
+                          {result.ai_analysis.prescriptive_recommendation.observation}
+                        </p>
+                      </div>
+                    )}
+                    {result.ai_analysis.prescriptive_recommendation.interpretation && (
+                      <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                        <p className="font-semibold text-emerald-700 mb-1">Interpretation</p>
+                        <p className="text-muted-foreground whitespace-pre-line">
+                          {result.ai_analysis.prescriptive_recommendation.interpretation}
+                        </p>
+                      </div>
+                    )}
+                    {result.ai_analysis.prescriptive_recommendation.recommendation && (
+                      <div className="rounded-md border bg-emerald-50 p-4 text-sm">
+                        <p className="font-semibold text-emerald-800 mb-1">Recommendation</p>
+                        <p className="text-emerald-900 whitespace-pre-line">
+                          {result.ai_analysis.prescriptive_recommendation.recommendation}
+                        </p>
+                      </div>
+                    )}
+                    {result.ai_analysis.prescriptive_recommendation.reason && (
+                      <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                        <p className="font-semibold text-emerald-700 mb-1">Reason</p>
+                        <p className="text-muted-foreground whitespace-pre-line">
+                          {result.ai_analysis.prescriptive_recommendation.reason}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
-                {result.ai_analysis.renewable_analysis && (
+
+                {/* Fallback: legacy summary display */}
+                {!result.ai_analysis.prescriptive_recommendation?.recommendation && result.ai_analysis.summary && (
+                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
+                    <p className="font-medium mb-1">Summary</p>
+                    <p className="text-muted-foreground whitespace-pre-line">{result.ai_analysis.summary}</p>
+                  </div>
+                )}
+
+                {/* Fallback: legacy per-type analysis */}
+                {!result.ai_analysis.prescriptive_recommendation?.recommendation && result.ai_analysis.renewable_analysis && (
                   <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
                     {["solar", "wind", "hydro", "geothermal"].map((key) =>
                       result.ai_analysis.renewable_analysis[key] ? (
@@ -501,23 +542,6 @@ export default function Ecosim() {
                         </div>
                       ) : null
                     )}
-                  </div>
-                )}
-                {result.ai_analysis.recommendation?.best_option && (
-                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
-                    <p className="font-medium mb-1">Recommendation</p>
-                    <p className="text-muted-foreground">
-                      <strong>{result.ai_analysis.recommendation.best_option}</strong>
-                      {result.ai_analysis.recommendation.reason && (
-                        <span> — {result.ai_analysis.recommendation.reason}</span>
-                      )}
-                    </p>
-                  </div>
-                )}
-                {result.ai_analysis.environmental_impact && (
-                  <div className="rounded-md border bg-muted/30 p-4 text-sm">
-                    <p className="font-medium mb-1">Environmental impact</p>
-                    <p className="text-muted-foreground">{result.ai_analysis.environmental_impact}</p>
                   </div>
                 )}
               </CardContent>

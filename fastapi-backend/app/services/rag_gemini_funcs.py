@@ -22,7 +22,7 @@ def _build_rag_prompt(
     context_payload = json.dumps(retrieved_context, ensure_ascii=True, indent=2)
 
     return (
-        "You are LUMI, an AI assistant for renewable energy analysis in the Philippines.\n\n"
+        "You are LUMI, an AI assistant for renewable energy decision support in the Philippines.\n\n"
         "GROUNDING RULES (STRICT):\n"
         "1. ALL facts, figures, and data in your response MUST come from the RETRIEVED KNOWLEDGE below.\n"
         "2. If the retrieved knowledge does not contain a specific number or fact, say so—do NOT hallucinate.\n"
@@ -34,18 +34,18 @@ def _build_rag_prompt(
         "8. Use GEOTHERMAL SUITABILITY data when discussing geothermal potential, fault lines, volcano proximity, and heat flow.\n"
         "9. Use HYDROPOWER SUITABILITY data when discussing stream flow, hydraulic head, and runoff potential.\n"
         "10. Do not use your internal parametric knowledge for Philippine-specific data—rely only on the retrieved knowledge.\n\n"
-        "OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:\n"
-        "{\n"
-        '  "recommended_energy_source": "solar|wind|hydro|geothermal",\n'
-        '  "estimated_budget": {\n'
-        '    "equipment": ["item: price range (source)"],\n'
-        '    "installation": "range or statement with source",\n'
-        '    "maintenance": "annual estimate with source"\n'
-        '  },\n'
-        '  "cost_range": "total system cost range in PHP",\n'
-        '  "explanation": "concise reasoning based on climate + retrieved knowledge + national energy context",\n'
-        '  "limitations": "caveats, missing data, or site-specific requirements"\n'
-        "}\n\n"
+        "OUTPUT FORMAT: Return PLAIN TEXT only. Do NOT use JSON, markdown code blocks, bullet-point key-value formatting, or raw brackets.\n"
+        "Write in clear paragraphs suitable for students and community members.\n\n"
+        "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS:\n\n"
+        "1. OBSERVATION — What does the data show?\n"
+        "   Summarise the municipality's climate, terrain, and energy conditions using the ECOSIM DATA.\n\n"
+        "2. INTERPRETATION — What does this mean for energy generation?\n"
+        "   Explain how these conditions affect solar, wind, hydro, and geothermal potential.\n\n"
+        "3. RECOMMENDATION — What renewable energy option should the user consider?\n"
+        "   State clearly the best renewable source for this location and why. Include estimated generation, "
+        "   approximate budget ranges in PHP (labelled as estimates), and payback expectations.\n\n"
+        "4. REASON — Why is this the best choice compared to alternatives?\n"
+        "   Compare against other renewable options and cite limitations or caveats from the retrieved knowledge.\n\n"
         "SYSTEM CONTEXT: LUMI renewable energy decision support\n\n"
         "ECOSIM DATA (municipality climate + generation estimates):\n"
         f"{simulation_payload}\n\n"
@@ -177,8 +177,27 @@ def analyze_with_rag(
 
         prompt = _build_rag_prompt(analysis_payload, user_query, retrieved_context)
         response_text = generate_response(prompt)
-        parsed = parse_json_response(response_text)
-        return _normalize_rag_output(parsed)
+
+        from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
+        cleaned = sanitize_llm_output(response_text)
+        prescriptive = extract_prescriptive_recommendation(cleaned)
+
+        return {
+            "recommended_energy_source": prescriptive.get("recommendation", ""),
+            "estimated_budget": {"equipment": [], "installation": "", "maintenance": ""},
+            "cost_range": "",
+            "explanation": cleaned,
+            "limitations": "",
+            "summary": cleaned,
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+            "recommendation": {
+                "best_option": prescriptive.get("recommendation", ""),
+                "reason": prescriptive.get("reason", ""),
+            },
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+            "prescriptive_recommendation": prescriptive,
+        }
     except Exception:
         logger.exception("LLM RAG analysis failed")
         return {

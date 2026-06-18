@@ -117,13 +117,13 @@ def generate_gemini_response(
         config = genai.types.GenerateContentConfig(
             temperature=temp_value,
             max_output_tokens=token_limit,
-            response_mime_type="application/json",
+            response_mime_type="text/plain",
         )
     except AttributeError:
         config = {
             "temperature": temp_value,
             "max_output_tokens": token_limit,
-            "response_mime_type": "application/json",
+            "response_mime_type": "text/plain",
         }
 
     # Build the full fallback chain: primary -> fallback models
@@ -271,57 +271,30 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
     payload = json.dumps(analysis_payload, ensure_ascii=True, indent=2)
 
     return (
-        "You are LUMI, an environmental intelligence assistant. "
-        "Summarize the simulation results concisely without changing calculations.\n\n"
-        "RULES:\n"
-        "- Return ONLY valid JSON. No markdown.\n"
-        "- Keep each text field under 1000 characters.\n"
-        "- Use short sentences, no bullet lists.\n"
+        "You are LUMI, an environmental intelligence assistant for renewable energy decision support in the Philippines. "
+        "Provide a clear, actionable analysis based on the simulation data below.\n\n"
+        "CRITICAL RULES:\n"
+        "- Return PLAIN TEXT only. Do NOT use JSON, markdown code blocks, bullet-point key-value formatting, or raw brackets.\n"
+        "- Write in clear paragraphs suitable for a non-technical audience.\n"
         "- Mention key drivers: solar irradiance, wind speed, rainfall, elevation, "
         "temperature, humidity, cloud coverage, heat flow, fault proximity, aquifer permeability.\n"
-        "- For each renewable analysis, EXPLAIN WHY the factor matters, not just what the value is.\n"
-        "  Example solar: 'High irradiance means more photons strike silicon cells, freeing more electrons. "
-        "  Clouds scatter light before it reaches panels. High temperature reduces efficiency because silicon "
-        "  loses about 0.4% output per degree above 25C.'\n"
-        "  Example wind: 'Power scales with the cube of wind speed (P ∝ V³), so small speed increases produce large output jumps. "
-        "  Capacity factor matters because turbines rarely run at full rated power due to variable winds and maintenance.'\n"
-        "  Example hydro: 'Rainfall feeds the watershed and increases flow rate, directly raising kinetic energy at the turbine. "
-        "  Elevation creates hydraulic head: greater height means more gravitational potential energy (mgh).'\n"
-        "  Example geothermal: 'Reservoir temperature determines the extractable thermal energy (Q = m·Cp·ΔT). "
-        "  A hotter reservoir means a larger temperature drop and more usable heat per kilogram of fluid circulated.'\n"
+        "- For each renewable type, EXPLAIN WHY the factor matters, not just what the value is.\n"
         "- CRITICAL: Write a detailed explanation for EVERY renewable type (solar, wind, hydro, geothermal). "
-        "  NEVER skip a type or leave it empty, even if output values are zero or data is missing.\n"
-        "- For each renewable analysis, write at least 3 sentences that EXPLAIN WHY the factors matter, "
-        "  not just what the value is. When numerical output is very low or unavailable, explain WHY the location lacks potential.\n"
-        "  Example solar: 'Solar panels convert photons into electricity. High irradiance means more photons strike silicon cells, "
-        "  freeing more electrons and raising current. Cloud coverage scatters and absorbs sunlight before it reaches panels. "
-        "  High temperature reduces panel efficiency because silicon loses about 0.4% output per degree above 25C.'\n"
-        "  Example wind: 'Wind turbines extract kinetic energy from moving air. Because power scales with the cube of velocity "
-        "  (P ∝ V³), a small increase in wind speed produces a disproportionately large jump in output. The capacity factor matters "
-        "  because turbines rarely run at full rated power due to variable winds and maintenance downtime.'\n"
-        "  Example hydro: 'Micro-hydro needs water flow and hydraulic head. Rainfall feeds the watershed and increases flow rate, "
-        "  directly raising kinetic energy at the turbine. Elevation creates head: greater height means more gravitational potential "
-        "  energy (mgh), which converts to higher pressure and more power.'\n"
-        "  Example geothermal (with data): 'Reservoir temperature determines extractable thermal energy (Q = m·Cp·ΔT). "
-        "  A hotter reservoir means a larger temperature drop and more usable heat per kilogram of fluid circulated. "
-        "  Proximity to faults or volcanoes channels hot fluids upward, while aquifer permeability determines whether water can circulate through hot rock.'\n"
-        "  Example geothermal (no data): 'Geothermal potential depends on subsurface heat flow, fault proximity, aquifer permeability, "
-        "  and the geothermal gradient. Without measured heat-flow data, the reservoir temperature cannot be reliably estimated. "
-        "  Philippine locations far from volcanic arcs or major faults typically have lower geothermal potential, making this source impractical here.'\n"
-        "- Cost estimates must be labeled as estimates.\n\n"
-        "OUTPUT FORMAT (exact keys):\n"
-        "{\n"
-        "  \"summary\": \"\",\n"
-        "  \"renewable_analysis\": {\"solar\": \"\", \"wind\": \"\", \"hydro\": \"\", \"geothermal\": \"\"},\n"
-        "  \"recommendation\": {\"best_option\": \"\", \"reason\": \"\"},\n"
-        "  \"cost_estimation\": {\n"
-        "    \"solar\": {\"panels\": \"\", \"inverter\": \"\", \"battery\": \"\", \"installation\": \"\"},\n"
-        "    \"wind\": {\"turbine\": \"\", \"tower\": \"\", \"controller\": \"\", \"installation\": \"\"},\n"
-        "    \"hydro\": {\"turbine\": \"\", \"generator\": \"\", \"civil_works\": \"\", \"installation\": \"\"},\n"
-        "    \"geothermal\": {\"drilling\": \"\", \"plant\": \"\", \"pumps\": \"\", \"installation\": \"\"}\n"
-        "  },\n"
-        "  \"environmental_impact\": \"\"\n"
-        "}\n\n"
+        "  NEVER skip a type or leave it empty, even if output values are zero or data is missing.\n\n"
+        "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS:\n\n"
+        "1. OBSERVATION — What does the data show?\n"
+        "   Describe the climate and terrain conditions for this municipality. Mention solar irradiance, wind speed, "
+        "   rainfall, elevation, temperature, and any geothermal indicators.\n\n"
+        "2. INTERPRETATION — What does this mean for energy generation?\n"
+        "   Explain how these conditions affect each renewable source. For example: high irradiance means more photons "
+        "   striking silicon cells, but high temperature partially offsets this. Wind power scales with the cube of speed. "
+        "   Rainfall feeds watersheds for micro-hydro. Geothermal depends on subsurface heat.\n\n"
+        "3. RECOMMENDATION — What renewable energy option should the user consider?\n"
+        "   State clearly which renewable source is best for this municipality and WHY. Include estimated monthly generation "
+        "   and what percentage of an average household's consumption it would cover. Mention approximate costs as estimates only.\n\n"
+        "4. REASON — Why is this the best choice compared to alternatives?\n"
+        "   Compare the recommended source against the other renewable options. Explain why solar, wind, hydro, or geothermal "
+        "   are less suitable here, citing specific data points.\n\n"
         "SIMULATION DATA (FULL CONTEXT):\n"
         f"{payload}\n"
     )
@@ -331,20 +304,33 @@ def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any
     try:
         prompt = _build_renewable_analysis_prompt(analysis_payload)
         # Use unified client so Groq fallback works when Gemini is rate-limited
-        from app.services.llm_client import generate_response, parse_json_response
+        from app.services.llm_client import generate_response
+        from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
+
         response_text = generate_response(prompt)
         if GEMINI_DEBUG:
             snippet = response_text[:500] if response_text else ""
             logger.info("Gemini prompt chars=%s response chars=%s", len(prompt), len(response_text))
             logger.info("Gemini response snippet=%s", snippet)
-        parsed = parse_json_response(response_text)
-        if not parsed:
-            logger.warning("LLM returned empty or invalid JSON")
-            if response_text:
-                fallback = _normalize_analysis_output({})
-                fallback["summary"] = _extract_summary(response_text)
-                return fallback
-        return _normalize_analysis_output(parsed)
+
+        cleaned = sanitize_llm_output(response_text)
+        if not cleaned:
+            logger.warning("LLM returned empty response after sanitization")
+            return _normalize_analysis_output({})
+
+        prescriptive = extract_prescriptive_recommendation(cleaned)
+
+        return {
+            "summary": cleaned,
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+            "recommendation": {
+                "best_option": prescriptive.get("recommendation", ""),
+                "reason": prescriptive.get("reason", ""),
+            },
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+            "prescriptive_recommendation": prescriptive,
+        }
     except Exception as exc:
         logger.exception("LLM analysis failed")
         return {
