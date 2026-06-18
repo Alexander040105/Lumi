@@ -31,10 +31,12 @@ def _build_rag_prompt(
         "5. Use NATIONAL ENERGY STATISTICS for context on Philippine energy trends, grid composition, and peak demand.\n"
         "6. Use MUNICIPALITY CLIMATE data to discuss local solar, wind, and temperature conditions.\n"
         "7. Use TERRAIN METRICS when discussing hydropower suitability or site-specific topography.\n"
-        "8. Do not use your internal parametric knowledge for Philippine-specific data—rely only on the retrieved knowledge.\n\n"
+        "8. Use GEOTHERMAL SUITABILITY data when discussing geothermal potential, fault lines, volcano proximity, and heat flow.\n"
+        "9. Use HYDROPOWER SUITABILITY data when discussing stream flow, hydraulic head, and runoff potential.\n"
+        "10. Do not use your internal parametric knowledge for Philippine-specific data—rely only on the retrieved knowledge.\n\n"
         "OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:\n"
         "{\n"
-        '  "recommended_energy_source": "solar|wind|hydro",\n'
+        '  "recommended_energy_source": "solar|wind|hydro|geothermal",\n'
         '  "estimated_budget": {\n'
         '    "equipment": ["item: price range (source)"],\n'
         '    "installation": "range or statement with source",\n'
@@ -75,9 +77,9 @@ def _normalize_rag_output(data: dict[str, Any]) -> dict[str, Any]:
         "limitations": "",
         # backward-compatible keys so callers that expect the old shape still get something reasonable
         "summary": "",
-        "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
+        "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
         "recommendation": {"best_option": "", "reason": ""},
-        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},
+        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
         "environmental_impact": "",
     }
 
@@ -135,6 +137,8 @@ def _smart_retrieve(
         renewable_hint = "wind"
     elif "hydro" in query_lower or "water" in query_lower or "hydropower" in query_lower:
         renewable_hint = "hydro"
+    elif "geothermal" in query_lower or "heat" in query_lower or "volcano" in query_lower:
+        renewable_hint = "geothermal"
 
     results = rag_pipeline.retrieve_context(user_query, top_k=top_k)
 
@@ -184,8 +188,8 @@ def analyze_with_rag(
             "explanation": "LLM RAG analysis failed.",
             "limitations": "",
             "summary": "LLM RAG analysis failed.",
-            "renewable_analysis": {"solar": "", "wind": "", "hydro": ""},
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
             "recommendation": {"best_option": "", "reason": ""},
-            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
             "environmental_impact": "",
         }

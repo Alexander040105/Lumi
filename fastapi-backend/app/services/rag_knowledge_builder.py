@@ -31,6 +31,8 @@ from typing import Any
 
 import pandas as pd
 
+from app.services.supabase_service import get_supabase_client
+
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -729,6 +731,220 @@ def build_terrain_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
 
 
 # ---------------------------------------------------------------------------
+# Geothermal suitability knowledge (Supabase)
+# ---------------------------------------------------------------------------
+
+def build_geothermal_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
+    """Build knowledge documents from geothermal_suitability table in Supabase."""
+    docs: list[dict[str, Any]] = []
+    try:
+        client = get_supabase_client()
+        resp = client.table("geothermal_suitability").select("*").execute()
+        rows = resp.data or []
+        if not rows:
+            logger.warning("No geothermal suitability data found in Supabase")
+            return docs
+
+        # Load name maps
+        name_map = _load_municipality_names()
+        muni_resp = client.table("municipalities").select("municipality_id,province_id,name").execute()
+        muni_rows = muni_resp.data or []
+        muni_map = {m["municipality_id"]: m for m in muni_rows}
+
+        prov_resp = client.table("provinces").select("province_id,name").execute()
+        prov_rows = prov_resp.data or []
+        prov_map = {p["province_id"]: p["name"] for p in prov_rows}
+
+        # Sort and limit
+        rows = sorted(rows, key=lambda r: r.get("municipality_id", 0))
+        if len(rows) > max_docs:
+            # Prioritize high-suitability and diverse classifications
+            high = [r for r in rows if (r.get("geothermal_score") or 0) > 0.15]
+            moderate = [r for r in rows if 0.08 < (r.get("geothermal_score") or 0) <= 0.15]
+            low = [r for r in rows if (r.get("geothermal_score") or 0) <= 0.08]
+            per_bucket = max_docs // 3
+            rows = (high[:per_bucket] + moderate[:per_bucket] + low[:per_bucket])
+
+        for row in rows:
+            mid = row.get("municipality_id")
+            muni = muni_map.get(mid, {})
+            muni_name = muni.get("name") or name_map.get(mid, f"Municipality {mid}")
+            prov_name = prov_map.get(muni.get("province_id"), "")
+
+            score = row.get("geothermal_score") or 0
+            classification = row.get("classification") or "unknown"
+            fault_dist = row.get("fault_distance_km")
+            fault_density = row.get("fault_density")
+            volcano_dist = row.get("volcano_distance_km")
+            heat_flow = row.get("heat_flow_score")
+            temp_score = row.get("temperature_score")
+            aquifer = row.get("aquifer_score")
+
+            content = (
+                f"{muni_name}{' in ' + prov_name if prov_name else ''} has a geothermal suitability score of {score:.3f} "
+                f"(classification: {classification}). "
+            )
+            details = []
+            if fault_dist is not None:
+                details.append(f"fault distance {fault_dist:.1f} km")
+            if fault_density is not None:
+                details.append(f"fault density {fault_density:.2f}")
+            if volcano_dist is not None:
+                details.append(f"volcano distance {volcano_dist:.1f} km")
+            if heat_flow is not None:
+                details.append(f"heat flow score {heat_flow:.3f}")
+            if temp_score is not None:
+                details.append(f"temperature score {temp_score:.3f}")
+            if aquifer is not None:
+                details.append(f"aquifer score {aquifer:.3f}")
+            if details:
+                content += "Key factors: " + ", ".join(details) + ". "
+            content += (
+                f"This indicates {'strong' if score > 0.15 else 'moderate' if score > 0.08 else 'limited'} "
+                f"potential for geothermal energy development."
+            )
+
+            docs.append({
+                "renewable_type": "geothermal",
+                "category": "geothermal_suitability",
+                "product_type": "municipality_profile",
+                "content": content,
+                "sources": ["Supabase geothermal_suitability"],
+            })
+
+        # Add province-level aggregate summaries
+        prov_scores: dict[str, list[float]] = {}
+        for row in resp.data or []:
+            mid = row.get("municipality_id")
+            muni = muni_map.get(mid, {})
+            prov = prov_map.get(muni.get("province_id"), "")
+            if prov:
+                prov_scores.setdefault(prov, []).append(row.get("geothermal_score") or 0)
+
+        for prov, scores in prov_scores.items():
+            avg = sum(scores) / len(scores)
+            content = (
+                f"{prov} has an average geothermal suitability score of {avg:.3f} across {len(scores)} municipalities. "
+                f"This suggests {'strong' if avg > 0.15 else 'moderate' if avg > 0.08 else 'limited'} "
+                f"province-wide geothermal energy potential."
+            )
+            docs.append({
+                "renewable_type": "geothermal",
+                "category": "geothermal_suitability",
+                "product_type": "province_summary",
+                "content": content,
+                "sources": ["Supabase geothermal_suitability"],
+            })
+
+        logger.info("Built %s geothermal knowledge documents", len(docs))
+    except Exception as exc:
+        logger.warning("Failed to build geothermal knowledge: %s", exc)
+
+    return docs
+
+
+# ---------------------------------------------------------------------------
+# Hydropower suitability knowledge (Supabase)
+# ---------------------------------------------------------------------------
+
+def build_hydropower_suitability_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
+    """Build knowledge documents from hydropower_suitability table in Supabase."""
+    docs: list[dict[str, Any]] = []
+    try:
+        client = get_supabase_client()
+        resp = client.table("hydropower_suitability").select("*").execute()
+        rows = resp.data or []
+        if not rows:
+            logger.warning("No hydropower suitability data found in Supabase")
+            return docs
+
+        # Load name maps
+        name_map = _load_municipality_names()
+
+        # Sort and limit
+        rows = sorted(rows, key=lambda r: r.get("municipality_id", 0))
+        if len(rows) > max_docs:
+            # Prioritize high-hydro-potential municipalities
+            rows.sort(key=lambda r: r.get("hydro_suitability_score") or 0, reverse=True)
+            rows = rows[:max_docs]
+
+        for row in rows:
+            mid = row.get("municipality_id")
+            muni_name = row.get("municipality_name") or name_map.get(mid, f"Municipality {mid}")
+            prov_name = row.get("province", "")
+            score = row.get("hydro_suitability_score") or 0
+            head = row.get("hydraulic_head_m")
+            slope = row.get("mean_slope_deg")
+            runoff = row.get("runoff_potential")
+            gravity = row.get("gravity_flow_potential")
+            est_kw = row.get("estimated_hydropower_potential_kw")
+
+            content = (
+                f"{muni_name}{' in ' + prov_name if prov_name else ''} has a hydropower suitability score of {score:.3f}. "
+            )
+            details = []
+            if head is not None:
+                details.append(f"hydraulic head {head:.0f} m")
+            if slope is not None:
+                details.append(f"mean slope {slope:.1f}°")
+            if runoff is not None:
+                details.append(f"runoff potential {runoff:.3f}")
+            if gravity is not None:
+                details.append(f"gravity flow potential {gravity:.3f}")
+            if est_kw is not None:
+                details.append(f"estimated capacity {est_kw:.2f} kW")
+            if details:
+                content += "Terrain characteristics: " + ", ".join(details) + ". "
+            content += (
+                f"This indicates {'excellent' if score > 0.6 else 'good' if score > 0.4 else 'moderate' if score > 0.2 else 'limited'} "
+                f"potential for small-scale hydropower development."
+            )
+
+            docs.append({
+                "renewable_type": "hydro",
+                "category": "hydropower_suitability",
+                "product_type": "municipality_profile",
+                "content": content,
+                "sources": ["Supabase hydropower_suitability"],
+            })
+
+        # Add province-level aggregate summaries
+        prov_rows: dict[str, list[dict]] = {}
+        for row in resp.data or []:
+            prov = row.get("province", "").strip()
+            if prov:
+                prov_rows.setdefault(prov, []).append(row)
+
+        for prov, prov_data in prov_rows.items():
+            scores = [r.get("hydro_suitability_score") or 0 for r in prov_data]
+            avg = sum(scores) / len(scores)
+            capacities = [r.get("estimated_hydropower_potential_kw") or 0 for r in prov_data if r.get("estimated_hydropower_potential_kw")]
+            total_cap = sum(capacities)
+            content = (
+                f"{prov} has an average hydropower suitability score of {avg:.3f} across {len(prov_data)} municipalities. "
+            )
+            if capacities:
+                content += f"Aggregate estimated hydropower capacity is {total_cap:.2f} kW. "
+            content += (
+                f"This suggests {'excellent' if avg > 0.6 else 'good' if avg > 0.4 else 'moderate' if avg > 0.2 else 'limited'} "
+                f"province-wide small-scale hydropower potential."
+            )
+            docs.append({
+                "renewable_type": "hydro",
+                "category": "hydropower_suitability",
+                "product_type": "province_summary",
+                "content": content,
+                "sources": ["Supabase hydropower_suitability"],
+            })
+
+        logger.info("Built %s hydropower suitability knowledge documents", len(docs))
+    except Exception as exc:
+        logger.warning("Failed to build hydropower suitability knowledge: %s", exc)
+
+    return docs
+
+
+# ---------------------------------------------------------------------------
 # Orchestrator
 # ---------------------------------------------------------------------------
 
@@ -751,6 +967,8 @@ def build_knowledge_base(csv_path: Path = DEFAULT_CSV) -> list[dict[str, Any]]:
     docs.extend(build_national_energy_knowledge())
     docs.extend(build_municipality_climate_knowledge())
     docs.extend(build_terrain_knowledge())
+    docs.extend(build_geothermal_knowledge())
+    docs.extend(build_hydropower_suitability_knowledge())
 
     # Deduplicate by content hash
     seen: set[str] = set()

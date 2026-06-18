@@ -29,8 +29,18 @@ LOCAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 INDEX_PATH = LOCAL_DATA_DIR / "rag_faiss.index"
 CHUNKS_PATH = LOCAL_DATA_DIR / "rag_chunks.json"
+KNOWLEDGE_JSON_PATH = LOCAL_DATA_DIR / "rag_knowledge_base.json"
 
 DEFAULT_EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+
+
+def _index_is_stale() -> bool:
+    """Return True if the knowledge base JSON is newer than the FAISS index."""
+    if not KNOWLEDGE_JSON_PATH.exists():
+        return False  # no knowledge base to compare
+    if not INDEX_PATH.exists():
+        return True
+    return KNOWLEDGE_JSON_PATH.stat().st_mtime > INDEX_PATH.stat().st_mtime
 
 # ---------------------------------------------------------------------------
 # Globals (lazy-loaded)
@@ -253,11 +263,16 @@ def ensure_index_built(
 ) -> None:
     """
     Idempotent helper: load existing index, or build from *docs* if missing.
-    If the knowledge-base JSON is also missing, rebuild it from the CSV first.
+    If the knowledge-base JSON is also missing or newer than the index, rebuild.
     """
-    if _index is not None:
+    global _index, _chunks
+    if _index is not None and not _index_is_stale():
         return
-    if load_faiss_index(model_name=model_name):
+    if _index_is_stale():
+        logger.info("Knowledge base is newer than FAISS index; rebuilding index...")
+        _index = None
+        _chunks = []
+    elif load_faiss_index(model_name=model_name):
         return
     if docs is None:
         from app.services.rag_knowledge_builder import (
