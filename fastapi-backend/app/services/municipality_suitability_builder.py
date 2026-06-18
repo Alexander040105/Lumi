@@ -255,7 +255,6 @@ def build_suitability_for_municipality(
         "geothermal_factors": json.dumps(geo_factors) if geo_factors else None,
         "composite_suitability_score": composite,
         "composite_classification": get_classification(composite),
-        "composite_factors": json.dumps(composite_factors) if composite_factors else None,
         "suitability_updated_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -296,12 +295,16 @@ def warm_suitability_cache(client) -> None:
             score_col = f"{prefix}_suitability_score"
             class_col = f"{prefix}_classification"
             factors_col = f"{prefix}_factors"
+            has_factors = prefix != "composite"
+            select_cols = (
+                f"municipality_id, name, province_id, lat, lon, "
+                f"provinces(name), {score_col}, {class_col}"
+            )
+            if has_factors:
+                select_cols += f", {factors_col}"
             resp = (
                 client.table("municipalities")
-                .select(
-                    f"municipality_id, name, province_id, lat, lon, "
-                    f"provinces(name), {score_col}, {class_col}, {factors_col}"
-                )
+                .select(select_cols)
                 .not_.is_(score_col, "null")
                 .execute()
             )
@@ -317,7 +320,7 @@ def warm_suitability_cache(client) -> None:
                     "municipality_id": r.get("municipality_id"),
                     "value": float(r.get(score_col) or 0),
                     "classification": r.get(class_col),
-                    "factors": r.get(factors_col),
+                    "factors": r.get(factors_col) if has_factors else None,
                     "metric": metric_name,
                     "lat": r.get("lat"),
                     "lon": r.get("lon"),
