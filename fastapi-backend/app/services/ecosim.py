@@ -343,6 +343,7 @@ def renewable_energy_calculator(
         performance_ratio=performance_ratio,
         days_in_month=days_in_month,
     )
+    solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
 
     # NOTE: HYDRO CALCULATIONS
     hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
@@ -362,14 +363,22 @@ def renewable_energy_calculator(
         "system_kwp": hydro_output_raw.get("available_power_kw", 0.0),
         "daily_hydro_output": hydro_output_raw.get("daily_energy_kwh", 0.0),
         "monthly_hydro_output": hydro_output_raw.get("monthly_energy_kwh", 0.0),
+        "annual_hydro_output": (hydro_output_raw.get("monthly_energy_kwh") or 0.0) * 12.0,
         "hydro_score": hydro_output_raw.get("hydro_score", 0.0),
     }
 
     # NOTE: GEOTHERMAL CALCULATIONS
     geothermal_output = get_geothermal_data(municipality, municipality_data)
+    # Add daily/monthly/annual kWh for card standardization
+    geo_annual_gwh = geothermal_output.get("annual_energy_gwh") or 0.0
+    geo_annual_kwh = geo_annual_gwh * 1_000_000.0
+    geothermal_output["annual_energy_kwh"] = round(geo_annual_kwh, 2) if geo_annual_kwh > 0 else None
+    geothermal_output["monthly_energy_kwh"] = round(geo_annual_kwh / 12.0, 2) if geo_annual_kwh > 0 else None
+    geothermal_output["daily_energy_kwh"] = round(geo_annual_kwh / 365.0, 2) if geo_annual_kwh > 0 else None
 
     #NOTE: WIND CALCULATIONS
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
+    wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
 
     renewable_energy_results = {
         "municipality": municipality.upper(),
@@ -450,7 +459,9 @@ def renewable_energy_calculator(
 
 
 def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
-    """Create deterministic fallback explanations from actual simulation data."""
+    """Create deterministic fallback explanations with causal reasoning.
+    Every renewable type MUST produce a multi-sentence explanation even when
+    specific output numbers are zero or unavailable."""
     climate = results.get("climate") or {}
     solar = results.get("solar_output") or {}
     wind = results.get("wind_output") or {}
@@ -459,49 +470,81 @@ def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
 
     explanations: dict[str, str] = {}
 
-    # Solar
+    # Solar — always explain irradiance, cloud, temperature physics
     if solar:
         irradiance = climate.get("avg_allsky_sfc_sw_dwn")
         cloud = climate.get("avg_cloud_amt")
         temp = climate.get("avg_t2m")
-        parts = ["Solar energy generation is influenced by"]
+        parts: list[str] = []
+        parts.append(
+            "Solar panels convert photons into electricity: higher irradiance means more photons strike the silicon cells, freeing more electrons and raising current."
+        )
         if irradiance is not None:
-            parts.append(f" an average solar irradiance of {float(irradiance):.2f} kWh/m²/day")
+            parts.append(
+                f"This location receives {float(irradiance):.2f} kWh/m²/day on average."
+            )
         if cloud is not None:
-            parts.append(f" and {float(cloud):.2f}% cloud coverage" if irradiance else f" {float(cloud):.2f}% cloud coverage")
+            parts.append(
+                f"Cloud coverage at {float(cloud):.1f}% reduces effective irradiance because water droplets scatter and absorb incoming sunlight before it reaches the panels, directly lowering generation."
+            )
         if temp is not None:
-            parts.append(f". The average temperature is {float(temp):.2f}°C")
+            parts.append(
+                f"High surface temperatures ({float(temp):.1f}°C) also reduce efficiency: silicon cells lose about 0.4% output per degree above 25°C, so tropical heat partially offsets the benefit of strong sun."
+            )
         monthly = solar.get("monthly_solar_output")
         if monthly:
-            parts.append(f". The simulated system is estimated to produce {float(monthly):.2f} kWh monthly")
-        explanations["solar"] = "".join(parts) + "."
+            parts.append(f"The simulated system produces {float(monthly):.1f} kWh/month under these combined conditions.")
+        else:
+            parts.append("Simulated output is negligible given these atmospheric conditions.")
+        explanations["solar"] = " ".join(parts)
 
-    # Wind
+    # Wind — always explain V³ physics and capacity factor
     if wind:
         ws = climate.get("avg_ws10m")
-        parts = ["Wind energy potential is driven by"]
+        parts: list[str] = []
+        parts.append(
+            "Wind turbines extract kinetic energy from moving air. Because kinetic energy scales with the cube of velocity (P ∝ V³), even a small increase in wind speed produces a disproportionately large jump in power output."
+        )
         if ws is not None:
-            parts.append(f" an average wind speed of {float(ws):.2f} m/s")
+            parts.append(
+                f"This location averages {float(ws):.2f} m/s."
+            )
+        cf = wind.get("capacity_factor")
+        if cf is not None:
+            parts.append(
+                f"The capacity factor ({float(cf):.2f}) matters because turbines rarely run at full rated power in practice: variable winds, maintenance downtime, and cut-in/cut-out speeds mean actual output is a fraction of the theoretical maximum."
+            )
         monthly = wind.get("monthly_energy_kwh")
         if monthly:
-            parts.append(f". This speed allows for a monthly energy output of {float(monthly):.2f} kWh from the simulated wind turbine system")
-        explanations["wind"] = "".join(parts) + "."
+            parts.append(f"Realistically, the simulated turbine generates {float(monthly):.1f} kWh/month after accounting for these operational constraints.")
+        else:
+            parts.append("Simulated wind output is minimal at this average wind speed.")
+        explanations["wind"] = " ".join(parts)
 
-    # Hydro
+    # Hydro — always explain rainfall + head physics
     if hydro:
         rainfall = climate.get("avg_prectotcorr")
         elevation = climate.get("elevation")
-        parts = ["Hydro energy generation is limited by"]
+        parts: list[str] = []
+        parts.append(
+            "Micro-hydro depends on two things: water flow and hydraulic head. Rainfall feeds the watershed and increases stream flow rate, which directly raises the kinetic energy available to spin the turbine."
+        )
         if rainfall is not None:
-            parts.append(f" an average rainfall of {float(rainfall):.2f} mm/day")
+            parts.append(
+                f"This location averages {float(rainfall):.2f} mm/day of precipitation."
+            )
         if elevation is not None:
-            parts.append(f" and an elevation of {float(elevation):.0f} meters")
+            parts.append(
+                f"Elevation at {float(elevation):.0f} m creates hydraulic head: water falling from a greater height carries more gravitational potential energy (mgh), which converts to higher pressure and more power at the turbine."
+            )
         monthly = hydro.get("monthly_hydro_output")
         if monthly:
-            parts.append(f". The simulated micro-hydro system is estimated to produce {float(monthly):.2f} kWh monthly")
-        explanations["hydro"] = "".join(parts) + "."
+            parts.append(f"The simulated micro-hydro system is estimated to produce {float(monthly):.1f} kWh monthly given these water and head conditions.")
+        else:
+            parts.append("Simulated hydro output is minimal because the combination of rainfall and elevation at this site does not produce sufficient flow or head for meaningful generation.")
+        explanations["hydro"] = " ".join(parts)
 
-    # Geothermal
+    # Geothermal — ALWAYS explain the four key subsurface drivers, even with zero data
     if geo:
         reservoir_temp = geo.get("reservoir_temperature_c")
         thermal = geo.get("thermal_power_mw")
@@ -509,18 +552,58 @@ def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
         annual = geo.get("annual_energy_gwh")
         confidence = geo.get("confidence")
         classification = geo.get("classification")
-        parts = ["Geothermal potential is determined by subsurface heat conditions"]
+        surface_temp = climate.get("avg_t2m")
+        parts: list[str] = []
+
+        # Always start with the fundamental physics
+        parts.append(
+            "Geothermal energy depends on four subsurface factors: surface heat flow (how much heat escapes the crust), proximity to faults or volcanoes (which channel hot fluids upward), aquifer permeability (whether water can circulate through hot rock), and the geothermal gradient (how fast temperature rises with depth)."
+        )
+
+        if surface_temp is not None:
+            parts.append(
+                f"The average surface temperature here is {float(surface_temp):.1f}°C."
+            )
+
         if reservoir_temp is not None:
-            parts.append(f" with a reservoir temperature of {float(reservoir_temp):.1f}°C")
-        if thermal is not None and electric is not None:
-            parts.append(f". Estimated thermal power is {float(thermal):.3f} MW and electric power is {float(electric):.3f} MW")
-        if annual is not None:
-            parts.append(f", yielding {float(annual):.3f} GWh annually")
-        if classification:
-            parts.append(f". Site classification: {classification}")
+            parts.append(
+                f"The estimated reservoir temperature is {float(reservoir_temp):.1f}°C. This is critical because extractable thermal energy equals mass flow × specific heat × temperature drop (Q = m·Cp·ΔT). A hotter reservoir means a larger ΔT and therefore more usable heat per kilogram of fluid circulated."
+            )
+        else:
+            parts.append(
+                "Without measured heat-flow data, the reservoir temperature cannot be reliably estimated. Low or absent heat-flow measurements usually indicate either low crustal heat production or insufficient survey coverage for this area."
+            )
+
+        if classification and classification != "Unknown":
+            parts.append(
+                f"Site classification is {classification}, reflecting the combined subsurface heat and permeability conditions."
+            )
+        else:
+            parts.append(
+                "Without subsurface data the site cannot be classified, but Philippine locations far from active volcanic arcs or major fault systems typically have lower geothermal potential."
+            )
+
+        if thermal is not None and electric is not None and (thermal > 0 or electric > 0):
+            parts.append(
+                f"Estimated thermal power is {float(thermal):.3f} MW and convertible electric power is {float(electric):.3f} MW, limited by the efficiency of the binary or flash cycle (typically 10–15%)."
+            )
+        else:
+            parts.append(
+                "No meaningful thermal or electric power is estimated for this site because the subsurface temperature or permeability is too low to sustain a viable geothermal plant."
+            )
+
+        if annual is not None and annual > 0:
+            parts.append(f"This yields {float(annual):.3f} GWh annually.")
+        else:
+            parts.append(
+                "Annual energy yield is effectively zero under current assumptions, meaning geothermal is not a practical option at this location."
+            )
+
         if confidence is not None:
-            parts.append(f" (confidence score {float(confidence):.2f})")
-        explanations["geothermal"] = "".join(parts) + "."
+            parts.append(
+                f"Data confidence is {float(confidence):.2f}, indicating how complete the measured heat-flow and aquifer datasets are for this municipality."
+            )
+        explanations["geothermal"] = " ".join(parts)
 
     return explanations
 
@@ -614,6 +697,7 @@ def build_ecosim_dashboard_response(
     municipality_id: int,
     monthly_consumption: float,
     monthly_bill: float,
+    desired_savings: float = 0.5,
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
@@ -632,7 +716,7 @@ def build_ecosim_dashboard_response(
         municipality=municipality_name,
         current_electricity_bill=monthly_bill,
         electricity_rate=electricity_rate,
-        desired_savings=0.5,
+        desired_savings=desired_savings,
         include_ai=include_ai,
         use_rag=use_rag,
         rag_query=rag_query,

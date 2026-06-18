@@ -290,10 +290,10 @@ class EnergyHubService:
             ).execute()
             muni_rows = muni_resp.data or []
 
-            # 4. Fetch raw climate data for 2023
+            # 4. Fetch raw climate data (dataset is for 2010)
             climate_resp = client.table("municipality_climate_monthly").select(
                 "municipality_id,allsky_sfc_sw_dwn,ws10m"
-            ).eq("year", 2023).execute()
+            ).eq("year", 2010).execute()
             climate_rows = climate_resp.data or []
 
             # Build mappings
@@ -336,23 +336,27 @@ class EnergyHubService:
                 solar_vals = prov_climate.get(pid, {}).get("solar", [])
                 wind_vals = prov_climate.get(pid, {}).get("wind", [])
 
-                solar_avg = sum(solar_vals) / len(solar_vals) if solar_vals else 4.0
-                wind_avg = sum(wind_vals) / len(wind_vals) if wind_vals else 3.0
+                # Convert raw climate values to 0-100 suitability scores
+                # Solar: 5.0 kWh/m²/day = excellent → 100
+                solar_score = round(min((sum(solar_vals) / len(solar_vals)) / 5.0 * 100, 100), 2) if solar_vals else None
+                # Wind: 7.0 m/s = good onshore wind → 100
+                wind_score = round(min((sum(wind_vals) / len(wind_vals)) / 7.0 * 100, 100), 2) if wind_vals else None
 
                 prov_lower = pname.lower()
-                hydro_scores = hydro_by_prov.get(prov_lower, [0])
-                hydro_avg = sum(hydro_scores) / len(hydro_scores) if hydro_scores else 0
+                hydro_scores = hydro_by_prov.get(prov_lower, [])
+                # hydro_suitability_score is stored 0-1 → convert to 0-100
+                hydro_score = round((sum(hydro_scores) / len(hydro_scores)) * 100, 2) if hydro_scores else None
 
-                geo_scores = geo_by_prov.get(pid, [0])
-                geo_avg = sum(geo_scores) / len(geo_scores) if geo_scores else 0
+                geo_scores = geo_by_prov.get(pid, [])
+                # geothermal_score is stored 0-1 → convert to 0-100
+                geo_score = round((sum(geo_scores) / len(geo_scores)) * 100, 2) if geo_scores else None
 
-                composite = (
-                    (min(solar_avg / 6.0, 1.0) * 0.30)
-                    + (min(wind_avg / 10.0, 1.0) * 0.20)
-                    + (hydro_avg * 0.25)
-                    + (geo_avg * 0.25)
-                )
-                composite = round(composite * 100, 2)
+                # Average only the renewable scores that have actual data
+                available_scores = [
+                    s for s in (solar_score, wind_score, hydro_score, geo_score)
+                    if s is not None
+                ]
+                composite = round(sum(available_scores) / len(available_scores), 2) if available_scores else None
 
                 province_data[pname.lower()] = {
                     "region": "",

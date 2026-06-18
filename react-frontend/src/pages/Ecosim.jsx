@@ -25,6 +25,7 @@ export default function Ecosim() {
   const [muniOpen, setMuniOpen] = useState(false);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
+  const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -76,6 +77,7 @@ export default function Ecosim() {
         municipalityId: String(municipalityId).trim(),
         monthlyConsumption: Number(monthlyConsumption),
         monthlyBill: Number(monthlyBill),
+        desiredSavings: Number(desiredSavings) / 100,
         includeAi,
       });
       setResult(data);
@@ -102,7 +104,7 @@ export default function Ecosim() {
           <CardDescription>Provide your current usage and location to generate a recommendation.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="grid gap-4 md:grid-cols-4" onSubmit={handleSubmit}>
+          <form className="grid gap-4 md:grid-cols-3 lg:grid-cols-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label className="text-sm font-medium">Monthly consumption (kWh)</label>
               <Input
@@ -169,6 +171,16 @@ export default function Ecosim() {
               {municipalitiesError && (
                 <p className="text-xs text-destructive">{municipalitiesError}</p>
               )}
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Desired savings (%)</label>
+              <Input
+                type="number"
+                min="0"
+                max="100"
+                value={desiredSavings}
+                onChange={(event) => setDesiredSavings(Number(event.target.value))}
+              />
             </div>
             <div className="flex items-end space-x-2">
               <label className="flex items-center space-x-2 text-sm">
@@ -338,10 +350,6 @@ export default function Ecosim() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">System size</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.system_kwp, 2)} kWp</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Daily output</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.daily_solar_output, 2)} kWh</span>
                   </div>
@@ -350,7 +358,11 @@ export default function Ecosim() {
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.monthly_solar_output, 1)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Solar score</span>
+                    <span className="text-muted-foreground">Annual output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.annual_solar_output, 0)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Suitability score</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.solar_output?.solar_score, 0)} / 100</span>
                   </div>
                 </CardContent>
@@ -366,24 +378,20 @@ export default function Ecosim() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Swept area</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.swept_area_m2, 1)} m²</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Rated power</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.rated_power_kw, 3)} kW</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Capacity factor</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.capacity_factor, 2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Daily output</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.daily_energy_kwh, 2)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Monthly output</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.monthly_energy_kwh, 1)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Annual output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.wind_output?.annual_wind_output_kwh, 0)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Suitability score</span>
+                    <span className="font-medium">{formatNumber((result.renewable_energy_results.wind_output?.capacity_factor || 0) * 100, 0)} / 100</span>
                   </div>
                 </CardContent>
               </Card>
@@ -398,10 +406,6 @@ export default function Ecosim() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">System size</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.system_kwp, 2)} kWp</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Daily output</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.daily_hydro_output, 1)} kWh</span>
                   </div>
@@ -410,7 +414,11 @@ export default function Ecosim() {
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.monthly_hydro_output, 0)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Hydro score</span>
+                    <span className="text-muted-foreground">Annual output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.annual_hydro_output, 0)} kWh</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Suitability score</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.hydro_output?.hydro_score, 0)} / 100</span>
                   </div>
                 </CardContent>
@@ -426,24 +434,20 @@ export default function Ecosim() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Reservoir temp</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.reservoir_temperature_c, 1)} C</span>
+                    <span className="text-muted-foreground">Daily output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.daily_energy_kwh, 1)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Thermal power</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.thermal_power_mw, 2)} MW</span>
+                    <span className="text-muted-foreground">Monthly output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.monthly_energy_kwh, 1)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Electric power</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.electric_power_mw, 2)} MW</span>
+                    <span className="text-muted-foreground">Annual output</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.annual_energy_kwh, 0)} kWh</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Annual energy</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.annual_energy_gwh, 2)} GWh/yr</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Confidence</span>
-                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.confidence, 2)}</span>
+                    <span className="text-muted-foreground">Suitability score</span>
+                    <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.suitability_score, 1)} / 100</span>
                   </div>
                 </CardContent>
               </Card>
@@ -466,7 +470,7 @@ export default function Ecosim() {
                   <p className="text-lg font-semibold">{formatNumber(result.consumption_results.daily_consumption_kwh, 2)} kWh</p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Target (50% savings)</p>
+                  <p className="text-sm text-muted-foreground">Target ({desiredSavings}% savings)</p>
                   <p className="text-lg font-semibold">{formatNumber(result.consumption_results.target_monthly_consumption_kwh, 1)} kWh</p>
                 </div>
               </CardContent>

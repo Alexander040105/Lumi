@@ -44,6 +44,7 @@ class SolarOutput(BaseModel):
     system_kwp: float
     daily_solar_output: float
     monthly_solar_output: float
+    annual_solar_output: float
     solar_score: float | None = None
 
 
@@ -51,6 +52,7 @@ class HydroOutput(BaseModel):
     system_kwp: float
     daily_hydro_output: float
     monthly_hydro_output: float
+    annual_hydro_output: float
     hydro_score: float
 
 
@@ -61,6 +63,9 @@ class GeothermalOutput(BaseModel):
     reservoir_temperature_c: float | None = None
     thermal_power_mw: float | None = None
     electric_power_mw: float | None = None
+    daily_energy_kwh: float | None = None
+    monthly_energy_kwh: float | None = None
+    annual_energy_kwh: float | None = None
     annual_energy_gwh: float | None = None
     confidence: float | None = None
     source: str | None = None
@@ -73,6 +78,7 @@ class WindOutput(BaseModel):
     capacity_factor: float
     daily_energy_kwh: float
     monthly_energy_kwh: float
+    annual_wind_output_kwh: float
 
 
 class RenewableEnergyResults(BaseModel):
@@ -98,6 +104,7 @@ class EcosimQueryParams(BaseModel):
     municipality_id: int = Field(..., gt=0)
     monthly_consumption: float = Field(..., gt=0)
     monthly_bill: float = Field(..., gt=0)
+    desired_savings: float = Field(0.50, ge=0.0, le=1.0)
 
 
 class EcosimOption(BaseModel):

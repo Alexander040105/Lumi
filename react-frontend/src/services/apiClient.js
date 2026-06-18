@@ -61,6 +61,9 @@ export function getEcosim(params) {
     monthly_consumption: params.monthlyConsumption,
     monthly_bill: params.monthlyBill,
   });
+  if (params.desiredSavings !== undefined && params.desiredSavings !== null) {
+    search.append("desired_savings", String(params.desiredSavings));
+  }
   if (params.includeAi) {
     search.append("include_ai", "true");
   }
