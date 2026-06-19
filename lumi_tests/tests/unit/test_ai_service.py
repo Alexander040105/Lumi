@@ -40,13 +40,14 @@ os.environ.setdefault("GEMINI_API_KEY", "test-key")
 os.environ.setdefault("GROQ_API_KEY", "test-key")
 
 # Now attempt imports — gracefully skip if modules aren't importable
+IMPORTS_OK = False
+IMPORT_ERROR = ""
 try:
     import gemini_funcs
     import rag_gemini_funcs
     import rag_pipeline
     IMPORTS_OK = True
 except Exception as exc:
-    IMPORTS_OK = False
     IMPORT_ERROR = str(exc)
 
 
