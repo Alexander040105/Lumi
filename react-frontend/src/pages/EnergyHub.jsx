@@ -8,6 +8,7 @@ import {
   getEnergyHubSourceBreakdown,
   getEnergyHubAiInsight,
   analyzeChart,
+  getGeothermalPlants,
 } from "../services/energyhub";
 
 import EnergyOverview from "@/components/energyhub/EnergyOverview";
@@ -37,6 +38,7 @@ export default function EnergyHub() {
   const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
   const [mapLoading, setMapLoading] = useState(false);
+  const [geothermalPlants, setGeothermalPlants] = useState([]);
 
   // Cache for map data: { [metric]: { [level]: response } }
   const mapCacheRef = useRef({});
@@ -97,6 +99,14 @@ export default function EnergyHub() {
           fetchAndCacheMapData(m, "province").catch(() => null)
         )
       );
+
+      // Fetch geothermal plant list for map markers
+      try {
+        const plants = await getGeothermalPlants();
+        if (!cancelled) setGeothermalPlants(plants || []);
+      } catch {
+        // Non-critical; markers simply won't appear
+      }
 
       // Load LLM insight in background
       try {
@@ -240,6 +250,7 @@ export default function EnergyHub() {
             onMetricChange={setMapMetric}
             onLevelChange={setMapLevel}
             mapLoading={mapLoading}
+            geothermalPlants={geothermalPlants}
           />
         </section>
 

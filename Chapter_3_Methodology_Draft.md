@@ -767,9 +767,9 @@ This section presents the comprehensive testing and evaluation plan for LUMI. Th
 
 Purpose: To verify the correctness of individual functions, classes, and components in isolation before they are integrated into the larger system. Unit testing aims to detect logic errors, boundary condition failures, and incorrect return values at the earliest possible stage of development.
 
-Testing Scope: The unit testing plan covers frontend components, backend API endpoints, data processing functions, authentication handlers, database operations, machine learning preprocessing pipelines, and renewable energy calculation modules including solar, wind, and hydropower functions.
+Testing Scope: The unit testing plan covers frontend components, backend API endpoints, data processing functions, authentication handlers, database operations, machine learning preprocessing pipelines, and renewable energy calculation modules including solar, wind, hydropower, and geothermal functions.
 
-Methodology: Unit tests are implemented using the pytest framework for Python backend modules and the React Testing Library with Jest for frontend components. Tests are organized into test classes corresponding to functional modules. Fixtures provide reusable test data. Mocking is used to isolate components from external dependencies such as Supabase, NASA POWER API, Google Gemini API, and Groq API.
+Methodology: Unit tests are implemented using the pytest framework for Python backend modules and the React Testing Library with Vitest (using jsdom) for frontend components. Tests are organized into test classes corresponding to functional modules. Fixtures provide reusable test data. Mocking is used to isolate components from external dependencies such as Supabase, NASA POWER API, Google Gemini API, and Groq API. Frontend tests are located in `react-frontend/src/components/__tests__/DashboardChart.test.jsx`; backend unit and integration tests are located in `lumi_tests/tests/unit/` and `lumi_tests/tests/integration/`.
 
 Test Procedure: For each unit under test, the procedure involves (1) arranging the test environment and input data, (2) invoking the function or method with the prepared inputs, (3) capturing the actual output, and (4) asserting that the actual output matches the expected output within acceptable tolerance. Edge cases including None inputs, zero values, negative values, extreme values, and boundary conditions are explicitly tested.
 
@@ -785,10 +785,10 @@ Table 15. Frontend Unit Test Cases
 
 | Test ID | Module | Input | Expected Result | Status |
 |---------|--------|-------|-----------------|--------|
-| FE-001 | Dashboard Component | mock forecast data with years [2020,2021,2022] and values [100,110,120] | Renders a chart container with three data points | To be tested |
+| FE-001 | Dashboard Component | mock forecast data with years [2020,2021,2022] and values [100,110,120] | Renders a chart container with three data points | Implemented in `react-frontend/src/components/__tests__/DashboardChart.test.jsx` using Vitest |
 | FE-002 | Region Selector | user types "Cebu" | Dropdown filters to municipalities containing "Cebu" | To be tested |
 | FE-003 | Ecosim Form | monthly_consumption=0, monthly_bill=500 | Displays validation error: consumption must be greater than zero | To be tested |
-| FE-004 | AI Chat Input | user submits empty query | Submit button disabled or error message displayed | To be tested |
+| FE-004 | AI Chat Input | user submits empty query | Submit button disabled or error message displayed | Implemented in `react-frontend/src/components/__tests__/DashboardChart.test.jsx` using Vitest |
 | FE-005 | Map Component | renewable_potential data with province scores | Choropleth map renders provinces with color gradients | To be tested |
 | FE-006 | Trend Chart | historical series with 20 years | X-axis labels do not overlap; tooltip shows correct year | To be tested |
 
@@ -796,13 +796,13 @@ Table 16. Backend API Unit Test Cases
 
 | Test ID | Module | Input | Expected Result | Status |
 |---------|--------|-------|-----------------|--------|
-| BE-001 | GET /energyhub/overview | None | Returns JSON with latest statistics, forecast summary, and model comparison | To be tested |
-| BE-002 | GET /energyhub/forecast?metric=consumption | metric="consumption" | Returns forecast years, values, ci_lower, ci_upper, model="ARIMA(1,1,1)" | To be tested |
-| BE-003 | GET /energyhub/forecast?metric=invalid | metric="invalid" | Returns 422 Unprocessable Entity or empty forecast with error | To be tested |
-| BE-004 | POST /ecosim/simulate | municipality="MALAY", monthly_consumption=300, monthly_bill=2500 | Returns JSON with solar_output, hydro_output, wind_output, and recommended_source | To be tested |
-| BE-005 | POST /ecosim/simulate | municipality="INVALID" | Returns 404 Not Found with detail "Municipality not found" | To be tested |
-| BE-006 | Authentication | valid JWT token in Authorization header | Request proceeds to protected endpoint | To be tested |
-| BE-007 | Authentication | expired or malformed JWT token | Returns 401 Unauthorized | To be tested |
+| BE-001 | GET /energyhub/overview | None | Returns JSON with latest_consumption_gwh, latest_peak_demand_mw, latest_generation_gwh, and forecast_summary | To be tested |
+| BE-002 | GET /energyhub/forecast?metric=consumption | metric="consumption" | Returns forecast years, values, confidence intervals, and model metadata (ARIMA, Linear Trend, or Holt) | Implemented in `test_api.py` as `test_forecast_consumption_metric` |
+| BE-003 | GET /energyhub/forecast?metric=invalid | metric="invalid" | Returns 422 Unprocessable Entity or empty forecast with error | Implemented in `test_api.py` as `test_forecast_invalid_metric` |
+| BE-004 | POST /ecosim/ | house_name="Test House", municipality="MALAY", current_electricity_bill=2500, electricity_rate=12.0, desired_savings=30.0 | Returns 201 with JSON containing solar, wind, hydro outputs and recommended_source | Implemented in `test_api.py` as `test_post_ecosim_valid_municipality` |
+| BE-005 | POST /ecosim/ | house_name="Test House", municipality="INVALID_MUNICIPALITY_NAME", current_electricity_bill=2500, electricity_rate=12.0, desired_savings=30.0 | Returns 404 Not Found or 422 Unprocessable Entity | Implemented in `test_api.py` as `test_post_ecosim_invalid_municipality` |
+| BE-006 | Authentication | valid JWT token in Authorization header | Request proceeds to protected endpoint | Implemented in `test_api.py` as `test_valid_jwt_access` |
+| BE-007 | Authentication | expired or malformed JWT token | Returns 401 Unauthorized | Implemented in `test_api.py` as `test_expired_jwt_rejected` |
 
 Table 17. Machine Learning Unit Test Cases
 
@@ -835,7 +835,18 @@ Table 18. Renewable Energy Calculation Unit Test Cases
 | RE-014 | estimated_flow_rate | rainfall=300 mm, moderate terrain factors | Returns value between 0.001 and 0.5 cms | To be tested |
 | RE-015 | calculate_hydropower | flow_rate=0.1, head_m=15, days=30 | available_power_kw > 0; realistic_head_m between 2 and 25 | To be tested |
 | RE-016 | calculate_hydropower | flow_rate=0.0 | All energy outputs equal 0.0; hydro_score equals 0.0 | To be tested |
-| RE-017 | _calculate_option_summary | solar, generation=200, consumption=300, rate=10 | suitability_score between 0 and 1; payback_years > 0 | To be tested |
+| RE-017 | _calculate_option_summary | solar, generation=200, consumption=300, rate=10 | suitability_score between 0 and 1; payback_years > 0 | Implemented in `test_renewable_calculations.py` as `TestCalculateOptionSummary` with solar, wind, and geothermal scenarios |
+| RE-018 | _haversine | lat1=14.5, lon1=120.9, lat2=14.5, lon2=120.9 | Returns 0.0 (same point) | Implemented in `test_geothermal_calculations.py` as `TestHaversine` |
+| RE-019 | calculate_fault_distance | muni_lat=14.5, muni_lon=120.9, mock faults | Returns distance to nearest fault >= 0 | Implemented in `test_geothermal_calculations.py` as `TestFaultDistance` |
+| RE-020 | calculate_fault_density | fault_length=45.0, area=150.0 | Returns 0.3 (faults per km2) | Implemented in `test_geothermal_calculations.py` as `TestFaultDensity` |
+| RE-021 | calculate_volcano_distance | muni_lat=14.0, muni_lon=120.99, mock volcanoes | Returns distance to nearest volcano >= 0 | Implemented in `test_geothermal_calculations.py` as `TestVolcanoDistance` |
+| RE-022 | calculate_heatflow_score | heat_flow=80.0 mW/m2 | Returns ~0.5 (mid-range of 40-120) | Implemented in `test_geothermal_calculations.py` as `TestHeatflowScore` |
+| RE-023 | calculate_geothermal_gradient | heat_flow=80.0, conductivity=2.5 | Returns ~32.0 C/km | Implemented in `test_geothermal_calculations.py` as `TestGeothermalGradient` |
+| RE-024 | calculate_reservoir_temperature | surface_temp=27.0, gradient=30.0, depth=2000 | Returns ~87.0 C | Implemented in `test_geothermal_calculations.py` as `TestReservoirTemperature` |
+| RE-025 | calculate_aquifer_score | permeability=-14.0, porosity=0.20, thickness=800 | Returns score between 0 and 1 | Implemented in `test_geothermal_calculations.py` as `TestAquiferScore` |
+| RE-026 | estimate_flow_rate | aquifer_score=0.5, permeability=-14.0 | Returns flow rate between 10 and 500 kg/s | Implemented in `test_geothermal_calculations.py` as `TestEstimateFlowRate` |
+| RE-027 | compute_geothermal_suitability | muni_lat=14.5, muni_lon=120.9, surface_temp=28.0, mock datasets | Returns geothermal_score, classification, and all indicator scores | Implemented in `test_geothermal_calculations.py` as `TestComputeGeothermalSuitability` |
+| RE-028 | compute_geothermal_output | surface_temp=27.0, gradient=30.0, aquifer_score=0.5, plant_type=binary | Returns thermal_power_mw, electric_power_mw, annual_energy_gwh, confidence_score | Implemented in `test_geothermal_calculations.py` as `TestComputeGeothermalOutput` |
 
 9.8.2. Usability Testing
 
@@ -890,7 +901,7 @@ Purpose: To validate the integrated functionality of LUMI as a complete applicat
 
 Testing Scope: The system testing plan covers complete user workflows, frontend-backend communication, database read/write operations, API reliability under load, ML pipeline execution from data retrieval to forecast serving, visualization rendering accuracy, Ecosim simulation end-to-end execution, and AI assistant query-response cycles.
 
-Methodology: System testing is performed using a combination of automated integration tests, manual end-to-end walkthroughs, and performance benchmarks. Automated tests use pytest with HTTPX for API testing and Playwright for frontend interaction testing. Manual tests follow scripted scenarios simulating real user journeys.
+Methodology: System testing is performed using a combination of automated integration tests, manual end-to-end walkthroughs, and performance benchmarks. Automated tests use pytest with HTTPX for API testing (`lumi_tests/tests/integration/test_api.py`), SQL assertions for database testing (`test_database.py`), pytest-benchmark for performance testing (`performance_test.py`), and fixture-based pipeline testing (`test_pipeline.py`). Manual tests follow scripted scenarios simulating real user journeys.
 
 Test Procedure: For each test scenario, the procedure involves (1) initializing the system in a clean state, (2) executing the user journey step by step, (3) verifying intermediate states at each step, (4) checking final outcomes against expected results, and (5) recording any deviations or errors.
 

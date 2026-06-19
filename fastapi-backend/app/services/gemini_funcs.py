@@ -268,12 +268,30 @@ def _normalize_analysis_output(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
+    # Extract nearby plants so they appear at the top of the prompt
+    nearby_plants = analysis_payload.pop("nearby_geothermal_plants", None)
     payload = json.dumps(analysis_payload, ensure_ascii=True, indent=2)
+
+    plant_context = ""
+    if nearby_plants:
+        lines = []
+        for p in nearby_plants[:5]:
+            lines.append(
+                f"- {p.get('project_name', 'Unknown')} ({p.get('capacity_mw', '?')} MW, "
+                f"{p.get('technology', 'unknown')}, {p.get('status', 'unknown')}) — "
+                f"{p.get('distance_km', '?')} km away"
+            )
+        plant_context = (
+            "IMPORTANT CONTEXT: This municipality is near the following operating geothermal power plant(s):\n"
+            + "\n".join(lines)
+            + "\n\n"
+        )
 
     return (
         "You are LUMI, an environmental intelligence assistant helping Filipino households choose renewable energy. "
         "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-        "CRITICAL RULES:\n"
+        + plant_context
+        + "CRITICAL RULES:\n"
         "- Use ONLY markdown headers (## Section Name) to separate sections.\n"
         "- Write in short, clear paragraphs suitable for non-technical users.\n"
         "- Use bullet points (dash + space) for lists, not long walls of text.\n"

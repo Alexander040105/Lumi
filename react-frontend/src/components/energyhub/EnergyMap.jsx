@@ -242,7 +242,7 @@ function FallbackMapGrid({ data, metric, level }) {
   );
 }
 
-function LeafletMap({ data, metric, level }) {
+function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
   const [L, setL] = useState(null);
   const [RL, setRL] = useState(null);
   const [rawGeojson, setRawGeojson] = useState(null);
@@ -386,6 +386,10 @@ function LeafletMap({ data, metric, level }) {
     layer.bindTooltip(tooltipHtml, { sticky: true, className: "lumi-tooltip" });
   };
 
+  // Filter operating plants for markers
+  const showPlantMarkers = metric === "geothermal_potential";
+  const operatingPlants = geothermalPlants.filter((p) => p.status === "operating");
+
   return (
     <div className="rounded-xl border overflow-hidden" style={{ height: 480 }}>
       <MapContainer
@@ -399,12 +403,54 @@ function LeafletMap({ data, metric, level }) {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
         <GeoJSON data={enrichedGeojson} style={styleFeature} onEachFeature={onEachFeature} />
+        {showPlantMarkers && L && RL && operatingPlants.map((p) => {
+          const icon = L.divIcon({
+            className: "",
+            html: `<div style="width:14px;height:14px;border-radius:50%;background:#f97316;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+          });
+          return (
+            <RL.Marker
+              key={p.project_name + (p.unit_name || "")}
+              position={[p.latitude, p.longitude]}
+              icon={icon}
+            >
+              <RL.Popup>
+                <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 160 }}>
+                  <div style={{ fontWeight: 600, color: "#111827", marginBottom: 4 }}>
+                    {p.project_name}
+                  </div>
+                  <div style={{ color: "#64748b", fontSize: 12 }}>
+                    {p.capacity_mw !== null && p.capacity_mw !== undefined ? `${p.capacity_mw} MW` : ""}
+                    {p.technology ? ` · ${p.technology}` : ""}
+                  </div>
+                  <div style={{ color: "#64748b", fontSize: 12, marginTop: 2 }}>
+                    Status: <span style={{ color: "#15803d", fontWeight: 500 }}>{p.status}</span>
+                  </div>
+                  {p.wiki_url && (
+                    <div style={{ marginTop: 6 }}>
+                      <a
+                        href={p.wiki_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "#2563eb", fontSize: 12 }}
+                      >
+                        View on GEM Wiki →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </RL.Popup>
+            </RL.Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
 }
 
-function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapLoading = false }) {
+function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapLoading = false, geothermalPlants = [] }) {
   const [leafletReady, setLeafletReady] = useState(false);
 
   useEffect(() => {
@@ -476,7 +522,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       {!mapLoading && (
         <div className="mt-4">
           {leafletReady ? (
-            <LeafletMap data={data} metric={metric} level={level} />
+            <LeafletMap data={data} metric={metric} level={level} geothermalPlants={geothermalPlants} />
           ) : (
             <FallbackMapGrid data={data} metric={metric} level={level} />
           )}

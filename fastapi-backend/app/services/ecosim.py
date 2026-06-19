@@ -3,6 +3,7 @@ import datetime as dt
 import logging
 import os
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 from fastapi import HTTPException, status
@@ -15,6 +16,10 @@ from app.services.wind_output_calc import load_wind_averages, calculate_wind_out
 from app.services.geothermal.features import (
     compute_geothermal_suitability,
     compute_geothermal_output,
+)
+from app.services.geothermal.plants import (
+    calculate_proximity_boost,
+    get_plants_near,
 )
 logger = logging.getLogger(__name__)
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
@@ -288,6 +293,7 @@ def renewable_energy_calculator(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
+    nearby_geo_plants: list[dict[str, Any]] | None = None,
 ) -> dict:
     # NOTE: Data fetching 
     municipality_results = get_municipality_data(municipality)
@@ -421,6 +427,7 @@ def renewable_energy_calculator(
                 "municipality_data": municipality_results,
                 "consumption_results": consumption_results,
                 "renewable_energy_results": renewable_energy_results,
+                "nearby_geothermal_plants": nearby_geo_plants or [],
             }
 
             if use_rag and rag_query:
@@ -746,6 +753,24 @@ def build_ecosim_dashboard_response(
     electricity_rate = monthly_bill / monthly_consumption
     municipality_name = get_municipality_name_by_id(municipality_id)
 
+    # Fetch municipality lat/lon for proximity boost
+    muni_lat: float | None = None
+    muni_lon: float | None = None
+    try:
+        client = get_supabase_client()
+        muni_resp = (
+            client.table("municipalities")
+            .select("lat,lon")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+        if muni_resp.data:
+            muni_lat = muni_resp.data.get("lat")
+            muni_lon = muni_resp.data.get("lon")
+    except Exception:
+        pass
+
     base_results = renewable_energy_calculator(
         house="Ecosim",
         municipality=municipality_name,
@@ -755,6 +780,7 @@ def build_ecosim_dashboard_response(
         include_ai=include_ai,
         use_rag=use_rag,
         rag_query=rag_query,
+        nearby_geo_plants=nearby_geo_plants,
     )
 
     renewable_results = base_results["renewable_energy_results"]
@@ -766,7 +792,17 @@ def build_ecosim_dashboard_response(
     solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
     hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
     wind_score = min(float(wind_output.get("capacity_factor", 0.0)) * 1.5, 1.0)
-    geo_score = float(geothermal_output.get("suitability_score", 0.0)) / 100.0
+
+    # Apply proximity boost to geothermal score if municipality is near an operating plant
+    raw_geo_score = float(geothermal_output.get("suitability_score", 0.0))
+    nearby_geo_plants: list[dict[str, Any]] = []
+    if muni_lat is not None and muni_lon is not None:
+        boosted_score, nearby_geo_plants = calculate_proximity_boost(
+            float(muni_lat), float(muni_lon), raw_geo_score
+        )
+        geo_score = boosted_score / 100.0
+    else:
+        geo_score = raw_geo_score / 100.0
 
     # Geothermal is utility-scale; convert annual GWh to monthly kWh for comparison
     geo_annual_gwh = geothermal_output.get("annual_energy_gwh") or 0.0
@@ -853,4 +889,5 @@ def build_ecosim_dashboard_response(
         "consumption_results": base_results.get("consumption_results"),
         "municipality_data": base_results.get("municipality_data"),
         "ai_analysis": base_results.get("ai_analysis"),
+        "nearby_geothermal_plants": nearby_geo_plants,
     }

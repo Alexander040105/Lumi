@@ -449,6 +449,17 @@ export default function Ecosim() {
                     <span className="text-muted-foreground">Suitability score</span>
                     <span className="font-medium">{formatNumber(result.renewable_energy_results.geothermal_output?.suitability_score, 1)} / 100</span>
                   </div>
+                  {result.nearby_geothermal_plants && result.nearby_geothermal_plants.length > 0 && (
+                    <div className="mt-2 rounded-md bg-orange-50 p-2 text-xs text-orange-800">
+                      <span className="font-semibold">Nearby plant(s): </span>
+                      {result.nearby_geothermal_plants.slice(0, 3).map((p, i) => (
+                        <span key={i}>
+                          {i > 0 && ", "}
+                          {p.project_name} ({p.capacity_mw} MW, {p.distance_km} km)
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>

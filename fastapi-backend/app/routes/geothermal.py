@@ -10,8 +10,16 @@ from app.services.geothermal.features import (
     compute_geothermal_suitability,
     compute_geothermal_output,
 )
+from app.services.geothermal.plants import get_all_ph_geothermal_plants
 
 router = APIRouter()
+
+
+@router.get("/plants", response_model=list[dict])
+async def get_geothermal_plants():
+    """Return the full list of Philippines geothermal power plants
+    from the Global Energy Monitor (GEM) dataset."""
+    return get_all_ph_geothermal_plants()
 
 
 @router.get("/{municipality_id}", response_model=GeothermalAnalysisResponse)

@@ -10,6 +10,10 @@ from app.services.redis_client import (
     get_suitability_cache_sync,
     set_suitability_cache_sync,
 )
+from app.services.geothermal.plants import (
+    calculate_proximity_boost,
+    get_all_ph_geothermal_plants,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -179,7 +183,11 @@ class EnergyHubService:
         return {"items": items, "metric": metric, "level": level}
 
     def _build_geothermal_potential_map(self) -> list[dict[str, Any]]:
-        """Aggregate municipality-level geothermal scores to province level."""
+        """Aggregate municipality-level geothermal scores to province level.
+
+        Proximity boost is applied per-municipality (within 25 km of an
+        operating plant) before averaging to province level.
+        """
         client = get_supabase_client()
         items: list[dict[str, Any]] = []
 
@@ -189,8 +197,9 @@ class EnergyHubService:
             ).execute()
             prov_rows = prov_resp.data or []
 
+            # Fetch municipalities with lat/lon for proximity boost
             muni_resp = client.table("municipalities").select(
-                "municipality_id,province_id"
+                "municipality_id,province_id,name,lat,lon"
             ).execute()
             muni_rows = muni_resp.data or []
 
@@ -200,14 +209,41 @@ class EnergyHubService:
             geo_rows = geo_resp.data or []
 
             muni_to_prov = {m["municipality_id"]: m["province_id"] for m in muni_rows}
+            muni_latlon = {
+                m["municipality_id"]: (m.get("lat"), m.get("lon"))
+                for m in muni_rows
+            }
+            muni_name = {
+                m["municipality_id"]: m.get("name", "")
+                for m in muni_rows
+            }
 
-            prov_geo: dict[int, list[float]] = {}
+            # Build per-province list of municipality scores (with boost)
+            prov_scores: dict[int, list[float]] = {}
+            prov_nearby: dict[int, list[dict]] = {}
             for row in geo_rows:
                 mid = row.get("municipality_id")
                 pid = muni_to_prov.get(mid)
-                if pid is not None:
-                    score = float(row.get("geothermal_score") or 0)
-                    prov_geo.setdefault(pid, []).append(score)
+                if pid is None:
+                    continue
+                base_score = float(row.get("geothermal_score") or 0) * 100.0
+                lat, lon = muni_latlon.get(mid, (None, None))
+                if lat is not None and lon is not None:
+                    boosted, nearby = calculate_proximity_boost(
+                        float(lat), float(lon), base_score
+                    )
+                else:
+                    boosted = base_score
+                    nearby = []
+                prov_scores.setdefault(pid, []).append(boosted)
+                if nearby:
+                    existing = prov_nearby.setdefault(pid, [])
+                    for p in nearby:
+                        if not any(
+                            e.get("project_name") == p["project_name"]
+                            for e in existing
+                        ):
+                            existing.append(p)
 
             province_data: dict[str, dict[str, Any]] = {}
             for p in prov_rows:
@@ -215,14 +251,16 @@ class EnergyHubService:
                 pname = p.get("name", "").strip()
                 if not pid or not pname:
                     continue
-                scores = prov_geo.get(pid, [0])
-                avg = (sum(scores) / len(scores) * 100) if scores else 0
+                scores = prov_scores.get(pid, [0])
+                avg = (sum(scores) / len(scores)) if scores else 0.0
+                nearby = prov_nearby.get(pid, [])
                 province_data[pname.lower()] = {
                     "region": "",
                     "province": pname,
                     "value": round(avg, 2),
                     "lat": p.get("lat"),
                     "lon": p.get("lon"),
+                    "nearby_plants": nearby,
                 }
 
             geojson_path = _GEOJSON_DIR / "philippine_geojson_file_per_region.json"
@@ -259,6 +297,7 @@ class EnergyHubService:
                         "metric": "geothermal_potential",
                         "lat": data["lat"],
                         "lon": data["lon"],
+                        "nearby_plants": data.get("nearby_plants", []),
                     })
                 else:
                     items.append({
@@ -269,6 +308,7 @@ class EnergyHubService:
                         "metric": "geothermal_potential",
                         "lat": None,
                         "lon": None,
+                        "nearby_plants": [],
                     })
 
         except Exception as exc:
@@ -281,6 +321,7 @@ class EnergyHubService:
                 "metric": "geothermal_potential",
                 "lat": 12.8797,
                 "lon": 121.7740,
+                "nearby_plants": [],
             })
 
         return items
@@ -460,6 +501,35 @@ class EnergyHubService:
 
         return items
 
+    def _apply_geothermal_boost(self, items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Apply proximity boost and nearby_plants to municipality items."""
+        for item in items:
+            lat = item.get("lat")
+            lon = item.get("lon")
+            value = item.get("value", 0)
+            factors = item.get("factors")
+            if lat is None or lon is None:
+                continue
+            boosted, nearby = calculate_proximity_boost(
+                float(lat), float(lon), float(value)
+            )
+            item["value"] = boosted
+            item["nearby_plants"] = nearby
+            if nearby and factors is not None:
+                plant_names = ", ".join(
+                    f"{p.get('project_name', 'Plant')} ({p.get('capacity_mw', '?')} MW)"
+                    for p in nearby[:3]
+                )
+                note = f"Near operating geothermal plant(s): {plant_names}."
+                try:
+                    parsed = json.loads(factors)
+                    if isinstance(parsed, dict):
+                        parsed["nearby_plants"] = note
+                        item["factors"] = json.dumps(parsed)
+                except Exception:
+                    item["factors"] = f"{factors}\n{note}" if factors else note
+        return items
+
     def _build_municipality_potential_map(self, column_prefix: str) -> list[dict[str, Any]]:
         """Return pre-computed municipality suitability scores from Supabase.
 
@@ -467,7 +537,7 @@ class EnergyHubService:
         """
         metric_name = f"{column_prefix}_potential" if column_prefix != "composite" else "renewable_potential"
         cached = get_suitability_cache_sync(metric_name, "municipality")
-        if cached:
+        if cached and column_prefix != "geothermal":
             logger.info("Cache hit for municipality %s suitability", metric_name)
             return cached  # type: ignore[return-value]
 
@@ -508,8 +578,15 @@ class EnergyHubService:
                     "metric": metric_name,
                     "lat": r.get("lat"),
                     "lon": r.get("lon"),
+                    "nearby_plants": [],
                 })
-            set_suitability_cache_sync(metric_name, "municipality", items)
+
+            # Apply geothermal proximity boost after building items
+            if column_prefix == "geothermal":
+                items = self._apply_geothermal_boost(items)
+                # Don't cache boosted geothermal data so boosts are always fresh
+            else:
+                set_suitability_cache_sync(metric_name, "municipality", items)
         except Exception as exc:
             logger.warning("Supabase query failed for municipality map data: %s", exc)
 

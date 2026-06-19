@@ -31,6 +31,10 @@ import solar_output_calc
 import wind_output_calc
 import hydro_output_calc
 
+# Import ecosim for economic summary tests
+sys.path.insert(0, str(REPO_ROOT / "fastapi-backend" / "app" / "services"))
+import ecosim
+
 
 # =============================================================================
 # SOLAR TESTS
@@ -375,3 +379,68 @@ class TestHydroDischarge:
             runoff_coefficient=0.45,
         )
         assert result == pytest.approx(0.0)
+
+
+# =============================================================================
+# ECONOMIC SUMMARY TESTS
+# =============================================================================
+
+class TestCalculateOptionSummary:
+    """Tests for _calculate_option_summary (RE-017)."""
+
+    def test_solar_scenario(self):
+        """Solar: generation=200, consumption=300, rate=10."""
+        result = ecosim._calculate_option_summary(
+            source="solar",
+            estimated_generation_kwh=200.0,
+            source_score=75.0,
+            monthly_consumption_kwh=300.0,
+            electricity_rate=10.0,
+            installation_cost_per_kw=45000.0,
+        )
+        assert 0.0 <= result["suitability_score"] <= 1.0
+        assert result["payback_years"] is not None
+        assert result["payback_years"] > 0
+        assert result["monthly_savings"] > 0
+        assert result["carbon_reduction"] >= 0
+        assert result["scale"] == "residential"
+
+    def test_zero_generation(self):
+        """Zero generation yields zero savings and no payback."""
+        result = ecosim._calculate_option_summary(
+            source="solar",
+            estimated_generation_kwh=0.0,
+            source_score=0.0,
+            monthly_consumption_kwh=300.0,
+            electricity_rate=10.0,
+            installation_cost_per_kw=45000.0,
+        )
+        assert result["suitability_score"] == pytest.approx(0.0)
+        assert result["payback_years"] is None
+        assert result["monthly_savings"] == pytest.approx(0.0)
+
+    def test_wind_scale(self):
+        """Wind source should return residential scale."""
+        result = ecosim._calculate_option_summary(
+            source="wind",
+            estimated_generation_kwh=150.0,
+            source_score=60.0,
+            monthly_consumption_kwh=300.0,
+            electricity_rate=10.0,
+            installation_cost_per_kw=60000.0,
+        )
+        assert result["scale"] == "residential"
+        assert 0.0 <= result["suitability_score"] <= 1.0
+
+    def test_geothermal_scale(self):
+        """Geothermal should return utility scale with no payback."""
+        result = ecosim._calculate_option_summary(
+            source="geothermal",
+            estimated_generation_kwh=50000.0,
+            source_score=80.0,
+            monthly_consumption_kwh=300.0,
+            electricity_rate=10.0,
+            installation_cost_per_kw=200000.0,
+        )
+        assert result["scale"] == "utility"
+        assert result["payback_years"] is None
