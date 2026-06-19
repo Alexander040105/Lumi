@@ -1,82 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
-
-function SimpleLine({ data, color = "#3b82f6", height = 160, isForecast = [] }) {
-  if (!data || data.length === 0) return null;
-  const max = Math.max(...data);
-  const min = Math.min(...data);
-  const range = max - min || 1;
-  const width = data.length;
-
-  const buildPoints = (indices) =>
-    indices
-      .map((i) => {
-        const x = (i / (width - 1 || 1)) * 100;
-        const y = 100 - ((data[i] - min) / range) * 100;
-        return `${x},${y}`;
-      })
-      .join(" ");
-
-  const histIndices = data.map((_, i) => i).filter((i) => !isForecast[i]);
-  const forecastIndices = data.map((_, i) => i).filter((i) => isForecast[i]);
-
-  // Include junction point in both series so the line is continuous
-  const lastHist = histIndices.length > 0 ? histIndices[histIndices.length - 1] : null;
-  const firstForecast = forecastIndices.length > 0 ? forecastIndices[0] : null;
-
-  const histPoints = buildPoints(histIndices);
-  const forecastPoints =
-    lastHist !== null && firstForecast !== null
-      ? buildPoints([lastHist, ...forecastIndices])
-      : buildPoints(forecastIndices);
-
-  return (
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full" style={{ height }}>
-      {histPoints && (
-        <polyline
-          fill="none"
-          stroke={color}
-          strokeWidth="2"
-          vectorEffect="non-scaling-stroke"
-          points={histPoints}
-        />
-      )}
-      {forecastPoints && (
-        <polyline
-          fill="none"
-          stroke="#f87171"
-          strokeWidth="2"
-          strokeDasharray="4 3"
-          vectorEffect="non-scaling-stroke"
-          points={forecastPoints}
-        />
-      )}
-    </svg>
-  );
-}
-
-function SimpleBar({ data, color = "#3b82f6", height = 160 }) {
-  if (!data || data.length === 0) return null;
-  const max = Math.max(...data);
-  return (
-    <svg viewBox={`0 0 ${data.length * 10} 100`} preserveAspectRatio="none" className="w-full" style={{ height }}>
-      {data.map((v, i) => {
-        const h = max ? (v / max) * 90 : 0;
-        return (
-          <rect
-            key={i}
-            x={i * 10 + 1}
-            y={100 - h}
-            width={8}
-            height={h}
-            fill={color}
-            rx={2}
-          />
-        );
-      })}
-    </svg>
-  );
-}
+import PlotlyChart from "./PlotlyChart";
 
 function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   if (!analysis && !loading) {
@@ -135,6 +59,117 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
     };
   }, [years, series, forecast]);
 
+  const consumptionTraces = useMemo(() => {
+    const allYears = consumptionSeries.years;
+    const allValues = consumptionSeries.values;
+    const isF = consumptionSeries.isForecast;
+
+    const histX = [];
+    const histY = [];
+    const forecastX = [];
+    const forecastY = [];
+
+    for (let i = 0; i < allYears.length; i++) {
+      if (isF[i]) {
+        forecastX.push(allYears[i]);
+        forecastY.push(allValues[i]);
+      } else {
+        histX.push(allYears[i]);
+        histY.push(allValues[i]);
+      }
+    }
+
+    // Junction point for continuity
+    if (histX.length > 0 && forecastX.length > 0) {
+      forecastX.unshift(histX[histX.length - 1]);
+      forecastY.unshift(histY[histY.length - 1]);
+    }
+
+    return [
+      {
+        x: histX,
+        y: histY,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Historical",
+        line: { color: "#3b82f6", width: 3 },
+        marker: { size: 6 },
+        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra>Historical</extra>",
+      },
+      {
+        x: forecastX,
+        y: forecastY,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Forecast",
+        line: { color: "#f87171", width: 3, dash: "dash" },
+        marker: { size: 6 },
+        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra>Forecast</extra>",
+      },
+    ];
+  }, [consumptionSeries]);
+
+  const consumptionLayout = useMemo(
+    () => ({
+      title: { text: "", font: { size: 14 } },
+      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
+      yaxis: { title: "GWh" },
+      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
+      margin: { t: 16, r: 100, b: 40, l: 56 },
+    }),
+    []
+  );
+
+  const peakDemandTrace = useMemo(() => {
+    const vals = series.total_peak_demand_mw || [];
+    return [
+      {
+        x: years,
+        y: vals,
+        type: "scatter",
+        mode: "lines+markers",
+        name: "Peak Demand",
+        line: { color: "#f43f5e", width: 2 },
+        marker: { size: 5 },
+        hovertemplate: "%{x}<br>%{y:,.0f} MW<extra></extra>",
+      },
+    ];
+  }, [years, series]);
+
+  const peakDemandLayout = useMemo(
+    () => ({
+      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
+      yaxis: { title: "MW" },
+      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
+      margin: { t: 16, r: 100, b: 40, l: 56 },
+    }),
+    []
+  );
+
+  const renewableGenTrace = useMemo(() => {
+    const vals = series.renewable_generation_gwh || [];
+    return [
+      {
+        x: years,
+        y: vals,
+        type: "bar",
+        name: "Renewable Generation",
+        marker: { color: "#10b981" },
+        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra></extra>",
+      },
+    ];
+  }, [years, series]);
+
+  const renewableGenLayout = useMemo(
+    () => ({
+      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
+      yaxis: { title: "GWh" },
+      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
+      margin: { t: 16, r: 120, b: 40, l: 56 },
+    }),
+    []
+  );
+
   if (!years.length) {
     return (
       <div className="rounded-xl border bg-card p-6 shadow-sm">
@@ -165,12 +200,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Total Consumption (GWh) — Historical vs Forecast</p>
         </div>
-        <div className="relative rounded-lg border bg-white p-3">
-          <SimpleLine data={consumptionSeries.values} color="#3b82f6" height={200} isForecast={consumptionSeries.isForecast} />
-          <div className="mt-2 flex justify-between text-xs text-muted-foreground">
-            <span>{consumptionSeries.years[0]}</span>
-            <span>{consumptionSeries.years[consumptionSeries.years.length - 1]}</span>
-          </div>
+        <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
+          <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
         </div>
         {onAnalyzeChart && (
           <ChartAiPanel
@@ -187,8 +218,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">Peak Demand (MW)</p>
-          <div className="rounded-lg border bg-white p-3">
-            <SimpleLine data={series.total_peak_demand_mw || []} color="#f43f5e" height={140} />
+          <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
+            <PlotlyChart data={peakDemandTrace} layout={peakDemandLayout} />
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel
@@ -202,8 +233,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         </div>
         <div>
           <p className="text-sm text-muted-foreground mb-2">Renewable Generation (GWh)</p>
-          <div className="rounded-lg border bg-white p-3">
-            <SimpleBar data={series.renewable_generation_gwh || []} color="#10b981" height={140} />
+          <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
+            <PlotlyChart data={renewableGenTrace} layout={renewableGenLayout} />
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel

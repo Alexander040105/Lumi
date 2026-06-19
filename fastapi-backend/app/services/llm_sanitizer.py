@@ -146,12 +146,12 @@ def extract_prescriptive_recommendation(text: str) -> dict[str, str]:
 
     text = sanitize_llm_output(text)
 
-    # Try to find sections by heading patterns
+    # Try to find sections by heading patterns (supports markdown ## headers)
     patterns = {
-        "observation": r"(?:Observation|OBSERVATION|What the data shows)[\s:]*\n?(.*?)(?=\n\n(?:Interpretation|INTERPRETATION|What this means)|$)",
-        "interpretation": r"(?:Interpretation|INTERPRETATION|What this means)[\s:]*\n?(.*?)(?=\n\n(?:Recommendation|RECOMMENDATION|What to consider)|$)",
-        "recommendation": r"(?:Recommendation|RECOMMENDATION|What to consider|Suggested action)[\s:]*\n?(.*?)(?=\n\n(?:Reason|REASON|Why|Rationale)|$)",
-        "reason": r"(?:Reason|REASON|Why|Rationale)[\s:]*\n?(.*?)$",
+        "observation": r"(?:##?\s*)?(?:Observation|OBSERVATION|What the data shows)[\s:]*\n?(.*?)(?=\n\n?(?:##?\s*)?(?:Interpretation|INTERPRETATION|What this means)|$)",
+        "interpretation": r"(?:##?\s*)?(?:Interpretation|INTERPRETATION|What this means)[\s:]*\n?(.*?)(?=\n\n?(?:##?\s*)?(?:Recommendation|RECOMMENDATION|What to consider)|$)",
+        "recommendation": r"(?:##?\s*)?(?:Recommendation|RECOMMENDATION|What to consider|Suggested action)[\s:]*\n?(.*?)(?=\n\n?(?:##?\s*)?(?:Reason|REASON|Why|Rationale)|$)",
+        "reason": r"(?:##?\s*)?(?:Reason|REASON|Why|Rationale)[\s:]*\n?(.*?)$",
     }
 
     for key, pattern in patterns.items():

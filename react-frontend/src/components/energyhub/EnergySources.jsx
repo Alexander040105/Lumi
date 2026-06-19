@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import PlotlyChart from "./PlotlyChart";
 
 const SOURCE_META = {
   coal: { label: "Coal", color: "#64748b" },
@@ -11,26 +12,6 @@ const SOURCE_META = {
   biomass: { label: "Biomass", color: "#8b5cf6" },
 };
 
-function DonutSegment({ start, end, color }) {
-  const r = 36;
-  const c = 2 * Math.PI * r;
-  const dash = `${(end - start) * c} ${c}`;
-  const offset = -start * c;
-  return (
-    <circle
-      r={r}
-      cx="50"
-      cy="50"
-      fill="transparent"
-      stroke={color}
-      strokeWidth="12"
-      strokeDasharray={dash}
-      strokeDashoffset={offset}
-      transform="rotate(-90 50 50)"
-    />
-  );
-}
-
 export default function EnergySources({ breakdown }) {
   const chartData = useMemo(() => {
     if (!breakdown || !breakdown.share_pct) return [];
@@ -38,21 +19,50 @@ export default function EnergySources({ breakdown }) {
       .filter(([, v]) => v > 0)
       .sort(([, a], [, b]) => b - a);
 
-    let acc = 0;
-    return entries.map(([key, value]) => {
-      const start = acc;
-      acc += value / 100;
-      return {
-        key,
-        label: SOURCE_META[key]?.label || key,
-        color: SOURCE_META[key]?.color || "#cbd5e1",
-        share: value,
-        gwh: breakdown.generation_gwh?.[key] || 0,
-        start,
-        end: acc,
-      };
-    });
+    return entries.map(([key, value]) => ({
+      key,
+      label: SOURCE_META[key]?.label || key,
+      color: SOURCE_META[key]?.color || "#cbd5e1",
+      share: value,
+      gwh: breakdown.generation_gwh?.[key] || 0,
+    }));
   }, [breakdown]);
+
+  const plotlyData = useMemo(() => {
+    if (chartData.length === 0) return [];
+    return [
+      {
+        values: chartData.map((d) => d.share),
+        labels: chartData.map((d) => d.label),
+        type: "pie",
+        hole: 0.55,
+        marker: { colors: chartData.map((d) => d.color) },
+        textinfo: "percent",
+        textposition: "inside",
+        insidetextorientation: "radial",
+        textfont: { size: 11, color: "#ffffff" },
+        hovertemplate: "<b>%{label}</b><br>%{value}%<br>%{customdata:,.0f} GWh<extra></extra>",
+        customdata: chartData.map((d) => d.gwh),
+        showlegend: false,
+        sort: false,
+      },
+    ];
+  }, [chartData]);
+
+  const plotlyLayout = useMemo(
+    () => ({
+      showlegend: false,
+      margin: { t: 12, r: 12, b: 12, l: 12 },
+      annotations: [
+        {
+          text: `<b>${breakdown?.year || ""}</b><br><span style="font-size:11px;color:#64748b">GWh</span>`,
+          showarrow: false,
+          font: { size: 20, color: "#1e293b", family: "Inter, sans-serif" },
+        },
+      ],
+    }),
+    [breakdown]
+  );
 
   if (!breakdown || chartData.length === 0) {
     return (
@@ -73,18 +83,8 @@ export default function EnergySources({ breakdown }) {
       </p>
 
       <div className="mt-4 flex flex-col md:flex-row items-center gap-6">
-        <div className="relative w-48 h-48 shrink-0">
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            {chartData.map((d) => (
-              <DonutSegment key={d.key} start={d.start} end={d.end} color={d.color} />
-            ))}
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <p className="text-xl font-bold">{breakdown.year}</p>
-              <p className="text-xs text-muted-foreground">GWh</p>
-            </div>
-          </div>
+        <div className="w-80 h-80 shrink-0">
+          <PlotlyChart data={plotlyData} layout={plotlyLayout} />
         </div>
 
         <div className="flex-1 w-full">
@@ -98,9 +98,9 @@ export default function EnergySources({ breakdown }) {
                   />
                   <span className="text-sm font-medium">{d.label}</span>
                 </div>
-                <div className="text-right">
+                <div className="text-right min-w-[70px]">
                   <span className="text-sm font-semibold">{d.share}%</span>
-                  <span className="ml-2 text-xs text-muted-foreground">
+                  <span className="ml-4 text-xs text-muted-foreground">
                     {d.gwh.toLocaleString()} GWh
                   </span>
                 </div>

@@ -498,18 +498,56 @@ export default function Ecosim() {
                     )}
                     {result.ai_analysis.prescriptive_recommendation.interpretation && (
                       <div className="rounded-md border bg-muted/30 p-4 text-sm">
-                        <p className="font-semibold text-emerald-700 mb-1">Interpretation</p>
-                        <p className="text-muted-foreground whitespace-pre-line">
-                          {result.ai_analysis.prescriptive_recommendation.interpretation}
-                        </p>
+                        <p className="font-semibold text-emerald-700 mb-2">Interpretation</p>
+                        <div className="text-muted-foreground whitespace-pre-line space-y-2">
+                          {result.ai_analysis.prescriptive_recommendation.interpretation
+                            .split(/\n\s*-\s+|\n\s*\*\s+/)
+                            .filter(Boolean)
+                            .map((chunk, i) => {
+                              const trimmed = chunk.trim();
+                              const match = trimmed.match(/^\*\*(.+?)\*\*[:\s]*(.+)$/s);
+                              if (match) {
+                                const [, label, body] = match;
+                                const colorMap = {
+                                  Solar: "text-amber-600",
+                                  Wind: "text-sky-600",
+                                  Hydro: "text-cyan-600",
+                                  Geothermal: "text-rose-600",
+                                };
+                                return (
+                                  <div key={i} className="flex gap-2">
+                                    <span className={`font-semibold shrink-0 ${colorMap[label] || "text-emerald-700"}`}>
+                                      {label}:
+                                    </span>
+                                    <span>{body.trim()}</span>
+                                  </div>
+                                );
+                              }
+                              return <p key={i}>{trimmed}</p>;
+                            })}
+                        </div>
                       </div>
                     )}
                     {result.ai_analysis.prescriptive_recommendation.recommendation && (
                       <div className="rounded-md border bg-emerald-50 p-4 text-sm">
-                        <p className="font-semibold text-emerald-800 mb-1">Recommendation</p>
-                        <p className="text-emerald-900 whitespace-pre-line">
-                          {result.ai_analysis.prescriptive_recommendation.recommendation}
-                        </p>
+                        <p className="font-semibold text-emerald-800 mb-2">Recommendation</p>
+                        <div className="text-emerald-900 space-y-1.5">
+                          {result.ai_analysis.prescriptive_recommendation.recommendation
+                            .split(/\n\s*-\s+/)
+                            .filter(Boolean)
+                            .map((chunk, i) => {
+                              const trimmed = chunk.trim();
+                              if (i === 0 && !trimmed.startsWith("•") && !trimmed.startsWith("-")) {
+                                return <p key={i} className="font-medium">{trimmed}</p>;
+                              }
+                              return (
+                                <div key={i} className="flex gap-2 items-start">
+                                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
+                                  <span>{trimmed}</span>
+                                </div>
+                              );
+                            })}
+                        </div>
                       </div>
                     )}
                     {result.ai_analysis.prescriptive_recommendation.reason && (
@@ -552,7 +590,7 @@ export default function Ecosim() {
           <Card>
             <CardHeader>
               <CardTitle>Renewable comparison</CardTitle>
-              <CardDescription>Monthly generation and savings across options.</CardDescription>
+              <CardDescription>Monthly generation, cost, and payback across options.</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
               {result.options.map((option) => {
@@ -564,10 +602,18 @@ export default function Ecosim() {
                     : option.source === "Geothermal"
                     ? "bg-chart-geothermal"
                     : "bg-chart-hydro";
+                const isUtility = option.scale === "utility";
                 return (
                   <div key={option.source} className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-medium">{option.source}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{option.source}</span>
+                        {isUtility && (
+                          <span className="rounded bg-orange-100 px-1.5 py-0.5 text-[10px] font-semibold text-orange-700">
+                            Municipal plant
+                          </span>
+                        )}
+                      </div>
                       <span className="text-muted-foreground">
                         {formatNumber(option.estimated_generation_kwh)} kWh/mo
                       </span>
@@ -578,7 +624,26 @@ export default function Ecosim() {
                         style={{ width: `${(option.estimated_generation_kwh / comparisonMax) * 100}%` }}
                       />
                     </div>
-                    <div className="text-xs text-muted-foreground">{option.explanation}</div>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                      <span>{option.explanation}</span>
+                      {!isUtility && (
+                        <>
+                          <span className="hidden sm:inline">·</span>
+                          <span>Install: {formatCurrency(option.installation_cost)}</span>
+                          <span className="hidden sm:inline">·</span>
+                          <span>Savings: {formatCurrency(option.monthly_savings)}/mo</span>
+                          {option.payback_years !== null && option.payback_years !== undefined && (
+                            <>
+                              <span className="hidden sm:inline">·</span>
+                              <span>Payback: {option.payback_years.toFixed(1)} yrs</span>
+                            </>
+                          )}
+                        </>
+                      )}
+                      {isUtility && (
+                        <span className="italic text-orange-600">Utility-scale — not a household install</span>
+                      )}
+                    </div>
                   </div>
                 );
               })}

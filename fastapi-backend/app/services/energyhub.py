@@ -640,7 +640,8 @@ class EnergyHubService:
         source = self._ml.get_source_breakdown()
 
         prompt = (
-            "You are LUMI, an Environmental Intelligence assistant for Philippine energy data.\n\n"
+            "You are LUMI, an Environmental Intelligence assistant for Philippine energy data.\n"
+            "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
             f"Latest Year: {latest.get('year', 2024)}\n"
             f"Total Consumption: {latest.get('total_consumption_gwh', 0):,.0f} GWh\n"
             f"Total Peak Demand: {latest.get('total_peak_demand_mw', 0):,.0f} MW\n"
@@ -654,13 +655,14 @@ class EnergyHubService:
             prompt += f"  - {src}: {pct}%\n"
 
         prompt += (
-            "\nProvide a comprehensive, in-depth 5-paragraph analysis:\n"
-            "1. Summarize the current energy situation (consumption, peak demand, capacity margin) and place it in an ASEAN context.\n"
-            "2. Discuss the renewable energy share, generation mix composition, and how each source has evolved.\n"
-            "3. Analyze the ARIMA forecast implications for 2030 and what it means for infrastructure planning.\n"
-            "4. Evaluate barriers to decarbonization including stranded assets, baseload needs, and grid constraints.\n"
-            "5. Give forward-looking policy and investment recommendations for the DOE, NGCP, and local communities.\n"
-            "Aim for 500–700 words. Use plain language suitable for students and communities, but include specific data points."
+            "\nProvide a comprehensive 5-paragraph response that is PRESCRIPTIVE and ACTION-ORIENTED, not just descriptive.\n"
+            "Each paragraph must end with concrete, specific recommendations (what should be done, by whom, and by when).\n\n"
+            "1. Diagnose the current energy situation (consumption, peak demand, capacity margin) and prescribe immediate actions for the DOE and NGCP.\n"
+            "2. Evaluate the renewable energy share and generation mix, then recommend specific policy changes, feed-in tariffs, or regulatory reforms to accelerate RE adoption.\n"
+            "3. Interpret the ARIMA 2030 forecast and prescribe infrastructure investments, transmission upgrades, and capacity additions with timelines.\n"
+            "4. Identify barriers to decarbonization and prescribe risk-mitigation strategies for stranded assets, baseload transitions, and grid integration.\n"
+            "5. Give a forward-looking action plan with specific, measurable steps for the DOE, NGCP, local government units, and private investors.\n"
+            "Aim for 400–600 words. Use plain language suitable for students and communities, but include specific data points and actionable steps."
         )
 
         try:
@@ -691,11 +693,17 @@ class EnergyHubService:
             consumption = chart_data.get("consumption", [])
             forecast = chart_data.get("forecast", [])
             return (
-                "Explain the following Philippine energy consumption trend in 2-3 short paragraphs:\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine energy consumption trend in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 f"Historical years: {years[:5]}...{years[-3:]}\n"
                 f"Consumption (GWh): {consumption[:5]}...{consumption[-3:]}\n"
-                f"Forecast: {forecast}\n"
-                "Highlight key patterns, inflection points, and what the forecast implies."
+                f"Forecast: {forecast}\n\n"
+                "Cover:\n"
+                "1) Identify key consumption patterns and prescribe immediate demand-side management or efficiency programs.\n"
+                "2) Flag inflection points and prescribe policy responses or infrastructure investments needed.\n"
+                "3) Translate the forecast into concrete grid planning actions with timelines for the DOE and NGCP."
             )
         if chart_type == "consumption_trend":
             years = chart_data.get("years", [])
@@ -706,17 +714,20 @@ class EnergyHubService:
             first = consumption[0] if consumption else 0
             growth = ((latest / first) - 1) * 100 if first else 0
             return (
-                "You are LUMI, an Environmental Intelligence assistant. Provide a deep, in-depth analysis of this Philippine total energy consumption chart in 4-5 detailed paragraphs:\n\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine total energy consumption chart in 4-5 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 f"Historical consumption (GWh): {consumption[:3]} ... {consumption[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Forecast: {forecast_values[0] if forecast_values else 'N/A'} GWh in {forecast_years[0] if forecast_years else 'N/A'} "
                 f"to {forecast_values[-1] if forecast_values else 'N/A'} GWh in {forecast_years[-1] if forecast_years else 'N/A'}\n"
                 f"Overall growth from {first:.0f} to {latest:.0f} GWh = {growth:.1f}%\n\n"
-                "In your analysis, cover:\n"
-                "1) The overall growth trajectory and what economic or demographic drivers likely explain it.\n"
-                "2) Notable acceleration or deceleration phases and what events may have caused them.\n"
-                "3) How Philippine consumption growth compares to ASEAN neighbors.\n"
-                "4) What the forecast implies for grid planning, transmission investment, and policy.\n"
-                "5) Implications for energy security and the urgency of diversifying the generation mix."
+                "Cover these points with actionable recommendations:\n"
+                "1) Diagnose the growth trajectory and prescribe what the DOE and ERC should do now (policy, pricing, enforcement).\n"
+                "2) Identify acceleration/deceleration phases and prescribe demand-side management or industrial efficiency programs.\n"
+                "3) Compare to ASEAN benchmarks and prescribe specific capacity targets or import strategies.\n"
+                "4) Translate the forecast into concrete grid planning and transmission investment priorities with timelines.\n"
+                "5) Prescribe emergency and long-term actions to diversify the generation mix and improve energy security."
             )
         if chart_type == "peak_demand":
             years = chart_data.get("years", [])
@@ -725,15 +736,18 @@ class EnergyHubService:
             first = peak_demand[0] if peak_demand else 0
             growth = ((latest / first) - 1) * 100 if first else 0
             return (
-                "You are LUMI, an Environmental Intelligence assistant. Provide a deep, in-depth analysis of this Philippine peak electricity demand chart in 4-5 detailed paragraphs:\n\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine peak electricity demand chart in 4-5 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 f"Peak demand (MW): {peak_demand[:3]} ... {peak_demand[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Overall growth from {first:.0f} to {latest:.0f} MW = {growth:.1f}%\n\n"
-                "In your analysis, cover:\n"
-                "1) How peak demand growth compares to installed generation capacity and dependable capacity.\n"
-                "2) What this means for grid reliability, reserve margins, and the risk of brownouts.\n"
-                "3) The role of demand-side management and time-of-use pricing in flattening peaks.\n"
-                "4) How renewables plus battery storage can reduce peak stress and displace peaker plants.\n"
-                "5) Infrastructure and policy recommendations for NGCP and the DOE."
+                "Cover these points with actionable recommendations:\n"
+                "1) Compare peak demand growth to installed capacity and prescribe immediate capacity additions or reserve contracts.\n"
+                "2) Assess grid reliability risks and prescribe concrete brownout prevention measures for NGCP.\n"
+                "3) Prescribe demand-side management programs and time-of-use pricing reforms with implementation steps.\n"
+                "4) Recommend specific renewable + battery storage projects to displace peaker plants and reduce peak stress.\n"
+                "5) Give a 5-year infrastructure roadmap with policy actions for the DOE and NGCP."
             )
         if chart_type == "renewable_generation":
             years = chart_data.get("years", [])
@@ -743,39 +757,48 @@ class EnergyHubService:
             latest_total = total[-1] if total else 1
             share = (latest_re / latest_total) * 100 if latest_total else 0
             return (
-                "You are LUMI, an Environmental Intelligence assistant. Provide a deep, in-depth analysis of this Philippine renewable energy generation chart in 4-5 detailed paragraphs:\n\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine renewable energy generation chart in 4-5 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 f"Renewable generation (GWh): {renewable[:3]} ... {renewable[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Total generation (GWh): {total[:3]} ... {total[-3:]}\n"
                 f"Latest renewable share: {share:.1f}%\n\n"
-                "In your analysis, cover:\n"
-                "1) The absolute and relative pace of renewable growth over the historical period.\n"
-                "2) How the share compares to the 35% RE target under the Renewable Energy Act of 2008.\n"
-                "3) The composition of renewable sources (geothermal, hydro, solar, wind, biomass) and their relative contributions.\n"
-                "4) What policy, investment, and regulatory signals the trend suggests.\n"
-                "5) Challenges ahead such as grid integration, intermittency, and financing for large-scale RE projects."
+                "Cover these points with actionable recommendations:\n"
+                "1) Assess renewable growth pace and prescribe specific capacity targets and auction schedules to meet the 35% RE Act goal.\n"
+                "2) Compare current share to the 35% target and prescribe regulatory reforms (permitting, grid access, FIT adjustments).\n"
+                "3) Break down each renewable source and prescribe resource-specific investment priorities and locations.\n"
+                "4) Identify financing gaps and prescribe blended finance instruments, green bonds, or development bank partnerships.\n"
+                "5) Prescribe grid integration solutions, storage mandates, and transmission upgrades to handle intermittency."
             )
         if chart_type == "sources":
             shares = chart_data.get("shares", {})
             return (
-                "You are LUMI, an Environmental Intelligence assistant. Provide a deep, in-depth analysis of the Philippine energy generation mix in 4-5 detailed paragraphs:\n\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of the Philippine energy generation mix in 4-5 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 + "\n".join([f"  - {k}: {v}%" for k, v in shares.items()])
-                + "\n\nIn your analysis, cover:\n"
-                "1) The dominance of fossil fuels (coal and natural gas) and what drives their continued reliance.\n"
-                "2) The role of each renewable source and its growth trajectory.\n"
-                "3) What this mix means for the Philippines' climate commitments under the Paris Agreement.\n"
-                "4) Barriers to decarbonization including stranded assets, baseload requirements, and grid constraints.\n"
-                "5) A forward-looking roadmap for transitioning the generation mix toward 50% renewables by 2040."
+                + "\n\nCover these points with actionable recommendations:\n"
+                "1) Diagnose fossil fuel dominance and prescribe concrete coal phase-out milestones, natural gas transition plans, and replacement targets.\n"
+                "2) Evaluate each renewable source and prescribe resource-specific procurement targets, auction volumes, and pipeline projects.\n"
+                "3) Assess climate commitment gaps and prescribe NDC updates, carbon pricing, and just transition fund mechanisms.\n"
+                "4) Identify decarbonization barriers and prescribe stranded asset mitigation strategies, flexible baseload contracts, and smart grid investments.\n"
+                "5) Provide a decade-by-decade action roadmap with specific 2030, 2035, and 2040 milestones for reaching 50% renewables."
             )
         if chart_type == "map":
             return (
-                "You are LUMI, an Environmental Intelligence assistant. Provide a deep, in-depth explanation of what a province-level renewable potential choropleth map means for the Philippines in 4-5 detailed paragraphs.\n\n"
+                "You are LUMI, an Environmental Intelligence assistant.\n"
+                "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine province-level renewable potential map in 4-5 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
                 "Scores are based on solar irradiance (40%), wind speed (30%), and hydropower suitability (30%).\n\n"
-                "In your analysis, cover:\n"
-                "1) Why some regions score higher and the geographic and climatic factors behind it.\n"
-                "2) How this map can guide national renewable energy planning and policy.\n"
-                "3) The practical implications for local government units, investors, and communities.\n"
-                "4) Limitations of the composite score and what data would improve accuracy.\n"
-                "5) Recommendations for integrating these insights into the Philippine Energy Plan."
+                "Cover these points with actionable recommendations:\n"
+                "1) Explain regional score variations and prescribe priority zones for solar parks, wind farms, and micro-hydro installations.\n"
+                "2) Prescribe how the DOE and NREB should use this map for competitive RE auctions, zoning, and transmission planning.\n"
+                "3) Recommend specific actions for LGUs (local government units), investors, and host communities to develop high-potential sites.\n"
+                "4) Identify data limitations and prescribe additional surveys (LiDAR wind, streamflow gauging, grid capacity mapping).\n"
+                "5) Prescribe how to integrate these scores into the Philippine Energy Plan with concrete capacity targets per region."
             )
         return "Provide a brief energy insight based on the available data."
 

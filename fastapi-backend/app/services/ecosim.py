@@ -670,14 +670,47 @@ def _calculate_option_summary(
     consumption_kwh = max(float(monthly_consumption_kwh or 0.0), 0.0)
     usable_kwh = min(generation_kwh, consumption_kwh)
     monthly_savings = usable_kwh * electricity_rate
-    # 30 days × 4 equivalent peak-sun hours ≈ 120 kWh/kWp/month (conservative PH estimate)
-    system_kw = generation_kwh / 30.0 / 4.0 if generation_kwh > 0 else 0.0
-    installation_cost = system_kw * installation_cost_per_kw
-    payback_years = (
-        installation_cost / (monthly_savings * 12.0)
-        if monthly_savings > 0
-        else None
-    )
+
+    # Source-specific system sizing so costs reflect real-world installs
+    source_lower = (source or "").lower()
+    if "geothermal" in source_lower:
+        # Utility-scale plant: cost based on plant MW capacity, not household kW
+        # Approximate PHP per kW for utility geothermal in the Philippines
+        system_kw = generation_kwh / 30.0 / 24.0 if generation_kwh > 0 else 0.0
+        installation_cost = system_kw * installation_cost_per_kw
+        payback_years = None
+        scale = "utility"
+    elif "wind" in source_lower:
+        # Residential wind CF ~25 % (PH small-turbine range 15–35 %)
+        system_kw = generation_kwh / (30.0 * 24.0 * 0.25) if generation_kwh > 0 else 0.0
+        installation_cost = system_kw * installation_cost_per_kw
+        payback_years = (
+            installation_cost / (monthly_savings * 12.0)
+            if monthly_savings > 0
+            else None
+        )
+        scale = "residential"
+    elif "hydro" in source_lower:
+        # Micro-hydro CF ~50 % (run-of-river / micro range 40–60 %)
+        system_kw = generation_kwh / (30.0 * 24.0 * 0.50) if generation_kwh > 0 else 0.0
+        installation_cost = system_kw * installation_cost_per_kw
+        payback_years = (
+            installation_cost / (monthly_savings * 12.0)
+            if monthly_savings > 0
+            else None
+        )
+        scale = "residential"
+    else:
+        # Solar: 4.5 peak-sun hrs/day ≈ 135 kWh/kWp/month (PH conservative)
+        system_kw = generation_kwh / (30.0 * 4.5) if generation_kwh > 0 else 0.0
+        installation_cost = system_kw * installation_cost_per_kw
+        payback_years = (
+            installation_cost / (monthly_savings * 12.0)
+            if monthly_savings > 0
+            else None
+        )
+        scale = "residential"
+
     energy_ratio = min(generation_kwh / consumption_kwh, 1.0) if consumption_kwh > 0 else 0.0
     suitability_score = round((0.6 * energy_ratio) + (0.4 * source_score), 3)
     carbon_reduction = usable_kwh * CO2_KG_PER_KWH
@@ -690,6 +723,8 @@ def _calculate_option_summary(
         "installation_cost": installation_cost,
         "payback_years": payback_years,
         "carbon_reduction": carbon_reduction,
+        "system_kw": round(system_kw, 3),
+        "scale": scale,
     }
 
 
@@ -733,7 +768,7 @@ def build_ecosim_dashboard_response(
     wind_score = min(float(wind_output.get("capacity_factor", 0.0)) * 1.5, 1.0)
     geo_score = float(geothermal_output.get("suitability_score", 0.0)) / 100.0
 
-    # Convert geothermal annual GWh to monthly kWh for comparison
+    # Geothermal is utility-scale; convert annual GWh to monthly kWh for comparison
     geo_annual_gwh = geothermal_output.get("annual_energy_gwh") or 0.0
     geo_monthly_kwh = (geo_annual_gwh * 1_000_000) / 12.0
 
@@ -778,8 +813,10 @@ def build_ecosim_dashboard_response(
             f"{option['suitability_score']:.2f} suitability score."
         )
 
+    # Recommend only household-scale sources (exclude utility-scale geothermal)
+    household_options = [o for o in options if o.get("scale") != "utility"]
     recommended = max(
-        options,
+        household_options,
         key=lambda item: (item["suitability_score"], item["estimated_generation_kwh"]),
     )
 
