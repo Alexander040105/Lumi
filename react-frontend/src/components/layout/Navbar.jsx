@@ -10,20 +10,34 @@ const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
   { to: "/ecosim", label: "Ecosim" },
   { to: "/energyhub", label: "EnergyHub" },
+  { to: "/chat", label: "Chat" },
 ];
 
+function LumLogo() {
+  return (
+    <div className="flex items-center gap-2">
+      <img src="/logo.png" alt="LUMI" className="h-14 w-auto object-contain" />
+    </div>
+  );
+}
+
 export default function Navbar() {
-  const { session, signOut } = useAuth();
+  const { session, signOut, isAdmin } = useAuth();
   const location = useLocation();
+
+  const links = [...navLinks];
+  if (isAdmin) {
+    links.push({ to: "/admin", label: "Admin" });
+  }
 
   return (
     <header className="border-b bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/60">
       <div className="page-container flex items-center justify-between">
-        <Link to="/" className="text-lg font-bold tracking-tight text-primary">
-          Lumi
+        <Link to="/" aria-label="LUMI Home">
+          <LumLogo />
         </Link>
         <nav className="flex items-center gap-1">
-          {navLinks.map((link) => {
+          {links.map((link) => {
             const isActive = location.pathname === link.to || (link.to !== "/" && location.pathname.startsWith(link.to));
             return (
               <Link

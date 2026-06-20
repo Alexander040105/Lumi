@@ -36,6 +36,62 @@ from app.services.supabase_service import get_supabase_client
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
+# Source enrichment map (string label -> structured dict)
+# ---------------------------------------------------------------------------
+SOURCE_MAP: dict[str, dict[str, str]] = {
+    "alibaba": {"title": "Alibaba Marketplace", "url": "https://www.alibaba.com", "org": "Alibaba Group"},
+    "amazon": {"title": "Amazon Marketplace", "url": "https://www.amazon.com", "org": "Amazon"},
+    "lazada": {"title": "Lazada Philippines", "url": "https://www.lazada.com.ph", "org": "Lazada"},
+    "istabreeze": {"title": "iSTA Breeze Wind Products", "url": "https://istabreeze.com", "org": "iSTA Breeze"},
+    "DOE national_energy_annual_ready.csv": {
+        "title": "DOE Philippine Power Statistics",
+        "url": "https://doe.gov.ph/site/epimb/articles/group/statistics",
+        "org": "Department of Energy Philippines",
+    },
+    "NASA POWER municipality_climate_averages.csv": {
+        "title": "NASA Prediction of Worldwide Energy Resources (POWER)",
+        "url": "https://power.larc.nasa.gov/",
+        "org": "NASA Langley Research Center",
+    },
+    "municipality_terrain_metrics.csv": {
+        "title": "LUMI Municipality Terrain Analysis",
+        "url": "",
+        "org": "LUMI System",
+    },
+    "Supabase hydropower_suitability": {
+        "title": "LUMI Hydropower Suitability Model",
+        "url": "",
+        "org": "LUMI System",
+    },
+    "Supabase geothermal_suitability": {
+        "title": "LUMI Geothermal Suitability Model",
+        "url": "",
+        "org": "LUMI System",
+    },
+    "industry_standard": {
+        "title": "Industry Standard Practices",
+        "url": "",
+        "org": "NREL / IEC / DOE Guidelines",
+    },
+    "aggregated_scraped_data": {
+        "title": "Aggregated E-Commerce Pricing Data",
+        "url": "",
+        "org": "LUMI System",
+    },
+}
+
+
+def _enrich_sources(sources: list[str]) -> list[dict[str, str]]:
+    """Convert string source labels into structured source dicts."""
+    enriched: list[dict[str, str]] = []
+    for s in sources:
+        if s in SOURCE_MAP:
+            enriched.append(SOURCE_MAP[s].copy())
+        else:
+            enriched.append({"title": str(s), "url": "", "org": ""})
+    return enriched
+
+# ---------------------------------------------------------------------------
 # Paths
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -945,6 +1001,146 @@ def build_hydropower_suitability_knowledge(max_docs: int = 2000) -> list[dict[st
 
 
 # ---------------------------------------------------------------------------
+# Thesis research papers
+# ---------------------------------------------------------------------------
+
+THESIS_DIR = REPO_ROOT / "ThesisResearchStudies"
+
+
+def _extract_pdf_text(pdf_path: Path, max_pages: int = 10) -> str:
+    """Extract text from first N pages of a PDF."""
+    try:
+        import pdfplumber
+        with pdfplumber.open(pdf_path) as pdf:
+            pages = pdf.pages[:max_pages]
+            return "\n".join(p.extract_text() or "" for p in pages)
+    except Exception as exc:
+        logger.warning("Failed to extract %s: %s", pdf_path.name, exc)
+        return ""
+
+
+def _chunk_text(text: str, chunk_size: int = 800, overlap: int = 100) -> list[str]:
+    """Simple sliding-window chunking for long text."""
+    chunks: list[str] = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        chunk = text[start:end].strip()
+        if len(chunk) > 100:
+            chunks.append(chunk)
+        start += chunk_size - overlap
+    return chunks
+
+
+def build_thesis_paper_knowledge(max_papers: int = 20, pages_per_paper: int = 8) -> list[dict[str, Any]]:
+    """Build knowledge documents from thesis research PDFs."""
+    docs: list[dict[str, Any]] = []
+    if not THESIS_DIR.exists():
+        return docs
+
+    pdf_files = sorted([p for p in THESIS_DIR.rglob("*.pdf") if p.is_file()])[:max_papers]
+    for pdf_path in pdf_files:
+        title = pdf_path.stem.replace("_", " ").replace("-", " ")[:120]
+        text = _extract_pdf_text(pdf_path, max_pages=pages_per_paper)
+        if not text or len(text) < 200:
+            continue
+
+        # Create a summary chunk
+        first_para = text[:600].strip()
+        docs.append({
+            "renewable_type": "general",
+            "category": "research_literature",
+            "product_type": "thesis_paper",
+            "content": f"Research Paper: {title}. {first_para}",
+            "sources": [{"title": title, "url": "", "org": "LUMI Thesis Research"}],
+        })
+
+        # Add content chunks
+        for chunk in _chunk_text(text, chunk_size=600, overlap=80):
+            docs.append({
+                "renewable_type": "general",
+                "category": "research_literature",
+                "product_type": "thesis_paper",
+                "content": f"From research paper '{title}': {chunk}",
+                "sources": [{"title": title, "url": "", "org": "LUMI Thesis Research"}],
+            })
+
+    logger.info("Built %s thesis paper knowledge documents", len(docs))
+    return docs
+
+
+# ---------------------------------------------------------------------------
+# Web articles
+# ---------------------------------------------------------------------------
+
+WEB_ARTICLES = [
+    {
+        "url": "https://www.bpi.com.ph/about-bpi/news/5-types-of-renewable-energy-in-the-philippines",
+        "title": "5 Types of Renewable Energy in the Philippines",
+        "org": "BPI (Bank of the Philippine Islands)",
+    },
+    {
+        "url": "https://www.wwf.org.ph/our_work/energy/monitoring_renewable_energy/",
+        "title": "Monitoring Renewable Energy in the Philippines",
+        "org": "WWF Philippines",
+    },
+]
+
+
+def build_web_article_knowledge() -> list[dict[str, Any]]:
+    """Fetch and chunk web articles for RAG."""
+    docs: list[dict[str, Any]] = []
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+    except ImportError:
+        logger.warning("requests/bs4 not installed; skipping web articles")
+        return docs
+
+    for article in WEB_ARTICLES:
+        try:
+            resp = requests.get(article["url"], timeout=15, headers={"User-Agent": "LUMI-RAG/1.0"})
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, "html.parser")
+
+            # Extract main text
+            for tag in soup(["script", "style", "nav", "header", "footer"]):
+                tag.decompose()
+            paragraphs = [p.get_text(strip=True) for p in soup.find_all("p") if len(p.get_text(strip=True)) > 60]
+            text = "\n\n".join(paragraphs[:30])  # first 30 meaningful paragraphs
+
+            if len(text) < 300:
+                continue
+
+            source_dict = {"title": article["title"], "url": article["url"], "org": article["org"]}
+
+            # Summary chunk
+            docs.append({
+                "renewable_type": "general",
+                "category": "web_article",
+                "product_type": "article",
+                "content": f"Article: {article['title']} by {article['org']}. {text[:800]}",
+                "sources": [source_dict],
+            })
+
+            # Content chunks
+            for chunk in _chunk_text(text, chunk_size=700, overlap=100):
+                docs.append({
+                    "renewable_type": "general",
+                    "category": "web_article",
+                    "product_type": "article",
+                    "content": f"From article '{article['title']}': {chunk}",
+                    "sources": [source_dict],
+                })
+
+        except Exception as exc:
+            logger.warning("Failed to fetch article %s: %s", article["url"], exc)
+
+    logger.info("Built %s web article knowledge documents", len(docs))
+    return docs
+
+
+# ---------------------------------------------------------------------------
 # Orchestrator
 # ---------------------------------------------------------------------------
 
@@ -970,6 +1166,10 @@ def build_knowledge_base(csv_path: Path = DEFAULT_CSV) -> list[dict[str, Any]]:
     docs.extend(build_geothermal_knowledge())
     docs.extend(build_hydropower_suitability_knowledge())
 
+    # External sources
+    docs.extend(build_thesis_paper_knowledge())
+    docs.extend(build_web_article_knowledge())
+
     # Deduplicate by content hash
     seen: set[str] = set()
     unique_docs: list[dict[str, Any]] = []
@@ -978,6 +1178,12 @@ def build_knowledge_base(csv_path: Path = DEFAULT_CSV) -> list[dict[str, Any]]:
         if h not in seen:
             seen.add(h)
             unique_docs.append(d)
+
+    # Enrich all source strings into structured dicts
+    for d in unique_docs:
+        raw_sources = d.get("sources", [])
+        if raw_sources and isinstance(raw_sources[0], str):
+            d["sources"] = _enrich_sources(raw_sources)
 
     logger.info("Built %s knowledge documents", len(unique_docs))
     return unique_docs

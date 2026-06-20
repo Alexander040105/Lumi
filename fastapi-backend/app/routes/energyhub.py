@@ -27,7 +27,7 @@ async def get_overview():
 
 @router.get("/forecast", response_model=ForecastResponse)
 async def get_forecast(
-    metric: str = Query(default="consumption", description="Metric to forecast: consumption or peak_demand")
+    metric: str = Query(default="consumption", description="Metric to forecast: consumption or peak_demand"),
 ):
     """Return the ML forecast (2025-2030) with confidence intervals.
 
@@ -78,14 +78,18 @@ async def get_map_data(
 
 
 @router.get("/source-breakdown", response_model=SourceBreakdownResponse)
-async def get_source_breakdown(year: int | None = Query(default=None, description="Year (defaults to latest)")):
+async def get_source_breakdown(
+    year: int | None = Query(default=None, description="Year (defaults to latest)"),
+):
     """Return generation by plant type for a given year."""
     svc = get_energyhub_service()
     return svc._ml.get_source_breakdown(year)
 
 
 @router.get("/grid-breakdown", response_model=GridBreakdownResponse)
-async def get_grid_breakdown(year: int | None = Query(default=None, description="Year (defaults to latest)")):
+async def get_grid_breakdown(
+    year: int | None = Query(default=None, description="Year (defaults to latest)"),
+):
     """Return generation by grid (Luzon, Visayas, Mindanao) for a given year."""
     svc = get_energyhub_service()
     return svc._ml.get_grid_breakdown(year)
@@ -100,7 +104,7 @@ async def get_model_comparison():
 
 @router.get("/ai-insight", response_model=AiInsightResponse)
 async def get_ai_insight(
-    use_llm: bool = Query(default=False, description="Use LLM (Gemini/Groq) for dynamic analysis instead of static text")
+    use_llm: bool = Query(default=False, description="Use LLM (Gemini/Groq) for dynamic analysis instead of static text"),
 ):
     """Return a data-backed narrative insight and recommendation.
 

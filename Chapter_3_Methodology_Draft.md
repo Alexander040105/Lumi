@@ -387,6 +387,8 @@ The hydropower_suitability table stores terrain-derived hydropower metrics for e
 
 The ml_model_registry table tracks trained forecasting models, with a composite unique index on target_variable and is_active to ensure only one active model per target. The forecast_cache table stores pre-computed forecasts and links to ml_model_registry through model_id. The chart_ai_insights table caches AI-generated chart explanations.
 
+The user authentication and personalization layer is modeled through the `profiles`, `user_roles`, `saved_simulations`, `saved_locations`, `chat_sessions`, `chat_messages`, `user_usage_limits`, and `admin_audit_log` tables. The `profiles` table extends Supabase Auth user metadata with editable fields including full name, organization, location, and preferred municipality. The `user_roles` table stores a single role per user from the `app_role` enum (`user`, `admin`, `dev`), enabling role-based access control. The `saved_simulations` and `saved_locations` tables persist user-specific EcoSim results and municipality bookmarks, both foreign-keyed to `auth.users`. The `chat_sessions` and `chat_messages` tables store conversational history for the RAG-powered AI assistant, with `chat_messages` referencing `chat_sessions` through a foreign key. The `user_usage_limits` table tracks monthly consumption against plan limits. The `admin_audit_log` table records all privileged administrative actions for accountability.
+
 A regional_lookup view joins all geographic hierarchy tables to provide a unified query interface for frontend location selection.
 
 
@@ -692,6 +694,71 @@ The system handles API errors, rate limits, and fallback mechanisms to maintain 
 Evaluating LLM outputs requires approaches distinct from traditional classification accuracy metrics. Since the AI assistant generates free-text responses rather than discrete labels, its performance is assessed through the following dimensions: response correctness, verifying that factual claims align with system data and established domain knowledge; relevance, assessing whether the response directly addresses the user's query and provides useful information for renewable energy decision-making; ground truth comparison, comparing responses against reference answers prepared by domain experts for a set of benchmark questions; expert validation, where energy practitioners or academic experts rate responses on accuracy, completeness, and clarity using Likert scales or rubric-based scoring; hallucination checking, detecting fabricated facts, unsupported numerical claims, or contradictory statements in generated responses through automated fact-checking against system data and manual review of sample outputs; response time, measuring end-to-end latency from query submission to response completion to ensure interactions remain fluid and usable; and token and resource usage, monitoring API token consumption and associated costs to ensure sustainable operation within project resource constraints.
 
 The evaluation of the AI assistant relies on benchmark question sets, expert review panels, and user feedback rather than traditional accuracy metrics such as precision or recall, which are not applicable to generative text tasks.
+
+9.7.2.2.10. User Authentication and Role-Based Access Control
+
+LUMI implements a single sign-on authentication flow using Supabase Auth, which supports email-password registration and Google OAuth. Upon successful registration, a database trigger named `handle_new_user` automatically inserts a row into the `profiles` table with the user's full name extracted from auth metadata, a row into the `user_roles` table with the default role of `user`, and a row into the `user_usage_limits` table with the default plan `free`. This ensures that every authenticated user has an associated profile and role without requiring manual intervention.
+
+The backend validates JSON Web Tokens on every protected request through a `get_verified_user` dependency. This dependency extracts the Bearer token from the Authorization header, verifies its signature and expiration, and confirms that the user's email address has been verified. If any check fails, the request returns HTTP 401 or 403. All non-public API endpoints including EcoSim, EnergyHub, and Geothermal routes now enforce this dependency, ensuring that only authenticated users can access analytical features.
+
+Role-based access control extends the basic authentication layer. The `user_roles` table stores a single role per user, drawn from an enumerated type `app_role` with values `user`, `admin`, and `dev`. A `_get_user_role` helper queries this table on every request to determine privilege level. The `require_admin` dependency returns HTTP 403 for any authenticated user whose role is not `admin` or `dev`. Admin routes under `/api/v1/admin` are protected by this dependency, preventing unauthorized access to user management, analytics, and system configuration endpoints.
+
+On the frontend, the `AuthContext` provider fetches the user's role from Supabase whenever the session changes and exposes an `isAdmin` boolean. A `ProtectedRoute` wrapper component redirects unauthenticated visitors to `/login`, preserving the original destination in navigation state. An `AdminRoute` wrapper performs the same authentication check and additionally redirects non-admin users to `/dashboard`. The navbar conditionally renders an "Admin" link only when `isAdmin` is true, keeping the admin portal hidden from standard users.
+
+9.7.2.2.11. Saved Simulation and Location Persistence
+
+Authenticated users can persist EcoSim simulation inputs and results through the `saved_simulations` table. Each row stores the user ID, an optional label, the municipality ID, the original input parameters as JSONB, and the computed results as JSONB. This enables users to revisit prior analyses, compare configurations over time, and build a personal project history. The `saved_locations` table allows users to bookmark municipalities of interest, storing only the user ID, municipality ID, and an optional label. A unique constraint on `(user_id, municipality_id)` prevents duplicate bookmarks.
+
+Both tables are protected by Row-Level Security policies that restrict SELECT, INSERT, UPDATE, and DELETE operations to rows where `auth.uid() = user_id`. This guarantees that users can only access their own data even if they craft direct Supabase client queries. The Decision Dashboard queries these tables to populate the "Saved Projects" and "Saved Locations" panels, enabling one-click navigation back to prior simulations.
+
+9.7.2.2.12. AI Chatbot Architecture
+
+The LUMI AI Assistant is a Retrieval-Augmented Generation system that combines semantic search over a structured knowledge base with large language model generation. When a user submits a query through the chat interface, the backend first encodes the query text into a dense vector embedding using the `all-MiniLM-L6-v2` sentence-transformer model. The embedding is compared against a pre-built FAISS index of chunked knowledge documents using cosine similarity, and the top-k most relevant chunks (default k=5) are retrieved.
+
+These retrieved chunks are injected into a structured system prompt alongside the user's query. The prompt includes an explicit instruction to ground responses in the retrieved context and to cite sources using `[Source N]` notation. For authenticated users, the prompt builder also appends the user's saved simulations and saved locations as supplementary context, enabling personalized recommendations such as "Given your bookmarked municipality of Calamba and your saved solar simulation..."
+
+The prompt is then sent to the Google Gemini API via the existing `gemini_funcs` module. The generated response is returned to the frontend and persisted in the `chat_messages` table alongside the retrieved chunk texts. Each conversation belongs to a `chat_session`, which groups messages under a user-generated title. The `chat_sessions` and `chat_messages` tables are protected by Row-Level Security policies that enforce ownership through session-level foreign key checks.
+
+9.7.2.2.13. Decision Dashboard Design
+
+The Decision Dashboard replaces the previous placeholder dashboard with a personalized analytical interface. Upon loading, the dashboard queries the user's `saved_locations` and `saved_simulations` from Supabase and renders them in dedicated panels. The Overview Card displays a composite renewable score gauge computed by normalizing and averaging the municipality-level solar, wind, hydro, and geothermal suitability scores. Each component is fetched from the respective pre-computed suitability tables and weighted equally in the composite.
+
+The Recommendations section ranks renewable sources for the currently selected municipality using a weighted multi-criteria scoring function. The function considers estimated generation potential (40%), simple payback period (30%), and carbon reduction impact (30%). The top three sources are displayed with call-to-action buttons that pre-populate the EcoSim form. The Analytics Mini-Chart overlays national DOE consumption trends from the `energy_statistics` table with municipality-specific climate-adjusted projections, allowing users to contextualize local potential against national demand patterns.
+
+9.7.2.2.14. Admin Portal
+
+The admin portal provides operational oversight for the LUMI platform. It is accessible only to users whose `user_roles` entry is `admin` or `dev`. The frontend hides the admin navigation link from non-administrative users, and the backend rejects all unauthorized requests with HTTP 403.
+
+The portal comprises four modules. User Management displays a paginated table of registered users drawn from the `profiles` and `user_roles` tables, showing name, role, plan, and account status. Analytics aggregates system-level metrics including total registered users, total saved simulations, total chat sessions, and the distribution of free versus premium plans. System Configuration allows administrators to toggle the chatbot availability, enable maintenance mode, and adjust free-tier limits for chat messages and saved simulations. All configuration changes are persisted to a `system_config` key-value table. Content Moderation provides a read-only view of recent chat sessions and messages for review.
+
+Every administrative action is logged to the `admin_audit_log` table, which records the admin user ID, the action type, the target user ID (if applicable), and a JSONB details payload. This audit trail ensures accountability and traceability for all privileged operations.
+
+Table X. Free vs Premium Feature Matrix
+
+| Feature | Free Tier | Premium Tier |
+|---------|-----------|--------------|
+| EcoSim simulations | 3 saved | Unlimited |
+| Saved locations | 1 municipality | Unlimited |
+| AI chatbot | 5 messages/month | Unlimited |
+| PDF report export | Watermarked | No watermark |
+| Advanced recommendations | Basic ranking | Full multi-criteria with sensitivity |
+| What-if forecasting | View only | Adjustable assumptions |
+| Price | ₱0 | ₱199/month (Researcher) / ₱499/month (Planner) |
+
+The free tier is designed to demonstrate core value while encouraging conversion through saved-project loss aversion. The premium tiers are architected in the database schema and middleware but do not require live payment processing for the thesis defense.
+
+Table X. Database Schema Additions for Auth, Chatbot, Dashboard, and Admin Features
+
+| Table | Purpose | Key Columns |
+|-------|---------|-------------|
+| user_roles | Role-based access control | user_id (PK, FK auth.users), role (enum), created_at |
+| profiles | Extended user profile | id (PK, FK auth.users), full_name, avatar_url, organization, location, preferred_municipality_id, plan, is_active |
+| saved_simulations | Persisted EcoSim results | id (PK), user_id (FK), label, municipality_id, inputs (JSONB), results (JSONB), created_at |
+| saved_locations | Bookmarked municipalities | id (PK), user_id (FK), municipality_id, label, created_at, UNIQUE(user_id, municipality_id) |
+| chat_sessions | Chat conversation grouping | id (PK), user_id (FK), title, created_at |
+| chat_messages | Individual chat messages | id (PK), session_id (FK), role, content, retrieved_chunks (JSONB), created_at |
+| user_usage_limits | Monthly usage tracking | user_id (PK, FK), chat_messages_this_month, simulations_this_month, plan |
+| admin_audit_log | Administrative action log | id (PK), admin_id (FK), action, target_user_id (FK), details (JSONB), created_at |
 
 9.7.3. Testing Procedures
 

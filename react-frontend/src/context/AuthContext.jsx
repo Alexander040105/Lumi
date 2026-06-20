@@ -6,6 +6,7 @@ export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,12 +28,47 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
+  // Fetch user role from profiles/user_roles whenever the session changes
+  useEffect(() => {
+    if (!session?.user) {
+      setRole(null);
+      return;
+    }
+
+    const fetchRole = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .single();
+        if (!error && data) {
+          setRole(data.role);
+        } else {
+          setRole("user");
+        }
+      } catch {
+        setRole("user");
+      }
+    };
+
+    fetchRole();
+  }, [session]);
+
+  const isAdmin = role === "admin" || role === "dev";
+  const effectivePlan = isAdmin ? "premium" : "free";
+  const isPremium = isAdmin;
+
   const value = useMemo(
     () => ({
       session,
       user: session?.user ?? null,
       accessToken: session?.access_token ?? null,
       loading,
+      role,
+      isAdmin,
+      effectivePlan,
+      isPremium,
       signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
       signInWithPassword: (email, password) =>
         supabase.auth.signInWithPassword({ email, password }),
@@ -44,7 +80,7 @@ export function AuthProvider({ children }) {
       updatePassword: (newPassword) => supabase.auth.updateUser({ password: newPassword }),
       signOut: () => supabase.auth.signOut()
     }),
-    [session, loading]
+    [session, loading, role, isAdmin, effectivePlan, isPremium]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

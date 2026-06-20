@@ -1,324 +1,452 @@
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useAuth } from "../hooks/useAuth";
-import { getProtectedMe, getHealth } from "../services/apiClient";
 import { supabase } from "../services/supabaseClient";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
-const formSchema = z.object({
-  label: z.string().min(2, "Label must be at least 2 characters")
-});
-
 export default function Dashboard() {
-  const { accessToken, user } = useAuth();
-  const emailVerified = Boolean(user?.email_confirmed_at || user?.confirmed_at);
+  const { user } = useAuth();
+  const isLoggedIn = !!user;
+
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-  const [health, setHealth] = useState(null);
-  const [error, setError] = useState(null);
-  const [mfaStatus, setMfaStatus] = useState({ currentLevel: null, nextLevel: null });
-  const [totpFactorId, setTotpFactorId] = useState("");
-  const [totpQr, setTotpQr] = useState("");
-  const [totpSecret, setTotpSecret] = useState("");
-  const [mfaCode, setMfaCode] = useState("");
-  const [mfaBusy, setMfaBusy] = useState(false);
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-    defaultValues: { label: "" }
-  });
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [editForm, setEditForm] = useState({ full_name: "", organization: "", location: "" });
+  const [savingProfile, setSavingProfile] = useState(false);
 
+  const [savedLocations, setSavedLocations] = useState([]);
+  const [savedSimulations, setSavedSimulations] = useState([]);
+  const [municipalities, setMunicipalities] = useState([]);
+  const [selectedMuni, setSelectedMuni] = useState("");
+  const [compositeScore, setCompositeScore] = useState(0);
+
+  const fileInputRef = useRef(null);
+
+  // Load dashboard data
   useEffect(() => {
-    if (!accessToken) return;
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        // Profile (if logged in)
+        if (isLoggedIn) {
+          const { data: prof } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
+          setProfile(prof);
+          setEditForm({
+            full_name: prof?.full_name || "",
+            organization: prof?.organization || "",
+            location: prof?.location || "",
+          });
 
-    Promise.all([getProtectedMe(accessToken), getHealth()])
-      .then(([me, healthStatus]) => {
-        setProfile(me.user);
-        setHealth(healthStatus);
-      })
-      .catch((err) => setError(err.message));
-  }, [accessToken]);
+          // Saved locations
+          const { data: locs } = await supabase
+            .from("saved_locations")
+            .select("*, municipalities(name)")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+          setSavedLocations(locs || []);
 
-  useEffect(() => {
-    if (!accessToken) return;
+          // Saved simulations
+          const { data: sims } = await supabase
+            .from("saved_simulations")
+            .select("*, municipalities(name)")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+          setSavedSimulations(sims || []);
+        }
 
-    const loadMfa = async () => {
-      const { data: assurance, error: assuranceError } =
-        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (!assuranceError && assurance) {
-        setMfaStatus({
-          currentLevel: assurance.currentLevel,
-          nextLevel: assurance.nextLevel
-        });
-      }
-
-      const { data: factorsData } = await supabase.auth.mfa.listFactors();
-      const totpFactor = factorsData?.totp?.[0];
-      if (totpFactor?.id) {
-        setTotpFactorId(totpFactor.id);
+        // Municipalities for dropdown
+        const { data: munis } = await supabase
+          .from("municipalities")
+          .select("municipality_id, name")
+          .order("name", { ascending: true })
+          .limit(500);
+        setMunicipalities(munis || []);
+      } catch (err) {
+        toast.error("Failed to load dashboard data");
+      } finally {
+        setLoading(false);
       }
     };
 
-    loadMfa();
-  }, [accessToken]);
+    loadData();
+  }, [isLoggedIn, user?.id]);
 
-  const onSubmit = (values) => {
-    toast.success(`Saved: ${values.label}`);
-    form.reset();
-  };
-
-  const handleEnrollTotp = async () => {
-    setMfaBusy(true);
+  const fetchCompositeScore = async (muniId) => {
+    if (!muniId) return;
     try {
-      const { data, error: enrollError } = await supabase.auth.mfa.enroll({
-        factorType: "totp"
-      });
-      if (enrollError) throw enrollError;
-      setTotpFactorId(data.id);
-      setTotpQr(data.totp.qr_code);
-      setTotpSecret(data.totp.secret);
-      toast.success("MFA enrolled. Scan the QR code and verify.");
-    } catch (error) {
-      toast.error(error?.message || "MFA enrollment failed");
-    } finally {
-      setMfaBusy(false);
+      const [solar, wind, hydro, geo] = await Promise.all([
+        supabase.from("solar_suitability").select("solar_score").eq("municipality_id", muniId).single(),
+        supabase.from("wind_suitability").select("wind_score").eq("municipality_id", muniId).single(),
+        supabase.from("hydropower_suitability").select("hydro_suitability_score").eq("municipality_id", muniId).single(),
+        supabase.from("geothermal_suitability").select("geothermal_score").eq("municipality_id", muniId).single(),
+      ]);
+      const scores = [
+        solar.data?.solar_score || 0,
+        wind.data?.wind_score || 0,
+        hydro.data?.hydro_suitability_score || 0,
+        geo.data?.geothermal_score || 0,
+      ];
+      const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
+      setCompositeScore(Math.round(Math.min(100, Math.max(0, avg))));
+    } catch {
+      setCompositeScore(0);
     }
   };
 
-  const handleVerifyTotp = async () => {
-    if (!totpFactorId) {
-      toast.error("Enroll MFA first");
+  useEffect(() => {
+    if (selectedMuni) fetchCompositeScore(selectedMuni);
+  }, [selectedMuni]);
+
+  // Profile save
+  const handleSaveProfile = async () => {
+    if (!isLoggedIn) {
+      toast.info("Please log in to save your profile.");
+      return;
+    }
+    setSavingProfile(true);
+    try {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          full_name: editForm.full_name,
+          organization: editForm.organization,
+          location: editForm.location,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", user.id);
+
+      if (error) throw error;
+
+      setProfile((prev) => ({
+        ...prev,
+        full_name: editForm.full_name,
+        organization: editForm.organization,
+        location: editForm.location,
+      }));
+      setIsEditingProfile(false);
+      toast.success("Profile updated");
+    } catch (err) {
+      toast.error("Failed to update profile");
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
+  // Avatar upload
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !isLoggedIn) return;
+
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Image must be under 2MB");
       return;
     }
 
-    setMfaBusy(true);
+    const ext = file.name.split(".").pop();
+    const path = `${user.id}/avatar.${ext}`;
+
     try {
-      const { data: challenge, error: challengeError } =
-        await supabase.auth.mfa.challenge({ factorId: totpFactorId });
-      if (challengeError) throw challengeError;
+      setSavingProfile(true);
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(path, file, { upsert: true });
 
-      const { error: verifyError } = await supabase.auth.mfa.verify({
-        factorId: totpFactorId,
-        challengeId: challenge.id,
-        code: mfaCode
-      });
-      if (verifyError) throw verifyError;
+      if (uploadError) throw uploadError;
 
-      toast.success("MFA verified");
-      setMfaCode("");
-    } catch (error) {
-      toast.error(error?.message || "MFA verification failed");
+      const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(path);
+      const avatarUrl = urlData.publicUrl;
+
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ avatar_url: avatarUrl })
+        .eq("id", user.id);
+
+      if (updateError) throw updateError;
+
+      setProfile((prev) => ({ ...prev, avatar_url: avatarUrl }));
+      toast.success("Profile photo updated");
+    } catch (err) {
+      toast.error("Upload failed: " + err.message);
     } finally {
-      setMfaBusy(false);
+      setSavingProfile(false);
     }
   };
 
+  const displayName = profile?.full_name || user?.email || "Guest";
+  const displayOrg = profile?.organization || "";
+  const displayLoc = profile?.location || "";
+  const avatarUrl = profile?.avatar_url || "";
+
+  if (loading) {
+    return (
+      <section className="page-container stack">
+        <h1 className="text-2xl font-bold">Decision Dashboard</h1>
+        <LoadingSkeleton />
+      </section>
+    );
+  }
+
   return (
-    <section className="page-container stack">
-      <div className="page-header">
-        <div className="space-y-2">
-          <h1>Dashboard</h1>
-          <p>Signed in as {user?.email || "unknown"}</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="outline">Open filters</Button>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Filters</SheetTitle>
-                <SheetDescription>Use filters to narrow down data.</SheetDescription>
-              </SheetHeader>
-              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
-                Add filtering controls here.
+    <section className="page-container stack space-y-6">
+      {/* ===== Profile Card ===== */}
+      <Card className="overflow-hidden">
+        <div className="bg-gradient-to-r from-primary/10 to-primary/5 px-6 py-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            {/* Avatar */}
+            <div className="relative shrink-0">
+              <div className="w-20 h-20 rounded-full bg-muted border-2 border-background overflow-hidden flex items-center justify-center">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-2xl font-bold text-muted-foreground">
+                    {displayName.charAt(0).toUpperCase()}
+                  </span>
+                )}
               </div>
-            </SheetContent>
-          </Sheet>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>Create item</Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Create item</DialogTitle>
-                <DialogDescription>Connect this dialog to your form logic.</DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </div>
-
-      {error && (
-        <Card className="border-l-4 border-l-destructive bg-destructive/5">
-          <CardContent className="py-4 text-sm font-medium text-destructive">
-            {error}
-          </CardContent>
-        </Card>
-      )}
-
-      {!emailVerified && (
-        <Card className="border-l-4 border-l-warning bg-accent/10">
-          <CardHeader>
-            <CardTitle className="text-warning-foreground">Email not verified</CardTitle>
-            <CardDescription>Check your inbox and verify your email to unlock API access.</CardDescription>
-          </CardHeader>
-        </Card>
-      )}
-
-      {!profile && !error && <LoadingSkeleton />}
-
-      {profile && (
-        <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-          <Card>
-            <CardHeader>
-              <CardTitle>JWT Claims</CardTitle>
-              <CardDescription>Validated by FastAPI.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="whitespace-pre-wrap text-xs text-muted-foreground">
-                {JSON.stringify(profile, null, 2)}
-              </pre>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>API Health</CardTitle>
-              <CardDescription>Live status from FastAPI.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <Badge variant={health?.status === "ok" ? "default" : "secondary"}>
-                {health?.status || "unknown"}
-              </Badge>
-              <p className="text-sm text-muted-foreground">Service: {health?.service || "-"}</p>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    Quick actions
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>Refresh status</DropdownMenuItem>
-                  <DropdownMenuItem>View logs</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>MFA (TOTP)</CardTitle>
-              <CardDescription>Enroll and verify a TOTP authenticator.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div className="space-y-1">
-                <p>Current assurance: {mfaStatus.currentLevel || "-"}</p>
-                <p>Next assurance: {mfaStatus.nextLevel || "-"}</p>
-              </div>
-
-              {totpQr && (
-                <div className="rounded-md border bg-muted p-3">
-                  <div
-                    className="flex justify-center"
-                    dangerouslySetInnerHTML={{ __html: totpQr }}
+              {isLoggedIn && (
+                <>
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5 shadow hover:bg-primary/90"
+                    disabled={savingProfile}
+                  >
+                    {savingProfile ? "..." : "Edit"}
+                  </button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarUpload}
                   />
-                  <p className="mt-2 break-all text-xs text-muted-foreground">
-                    Secret: {totpSecret}
-                  </p>
+                </>
+              )}
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex-1 min-w-0">
+              {!isEditingProfile ? (
+                <div className="space-y-1">
+                  <h2 className="text-xl font-bold truncate">{displayName}</h2>
+                  {(displayOrg || displayLoc) && (
+                    <p className="text-sm text-muted-foreground">
+                      {displayOrg && <span className="mr-3">{displayOrg}</span>}
+                      {displayLoc && <span>{displayLoc}</span>}
+                    </p>
+                  )}
+                  {!isLoggedIn && (
+                    <p className="text-sm text-muted-foreground">
+                      <Link to="/login" className="underline text-primary">Log in</Link> to save your profile and data.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-2 max-w-md">
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={editForm.full_name}
+                    onChange={(e) => setEditForm((p) => ({ ...p, full_name: e.target.value }))}
+                    className="w-full px-3 py-1.5 border rounded-md text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Organization"
+                    value={editForm.organization}
+                    onChange={(e) => setEditForm((p) => ({ ...p, organization: e.target.value }))}
+                    className="w-full px-3 py-1.5 border rounded-md text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Location"
+                    value={editForm.location}
+                    onChange={(e) => setEditForm((p) => ({ ...p, location: e.target.value }))}
+                    className="w-full px-3 py-1.5 border rounded-md text-sm"
+                  />
                 </div>
               )}
+            </div>
 
-              <div className="flex flex-col gap-2">
-                <Button type="button" variant="outline" onClick={handleEnrollTotp} disabled={mfaBusy}>
-                  Enroll TOTP
-                </Button>
-                <Input
-                  placeholder="Authenticator code"
-                  value={mfaCode}
-                  onChange={(event) => setMfaCode(event.target.value)}
-                />
-                <Button type="button" onClick={handleVerifyTotp} disabled={mfaBusy || !mfaCode}>
-                  Verify code
-                </Button>
+            {/* Edit Actions */}
+            {isLoggedIn && (
+              <div className="shrink-0">
+                {!isEditingProfile ? (
+                  <Button variant="outline" size="sm" onClick={() => setIsEditingProfile(true)}>
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="ghost" onClick={() => setIsEditingProfile(false)}>
+                      Cancel
+                    </Button>
+                    <Button size="sm" onClick={handleSaveProfile} disabled={savingProfile}>
+                      {savingProfile ? "Saving..." : "Save"}
+                    </Button>
+                  </div>
+                )}
               </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Quick form</CardTitle>
-              <CardDescription>Example of form + input + validation.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="label"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Label</FormLabel>
-                        <FormControl>
-                          <Input placeholder="New label" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button type="submit">Save</Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+            )}
+          </div>
         </div>
-      )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Recent activity</CardTitle>
-          <CardDescription>Example table layout.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Module</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Owner</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {["Auth", "Billing", "Analytics"].map((row) => (
-                <TableRow key={row}>
-                  <TableCell>{row}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">In progress</Badge>
-                  </TableCell>
-                  <TableCell>Team Lumi</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
       </Card>
+
+      {/* ===== Dashboard Grid ===== */}
+      <div className="grid gap-6 lg:grid-cols-3">
+        {/* Overview */}
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+            <CardDescription>Select a municipality to see its renewable potential.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <select
+              value={selectedMuni}
+              onChange={(e) => setSelectedMuni(e.target.value)}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">Select a municipality</option>
+              {municipalities.map((m) => (
+                <option key={m.municipality_id} value={m.municipality_id}>
+                  {m.name}
+                </option>
+              ))}
+            </select>
+
+            {selectedMuni && (
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Composite Renewable Score</span>
+                  <span className="font-bold">{compositeScore}/100</span>
+                </div>
+                <Progress value={compositeScore} className="h-3" />
+                <p className="text-xs text-muted-foreground">
+                  Averaged across solar, wind, hydro, and geothermal suitability.
+                </p>
+              </div>
+            )}
+
+            {!selectedMuni && (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Choose a municipality to display its renewable potential score.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Quick Actions */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <Link to="/ecosim" className="block">
+              <Button className="w-full">Run EcoSim</Button>
+            </Link>
+            <Link to="/chat" className="block">
+              <Button variant="outline" className="w-full">Ask LUMI AI</Button>
+            </Link>
+            <Link to="/energyhub" className="block">
+              <Button variant="outline" className="w-full">View EnergyHub</Button>
+            </Link>
+          </CardContent>
+        </Card>
+
+        {/* Saved Locations */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Saved Locations</CardTitle>
+            <CardDescription>Your bookmarked municipalities.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {!isLoggedIn ? (
+              <p className="text-sm text-muted-foreground">
+                <Link to="/login" className="underline text-primary">Log in</Link> to save locations.
+              </p>
+            ) : savedLocations.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No saved locations yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {savedLocations.map((loc) => (
+                  <li key={loc.id} className="flex items-center justify-between text-sm">
+                    <span>{loc.label || loc.municipalities?.name || "Municipality"}</span>
+                    <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
+                      <Button variant="ghost" size="sm">Open</Button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Saved Simulations */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Saved Projects</CardTitle>
+            <CardDescription>Your persisted EcoSim analyses.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {!isLoggedIn ? (
+              <p className="text-sm text-muted-foreground">
+                <Link to="/login" className="underline text-primary">Log in</Link> to save simulations.
+              </p>
+            ) : savedSimulations.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No saved simulations yet.</p>
+            ) : (
+              <ul className="space-y-2">
+                {savedSimulations.map((sim) => (
+                  <li key={sim.id} className="flex items-center justify-between text-sm">
+                    <span>{sim.label || "Unnamed Simulation"}</span>
+                    <Link to={`/ecosim?municipality=${sim.municipality_id}`}>
+                      <Button variant="ghost" size="sm">Open</Button>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* AI Center */}
+        <Card>
+          <CardHeader>
+            <CardTitle>AI Center</CardTitle>
+            <CardDescription>Quick insights from the LUMI assistant.</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Ask the AI about renewable energy in your area.
+            </p>
+            <div className="flex gap-2 flex-wrap">
+              <Link to="/chat">
+                <Button size="sm" variant="secondary">
+                  "Is solar good for Calamba?"
+                </Button>
+              </Link>
+              <Link to="/chat">
+                <Button size="sm" variant="secondary">
+                  "Compare wind vs hydro"
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </section>
   );
 }

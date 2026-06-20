@@ -53,3 +53,60 @@ def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
         )
 
     return claims
+
+
+# ---------------------------------------------------------------------------
+# Role-aware dependencies
+# ---------------------------------------------------------------------------
+
+def _get_user_role(user_id: str) -> str:
+    """Fetch the user's role from the user_roles table."""
+    client = get_supabase_public_client()
+    try:
+        res = client.table("user_roles").select("role").eq("user_id", user_id).single().execute()
+        data = getattr(res, "data", None)
+        if isinstance(data, dict):
+            return data.get("role", "user")
+        return "user"
+    except Exception:
+        return "user"
+
+
+def get_current_user_with_role(user: dict = Depends(get_verified_user)) -> dict:
+    """Return the verified user dict enriched with their role."""
+    user["role"] = _get_user_role(user.get("sub"))
+    return user
+
+
+def _get_effective_plan(user_id: str) -> str:
+    """Return the user's effective plan. Admins/devs are always premium."""
+    role = _get_user_role(user_id)
+    if role in ("admin", "dev"):
+        return "premium"
+    # For normal users, fetch from profiles
+    client = get_supabase_public_client()
+    try:
+        res = client.table("profiles").select("plan").eq("id", user_id).single().execute()
+        data = getattr(res, "data", None)
+        if isinstance(data, dict):
+            return data.get("plan", "free")
+        return "free"
+    except Exception:
+        return "free"
+
+
+def get_current_user_with_role_and_plan(user: dict = Depends(get_verified_user)) -> dict:
+    """Return the verified user dict enriched with their role and effective plan."""
+    user["role"] = _get_user_role(user.get("sub"))
+    user["plan"] = _get_effective_plan(user.get("sub"))
+    return user
+
+
+def require_admin(user: dict = Depends(get_verified_user)) -> dict:
+    """Require the authenticated user to have an admin or dev role."""
+    role = _get_user_role(user.get("sub"))
+    if role not in ("admin", "dev"):
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Admin access required")
+    user["role"] = role
+    user["plan"] = "premium"
+    return user
