@@ -4,6 +4,30 @@ import ThemeToggle from "@/components/shared/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
+function UserAvatar({ user, className = "" }) {
+  const initials = (user?.user_metadata?.full_name || user?.email || "U")
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+  const url = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+  return (
+    <div className={`relative inline-flex items-center justify-center rounded-full overflow-hidden border bg-primary/10 ${className}`}>
+      {url ? (
+        <img
+          src={url}
+          alt=""
+          className="h-full w-full object-cover"
+          onError={(e) => { e.target.style.display = "none"; }}
+        />
+      ) : (
+        <span className="text-xs font-bold text-primary">{initials}</span>
+      )}
+    </div>
+  );
+}
+
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
@@ -22,7 +46,7 @@ function LumLogo() {
 }
 
 export default function Navbar() {
-  const { session, signOut, isAdmin } = useAuth();
+  const { session, user, signOut, isAdmin } = useAuth();
   const location = useLocation();
 
   const links = [...navLinks];
@@ -55,9 +79,17 @@ export default function Navbar() {
             );
           })}
           {session ? (
-            <Button variant="outline" size="sm" onClick={signOut}>
-              Logout
-            </Button>
+            <div className="flex items-center gap-2 ml-2">
+              <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <UserAvatar user={user} className="h-8 w-8" />
+                <span className="text-sm font-medium hidden sm:inline">
+                  {user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User"}
+                </span>
+              </Link>
+              <Button variant="outline" size="sm" onClick={signOut}>
+                Logout
+              </Button>
+            </div>
           ) : (
             <Link to="/login">
               <Button size="sm">Login</Button>

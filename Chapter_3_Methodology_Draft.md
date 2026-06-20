@@ -425,7 +425,7 @@ Relationships: Many-to-one with regions. One-to-many with municipalities via pro
 
 Table 5. municipalities
 
-Purpose: Stores municipalities belonging to provinces.
+Purpose: Stores municipalities belonging to provinces, including pre-computed renewable energy suitability scores for dashboard rendering.
 
 | Field | Type | Description | Constraint |
 |-------|------|-------------|------------|
@@ -434,8 +434,23 @@ Purpose: Stores municipalities belonging to provinces.
 | name | text | Official municipality name. | NOT NULL |
 | lat | double precision | Municipality centroid latitude. | Nullable |
 | lon | double precision | Municipality centroid longitude. | Nullable |
+| solar_suitability_score | numeric(5,2) | Solar suitability score (0–100) based on irradiance and temperature. | Nullable |
+| solar_classification | character varying(20) | Categorical solar suitability class (e.g., Excellent, Good, Moderate, Poor). | Nullable |
+| solar_factors | jsonb | JSON object containing raw solar factor values for traceability. | Nullable |
+| wind_suitability_score | numeric(5,2) | Wind suitability score (0–100) based on wind speed. | Nullable |
+| wind_classification | character varying(20) | Categorical wind suitability class. | Nullable |
+| wind_factors | jsonb | JSON object containing raw wind factor values for traceability. | Nullable |
+| hydro_suitability_score | numeric(5,2) | Hydropower suitability score (0–100) based on terrain and rainfall. | Nullable |
+| hydro_classification | character varying(20) | Categorical hydropower suitability class. | Nullable |
+| hydro_factors | jsonb | JSON object containing raw hydropower factor values for traceability. | Nullable |
+| geothermal_suitability_score | numeric(5,2) | Geothermal suitability score (0–100) based on heat flow and fault proximity. | Nullable |
+| geothermal_classification | character varying(20) | Categorical geothermal suitability class. | Nullable |
+| geothermal_factors | jsonb | JSON object containing raw geothermal factor values for traceability. | Nullable |
+| composite_suitability_score | numeric(5,2) | Average of available renewable suitability scores for overall ranking. | Nullable |
+| composite_classification | character varying(20) | Categorical composite suitability class. | Nullable |
+| suitability_updated_at | timestamp with time zone | Timestamp of last suitability recalculation. | Nullable |
 
-Relationships: Many-to-one with provinces. One-to-many with barangays via municipality_id. One-to-many with municipality_climate_monthly via municipality_id. One-to-one with hydropower_suitability via municipality_id.
+Relationships: Many-to-one with provinces. One-to-many with barangays via municipality_id. One-to-many with municipality_climate_monthly via municipality_id. One-to-one with hydropower_suitability via municipality_id. One-to-one with geothermal_suitability via municipality_id. One-to-one with geothermal_output via municipality_id.
 
 Table 6. barangays
 
@@ -624,6 +639,451 @@ Purpose: Provides a unified denormalized view of the geographic hierarchy for fr
 | barangay_lon | double precision | Barangay longitude. |
 
 Relationships: Joins regions, provinces, municipalities, and barangays through their foreign key relationships.
+
+Table 14. profiles
+
+Purpose: Stores user profile information linked to Supabase Auth, including display name, organization, subscription plan, and preferred municipality.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Supabase Auth user identifier. | PRIMARY KEY, FOREIGN KEY references auth.users(id) ON DELETE CASCADE |
+| full_name | text | User display name. | Nullable |
+| avatar_url | text | User avatar image URL. | Nullable |
+| organization | text | User's organization or institution. | Nullable |
+| location | text | User's physical location. | Nullable |
+| preferred_municipality_id | integer | Bookmarked default municipality for dashboard. | Nullable |
+| plan | text | Subscription tier (free, researcher, planner). | DEFAULT 'free' |
+| is_active | boolean | Whether the account is active. | DEFAULT true |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+| updated_at | timestamp with time zone | Record update timestamp. | DEFAULT now() |
+
+Relationships: One-to-one with auth.users. One-to-one with user_roles via user_id. One-to-one with user_usage_limits via user_id. One-to-many with saved_locations via user_id. One-to-many with saved_simulations via user_id. One-to-many with chat_sessions via user_id.
+
+Table 15. user_roles
+
+Purpose: Stores role-based access control assignments for each user, supporting admin, dev, and standard user privileges.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| user_id | uuid | Supabase Auth user identifier. | PRIMARY KEY, FOREIGN KEY references auth.users(id) ON DELETE CASCADE |
+| role | app_role | Application role (user, admin, dev). | DEFAULT 'user', NOT NULL |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with auth.users. One-to-one with profiles via id. Row Level Security enabled; admin access controlled through role check policies.
+
+Table 16. user_usage_limits
+
+Purpose: Tracks monthly feature usage against free and premium plan limits to enforce tiered access.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| user_id | uuid | Supabase Auth user identifier. | PRIMARY KEY, FOREIGN KEY references auth.users(id) |
+| chat_messages_this_month | integer | Count of AI chat messages used this month. | DEFAULT 0 |
+| simulations_this_month | integer | Count of EcoSim simulations run this month. | DEFAULT 0 |
+| plan | text | Current subscription plan. | DEFAULT 'free' |
+
+Relationships: Many-to-one with auth.users. One-to-one with profiles via id. Row Level Security enabled; users can only view their own usage.
+
+Table 17. chat_sessions
+
+Purpose: Chat session grouping for the LUMI AI assistant, enabling conversation history and context retention.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Unique session identifier. | PRIMARY KEY, DEFAULT gen_random_uuid() |
+| user_id | uuid | Owner user identifier. | NOT NULL, FOREIGN KEY references auth.users(id) |
+| title | text | Session title. | Nullable |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with auth.users. One-to-many with chat_messages via session_id. Row Level Security enabled; users can only CRUD their own sessions.
+
+Table 18. chat_messages
+
+Purpose: Individual chat messages with RAG context metadata, supporting retrieval-augmented generation auditing.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Unique message identifier. | PRIMARY KEY, DEFAULT gen_random_uuid() |
+| session_id | uuid | Parent session identifier. | FOREIGN KEY references chat_sessions(id) ON DELETE CASCADE |
+| role | text | Message sender role (user or assistant). | CHECK (role IN ('user', 'assistant')) |
+| content | text | Message text content. | NOT NULL |
+| retrieved_chunks | jsonb | JSON array of retrieved RAG context chunks. | DEFAULT '[]' |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with chat_sessions. Row Level Security enabled; users can only CRUD messages belonging to their own sessions.
+
+Table 19. saved_locations
+
+Purpose: User bookmarked municipalities for quick access from the Decision Dashboard.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Unique bookmark identifier. | PRIMARY KEY, DEFAULT gen_random_uuid() |
+| user_id | uuid | Owner user identifier. | NOT NULL, FOREIGN KEY references auth.users(id) |
+| municipality_id | integer | Bookmarked municipality identifier. | NOT NULL, FOREIGN KEY references municipalities(municipality_id) ON UPDATE CASCADE ON DELETE RESTRICT |
+| label | text | Custom bookmark label. | Nullable |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with auth.users. Many-to-one with municipalities. Unique constraint on (user_id, municipality_id) preventing duplicate bookmarks. Row Level Security enabled; users can only CRUD their own locations.
+
+Table 20. saved_simulations
+
+Purpose: Persisted EcoSim simulation inputs and results per user, enabling historical comparison and project tracking.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Unique simulation record identifier. | PRIMARY KEY, DEFAULT gen_random_uuid() |
+| user_id | uuid | Owner user identifier. | NOT NULL, FOREIGN KEY references auth.users(id) |
+| label | text | Custom simulation label. | Nullable |
+| municipality_id | integer | Simulated municipality identifier. | FOREIGN KEY references municipalities(municipality_id) ON UPDATE CASCADE ON DELETE RESTRICT |
+| inputs | jsonb | EcoSim input parameters as JSON. | DEFAULT '{}' |
+| results | jsonb | Computed EcoSim results as JSON. | DEFAULT '{}' |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with auth.users. Many-to-one with municipalities. Row Level Security enabled; users can only CRUD their own simulations.
+
+Table 21. admin_audit_log
+
+Purpose: Records administrative actions for accountability and traceability of privileged operations.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| id | uuid | Unique audit log entry identifier. | PRIMARY KEY, DEFAULT gen_random_uuid() |
+| admin_id | uuid | Administrator user identifier. | FOREIGN KEY references auth.users(id) |
+| action | text | Action performed (e.g., ban_user, update_config). | NOT NULL |
+| target_user_id | uuid | Affected user identifier. | FOREIGN KEY references auth.users(id) |
+| details | jsonb | Additional action details as JSON. | DEFAULT '{}' |
+| created_at | timestamp with time zone | Record creation timestamp. | DEFAULT now() |
+
+Relationships: Many-to-one with auth.users (admin_id). Many-to-one with auth.users (target_user_id). Row Level Security enabled.
+
+Table 22. geothermal_output
+
+Purpose: Pre-computed geothermal energy output per municipality using physics-based reservoir temperature and thermal power estimates.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| municipality_id | integer | Parent municipality identifier. | PRIMARY KEY, FOREIGN KEY references municipalities(municipality_id) ON UPDATE CASCADE ON DELETE RESTRICT |
+| reservoir_temperature_c | double precision | Estimated reservoir temperature using Ts + (G × Depth) where Depth=2000m default. | Nullable |
+| estimated_flow_rate_kg_s | double precision | Inferred flow rate from aquifer permeability when direct measurement is unavailable. | Nullable |
+| thermal_power_mw | double precision | Thermal power in MW computed as Q = m · Cp · ΔT. | Nullable |
+| electric_power_mw | double precision | Electric power in MW computed as P = Q × efficiency (binary 0.12 or flash 0.15). | Nullable |
+| annual_energy_gwh | double precision | Annual energy production in GWh. | Nullable |
+| confidence_score | double precision | Confidence metric for the estimate. | Nullable |
+| source | text | Data source reference. | Nullable |
+| assumption | text | Key assumptions used in the calculation. | Nullable |
+
+Relationships: One-to-one with municipalities.
+
+Table 23. geothermal_suitability
+
+Purpose: Pre-computed geothermal suitability metrics per municipality derived from IHFC heat flow, PHIVOLCS fault data, Smithsonian volcano data, and Zenodo aquifer properties.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| municipality_id | integer | Parent municipality identifier. | PRIMARY KEY, FOREIGN KEY references municipalities(municipality_id) ON UPDATE CASCADE ON DELETE RESTRICT |
+| heat_flow_score | double precision | Normalized IHFC heat flow score (0–1), range 40–120 mW/m². | Nullable |
+| fault_density | double precision | Fault length (km) / municipality area (km²). | Nullable |
+| fault_distance_km | double precision | Haversine distance to nearest active fault (km). | Nullable |
+| volcano_distance_km | double precision | Haversine distance to nearest volcano (km). | Nullable |
+| aquifer_score | double precision | Normalized aquifer suitability score. | Nullable |
+| temperature_score | double precision | Normalized temperature anomaly score. | Nullable |
+| geothermal_score | double precision | Composite geothermal suitability score. | Nullable |
+| classification | text | Categorical suitability class. | Nullable |
+
+Relationships: One-to-one with municipalities.
+
+Database Entity-Relationship Diagram
+
+The following Mermaid diagram illustrates the complete logical schema of the LUMI PostgreSQL database, including all tables, primary keys, foreign keys, and cardinalities. The diagram is organized into four conceptual domains: Geographic Hierarchy (blue), Renewable Energy Suitability and Output (green), National Statistics and Machine Learning (orange), and User Management and AI Chat (purple).
+
+```mermaid
+erDiagram
+    regions ||--o{ provinces : "contains"
+    provinces ||--o{ municipalities : "contains"
+    municipalities ||--o{ barangays : "contains"
+    municipalities ||--o{ municipality_climate_monthly : "has climate"
+    municipalities ||--o| hydropower_suitability : "has"
+    municipalities ||--o| geothermal_suitability : "has"
+    municipalities ||--o| geothermal_output : "has"
+    municipalities ||--o{ saved_locations : "bookmarked in"
+    municipalities ||--o{ saved_simulations : "simulated in"
+
+    ml_model_registry ||--o{ forecast_cache : "produces"
+    chat_sessions ||--o{ chat_messages : "contains"
+
+    AuthUsers ||--o| profiles : "has profile"
+    AuthUsers ||--o| user_roles : "has role"
+    AuthUsers ||--o| user_usage_limits : "has limits"
+    AuthUsers ||--o{ chat_sessions : "owns"
+    AuthUsers ||--o{ saved_locations : "bookmarks"
+    AuthUsers ||--o{ saved_simulations : "saves"
+    AuthUsers ||--o{ admin_audit_log : "performs"
+    AuthUsers ||--o{ admin_audit_log : "targets"
+
+    regions {
+        int region_id PK
+        text name
+        float lat
+        float lon
+    }
+
+    provinces {
+        int province_id PK
+        int region_id FK
+        text name
+        float lat
+        float lon
+    }
+
+    municipalities {
+        int municipality_id PK
+        int province_id FK
+        text name
+        float lat
+        float lon
+        numeric solar_suitability_score
+        varchar solar_classification
+        jsonb solar_factors
+        numeric wind_suitability_score
+        varchar wind_classification
+        jsonb wind_factors
+        numeric hydro_suitability_score
+        varchar hydro_classification
+        jsonb hydro_factors
+        numeric geothermal_suitability_score
+        varchar geothermal_classification
+        jsonb geothermal_factors
+        numeric composite_suitability_score
+        varchar composite_classification
+        timestamptz suitability_updated_at
+    }
+
+    barangays {
+        int barangay_id PK
+        int municipality_id FK
+        text name
+        float lat
+        float lon
+    }
+
+    municipality_climate_monthly {
+        int municipality_id FK
+        smallint year
+        smallint month
+        float t2m
+        float t2m_max
+        float t2m_min
+        float rh2m
+        float prectotcorr
+        float ws10m
+        float allsky_sfc_sw_dwn
+        text source
+        timestamptz created_at
+        float cloud_amt
+        float surface_pressure
+        float elevation
+        float rhoa
+    }
+
+    hydropower_suitability {
+        int municipality_id PK,FK
+        int province_id FK
+        text municipality_name
+        text province
+        float latitude
+        float longitude
+        float elevation_m
+        float mean_elevation_m
+        float min_elevation_m
+        float max_elevation_m
+        float elevation_range_m
+        float mean_slope_deg
+        float hydraulic_head_m
+        float terrain_ruggedness
+        float watershed_gradient
+        float hydro_suitability_score
+        float estimated_hydropower_potential_kw
+        float runoff_potential
+        float gravity_flow_potential
+        float terrain_flatness
+        text slope_classification
+        text elevation_classification
+        float ridge_elevation
+        float terrain_exposure_index
+    }
+
+    geothermal_suitability {
+        int municipality_id PK,FK
+        float heat_flow_score
+        float fault_density
+        float fault_distance_km
+        float volcano_distance_km
+        float aquifer_score
+        float temperature_score
+        float geothermal_score
+        text classification
+    }
+
+    geothermal_output {
+        int municipality_id PK,FK
+        float reservoir_temperature_c
+        float estimated_flow_rate_kg_s
+        float thermal_power_mw
+        float electric_power_mw
+        float annual_energy_gwh
+        float confidence_score
+        text source
+        text assumption
+    }
+
+    national_energy_annual {
+        smallint year PK
+        numeric total_consumption_gwh
+        numeric residential_consumption_gwh
+        numeric commercial_consumption_gwh
+        numeric industrial_consumption_gwh
+        numeric others_consumption_gwh
+        numeric electricity_sales_gwh
+        numeric utilities_own_use_gwh
+        numeric system_losses_gwh
+        numeric luzon_peak_demand_mw
+        numeric visayas_peak_demand_mw
+        numeric mindanao_peak_demand_mw
+        numeric total_peak_demand_mw
+        numeric luzon_generation_gwh
+        numeric visayas_generation_gwh
+        numeric mindanao_generation_gwh
+        numeric coal_generation_gwh
+        numeric oil_based_generation_gwh
+        numeric natural_gas_generation_gwh
+        numeric renewable_generation_gwh
+        numeric geothermal_generation_gwh
+        numeric hydro_generation_gwh
+        numeric biomass_generation_gwh
+        numeric solar_generation_gwh
+        numeric wind_generation_gwh
+        numeric total_installed_capacity_mw
+        numeric total_dependable_capacity_mw
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    ml_model_registry {
+        uuid model_id PK
+        text model_name
+        text model_version
+        text model_type
+        text target_variable
+        date train_date
+        jsonb metrics
+        text model_path
+        boolean is_active
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    forecast_cache {
+        uuid forecast_id PK
+        uuid model_id FK
+        text target_variable
+        smallint horizon_years
+        smallint forecast_year
+        smallint forecast_month
+        numeric predicted_value
+        numeric lower_bound
+        numeric upper_bound
+        timestamptz created_at
+    }
+
+    chart_ai_insights {
+        uuid id PK
+        text chart_type
+        text chart_data_hash
+        text insight
+        timestamptz created_at
+    }
+
+    profiles {
+        uuid id PK,FK
+        text full_name
+        text avatar_url
+        text organization
+        text location
+        int preferred_municipality_id
+        text plan
+        boolean is_active
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    user_roles {
+        uuid user_id PK,FK
+        app_role role
+        timestamptz created_at
+    }
+
+    user_usage_limits {
+        uuid user_id PK,FK
+        int chat_messages_this_month
+        int simulations_this_month
+        text plan
+    }
+
+    chat_sessions {
+        uuid id PK
+        uuid user_id FK
+        text title
+        timestamptz created_at
+    }
+
+    chat_messages {
+        uuid id PK
+        uuid session_id FK
+        text role
+        text content
+        jsonb retrieved_chunks
+        timestamptz created_at
+    }
+
+    saved_locations {
+        uuid id PK
+        uuid user_id FK
+        int municipality_id FK
+        text label
+        timestamptz created_at
+    }
+
+    saved_simulations {
+        uuid id PK
+        uuid user_id FK
+        int municipality_id FK
+        text label
+        jsonb inputs
+        jsonb results
+        timestamptz created_at
+    }
+
+    admin_audit_log {
+        uuid id PK
+        uuid admin_id FK
+        text action
+        uuid target_user_id FK
+        jsonb details
+        timestamptz created_at
+    }
+
+    AuthUsers {
+        uuid id PK
+    }
+```
+
+The ERD is organized into four conceptual domains:
+
+- **Geographic Hierarchy (left)**: `regions` → `provinces` → `municipalities` → `barangays`, with `municipality_climate_monthly` providing time-series climate data per municipality.
+- **Renewable Energy Suitability and Output (center)**: `hydropower_suitability`, `geothermal_suitability`, and `geothermal_output` each share a one-to-one relationship with `municipalities`. The `municipalities` table itself stores denormalized composite scores for dashboard rendering.
+- **National Statistics and Machine Learning (right)**: `national_energy_annual` stores DOE time-series data for ARIMA forecasting. `ml_model_registry` and `forecast_cache` manage trained model versions and cached predictions.
+- **User Management and AI Chat (bottom)**: All user-centric tables reference `auth.users` (represented as `AuthUsers`) through Supabase Auth. `profiles`, `user_roles`, and `user_usage_limits` form the user identity layer. `chat_sessions` and `chat_messages` support the RAG-based AI assistant. `saved_locations` and `saved_simulations` enable personalization. `admin_audit_log` ensures accountability for privileged actions.
 
 
 9.7.2.2.8. Algorithm Structure
@@ -1104,4 +1564,135 @@ Table 19. ISO/IEC 25010 Evaluation Criteria Table
 | Portability | Replaceability | Individual components (e.g., LLM provider, database host) can be replaced without redesigning the entire system. | 1-5 |
 
 The ISO 25010 evaluation is conducted after the pilot run. End-user participants complete the Functional Suitability, Usability, and Reliability indicators. Expert evaluators (energy practitioners and software engineers) complete the Performance Efficiency, Compatibility, Security, Maintainability, and Portability indicators. Results are aggregated by category, and mean scores are computed for each indicator and overall quality characteristic.
+
+9.9. Statistical Treatment of Data
+
+9.9.1. Statistical Design
+
+The study employed the ISO/IEC 25010:2023 software product quality model as the primary framework for evaluating the LUMI system. Two parallel evaluation instruments were developed to ensure comprehensive assessment from both user-centered and technical perspectives. Instrument A was designed for end-users, including household decision-makers and electrical engineers, focusing on perceptual and experiential dimensions. Instrument B was designed for expert evaluators, including software engineers and renewable energy practitioners, focusing on technical and architectural dimensions.
+
+The evaluation covered nine quality characteristics defined in the ISO/IEC 25010:2023 standard. Each characteristic was operationalized through specific sub-characteristics and measurable indicators. The following evaluation dimensions were established:
+
+Functional Suitability
+
+Examines the degree to which the system provides functions that meet stated and implied needs of users when used under specified conditions. It assesses whether LUMI delivers all necessary tools for renewable energy decision support, whether its calculations produce accurate and physically plausible results, and whether its functions align with the stated objectives of supporting Philippine household renewable energy decisions.
+
+Performance Efficiency
+
+Evaluates the degree to which the system performs relative to the amount of resources used under stated conditions. It measures response times for page loads, API endpoints, and AI assistant queries, as well as memory utilization, CPU efficiency, and the system's ability to handle concurrent user load without degradation.
+
+Compatibility
+
+Assesses the degree to which the system can exchange information with other products, systems, or components, and perform its required functions while sharing the same hardware or software environment. It examines co-existence with browser-based applications and interoperability with external APIs including NASA POWER, Google Gemini, Groq, and Supabase PostgreSQL.
+
+Interaction Capability
+
+Measures the degree to which the system can be used by specified users to achieve specified goals with effectiveness, efficiency, and satisfaction in a specified context of use. It evaluates learnability, operability, user error protection, user engagement, inclusivity, and user interface aesthetics, ensuring the platform accommodates users with varying technical backgrounds.
+
+Reliability
+
+Evaluates the degree to which the system performs specified functions under specified conditions for a specified period of time. It assesses faultlessness during normal operation, availability when users need it, fault tolerance when external dependencies fail, and recoverability of user data and session state after interruptions.
+
+Security
+
+Measures the degree to which the system protects information and data so that persons or other products or systems have the degree of data access appropriate to their types and levels of authorization. It examines confidentiality through authentication and authorization mechanisms, integrity through data validation and access controls, and authenticity through identity verification and session management.
+
+Maintainability
+
+Assesses the degree to which the system can be effectively and efficiently modified without introducing defects or degrading existing product quality. It evaluates modularity through domain-based architecture, reusability of components across contexts, analysability of code and data flows, modifiability to accommodate changes, and testability of individual components.
+
+Flexibility
+
+Evaluates the degree to which the system can be effectively and efficiently adapted, installed, or replaced. It measures adaptability to different deployment environments, scalability to support growth in user base, installability with minimal configuration, and replaceability of individual components without architectural redesign.
+
+Safety
+
+Measures the degree to which the system under defined conditions avoids a state in which human life, health, property, or the environment is exposed to risk. It examines operational constraints that prevent dangerous reliance on automated recommendations, risk identification and communication to users, fail-safe behavior when failures occur, and hazard warnings for safety-critical installations.
+
+9.9.2. Statistical Method
+
+The study utilized descriptive and inferential statistical methods to analyze the evaluation results. Descriptive statistics, including the weighted mean and standard deviation, were applied to assess users' overall perception of the system's performance and the consistency of their responses. Inferential statistics, specifically independent sample t-tests, were employed to determine significant differences between end-user and expert evaluator scores, providing a deeper understanding of how technical and non-technical perspectives align.
+
+Simple Mean
+
+When the scores of the data have equal importance, the simple mean is computed to obtain the average score for each quality characteristic.
+
+Figure. Simple Mean Statistical Formula
+
+X = the average score
+∑x = total of all scores
+n = number of respondents or testers
+
+Standard Deviation (SD)
+
+Measures how spread out the responses are, indicating whether most respondents answered similarly or differently.
+
+Figure. Standard Deviation Formula
+
+S = sample standard deviation
+xi = each individual score (for example, each participant's rating)
+x̄ = mean (average of all scores)
+n = total number of scores (participants or data points)
+n-1 = degrees of freedom (used for sample SD rather than population SD)
+
+Independent Sample T-test
+
+Used to compare the means of two independent groups. For example, comparing the average scores of end-users and expert evaluators to determine if they differ significantly.
+
+Figure. Independent T-test Formula
+
+t = computed t-value for the independent t-test
+x̄1 = mean of group 1 (e.g., end-users)
+x̄2 = mean of group 2 (e.g., expert evaluators)
+s1² = variance of group 1
+s2² = variance of group 2
+n1 = sample size of group 1
+n2 = sample size of group 2
+
+Likert Scale Method
+
+The Likert scale method was used for the ISO 25010 evaluation. Participants rated items on a scale from 1 (Strongly Disagree) to 5 (Strongly Agree). This helped assess the system's quality, usability, and overall acceptability. Collected responses were analyzed to identify strengths and areas for enhancement.
+
+Table 20. ISO 25010:2023 Evaluation Likert Scale Table
+
+| Range | Scale Value | Interpretation |
+|-------|-------------|----------------|
+| 4.21 - 5.00 | 5 | Very High |
+| 3.41 - 4.20 | 4 | High |
+| 2.61 - 3.40 | 3 | Moderate |
+| 1.81 - 2.60 | 2 | Low |
+| 1.00 - 1.80 | 1 | Very Low |
+
+Weighted Overall Score
+
+To obtain a composite measure of system quality, the mean score for each quality characteristic was multiplied by its assigned weight, and the weighted scores were summed across all nine characteristics.
+
+Weighted Overall Score = Σ (Characteristic Mean × Weight)
+
+| Quality Characteristic | Weight |
+|------------------------|--------|
+| Functional Suitability | 0.18 |
+| Performance Efficiency | 0.12 |
+| Compatibility | 0.08 |
+| Interaction Capability | 0.15 |
+| Reliability | 0.12 |
+| Security | 0.10 |
+| Maintainability | 0.10 |
+| Flexibility | 0.08 |
+| Safety | 0.07 |
+| Total | 1.00 |
+
+Grade Interpretation
+
+| Overall Score | Grade | Interpretation |
+|---------------|-------|----------------|
+| 4.50 - 5.00 | Excellent | World-class quality for an academic project |
+| 3.50 - 4.49 | Good | Strong quality; minor improvements recommended |
+| 2.50 - 3.49 | Acceptable | Meets minimum standards; notable gaps exist |
+| 1.50 - 2.49 | Needs Improvement | Significant rework required |
+| 1.00 - 1.49 | Poor | Does not meet basic quality expectations |
+
+Segmented Analysis
+
+End-user responses were segmented by respondent type (Household/Resident and Electrical Engineer) to identify perception gaps between technical and non-technical end-users. Separate means and standard deviations were computed for each subgroup. Expert evaluator scores were reported independently and compared against end-user scores to highlight alignment or divergence in quality perceptions across respondent categories.
 

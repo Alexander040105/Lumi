@@ -130,7 +130,7 @@ export default function AdminUsers() {
           <table className="w-full text-sm">
             <thead className="bg-muted">
               <tr>
-                <th className="text-left p-3">Name</th>
+                <th className="text-left p-3">User</th>
                 <th className="text-left p-3">Email</th>
                 <th className="text-left p-3">Role</th>
                 <th className="text-left p-3">Plan</th>
@@ -140,9 +140,32 @@ export default function AdminUsers() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((u) => (
+              {filtered.map((u) => {
+                const initials = (u.full_name || u.email || "U")
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")
+                  .slice(0, 2)
+                  .toUpperCase();
+                return (
                 <tr key={u.id} className="border-t hover:bg-muted/50">
-                  <td className="p-3">{u.full_name || "—"}</td>
+                  <td className="p-3">
+                    <div className="flex items-center gap-2">
+                      {u.avatar_url ? (
+                        <img
+                          src={u.avatar_url}
+                          alt=""
+                          className="h-8 w-8 rounded-full object-cover border"
+                          onError={(e) => { e.target.style.display = "none"; }}
+                        />
+                      ) : (
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                          {initials}
+                        </div>
+                      )}
+                      <span>{u.full_name || "—"}</span>
+                    </div>
+                  </td>
                   <td className="p-3 text-xs text-muted-foreground truncate max-w-[160px]">
                     {u.email || "—"}
                   </td>
@@ -228,7 +251,8 @@ export default function AdminUsers() {
                     </div>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={7} className="p-6 text-center text-muted-foreground">

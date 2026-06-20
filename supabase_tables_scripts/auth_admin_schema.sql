@@ -245,3 +245,36 @@ from public.user_roles
 where public.profiles.id = public.user_roles.user_id
   and public.user_roles.role in ('admin', 'dev')
   and public.profiles.plan != 'premium';
+
+-- ---------------------------------------------------------------------------
+-- 10. Storage: avatars bucket
+-- ---------------------------------------------------------------------------
+-- Create the bucket if it doesn't exist (run via Supabase dashboard SQL editor)
+-- Note: bucket creation via SQL requires appropriate privileges.
+-- If this fails, create the bucket manually in Storage → New bucket.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('avatars', 'avatars', true, 2097152, array['image/jpeg','image/png','image/webp','image/gif'])
+on conflict (id) do nothing;
+
+-- Policy: anyone can read avatars
+create policy if not exists "Public read avatars"
+  on storage.objects for select
+  using (bucket_id = 'avatars');
+
+-- Policy: authenticated users can upload to their own folder
+create policy if not exists "Users upload own avatar"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'avatars'
+    and auth.uid() is not null
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- Policy: authenticated users can update/delete their own avatars
+create policy if not exists "Users manage own avatar"
+  on storage.objects for all
+  using (
+    bucket_id = 'avatars'
+    and auth.uid() is not null
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );

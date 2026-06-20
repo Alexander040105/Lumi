@@ -53,6 +53,12 @@ export function AuthProvider({ children }) {
     };
 
     fetchRole();
+
+    // Sync OAuth avatar from auth metadata to profiles
+    fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/sync-avatar`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    }).catch(() => {});
   }, [session]);
 
   const isAdmin = role === "admin" || role === "dev";

@@ -43,19 +43,25 @@ def _has_auth_admin_api(client: Any) -> bool:
 def _auth_user_to_dict(u: Any) -> dict:
     """Normalise a Supabase AuthUser (or dict fallback) to a plain dict."""
     if isinstance(u, dict):
+        meta = u.get("user_metadata") or {}
         return {
             "id": u.get("id"),
             "email": u.get("email"),
             "created_at": u.get("created_at"),
             "email_confirmed_at": u.get("email_confirmed_at"),
             "last_sign_in_at": u.get("last_sign_in_at"),
+            "full_name": meta.get("full_name") or meta.get("name"),
+            "avatar_url": meta.get("avatar_url") or meta.get("picture"),
         }
+    meta = (getattr(u, "user_metadata", None) or {}) if hasattr(u, "user_metadata") else {}
     return {
         "id": getattr(u, "id", None),
         "email": getattr(u, "email", None),
         "created_at": getattr(u, "created_at", None),
         "email_confirmed_at": getattr(u, "email_confirmed_at", None),
         "last_sign_in_at": getattr(u, "last_sign_in_at", None),
+        "full_name": meta.get("full_name") or meta.get("name"),
+        "avatar_url": meta.get("avatar_url") or meta.get("picture"),
     }
 
 
@@ -65,39 +71,54 @@ def _auth_user_to_dict(u: Any) -> dict:
 
 @router.get("/users")
 async def list_users(user: dict = Depends(require_admin)) -> dict[str, Any]:
-    """Return a paginated list of users with roles, profiles and real emails."""
+    """Return a paginated list of users with roles, profiles and real emails.
+
+    Uses Supabase Auth as the primary source so every auth user is visible,
+    even if they don't have a profile or role row yet.
+    """
     client = get_supabase_client()
 
     profiles_resp = client.table("profiles").select("*").execute()
-    profiles = profiles_resp.data or []
+    profiles = {p["id"]: p for p in (profiles_resp.data or [])}
 
     roles_resp = client.table("user_roles").select("user_id, role").execute()
     roles = {r["user_id"]: r["role"] for r in (roles_resp.data or [])}
 
-    # Try to enrich with real emails via Auth Admin API
-    emails: dict[str, str] = {}
+    users: list[dict] = []
     if _has_auth_admin_api(client):
         try:
             auth_resp = client.auth.admin.list_users()
             auth_users = auth_resp.users if hasattr(auth_resp, "users") else (auth_resp.data or {}).get("users", [])
             for u in auth_users:
                 ud = _auth_user_to_dict(u)
-                emails[ud["id"]] = ud["email"] or ""
+                uid = ud["id"]
+                prof = profiles.get(uid, {})
+                users.append({
+                    "id": uid,
+                    "full_name": prof.get("full_name") or ud.get("full_name"),
+                    "email": ud.get("email") or uid,
+                    "avatar_url": prof.get("avatar_url") or ud.get("avatar_url"),
+                    "role": roles.get(uid, "user"),
+                    "plan": prof.get("plan", "free"),
+                    "is_active": prof.get("is_active", True),
+                    "created_at": ud.get("created_at") or prof.get("created_at"),
+                })
         except Exception:
             pass
 
-    users = []
-    for p in profiles:
-        uid = p.get("id")
-        users.append({
-            "id": uid,
-            "full_name": p.get("full_name"),
-            "email": emails.get(uid, uid),
-            "role": roles.get(uid, "user"),
-            "plan": p.get("plan", "free"),
-            "is_active": p.get("is_active", True),
-            "created_at": p.get("created_at"),
-        })
+    # Fallback: if auth admin API is unavailable, return whatever profiles we have
+    if not users:
+        for uid, prof in profiles.items():
+            users.append({
+                "id": uid,
+                "full_name": prof.get("full_name"),
+                "email": prof.get("email") or uid,
+                "avatar_url": prof.get("avatar_url"),
+                "role": roles.get(uid, "user"),
+                "plan": prof.get("plan", "free"),
+                "is_active": prof.get("is_active", True),
+                "created_at": prof.get("created_at"),
+            })
 
     _log_admin_action(user.get("sub"), "list_users")
     return {"users": users}

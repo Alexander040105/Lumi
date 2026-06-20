@@ -1,4 +1,5 @@
 import json
+from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -46,6 +47,41 @@ async def update_profile(payload: dict, user: dict = Depends(get_verified_user))
         .execute()
     )
     return {"profile": resp.data[0] if resp.data else None}
+
+
+@router.post("/sync-avatar")
+async def sync_avatar(user: dict = Depends(get_verified_user)) -> dict:
+    """Sync avatar_url from auth.user_metadata into public.profiles.
+
+    Creates a minimal profile row if one doesn't exist yet.
+    """
+    client = get_supabase_client()
+    user_id = user.get("sub")
+    metadata = user.get("user_metadata") or {}
+    avatar_url = metadata.get("avatar_url") or metadata.get("picture")
+    full_name = metadata.get("full_name") or metadata.get("name")
+
+    # Check if profile exists
+    existing = client.table("profiles").select("id").eq("id", user_id).single().execute()
+
+    if existing.data:
+        updates: dict[str, Any] = {}
+        if avatar_url:
+            updates["avatar_url"] = avatar_url
+        if full_name:
+            updates["full_name"] = full_name
+        if updates:
+            client.table("profiles").update(updates).eq("id", user_id).execute()
+    else:
+        client.table("profiles").insert({
+            "id": user_id,
+            "full_name": full_name,
+            "avatar_url": avatar_url,
+            "plan": "free",
+            "is_active": True,
+        }).execute()
+
+    return {"avatar_url": avatar_url, "full_name": full_name}
 
 
 @router.post("/session")
