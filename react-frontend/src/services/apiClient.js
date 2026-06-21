@@ -18,8 +18,9 @@ export async function request(path, { token, ...options } = {}) {
 
   if (!response.ok) {
     let message = "Request failed";
+    const text = await response.clone().text();
     try {
-      const errorBody = await response.json();
+      const errorBody = JSON.parse(text);
       if (Array.isArray(errorBody.detail)) {
         message = errorBody.detail.map((d) => d.msg || String(d)).join("; ");
       } else if (typeof errorBody.detail === "string") {
@@ -30,7 +31,6 @@ export async function request(path, { token, ...options } = {}) {
         message = JSON.stringify(errorBody);
       }
     } catch {
-      const text = await response.text();
       if (text) message = text;
     }
     throw new Error(message);

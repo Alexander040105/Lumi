@@ -771,6 +771,7 @@ def build_ecosim_dashboard_response(
     except Exception:
         pass
 
+    nearby_geo_plants: list[dict[str, Any]] = []
     base_results = renewable_energy_calculator(
         house="Ecosim",
         municipality=municipality_name,
@@ -795,7 +796,6 @@ def build_ecosim_dashboard_response(
 
     # Apply proximity boost to geothermal score if municipality is near an operating plant
     raw_geo_score = float(geothermal_output.get("suitability_score", 0.0))
-    nearby_geo_plants: list[dict[str, Any]] = []
     if muni_lat is not None and muni_lon is not None:
         boosted_score, nearby_geo_plants = calculate_proximity_boost(
             float(muni_lat), float(muni_lon), raw_geo_score

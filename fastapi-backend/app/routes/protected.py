@@ -3,7 +3,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.dependencies.auth import get_verified_user
+from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
 from app.services.redis_client import get_redis
 from app.services.supabase_service import get_supabase_client
 
@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.get("/me")
-async def read_me(user=Depends(get_verified_user)):
+async def read_me(user=Depends(get_current_user_with_role_and_plan)):
     return {"user": user}
 
 

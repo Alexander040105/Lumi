@@ -1,7 +1,10 @@
 from fastapi import Depends, HTTPException, Request, status
 
-from app.auth.jwt import verify_jwt
-from app.services.supabase_service import get_supabase_public_client
+import logging
+
+from app.services.supabase_service import get_supabase_client, get_supabase_public_client
+
+logger = logging.getLogger(__name__)
 
 
 def get_bearer_token(request: Request) -> str:
@@ -14,45 +17,69 @@ def get_bearer_token(request: Request) -> str:
     return parts[1]
 
 
-def get_current_user(token: str = Depends(get_bearer_token)) -> dict:
-    try:
-        return verify_jwt(token)
-    except ValueError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+def _extract_user_data(user_response):
+    """Extract user dict from Supabase auth.get_user response."""
+    user_data = getattr(user_response, "user", None)
+    if not user_data and hasattr(user_response, "data"):
+        user_data = user_response.data
+    if isinstance(user_data, dict) and "user" in user_data:
+        user_data = user_data["user"]
+    return user_data
 
 
-def _extract_confirmed_at(user_data) -> str | None:
-    if not user_data:
-        return None
+def _build_user_claims(user_data) -> dict:
+    """Build a claims dict from Supabase User object or dict."""
     if isinstance(user_data, dict):
-        return user_data.get("email_confirmed_at") or user_data.get("confirmed_at")
-    return getattr(user_data, "email_confirmed_at", None) or getattr(user_data, "confirmed_at", None)
+        return {
+            "sub": user_data.get("id"),
+            "email": user_data.get("email"),
+            "email_confirmed_at": user_data.get("email_confirmed_at") or user_data.get("confirmed_at"),
+            "user_metadata": user_data.get("user_metadata", {}),
+        }
+    # Handle Supabase User object
+    return {
+        "sub": getattr(user_data, "id", None),
+        "email": getattr(user_data, "email", None),
+        "email_confirmed_at": getattr(user_data, "email_confirmed_at", None) or getattr(user_data, "confirmed_at", None),
+        "user_metadata": getattr(user_data, "user_metadata", {}) or {},
+    }
+
+
+def get_current_user(token: str = Depends(get_bearer_token)) -> dict:
+    client = get_supabase_public_client()
+    try:
+        user_response = client.auth.get_user(token)
+    except Exception:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    user_data = _extract_user_data(user_response)
+    if not user_data:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    return _build_user_claims(user_data)
 
 
 def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
+    client = get_supabase_public_client()
     try:
-        claims = verify_jwt(token)
-    except ValueError:
+        user_response = client.auth.get_user(token)
+    except Exception:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    confirmed_at = claims.get("email_confirmed_at") or claims.get("confirmed_at")
-    if confirmed_at:
-        return claims
+    user_data = _extract_user_data(user_response)
+    if not user_data:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    client = get_supabase_public_client()
-    user_response = client.auth.get_user(token)
-    user_data = getattr(user_response, "user", None) or getattr(user_response, "data", None)
-    if isinstance(user_data, dict) and "user" in user_data:
-        user_data = user_data["user"]
-
-    confirmed_at = _extract_confirmed_at(user_data)
+    confirmed_at = (
+        getattr(user_data, "email_confirmed_at", None)
+        or getattr(user_data, "confirmed_at", None)
+        or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
+    )
     if not confirmed_at:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Email address not verified"
         )
 
-    return claims
+    return _build_user_claims(user_data)
 
 
 # ---------------------------------------------------------------------------
@@ -60,15 +87,19 @@ def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
 # ---------------------------------------------------------------------------
 
 def _get_user_role(user_id: str) -> str:
-    """Fetch the user's role from the user_roles table."""
-    client = get_supabase_public_client()
+    """Fetch the user's role from the user_roles table using service_role (bypasses RLS)."""
+    client = get_supabase_client()
     try:
         res = client.table("user_roles").select("role").eq("user_id", user_id).single().execute()
         data = getattr(res, "data", None)
         if isinstance(data, dict):
-            return data.get("role", "user")
+            role = data.get("role", "user")
+            logger.debug("_get_user_role: user_id=%s role=%s", user_id, role)
+            return role
+        logger.warning("_get_user_role: no data returned for user_id=%s", user_id)
         return "user"
-    except Exception:
+    except Exception as exc:
+        logger.error("_get_user_role failed for user_id=%s: %s", user_id, exc)
         return "user"
 
 
@@ -83,15 +114,16 @@ def _get_effective_plan(user_id: str) -> str:
     role = _get_user_role(user_id)
     if role in ("admin", "dev"):
         return "premium"
-    # For normal users, fetch from profiles
-    client = get_supabase_public_client()
+    # For normal users, fetch from profiles using service_role
+    client = get_supabase_client()
     try:
         res = client.table("profiles").select("plan").eq("id", user_id).single().execute()
         data = getattr(res, "data", None)
         if isinstance(data, dict):
             return data.get("plan", "free")
         return "free"
-    except Exception:
+    except Exception as exc:
+        logger.error("_get_effective_plan failed for user_id=%s: %s", user_id, exc)
         return "free"
 
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminModeration() {
   const { accessToken } = useAuth();
@@ -18,7 +19,7 @@ export default function AdminModeration() {
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/admin/chat-sessions?limit=50`,
+        `${getApiBaseUrl()}/admin/chat-sessions?limit=50`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       const data = await res.json();
@@ -33,7 +34,7 @@ export default function AdminModeration() {
   const toggleFlag = async (sessionId, currentFlag) => {
     try {
       await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/admin/chat-sessions/${sessionId}/flag`,
+        `${getApiBaseUrl()}/admin/chat-sessions/${sessionId}/flag`,
         {
           method: "POST",
           headers: {

@@ -29,7 +29,7 @@ class Settings(BaseSettings):
             "SUPABASE_SERVICE_ROLE_KEY",
         ),
     )
-    supabase_jwt_secret: str
+    supabase_jwt_secret: str | None = None
 
     model_config = SettingsConfigDict(extra="ignore")
 

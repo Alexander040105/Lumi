@@ -51,7 +51,6 @@ function UserAvatar({ user, profile, className = "" }) {
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
-  { to: "/dashboard", label: "Dashboard" },
   { to: "/ecosim", label: "Ecosim" },
   { to: "/energyhub", label: "EnergyHub" },
   { to: "/chat", label: "Chat" },
@@ -71,9 +70,6 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const links = [...navLinks];
-  if (isAdmin) {
-    links.push({ to: "/admin", label: "Admin" });
-  }
 
   const displayName =
     profile?.full_name ||
@@ -151,26 +147,28 @@ export default function Navbar() {
                   </div>
                   <DropdownMenuSeparator />
                   {/* Menu Items */}
+                  {isAdmin && (
+                    <DropdownMenuItem
+                      onClick={() => navigate("/admin")}
+                      className="flex items-center gap-2 text-primary focus:text-primary"
+                    >
+                      <span className="text-base">🛡️</span>
+                      <span>Admin Portal</span>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem
                     onClick={() => navigate("/dashboard")}
                     className="flex items-center gap-2"
                   >
                     <span className="text-base">👤</span>
-                    <span>Profile</span>
+                    <span>Dashboard</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
-                    onClick={() => navigate("/dashboard#simulations")}
+                    onClick={() => navigate("/saved-simulations")}
                     className="flex items-center gap-2"
                   >
                     <span className="text-base">📊</span>
                     <span>Saved Simulations</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => navigate("/dashboard#settings")}
-                    className="flex items-center gap-2"
-                  >
-                    <span className="text-base">⚙️</span>
-                    <span>Settings</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminAnalytics() {
   const { accessToken } = useAuth();
@@ -8,7 +9,7 @@ export default function AdminAnalytics() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/analytics`, {
+    fetch(`${getApiBaseUrl()}/admin/analytics`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     })
       .then((r) => r.json())

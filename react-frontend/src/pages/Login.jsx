@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../services/supabaseClient";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [signupStatus, setSignupStatus] = useState(null); // 'confirm' | 'auto' | null
 
   if (session) {
     return <Navigate to={redirectTo} replace />;
@@ -24,6 +26,7 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setBusy(true);
+    setSignupStatus(null);
 
     try {
       if (mode === "signup" && password !== confirmPassword) {
@@ -38,9 +41,16 @@ export default function Login() {
       }
 
       if (mode === "signup") {
-        const { error } = await signUp(email, password);
-        if (error) throw error;
-        toast.success("Check your email to confirm your account");
+        const result = await signUp(email, password);
+        if (result.error) throw result.error;
+
+        if (result.confirmationRequired) {
+          setSignupStatus("confirm");
+          toast.success("Account created. Please check your email to confirm.");
+        } else {
+          setSignupStatus("auto");
+          toast.success("Account created and signed in!");
+        }
       }
 
       if (mode === "reset") {
@@ -50,6 +60,22 @@ export default function Login() {
       }
     } catch (error) {
       toast.error(error?.message || "Authentication failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const resendConfirmation = async () => {
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
+      });
+      if (error) throw error;
+      toast.success("Confirmation email resent. Check your inbox.");
+    } catch (error) {
+      toast.error(error?.message || "Failed to resend email");
     } finally {
       setBusy(false);
     }
@@ -114,6 +140,33 @@ export default function Login() {
               {mode === "signup" && "Create account"}
               {mode === "reset" && "Send reset email"}
             </Button>
+
+            {mode === "signup" && signupStatus === "confirm" && (
+              <div className="rounded-md bg-amber-50 p-3 text-sm text-amber-800 border border-amber-200">
+                <p className="font-medium">Check your email</p>
+                <p className="mt-1">
+                  We sent a confirmation link to <strong>{email}</strong>. Click it to verify your account.
+                </p>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="h-auto p-0 text-amber-700 underline"
+                  onClick={resendConfirmation}
+                  disabled={busy}
+                >
+                  Didn&apos;t receive it? Resend
+                </Button>
+              </div>
+            )}
+
+            {mode === "signup" && signupStatus === "auto" && (
+              <div className="rounded-md bg-green-50 p-3 text-sm text-green-800 border border-green-200">
+                <p className="font-medium">Account created!</p>
+                <p className="mt-1">
+                  You&apos;re signed in. No email confirmation required for this domain.
+                </p>
+              </div>
+            )}
           </form>
 
           <div className="flex items-center justify-between text-sm">

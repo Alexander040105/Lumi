@@ -9,6 +9,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function UserDetailDrawer({ user, open, onClose }) {
   const { accessToken } = useAuth();
@@ -30,7 +31,7 @@ export default function UserDetailDrawer({ user, open, onClose }) {
   const fetchDetail = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/users/${user.id}`, {
+      const res = await fetch(`${getApiBaseUrl()}/admin/users/${user.id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const data = await res.json();
@@ -46,7 +47,7 @@ export default function UserDetailDrawer({ user, open, onClose }) {
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${user.id}/simulations`,
+        `${getApiBaseUrl()}/admin/users/${user.id}/simulations`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       const data = await res.json();
@@ -62,7 +63,7 @@ export default function UserDetailDrawer({ user, open, onClose }) {
     setLoading(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${user.id}/reports`,
+        `${getApiBaseUrl()}/admin/users/${user.id}/reports`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       const data = await res.json();

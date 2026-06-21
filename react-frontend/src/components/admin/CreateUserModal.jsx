@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function CreateUserModal({ open, onClose, onCreated }) {
   const { accessToken } = useAuth();
@@ -44,7 +45,7 @@ export default function CreateUserModal({ open, onClose, onCreated }) {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
+      const res = await fetch(`${getApiBaseUrl()}/admin/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

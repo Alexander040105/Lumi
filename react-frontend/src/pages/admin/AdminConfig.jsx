@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminConfig() {
   const { accessToken } = useAuth();
@@ -17,7 +18,7 @@ export default function AdminConfig() {
     setSaving(true);
     setMessage("");
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/config`, {
+      await fetch(`${getApiBaseUrl()}/admin/config`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

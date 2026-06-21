@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import CreateUserModal from "@/components/admin/CreateUserModal";
 import UserDetailDrawer from "@/components/admin/UserDetailDrawer";
 import { useAuth } from "@/hooks/useAuth";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminUsers() {
   const { accessToken } = useAuth();
@@ -22,7 +23,7 @@ export default function AdminUsers() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/admin/users`, {
+      const res = await fetch(`${getApiBaseUrl()}/admin/users`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const data = await res.json();
@@ -198,7 +199,7 @@ export default function AdminUsers() {
                         variant={u.is_active ? "destructive" : "default"}
                         onClick={() =>
                           handleAction(
-                            `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${u.id}/ban`
+                            `${getApiBaseUrl()}/admin/users/${u.id}/ban`
                           )
                         }
                       >
@@ -208,7 +209,7 @@ export default function AdminUsers() {
                         value={u.role}
                         onChange={(e) =>
                           handleAction(
-                            `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${u.id}/role`,
+                            `${getApiBaseUrl()}/admin/users/${u.id}/role`,
                             "PUT",
                             { role: e.target.value }
                           )
@@ -223,7 +224,7 @@ export default function AdminUsers() {
                         value={u.plan}
                         onChange={(e) =>
                           handleAction(
-                            `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${u.id}/plan`,
+                            `${getApiBaseUrl()}/admin/users/${u.id}/plan`,
                             "PUT",
                             { plan: e.target.value }
                           )
@@ -240,7 +241,7 @@ export default function AdminUsers() {
                         onClick={() => {
                           if (confirm("Soft-delete this user? They will be banned and anonymised.")) {
                             handleAction(
-                              `${import.meta.env.VITE_API_URL}/api/v1/admin/users/${u.id}`,
+                              `${getApiBaseUrl()}/admin/users/${u.id}`,
                               "DELETE"
                             );
                           }

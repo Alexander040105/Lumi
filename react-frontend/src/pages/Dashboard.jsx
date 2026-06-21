@@ -395,89 +395,23 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Saved Simulations */}
-        <Card className="lg:col-span-3">
+        {/* Saved Simulations CTA */}
+        <Card>
           <CardHeader>
             <CardTitle>Saved Simulations</CardTitle>
-            <CardDescription>Your persisted EcoSim analyses.</CardDescription>
+            <CardDescription>Track your EcoSim analyses and chat history.</CardDescription>
           </CardHeader>
           <CardContent>
             {!isLoggedIn ? (
               <p className="text-sm text-muted-foreground">
                 <Link to="/login" className="underline text-primary">Log in</Link> to save simulations.
               </p>
-            ) : savedSimulations.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No saved simulations yet.</p>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {savedSimulations.map((sim) => {
-                  const res = sim.results || {};
-                  const recSource = res.recommended_source || "—";
-                  const municipality = res.municipality || sim.municipalities?.name || "—";
-                  const gen = res.estimated_generation_kwh;
-                  const created = sim.created_at
-                    ? new Date(sim.created_at).toLocaleDateString()
-                    : "";
-                  return (
-                    <div
-                      key={sim.id}
-                      className="rounded-lg border bg-card p-4 hover:shadow-sm transition-shadow"
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <h3
-                          className="font-semibold text-sm truncate flex-1"
-                          title={sim.label || "Unnamed Simulation"}
-                        >
-                          {sim.label || "Unnamed Simulation"}
-                        </h3>
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {municipality} • {recSource}
-                      </p>
-                      {gen !== undefined && gen !== null && (
-                        <p className="text-xs mt-2">
-                          <span className="font-medium">{Math.round(gen).toLocaleString()}</span>{" "}
-                          kWh/mo
-                        </p>
-                      )}
-                      {created && (
-                        <p className="text-xs text-muted-foreground mt-1">{created}</p>
-                      )}
-                      <div className="flex items-center gap-2 mt-3">
-                        <Link to={`/ecosim?simulation_id=${sim.id}`} className="flex-1">
-                          <Button variant="outline" size="sm" className="w-full">
-                            Open
-                          </Button>
-                        </Link>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={async () => {
-                            if (!window.confirm("Delete this simulation?")) return;
-                            try {
-                              const { error } = await supabase
-                                .from("saved_simulations")
-                                .delete()
-                                .eq("id", sim.id)
-                                .eq("user_id", user.id);
-                              if (error) throw error;
-                              setSavedSimulations((prev) =>
-                                prev.filter((s) => s.id !== sim.id)
-                              );
-                              toast.success("Simulation deleted");
-                            } catch (err) {
-                              toast.error("Failed to delete simulation");
-                            }
-                          }}
-                          className="text-destructive hover:text-destructive"
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <Link to="/saved-simulations">
+                <Button variant="outline" className="w-full">
+                  View All Saved Simulations
+                </Button>
+              </Link>
             )}
           </CardContent>
         </Card>

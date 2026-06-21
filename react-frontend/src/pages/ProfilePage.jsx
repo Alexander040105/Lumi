@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/services/supabaseClient";
+import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
-  const { user, accessToken } = useAuth();
+  const { user, accessToken, emailConfirmed } = useAuth();
   const [profile, setProfile] = useState({
     full_name: "",
     organization: "",
@@ -29,7 +30,7 @@ export default function ProfilePage() {
       });
 
     // Sync OAuth avatar from auth metadata to profiles on first load
-    fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/sync-avatar`, {
+    fetch(`${getApiBaseUrl()}/protected/sync-avatar`, {
       method: "POST",
       headers: { Authorization: `Bearer ${accessToken}` },
     }).catch(() => {});
@@ -39,7 +40,7 @@ export default function ProfilePage() {
     setSaving(true);
     setMessage("");
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/profile`, {
+      await fetch(`${getApiBaseUrl()}/protected/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +74,7 @@ export default function ProfilePage() {
       if (!publicUrl) throw new Error("Failed to get public URL");
 
       // Update profile in DB
-      await fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/profile`, {
+      await fetch(`${getApiBaseUrl()}/protected/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +96,7 @@ export default function ProfilePage() {
   const handleRemoveAvatar = async () => {
     setUploading(true);
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/profile`, {
+      await fetch(`${getApiBaseUrl()}/protected/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +127,20 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Profile Settings</h1>
+      <h1 className="text-2xl font-bold mb-2">Profile Settings</h1>
+
+      <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
+        <span>{user?.email}</span>
+        {emailConfirmed ? (
+          <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+            ✓ Verified
+          </span>
+        ) : (
+          <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+            ⚠ Unverified
+          </span>
+        )}
+      </div>
 
       {/* Avatar Section */}
       <div className="flex items-center gap-4 mb-6">

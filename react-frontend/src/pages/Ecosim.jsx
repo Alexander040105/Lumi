@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { getApiBaseUrl } from "@/utils/env";
 import { useSearchParams } from "react-router-dom";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -97,7 +98,7 @@ export default function Ecosim() {
     const loadSaved = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/v1/simulations/${simId}`,
+          `${getApiBaseUrl()}/simulations/${simId}`,
           { headers: { Authorization: `Bearer ${accessToken}` } }
         );
         if (!res.ok) throw new Error("Failed to load saved simulation");
@@ -179,7 +180,7 @@ export default function Ecosim() {
     setSaving(true);
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/v1/simulations`,
+        `${getApiBaseUrl()}/simulations`,
         {
           method: "POST",
           headers: {

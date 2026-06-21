@@ -154,56 +154,77 @@ create trigger on_auth_user_created
 -- Profiles: users read/update own, admins read all
 alter table public.profiles enable row level security;
 
-create policy if not exists "Users read own profile"
+drop policy if exists "Users read own profile" on public.profiles;
+create policy "Users read own profile"
   on public.profiles for select
   using (auth.uid() = id);
 
-create policy if not exists "Users update own profile"
+drop policy if exists "Users update own profile" on public.profiles;
+create policy "Users update own profile"
   on public.profiles for update
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
-create policy if not exists "Admins read all profiles"
+-- Helper: check admin status without RLS recursion (runs as table owner)
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.user_roles
+    where user_id = auth.uid() and role in ('admin', 'dev')
+  );
+$$;
+
+drop policy if exists "Admins read all profiles" on public.profiles;
+create policy "Admins read all profiles"
   on public.profiles for select
-  using (exists (
-    select 1 from public.user_roles ur
-    where ur.user_id = auth.uid() and ur.role in ('admin', 'dev')
-  ));
+  using (public.is_admin());
 
 -- User roles: users read own, admins read all
 alter table public.user_roles enable row level security;
 
-create policy if not exists "Users read own role"
+drop policy if exists "Users read own role" on public.user_roles;
+create policy "Users read own role"
   on public.user_roles for select
   using (auth.uid() = user_id);
 
-create policy if not exists "Admins read all roles"
+drop policy if exists "Admins read all roles" on public.user_roles;
+create policy "Admins read all roles"
   on public.user_roles for select
-  using (exists (
-    select 1 from public.user_roles ur
-    where ur.user_id = auth.uid() and ur.role in ('admin', 'dev')
-  ));
+  using (public.is_admin());
 
 -- Admin audit log: only admins can read
-create policy if not exists "Admins read audit log"
+alter table public.admin_audit_log enable row level security;
+
+drop policy if exists "Admins read audit log" on public.admin_audit_log;
+create policy "Admins read audit log"
   on public.admin_audit_log for select
-  using (exists (
-    select 1 from public.user_roles ur
-    where ur.user_id = auth.uid() and ur.role in ('admin', 'dev')
-  ));
+  using (public.is_admin());
 
 -- Saved simulations: users manage own
-create policy if not exists "Users manage own simulations"
+alter table public.saved_simulations enable row level security;
+
+drop policy if exists "Users manage own simulations" on public.saved_simulations;
+create policy "Users manage own simulations"
   on public.saved_simulations for all
   using (auth.uid() = user_id);
 
 -- Chat sessions: users manage own
-create policy if not exists "Users manage own chat sessions"
+alter table public.chat_sessions enable row level security;
+
+drop policy if exists "Users manage own chat sessions" on public.chat_sessions;
+create policy "Users manage own chat sessions"
   on public.chat_sessions for all
   using (auth.uid() = user_id);
 
 -- Chat messages: users manage via session ownership
-create policy if not exists "Users manage own chat messages"
+alter table public.chat_messages enable row level security;
+
+drop policy if exists "Users manage own chat messages" on public.chat_messages;
+create policy "Users manage own chat messages"
   on public.chat_messages for all
   using (exists (
     select 1 from public.chat_sessions cs
@@ -211,17 +232,18 @@ create policy if not exists "Users manage own chat messages"
   ));
 
 -- System config: everyone can read, only admins can write
-create policy if not exists "Anyone read system config"
+alter table public.system_config enable row level security;
+
+drop policy if exists "Anyone read system config" on public.system_config;
+create policy "Anyone read system config"
   on public.system_config for select
   to authenticated, anon
   using (true);
 
-create policy if not exists "Admins update system config"
+drop policy if exists "Admins update system config" on public.system_config;
+create policy "Admins update system config"
   on public.system_config for all
-  using (exists (
-    select 1 from public.user_roles ur
-    where ur.user_id = auth.uid() and ur.role in ('admin', 'dev')
-  ));
+  using (public.is_admin());
 
 -- ---------------------------------------------------------------------------
 -- 11. Fix: ensure existing pre-trigger users get profiles + roles
@@ -257,12 +279,14 @@ values ('avatars', 'avatars', true, 2097152, array['image/jpeg','image/png','ima
 on conflict (id) do nothing;
 
 -- Policy: anyone can read avatars
-create policy if not exists "Public read avatars"
+drop policy if exists "Public read avatars" on storage.objects;
+create policy "Public read avatars"
   on storage.objects for select
   using (bucket_id = 'avatars');
 
 -- Policy: authenticated users can upload to their own folder
-create policy if not exists "Users upload own avatar"
+drop policy if exists "Users upload own avatar" on storage.objects;
+create policy "Users upload own avatar"
   on storage.objects for insert
   with check (
     bucket_id = 'avatars'
@@ -271,10 +295,24 @@ create policy if not exists "Users upload own avatar"
   );
 
 -- Policy: authenticated users can update/delete their own avatars
-create policy if not exists "Users manage own avatar"
+drop policy if exists "Users manage own avatar" on storage.objects;
+create policy "Users manage own avatar"
   on storage.objects for all
   using (
     bucket_id = 'avatars'
     and auth.uid() is not null
     and (storage.foldername(name))[1] = auth.uid()::text
   );
+
+-- ---------------------------------------------------------------------------
+-- 12. Promote a user to admin (run manually with target email)
+-- ---------------------------------------------------------------------------
+-- Uncomment and replace 'user@example.com' with the actual email, then run:
+--
+-- update public.user_roles
+-- set role = 'admin'
+-- where user_id = (select id from auth.users where email = 'user@example.com');
+--
+-- update public.profiles
+-- set plan = 'premium'
+-- where id = (select id from auth.users where email = 'user@example.com');
