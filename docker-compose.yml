@@ -1,0 +1,66 @@
+# =============================================================================
+# LUMI - Docker Compose (DigitalOcean Droplet Deployment)
+# =============================================================================
+# Usage:
+#   1. Configure .env at repo root
+#   2. Build frontend: cd react-frontend && npm install && npm run build
+#   3. Start: docker compose up -d --build
+#   4. Stop:  docker compose down
+# =============================================================================
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/backend/Dockerfile
+    container_name: lumi-backend
+    env_file:
+      - .env
+    environment:
+      # Connect to the Docker Compose Redis service
+      # (Override this in .env if using an external Redis provider)
+      - UPSTASH_REDIS_URL=redis://redis:6379
+    volumes:
+      # Persist RAG FAISS index & generated data across restarts
+      - rag-data:/app/fastapi-backend/app/services/local_data
+    networks:
+      - lumi-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+
+  redis:
+    image: redis:7-alpine
+    container_name: lumi-redis
+    networks:
+      - lumi-net
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+
+  nginx:
+    image: nginx:alpine
+    container_name: lumi-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./react-frontend/dist:/usr/share/nginx/html:ro
+      - ./deploy/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - lumi-net
+    restart: unless-stopped
+
+networks:
+  lumi-net:
+    driver: bridge
+
+volumes:
+  rag-data:
+  redis-data:

@@ -1,0 +1,63 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets — NEVER bake these into an image
+.env
+.env.local
+.env.production
+*.pem
+*.key
+
+# Docs & Thesis
+*.md
+!README.md
+docs/
+ThesisResearchStudies/
+windsurf_data_extraction/
+Chapter_3*
+LUMI_Project_Checklist*
+thesis_papers_extract.json
+
+# Test & Notebook artifacts
+*.ipynb
+test_output.txt
+gemini_mock_test.txt
+retrieval_test_output.txt
+geocode_output.log
+lumi_erd.png
+
+# Mobile (not part of web deploy)
+expo-mobile/
+
+# Large datasets not needed for runtime
+# (keep DOE_Data_Extracted, GeothermalDatasets, philippine_geojson for backend)

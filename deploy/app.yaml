@@ -1,0 +1,76 @@
+# =============================================================================
+# DigitalOcean App Platform Specification for LUMI
+# =============================================================================
+# Usage:
+#   1. Push repo to GitHub/GitLab
+#   2. In DigitalOcean dashboard: Apps -> Create App -> GitHub source
+#   3. Select this repo and branch
+#   4. Replace all "${...}" placeholders with real values in App Platform UI
+#   5. Deploy
+# =============================================================================
+
+spec:
+  name: lumi
+  region: sgp  # Singapore — closest to Philippines. Use nyc/fra for US/EU.
+
+  static_sites:
+    - name: frontend
+      source_dir: /react-frontend
+      build_command: npm install && npm run build
+      output_dir: /dist
+      env:
+        - key: VITE_API_BASE_URL
+          value: ${APP_URL}/api/v1
+        - key: VITE_SUPABASE_URL
+          value: ${SUPABASE_URL}
+        - key: VITE_SUPABASE_ANON_KEY
+          value: ${SUPABASE_ANON_KEY}
+      routes:
+        - path: /
+      catchall_document: index.html
+
+  services:
+    - name: backend
+      source_dir: /fastapi-backend
+      dockerfile_path: ../deploy/backend/Dockerfile
+      github:
+        repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+        branch: main
+        deploy_on_push: true
+      http_port: 8080
+      instance_count: 1
+      instance_size_slug: basic-xxs  # Upgrade to basic-xs or professional-xs for more traffic
+      health_check:
+        http_path: /
+        port: 8080
+      env:
+        - key: APP_NAME
+          value: Lumi API
+        - key: API_V1_PREFIX
+          value: /api/v1
+        - key: CORS_ORIGINS
+          value: '["${APP_URL}"]'
+        - key: SUPABASE_URL
+          value: ${SUPABASE_URL}
+        - key: SUPABASE_ANON_KEY
+          value: ${SUPABASE_ANON_KEY}
+        - key: SUPABASE_SERVICE_ROLE_KEY
+          value: ${SUPABASE_SERVICE_ROLE_KEY}
+        - key: SUPABASE_JWT_SECRET
+          value: ${SUPABASE_JWT_SECRET}
+        - key: UPSTASH_REDIS_URL
+          value: ${UPSTASH_REDIS_URL}
+        - key: GEMINI_API_KEY
+          value: ${GEMINI_API_KEY}
+        - key: GROQ_API_KEY
+          value: ${GROQ_API_KEY}
+      routes:
+        - path: /api
+      
+  # Optional: Managed Redis for caching
+  # Uncomment after creating a Redis database in DigitalOcean:
+  # databases:
+  #   - name: redis
+  #     engine: REDIS
+  #     size: db-s-dev-database
+  #     version: "7"

@@ -1,0 +1,46 @@
+# =============================================================================
+# LUMI Environment Variables Template
+# =============================================================================
+# Copy these into your root .env file and fill in the real values.
+# NEVER commit the actual .env file to version control.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Supabase (Database + Auth)
+# ---------------------------------------------------------------------------
+SUPABASE_URL=https://xxxxxx.supabase.co
+SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+SUPABASE_JWT_SECRET=your-jwt-secret
+
+# ---------------------------------------------------------------------------
+# LLM APIs
+# ---------------------------------------------------------------------------
+GEMINI_API_KEY=AI...
+GROQ_API_KEY=gsk_...
+
+# ---------------------------------------------------------------------------
+# Redis (optional — used for caching)
+# The backend expects UPSTASH_REDIS_URL as the variable name.
+# For local dev: redis://localhost:6379
+# For DigitalOcean Managed Redis: rediss://default:password@host:port
+# For Docker Compose: redis://redis:6379
+# ---------------------------------------------------------------------------
+UPSTASH_REDIS_URL=redis://localhost:6379
+
+# ---------------------------------------------------------------------------
+# CORS (update with your production domain)
+# ---------------------------------------------------------------------------
+CORS_ORIGINS=["https://your-domain.com"]
+
+# ---------------------------------------------------------------------------
+# NASA POWER (public API — no key required)
+# https://power.larc.nasa.gov/
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Frontend Build-time Variables (only needed during npm run build)
+# ---------------------------------------------------------------------------
+# VITE_SUPABASE_URL=https://xxxxxx.supabase.co
+# VITE_SUPABASE_ANON_KEY=eyJ...
+# VITE_API_BASE_URL=https://your-domain.com/api/v1
