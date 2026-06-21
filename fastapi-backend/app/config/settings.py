@@ -9,7 +9,6 @@ from pydantic import AliasChoices, Field, field_validator
 
 
 ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
-print(f"Loading settings from: {ENV_FILE}")
 load_dotenv(ENV_FILE)
 
 
@@ -17,6 +16,10 @@ class Settings(BaseSettings):
     app_name: str = "Lumi API"
     api_v1_prefix: str = "/api/v1"
     cors_origins: List[str] = ["http://localhost:5173"]
+
+    # RAG / AI Assistant configuration
+    rag_enabled: bool = True
+    rag_warmup_on_startup: bool = True
 
     supabase_url: str
     supabase_anon_key: str = Field(
@@ -45,5 +48,4 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    print(f"Settings env file path: {ENV_FILE}")
     return Settings()

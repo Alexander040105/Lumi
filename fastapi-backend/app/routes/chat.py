@@ -116,8 +116,9 @@ async def chat_message(
     # NOTE: persistence skipped in MVP public mode (no user_id without auth)
     session_id = None
 
-    # Retrieve context
+    # Retrieve context (RAG) — gracefully falls back to empty list if RAG is unavailable
     chunks = _retrieve_context(message_text)
+    rag_used = bool(chunks)
 
     # Build prompt and generate
     prompt = _build_chat_prompt(message_text, chunks)
@@ -127,6 +128,7 @@ async def chat_message(
         "session_id": session_id,
         "role": "assistant",
         "message": response_text,
+        "rag_used": rag_used,
         "retrieved_chunks": chunks,
     }
 

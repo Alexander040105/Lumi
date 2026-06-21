@@ -1,0 +1,43 @@
+# =============================================================================
+# LUMI — Render Blueprint (Free Tier)
+# =============================================================================
+# Deploy the FastAPI backend to Render's free tier.
+# Sensitive env vars (SUPABASE_URL, GEMINI_API_KEY, etc.) must be added
+# manually in the Render dashboard.
+# =============================================================================
+
+services:
+  - type: web
+    name: lumi-backend
+    runtime: python
+    plan: free
+    region: singapore  # closest to Philippines; use oregon or frankfurt if needed
+    buildCommand: |
+      cd fastapi-backend && pip install -r requirements.txt
+    startCommand: |
+      cd fastapi-backend && uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: APP_NAME
+        value: Lumi API
+      - key: API_V1_PREFIX
+        value: /api/v1
+      - key: RAG_ENABLED
+        value: "true"
+      - key: RAG_WARMUP_ON_STARTUP
+        value: "false"  # Don't load model at startup (saves RAM at boot)
+      - key: OMP_NUM_THREADS
+        value: "1"  # Limit OpenMP threads
+      - key: MKL_NUM_THREADS
+        value: "1"  # Limit Intel MKL threads
+      - key: CORS_ORIGINS
+        value: '["https://your-vercel-domain.vercel.app"]'
+      # --- Set the following in the Render dashboard (not here) ---
+      # SUPABASE_URL
+      # SUPABASE_ANON_KEY
+      # SUPABASE_SERVICE_ROLE_KEY
+      # SUPABASE_JWT_SECRET
+      # GEMINI_API_KEY
+      # GROQ_API_KEY
+      # UPSTASH_REDIS_URL  (optional)

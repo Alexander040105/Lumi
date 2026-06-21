@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 from pathlib import Path
 from typing import Any
@@ -32,6 +33,9 @@ CHUNKS_PATH = LOCAL_DATA_DIR / "rag_chunks.json"
 KNOWLEDGE_JSON_PATH = LOCAL_DATA_DIR / "rag_knowledge_base.json"
 
 DEFAULT_EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+
+# RAG can be disabled entirely via env var (useful for memory-constrained hosts)
+RAG_ENABLED = os.getenv("RAG_ENABLED", "true").lower() not in ("false", "0", "no", "")
 
 
 def _index_is_stale() -> bool:
@@ -57,15 +61,26 @@ _embedder: "SentenceTransformer | None" = None
 def _get_embedder(model_name: str = DEFAULT_EMBEDDING_MODEL):
     global _embedder
     if _embedder is None:
+        if not RAG_ENABLED:
+            logger.warning("RAG is disabled via RAG_ENABLED env var.")
+            return None
         try:
+            import torch
+            torch.set_num_threads(1)
+            torch.set_num_interop_threads(1)
             from sentence_transformers import SentenceTransformer
         except ImportError as exc:
-            raise ImportError(
-                "sentence-transformers is required for RAG. "
-                "Add it to fastapi-backend/requirements.txt"
-            ) from exc
-        logger.info("Loading embedding model %s ...", model_name)
-        _embedder = SentenceTransformer(model_name)
+            logger.warning("sentence-transformers not available: %s", exc)
+            return None
+        try:
+            logger.info("Loading embedding model %s ...", model_name)
+            _embedder = SentenceTransformer(model_name, device="cpu")
+        except Exception as exc:
+            logger.error("Failed to load embedding model: %s", exc)
+            _embedder = "FAILED"
+            return None
+    if _embedder == "FAILED":
+        return None
     return _embedder
 
 
@@ -192,6 +207,8 @@ def build_faiss_index(
 
     texts = [c["text"] for c in chunks]
     embedder = _get_embedder(model_name)
+    if embedder is None:
+        raise RuntimeError("Embedder unavailable; cannot build FAISS index")
     logger.info("Encoding %s chunks ...", len(texts))
     embeddings = embedder.encode(
         texts,
@@ -250,9 +267,6 @@ def load_faiss_index(
     with open(chunks_path, "r", encoding="utf-8") as f:
         _chunks = json.load(f)
 
-    # sanity-check embedder is loadable (we don't need it yet, but we want early failure)
-    _get_embedder(model_name)
-
     logger.info("Loaded FAISS index with %s chunks", len(_chunks))
     return True
 
@@ -306,13 +320,21 @@ def retrieve_context(
     cosine similarity (range 0..1).  *score_threshold* filters out
     irrelevant matches.
     """
+    if not RAG_ENABLED:
+        logger.debug("RAG disabled via env var; skipping retrieval")
+        return []
+
     if _index is None:
         ensure_index_built(model_name=model_name)
 
     if _index is None or not _chunks:
-        raise RuntimeError("FAISS index is not available")
+        logger.warning("FAISS index unavailable; returning empty RAG results")
+        return []
 
     embedder = _get_embedder(model_name)
+    if embedder is None:
+        logger.warning("Embedder unavailable; returning empty RAG results")
+        return []
     query_emb = embedder.encode(
         [query],
         convert_to_numpy=True,
