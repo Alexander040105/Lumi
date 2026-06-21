@@ -149,7 +149,7 @@ def _fetch_climate_data(client) -> dict[int, dict[str, Any]]:
     """Fetch multi-year annual averages per municipality (all available years)."""
     resp = client.table("municipality_climate_monthly").select(
         "municipality_id, allsky_sfc_sw_dwn, ws10m, t2m, cloud_amt"
-    ).execute()
+    ).limit(10000).execute()
     rows = resp.data or []
     data: dict[int, dict[str, Any]] = defaultdict(dict)
     for r in rows:
@@ -174,7 +174,7 @@ def _fetch_climate_data(client) -> dict[int, dict[str, Any]]:
 def _fetch_hydro_data(client) -> dict[int, dict[str, Any]]:
     resp = client.table("hydropower_suitability").select(
         "municipality_id, hydro_suitability_score, hydraulic_head_m"
-    ).execute()
+    ).limit(10000).execute()
     rows = resp.data or []
     data: dict[int, dict[str, Any]] = {}
     for r in rows:
@@ -188,10 +188,10 @@ def _fetch_hydro_data(client) -> dict[int, dict[str, Any]]:
 
 
 def _fetch_geothermal_data(client) -> dict[int, dict[str, Any]]:
-    # 1. Fetch suitability scores (geothermal_score, temperature_score)
+    # 1. Fetch suitability scores (geothermal_score, temperature_score, mcda)
     resp = client.table("geothermal_suitability").select(
-        "municipality_id, geothermal_score, temperature_score"
-    ).execute()
+        "municipality_id, geothermal_score, geothermal_score_mcda, temperature_score"
+    ).limit(10000).execute()
     rows = resp.data or []
     data: dict[int, dict[str, Any]] = {}
     for r in rows:
@@ -199,6 +199,7 @@ def _fetch_geothermal_data(client) -> dict[int, dict[str, Any]]:
         if mid is not None:
             data[mid] = {
                 "geothermal_score": r.get("geothermal_score"),
+                "geothermal_score_mcda": r.get("geothermal_score_mcda"),
                 "temperature_score": r.get("temperature_score"),
             }
 
@@ -206,7 +207,7 @@ def _fetch_geothermal_data(client) -> dict[int, dict[str, Any]]:
     try:
         out_resp = client.table("geothermal_output").select(
             "municipality_id, reservoir_temperature_c"
-        ).execute()
+        ).limit(10000).execute()
         out_rows = out_resp.data or []
         for r in out_rows:
             mid = r.get("municipality_id")
@@ -285,6 +286,7 @@ def build_suitability_for_municipality(
         "hydro_factors": json.dumps(hydro_factors) if hydro_factors else None,
         "geothermal_suitability_score": geo_score,
         "geothermal_classification": get_classification(geo_score),
+        "geothermal_score_mcda": g.get("geothermal_score_mcda"),
         "geothermal_factors": json.dumps(geo_factors) if geo_factors else None,
         "composite_suitability_score": composite,
         "composite_classification": get_classification(composite),

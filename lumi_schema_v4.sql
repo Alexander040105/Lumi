@@ -383,6 +383,7 @@ CREATE TABLE IF NOT EXISTS "public"."municipalities" (
     "geothermal_suitability_score" numeric(5,2) DEFAULT NULL::numeric,
     "geothermal_classification" character varying(20) DEFAULT NULL::character varying,
     "geothermal_factors" "jsonb",
+    "geothermal_score_mcda" numeric(5,2) DEFAULT NULL::numeric,
     "composite_suitability_score" numeric(5,2) DEFAULT NULL::numeric,
     "composite_classification" character varying(20) DEFAULT NULL::character varying,
     "suitability_updated_at" timestamp with time zone
@@ -405,6 +406,10 @@ COMMENT ON COLUMN "public"."municipalities"."hydro_suitability_score" IS 'Hydrop
 
 
 COMMENT ON COLUMN "public"."municipalities"."geothermal_suitability_score" IS 'Geothermal suitability 0-100 based on heat flow and fault proximity';
+
+
+
+COMMENT ON COLUMN "public"."municipalities"."geothermal_score_mcda" IS 'AHP-based MCDA geothermal score 0-100 using IDW heat flow and distance-decay proximity';
 
 
 

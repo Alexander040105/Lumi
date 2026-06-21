@@ -28,13 +28,13 @@ def fetch_training_data() -> tuple[list[dict[str, Any]], list[str]]:
     """Load features and target from Supabase for all municipalities."""
     client = get_supabase_client()
 
-    suit_resp = client.table("geothermal_suitability").select("*").execute()
+    suit_resp = client.table("geothermal_suitability").select("*").limit(10000).execute()
     climate_resp = client.table("municipality_climate_monthly").select(
         "municipality_id,t2m"
-    ).limit(1).execute()
+    ).limit(10000).execute()
     hydro_resp = client.table("hydropower_suitability").select(
         "municipality_id,mean_elevation_m,mean_slope_deg"
-    ).execute()
+    ).limit(10000).execute()
 
     suit_rows = {r["municipality_id"]: r for r in (suit_resp.data or [])}
     climate_rows = {r["municipality_id"]: r for r in (climate_resp.data or [])}

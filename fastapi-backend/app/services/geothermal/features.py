@@ -83,6 +83,20 @@ def load_geothermal_datasets() -> dict[str, Any]:
     else:
         logger.warning("Heatflow data not found at %s", _HEATFLOW_CSV)
 
+    # Prefer spatial aquifer GeoJSON (municipality-level) over legacy CSV
+    aquifer_geojson = _LOCAL_DATA_DIR / "aquifers_ph.geojson"
+    if aquifer_geojson.exists():
+        try:
+            import geopandas as gpd
+            datasets["aquifers_gdf"] = gpd.read_file(aquifer_geojson)
+            logger.info("Loaded spatial aquifer data: %d polygons", len(datasets["aquifers_gdf"]))
+        except Exception as exc:
+            logger.warning("Failed to load aquifer GeoJSON: %s", exc)
+            datasets["aquifers_gdf"] = None
+    else:
+        datasets["aquifers_gdf"] = None
+
+    # Legacy CSV fallback
     aquifer_path = _DATASET_DIR / "aquifer_properties.csv"
     if aquifer_path.exists():
         datasets["aquifers"] = pd.read_csv(aquifer_path)
@@ -90,6 +104,42 @@ def load_geothermal_datasets() -> dict[str, Any]:
         logger.warning("Aquifer data not found at %s", aquifer_path)
 
     return datasets
+
+
+def query_aquifer_by_location(
+    lat: float, lon: float, gdf: Any | None
+) -> dict[str, float | None] | None:
+    """Point-in-polygon query for aquifer properties.
+
+    Args:
+        lat: Latitude (WGS84).
+        lon: Longitude (WGS84).
+        gdf: GeoDataFrame with aquifer polygons (must be in EPSG:4326).
+
+    Returns:
+        Dict with porosity, permeability_log10, thickness_m, depth_m, basin_name,
+        or None if point is not inside any polygon.
+    """
+    if gdf is None or gdf.empty:
+        return None
+
+    from shapely.geometry import Point
+
+    point = Point(lon, lat)
+    # GeoPandas spatial query
+    matches = gdf[gdf.geometry.contains(point)]
+    if matches.empty:
+        return None
+
+    # If multiple polygons overlap, take the first (or could average)
+    row = matches.iloc[0]
+    return {
+        "porosity": float(row["porosity"]) if "porosity" in row else None,
+        "permeability_log10": float(row["permeability_log10"]) if "permeability_log10" in row else None,
+        "thickness_m": float(row["thickness_m"]) if "thickness_m" in row else None,
+        "depth_m": float(row["depth_m"]) if "depth_m" in row else None,
+        "basin_name": str(row["basin_name"]) if "basin_name" in row else None,
+    }
 
 
 def calculate_fault_distance(muni_lat: float, muni_lon: float, faults: list[dict] | None = None) -> float | None:
@@ -160,8 +210,55 @@ def calculate_volcano_distance(muni_lat: float, muni_lon: float, volcanoes: list
     return round(min_dist, 2)
 
 
+def idw_heat_flow(
+    lat: float,
+    lon: float,
+    measurements: pd.DataFrame,
+    radius_km: float = 300.0,
+    power: float = 2.0,
+    min_points: int = 3,
+    prefer_onshore: bool = True,
+) -> float | None:
+    """Inverse Distance Weighting for heat-flow point data.
+
+    Args:
+        lat: Target latitude.
+        lon: Target longitude.
+        measurements: DataFrame with columns lat, lon, heat_flow_mw_m2,
+            and optionally 'environment' and 'elevation'.
+        radius_km: Maximum search radius (km). Default 300 km covers
+            Philippines from nearby land measurements (S. China, Taiwan,
+            Indonesia) when local data is sparse.
+        power: IDW power. p=2 is standard for heat-flow interpolation.
+        min_points: Minimum neighbours required for a reliable estimate.
+        prefer_onshore: If True, give 2x weight to onshore measurements.
+
+    Returns:
+        Interpolated heat flow (mW/m²), or None if insufficient neighbours.
+    """
+    if measurements is None or measurements.empty:
+        return None
+
+    weights = []
+    values = []
+
+    for _, row in measurements.iterrows():
+        d = _haversine(lat, lon, float(row["lat"]), float(row["lon"]))
+        if 0 < d < radius_km:
+            w = 1.0 / (d ** power)
+            if prefer_onshore and "onshore" in str(row.get("environment", "")).lower():
+                w *= 2.0
+            weights.append(w)
+            values.append(float(row["heat_flow_mw_m2"]))
+
+    if len(weights) < min_points:
+        return None
+
+    return sum(w * v for w, v in zip(weights, values)) / sum(weights)
+
+
 def calculate_heatflow_score(heat_flow_mw_m2: float | None) -> float | None:
-    """Normalize heat flow (mW/m2) to a 0-1 score using 40-120 range.
+    """Normalize heat flow (mW/m2) to a 0-1 score using 40-150 range.
 
     Args:
         heat_flow_mw_m2: Heat flow value in mW/m2.
@@ -171,7 +268,7 @@ def calculate_heatflow_score(heat_flow_mw_m2: float | None) -> float | None:
     """
     if heat_flow_mw_m2 is None:
         return None
-    return round(_normalize(heat_flow_mw_m2, 40.0, 120.0), 4)
+    return round(_normalize(heat_flow_mw_m2, 40.0, 150.0), 4)
 
 
 def calculate_aquifer_score(
@@ -304,42 +401,52 @@ def compute_geothermal_suitability(
     fault_dist = calculate_fault_distance(muni_lat, muni_lon, datasets.get("faults"))
     volcano_dist = calculate_volcano_distance(muni_lat, muni_lon, datasets.get("volcanoes"))
 
-    # Heat flow (nearest point within reasonable distance)
+    # Heat flow (IDW interpolation from nearest measurements)
     heat_flow_val: float | None = None
     heat_flow_score: float | None = None
     gradient: float | None = None
     hf_df = datasets.get("heatflow")
     if hf_df is not None and not hf_df.empty:
-        # Find nearest heat-flow measurement
-        min_hfd = float("inf")
-        for _, row in hf_df.iterrows():
-            d = _haversine(muni_lat, muni_lon, row["lat"], row["lon"])
-            if d < min_hfd:
-                min_hfd = d
-                heat_flow_val = float(row.get("heat_flow_mw_m2", 0))
+        heat_flow_val = idw_heat_flow(
+            muni_lat, muni_lon, hf_df, radius_km=300.0, power=2.0, min_points=3
+        )
         heat_flow_score = calculate_heatflow_score(heat_flow_val)
         gradient = calculate_geothermal_gradient(heat_flow_val)
 
-    # Aquifer (grid cell data has no lat/lon; filter by country and use median)
+    # Aquifer: prefer point-in-polygon spatial query, fall back to CSV median
     aquifer_score: float | None = None
     perm_val: float | None = None
     poro_val: float | None = None
     thick_val: float | None = None
-    aq_df = datasets.get("aquifers")
-    if aq_df is not None and not aq_df.empty:
-        # The aquifer CSV lacks lat/lon; filter by Country name.
-        country_col = "Country"
-        if country_col in aq_df.columns:
-            ph_aq = aq_df[aq_df[country_col].astype(str).str.contains("Philippines", case=False, na=False)]
-        else:
-            ph_aq = aq_df  # fallback: use entire dataset
+    basin_name: str | None = None
 
-        if not ph_aq.empty:
-            perm_val = float(ph_aq["Permeability"].median()) if "Permeability" in ph_aq.columns else None
-            poro_val = float(ph_aq["Porosity"].median()) if "Porosity" in ph_aq.columns else None
-            thick_val = float(ph_aq["Aquifer_thickness"].median()) if "Aquifer_thickness" in ph_aq.columns else None
+    # 1. Try spatial GeoJSON first
+    gdf = datasets.get("aquifers_gdf")
+    if gdf is not None and not gdf.empty:
+        aq_match = query_aquifer_by_location(muni_lat, muni_lon, gdf)
+        if aq_match:
+            poro_val = aq_match.get("porosity")
+            perm_val = aq_match.get("permeability_log10")
+            thick_val = aq_match.get("thickness_m")
+            basin_name = aq_match.get("basin_name")
             if perm_val is not None and poro_val is not None and thick_val is not None:
                 aquifer_score = calculate_aquifer_score(perm_val, poro_val, thick_val)
+
+    # 2. Fallback to legacy CSV median if spatial query returns nothing
+    if aquifer_score is None:
+        aq_df = datasets.get("aquifers")
+        if aq_df is not None and not aq_df.empty:
+            country_col = "Country"
+            if country_col in aq_df.columns:
+                ph_aq = aq_df[aq_df[country_col].astype(str).str.contains("Philippines", case=False, na=False)]
+            else:
+                ph_aq = aq_df
+            if not ph_aq.empty:
+                perm_val = float(ph_aq["Permeability"].median()) if "Permeability" in ph_aq.columns else None
+                poro_val = float(ph_aq["Porosity"].median()) if "Porosity" in ph_aq.columns else None
+                thick_val = float(ph_aq["Aquifer_thickness"].median()) if "Aquifer_thickness" in ph_aq.columns else None
+                if perm_val is not None and poro_val is not None and thick_val is not None:
+                    aquifer_score = calculate_aquifer_score(perm_val, poro_val, thick_val)
 
     # Temperature score (normalize surface temp 20-35 C as proxy)
     temp_score = _normalize(surface_temp_c, 20.0, 35.0) if surface_temp_c is not None else None
@@ -347,30 +454,43 @@ def compute_geothermal_suitability(
     # Fault density (simplified: assume one fault segment near municipality)
     fault_density = calculate_fault_density(5.0, municipality_area_km2) if fault_dist is not None else None
 
-    # Overall weighted geothermal score
-    weights = {
-        "heat_flow": 0.35,
-        "fault": 0.20,
-        "volcano": 0.15,
-        "aquifer": 0.20,
-        "temperature": 0.10,
-    }
-    scores = {
+    # --- AHP-based MCDA scoring (Section 6.2 of plan) ---
+    # Load dynamic weights from DB; fall back to defaults if unavailable
+    try:
+        from app.services.mcda_weights_service import get_weights
+        ahp_weights = get_weights("geothermal")
+    except Exception:
+        ahp_weights = {
+            "heat_flow": 0.30,
+            "fault": 0.15,
+            "volcano": 0.10,
+            "aquifer": 0.15,
+            "temperature": 0.10,
+        }
+
+    # Sub-scores (all 0-1)
+    sub_scores = {
         "heat_flow": heat_flow_score or 0.0,
-        "fault": (1.0 - _normalize(fault_dist or 0, 0, 100)) if fault_dist is not None else 0.0,
-        "volcano": (1.0 - _normalize(volcano_dist or 0, 0, 100)) if volcano_dist is not None else 0.0,
+        "fault": math.exp(-(fault_dist or 100) / 20.0) if fault_dist is not None else 0.0,
+        "volcano": math.exp(-(volcano_dist or 100) / 30.0) if volcano_dist is not None else 0.0,
         "aquifer": aquifer_score or 0.0,
         "temperature": temp_score or 0.0,
     }
+
+    # Availability flags (1.0 if data exists, 0.0 otherwise)
     avail = {
-        k: 1.0 if scores[k] > 0 or (k == "fault" and fault_dist is not None) or (k == "volcano" and volcano_dist is not None) else 0.0
-        for k in scores
+        k: 1.0 if sub_scores[k] > 0 or (k == "fault" and fault_dist is not None) or (k == "volcano" and volcano_dist is not None) else 0.0
+        for k in sub_scores
     }
-    total_weight = sum(weights[k] * avail[k] for k in weights)
+
+    total_weight = sum(ahp_weights[k] * avail[k] for k in ahp_weights)
     if total_weight > 0:
-        geothermal_score = sum(scores[k] * weights[k] * avail[k] for k in weights) / total_weight
+        geothermal_score = sum(sub_scores[k] * ahp_weights[k] * avail[k] for k in ahp_weights) / total_weight
     else:
         geothermal_score = 0.0
+
+    # Clamp and round
+    geothermal_score = max(0.0, min(1.0, geothermal_score))
 
     # Classification
     if geothermal_score >= 0.80:
@@ -391,11 +511,12 @@ def compute_geothermal_suitability(
         "temperature_score": round(temp_score, 4) if temp_score is not None else None,
         "geothermal_score": round(geothermal_score, 4),
         "classification": classification,
-        "_heat_flow_mw_m2": heat_flow_val,
+        "_heat_flow_mw_m2": round(heat_flow_val, 2) if heat_flow_val is not None else None,
         "_gradient_c_km": gradient,
         "_perm_log10": perm_val,
         "_porosity": poro_val,
         "_thickness_m": thick_val,
+        "_basin_name": basin_name,
     }
 
 

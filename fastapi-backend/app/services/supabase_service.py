@@ -28,6 +28,7 @@ class SupabaseRestQuery:
         self._select = "*"
         self._filters: list[tuple[str, str]] = []
         self._single = False
+        self._limit: int | None = None
 
     def select(self, columns: str = "*") -> "SupabaseRestQuery":
         self._select = columns
@@ -35,6 +36,14 @@ class SupabaseRestQuery:
 
     def eq(self, column: str, value: str) -> "SupabaseRestQuery":
         self._filters.append((column, value))
+        return self
+
+    def limit(self, n: int) -> "SupabaseRestQuery":
+        self._limit = n
+        return self
+
+    def offset(self, n: int) -> "SupabaseRestQuery":
+        self._offset = n
         return self
 
     def single(self) -> "SupabaseRestQuery":
@@ -47,6 +56,10 @@ class SupabaseRestQuery:
             params[column] = f"eq.{value}"
         if self._single:
             params["limit"] = "1"
+        elif self._limit is not None:
+            params["limit"] = str(self._limit)
+        if getattr(self, "_offset", None) is not None:
+            params["offset"] = str(self._offset)
 
         url = f"{self._client.base_url}/rest/v1/{self._table}"
         response = self._client.http.get(url, params=params, headers=self._client.headers)

@@ -35,28 +35,50 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 
 def fetch_municipalities() -> list[dict]:
     client = get_supabase_client()
-    resp = (
-        client.table("municipalities")
-        .select("municipality_id,name,lat,lon")
-        .execute()
-    )
-    return resp.data or []
+    all_rows: list[dict] = []
+    offset = 0
+    while True:
+        resp = (
+            client.table("municipalities")
+            .select("municipality_id,name,lat,lon")
+            .limit(1000)
+            .offset(offset)
+            .execute()
+        )
+        rows = resp.data or []
+        if not rows:
+            break
+        all_rows.extend(rows)
+        if len(rows) < 1000:
+            break
+        offset += 1000
+    return all_rows
 
 
 def fetch_all_climate() -> dict[int, float]:
-    """Fetch all climate temperatures in one query and map by municipality_id."""
+    """Fetch climate temperatures (2010 annual data) and map by municipality_id."""
     client = get_supabase_client()
-    resp = (
-        client.table("municipality_climate_monthly")
-        .select("municipality_id,t2m")
-        .limit(10000)
-        .execute()
-    )
     mapping: dict[int, float] = {}
-    for row in resp.data or []:
-        mid = row.get("municipality_id")
-        if mid is not None:
-            mapping[mid] = float(row.get("t2m", 0))
+    offset = 0
+    while True:
+        resp = (
+            client.table("municipality_climate_monthly")
+            .select("municipality_id,t2m")
+            .eq("year", 2010)
+            .limit(1000)
+            .offset(offset)
+            .execute()
+        )
+        rows = resp.data or []
+        if not rows:
+            break
+        for row in rows:
+            mid = row.get("municipality_id")
+            if mid is not None:
+                mapping[mid] = float(row.get("t2m", 0))
+        if len(rows) < 1000:
+            break
+        offset += 1000
     return mapping
 
 
@@ -119,6 +141,7 @@ def main() -> None:
             "aquifer_score": suit.get("aquifer_score"),
             "temperature_score": suit.get("temperature_score"),
             "geothermal_score": suit.get("geothermal_score"),
+            "geothermal_score_mcda": suit.get("geothermal_score"),
             "classification": suit.get("classification"),
         })
 

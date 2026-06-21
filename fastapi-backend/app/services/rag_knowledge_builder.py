@@ -795,7 +795,7 @@ def build_geothermal_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
     docs: list[dict[str, Any]] = []
     try:
         client = get_supabase_client()
-        resp = client.table("geothermal_suitability").select("*").execute()
+        resp = client.table("geothermal_suitability").select("*").limit(10000).execute()
         rows = resp.data or []
         if not rows:
             logger.warning("No geothermal suitability data found in Supabase")
@@ -803,11 +803,11 @@ def build_geothermal_knowledge(max_docs: int = 2000) -> list[dict[str, Any]]:
 
         # Load name maps
         name_map = _load_municipality_names()
-        muni_resp = client.table("municipalities").select("municipality_id,province_id,name").execute()
+        muni_resp = client.table("municipalities").select("municipality_id,province_id,name").limit(10000).execute()
         muni_rows = muni_resp.data or []
         muni_map = {m["municipality_id"]: m for m in muni_rows}
 
-        prov_resp = client.table("provinces").select("province_id,name").execute()
+        prov_resp = client.table("provinces").select("province_id,name").limit(10000).execute()
         prov_rows = prov_resp.data or []
         prov_map = {p["province_id"]: p["name"] for p in prov_rows}
 
@@ -908,7 +908,7 @@ def build_hydropower_suitability_knowledge(max_docs: int = 2000) -> list[dict[st
     docs: list[dict[str, Any]] = []
     try:
         client = get_supabase_client()
-        resp = client.table("hydropower_suitability").select("*").execute()
+        resp = client.table("hydropower_suitability").select("*").limit(10000).execute()
         rows = resp.data or []
         if not rows:
             logger.warning("No hydropower suitability data found in Supabase")

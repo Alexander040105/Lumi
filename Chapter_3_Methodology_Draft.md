@@ -387,7 +387,7 @@ The hydropower_suitability table stores terrain-derived hydropower metrics for e
 
 The ml_model_registry table tracks trained forecasting models, with a composite unique index on target_variable and is_active to ensure only one active model per target. The forecast_cache table stores pre-computed forecasts and links to ml_model_registry through model_id. The chart_ai_insights table caches AI-generated chart explanations.
 
-The user authentication and personalization layer is modeled through the `profiles`, `user_roles`, `saved_simulations`, `saved_locations`, `chat_sessions`, `chat_messages`, `user_usage_limits`, and `admin_audit_log` tables. The `profiles` table extends Supabase Auth user metadata with editable fields including full name, organization, location, and preferred municipality. The `user_roles` table stores a single role per user from the `app_role` enum (`user`, `admin`, `dev`), enabling role-based access control. The `saved_simulations` and `saved_locations` tables persist user-specific EcoSim results and municipality bookmarks, both foreign-keyed to `auth.users`. The `chat_sessions` and `chat_messages` tables store conversational history for the RAG-powered AI assistant, with `chat_messages` referencing `chat_sessions` through a foreign key. The `user_usage_limits` table tracks monthly consumption against plan limits. The `admin_audit_log` table records all privileged administrative actions for accountability.
+The user authentication and personalization layer is modeled through the `profiles`, `user_roles`, `saved_simulations`, `saved_locations`, `chat_sessions`, `chat_messages`, `user_usage_limits`, and `admin_audit_log` tables. The `profiles` table extends Supabase Auth user metadata with editable fields including full name, organization, location, and preferred municipality. The `user_roles` table stores a single role per user from the `app_role` enum (`user`, `admin`, `dev`), enabling role-based access control. The `saved_simulations` and `saved_locations` tables persist user-specific EcoSim results and municipality bookmarks, both foreign-keyed to `auth.users`. The `chat_sessions` and `chat_messages` tables store conversational history for the RAG-powered AI assistant, with `chat_messages` referencing `chat_sessions` through a foreign key. The `user_usage_limits` table tracks monthly consumption against plan limits. The `admin_audit_log` table records all privileged administrative actions for accountability. The `system_config` table stores global key-value settings such as chatbot availability, maintenance mode, and free-tier limits.
 
 A regional_lookup view joins all geographic hierarchy tables to provide a unified query interface for frontend location selection.
 
@@ -446,6 +446,7 @@ Purpose: Stores municipalities belonging to provinces, including pre-computed re
 | geothermal_suitability_score | numeric(5,2) | Geothermal suitability score (0–100) based on heat flow and fault proximity. | Nullable |
 | geothermal_classification | character varying(20) | Categorical geothermal suitability class. | Nullable |
 | geothermal_factors | jsonb | JSON object containing raw geothermal factor values for traceability. | Nullable |
+| geothermal_score_mcda | numeric(5,2) | AHP-based MCDA geothermal score (0–100) using IDW heat flow and distance-decay proximity. | Nullable |
 | composite_suitability_score | numeric(5,2) | Average of available renewable suitability scores for overall ranking. | Nullable |
 | composite_classification | character varying(20) | Categorical composite suitability class. | Nullable |
 | suitability_updated_at | timestamp with time zone | Timestamp of last suitability recalculation. | Nullable |
@@ -793,6 +794,18 @@ Purpose: Pre-computed geothermal suitability metrics per municipality derived fr
 
 Relationships: One-to-one with municipalities.
 
+Table 24. system_config
+
+Purpose: Stores global key-value configuration settings for the LUMI platform, including admin toggles for chatbot availability, maintenance mode, and free-tier usage limits.
+
+| Field | Type | Description | Constraint |
+|-------|------|-------------|------------|
+| key | text | Unique configuration key. | PRIMARY KEY |
+| value | jsonb | JSON object storing configuration values. | NOT NULL, DEFAULT '{}' |
+| updated_at | timestamp with time zone | Last update timestamp. | DEFAULT now() |
+
+Relationships: Standalone configuration table. Read-accessible to all authenticated users; write-access restricted to administrators.
+
 Database Entity-Relationship Diagram
 
 The following Mermaid diagram illustrates the complete logical schema of the LUMI PostgreSQL database, including all tables, primary keys, foreign keys, and cardinalities. The diagram is organized into four conceptual domains: Geographic Hierarchy (blue), Renewable Energy Suitability and Output (green), National Statistics and Machine Learning (orange), and User Management and AI Chat (purple).
@@ -854,6 +867,7 @@ erDiagram
         numeric geothermal_suitability_score
         varchar geothermal_classification
         jsonb geothermal_factors
+        numeric geothermal_score_mcda
         numeric composite_suitability_score
         varchar composite_classification
         timestamptz suitability_updated_at
@@ -1073,6 +1087,12 @@ erDiagram
         timestamptz created_at
     }
 
+    system_config {
+        text key PK
+        jsonb value
+        timestamptz updated_at
+    }
+
     AuthUsers {
         uuid id PK
     }
@@ -1083,7 +1103,7 @@ The ERD is organized into four conceptual domains:
 - **Geographic Hierarchy (left)**: `regions` → `provinces` → `municipalities` → `barangays`, with `municipality_climate_monthly` providing time-series climate data per municipality.
 - **Renewable Energy Suitability and Output (center)**: `hydropower_suitability`, `geothermal_suitability`, and `geothermal_output` each share a one-to-one relationship with `municipalities`. The `municipalities` table itself stores denormalized composite scores for dashboard rendering.
 - **National Statistics and Machine Learning (right)**: `national_energy_annual` stores DOE time-series data for ARIMA forecasting. `ml_model_registry` and `forecast_cache` manage trained model versions and cached predictions.
-- **User Management and AI Chat (bottom)**: All user-centric tables reference `auth.users` (represented as `AuthUsers`) through Supabase Auth. `profiles`, `user_roles`, and `user_usage_limits` form the user identity layer. `chat_sessions` and `chat_messages` support the RAG-based AI assistant. `saved_locations` and `saved_simulations` enable personalization. `admin_audit_log` ensures accountability for privileged actions.
+- **User Management and AI Chat (bottom)**: All user-centric tables reference `auth.users` (represented as `AuthUsers`) through Supabase Auth. `profiles`, `user_roles`, and `user_usage_limits` form the user identity layer. `chat_sessions` and `chat_messages` support the RAG-based AI assistant. `saved_locations` and `saved_simulations` enable personalization. `admin_audit_log` ensures accountability for privileged actions. `system_config` stores global admin toggles such as chatbot availability, maintenance mode, and free-tier limits.
 
 
 9.7.2.2.8. Algorithm Structure
@@ -1219,6 +1239,7 @@ Table X. Database Schema Additions for Auth, Chatbot, Dashboard, and Admin Featu
 | chat_messages | Individual chat messages | id (PK), session_id (FK), role, content, retrieved_chunks (JSONB), created_at |
 | user_usage_limits | Monthly usage tracking | user_id (PK, FK), chat_messages_this_month, simulations_this_month, plan |
 | admin_audit_log | Administrative action log | id (PK), admin_id (FK), action, target_user_id (FK), details (JSONB), created_at |
+| system_config | Global admin configuration | key (PK), value (JSONB), updated_at |
 
 9.7.3. Testing Procedures
 

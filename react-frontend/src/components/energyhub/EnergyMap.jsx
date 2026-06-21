@@ -7,10 +7,6 @@ const METRIC_OPTIONS = [
   { value: "wind_potential", label: "Wind Potential" },
   { value: "hydro_potential", label: "Hydropower Potential" },
   { value: "geothermal_potential", label: "Geothermal Potential" },
-  { value: "energy_consumption", label: "Energy Consumption" },
-  { value: "peak_demand", label: "Peak Demand" },
-  { value: "generation", label: "Generation" },
-  { value: "forecasted_demand", label: "Forecasted Demand" },
 ];
 
 const LEVEL_OPTIONS = [
@@ -30,23 +26,16 @@ function isSuitabilityMetric(metric) {
   return SUITABILITY_METRICS.includes(metric);
 }
 
-function getColorForValue(value, metric) {
+function getColorForValue(value) {
   if (value === null || value === undefined) {
     return "#94a3b8"; // slate-400 for no data
   }
-  if (isSuitabilityMetric(metric)) {
-    // 5-tier classification for all suitability metrics
-    if (value >= 81) return "#15803d"; // green-700 — Very High
-    if (value >= 61) return "#22c55e"; // green-500 — High
-    if (value >= 41) return "#eab308"; // yellow-500 — Moderate
-    if (value >= 21) return "#f97316"; // orange-500 — Low
-    return "#ef4444"; // red-500 — Very Low
-  }
-  // For national metrics, single value — use a blue scale
-  if (value > 100000) return "#1e40af";
-  if (value > 50000) return "#3b82f6";
-  if (value > 10000) return "#60a5fa";
-  return "#93c5fd";
+  // 5-tier classification for all suitability metrics
+  if (value >= 81) return "#15803d"; // green-700 — Very High
+  if (value >= 61) return "#22c55e"; // green-500 — High
+  if (value >= 41) return "#eab308"; // yellow-500 — Moderate
+  if (value >= 21) return "#f97316"; // orange-500 — Low
+  return "#ef4444"; // red-500 — Very Low
 }
 
 function getClassificationLabel(value) {
@@ -220,16 +209,14 @@ function FallbackMapGrid({ data, metric, level }) {
           <div
             key={`${item.region}-${item.province || idx}-${item.municipality || ""}`}
             className="rounded-lg border p-3 text-center transition-transform hover:scale-[1.02]"
-            style={{ borderLeft: `4px solid ${getColorForValue(item.value, metric)}` }}
+            style={{ borderLeft: `4px solid ${getColorForValue(item.value)}` }}
           >
             <p className="text-xs text-muted-foreground truncate">
               {displayName}
             </p>
-            <p className="mt-1 text-lg font-bold" style={{ color: getColorForValue(item.value, metric) }}>
-              {hasData
-                ? (isSuitabilityMetric(metric) ? `${item.value}` : item.value.toLocaleString())
-                : "N/A"}
-              {hasData && isSuitabilityMetric(metric) && <span className="text-xs ml-0.5">/100</span>}
+            <p className="mt-1 text-lg font-bold" style={{ color: getColorForValue(item.value) }}>
+              {hasData ? `${item.value}` : "N/A"}
+              {hasData && <span className="text-xs ml-0.5">/100</span>}
             </p>
             {hasData && item.classification && (
               <p className="text-[10px] text-muted-foreground">{item.classification}</p>
@@ -242,7 +229,7 @@ function FallbackMapGrid({ data, metric, level }) {
   );
 }
 
-function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
+function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} }) {
   const [L, setL] = useState(null);
   const [RL, setRL] = useState(null);
   const [rawGeojson, setRawGeojson] = useState(null);
@@ -335,13 +322,13 @@ function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
     return <FallbackMapGrid data={data} metric={metric} level={level} />;
   }
 
-  const { MapContainer, TileLayer, GeoJSON } = RL;
+  const { MapContainer, TileLayer, GeoJSON, ImageOverlay } = RL;
 
   const styleFeature = (feature) => {
     const item = feature.properties?._lumi_data;
     const val = item?.value ?? null;
     return {
-      fillColor: getColorForValue(val, metric),
+      fillColor: getColorForValue(val),
       weight: level === "municipality" ? 0.6 : 1.5,
       opacity: 1,
       color: "#64748b",
@@ -365,8 +352,8 @@ function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
     }
 
     if (hasData) {
-      const unit = isSuitabilityMetric(metric) ? "/100" : metric.includes("demand") ? " MW" : " GWh";
-      const color = getColorForValue(item.value, metric);
+      const unit = "/100";
+      const color = getColorForValue(item.value);
       tooltipHtml += `<div style="margin-top:4px">
         <span style="color:#64748b;font-size:12px">${metric.replace(/_/g, " ")}:</span>
         <strong style="font-size:14px;color:${color}">${item.value.toLocaleString()}${unit}</strong>
@@ -445,6 +432,27 @@ function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
             </RL.Marker>
           );
         })}
+        {/* Geothermal raster overlays (volcanoes, faults) */}
+        {overlays.volcanoes?.visible && overlays.volcanoes?.bounds && (
+          <ImageOverlay
+            url={overlays.volcanoes.url}
+            bounds={[
+              [overlays.volcanoes.bounds.south, overlays.volcanoes.bounds.west],
+              [overlays.volcanoes.bounds.north, overlays.volcanoes.bounds.east],
+            ]}
+            opacity={0.5}
+          />
+        )}
+        {overlays.faults?.visible && overlays.faults?.bounds && (
+          <ImageOverlay
+            url={overlays.faults.url}
+            bounds={[
+              [overlays.faults.bounds.south, overlays.faults.bounds.west],
+              [overlays.faults.bounds.north, overlays.faults.bounds.east],
+            ]}
+            opacity={0.5}
+          />
+        )}
       </MapContainer>
     </div>
   );
@@ -452,6 +460,9 @@ function LeafletMap({ data, metric, level, geothermalPlants = [] }) {
 
 function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapLoading = false, geothermalPlants = [] }) {
   const [leafletReady, setLeafletReady] = useState(false);
+  const [overlayManifest, setOverlayManifest] = useState(null);
+  const [showVolcanoes, setShowVolcanoes] = useState(false);
+  const [showFaults, setShowFaults] = useState(false);
 
   useEffect(() => {
     import("leaflet")
@@ -459,9 +470,35 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       .catch(() => setLeafletReady(false));
   }, []);
 
+  // Fetch overlay manifest once
+  useEffect(() => {
+    fetch("/geothermal_overlays.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setOverlayManifest(data))
+      .catch(() => setOverlayManifest(null));
+  }, []);
+
   const data = mapData?.items || [];
 
   const showSuitabilityLegend = isSuitabilityMetric(metric);
+  const isGeothermal = metric === "geothermal_potential";
+
+  const overlays = {
+    volcanoes: overlayManifest?.volcanoes
+      ? {
+          url: `/${overlayManifest.volcanoes.png_filename}`,
+          bounds: overlayManifest.volcanoes.bounds,
+          visible: showVolcanoes,
+        }
+      : null,
+    faults: overlayManifest?.faults
+      ? {
+          url: `/${overlayManifest.faults.png_filename}`,
+          bounds: overlayManifest.faults.bounds,
+          visible: showFaults,
+        }
+      : null,
+  };
 
   return (
     <div className="rounded-xl border bg-card p-6 shadow-sm">
@@ -472,12 +509,10 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             Energy Choropleth Map
           </h3>
           <p className="text-sm text-muted-foreground">
-            {showSuitabilityLegend
-              ? `${level === "municipality" ? "Municipality-level" : "Province-level"} renewable potential derived from climate & terrain data`
-              : "National-level metric (DOE data is not disaggregated below grid level)"}
+            {`${level === "municipality" ? "Municipality-level" : "Province-level"} renewable potential derived from climate & terrain data`}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           {/* Level toggle */}
           <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1">
             <MapIcon className="h-3.5 w-3.5 text-muted-foreground" />
@@ -509,6 +544,38 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
               ))}
             </select>
           </div>
+
+          {/* Overlay toggles (only when geothermal metric selected) */}
+          {isGeothermal && overlayManifest && (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowVolcanoes((v) => !v)}
+                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                  showVolcanoes
+                    ? "bg-red-50 border-red-200 text-red-700"
+                    : "bg-background border-muted text-muted-foreground hover:bg-muted"
+                }`}
+                title="Toggle volcano raster overlay"
+              >
+                <span className="inline-block h-2 w-2 rounded-full bg-red-500" />
+                Volcanoes
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFaults((v) => !v)}
+                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                  showFaults
+                    ? "bg-orange-50 border-orange-200 text-orange-700"
+                    : "bg-background border-muted text-muted-foreground hover:bg-muted"
+                }`}
+                title="Toggle fault raster overlay"
+              >
+                <span className="inline-block h-2 w-2 rounded-full bg-orange-500" />
+                Faults
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -522,7 +589,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       {!mapLoading && (
         <div className="mt-4">
           {leafletReady ? (
-            <LeafletMap data={data} metric={metric} level={level} geothermalPlants={geothermalPlants} />
+            <LeafletMap data={data} metric={metric} level={level} geothermalPlants={geothermalPlants} overlays={overlays} />
           ) : (
             <FallbackMapGrid data={data} metric={metric} level={level} />
           )}

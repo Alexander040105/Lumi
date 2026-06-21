@@ -108,16 +108,16 @@ export default function About() {
               between complex climate data and the communities who need it most.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <Link to="/dashboard">
+              <Link to="/energyhub">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
-                  <LayoutDashboard className="h-5 w-5" />
-                  Open Dashboard
+                  <BarChart3 className="h-5 w-5" />
+                  Try EnergyHub
                 </Button>
               </Link>
               <Link to="/ecosim">
                 <Button size="lg" variant="outline" className="gap-2 text-base">
                   <Zap className="h-5 w-5" />
-                  Try Simulation
+                  Try Ecosim
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -530,10 +530,10 @@ export default function About() {
               actionable insights tailored to the Philippines.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link to="/dashboard">
+              <Link to="/energyhub">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
                   <BarChart3 className="h-5 w-5" />
-                  Go to Dashboard
+                  Try EnergyHub
                 </Button>
               </Link>
               <Link to="/ecosim">

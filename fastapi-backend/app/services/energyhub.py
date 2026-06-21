@@ -114,14 +114,13 @@ class EnergyHubService:
     ) -> dict[str, Any]:
         """Build choropleth-ready data.
 
-        Because the DOE dataset is national-level only, sub-national
-        metrics are derived from:
-        1. Existing Supabase climate / terrain tables (renewable potential).
-        2. Grid-level generation shares (Luzon / Visayas / Mindanao)
-           apportioned to regions based on known geographic membership.
+        All metrics use sub-national data:
+        - Province-level: aggregated from municipality climate/terrain/suitability scores.
+        - Municipality-level: pre-computed suitability scores from Supabase.
 
         Args:
-            metric: Metric to visualise.
+            metric: Metric to visualise. One of: renewable_potential,
+                solar_potential, wind_potential, hydro_potential, geothermal_potential.
             level: "province" or "municipality". Municipality level uses
                 pre-computed suitability scores from the municipalities table.
         """
@@ -141,41 +140,9 @@ class EnergyHubService:
             items = self._build_municipality_potential_map(column_prefix)
             return {"items": items, "metric": metric, "level": level}
 
-        if metric in ("energy_consumption", "peak_demand", "generation"):
-            # National only — return a single national point
-            latest = self._ml.get_latest_statistics()
-            value = latest.get("total_consumption_gwh", 0)
-            if metric == "peak_demand":
-                value = latest.get("total_peak_demand_mw", 0)
-            elif metric == "generation":
-                value = latest.get("total_generation_gwh", 0)
-
-            items.append({
-                "region": "Philippines",
-                "province": None,
-                "municipality": None,
-                "value": round(value, 2),
-                "metric": metric,
-                "lat": 12.8797,
-                "lon": 121.7740,
-            })
-
-        elif metric == "renewable_potential":
+        if metric == "renewable_potential":
             # Province-level aggregation (backward compatible)
             items = self._build_renewable_potential_map()
-
-        elif metric == "forecasted_demand":
-            forecast = self._ml.get_forecast("consumption")
-            f_2030 = forecast["forecast_values"][-1] if forecast.get("forecast_values") else 0
-            items.append({
-                "region": "Philippines",
-                "province": None,
-                "municipality": None,
-                "value": round(f_2030, 2),
-                "metric": metric,
-                "lat": 12.8797,
-                "lon": 121.7740,
-            })
 
         elif metric == "geothermal_potential":
             items = self._build_geothermal_potential_map()
@@ -194,18 +161,18 @@ class EnergyHubService:
         try:
             prov_resp = client.table("provinces").select(
                 "province_id,name,lat,lon"
-            ).execute()
+            ).limit(10000).execute()
             prov_rows = prov_resp.data or []
 
             # Fetch municipalities with lat/lon for proximity boost
             muni_resp = client.table("municipalities").select(
                 "municipality_id,province_id,name,lat,lon"
-            ).execute()
+            ).limit(10000).execute()
             muni_rows = muni_resp.data or []
 
             geo_resp = client.table("geothermal_suitability").select(
                 "municipality_id,geothermal_score"
-            ).execute()
+            ).limit(10000).execute()
             geo_rows = geo_resp.data or []
 
             muni_to_prov = {m["municipality_id"]: m["province_id"] for m in muni_rows}
@@ -336,31 +303,31 @@ class EnergyHubService:
             # 1. Fetch provinces directly
             prov_resp = client.table("provinces").select(
                 "province_id,name,lat,lon"
-            ).execute()
+            ).limit(10000).execute()
             prov_rows = prov_resp.data or []
 
             # 2. Fetch hydropower suitability scores
             hydro_resp = client.table("hydropower_suitability").select(
                 "province,municipality_name,hydro_suitability_score"
-            ).execute()
+            ).limit(10000).execute()
             hydro_rows = hydro_resp.data or []
 
             # 2b. Fetch geothermal suitability scores
             geo_resp = client.table("geothermal_suitability").select(
                 "municipality_id,geothermal_score"
-            ).execute()
+            ).limit(10000).execute()
             geo_rows = geo_resp.data or []
 
             # 3. Fetch municipality → province mapping
             muni_resp = client.table("municipalities").select(
                 "municipality_id,province_id"
-            ).execute()
+            ).limit(10000).execute()
             muni_rows = muni_resp.data or []
 
             # 4. Fetch raw climate data (dataset is for 2010)
             climate_resp = client.table("municipality_climate_monthly").select(
                 "municipality_id,allsky_sfc_sw_dwn,ws10m"
-            ).eq("year", 2010).execute()
+            ).eq("year", 2010).limit(10000).execute()
             climate_rows = climate_resp.data or []
 
             # Build mappings

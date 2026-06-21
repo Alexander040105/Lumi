@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS "public"."geothermal_suitability" (
     "aquifer_score" double precision,
     "temperature_score" double precision,
     "geothermal_score" double precision,
+    "geothermal_score_mcda" double precision,
     "classification" text,
     CONSTRAINT "geothermal_suitability_pkey" PRIMARY KEY ("municipality_id"),
     CONSTRAINT "geothermal_suitability_municipality_id_fkey"
@@ -30,6 +31,7 @@ COMMENT ON COLUMN "public"."geothermal_suitability"."volcano_distance_km" IS 'Ha
 COMMENT ON COLUMN "public"."geothermal_suitability"."aquifer_score" IS 'Composite aquifer suitability (0-1) from permeability, porosity, and thickness.';
 COMMENT ON COLUMN "public"."geothermal_suitability"."temperature_score" IS 'Surface temperature anomaly score from NASA POWER (0-1).';
 COMMENT ON COLUMN "public"."geothermal_suitability"."geothermal_score" IS 'Overall weighted geothermal suitability (0-1).';
+COMMENT ON COLUMN "public"."geothermal_suitability"."geothermal_score_mcda" IS 'AHP-based MCDA geothermal suitability score (0-1) using distance-decay fault/volcano proximity.';
 COMMENT ON COLUMN "public"."geothermal_suitability"."classification" IS 'Categorical class: Low, Moderate, Good, High.';
 
 -- 2. Geothermal energy output estimates per municipality

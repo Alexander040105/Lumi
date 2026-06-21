@@ -159,10 +159,10 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link to="/dashboard">
+              <Link to="/energyhub">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
                   <BarChart3 className="h-5 w-5" />
-                  Explore Dashboard
+                  Try EnergyHub
                 </Button>
               </Link>
               <Link to="/about">
@@ -357,10 +357,10 @@ export default function Home() {
                   Try Ecosim
                 </Button>
               </Link>
-              <Link to="/dashboard">
+              <Link to="/energyhub">
                 <Button size="lg" variant="outline" className="gap-2 text-base">
-                  <MapPin className="h-5 w-5" />
-                  Explore by Region
+                  <BarChart3 className="h-5 w-5" />
+                  Try EnergyHub
                 </Button>
               </Link>
             </div>
