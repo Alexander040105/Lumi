@@ -88,6 +88,7 @@ class MapDataItem(BaseModel):
     metric: str
     lat: float | None = None
     lon: float | None = None
+    nearby_plants: list[dict[str, Any]] | None = None
 
 
 class MapDataResponse(BaseModel):

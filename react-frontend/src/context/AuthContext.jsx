@@ -7,6 +7,7 @@ export const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null);
   const [role, setRole] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,31 +29,43 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  // Fetch user role from profiles/user_roles whenever the session changes
+  // Fetch user role and profile whenever the session changes
   useEffect(() => {
     if (!session?.user) {
       setRole(null);
+      setProfile(null);
       return;
     }
 
-    const fetchRole = async () => {
+    const fetchRoleAndProfile = async () => {
       try {
-        const { data, error } = await supabase
+        // Fetch role
+        const { data: roleData, error: roleError } = await supabase
           .from("user_roles")
           .select("role")
           .eq("user_id", session.user.id)
           .single();
-        if (!error && data) {
-          setRole(data.role);
+        if (!roleError && roleData) {
+          setRole(roleData.role);
         } else {
           setRole("user");
+        }
+
+        // Fetch profile
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+        if (!profileError && profileData) {
+          setProfile(profileData);
         }
       } catch {
         setRole("user");
       }
     };
 
-    fetchRole();
+    fetchRoleAndProfile();
 
     // Sync OAuth avatar from auth metadata to profiles
     fetch(`${import.meta.env.VITE_API_URL}/api/v1/protected/sync-avatar`, {
@@ -70,6 +83,7 @@ export function AuthProvider({ children }) {
       session,
       user: session?.user ?? null,
       accessToken: session?.access_token ?? null,
+      profile,
       loading,
       role,
       isAdmin,
@@ -84,9 +98,18 @@ export function AuthProvider({ children }) {
           redirectTo: `${window.location.origin}/reset-password`
         }),
       updatePassword: (newPassword) => supabase.auth.updateUser({ password: newPassword }),
-      signOut: () => supabase.auth.signOut()
+      signOut: () => supabase.auth.signOut(),
+      refreshProfile: async () => {
+        if (!session?.user) return;
+        const { data } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+        if (data) setProfile(data);
+      },
     }),
-    [session, loading, role, isAdmin, effectivePlan, isPremium]
+    [session, loading, role, isAdmin, effectivePlan, isPremium, profile]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,25 +1,45 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/useAuth";
 
-function UserAvatar({ user, className = "" }) {
-  const initials = (user?.user_metadata?.full_name || user?.email || "U")
+function UserAvatar({ user, profile, className = "" }) {
+  const displayName =
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    user?.email ||
+    "U";
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
-  const url = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+  // Priority: custom uploaded avatar > OAuth avatar_url > OAuth picture
+  const url =
+    profile?.avatar_url ||
+    user?.user_metadata?.avatar_url ||
+    user?.user_metadata?.picture;
   return (
-    <div className={`relative inline-flex items-center justify-center rounded-full overflow-hidden border bg-primary/10 ${className}`}>
+    <div
+      className={`relative inline-flex items-center justify-center rounded-full overflow-hidden border bg-primary/10 ${className}`}
+    >
       {url ? (
         <img
           src={url}
           alt=""
           className="h-full w-full object-cover"
-          onError={(e) => { e.target.style.display = "none"; }}
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
         />
       ) : (
         <span className="text-xs font-bold text-primary">{initials}</span>
@@ -46,13 +66,21 @@ function LumLogo() {
 }
 
 export default function Navbar() {
-  const { session, user, signOut, isAdmin } = useAuth();
+  const { session, user, profile, signOut, isAdmin } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const links = [...navLinks];
   if (isAdmin) {
     links.push({ to: "/admin", label: "Admin" });
   }
+
+  const displayName =
+    profile?.full_name ||
+    user?.user_metadata?.full_name ||
+    user?.email?.split("@")[0] ||
+    "User";
+  const userEmail = user?.email || "";
 
   return (
     <header className="border-b bg-card/80 backdrop-blur supports-[backdrop-filter]:bg-card/60">
@@ -62,7 +90,9 @@ export default function Navbar() {
         </Link>
         <nav className="flex items-center gap-1">
           {links.map((link) => {
-            const isActive = location.pathname === link.to || (link.to !== "/" && location.pathname.startsWith(link.to));
+            const isActive =
+              location.pathname === link.to ||
+              (link.to !== "/" && location.pathname.startsWith(link.to));
             return (
               <Link
                 key={link.to}
@@ -80,15 +110,81 @@ export default function Navbar() {
           })}
           {session ? (
             <div className="flex items-center gap-2 ml-2">
-              <Link to="/profile" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                <UserAvatar user={user} className="h-8 w-8" />
-                <span className="text-sm font-medium hidden sm:inline">
-                  {user?.user_metadata?.full_name || user?.email?.split("@")[0] || "User"}
-                </span>
-              </Link>
-              <Button variant="outline" size="sm" onClick={signOut}>
-                Logout
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex items-center gap-2 rounded-md hover:bg-muted transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring px-2 py-1">
+                    <UserAvatar
+                      user={user}
+                      profile={profile}
+                      className="h-8 w-8"
+                    />
+                    <span
+                      className="text-sm font-medium hidden md:inline max-w-[120px] truncate"
+                      title={displayName}
+                    >
+                      {displayName}
+                    </span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-64 p-2"
+                >
+                  {/* User Info Header */}
+                  <div className="flex items-center gap-3 px-2 py-2">
+                    <UserAvatar
+                      user={user}
+                      profile={profile}
+                      className="h-10 w-10"
+                    />
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-sm font-semibold truncate" title={displayName}>
+                        {displayName}
+                      </span>
+                      <span
+                        className="text-xs text-muted-foreground truncate"
+                        title={userEmail}
+                      >
+                        {userEmail}
+                      </span>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  {/* Menu Items */}
+                  <DropdownMenuItem
+                    onClick={() => navigate("/dashboard")}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-base">👤</span>
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate("/dashboard#simulations")}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-base">📊</span>
+                    <span>Saved Simulations</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate("/dashboard#settings")}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-base">⚙️</span>
+                    <span>Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={() => {
+                      signOut();
+                      navigate("/");
+                    }}
+                    className="flex items-center gap-2 text-destructive focus:text-destructive"
+                  >
+                    <span className="text-base">🚪</span>
+                    <span>Logout</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           ) : (
             <Link to="/login">

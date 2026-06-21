@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
@@ -9,7 +9,6 @@ import Dashboard from "../pages/Dashboard";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
 import ChatPage from "../pages/ChatPage";
-import ProfilePage from "../pages/ProfilePage";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminAnalytics from "../pages/admin/AdminAnalytics";
@@ -65,14 +64,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="profile" element={<Navigate to="/dashboard" replace />} />
           <Route
             path="admin"
             element={

@@ -20,9 +20,16 @@ export const DropdownMenuContent = ({ className, sideOffset = 8, ...props }) => 
 export const DropdownMenuItem = ({ className, ...props }) => (
   <DropdownMenuPrimitive.Item
     className={cn(
-      "cursor-pointer select-none rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent",
+      "cursor-pointer select-none rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground",
       className
     )}
+    {...props}
+  />
+);
+
+export const DropdownMenuSeparator = ({ className, ...props }) => (
+  <DropdownMenuPrimitive.Separator
+    className={cn("my-1 h-px bg-muted", className)}
     {...props}
   />
 );

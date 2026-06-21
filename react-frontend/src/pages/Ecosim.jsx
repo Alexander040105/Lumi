@@ -1,11 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { getEcosim, getMunicipalities } from "@/services/apiClient";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { supabase } from "@/services/supabaseClient";
 
 const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
@@ -18,6 +31,9 @@ const formatCurrency = (value) =>
   }).format(value ?? 0);
 
 export default function Ecosim() {
+  const { user, accessToken } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
@@ -30,6 +46,11 @@ export default function Ecosim() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  // Save simulation dialog state
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [saveLabel, setSaveLabel] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const filteredMunicipalities = useMemo(() => {
     const q = muniQuery.trim().toLowerCase();
@@ -67,6 +88,60 @@ export default function Ecosim() {
     };
   }, []);
 
+  // Load saved simulation from query param ?simulation_id={id}
+  useEffect(() => {
+    const simId = searchParams.get("simulation_id");
+    if (!simId || !accessToken) return;
+
+    let isActive = true;
+    const loadSaved = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/v1/simulations/${simId}`,
+          { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        if (!res.ok) throw new Error("Failed to load saved simulation");
+        const data = await res.json();
+        const sim = data.simulation;
+        if (!sim || !isActive) return;
+
+        // Pre-populate inputs
+        const inputs = sim.inputs || {};
+        if (inputs.monthly_consumption_kwh) {
+          setMonthlyConsumption(inputs.monthly_consumption_kwh);
+        }
+        if (inputs.monthly_bill_php) {
+          setMonthlyBill(inputs.monthly_bill_php);
+        }
+        if (inputs.desired_savings_pct !== undefined) {
+          setDesiredSavings(inputs.desired_savings_pct);
+        }
+        if (inputs.include_ai !== undefined) {
+          setIncludeAi(inputs.include_ai);
+        }
+        if (sim.municipality_id) {
+          setMunicipalityId(String(sim.municipality_id));
+          const found = municipalities.find(
+            (m) => String(m.municipality_id) === String(sim.municipality_id)
+          );
+          if (found) setMuniQuery(found.name);
+        }
+        // Pre-populate results
+        if (sim.results) {
+          setResult(sim.results);
+        }
+        toast.success("Loaded saved simulation");
+      } catch (err) {
+        toast.error(err?.message || "Failed to load saved simulation");
+      }
+    };
+
+    loadSaved();
+    return () => {
+      isActive = false;
+    };
+  }, [searchParams, accessToken, municipalities]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
@@ -85,6 +160,63 @@ export default function Ecosim() {
       setError(err?.message || "Unable to load Ecosim data.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveSimulation = async () => {
+    if (!user || !accessToken) {
+      toast.error("Please log in to save simulations");
+      return;
+    }
+    if (!result || !municipalityId) {
+      toast.error("Run a simulation first");
+      return;
+    }
+
+    const defaultLabel = `${result.municipality || "Simulation"} — ${result.recommended_source || "Renewable"}`;
+    const label = saveLabel.trim() || defaultLabel;
+
+    setSaving(true);
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/v1/simulations`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            label,
+            municipality_id: Number(municipalityId),
+            inputs: {
+              monthly_consumption_kwh: Number(monthlyConsumption),
+              monthly_bill_php: Number(monthlyBill),
+              desired_savings_pct: Number(desiredSavings),
+              include_ai: includeAi,
+            },
+            results: result,
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        if (res.status === 403 && errData.detail?.upgrade) {
+          toast.error(`Save limit reached (${errData.detail.limit}). Upgrade to save more.`);
+        } else {
+          toast.error(errData.detail?.message || "Failed to save simulation");
+        }
+        return;
+      }
+
+      toast.success("Simulation saved successfully");
+      setSaveDialogOpen(false);
+      setSaveLabel("");
+    } catch (err) {
+      toast.error(err?.message || "Failed to save simulation");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -139,16 +271,16 @@ export default function Ecosim() {
                 autoComplete="off"
               />
               {muniOpen && (
-                <div className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md border border-input bg-popover shadow-md">
+                <div className="absolute z-10 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
                   {filteredMunicipalities.length ? (
                     filteredMunicipalities.map((item) => (
                       <button
                         key={item.municipality_id}
                         type="button"
                         className={
-                          "w-full px-3 py-2 text-left text-sm transition-colors hover:bg-accent " +
+                          "w-full px-3 py-2.5 text-left text-sm text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground " +
                           (String(item.municipality_id) === municipalityId
-                            ? "bg-accent font-medium"
+                            ? "bg-accent font-medium text-accent-foreground"
                             : "")
                         }
                         onMouseDown={(e) => e.preventDefault()}
@@ -162,7 +294,7 @@ export default function Ecosim() {
                       </button>
                     ))
                   ) : (
-                    <div className="px-3 py-2 text-sm text-muted-foreground">
+                    <div className="px-3 py-2.5 text-sm text-muted-foreground">
                       No results found
                     </div>
                   )}
@@ -199,6 +331,22 @@ export default function Ecosim() {
                 {loading ? "Running simulation..." : "Run simulation"}
               </Button>
             </div>
+            {result && user && (
+              <div className="flex items-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    const defaultLabel = `${result.municipality || "Simulation"} — ${result.recommended_source || "Renewable"}`;
+                    setSaveLabel(defaultLabel);
+                    setSaveDialogOpen(true);
+                  }}
+                >
+                  Save Simulation
+                </Button>
+              </div>
+            )}
           </form>
         </CardContent>
       </Card>
@@ -693,6 +841,42 @@ export default function Ecosim() {
           </Card>
         </div>
       )}
+
+      {/* Save Simulation Dialog */}
+      <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Save Simulation</DialogTitle>
+            <DialogDescription>
+              Give your simulation a name so you can revisit it later.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <label className="text-sm font-medium">Simulation name</label>
+            <Input
+              value={saveLabel}
+              onChange={(e) => setSaveLabel(e.target.value)}
+              placeholder="e.g., Calamba Solar Feasibility"
+              className="mt-2"
+              autoFocus
+            />
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              onClick={handleSaveSimulation}
+              disabled={saving}
+            >
+              {saving ? "Saving..." : "Save"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

@@ -16,7 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
 export default function Dashboard() {
-  const { user } = useAuth();
+  const { user, refreshProfile } = useAuth();
   const isLoggedIn = !!user;
 
   const [loading, setLoading] = useState(true);
@@ -179,6 +179,7 @@ export default function Dashboard() {
       if (updateError) throw updateError;
 
       setProfile((prev) => ({ ...prev, avatar_url: avatarUrl }));
+      if (refreshProfile) await refreshProfile();
       toast.success("Profile photo updated");
     } catch (err) {
       toast.error("Upload failed: " + err.message);
@@ -395,9 +396,9 @@ export default function Dashboard() {
         </Card>
 
         {/* Saved Simulations */}
-        <Card>
+        <Card className="lg:col-span-3">
           <CardHeader>
-            <CardTitle>Saved Projects</CardTitle>
+            <CardTitle>Saved Simulations</CardTitle>
             <CardDescription>Your persisted EcoSim analyses.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -408,16 +409,75 @@ export default function Dashboard() {
             ) : savedSimulations.length === 0 ? (
               <p className="text-sm text-muted-foreground">No saved simulations yet.</p>
             ) : (
-              <ul className="space-y-2">
-                {savedSimulations.map((sim) => (
-                  <li key={sim.id} className="flex items-center justify-between text-sm">
-                    <span>{sim.label || "Unnamed Simulation"}</span>
-                    <Link to={`/ecosim?municipality=${sim.municipality_id}`}>
-                      <Button variant="ghost" size="sm">Open</Button>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {savedSimulations.map((sim) => {
+                  const res = sim.results || {};
+                  const recSource = res.recommended_source || "—";
+                  const municipality = res.municipality || sim.municipalities?.name || "—";
+                  const gen = res.estimated_generation_kwh;
+                  const created = sim.created_at
+                    ? new Date(sim.created_at).toLocaleDateString()
+                    : "";
+                  return (
+                    <div
+                      key={sim.id}
+                      className="rounded-lg border bg-card p-4 hover:shadow-sm transition-shadow"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <h3
+                          className="font-semibold text-sm truncate flex-1"
+                          title={sim.label || "Unnamed Simulation"}
+                        >
+                          {sim.label || "Unnamed Simulation"}
+                        </h3>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {municipality} • {recSource}
+                      </p>
+                      {gen !== undefined && gen !== null && (
+                        <p className="text-xs mt-2">
+                          <span className="font-medium">{Math.round(gen).toLocaleString()}</span>{" "}
+                          kWh/mo
+                        </p>
+                      )}
+                      {created && (
+                        <p className="text-xs text-muted-foreground mt-1">{created}</p>
+                      )}
+                      <div className="flex items-center gap-2 mt-3">
+                        <Link to={`/ecosim?simulation_id=${sim.id}`} className="flex-1">
+                          <Button variant="outline" size="sm" className="w-full">
+                            Open
+                          </Button>
+                        </Link>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={async () => {
+                            if (!window.confirm("Delete this simulation?")) return;
+                            try {
+                              const { error } = await supabase
+                                .from("saved_simulations")
+                                .delete()
+                                .eq("id", sim.id)
+                                .eq("user_id", user.id);
+                              if (error) throw error;
+                              setSavedSimulations((prev) =>
+                                prev.filter((s) => s.id !== sim.id)
+                              );
+                              toast.success("Simulation deleted");
+                            } catch (err) {
+                              toast.error("Failed to delete simulation");
+                            }
+                          }}
+                          className="text-destructive hover:text-destructive"
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </CardContent>
         </Card>

@@ -1093,3 +1093,413 @@ The knowledge base was rebuilt on June 18, 2026, incorporating 5,813 total knowl
 ---
 
 *Document generated on June 18, 2026, for the LUMI Thesis Research Integration task.*
+
+---
+
+## GLOBAL ENERGY MONITOR — GEOTHERMAL POWER TRACKER CITATION
+
+The LUMI system incorporates geothermal plant location and capacity data from the **Global Energy Monitor (GEM) Global Geothermal Power Tracker**.
+
+### Dataset Details
+
+| Field | Value |
+|---|---|
+| **Source** | Global Energy Monitor |
+| **Dataset Name** | Global Geothermal Power Tracker |
+| **Release Date** | March 2026 |
+| **File** | `Geothermal-Power-Tracker-March-2026-Final (1).xlsx` |
+| **License** | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **Contact** | Sophia Bauer, Global Geothermal Power Tracker Project Manager — sophia.bauer@globalenergymonitor.org |
+| **Philippine Plants Tracked** | 68 geothermal plants/units |
+| **Coverage** | All geothermal power producing plants with more than 1 MW capacity worldwide |
+
+### Recommended Citation (APA 7)
+
+Global Energy Monitor. (2026). *Global geothermal power tracker* (March 2026 release). https://globalenergymonitor.org/projects/global-geothermal-power-tracker/
+
+### Philippine Data Snapshot
+
+The March 2026 release includes **68 Philippine geothermal plant records**, spanning:
+
+- **Operating plants:** e.g., Bac-Man (55 MW × 2 units, 1993), Biliran (2 MW, 2025)
+- **Under construction:** e.g., Bago Binary (5.6 MW, expected 2026)
+- **Pre-construction:** e.g., Amacan (100 MW, expected 2029), Baua-Sikaw (86 MW, expected 2031)
+- **Announced:** e.g., Biliran 2 (170 MW, expected 2029), Botong Rangas (40 MW)
+
+These records are used in LUMI's Geothermal Explorer module to:
+1. Display a browsable list of Philippine geothermal plants.
+2. Provide plant names, capacities, technologies (binary cycle, flash steam), and operational status.
+3. Enable proximity-boost calculations for municipalities near operating plants.
+
+---
+
+## APPENDIX: COMPLETE FORMULA REFERENCE — ECOSIM & ENERGYHUB
+
+This appendix lists **every mathematical formula** used in LUMI's EcoSim (renewable energy simulation) and EnergyHub (national energy dashboard) modules. Each formula includes its code location, input variables, and the specific constant values used.
+
+---
+
+### A. Solar Energy Calculations (`solar_output_calc.py`)
+
+#### A.1 Temperature Factor
+**Purpose:** Adjust solar panel efficiency for temperature deviations from the 25 °C standard test condition.
+
+```
+temperature_factor = 1 + temp_coeff_per_c × (avg_temp_c − 25)
+temperature_factor = max(temperature_factor, 0)
+```
+
+- `temp_coeff_per_c` = −0.004 /°C (crystalline silicon industry standard)
+- `avg_temp_c` = NASA POWER monthly average temperature (°C)
+- **Code:** `solar_output_calc.py:1–6`
+
+---
+
+#### A.2 Dust Loss Factor
+**Purpose:** Adjust soiling loss based on wind speed (higher wind = more dust accumulation).
+
+```
+wind_factor = 1 + 0.02 × (ws10m − 3.0)
+dust_loss = base_dust_loss / wind_factor
+dust_loss = clamp(dust_loss, 0.80, 1.0)
+```
+
+- `base_dust_loss` = 0.97
+- `ws10m` = NASA POWER 10-meter wind speed (m/s)
+- **Code:** `solar_output_calc.py:8–14`
+
+---
+
+#### A.3 Degradation Loss Factor
+**Purpose:** Reduce output for long-term module degradation, with extra penalty under high humidity.
+
+```
+if rh2m > 70:
+    degradation_loss = base_degradation × 0.995
+else:
+    degradation_loss = base_degradation
+```
+
+- `base_degradation` = 0.99 (≈ 1% annual degradation)
+- `rh2m` = NASA POWER relative humidity (%)
+- **Code:** `solar_output_calc.py:16–22`
+
+---
+
+#### A.4 Performance Ratio (PR)
+**Purpose:** Aggregate all real-world loss mechanisms into a single system-efficiency multiplier.
+
+```
+PR = system_efficiency × temperature_factor × dust_loss × inverter_efficiency
+     × mismatch_loss × wiring_loss × degradation_loss
+PR = max(PR, 0)
+```
+
+| Factor | Default Value | Meaning |
+|---|---|---|
+| `system_efficiency` | 0.80 | Base system efficiency |
+| `temperature_factor` | 1.0 | From A.1 |
+| `dust_loss` | 0.97 | From A.2 |
+| `inverter_efficiency` | 0.96 | DC→AC conversion |
+| `mismatch_loss` | 0.98 | Cell-to-cell mismatch |
+| `wiring_loss` | 0.98 | DC/AC wiring resistance |
+| `degradation_loss` | 0.99 | From A.3 |
+
+- **Code:** `solar_output_calc.py:24–42`
+
+---
+
+#### A.5 Solar Energy Output
+**Purpose:** Calculate daily and monthly electrical energy from a residential PV array.
+
+```
+system_kWp = (panel_wattage × number_of_panels) / 1000
+daily_output = system_kWp × solar_irradiance × PR
+monthly_output = daily_output × days_in_month
+solar_score = min((solar_irradiance / 6.0) × 100, 100)
+```
+
+- `panel_wattage` = 400 W (default)
+- `number_of_panels` = 2 (default)
+- `solar_irradiance` = NASA POWER `ALLSKY_SFC_SW_DWN` (kWh/m²/day)
+- `6.0` = theoretical maximum daily irradiance for tropical regions
+- **Code:** `solar_output_calc.py:44–55`
+
+---
+
+### B. Wind Energy Calculations (`wind_output_calc.py`)
+
+#### B.1 Swept Area
+```
+swept_area = π × rotor_radius²
+```
+
+- `rotor_radius` = average from scraped product data (~1.5 m for small turbines)
+- **Code:** `wind_output_calc.py:101–102`
+
+---
+
+#### B.2 Rated Power (Betz-limit physics)
+```
+rated_power_watts = 0.5 × air_density × swept_area × wind_speed³ × power_coefficient × efficiency
+```
+
+- `air_density` = NASA POWER `rhoa` (kg/m³, default 1.225)
+- `power_coefficient` = average from scraped data (must be ≤ 0.593 — Betz limit enforced)
+- `efficiency` = 0.90 (mechanical/electrical)
+- **Code:** `wind_output_calc.py:104–112`
+
+---
+
+#### B.3 Energy Production (with capacity factor)
+```
+daily_energy_kwh = (rated_power_watts / 1000) × capacity_factor × 24
+monthly_energy_kwh = daily_energy_kwh × days_in_month
+```
+
+- `capacity_factor` = 0.30 (realistic for small wind turbines)
+- **Code:** `wind_output_calc.py:117–122`
+
+---
+
+### C. Hydropower Calculations (`hydro_output_calc.py`)
+
+#### C.1 Runoff Coefficient (slope-based)
+```
+If slope_deg < 3°:     C = 0.30
+If slope_deg < 10°:   C = 0.45
+If slope_deg < 20°:   C = 0.60
+If slope_deg ≥ 20°:   C = 0.75
+```
+
+- `slope_deg` = terrain mean slope from DEM data
+- **Code:** `hydro_output_calc.py:14–32`
+
+---
+
+#### C.2 Design Flow Rate
+```
+C_effective = C_base × (0.5 + 0.5 × runoff_potential) × (0.7 + 0.3 × watershed_gradient)
+monthly_runoff_m3 = C_effective × (rainfall_mm / 1000) × (catchment_km2 × 1,000,000)
+avg_flow = monthly_runoff_m3 / (30 × 24 × 3600)
+design_flow = avg_flow × 0.40 × max(gravity_flow_potential, 0.1)
+design_flow = clamp(design_flow, 0.001, 0.5)
+```
+
+- `rainfall_mm` = NASA POWER `prectotcorr`
+- `catchment_km2` = 0.5 (default small hillside drainage)
+- `0.40` = 40% environmental flow reserve for run-of-river
+- **Code:** `hydro_output_calc.py:35–97`
+
+---
+
+#### C.3 Micro-Hydropower Electrical Output
+```
+realistic_head = clamp(head_m × 0.12, 2.0, 25.0)
+hydraulic_power_kw = (water_density × gravity × flow_rate × realistic_head) / 1000
+overall_efficiency = turbine_efficiency × generator_efficiency  (= 0.75 × 0.90 = 0.675)
+electrical_power_kw = hydraulic_power_kw × overall_efficiency
+daily_energy = electrical_power_kw × 24
+monthly_energy = daily_energy × days_in_month
+hydro_score = normalize(monthly_energy, 0, 1000) × 100
+```
+
+- `water_density` = 1000 kg/m³
+- `gravity` = 9.81 m/s²
+- `head_m` = DEM-derived municipal elevation drop
+- `0.12` = only ~12% of municipal elevation is accessible to a household intake
+- **Code:** `hydro_output_calc.py:126–198`
+
+---
+
+### D. Geothermal Calculations (`geothermal/features.py`)
+
+#### D.1 Haversine Distance (spherical Earth)
+```
+a = sin²(Δφ/2) + cos(φ1) × cos(φ2) × sin²(Δλ/2)
+c = 2 × atan2(√a, √(1−a))
+distance = 6371 × c   (kilometres)
+```
+
+- Used to compute distance from a municipality to the nearest fault or volcano.
+- **Code:** `geothermal/features.py:42–53`
+
+---
+
+#### D.2 Heat Flow Score
+```
+heat_flow_score = normalize(heat_flow_mW_m2, 40, 120)
+```
+
+- `40–120` = typical global heat flow range (mW/m²)
+- **Code:** `geothermal/features.py:163–174`
+
+---
+
+#### D.3 Aquifer Score
+```
+perm_score = normalize(permeability_log10_m2, −17, −11)
+poro_score = normalize(porosity, 0, 0.35)
+thick_score = normalize(thickness_m, 0, 2000)
+aquifer_score = 0.5 × perm_score + 0.3 × poro_score + 0.2 × thick_score
+```
+
+- **Code:** `geothermal/features.py:177–205`
+
+---
+
+#### D.4 Geothermal Gradient
+```
+gradient_C_km = (heat_flow_mW_m2 / 1000) / thermal_conductivity × 1000
+```
+
+- `thermal_conductivity` = 2.5 W/(m·K) (typical crustal rock)
+- **Code:** `geothermal/features.py:208–229`
+
+---
+
+#### D.5 Reservoir Temperature
+```
+reservoir_temp_C = surface_temp_C + (gradient_C_km × depth_km)
+```
+
+- `depth_km` = 2.0 km (default reservoir depth)
+- `surface_temp_C` = NASA POWER average temperature
+- **Code:** `geothermal/features.py:232–251`
+
+---
+
+#### D.6 Estimated Geothermal Flow Rate
+```
+perm_factor = normalize(permeability_log10_m2, −17, −11)
+flow_rate_kg_s = 10 + aquifer_score × perm_factor × 400
+```
+
+- **Code:** `geothermal/features.py:254–278`
+
+---
+
+#### D.7 Geothermal Suitability Score (weighted composite)
+```
+fault_score     = 1 − normalize(fault_distance_km, 0, 100)
+volcano_score   = 1 − normalize(volcano_distance_km, 0, 100)
+temp_score      = normalize(surface_temp_C, 20, 35)
+
+geothermal_score = (0.35 × heat_flow_score
+                + 0.20 × fault_score
+                + 0.15 × volcano_score
+                + 0.20 × aquifer_score
+                + 0.10 × temp_score)  /  available_weight_sum
+```
+
+| Indicator | Weight | Logic |
+|---|---|---|
+| Heat flow | 0.35 | Direct indicator of subsurface heat |
+| Fault proximity | 0.20 | Closer faults = better fluid pathways |
+| Volcano proximity | 0.15 | Closer volcanoes = more recent heat |
+| Aquifer quality | 0.20 | Permeability + porosity + thickness |
+| Surface temperature | 0.10 | Proxy for shallow heat |
+
+- **Classification:** ≥0.80 = High, ≥0.60 = Good, ≥0.40 = Moderate, <0.40 = Low
+- **Code:** `geothermal/features.py:281–399`
+
+---
+
+#### D.8 Thermal and Electric Power
+```
+delta_T = reservoir_temp_C − 70
+thermal_power_MW = (flow_rate_kg_s × 4.186 × delta_T) / 1000
+efficiency = 0.12 (binary) or 0.15 (flash)
+electric_power_MW = thermal_power_MW × efficiency
+annual_energy_GWh = (electric_power_MW × 8760) / 1000
+```
+
+- `4.186` = specific heat capacity of water (kJ/kg·°C)
+- `70` = reinjection temperature (°C)
+- `8760` = hours per year
+- **Code:** `geothermal/features.py:402–487`
+
+---
+
+### E. Economic & Scoring Calculations (`ecosim.py`)
+
+#### E.1 Simple Payback Period
+```
+usable_kWh = min(generation_kWh, consumption_kWh)
+monthly_savings = usable_kWh × electricity_rate
+
+system_kw = generation_kWh / 30 / 4.5   (solar)
+system_kw = generation_kWh / (30 × 24 × 0.25)   (wind)
+system_kw = generation_kWh / (30 × 24 × 0.50)   (hydro)
+system_kw = generation_kWh / 30 / 24            (geothermal — utility scale)
+
+installation_cost = system_kw × cost_per_kw
+payback_years = installation_cost / (monthly_savings × 12)
+```
+
+| Source | Cost per kW (PHP) | Capacity Factor Proxy |
+|---|---|---|
+| Solar | 60,000 | 4.5 peak-sun hrs/day |
+| Wind | 80,000 | 25% (0.25) |
+| Hydro | 100,000 | 50% (0.50) |
+| Geothermal | 150,000 | 100% (utility-scale) |
+
+- **Code:** `ecosim.py:618–735`
+
+---
+
+#### E.2 Weighted Suitability Score
+```
+energy_ratio = min(generation_kWh / consumption_kWh, 1.0)
+suitability_score = 0.6 × energy_ratio + 0.4 × source_score
+```
+
+- `source_score` = normalized score from the generation algorithm (0–1)
+- **Code:** `ecosim.py:721–722`
+
+---
+
+#### E.3 CO₂ Displacement
+```
+carbon_reduction_kg = usable_kWh × 0.6835
+```
+
+- `0.6835` = Philippines DOE 2019–2021 National Grid Emission Factor (kg CO₂/kWh)
+- **Code:** `ecosim.py:723`
+
+---
+
+### F. EnergyHub — ARIMA Forecasting (`app/ml/`)
+
+#### F.1 ARIMA(1,1,1) Model Structure
+```
+(1 − φB)(1 − B)y_t = (1 + θB)ε_t
+```
+
+- `B` = backshift operator
+- `φ` = autoregressive coefficient (AR term)
+- `θ` = moving average coefficient (MA term)
+- `ε_t` = white noise error term
+- `(1,1,1)` = one AR term, one difference, one MA term
+
+**Training data:** Philippine DOE national energy statistics (2003–2020)  
+**Forecast horizon:** ~15 years (2025–2040)  
+**Output:** Predicted value + 95% confidence lower/upper bounds  
+**Serving:** Pre-computed CSV artifacts loaded at runtime; no real-time inference
+
+- **Code:** Offline training in `fastapi-backend/app/ml/`; runtime serving via `EnergyHubML` class
+
+---
+
+### G. Normalization Utility
+
+```
+normalize(value, min_value, max_value) = clamp((value − min_value) / (max_value − min_value), 0, 1)
+```
+
+- Used throughout scoring algorithms to constrain outputs to the 0–1 range.
+- **Code:** `hydro_output_calc.py:6–11`, `geothermal/features.py:56–59`
+
+---
+
+*Formula appendix compiled on June 21, 2026, from direct inspection of the LUMI production codebase.*
