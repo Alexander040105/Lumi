@@ -15,7 +15,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
 export default function SavedSimulations() {
-  const { user } = useAuth();
+  const { user, isPremium, effectivePlan } = useAuth();
   const [loading, setLoading] = useState(true);
   const [savedSimulations, setSavedSimulations] = useState([]);
   const [chatSessions, setChatSessions] = useState([]);
@@ -122,13 +122,27 @@ export default function SavedSimulations() {
 
   return (
     <section className="page-container stack space-y-6">
-      <h1 className="text-2xl font-bold">Saved Simulations</h1>
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <h1 className="text-2xl font-bold">Saved Simulations</h1>
+        <span className="text-xs uppercase tracking-wider bg-muted px-2 py-1 rounded-full text-muted-foreground">
+          Plan: {effectivePlan}
+        </span>
+      </div>
 
       {/* EcoSim Saves */}
       <Card>
         <CardHeader>
-          <CardTitle>EcoSim Saves</CardTitle>
-          <CardDescription>Your persisted EcoSim analyses.</CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>EcoSim Saves</CardTitle>
+              <CardDescription>Your persisted EcoSim analyses.</CardDescription>
+            </div>
+            {!isPremium && (
+              <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">
+                {savedSimulations.length} / 3 saved
+              </span>
+            )}
+          </div>
         </CardHeader>
         <CardContent>
           {savedSimulations.length === 0 ? (

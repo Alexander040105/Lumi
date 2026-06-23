@@ -1,5 +1,7 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
 
+from app.dependencies.auth import get_current_user_with_role_and_plan
+from app.dependencies.plan_limits import PlanGate
 from app.schemas.energyhub import (
     AiInsightResponse,
     AnalyzeChartRequest,
@@ -100,6 +102,7 @@ async def get_model_comparison():
 @router.get("/ai-insight", response_model=AiInsightResponse)
 async def get_ai_insight(
     use_llm: bool = Query(default=False, description="Use LLM (Gemini/Groq) for dynamic analysis instead of static text"),
+    user: dict = Depends(get_current_user_with_role_and_plan),
 ):
     """Return a data-backed narrative insight and recommendation.
 
@@ -107,6 +110,9 @@ async def get_ai_insight(
     the configured LLM (Gemini or Groq) based on the latest energy
     statistics, generation mix, and ARIMA forecast.
     """
+    if use_llm:
+        gate = PlanGate("energyhub_ai_insights")
+        gate(user)
     svc = get_energyhub_service()
     return svc.get_ai_insight(use_llm=use_llm)
 
@@ -115,6 +121,7 @@ async def get_ai_insight(
 async def analyze_chart(
     payload: AnalyzeChartRequest,
     force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
+    user: dict = Depends(get_current_user_with_role_and_plan),
 ):
     """Send chart data to the LLM and receive a narrative explanation.
 
@@ -124,5 +131,7 @@ async def analyze_chart(
     Set force_refresh=true to bypass the database cache and generate a
     brand-new explanation (useful for rotating responses).
     """
+    gate = PlanGate("energyhub_chart_analyses")
+    gate(user)
     svc = get_energyhub_service()
     return svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)

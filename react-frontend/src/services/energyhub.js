@@ -34,8 +34,8 @@ export function getEnergyHubModelComparison() {
   return request(`${ENERGYHUB_BASE}/model-comparison`);
 }
 
-export function getEnergyHubAiInsight(useLlm = false) {
-  return request(`${ENERGYHUB_BASE}/ai-insight?use_llm=${useLlm}`);
+export function getEnergyHubAiInsight(useLlm = false, token) {
+  return request(`${ENERGYHUB_BASE}/ai-insight?use_llm=${useLlm}`, { token });
 }
 
 export function getGeothermalSummary() {
@@ -46,9 +46,10 @@ export function getGeothermalPlants() {
   return request("/geothermal/plants");
 }
 
-export function analyzeChart(chartType, chartData, forceRefresh = false) {
+export function analyzeChart(chartType, chartData, forceRefresh = false, token) {
   const qs = forceRefresh ? "?force_refresh=true" : "";
   return request(`${ENERGYHUB_BASE}/analyze-chart${qs}`, {
+    token,
     method: "POST",
     body: JSON.stringify({ chart_type: chartType, chart_data: chartData }),
   });

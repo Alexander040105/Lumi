@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getApiBaseUrl } from "../utils/env";
 import { useAuth } from "../hooks/useAuth";
+import { useQuota } from "../hooks/useQuota";
 import { supabase } from "../services/supabaseClient";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -27,12 +28,13 @@ function formatCitations(text) {
 }
 
 export default function ChatPage() {
-  const { user } = useAuth();
+  const { user, accessToken, isPremium } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(searchParams.get("session") || null);
+  const chatQuota = useQuota("chat_messages");
 
   // Load existing session messages
   useEffect(() => {
@@ -106,11 +108,16 @@ export default function ChatPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ message: userMsg.content }),
+        body: JSON.stringify({ message: userMsg.content, session_id: currentSessionId }),
       });
 
       if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        if (res.status === 403 && errData.detail?.upgrade) {
+          throw new Error("Chat message limit reached for this month. Upgrade to Premium for unlimited messages.");
+        }
         throw new Error(`Server error ${res.status}: ${res.statusText}`);
       }
 
@@ -142,9 +149,16 @@ export default function ChatPage() {
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">LUMI AI Assistant</h1>
-        <Button variant="outline" size="sm" onClick={handleNewChat}>
-          New Chat
-        </Button>
+        <div className="flex items-center gap-3">
+          {!isPremium && chatQuota && (
+            <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-md">
+              {chatQuota.remaining ?? "∞"} messages left
+            </span>
+          )}
+          <Button variant="outline" size="sm" onClick={handleNewChat}>
+            New Chat
+          </Button>
+        </div>
       </div>
       <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30">
         {messages.length === 0 && (
@@ -176,12 +190,13 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type your question..."
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          placeholder={!isPremium && chatQuota?.upgrade ? "Message limit reached — upgrade to Premium" : "Type your question..."}
+          disabled={!isPremium && chatQuota?.upgrade}
+          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
         />
         <button
           onClick={handleSend}
-          disabled={isLoading}
+          disabled={isLoading || (!isPremium && chatQuota?.upgrade)}
           className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
           Send

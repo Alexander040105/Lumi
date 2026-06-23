@@ -16,6 +16,7 @@ import AdminAnalytics from "../pages/admin/AdminAnalytics";
 import AdminConfig from "../pages/admin/AdminConfig";
 import AdminModeration from "../pages/admin/AdminModeration";
 import NotFound from "../pages/NotFound";
+import BillingPage from "../pages/BillingPage";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
 import AdminRoute from "../components/shared/AdminRoute";
 
@@ -70,6 +71,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <SavedSimulations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="billing"
+            element={
+              <ProtectedRoute>
+                <BillingPage />
               </ProtectedRoute>
             }
           />

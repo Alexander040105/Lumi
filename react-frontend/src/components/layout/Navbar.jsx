@@ -170,6 +170,16 @@ export default function Navbar() {
                     <span className="text-base">📊</span>
                     <span>Saved Simulations</span>
                   </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => navigate("/billing")}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-base">💳</span>
+                    <span>Billing</span>
+                    <span className="ml-auto text-[10px] uppercase tracking-wider bg-muted px-1.5 py-0.5 rounded-full text-muted-foreground">
+                      {profile?.plan || "free"}
+                    </span>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => {

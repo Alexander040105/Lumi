@@ -89,8 +89,8 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   const isAdmin = role === "admin" || role === "dev";
-  const effectivePlan = isAdmin ? "premium" : "free";
-  const isPremium = isAdmin;
+  const effectivePlan = profile?.plan || (isAdmin ? "premium" : "free");
+  const isPremium = effectivePlan === "premium" || isAdmin;
 
   const value = useMemo(
     () => ({

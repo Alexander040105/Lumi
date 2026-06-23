@@ -18,6 +18,8 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { getEcosim, getMunicipalities } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
+import { useQuota } from "@/hooks/useQuota";
+import PremiumGate from "@/components/shared/PremiumGate";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
 
@@ -32,8 +34,9 @@ const formatCurrency = (value) =>
   }).format(value ?? 0);
 
 export default function Ecosim() {
-  const { user, accessToken } = useAuth();
+  const { user, accessToken, isPremium } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
+  const aiQuota = useQuota("ecosim_ai_runs");
 
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
@@ -156,10 +159,15 @@ export default function Ecosim() {
         monthlyBill: Number(monthlyBill),
         desiredSavings: Number(desiredSavings) / 100,
         includeAi,
-      });
+      }, accessToken);
       setResult(data);
     } catch (err) {
-      setError(err?.message || "Unable to load Ecosim data.");
+      const msg = err?.message || "";
+      if (msg.includes("Monthly limit reached")) {
+        toast.error("AI run limit reached for this month. Upgrade to Premium for unlimited AI runs.");
+        setIncludeAi(false);
+      }
+      setError(msg || "Unable to load Ecosim data.");
     } finally {
       setLoading(false);
     }
@@ -321,12 +329,23 @@ export default function Ecosim() {
                 <input
                   type="checkbox"
                   checked={includeAi}
-                  onChange={(e) => setIncludeAi(e.target.checked)}
-                  disabled={loading}
-                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary"
+                  onChange={(e) => {
+                    if (!isPremium && e.target.checked && aiQuota?.upgrade) {
+                      toast.error("AI run limit reached. Upgrade to Premium.");
+                      return;
+                    }
+                    setIncludeAi(e.target.checked);
+                  }}
+                  disabled={loading || (!isPremium && aiQuota?.upgrade)}
+                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary disabled:opacity-50"
                 />
                 <span>Include AI analysis</span>
               </label>
+              {!isPremium && aiQuota && (
+                <span className="text-xs text-muted-foreground">
+                  {aiQuota.remaining} / {aiQuota.limit} left
+                </span>
+              )}
             </div>
             <div className="flex items-end">
               <Button type="submit" disabled={loading || !municipalityId} className="w-full">

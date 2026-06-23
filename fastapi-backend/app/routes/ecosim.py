@@ -1,4 +1,7 @@
 from fastapi import APIRouter, Depends, status
+
+from app.dependencies.auth import get_current_user_with_role_and_plan
+from app.dependencies.plan_limits import PlanGate
 from app.schemas.ecosim import (
     EcosimDashboardResponse,
     EcosimQueryParams,
@@ -17,7 +20,11 @@ async def get_ecosim_results(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
+    user: dict = Depends(get_current_user_with_role_and_plan),
 ):
+    if include_ai or use_rag:
+        gate = PlanGate("ecosim_ai_runs")
+        gate(user)
     return build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
         monthly_consumption=params.monthly_consumption,
@@ -40,7 +47,11 @@ async def post_item(
     include_ai: bool = True,
     use_rag: bool = True,
     rag_query: str | None = None,
+    user: dict = Depends(get_current_user_with_role_and_plan),
 ):
+    if include_ai or use_rag:
+        gate = PlanGate("ecosim_ai_runs")
+        gate(user)
     response_data = renewable_energy_calculator(
         body.house_name,
         body.municipality,

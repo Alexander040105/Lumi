@@ -1,6 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 
+import { useAuth } from "@/hooks/useAuth";
+import { useQuota } from "@/hooks/useQuota";
+import PremiumGate from "@/components/shared/PremiumGate";
+
 import {
   getEnergyHubOverview,
   getEnergyHubTrends,
@@ -26,6 +30,10 @@ const SUITABILITY_METRICS = [
 ];
 
 export default function EnergyHub() {
+  const { accessToken, isPremium } = useAuth();
+  const aiInsightQuota = useQuota("energyhub_ai_insights");
+  const chartAnalysisQuota = useQuota("energyhub_chart_analyses");
+
   const [overview, setOverview] = useState(null);
   const [trends, setTrends] = useState(null);
   const [mapData, setMapData] = useState(null);
@@ -34,7 +42,7 @@ export default function EnergyHub() {
   const [mapMetric, setMapMetric] = useState("renewable_potential");
   const [mapLevel, setMapLevel] = useState("province");
   const [loading, setLoading] = useState(true);
-  const [useLlm, setUseLlm] = useState(true);
+  const [useLlm, setUseLlm] = useState(false); // default to static for free users
   const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
   const [mapLoading, setMapLoading] = useState(false);
@@ -108,16 +116,26 @@ export default function EnergyHub() {
         // Non-critical; markers simply won't appear
       }
 
-      // Load LLM insight in background
+      // Load LLM insight in background (only if logged in, premium, or quota available)
       try {
-        const ai = await getEnergyHubAiInsight(true);
-        if (!cancelled) setInsight(ai);
+        const canUseLLM = !!accessToken && (isPremium || (!aiInsightQuota?.upgrade));
+        const ai = await getEnergyHubAiInsight(canUseLLM, accessToken);
+        if (!cancelled) {
+          setInsight(ai);
+          setUseLlm(canUseLLM);
+        }
       } catch (err) {
         if (!cancelled) {
-          toast.error("LLM insight failed", { description: err.message });
+          const msg = err?.message || "";
+          if (msg.includes("Monthly limit reached")) {
+            toast.error("AI insight limit reached. Showing static insight instead.");
+          }
           try {
-            const staticAi = await getEnergyHubAiInsight(false);
-            if (!cancelled) setInsight(staticAi);
+            const staticAi = await getEnergyHubAiInsight(false, accessToken);
+            if (!cancelled) {
+              setInsight(staticAi);
+              setUseLlm(false);
+            }
           } catch {}
         }
       } finally {
@@ -157,14 +175,28 @@ export default function EnergyHub() {
 
   const handleToggleLlm = async () => {
     const next = !useLlm;
+    if (next && !accessToken) {
+      toast.error("Please log in to use AI insights.");
+      return;
+    }
+    if (next && !isPremium && aiInsightQuota?.upgrade) {
+      toast.error("AI insight limit reached. Upgrade to Premium for unlimited insights.");
+      return;
+    }
     setUseLlm(next);
     if (next && !insight?.insight?.includes("LLM")) {
       setLlmLoading((prev) => ({ ...prev, overview: true }));
       try {
-        const ai = await getEnergyHubAiInsight(true);
+        const ai = await getEnergyHubAiInsight(true, accessToken);
         setInsight(ai);
       } catch (err) {
-        toast.error("LLM insight failed", { description: err.message });
+        const msg = err?.message || "";
+        if (msg.includes("Monthly limit reached")) {
+          toast.error("AI insight limit reached. Upgrade to Premium.");
+          setUseLlm(false);
+        } else {
+          toast.error("LLM insight failed", { description: err.message });
+        }
       } finally {
         setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
@@ -173,6 +205,14 @@ export default function EnergyHub() {
 
   const handleAnalyzeChart = async (chartType, forceRefresh = false) => {
     if (chartAnalyses[chartType] && !forceRefresh) return;
+    if (!accessToken) {
+      toast.error("Please log in to analyze charts.");
+      return;
+    }
+    if (!isPremium && chartAnalysisQuota?.upgrade) {
+      toast.error("Chart analysis limit reached. Upgrade to Premium for unlimited analyses.");
+      return;
+    }
     setLlmLoading((prev) => ({ ...prev, [chartType]: true }));
     try {
       let chartData = {};
@@ -205,10 +245,15 @@ export default function EnergyHub() {
       } else if (chartType === "map") {
         chartData = { metric: mapMetric };
       }
-      const result = await analyzeChart(chartType, chartData, forceRefresh);
+      const result = await analyzeChart(chartType, chartData, forceRefresh, accessToken);
       setChartAnalyses((prev) => ({ ...prev, [chartType]: result }));
     } catch (err) {
-      toast.error(`Failed to analyze ${chartType}`, { description: err.message });
+      const msg = err?.message || "";
+      if (msg.includes("Monthly limit reached")) {
+        toast.error("Chart analysis limit reached. Upgrade to Premium.");
+      } else {
+        toast.error(`Failed to analyze ${chartType}`, { description: err.message });
+      }
     } finally {
       setLlmLoading((prev) => ({ ...prev, [chartType]: false }));
     }

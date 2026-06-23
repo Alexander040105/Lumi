@@ -4,6 +4,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
+from app.dependencies.plan_limits import _get_limits, _get_usage
 from app.services.redis_client import get_redis
 from app.services.supabase_service import get_supabase_client
 
@@ -47,6 +48,27 @@ async def update_profile(payload: dict, user: dict = Depends(get_verified_user))
         .execute()
     )
     return {"profile": resp.data[0] if resp.data else None}
+
+
+@router.get("/quota/{feature}")
+async def get_quota(
+    feature: str,
+    user: dict = Depends(get_current_user_with_role_and_plan),
+) -> dict[str, Any]:
+    """Return the user's current usage and limit for a given feature."""
+    plan = user.get("plan", "free")
+    limits = _get_limits(plan)
+    limit = limits.get(feature)
+    usage = _get_usage(user.get("sub"))
+    current = usage.get(f"{feature}_this_month", 0)
+    return {
+        "feature": feature,
+        "plan": plan,
+        "limit": limit,
+        "current": current,
+        "remaining": None if limit is None else max(0, limit - current),
+        "upgrade": limit is not None and current >= limit,
+    }
 
 
 @router.post("/sync-avatar")

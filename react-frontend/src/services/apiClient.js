@@ -55,7 +55,7 @@ export function createItem(token, payload) {
   });
 }
 
-export function getEcosim(params) {
+export function getEcosim(params, token) {
   const search = new URLSearchParams({
     municipality_id: params.municipalityId,
     monthly_consumption: params.monthlyConsumption,
@@ -72,7 +72,7 @@ export function getEcosim(params) {
     search.append("rag_query", params.ragQuery);
   }
 
-  return request(`/ecosim/?${search.toString()}`);
+  return request(`/ecosim/?${search.toString()}`, { token });
 }
 
 export function getMunicipalities() {

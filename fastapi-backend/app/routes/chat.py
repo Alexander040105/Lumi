@@ -12,7 +12,9 @@ import json
 import logging
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from app.dependencies.plan_limits import PlanGate
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -102,6 +104,7 @@ def _generate_response(prompt: str) -> str:
 @router.post("/")
 async def chat_message(
     payload: dict,
+    user: dict = Depends(PlanGate("chat_messages")),
 ) -> dict[str, Any]:
     """Receive a chat message, run RAG retrieval, generate AI response, and persist.
 
@@ -114,8 +117,8 @@ async def chat_message(
     if not message_text:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Message is required")
 
-    # NOTE: persistence skipped in MVP public mode (no user_id without auth)
-    session_id = None
+    user_id = user.get("sub")
+    session_id = payload.get("session_id")
 
     # Retrieve context
     chunks = _retrieve_context(message_text)
