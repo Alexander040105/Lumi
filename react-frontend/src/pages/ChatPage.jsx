@@ -1,4 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { getApiBaseUrl } from "../utils/env";
+import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../services/supabaseClient";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 function formatCitations(text) {
   if (!text) return text;
@@ -21,9 +27,45 @@ function formatCitations(text) {
 }
 
 export default function ChatPage() {
+  const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState(searchParams.get("session") || null);
+
+  // Load existing session messages
+  useEffect(() => {
+    const sid = searchParams.get("session");
+    if (!sid || !user?.id) return;
+
+    setSessionId(sid);
+
+    const loadMessages = async () => {
+      const { data, error } = await supabase
+        .from("chat_messages")
+        .select("role, content, created_at")
+        .eq("session_id", sid)
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        toast.error("Failed to load chat history");
+        return;
+      }
+
+      if (data) {
+        setMessages(data.map((m) => ({ role: m.role, content: m.content })));
+      }
+    };
+
+    loadMessages();
+  }, [searchParams, user]);
+
+  const handleNewChat = () => {
+    setMessages([]);
+    setSessionId(null);
+    setSearchParams({});
+  };
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -33,8 +75,34 @@ export default function ChatPage() {
     setInput("");
     setIsLoading(true);
 
+    let currentSessionId = sessionId;
+
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/chat/`, {
+      // Create session on first message
+      if (!currentSessionId && user?.id) {
+        const title = input.trim().slice(0, 30) + (input.length > 30 ? "..." : "");
+        const { data: session, error } = await supabase
+          .from("chat_sessions")
+          .insert({ user_id: user.id, title })
+          .select("id")
+          .single();
+
+        if (error) throw new Error("Failed to create chat session");
+        currentSessionId = session.id;
+        setSessionId(currentSessionId);
+        setSearchParams({ session: currentSessionId });
+      }
+
+      // Persist user message
+      if (currentSessionId) {
+        await supabase.from("chat_messages").insert({
+          session_id: currentSessionId,
+          role: "user",
+          content: userMsg.content,
+        });
+      }
+
+      const res = await fetch(`${getApiBaseUrl()}/chat/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,10 +116,17 @@ export default function ChatPage() {
 
       const data = await res.json();
       if (data.message) {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: data.message },
-        ]);
+        const assistantMsg = { role: "assistant", content: data.message };
+        setMessages((prev) => [...prev, assistantMsg]);
+
+        // Persist assistant message
+        if (currentSessionId) {
+          await supabase.from("chat_messages").insert({
+            session_id: currentSessionId,
+            role: "assistant",
+            content: data.message,
+          });
+        }
       }
     } catch (err) {
       setMessages((prev) => [
@@ -65,7 +140,12 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">LUMI AI Assistant</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-bold">LUMI AI Assistant</h1>
+        <Button variant="outline" size="sm" onClick={handleNewChat}>
+          New Chat
+        </Button>
+      </div>
       <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30">
         {messages.length === 0 && (
           <p className="text-muted-foreground text-center mt-8">

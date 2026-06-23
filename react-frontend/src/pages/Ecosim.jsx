@@ -43,7 +43,7 @@ export default function Ecosim() {
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
   const [desiredSavings, setDesiredSavings] = useState(50);
-  const [includeAi, setIncludeAi] = useState(false);
+  const [includeAi, setIncludeAi] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
@@ -92,19 +92,20 @@ export default function Ecosim() {
   // Load saved simulation from query param ?simulation_id={id}
   useEffect(() => {
     const simId = searchParams.get("simulation_id");
-    if (!simId || !accessToken) return;
+    if (!simId || !user?.id) return;
 
     let isActive = true;
     const loadSaved = async () => {
       try {
-        const res = await fetch(
-          `${getApiBaseUrl()}/simulations/${simId}`,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
-        );
-        if (!res.ok) throw new Error("Failed to load saved simulation");
-        const data = await res.json();
-        const sim = data.simulation;
-        if (!sim || !isActive) return;
+        const { data: sim, error } = await supabase
+          .from("saved_simulations")
+          .select("*")
+          .eq("id", simId)
+          .eq("user_id", user.id)
+          .single();
+
+        if (error || !sim) throw new Error(error?.message || "Simulation not found");
+        if (!isActive) return;
 
         // Pre-populate inputs
         const inputs = sim.inputs || {};
@@ -141,7 +142,7 @@ export default function Ecosim() {
     return () => {
       isActive = false;
     };
-  }, [searchParams, accessToken, municipalities]);
+  }, [searchParams, user, municipalities]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

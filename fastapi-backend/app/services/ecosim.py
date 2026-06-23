@@ -29,7 +29,17 @@ df = pd.read_csv(str(_CLIMATE_CSV))
 COST_PER_KW_SOLAR = 60000.0
 COST_PER_KW_WIND = 80000.0
 COST_PER_KW_HYDRO = 100000.0
-COST_PER_KW_GEOTHERMAL = 150000.0
+# Geothermal installation cost derived from BOI Green Lane Certificate projects
+# (Jan 2024) reported by the Philippine Board of Investments:
+#   - Daklan (51 MW):  P6.66 B  -> ~130,588 PHP/kW
+#   - Mt. Labo (105 MW): P7.58 B  -> ~72,190 PHP/kW
+#   - Mt. Malinao (50 MW): P5.03 B  -> ~100,600 PHP/kW
+# Average of the three full-project costs ≈ 101,000 PHP/kW.
+# Source: BOI, "BOI grants Green Lane Certificates for new Geothermal Projects
+# in the Philippines" (Jan 2024); Manila Bulletin, "P244 B worth of RE investments
+# granted green lane processing" (Feb 2024).
+# URL: https://boi.gov.ph/boi-grants-green-lane-certificates-for-new-geothermal-projects-in-the-philippines/
+COST_PER_KW_GEOTHERMAL = 100000.0
 # Philippines DOE 2019–2021 National Grid Emission Factor (Luzon–Visayas grid).
 # Official Operating Margin EF = 0.6835 kg CO2 / kWh (DOE, 2022).
 # See: ecosim_economic_formula_references.md

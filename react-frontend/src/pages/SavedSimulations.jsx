@@ -26,18 +26,30 @@ export default function SavedSimulations() {
     const load = async () => {
       setLoading(true);
       try {
-        const [{ data: sims }, { data: sessions }] = await Promise.all([
-          supabase
+        // Try joined query first; fall back to plain select if FK/RLS blocks it
+        let simsQuery = supabase
+          .from("saved_simulations")
+          .select("*, municipalities(name)")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+        let { data: sims, error: simsError } = await simsQuery;
+
+        if (simsError || !sims) {
+          ({ data: sims, error: simsError } = await supabase
             .from("saved_simulations")
-            .select("*, municipalities(name)")
+            .select("*")
             .eq("user_id", user.id)
-            .order("created_at", { ascending: false }),
+            .order("created_at", { ascending: false }));
+        }
+
+        const [{ data: sessions }] = await Promise.all([
           supabase
             .from("chat_sessions")
             .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false }),
         ]);
+
         setSavedSimulations(sims || []);
         setChatSessions(sessions || []);
       } catch {
@@ -78,6 +90,23 @@ export default function SavedSimulations() {
       toast.success("Simulation deleted");
     } catch {
       toast.error("Failed to delete simulation");
+    }
+  };
+
+  const deleteChatSession = async (id) => {
+    if (!window.confirm("Delete this chat session?")) return;
+    try {
+      const { error } = await supabase
+        .from("chat_sessions")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", user.id);
+      if (error) throw error;
+      setChatSessions((prev) => prev.filter((s) => s.id !== id));
+      if (expandedSession === id) setExpandedSession(null);
+      toast.success("Chat deleted");
+    } catch {
+      toast.error("Failed to delete chat");
     }
   };
 
@@ -226,11 +255,21 @@ export default function SavedSimulations() {
                             <p className="text-sm text-muted-foreground">{msg.content}</p>
                           </div>
                         ))}
-                        <Link to={`/chat?session=${session.id}`}>
-                          <Button size="sm" variant="outline" className="mt-1">
-                            Continue Chat
+                        <div className="flex items-center gap-2 mt-1">
+                          <Link to={`/chat?session=${session.id}`}>
+                            <Button size="sm" variant="outline">
+                              Continue Chat
+                            </Button>
+                          </Link>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => deleteChatSession(session.id)}
+                            className="text-destructive hover:text-destructive"
+                          >
+                            Delete
                           </Button>
-                        </Link>
+                        </div>
                       </div>
                     )}
                   </div>
