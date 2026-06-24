@@ -5,6 +5,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
+from app.dependencies.plan_limits import (
+    check_feature_access,
+    get_plan_limits,
+    increment_usage,
+)
 from app.services.supabase_service import get_supabase_client
 
 router = APIRouter()
@@ -19,20 +24,6 @@ class SimulationCreate(BaseModel):
 
 class SimulationUpdate(BaseModel):
     label: str = Field(..., min_length=1, max_length=200)
-
-
-def _get_free_sim_limit() -> int | None:
-    """Fetch the current free simulation limit from system_config."""
-    client = get_supabase_client()
-    try:
-        resp = client.table("system_config").select("value").eq("key", "global").single().execute()
-        if resp.data:
-            value = resp.data.get("value", {})
-            limit = value.get("free_sim_limit")
-            return int(limit) if limit is not None else None
-    except Exception:
-        pass
-    return 3  # default fallback
 
 
 def _count_user_simulations(user_id: str) -> int:
@@ -59,21 +50,18 @@ async def create_simulation(
     user_id = user.get("sub")
     plan = user.get("plan", "free")
 
-    # Usage limit check for free users
-    if plan not in ("premium", "admin", "dev"):
-        free_limit = _get_free_sim_limit()
-        if free_limit is not None:
-            current_count = _count_user_simulations(user_id)
-            if current_count >= free_limit:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail={
-                        "message": "Simulation save limit reached for your plan.",
-                        "limit": free_limit,
-                        "current": current_count,
-                        "upgrade": True,
-                    },
-                )
+    # Plan limit check
+    access = check_feature_access(user, "simulation")
+    if not access["allowed"]:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail={
+                "message": access["message"],
+                "limit": access["limit"],
+                "current": access["limit"] - access["remaining"],
+                "upgrade": True,
+            },
+        )
 
     client = get_supabase_client()
     try:
@@ -89,7 +77,14 @@ async def create_simulation(
             })
             .execute()
         )
-        return {"simulation": resp.data[0] if resp.data else None}
+        sim_data = resp.data[0] if resp.data else None
+        # Log usage
+        increment_usage(
+            user_id=user_id,
+            feature_type="simulation",
+            metadata={"simulation_id": sim_data.get("id") if sim_data else None},
+        )
+        return {"simulation": sim_data}
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "fastapi-backend"))
 
-from app.services.rag_gemini_funcs import _smart_retrieve, _build_rag_prompt
+from app.services.rag_ai_funcs import _smart_retrieve, _build_rag_prompt
 from app.services import rag_pipeline
 
 rag_pipeline.ensure_index_built()

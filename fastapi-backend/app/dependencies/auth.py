@@ -134,6 +134,38 @@ def get_current_user_with_role_and_plan(user: dict = Depends(get_verified_user))
     return user
 
 
+def optional_auth(token: str | None = None) -> dict | None:
+    """Return verified user dict if a valid Bearer token is present, else None."""
+    from fastapi import Request
+    # This dependency is meant to be used with Depends(optional_auth) but
+    # FastAPI can't inject token automatically here without Request. We'll
+    # expose a callable that routes can invoke manually inside the handler.
+    return None
+
+
+def get_optional_user(request: Request) -> dict | None:
+    """Try to verify the Bearer token on the request; return user or None."""
+    header = request.headers.get("Authorization")
+    if not header:
+        return None
+    parts = header.split()
+    if len(parts) != 2 or parts[0].lower() != "bearer":
+        return None
+    token = parts[1]
+    client = get_supabase_public_client()
+    try:
+        user_response = client.auth.get_user(token)
+    except Exception:
+        return None
+    user_data = _extract_user_data(user_response)
+    if not user_data:
+        return None
+    user = _build_user_claims(user_data)
+    user["role"] = _get_user_role(user.get("sub"))
+    user["plan"] = _get_effective_plan(user.get("sub"))
+    return user
+
+
 def require_admin(user: dict = Depends(get_verified_user)) -> dict:
     """Require the authenticated user to have an admin or dev role."""
     role = _get_user_role(user.get("sub"))

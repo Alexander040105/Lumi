@@ -27,12 +27,29 @@ function formatCitations(text) {
 }
 
 export default function ChatPage() {
-  const { user } = useAuth();
+  const { user, accessToken, plan, isFree, isPro, isPremium } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState(searchParams.get("session") || null);
+  const [remainingMessages, setRemainingMessages] = useState(null);
+  const [limitReached, setLimitReached] = useState(false);
+
+  // Require auth
+  useEffect(() => {
+    if (!user) {
+      setMessages([
+        {
+          role: "assistant",
+          content:
+            "Please sign in to use LUMI AI Chat. Free users get 5 messages per month. Upgrade to Pro (₱199/mo) for 50 messages or Premium (₱599/mo) for 200 messages.",
+        },
+      ]);
+    } else {
+      setMessages([]);
+    }
+  }, [user]);
 
   // Load existing session messages
   useEffect(() => {
@@ -65,10 +82,20 @@ export default function ChatPage() {
     setMessages([]);
     setSessionId(null);
     setSearchParams({});
+    setLimitReached(false);
+    setRemainingMessages(null);
   };
 
   const handleSend = async () => {
     if (!input.trim()) return;
+    if (!user || !accessToken) {
+      toast.error("Please sign in to chat.");
+      return;
+    }
+    if (limitReached) {
+      toast.error("Message limit reached. Upgrade your plan to continue.");
+      return;
+    }
 
     const userMsg = { role: "user", content: input };
     setMessages((prev) => [...prev, userMsg]);
@@ -78,39 +105,27 @@ export default function ChatPage() {
     let currentSessionId = sessionId;
 
     try {
-      // Create session on first message
-      if (!currentSessionId && user?.id) {
-        const title = input.trim().slice(0, 30) + (input.length > 30 ? "..." : "");
-        const { data: session, error } = await supabase
-          .from("chat_sessions")
-          .insert({ user_id: user.id, title })
-          .select("id")
-          .single();
-
-        if (error) throw new Error("Failed to create chat session");
-        currentSessionId = session.id;
-        setSessionId(currentSessionId);
-        setSearchParams({ session: currentSessionId });
-      }
-
-      // Persist user message
-      if (currentSessionId) {
-        await supabase.from("chat_messages").insert({
-          session_id: currentSessionId,
-          role: "user",
-          content: userMsg.content,
-        });
-      }
-
       const res = await fetch(`${getApiBaseUrl()}/chat/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({ message: userMsg.content }),
+        body: JSON.stringify({
+          message: userMsg.content,
+          session_id: currentSessionId,
+        }),
       });
 
       if (!res.ok) {
+        if (res.status === 403) {
+          const errData = await res.json().catch(() => ({}));
+          setLimitReached(true);
+          setRemainingMessages(0);
+          throw new Error(
+            errData?.detail?.message || "Message limit reached. Upgrade your plan to continue."
+          );
+        }
         throw new Error(`Server error ${res.status}: ${res.statusText}`);
       }
 
@@ -118,20 +133,13 @@ export default function ChatPage() {
       if (data.message) {
         const assistantMsg = { role: "assistant", content: data.message };
         setMessages((prev) => [...prev, assistantMsg]);
-
-        // Persist assistant message
-        if (currentSessionId) {
-          await supabase.from("chat_messages").insert({
-            session_id: currentSessionId,
-            role: "assistant",
-            content: data.message,
-          });
-        }
+        setRemainingMessages(data.remaining_messages ?? null);
+        setLimitReached((data.remaining_messages ?? 1) <= 0);
       }
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: `Error: ${err.message}` },
+        { role: "assistant", content: err.message },
       ]);
     } finally {
       setIsLoading(false);
@@ -142,12 +150,27 @@ export default function ChatPage() {
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">LUMI AI Assistant</h1>
-        <Button variant="outline" size="sm" onClick={handleNewChat}>
-          New Chat
-        </Button>
+        <div className="flex items-center gap-3">
+          {remainingMessages !== null && (
+            <span className={`text-sm font-medium ${remainingMessages <= 2 ? "text-amber-600" : "text-muted-foreground"}`}>
+              {remainingMessages} / {isFree ? 5 : isPro ? 50 : 200} left
+            </span>
+          )}
+          <Button variant="outline" size="sm" onClick={handleNewChat}>
+            New Chat
+          </Button>
+        </div>
       </div>
+
+      {limitReached && (
+        <div className="mb-3 p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+          You have reached your monthly chat limit.{" "}
+          <a href="/pricing" className="underline font-semibold">Upgrade your plan</a> to continue chatting.
+        </div>
+      )}
+
       <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30">
-        {messages.length === 0 && (
+        {messages.length === 0 && user && (
           <p className="text-muted-foreground text-center mt-8">
             Ask me anything about renewable energy in the Philippines.
           </p>
@@ -176,12 +199,13 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type your question..."
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          placeholder={user ? "Type your question..." : "Sign in to chat..."}
+          disabled={!user || limitReached}
+          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
         />
         <button
           onClick={handleSend}
-          disabled={isLoading}
+          disabled={isLoading || !user || limitReached}
           className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
           Send

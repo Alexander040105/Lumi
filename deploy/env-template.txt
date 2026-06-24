@@ -1,0 +1,45 @@
+# =============================================================================
+# LUMI — Production Environment Variables Template
+# =============================================================================
+# Copy this file to `.env` at the repository ROOT and fill in real values.
+# Never commit `.env` to Git — it is already in .gitignore.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# CORS (required)
+# ---------------------------------------------------------------------------
+# JSON array of allowed origins.
+# During IP-only testing:  ["*"]
+# After domain + SSL:     ["https://yourdomain.com"]
+CORS_ORIGINS=["*"]
+
+# ---------------------------------------------------------------------------
+# Supabase (required)
+# ---------------------------------------------------------------------------
+SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
+SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+SUPABASE_JWT_SECRET=your-jwt-secret
+
+# ---------------------------------------------------------------------------
+# Redis / Upstash (required)
+# ---------------------------------------------------------------------------
+UPSTASH_REDIS_URL=rediss://default:xxxx@xxxx.upstash.io:6379
+
+# ---------------------------------------------------------------------------
+# Groq LLM (required)
+# ---------------------------------------------------------------------------
+GROQ_API_KEY=gsk_...
+GROQ_MODEL=llama-3.1-8b-instant
+GROQ_TEMPERATURE=0.3
+GROQ_MAX_TOKENS=4000
+
+# ---------------------------------------------------------------------------
+# Google GenAI (optional — only if your routes call it directly)
+# ---------------------------------------------------------------------------
+GOOGLE_API_KEY=AIza...
+
+# ---------------------------------------------------------------------------
+# App identity (optional — backend uses defaults if absent)
+# ---------------------------------------------------------------------------
+# APP_NAME=Lumi API

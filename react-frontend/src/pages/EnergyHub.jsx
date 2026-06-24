@@ -11,6 +11,8 @@ import {
   getGeothermalPlants,
 } from "../services/energyhub";
 
+import { useAuth } from "@/hooks/useAuth";
+
 import EnergyOverview from "@/components/energyhub/EnergyOverview";
 import EnergyMap from "@/components/energyhub/EnergyMap";
 import EnergyTrends from "@/components/energyhub/EnergyTrends";
@@ -26,6 +28,7 @@ const SUITABILITY_METRICS = [
 ];
 
 export default function EnergyHub() {
+  const { user, plan, isFree, isPro, isPremium } = useAuth();
   const [overview, setOverview] = useState(null);
   const [trends, setTrends] = useState(null);
   const [mapData, setMapData] = useState(null);
@@ -34,11 +37,14 @@ export default function EnergyHub() {
   const [mapMetric, setMapMetric] = useState("renewable_potential");
   const [mapLevel, setMapLevel] = useState("province");
   const [loading, setLoading] = useState(true);
-  const [useLlm, setUseLlm] = useState(true);
+  const [useLlm, setUseLlm] = useState(false);
   const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
   const [mapLoading, setMapLoading] = useState(false);
   const [geothermalPlants, setGeothermalPlants] = useState([]);
+  const [remainingInsights, setRemainingInsights] = useState(
+    isFree ? 1 : isPro ? 5 : 20
+  );
 
   // Cache for map data: { [metric]: { [level]: response } }
   const mapCacheRef = useRef({});
@@ -108,28 +114,42 @@ export default function EnergyHub() {
         // Non-critical; markers simply won't appear
       }
 
-      // Load LLM insight in background
+      // Load static insight (always free); LLM requires auth
       try {
-        const ai = await getEnergyHubAiInsight(true);
-        if (!cancelled) setInsight(ai);
-      } catch (err) {
-        if (!cancelled) {
-          toast.error("LLM insight failed", { description: err.message });
-          try {
-            const staticAi = await getEnergyHubAiInsight(false);
-            if (!cancelled) setInsight(staticAi);
-          } catch {}
+        const staticAi = await getEnergyHubAiInsight(false);
+        if (!cancelled) setInsight(staticAi);
+      } catch {}
+
+      // Load LLM insight only if authenticated
+      if (user) {
+        try {
+          const ai = await getEnergyHubAiInsight(true);
+          if (!cancelled) {
+            setInsight(ai);
+            if (ai?.remaining_insights !== undefined) {
+              setRemainingInsights(ai.remaining_insights);
+            }
+            if (ai?.upgrade_info) {
+              toast.info(ai.upgrade_info.message || "AI insight limit reached", {
+                action: { label: "Upgrade", onClick: () => window.location.href = "/pricing" },
+              });
+            }
+          }
+        } catch (err) {
+          if (!cancelled) {
+            toast.error("LLM insight failed", { description: err.message });
+          }
         }
-      } finally {
-        if (!cancelled) setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
+
+      if (!cancelled) setLlmLoading((prev) => ({ ...prev, overview: false }));
     }
 
     loadAll();
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [user]);
 
   // ---------------------------------------------------------------------------
   // Switch metric or level — use cache if available, else fetch + cache
@@ -158,11 +178,28 @@ export default function EnergyHub() {
   const handleToggleLlm = async () => {
     const next = !useLlm;
     setUseLlm(next);
-    if (next && !insight?.insight?.includes("LLM")) {
+    if (!next) return;
+    if (!user) {
+      toast.info("Sign in to access LLM-powered insights.");
+      return;
+    }
+    if (remainingInsights <= 0) {
+      toast.error("AI insight limit reached. Upgrade your plan to continue.");
+      return;
+    }
+    if (!insight?.insight?.includes("LLM")) {
       setLlmLoading((prev) => ({ ...prev, overview: true }));
       try {
         const ai = await getEnergyHubAiInsight(true);
         setInsight(ai);
+        if (ai?.remaining_insights !== undefined) {
+          setRemainingInsights(ai.remaining_insights);
+        }
+        if (ai?.upgrade_info) {
+          toast.info(ai.upgrade_info.message || "AI insight limit reached", {
+            action: { label: "Upgrade", onClick: () => window.location.href = "/pricing" },
+          });
+        }
       } catch (err) {
         toast.error("LLM insight failed", { description: err.message });
       } finally {
@@ -173,6 +210,14 @@ export default function EnergyHub() {
 
   const handleAnalyzeChart = async (chartType, forceRefresh = false) => {
     if (chartAnalyses[chartType] && !forceRefresh) return;
+    if (!user) {
+      toast.info("Sign in to analyze charts with AI.");
+      return;
+    }
+    if (remainingInsights <= 0) {
+      toast.error("AI insight limit reached. Upgrade your plan to continue.");
+      return;
+    }
     setLlmLoading((prev) => ({ ...prev, [chartType]: true }));
     try {
       let chartData = {};
@@ -207,8 +252,17 @@ export default function EnergyHub() {
       }
       const result = await analyzeChart(chartType, chartData, forceRefresh);
       setChartAnalyses((prev) => ({ ...prev, [chartType]: result }));
+      if (result?.remaining_insights !== undefined) {
+        setRemainingInsights(result.remaining_insights);
+      }
     } catch (err) {
-      toast.error(`Failed to analyze ${chartType}`, { description: err.message });
+      if (err.message?.toLowerCase().includes("limit reached") || err.message?.includes("upgrade")) {
+        toast.error(err.message, {
+          action: { label: "Upgrade", onClick: () => window.location.href = "/pricing" },
+        });
+      } else {
+        toast.error(`Failed to analyze ${chartType}`, { description: err.message });
+      }
     } finally {
       setLlmLoading((prev) => ({ ...prev, [chartType]: false }));
     }
@@ -278,6 +332,11 @@ export default function EnergyHub() {
             chartAnalyses={chartAnalyses}
             onToggleLlm={handleToggleLlm}
             onAnalyzeChart={handleAnalyzeChart}
+            remainingInsights={remainingInsights}
+            plan={plan}
+            isFree={isFree}
+            isPro={isPro}
+            isPremium={isPremium}
           />
         </section>
       </div>

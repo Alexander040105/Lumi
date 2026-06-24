@@ -441,17 +441,17 @@ def renewable_energy_calculator(
             }
 
             if use_rag and rag_query:
-                from app.services.rag_gemini_funcs import analyze_with_rag
+                from app.services.rag_ai_funcs import analyze_with_rag
 
                 ai_analysis = analyze_with_rag(analysis_payload, rag_query)
             else:
-                from app.services.gemini_funcs import analyze_renewable_results
+                from app.services.ecosim_ai import analyze_renewable_results
 
                 ai_analysis = analyze_renewable_results(analysis_payload)
         except Exception:
-            logger.exception("Gemini analysis failed in Ecosim")
+            logger.exception("LLM analysis failed in Ecosim")
             ai_analysis = {
-                "summary": "Gemini analysis failed.",
+                "summary": "LLM analysis failed.",
                 "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
                 "recommendation": {"best_option": "", "reason": ""},
                 "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},

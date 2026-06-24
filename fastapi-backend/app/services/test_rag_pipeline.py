@@ -19,7 +19,7 @@ sys.path.insert(0, str(_repo_root / "fastapi-backend"))
 
 from app.services.rag_knowledge_builder import build_knowledge_base, save_knowledge_base
 from app.services import rag_pipeline
-from app.services.rag_gemini_funcs import analyze_with_rag
+from app.services.rag_ai_funcs import analyze_with_rag
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 logger = logging.getLogger(__name__)
@@ -62,9 +62,9 @@ def _test_retrieval() -> None:
 
 
 def _test_end_to_end() -> None:
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
-        logger.warning("GEMINI_API_KEY not set — skipping end-to-end Gemini tests.")
+        logger.warning("GROQ_API_KEY not set — skipping end-to-end LLM tests.")
         return
 
     # Minimal ecosim payload for testing
@@ -129,7 +129,7 @@ def _test_end_to_end() -> None:
         ("Test 3 — Solar vs Wind", "Should I choose solar or wind for my home?"),
     ]
 
-    logger.info("\n=== End-to-end Gemini RAG tests ===")
+    logger.info("\n=== End-to-end RAG + Groq tests ===")
     for name, query in test_cases:
         logger.info("\n%s", name)
         result = analyze_with_rag(analysis_payload, query, top_k=5)

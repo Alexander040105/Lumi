@@ -1,5 +1,5 @@
 """
-Groq LLM client — free-tier alternative to Gemini.
+Groq LLM client — primary LLM provider for LUMI.
 
 Groq free tier (as of 2025):
   - 20 requests / minute
@@ -25,15 +25,15 @@ load_dotenv(dotenv_path=_repo_root / ".env")
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
 DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "4000"))
 
-# Free-tier Groq models that work well for structured JSON output
+# Fallback chain if the primary model is unavailable
 FALLBACK_GROQ_MODELS = [
+    "llama-3.3-70b-versatile",
     "llama-3.1-70b-versatile",
     "mixtral-8x7b-32768",
-    "llama-3.1-8b-instant",
 ]
 
 _groq_client: Any | None = None
@@ -61,10 +61,14 @@ def generate_groq_response(
     temperature: float | None = None,
     max_tokens: int | None = None,
     max_retries: int = 3,
+    json_mode: bool = True,
 ) -> str:
     """
     Generate a response from Groq with retry + model fallback.
-    Forces JSON output via response_format.
+
+    Args:
+        json_mode: If True, forces JSON output via response_format.
+                   Set to False for plain-text prompts (Ecosim, Chat, EnergyHub).
     """
     client = _get_groq_client()
     model_name = model or DEFAULT_GROQ_MODEL
@@ -76,29 +80,36 @@ def generate_groq_response(
         if fallback not in models_to_try:
             models_to_try.append(fallback)
 
+    if json_mode:
+        system_prompt = (
+            "You are a helpful assistant that always returns "
+            "valid JSON. Do not include markdown formatting, "
+            "explanations, or anything outside the JSON object."
+        )
+    else:
+        system_prompt = (
+            "You are LUMI, a Renewable Energy Decision Support Assistant for the Philippines. "
+            "Respond in clear, helpful plain text."
+        )
+
     last_error: Exception | None = None
 
     for attempt_model in models_to_try:
         for attempt in range(1, max_retries + 1):
             try:
                 logger.info("Groq attempt %s/%s on model=%s", attempt, max_retries, attempt_model)
-                response = client.chat.completions.create(
-                    model=attempt_model,
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": (
-                                "You are a helpful assistant that always returns "
-                                "valid JSON. Do not include markdown formatting, "
-                                "explanations, or anything outside the JSON object."
-                            ),
-                        },
+                kwargs = {
+                    "model": attempt_model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
                         {"role": "user", "content": content},
                     ],
-                    temperature=temp_value,
-                    max_tokens=token_limit,
-                    response_format={"type": "json_object"},
-                )
+                    "temperature": temp_value,
+                    "max_tokens": token_limit,
+                }
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+                response = client.chat.completions.create(**kwargs)
                 text = response.choices[0].message.content or ""
                 if text:
                     return text

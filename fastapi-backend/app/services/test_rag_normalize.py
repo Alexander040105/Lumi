@@ -3,10 +3,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "fastapi-backend"))
 
-from app.services.rag_gemini_funcs import _normalize_rag_output
+from app.services.rag_ai_funcs import _normalize_rag_output
 
-# Simulate a perfect Gemini response
-mock_gemini = {
+# Simulate a perfect LLM response
+mock_llm = {
     "recommended_energy_source": "solar",
     "estimated_budget": {
         "equipment": ["Solar panels: PHP 1,291 - 5,782", "Inverter: PHP 15,816", "Mounting: PHP 3,000"],
@@ -18,7 +18,7 @@ mock_gemini = {
     "limitations": "Output drops during cloudy months. Battery needed for off-grid use.",
 }
 
-result = _normalize_rag_output(mock_gemini)
+result = _normalize_rag_output(mock_llm)
 
 print("=== Normalized Output ===")
 import json

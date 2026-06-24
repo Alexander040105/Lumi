@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
 import { useSearchParams } from "react-router-dom";
 
@@ -32,18 +32,21 @@ const formatCurrency = (value) =>
   }).format(value ?? 0);
 
 export default function Ecosim() {
-  const { user, accessToken } = useAuth();
+  const { user, accessToken, plan, isFree, isPro, isPremium } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
+  const [municipalitiesLoading, setMunicipalitiesLoading] = useState(true);
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
   const [muniQuery, setMuniQuery] = useState("");
   const [muniOpen, setMuniOpen] = useState(false);
+  const muniRef = useRef(null);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
   const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(true);
+  const [aiInsightInfo, setAiInsightInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
@@ -68,6 +71,7 @@ export default function Ecosim() {
     let isActive = true;
 
     const loadMunicipalities = async () => {
+      setMunicipalitiesLoading(true);
       try {
         const data = await getMunicipalities();
         if (!isActive) return;
@@ -80,6 +84,8 @@ export default function Ecosim() {
       } catch (err) {
         if (!isActive) return;
         setMunicipalitiesError(err?.message || "Unable to load municipalities.");
+      } finally {
+        if (isActive) setMunicipalitiesLoading(false);
       }
     };
 
@@ -87,6 +93,17 @@ export default function Ecosim() {
     return () => {
       isActive = false;
     };
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (muniRef.current && !muniRef.current.contains(event.target)) {
+        setMuniOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   // Load saved simulation from query param ?simulation_id={id}
@@ -148,6 +165,7 @@ export default function Ecosim() {
     event.preventDefault();
     setError(null);
     setLoading(true);
+    setAiInsightInfo(null);
 
     try {
       const data = await getEcosim({
@@ -158,6 +176,7 @@ export default function Ecosim() {
         includeAi,
       });
       setResult(data);
+      setAiInsightInfo(data?.ai_insight_info || null);
     } catch (err) {
       setError(err?.message || "Unable to load Ecosim data.");
     } finally {
@@ -257,24 +276,27 @@ export default function Ecosim() {
                 onChange={(event) => setMonthlyBill(Number(event.target.value))}
               />
             </div>
-            <div className="relative space-y-2">
+            <div ref={muniRef} className="relative space-y-2">
               <label className="text-sm font-medium">Municipality</label>
               <Input
                 type="text"
-                placeholder="Search municipality..."
+                placeholder={municipalitiesLoading ? "Loading municipalities..." : "Search municipality..."}
                 value={muniQuery}
                 onChange={(e) => {
                   setMuniQuery(e.target.value);
                   setMuniOpen(true);
                 }}
                 onFocus={() => setMuniOpen(true)}
-                onBlur={() => setMuniOpen(false)}
-                disabled={loading}
+                disabled={loading || municipalitiesLoading}
                 autoComplete="off"
               />
               {muniOpen && (
-                <div className="absolute z-10 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
-                  {filteredMunicipalities.length ? (
+                <div className="absolute z-50 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
+                  {municipalitiesLoading ? (
+                    <div className="px-3 py-2.5 text-sm text-muted-foreground">
+                      Loading...
+                    </div>
+                  ) : filteredMunicipalities.length ? (
                     filteredMunicipalities.map((item) => (
                       <button
                         key={item.municipality_id}
@@ -285,7 +307,6 @@ export default function Ecosim() {
                             ? "bg-accent font-medium text-accent-foreground"
                             : "")
                         }
-                        onMouseDown={(e) => e.preventDefault()}
                         onClick={() => {
                           setMunicipalityId(String(item.municipality_id));
                           setMuniQuery(item.name);
@@ -297,7 +318,7 @@ export default function Ecosim() {
                     ))
                   ) : (
                     <div className="px-3 py-2.5 text-sm text-muted-foreground">
-                      No results found
+                      {municipalitiesError ? "Failed to load" : "No results found"}
                     </div>
                   )}
                 </div>
@@ -322,12 +343,30 @@ export default function Ecosim() {
                   type="checkbox"
                   checked={includeAi}
                   onChange={(e) => setIncludeAi(e.target.checked)}
-                  disabled={loading}
-                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary"
+                  disabled={
+                    loading ||
+                    (aiInsightInfo?.ai_insight_remaining !== null &&
+                      aiInsightInfo?.ai_insight_remaining <= 0)
+                  }
+                  className="h-4 w-4 rounded border-brand-light text-primary accent-primary focus:ring-primary disabled:opacity-50"
                 />
-                <span>Include AI analysis</span>
+                <span>
+                  Include AI analysis
+                  {plan && (
+                    <span className="ml-1 text-xs text-muted-foreground">
+                      ({aiInsightInfo?.ai_insight_remaining ?? (isFree ? 1 : isPro ? 5 : 20)} /{" "}
+                      {isFree ? 1 : isPro ? 5 : 20} left)
+                    </span>
+                  )}
+                </span>
               </label>
             </div>
+            {aiInsightInfo?.message && (
+              <div className="col-span-full text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1">
+                {aiInsightInfo.message}{" "}
+                <a href="/pricing" className="underline font-semibold">Upgrade</a>
+              </div>
+            )}
             <div className="flex items-end">
               <Button type="submit" disabled={loading || !municipalityId} className="w-full">
                 {loading ? "Running simulation..." : "Run simulation"}

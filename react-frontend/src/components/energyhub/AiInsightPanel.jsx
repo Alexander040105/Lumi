@@ -9,11 +9,17 @@ export default function AiInsightPanel({
   llmLoading = {},
   chartAnalyses = {},
   onAnalyzeChart,
+  remainingInsights,
+  plan,
+  isFree,
+  isPro,
+  isPremium,
 }) {
   const [activeTab, setActiveTab] = useState("overview");
 
   const anyLoading = Object.values(llmLoading || {}).some(Boolean);
   const tabLoading = !!(llmLoading || {})[activeTab];
+  const limitReached = remainingInsights !== undefined && remainingInsights <= 0;
 
   if (!insight) {
     return (
@@ -35,21 +41,37 @@ export default function AiInsightPanel({
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Lightbulb className="h-5 w-5 text-amber-500" />
           AI Insight
-        </h3>
-        <Button
-          variant={useLlm ? "default" : "outline"}
-          size="sm"
-          onClick={onToggleLlm}
-          disabled={anyLoading}
-          className="gap-1.5"
-        >
-          {anyLoading ? (
-            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <Sparkles className="h-3.5 w-3.5" />
+          {plan && (
+            <span className={`ml-2 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+              isPremium ? "bg-purple-100 text-purple-700" :
+              isPro ? "bg-blue-100 text-blue-700" :
+              "bg-gray-100 text-gray-600"
+            }`}>
+              {plan.toUpperCase()}
+            </span>
           )}
-          {useLlm ? "LLM Mode" : "Static Mode"}
-        </Button>
+        </h3>
+        <div className="flex items-center gap-2">
+          {remainingInsights !== undefined && (
+            <span className={`text-xs font-medium ${limitReached ? "text-red-600" : remainingInsights <= 2 ? "text-amber-600" : "text-muted-foreground"}`}>
+              {remainingInsights} / {isFree ? 1 : isPro ? 5 : 20} left
+            </span>
+          )}
+          <Button
+            variant={useLlm ? "default" : "outline"}
+            size="sm"
+            onClick={onToggleLlm}
+            disabled={anyLoading || limitReached}
+            className="gap-1.5"
+          >
+            {anyLoading ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Sparkles className="h-3.5 w-3.5" />
+            )}
+            {useLlm ? "LLM Mode" : "Static Mode"}
+          </Button>
+        </div>
       </div>
 
       <p className="mt-1 text-xs text-muted-foreground">
@@ -57,6 +79,11 @@ export default function AiInsightPanel({
           ? "Powered by Gemini/Groq LLM — analyzing energy data dynamically."
           : `Data-driven observation based on ${insight.data_year} statistics and ARIMA forecast`}
       </p>
+      {limitReached && (
+        <p className="mt-1 text-xs text-amber-700">
+          AI insight limit reached. <a href="/pricing" className="underline font-semibold">Upgrade your plan</a> to continue using LLM insights.
+        </p>
+      )}
 
       {/* Tabs for different chart analyses */}
       {useLlm && onAnalyzeChart && (

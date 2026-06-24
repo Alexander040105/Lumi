@@ -1,5 +1,5 @@
 """
-Full pipeline test — RAG + Groq + Gemini fallback.
+Full pipeline test — RAG + Groq.
 Run from repo root:  python -m fastapi-backend.app.services.test_full_pipeline
 """
 from __future__ import annotations
@@ -22,8 +22,7 @@ print("=" * 60)
 print("ENV CHECK")
 print("=" * 60)
 print(f"  GROQ_API_KEY   : {'SET' if os.getenv('GROQ_API_KEY') else 'MISSING'}")
-print(f"  GEMINI_API_KEY : {'SET' if os.getenv('GEMINI_API_KEY') else 'MISSING'}")
-print(f"  LLM_PROVIDER   : {os.getenv('LLM_PROVIDER', 'gemini')}")
+print(f"  GROQ_MODEL     : {os.getenv('GROQ_MODEL', 'llama-3.1-8b-instant')}")
 
 # ------------------------------------------------------------------
 # 2. Test Groq client standalone
@@ -108,7 +107,7 @@ test_cases = [
 ]
 
 try:
-    from app.services.rag_gemini_funcs import analyze_with_rag
+    from app.services.rag_ai_funcs import analyze_with_rag
     for name, query in test_cases:
         print(f"\n  --- {name} ---")
         result = analyze_with_rag(analysis_payload, query, top_k=5)

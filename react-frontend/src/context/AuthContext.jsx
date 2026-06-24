@@ -89,8 +89,11 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   const isAdmin = role === "admin" || role === "dev";
-  const effectivePlan = isAdmin ? "premium" : "free";
-  const isPremium = isAdmin;
+  const planFromProfile = profile?.plan ?? "free";
+  const effectivePlan = isAdmin ? "premium" : planFromProfile;
+  const isFree = effectivePlan === "free";
+  const isPro = effectivePlan === "pro";
+  const isPremium = effectivePlan === "premium";
 
   const value = useMemo(
     () => ({
@@ -101,7 +104,9 @@ export function AuthProvider({ children }) {
       loading,
       role,
       isAdmin,
-      effectivePlan,
+      plan: effectivePlan,
+      isFree,
+      isPro,
       isPremium,
       emailConfirmed,
       signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
@@ -136,7 +141,7 @@ export function AuthProvider({ children }) {
         if (data) setProfile(data);
       },
     }),
-    [session, loading, role, isAdmin, effectivePlan, isPremium, profile, emailConfirmed]
+    [session, loading, role, isAdmin, effectivePlan, isFree, isPro, isPremium, profile, emailConfirmed]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

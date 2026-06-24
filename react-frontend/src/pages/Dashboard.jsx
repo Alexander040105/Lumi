@@ -318,9 +318,12 @@ export default function Dashboard() {
             <select
               value={selectedMuni}
               onChange={(e) => setSelectedMuni(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              disabled={loading}
+              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
             >
-              <option value="">Select a municipality</option>
+              <option value="">
+                {loading ? "Loading municipalities..." : "Select a municipality"}
+              </option>
               {municipalities.map((m) => (
                 <option key={m.municipality_id} value={m.municipality_id}>
                   {m.name}

@@ -1,9 +1,9 @@
 import json
 import logging
-from pathlib import Path
 from typing import Any
 
-from app.services.llm_client import generate_response, parse_json_response
+from app.services.llm_client import generate_response
+from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
 from app.services import rag_pipeline
 
 logger = logging.getLogger(__name__)
@@ -176,9 +176,8 @@ def analyze_with_rag(
             logger.warning("RAG retrieved zero relevant chunks for query: %s", user_query)
 
         prompt = _build_rag_prompt(analysis_payload, user_query, retrieved_context)
-        response_text = generate_response(prompt)
+        response_text = generate_response(prompt, json_mode=False)
 
-        from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
         cleaned = sanitize_llm_output(response_text)
         prescriptive = extract_prescriptive_recommendation(cleaned)
 

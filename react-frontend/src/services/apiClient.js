@@ -2,10 +2,24 @@ import { getApiBaseUrl } from "../utils/env";
 
 const BASE_URL = getApiBaseUrl();
 
+function getStoredToken() {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("sb-") && key.endsWith("-auth-token")) {
+        const session = JSON.parse(localStorage.getItem(key));
+        return session?.access_token || null;
+      }
+    }
+  } catch {}
+  return null;
+}
+
 export async function request(path, { token, ...options } = {}) {
   const headers = new Headers(options.headers || {});
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
+  const effectiveToken = token || getStoredToken();
+  if (effectiveToken) {
+    headers.set("Authorization", `Bearer ${effectiveToken}`);
   }
   if (!headers.has("Content-Type") && options.body) {
     headers.set("Content-Type", "application/json");
