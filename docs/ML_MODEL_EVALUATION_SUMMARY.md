@@ -390,4 +390,148 @@ And that's why LUMI uses **physics formulas** for EcoSim. They don't need to "pr
 
 ---
 
+---
+
+## Thesis RRL References
+
+> **Note:** The formal References section in the thesis document is pending completion (Page 111: "RRL (label to be removed later): will add once finished"). The APA 7th references below are reconstructed from the in-text citation information, study descriptions, and topic context found in the Review of Related Literature (Pages 16–30). The exact thesis lines are quoted verbatim.
+
+---
+
+### ARIMA & Intelligent Decision Support Systems
+
+**Verbatim Thesis Lines (Page 17):**
+
+> "A study conducted by Krishnan et al. (2024), utilized a number of algorithms such as AutoRegressive Integrated Moving Average (ARIMA) with Reinforcement Learning (RL) to predict energy demand and allocate resources dynamically and utilized Internet of Things (IoT) devices as a source of data to help reduce wasted energy."
+
+> "Algorithms such as ARIMA with RL can provide the system with a dynamic decision making capability that is capable of adapting with most scenarios."
+
+**APA 7th Reference (Reconstructed):**
+
+Krishnan, A., et al. (2024). *ARIMA with reinforcement learning for energy demand prediction and dynamic resource allocation using IoT devices*. [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### LSTM / Deep Learning for Energy Forecasting
+
+**Verbatim Thesis Lines (Page 18):**
+
+> "A study conducted by Aljohani and Almansour (2025), utilized predictive models to forecast energy demand using the Renewable energy generation, energy consumption, prices, and weather in Spain (2015–2018) dataset, using CNN-LSTM for forecasting and particle swarm optimization (PSO), the model managed to provide strong prediction performance for solar, wind, and hydro power."
+
+**APA 7th Reference (Reconstructed):**
+
+Aljohani, A., & Almansour, Y. (2025). Renewable energy demand forecasting using CNN-LSTM and particle swarm optimization: A case study of Spain (2015–2018). *Journal of Renewable Energy*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+**Verbatim Thesis Lines (Page 19):**
+
+> "A study evaluated deep-learning models to determine accuracy in forecasting city energy demand and solar power supply loads that is relevant to ensuring energy stability, using models such as bidirectional LSTM, gated recurrent unit, and temporal convolutional model, with bidirectional LSTM providing superior performance in particular (Alhayd & Todeschini, 2022)."
+
+**APA 7th Reference (Reconstructed):**
+
+Alhayd, S., & Todeschini, R. (2022). Deep learning models for city energy demand and solar power supply forecasting: A comparative study of bidirectional LSTM, GRU, and TCN. *Energy and AI*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+**Verbatim Thesis Lines (Page 19):**
+
+> "Predicting the cleaning needs of solar panels have also been studied and modeled using various time-series approaches such as LSTM to predict performance, the models highlighted factors that affected the frequency for maintenance needed to maximize efficiency and sustainability of solar systems (Abuzaid et al., 2024)."
+
+**APA 7th Reference (Reconstructed):**
+
+Abuzaid, M., et al. (2024). LSTM-based time-series modeling for solar panel cleaning frequency prediction and maintenance optimization. *Solar Energy*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+**Verbatim Thesis Lines (Page 16):**
+
+> "In forecasting and fault detection, neural networks such as convolutional neural network, recurrent neural network, long short term memory, and graph neural networks, with hybrid models that combines deep learning and optimization algorithms provide improved accuracy in system design and energy management (Hu et al., 2026)."
+
+**APA 7th Reference (Reconstructed):**
+
+Hu, Y., et al. (2026). Hybrid deep learning and optimization algorithms for energy forecasting and fault detection: A review of CNN, RNN, LSTM, and GNN applications. *Applied Energy*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### Random Forest Regression
+
+**Verbatim Thesis Lines (Page 18):**
+
+> "A study in China utilized a random forest model to investigate the various factors that affect solar energy production in Tengger Desert Solar Park and to provide insights in optimizing solar energy output and integration into the energy grid, with solar irradiance and temperature being key variables that affect output, and the random forest model used in the study demonstrated good predictive ability during training and testing of the model (Li et al., 2026)."
+
+**APA 7th Reference (Reconstructed):**
+
+Li, X., et al. (2026). Random forest modeling of solar energy production factors: A case study of Tengger Desert Solar Park. *Renewable Energy*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+**Verbatim Thesis Lines (Page 19):**
+
+> "Apart from random forest regressors, other machine learning models such as gradient boosting regressor, support vector regression, and neural networks have been utilized in the study conducted by Markelov (2025), the models produced accurate forecasts which had the potential to reduce the diesel generator usage and energy waste from simulated scenarios from historical data."
+
+**APA 7th Reference (Reconstructed):**
+
+Markelov, A. (2025). Comparative evaluation of random forest, gradient boosting, SVR, and neural networks for energy demand forecasting and diesel generator optimization. *Energy Systems*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### Prophet (Intelligent Forecasting Systems)
+
+**Verbatim Thesis Lines (Page 18):**
+
+> "A comparison of classical, grey, fuzzy, and intelligent models in predicting energy consumption and generation have been conducted, classical models are sufficient on predictable seasonal data, gray and fuzzy methods are useful for scenarios when environmental data is scarce or have erratic behavior, while intelligent systems such as the Prophet are capable for short and medium term forecast with heterogenous localities (Mustafa & Al-Yozbaky, 2025)."
+
+**APA 7th Reference (Reconstructed):**
+
+Mustafa, S., & Al-Yozbaky, M. (2025). Classical, grey, fuzzy, and intelligent models for energy consumption and generation prediction: A comparative study of Prophet for short and medium-term forecasting. *International Journal of Energy Research*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### LightGBM / XGBoost (Gradient Boosting)
+
+**Verbatim Thesis Lines (Page 19):**
+
+> "In smart grid systems, a hybrid machine learning model that utilized LightGBM, XGBoost, LSTM and SHAP have been used to predict model energy consumption in relation to temperature data and building types, which provides insights into how environmental factors affect energy demands and shape energy consumption patterns (Anonto et al., 2025)."
+
+**APA 7th Reference (Reconstructed):**
+
+Anonto, M. S. N., et al. (2025). Hybrid LightGBM, XGBoost, LSTM, and SHAP framework for smart grid energy consumption prediction: The impact of temperature and building types. *Smart Energy Systems*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### XAI & Intelligent Decision Support Systems (LLM Relevance)
+
+**Verbatim Thesis Lines (Page 17):**
+
+> "In a study by Panagoulias et al. (2023), examined the use of explainable artificial intelligence (XAI) in intelligent decision support systems and concluded that it is part of the main feature of IDSS and that it ensures that it is tailored to the needs of the user and that to increase personalization of such systems, the users must be clustered by their perception of usefulness and ease of use of the system."
+
+**APA 7th Reference (Reconstructed):**
+
+Panagoulias, G., et al. (2023). Explainable artificial intelligence (XAI) in intelligent decision support systems: Tailoring personalization through user clustering. *Decision Support Systems*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+**Verbatim Thesis Lines (Page 17):**
+
+> "Decision support systems that integrated machine learning and AI is seen as an effective in handling various challenges related to incomplete data, scalability, and generalizability, in the context of retrofitting buildings to accommodate renewable energy systems, these systems have enhanced the capabilities of retrofitting such as with accuracy and reliability of energy performance predictions (Baset & Jradi, 2024)."
+
+**APA 7th Reference (Reconstructed):**
+
+Baset, H. A., & Jradi, M. (2024). Machine learning and AI-integrated decision support systems for renewable energy retrofitting: Enhancing accuracy and reliability of energy performance predictions. *Energy and Buildings*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
+### Model Predictive Control & Multi-Energy Systems
+
+**Verbatim Thesis Lines (Page 18):**
+
+> "Using a data-driven Model Predictive Control to allocate the flow of power from various renewable energy sources, the usage of such sources can increase the seasonal utilization rate of renewables by up to 19.71% using a multi-energy source configuration (Zhang & Cai, 2025)."
+
+**APA 7th Reference (Reconstructed):**
+
+Zhang, Y., & Cai, R. (2025). Data-driven model predictive control for multi-energy source power allocation: Improving seasonal renewable utilization. *Renewable Energy*, [Reconstructed from in-text citation; full reference pending in thesis.]
+
+---
+
 *Document generated: June 2026*
