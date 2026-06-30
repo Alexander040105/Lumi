@@ -1,0 +1,11 @@
+year,customer_class,rate_php_per_kwh,charge_component,source_note
+2011,Residential,4.0144,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2012,Residential,5.4643,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2013,Residential,5.791,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2014,Residential,5.6673,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2015,Residential,4.7182,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2016,Residential,3.9238,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2017,Residential,3.7,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2018,Residential,4.0768,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2019,Residential,4.9119,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)
+2020,Residential,4.9039,Generation Energy Charge,Meralco Actual Implemented Rates (FOI)

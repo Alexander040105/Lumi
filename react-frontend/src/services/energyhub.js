@@ -51,6 +51,34 @@ export function getProvincialDemand(region = null) {
   return request(`${ENERGYHUB_BASE}/provincial-demand${qs}`);
 }
 
+export function getIrenaOverview() {
+  return request(`${ENERGYHUB_BASE}/irena/overview`);
+}
+
+export function getIrenaCapacity(year = null) {
+  const qs = year ? `?year=${year}` : "";
+  return request(`${ENERGYHUB_BASE}/irena/capacity${qs}`);
+}
+
+export function getIrenaGeneration(year = null) {
+  const qs = year ? `?year=${year}` : "";
+  return request(`${ENERGYHUB_BASE}/irena/generation${qs}`);
+}
+
+export function getIrenaRenewableShare() {
+  return request(`${ENERGYHUB_BASE}/irena/renewable-share`);
+}
+
+export function getMeralcoRate(year = null) {
+  const qs = year ? `?year=${year}` : "";
+  return request(`${ENERGYHUB_BASE}/meralco-rate${qs}`);
+}
+
+export function getSolarAtlas(location = null) {
+  const qs = location ? `?location=${encodeURIComponent(location)}` : "";
+  return request(`${ENERGYHUB_BASE}/solar-atlas${qs}`);
+}
+
 export function analyzeChart(chartType, chartData, forceRefresh = false) {
   const qs = forceRefresh ? "?force_refresh=true" : "";
   return request(`${ENERGYHUB_BASE}/analyze-chart${qs}`, {

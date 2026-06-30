@@ -1,0 +1,579 @@
+"Electricity generation statistics by Country/area, Technology, Data Type, Grid connection and Year"
+
+"Country/area","Technology","Data Type","Grid connection","Year",Electricity generation statistics
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2000",18937.71
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2001",17051.19
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2002",16772.94
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2003",17180.97
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2004",17934.29
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2005",17476.91
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2006",19592.14
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2007",18066.56
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2008",20417.77
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2009",19645.43
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2010",17324.34
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2011",19573.22
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2012",20349.78
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2013",19370.01
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2014",19097.68
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2015",20196.90
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2016",21219.40
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2017",22423.10
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2018",22535.82
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2019",21234.87
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2020",20820.69
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2021",22714.67
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2022",24032.69
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","On-grid","2023",25662.58
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2000",42.77
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2001",40.95
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2002",39.47
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2003",38.64
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2004",36.89
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2005",39.10
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2006",41.34
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2007",45.81
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2008",51.72
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2009",57.88
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2010",69.06
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2011",89.70
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2012",104.59
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2013",121.10
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2014",117.33
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2015",129.84
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2016",126.72
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2017",135.44
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2018",168.35
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2019",203.22
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2020",194.00
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2021",207.99
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2022",270.57
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","Off-grid","2023",287.35
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2000",18980.48
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2001",17092.14
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2002",16812.41
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2003",17219.61
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2004",17971.17
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2005",17516.01
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2006",19633.47
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2007",18112.38
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2008",20469.49
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2009",19703.31
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2010",17393.40
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2011",19662.92
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2012",20454.38
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2013",19491.10
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2014",19215.01
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2015",20326.74
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2016",21346.12
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2017",22558.54
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2018",22704.18
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2019",21438.09
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2020",21014.69
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2021",22922.66
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2022",24303.26
+"Philippines (the)","Total renewable","Electricity Generation (GWh)","All","2023",25949.93
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2000",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2001",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2002",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2003",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2004",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2005",1.52
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2006",1.38
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2007",1.31
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2008",1.30
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2009",1.25
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2010",1.25
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2011",1.21
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2012",1.32
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2013",2.06
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2014",19.26
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2015",144.18
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2016",1105.56
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2017",1212.60
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2018",1266.89
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2019",1274.24
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2020",1410.26
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2021",1520.69
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2022",1893.58
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","On-grid","2023",2650.24
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2005",0.01
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2006",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2007",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2008",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2009",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2010",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2011",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2012",0.03
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2013",0.04
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2014",0.35
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2015",0.80
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2016",1.00
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2017",1.24
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2018",3.35
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2019",8.43
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2020",11.00
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2021",11.57
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2022",23.73
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","Off-grid","2023",25.56
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2000",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2001",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2002",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2003",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2004",-
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2005",1.53
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2006",1.40
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2007",1.34
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2008",1.33
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2009",1.28
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2010",1.28
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2011",1.24
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2012",1.35
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2013",2.10
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2014",19.61
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2015",144.98
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2016",1106.55
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2017",1213.84
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2018",1270.25
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2019",1282.67
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2020",1421.27
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2021",1532.25
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2022",1917.31
+"Philippines (the)","Solar photovoltaic","Electricity Generation (GWh)","All","2023",2675.79
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2000",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2001",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2002",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2003",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2004",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2005",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2006",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2007",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2008",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2009",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2010",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2011",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2012",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2013",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2014",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2015",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2016",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2017",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2018",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2019",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2020",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2021",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2022",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","On-grid","2023",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2005",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2006",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2007",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2008",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2009",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2010",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2011",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2012",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2013",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2014",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2015",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2016",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2017",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2018",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2019",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2020",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2021",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2022",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","Off-grid","2023",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2000",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2001",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2002",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2003",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2004",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2005",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2006",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2007",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2008",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2009",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2010",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2011",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2012",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2013",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2014",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2015",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2016",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2017",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2018",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2019",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2020",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2021",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2022",-
+"Philippines (the)","Solar thermal energy","Electricity Generation (GWh)","All","2023",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2000",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2001",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2002",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2003",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2004",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2005",17.47
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2006",53.24
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2007",57.84
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2008",61.39
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2009",64.43
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2010",61.72
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2011",88.20
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2012",75.34
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2013",65.66
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2014",152.05
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2015",748.41
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2016",975.22
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2017",1093.56
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2018",1152.92
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2019",1033.88
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2020",1018.78
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2021",1269.66
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2022",1029.87
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","On-grid","2023",1308.14
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2005",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2006",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2007",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2008",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2009",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2010",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2011",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2012",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2013",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2014",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2015",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2016",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2017",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2018",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2019",7.78
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2020",7.67
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2021",9.56
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2022",26.76
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","Off-grid","2023",42.89
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2000",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2001",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2002",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2003",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2004",-
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2005",17.47
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2006",53.24
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2007",57.84
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2008",61.39
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2009",64.43
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2010",61.72
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2011",88.20
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2012",75.34
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2013",65.66
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2014",152.05
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2015",748.41
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2016",975.22
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2017",1093.56
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2018",1152.92
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2019",1041.66
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2020",1026.45
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2021",1279.22
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2022",1056.63
+"Philippines (the)","Onshore wind energy","Electricity Generation (GWh)","All","2023",1351.03
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2000",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2001",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2002",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2003",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2004",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2005",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2006",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2007",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2008",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2009",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2010",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2011",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2012",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2013",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2014",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2015",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2016",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2017",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2018",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2019",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2020",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2021",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2022",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","On-grid","2023",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2005",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2006",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2007",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2008",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2009",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2010",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2011",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2012",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2013",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2014",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2015",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2016",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2017",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2018",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2019",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2020",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2021",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2022",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","Off-grid","2023",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2000",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2001",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2002",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2003",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2004",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2005",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2006",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2007",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2008",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2009",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2010",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2011",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2012",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2013",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2014",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2015",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2016",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2017",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2018",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2019",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2020",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2021",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2022",-
+"Philippines (the)","Offshore wind energy","Electricity Generation (GWh)","All","2023",-
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2000",7311.71
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2001",6609.19
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2002",6530.44
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2003",7358.52
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2004",7652.74
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2005",7555.48
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2006",9072.25
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2007",7792.73
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2008",9632.30
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2009",9242.20
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2010",7304.94
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2011",9426.20
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2012",9840.31
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2013",9485.72
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2014",8422.56
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2015",7893.15
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2016",7342.31
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2017",8833.72
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2018",8575.88
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2019",7195.60
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2020",6373.81
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2021",8463.32
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2022",9362.59
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","On-grid","2023",9565.16
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2000",16.49
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2001",14.41
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2002",12.93
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2003",12.10
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2004",10.34
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2005",10.10
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2006",11.96
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2007",10.31
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2008",11.84
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2009",11.77
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2010",19.26
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2011",33.33
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2012",45.42
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2013",44.39
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2014",40.32
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2015",49.92
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2016",46.60
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2017",55.08
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2018",85.88
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2019",107.89
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2020",96.21
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2021",107.75
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2022",140.96
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","Off-grid","2023",139.78
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2000",7328.20
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2001",6623.60
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2002",6543.37
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2003",7370.62
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2004",7663.08
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2005",7565.57
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2006",9084.21
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2007",7803.03
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2008",9644.13
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2009",9253.97
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2010",7324.21
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2011",9459.53
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2012",9885.73
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2013",9530.11
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2014",8462.87
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2015",7943.08
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2016",7388.92
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2017",8888.80
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2018",8661.76
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2019",7303.49
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2020",6470.02
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2021",8571.07
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2022",9503.55
+"Philippines (the)","Renewable hydropower","Electricity Generation (GWh)","All","2023",9704.94
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2000",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2001",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2002",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2003",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2004",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2005",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2006",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2007",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2008",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2009",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2010",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2011",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2012",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2013",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2014",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2015",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2016",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2017",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2018",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2019",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2020",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2021",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2022",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","On-grid","2023",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2005",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2006",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2007",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2008",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2009",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2010",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2011",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2012",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2013",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2014",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2015",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2016",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2017",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2018",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2019",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2020",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2021",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2022",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","Off-grid","2023",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2000",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2001",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2002",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2003",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2004",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2005",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2006",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2007",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2008",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2009",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2010",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2011",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2012",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2013",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2014",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2015",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2016",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2017",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2018",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2019",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2020",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2021",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2022",-
+"Philippines (the)","Mixed Hydro Plants","Electricity Generation (GWh)","All","2023",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2000",11626.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2001",10442.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2002",10242.49
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2003",9822.44
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2004",10281.55
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2005",9902.44
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2006",10465.28
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2007",10214.69
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2008",10722.78
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2009",10323.85
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2010",9929.15
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2011",9942.33
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2012",10249.99
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2013",9604.60
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2014",10308.11
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2015",11043.69
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2016",11070.40
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2017",10270.08
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2018",10435.31
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2019",10690.80
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2020",10756.82
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2021",10016.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2022",10424.52
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","On-grid","2023",10730.18
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2000",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2001",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2002",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2003",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2004",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2005",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2006",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2007",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2008",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2009",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2010",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2011",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2012",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2013",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2014",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2015",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2016",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2017",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2018",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2019",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2020",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2021",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2022",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","Off-grid","2023",-
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2000",11626.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2001",10442.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2002",10242.49
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2003",9822.44
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2004",10281.55
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2005",9902.44
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2006",10465.28
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2007",10214.69
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2008",10722.78
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2009",10323.85
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2010",9929.15
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2011",9942.33
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2012",10249.99
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2013",9604.60
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2014",10308.11
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2015",11043.69
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2016",11070.40
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2017",10270.08
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2018",10435.31
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2019",10690.80
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2020",10756.82
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2021",10016.00
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2022",10424.52
+"Philippines (the)","Geothermal energy","Electricity Generation (GWh)","All","2023",10730.18

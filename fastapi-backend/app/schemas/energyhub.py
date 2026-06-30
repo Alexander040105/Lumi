@@ -130,3 +130,53 @@ class MunicipalDemandEstimate(BaseModel):
 class MunicipalDemandResponse(BaseModel):
     items: list[MunicipalDemandEstimate]
     province: str | None = None
+
+
+class IrenaCapacityItem(BaseModel):
+    technology: str
+    grid_connection: str
+    year: int
+    capacity_mw: float
+
+
+class IrenaGenerationItem(BaseModel):
+    technology: str
+    grid_connection: str
+    year: int
+    generation_gwh: float
+
+
+class IrenaRenewableShareItem(BaseModel):
+    year: int
+    renewable_share_pct: float
+
+
+class IrenaOverviewResponse(BaseModel):
+    capacity: list[IrenaCapacityItem]
+    generation: list[IrenaGenerationItem]
+    renewable_share: list[IrenaRenewableShareItem]
+    note: str = "Data from IRENA. Displayed alongside DOE for benchmarking purposes."
+
+
+class MeralcoRateResponse(BaseModel):
+    rate_php_per_kwh: float | None
+    year: int | None
+    customer_class: str = "Residential"
+    charge_component: str = "Generation Energy Charge"
+    note: str = ""
+
+
+class SolarAtlasItem(BaseModel):
+    location: str
+    lat: float
+    lon: float
+    ghi_kwh_m2_day: float | None
+    dni_kwh_m2_day: float | None
+    dif_kwh_m2_day: float | None
+    pvout_kwh_kW_day: float | None
+    temp_c: float | None
+
+
+class SolarAtlasResponse(BaseModel):
+    items: list[SolarAtlasItem]
+    note: str = ""

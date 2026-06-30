@@ -1,0 +1,11 @@
+{
+  "source": "Global Solar Atlas v2",
+  "national_mean": {
+    "ghi": 4.874,
+    "dni": 3.75,
+    "dif": 2.181,
+    "pvout": 3.918,
+    "temp": 26.214
+  },
+  "note": "Values are long-term annual averages. GHI/DNI/DIF in kWh/m\u00b2/day. PVOUT in kWh/kW/day. TEMP in \u00b0C."
+}

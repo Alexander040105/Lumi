@@ -40,6 +40,11 @@ class EnergyHubML:
         self._tabula_raw: pd.DataFrame | None = None
         self._provincial_consumption: pd.DataFrame | None = None
         self._regional_sales: pd.DataFrame | None = None
+        self._irena_capacity: pd.DataFrame | None = None
+        self._irena_generation: pd.DataFrame | None = None
+        self._irena_renewable_share: pd.DataFrame | None = None
+        self._meralco_rates: pd.DataFrame | None = None
+        self._solar_atlas: pd.DataFrame | None = None
         self._load_all()
 
     def _load_all(self) -> None:
@@ -55,6 +60,11 @@ class EnergyHubML:
         self._tabula_raw = _load_csv("Tabula_DOE_Data.csv", "data_v1")
         self._provincial_consumption = _load_csv("provincial_consumption_2003_2025.csv", "data_v2_preprocessed")
         self._regional_sales = _load_csv("regional_sales_2025.csv", "data_v2_preprocessed")
+        self._irena_capacity = _load_csv("irena_ph_capacity_by_tech.csv", "data_v2_preprocessed")
+        self._irena_generation = _load_csv("irena_ph_generation_by_tech.csv", "data_v2_preprocessed")
+        self._irena_renewable_share = _load_csv("irena_renewable_share.csv", "data_v2_preprocessed")
+        self._meralco_rates = _load_csv("meralco_rates_2011_2020.csv", "data_v2_preprocessed")
+        self._solar_atlas = _load_csv("solar_atlas_ph.csv", "data_v2_preprocessed")
 
     # --- Public API ---
 
@@ -293,6 +303,76 @@ class EnergyHubML:
             df = df[df["region"].str.upper() == region.upper()]
         items = df.to_dict(orient="records")
         return {"items": items}
+
+    # --- IRENA Benchmarking ---
+
+    def get_irena_capacity(self, year: int | None = None) -> dict[str, Any]:
+        """Return IRENA Philippines capacity by technology."""
+        if self._irena_capacity is None or self._irena_capacity.empty:
+            return {"items": []}
+        df = self._irena_capacity.copy()
+        if year:
+            df = df[df["year"] == year]
+        df["capacity_mw"] = df["capacity_mw"].round(2)
+        items = df.to_dict(orient="records")
+        return {"items": items}
+
+    def get_irena_generation(self, year: int | None = None) -> dict[str, Any]:
+        """Return IRENA Philippines generation by technology."""
+        if self._irena_generation is None or self._irena_generation.empty:
+            return {"items": []}
+        df = self._irena_generation.copy()
+        if year:
+            df = df[df["year"] == year]
+        df["generation_gwh"] = df["generation_gwh"].round(2)
+        items = df.to_dict(orient="records")
+        return {"items": items}
+
+    def get_irena_renewable_share(self) -> dict[str, Any]:
+        """Return year-by-year renewable share of electricity generation (%)."""
+        if self._irena_renewable_share is None or self._irena_renewable_share.empty:
+            return {"items": []}
+        df = self._irena_renewable_share.copy()
+        df["renewable_share_pct"] = df["renewable_share_pct"].round(2)
+        items = df.to_dict(orient="records")
+        return {"items": items}
+
+    def get_meralco_rate(self, year: int | None = None) -> dict[str, Any]:
+        """Return Meralco residential generation charge rate for a given year.
+
+        If year is None, returns the most recent available year.
+        """
+        if self._meralco_rates is None or self._meralco_rates.empty:
+            return {"rate_php_per_kwh": None, "year": None, "note": "Meralco data not available"}
+        df = self._meralco_rates.copy()
+        if year:
+            match = df[df["year"] == year]
+            if match.empty:
+                return {"rate_php_per_kwh": None, "year": year, "note": "No data for requested year"}
+            row = match.iloc[0]
+        else:
+            row = df.iloc[-1]
+        return {
+            "rate_php_per_kwh": float(row["rate_php_per_kwh"]),
+            "year": int(row["year"]),
+            "customer_class": str(row.get("customer_class", "Residential")),
+            "charge_component": str(row.get("charge_component", "Generation Energy Charge")),
+            "note": "Meralco generation charge component only. Total bill includes transmission, distribution, and other charges.",
+        }
+
+    def get_solar_atlas(self, location: str | None = None) -> dict[str, Any]:
+        """Return Global Solar Atlas data for Philippine locations.
+
+        If location is provided, returns the closest match. Otherwise
+        returns all sampled locations.
+        """
+        if self._solar_atlas is None or self._solar_atlas.empty:
+            return {"items": [], "note": "Solar Atlas data not available"}
+        df = self._solar_atlas.copy()
+        if location:
+            df = df[df["location"].str.lower().str.contains(location.lower())]
+        items = df.to_dict(orient="records")
+        return {"items": items, "note": "Data from Global Solar Atlas v2 (long-term annual averages)."}
 
 
 # Singleton instance

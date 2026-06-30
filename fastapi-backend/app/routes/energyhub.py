@@ -6,11 +6,14 @@ from app.schemas.energyhub import (
     AnalyzeChartResponse,
     ForecastResponse,
     GridBreakdownResponse,
+    IrenaOverviewResponse,
     MapDataResponse,
+    MeralcoRateResponse,
     ModelComparisonResponse,
     MunicipalDemandResponse,
     OverviewResponse,
     ProvincialDemandResponse,
+    SolarAtlasResponse,
     SourceBreakdownResponse,
     TrendsResponse,
 )
@@ -150,3 +153,56 @@ async def get_municipal_demand(
     """
     svc = get_energyhub_service()
     return svc.estimate_municipal_demand(province_id)
+
+
+@router.get("/irena/overview", response_model=IrenaOverviewResponse)
+async def get_irena_overview():
+    """Return IRENA capacity, generation, and renewable share statistics.
+
+    Displayed alongside DOE data for cross-validation and ASEAN benchmarking.
+    """
+    svc = get_energyhub_service()
+    return svc.build_irena_overview()
+
+
+@router.get("/irena/capacity")
+async def get_irena_capacity(year: int | None = Query(default=None)):
+    """Return IRENA Philippines electricity capacity by technology."""
+    svc = get_energyhub_service()
+    return svc.get_irena_capacity(year)
+
+
+@router.get("/irena/generation")
+async def get_irena_generation(year: int | None = Query(default=None)):
+    """Return IRENA Philippines electricity generation by technology."""
+    svc = get_energyhub_service()
+    return svc.get_irena_generation(year)
+
+
+@router.get("/irena/renewable-share")
+async def get_irena_renewable_share():
+    """Return year-by-year renewable share of electricity generation (%)."""
+    svc = get_energyhub_service()
+    return svc.get_irena_renewable_share()
+
+
+@router.get("/meralco-rate", response_model=MeralcoRateResponse)
+async def get_meralco_rate(year: int | None = Query(default=None)):
+    """Return Meralco residential generation charge rate for a given year.
+
+    Note: this is the generation charge component only. The total
+    residential rate includes transmission, distribution, and other charges.
+    """
+    svc = get_energyhub_service()
+    return svc.get_meralco_rate(year)
+
+
+@router.get("/solar-atlas", response_model=SolarAtlasResponse)
+async def get_solar_atlas(location: str | None = Query(default=None)):
+    """Return Global Solar Atlas v2 data for Philippine locations.
+
+    High-resolution solar irradiance (GHI, DNI, DIF) and PV power
+    output sampled at key cities. Supplements NASA POWER data in EcoSim.
+    """
+    svc = get_energyhub_service()
+    return svc.get_solar_atlas(location)

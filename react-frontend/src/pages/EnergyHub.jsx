@@ -9,6 +9,7 @@ import {
   getEnergyHubAiInsight,
   analyzeChart,
   getGeothermalPlants,
+  getIrenaOverview,
 } from "../services/energyhub";
 
 import EnergyOverview from "@/components/energyhub/EnergyOverview";
@@ -40,6 +41,7 @@ export default function EnergyHub() {
   const [chartAnalyses, setChartAnalyses] = useState({});
   const [mapLoading, setMapLoading] = useState(false);
   const [geothermalPlants, setGeothermalPlants] = useState([]);
+  const [irena, setIrena] = useState(null);
 
   // Cache for map data: { [metric]: { [level]: response } }
   const mapCacheRef = useRef({});
@@ -74,17 +76,19 @@ export default function EnergyHub() {
       setLoading(true);
       setLlmLoading((prev) => ({ ...prev, overview: true }));
       try {
-        const [ov, tr, mp, src] = await Promise.all([
+        const [ov, tr, mp, src, ir] = await Promise.all([
           getEnergyHubOverview(),
           getEnergyHubTrends(),
           fetchAndCacheMapData("renewable_potential", "province"),
           getEnergyHubSourceBreakdown(),
+          getIrenaOverview().catch(() => null),
         ]);
         if (!cancelled) {
           setOverview(ov);
           setTrends(tr);
           setMapData(mp);
           setSourceBreakdown(src);
+          setIrena(ir);
         }
       } catch (err) {
         if (!cancelled) {
@@ -246,6 +250,35 @@ export default function EnergyHub() {
         <section>
           <ProvincialDemand />
         </section>
+
+        {/* Section 2b: IRENA Benchmark */}
+        {irena && irena.capacity?.length > 0 && (
+          <section className="rounded-xl border bg-card p-6 shadow-sm">
+            <h2 className="text-lg font-semibold">IRENA Benchmark</h2>
+            <p className="text-sm text-muted-foreground">Philippines renewable energy statistics from IRENA (cross-reference with DOE data).</p>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="rounded-lg border bg-muted/30 p-3">
+                <p className="text-xs text-muted-foreground">Latest RE Capacity</p>
+                <p className="text-lg font-semibold">
+                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "OnGrid").pop()?.capacity_mw?.toLocaleString?.() || "—"} MW
+                </p>
+              </div>
+              <div className="rounded-lg border bg-muted/30 p-3">
+                <p className="text-xs text-muted-foreground">Latest RE Generation</p>
+                <p className="text-lg font-semibold">
+                  {irena.generation.filter(g => g.technology === "Total renewable" && g.grid_connection === "On-grid").pop()?.generation_gwh?.toLocaleString?.() || "—"} GWh
+                </p>
+              </div>
+              <div className="rounded-lg border bg-muted/30 p-3">
+                <p className="text-xs text-muted-foreground">RE Share (latest)</p>
+                <p className="text-lg font-semibold">
+                  {irena.renewable_share?.pop()?.renewable_share_pct || "—"}%
+                </p>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">{irena.note}</p>
+          </section>
+        )}
 
         {/* Section 3: Choropleth Map */}
         <section>

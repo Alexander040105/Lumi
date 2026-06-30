@@ -1042,6 +1042,35 @@ class EnergyHubService:
         }
         return mapping.get(province_name.lower().strip(), province_name)
 
+    # --- IRENA Benchmarking ---
+
+    def get_irena_capacity(self, year: int | None = None) -> dict[str, Any]:
+        return self._ml.get_irena_capacity(year)
+
+    def get_irena_generation(self, year: int | None = None) -> dict[str, Any]:
+        return self._ml.get_irena_generation(year)
+
+    def get_irena_renewable_share(self) -> dict[str, Any]:
+        return self._ml.get_irena_renewable_share()
+
+    def get_meralco_rate(self, year: int | None = None) -> dict[str, Any]:
+        return self._ml.get_meralco_rate(year)
+
+    def get_solar_atlas(self, location: str | None = None) -> dict[str, Any]:
+        return self._ml.get_solar_atlas(location)
+
+    def build_irena_overview(self) -> dict[str, Any]:
+        """Combine capacity, generation, and renewable share for frontend benchmarking."""
+        cap = self._ml.get_irena_capacity()
+        gen = self._ml.get_irena_generation()
+        share = self._ml.get_irena_renewable_share()
+        return {
+            "capacity": cap.get("items", []),
+            "generation": gen.get("items", []),
+            "renewable_share": share.get("items", []),
+            "note": "Data from IRENA. Displayed alongside DOE for benchmarking purposes.",
+        }
+
 
 # Singleton
 _energyhub_service: EnergyHubService | None = None

@@ -623,6 +623,33 @@ export default function Ecosim() {
             </Card>
           )}
 
+          {/* Meralco rate (Meralco franchise areas only) */}
+          {result.meralco_rate && result.meralco_rate.rate_php_per_kwh && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Meralco Generation Charge Reference</CardTitle>
+                <CardDescription>
+                  Your selected location falls within the Meralco franchise area.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-3 md:grid-cols-3">
+                <div>
+                  <p className="text-sm text-muted-foreground">Generation charge ({result.meralco_rate.year})</p>
+                  <p className="text-lg font-semibold">{formatCurrency(result.meralco_rate.rate_php_per_kwh)} / kWh</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Your effective rate</p>
+                  <p className="text-lg font-semibold">{formatCurrency(result.monthly_bill / result.monthly_consumption_kwh)} / kWh</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Customer class</p>
+                  <p className="text-lg font-semibold">{result.meralco_rate.customer_class}</p>
+                </div>
+              </CardContent>
+              <p className="px-6 pb-4 text-xs text-muted-foreground">{result.meralco_rate.note}</p>
+            </Card>
+          )}
+
           {/* Detailed renewable outputs */}
           {result.renewable_energy_results && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

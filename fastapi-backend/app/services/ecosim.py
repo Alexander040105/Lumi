@@ -1057,6 +1057,34 @@ def build_ecosim_dashboard_response(
         "expected generation compared with your monthly usage."
     )
 
+    # Meralco franchise area check
+    meralco_franchise_provinces = {
+        "metro manila", "ncr", "bulacan", "cavite", "laguna", "rizal"
+    }
+    meralco_info = None
+    try:
+        if mode == "province":
+            prov_name = municipality_name.lower()
+        else:
+            # Fetch province name for municipality
+            muni_prov = (
+                client.table("municipalities")
+                .select("provinces(name)")
+                .eq("municipality_id", municipality_id)
+                .single()
+                .execute()
+            )
+            prov_name = (
+                muni_prov.data.get("provinces", {}).get("name", "").lower()
+                if muni_prov.data else ""
+            )
+        if any(p in prov_name for p in meralco_franchise_provinces):
+            from app.ml.predictor import get_energyhub_ml
+            ml = get_energyhub_ml()
+            meralco_info = ml.get_meralco_rate()
+    except Exception:
+        pass
+
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
@@ -1083,4 +1111,5 @@ def build_ecosim_dashboard_response(
         "municipality_data": base_results.get("municipality_data"),
         "ai_analysis": base_results.get("ai_analysis"),
         "nearby_geothermal_plants": nearby_geo_plants,
+        "meralco_rate": meralco_info,
     }
