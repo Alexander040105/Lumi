@@ -46,6 +46,11 @@ export function getGeothermalPlants() {
   return request("/geothermal/plants");
 }
 
+export function getProvincialDemand(region = null) {
+  const qs = region ? `?region=${encodeURIComponent(region)}` : "";
+  return request(`${ENERGYHUB_BASE}/provincial-demand${qs}`);
+}
+
 export function analyzeChart(chartType, chartData, forceRefresh = false) {
   const qs = forceRefresh ? "?force_refresh=true" : "";
   return request(`${ENERGYHUB_BASE}/analyze-chart${qs}`, {

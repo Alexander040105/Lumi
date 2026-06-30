@@ -846,6 +846,202 @@ class EnergyHubService:
             )
         return "Provide a brief energy insight based on the available data."
 
+    # --- Provincial & Municipal Demand ---
+
+    def get_provincial_consumption(self, region: str | None = None) -> dict[str, Any]:
+        """Return DOE Annex 8 provincial/regional consumption."""
+        data = self._ml.get_provincial_consumption(region)
+        return {
+            "items": data.get("items", []),
+            "region": region,
+            "note": "Values in MWh from DOE Annex 8 (2025).",
+        }
+
+    def estimate_municipal_demand(self, province_id: int) -> dict[str, Any]:
+        """Estimate municipal demand via population-weighted disaggregation.
+
+        Formula: D_muni = D_prov * (P_muni / P_prov)
+        Requires PSA population data in the municipal_population table.
+        """
+        client = get_supabase_client()
+
+        # 1. Fetch province total consumption from DOE v2
+        prov_name_resp = (
+            client.table("provinces")
+            .select("name")
+            .eq("province_id", province_id)
+            .single()
+            .execute()
+        )
+        if not prov_name_resp.data:
+            return {"items": [], "province": None, "note": "Province not found."}
+        province_name = prov_name_resp.data["name"]
+
+        # Map province name to DOE region code (best-effort mapping)
+        region_code = self._province_to_region_code(province_name)
+        prov_data = self._ml.get_provincial_consumption(region_code)
+        total_consumption_items = [
+            item for item in prov_data.get("items", [])
+            if item.get("sector") == "Total Consumption"
+        ]
+        if not total_consumption_items:
+            return {
+                "items": [],
+                "province": province_name,
+                "note": f"No DOE consumption data found for region {region_code}.",
+            }
+        total_consumption_mwh = float(total_consumption_items[0].get("value_mwh", 0))
+
+        # 2. Fetch municipality populations
+        try:
+            pop_resp = (
+                client.table("municipal_population")
+                .select("municipality_id,population,municipalities(name)")
+                .eq("province_id", province_id)
+                .execute()
+            )
+            pop_rows = pop_resp.data or []
+        except Exception:
+            pop_rows = []
+
+        if not pop_rows:
+            return {
+                "items": [],
+                "province": province_name,
+                "note": (
+                    "PSA population data not yet loaded. "
+                    "Municipal demand estimation requires municipal_population table."
+                ),
+            }
+
+        total_pop = sum(r.get("population", 0) or 0 for r in pop_rows)
+        if total_pop <= 0:
+            return {
+                "items": [],
+                "province": province_name,
+                "note": "Population data sums to zero.",
+            }
+
+        items = []
+        for row in pop_rows:
+            muni_pop = row.get("population", 0) or 0
+            ratio = muni_pop / total_pop if total_pop > 0 else 0
+            est_demand = total_consumption_mwh * ratio
+            muni_name = (
+                row.get("municipalities", {}).get("name")
+                if isinstance(row.get("municipalities"), dict)
+                else row.get("municipality_name", "Unknown")
+            )
+            items.append({
+                "municipality_id": row.get("municipality_id"),
+                "municipality_name": muni_name,
+                "province_name": province_name,
+                "estimated_demand_mwh": round(est_demand, 2),
+                "method": "population_weighted_disaggregation",
+                "note": "Estimated from provincial DOE data using PSA population ratios. Actual demand may vary.",
+            })
+
+        return {
+            "items": items,
+            "province": province_name,
+            "note": f"Estimated for {len(items)} municipalities in {province_name}.",
+        }
+
+    @staticmethod
+    def _province_to_region_code(province_name: str) -> str:
+        """Best-effort mapping of province name to DOE region code.
+
+        DOE Annex 8 uses region codes (I, II, III, IV-A, IV-B, V, VI,
+        VII, VIII, IX, X, XI, XII, XIII, NCR, CAR, ARMM, NIR).
+        """
+        mapping = {
+            "metro manila": "NCR",
+            "ncr": "NCR",
+            "abra": "CAR",
+            "apayao": "CAR",
+            "benguet": "CAR",
+            "ifugao": "CAR",
+            "kalinga": "CAR",
+            "mountain province": "CAR",
+            "ilocos norte": "I",
+            "ilocos sur": "I",
+            "la union": "I",
+            "pangasinan": "I",
+            "batanes": "II",
+            "cagayan": "II",
+            "isabela": "II",
+            "nueva vizcaya": "II",
+            "quirino": "II",
+            "aurora": "III",
+            "bataan": "III",
+            "bulacan": "III",
+            "nueva ecija": "III",
+            "pampanga": "III",
+            "tarlac": "III",
+            "zambales": "III",
+            "batangas": "IV-A",
+            "cavite": "IV-A",
+            "laguna": "IV-A",
+            "quezon": "IV-A",
+            "rizal": "IV-A",
+            "marinduque": "IV-B",
+            "occidental mindoro": "IV-B",
+            "oriental mindoro": "IV-B",
+            "palawan": "IV-B",
+            "romblon": "IV-B",
+            "albay": "V",
+            "camarines norte": "V",
+            "camarines sur": "V",
+            "catanduanes": "V",
+            "masbate": "V",
+            "sorsogon": "V",
+            "aklan": "VI",
+            "antique": "VI",
+            "capiz": "VI",
+            "guimaras": "VI",
+            "iloilo": "VI",
+            "negros occidental": "VI",
+            "bohol": "VII",
+            "cebu": "VII",
+            "negros oriental": "VII",
+            "siargao": "VII",
+            "siquijor": "VII",
+            "biliran": "VIII",
+            "eastern samar": "VIII",
+            "leyte": "VIII",
+            "northern samar": "VIII",
+            "samar": "VIII",
+            "southern leyte": "VIII",
+            "zamboanga del norte": "IX",
+            "zamboanga del sur": "IX",
+            "zamboanga sibugay": "IX",
+            "bukidnon": "X",
+            "camiguin": "X",
+            "lanao del norte": "X",
+            "misamis occidental": "X",
+            "misamis oriental": "X",
+            " compostela valley": "XI",
+            "davao del norte": "XI",
+            "davao del sur": "XI",
+            "davao occidental": "XI",
+            "davao oriental": "XI",
+            "cotabato": "XII",
+            "sarangani": "XII",
+            "south cotabato": "XII",
+            "sultan kudarat": "XII",
+            "agusan del norte": "XIII",
+            "agusan del sur": "XIII",
+            "dinagat islands": "XIII",
+            "surigao del norte": "XIII",
+            "surigao del sur": "XIII",
+            "basilan": "ARMM",
+            "lanao del sur": "ARMM",
+            "maguindanao": "ARMM",
+            "sulu": "ARMM",
+            "tawi-tawi": "ARMM",
+        }
+        return mapping.get(province_name.lower().strip(), province_name)
+
 
 # Singleton
 _energyhub_service: EnergyHubService | None = None

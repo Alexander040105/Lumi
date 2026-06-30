@@ -19,6 +19,16 @@ class PostHouse(BaseModel):
     current_electricity_bill : float
     # default is 50% savings but users may change it blah blah blah
     desired_savings : float = Field(..., ge=0.0, le=1.0)
+    mode: str = Field(default="municipality", pattern="^(municipality|province)$")
+
+
+class ProvinceOption(BaseModel):
+    province_id: int
+    name: str
+
+
+class ProvinceListResponse(BaseModel):
+    items: list[ProvinceOption]
 
 
 class MunicipalityClimate(BaseModel):
@@ -105,6 +115,7 @@ class EcosimQueryParams(BaseModel):
     monthly_consumption: float = Field(..., gt=0)
     monthly_bill: float = Field(..., gt=0)
     desired_savings: float = Field(0.50, ge=0.0, le=1.0)
+    mode: str = Field(default="municipality", pattern="^(municipality|province)$")
 
 
 class EcosimOption(BaseModel):

@@ -6,8 +6,14 @@ from app.schemas.ecosim import (
     GetHouse,
     MunicipalityListResponse,
     PostHouse,
+    ProvinceListResponse,
 )
-from app.services.ecosim import build_ecosim_dashboard_response, list_municipalities, renewable_energy_calculator
+from app.services.ecosim import (
+    build_ecosim_dashboard_response,
+    list_municipalities,
+    list_provinces,
+    renewable_energy_calculator,
+)
 router = APIRouter()
 
 
@@ -26,12 +32,18 @@ async def get_ecosim_results(
         include_ai=include_ai,
         use_rag=use_rag,
         rag_query=rag_query,
+        mode=params.mode,
     )
 
 
 @router.get("/municipalities", response_model=MunicipalityListResponse)
 async def get_municipalities():
     return {"items": list_municipalities()}
+
+
+@router.get("/provinces", response_model=ProvinceListResponse)
+async def get_provinces():
+    return {"items": list_provinces()}
 
 
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
@@ -50,5 +62,6 @@ async def post_item(
         include_ai=include_ai,
         use_rag=use_rag,
         rag_query=rag_query,
+        mode=body.mode,
     )
     return response_data

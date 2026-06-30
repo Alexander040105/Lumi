@@ -8,7 +8,9 @@ from app.schemas.energyhub import (
     GridBreakdownResponse,
     MapDataResponse,
     ModelComparisonResponse,
+    MunicipalDemandResponse,
     OverviewResponse,
+    ProvincialDemandResponse,
     SourceBreakdownResponse,
     TrendsResponse,
 )
@@ -126,3 +128,25 @@ async def analyze_chart(
     """
     svc = get_energyhub_service()
     return svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)
+
+
+@router.get("/provincial-demand", response_model=ProvincialDemandResponse)
+async def get_provincial_demand(
+    region: str | None = Query(default=None, description="Filter by region code (e.g., IV-A, NCR)"),
+):
+    """Return DOE Annex 8 provincial/regional consumption breakdown."""
+    svc = get_energyhub_service()
+    return svc.get_provincial_consumption(region)
+
+
+@router.get("/municipal-demand/{province_id}", response_model=MunicipalDemandResponse)
+async def get_municipal_demand(
+    province_id: int,
+):
+    """Return population-weighted municipal demand estimates for a province.
+
+    Requires PSA population data to be loaded in the municipal_population table.
+    If population data is missing, returns an empty list with a data-gap note.
+    """
+    svc = get_energyhub_service()
+    return svc.estimate_municipal_demand(province_id)

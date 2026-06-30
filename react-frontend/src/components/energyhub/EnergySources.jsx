@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import PlotlyChart from "./PlotlyChart";
+import ChartExplanation from "./ChartExplanation";
 
 const SOURCE_META = {
   coal: { label: "Coal", color: "#64748b" },
@@ -81,6 +82,11 @@ export default function EnergySources({ breakdown }) {
       <p className="text-sm text-muted-foreground">
         Total Generation: {breakdown.total_generation_gwh.toLocaleString()} GWh
       </p>
+      <ChartExplanation
+        what="This donut chart shows what share of total electricity generation comes from each source: coal, natural gas, oil-based, geothermal, hydro, solar, wind, and biomass."
+        why="Understanding the mix reveals how dependent the grid is on fossil fuels versus renewables. A high fossil share means higher carbon emissions and exposure to fuel price volatility."
+        action="If fossil sources dominate, push for local solar or wind adoption to reduce household carbon footprint and buffer against fuel price hikes."
+      />
 
       <div className="mt-4 flex flex-col md:flex-row items-center gap-6">
         <div className="w-80 h-80 shrink-0">

@@ -152,6 +152,135 @@ def list_municipalities() -> list[dict]:
     )
 
 
+def list_provinces() -> list[dict]:
+    client = get_supabase_client()
+    try:
+        result = (
+            client
+            .table("provinces")
+            .select("province_id,name")
+            .order("name")
+            .limit(1000)
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict):
+            message = error.get("message") or "Failed to load provinces"
+        else:
+            message = "Failed to load provinces"
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=message,
+        )
+
+    items = result.data or []
+    return sorted(
+        (
+            {
+                "province_id": item.get("province_id"),
+                "name": item.get("name"),
+            }
+            for item in items
+            if item.get("province_id") and item.get("name")
+        ),
+        key=lambda item: item["name"].upper(),
+    )
+
+
+def get_province_data(province_name: str) -> dict:
+    """Aggregate municipality climate data for a province.
+
+    Returns a dict with the same structure as a single municipality record
+    so it can be used interchangeably in renewable_energy_calculator.
+    """
+    client = get_supabase_client()
+    try:
+        prov_resp = (
+            client.table("provinces")
+            .select("province_id,name,lat,lon")
+            .ilike("name", province_name.upper())
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict) and error.get("code") == "PGRST116":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Province not found",
+            )
+        raise
+
+    if not prov_resp.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Province not found",
+        )
+
+    province_id = prov_resp.data["province_id"]
+    province_lat = prov_resp.data.get("lat")
+    province_lon = prov_resp.data.get("lon")
+
+    # Fetch all municipalities in this province
+    muni_resp = (
+        client.table("municipalities")
+        .select("municipality_id,name,lat,lon")
+        .eq("province_id", province_id)
+        .limit(20000)
+        .execute()
+    )
+    muni_rows = muni_resp.data or []
+    municipality_ids = [m["municipality_id"] for m in muni_rows if m.get("municipality_id")]
+
+    if not municipality_ids:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No municipalities found for this province.",
+        )
+
+    # Aggregate climate data from the CSV
+    province_df = df[df["municipality_id"].isin(municipality_ids)]
+    if province_df.empty:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No climate average data found for this province.",
+        )
+
+    numeric_cols = [
+        "avg_t2m", "avg_t2m_max", "avg_t2m_min", "avg_rh2m",
+        "avg_prectotcorr", "avg_ws10m", "avg_allsky_sfc_sw_dwn",
+        "avg_cloud_amt", "avg_surface_pressure", "avg_rhoa", "avg_elevation",
+    ]
+
+    aggregated = {"municipality_id": province_id, "name": province_name.upper()}
+    for col in numeric_cols:
+        if col in province_df.columns:
+            aggregated[col] = round(float(province_df[col].mean()), 2)
+        else:
+            aggregated[col] = None
+
+    # Terrain aggregation (optional, from hydropower_suitability)
+    try:
+        terrain_resp = (
+            client.table("hydropower_suitability")
+            .select("hydraulic_head_m,runoff_potential,watershed_gradient,mean_slope_deg,gravity_flow_potential")
+            .in_("municipality_id", municipality_ids[:500])  # limit batch
+            .execute()
+        )
+        terrain_rows = terrain_resp.data or []
+        if terrain_rows:
+            terrain = {}
+            for key in ["hydraulic_head_m", "runoff_potential", "watershed_gradient", "mean_slope_deg", "gravity_flow_potential"]:
+                vals = [r[key] for r in terrain_rows if r.get(key) is not None]
+                terrain[key] = round(sum(vals) / len(vals), 2) if vals else 0.0
+            aggregated["terrain"] = terrain
+    except Exception:
+        aggregated["terrain"] = None
+
+    return aggregated
+
+
 def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict:
     """
     Fetch pre-computed geothermal output from Supabase.
@@ -269,6 +398,36 @@ def get_municipality_name_by_id(municipality_id: int) -> str:
 
     return municipality_result.data["name"]
 
+
+def get_province_name_by_id(province_id: int) -> str:
+    client = get_supabase_client()
+    try:
+        result = (
+            client
+            .table("provinces")
+            .select("name")
+            .eq("province_id", province_id)
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict) and error.get("code") == "PGRST116":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Province not found",
+            )
+        raise
+
+    if not result.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Province not found",
+        )
+
+    return result.data["name"]
+
+
 def consumption_calculator(current_electricity_bill: float, electricity_rate: float, desired_savings: float):
     monthly_consumption_kwh = current_electricity_bill / electricity_rate
     today = dt.datetime.now()
@@ -304,11 +463,17 @@ def renewable_energy_calculator(
     use_rag: bool = False,
     rag_query: str | None = None,
     nearby_geo_plants: list[dict[str, Any]] | None = None,
+    mode: str = "municipality",
 ) -> dict:
-    # NOTE: Data fetching 
-    municipality_results = get_municipality_data(municipality)
-    municipality_data = municipality_results[0]
-    terrain_data = get_municipality_terrain_data(municipality)
+    # NOTE: Data fetching
+    if mode == "province":
+        municipality_data = get_province_data(municipality)
+        municipality_results = [municipality_data]
+        terrain_data = municipality_data.get("terrain")
+    else:
+        municipality_results = get_municipality_data(municipality)
+        municipality_data = municipality_results[0]
+        terrain_data = get_municipality_terrain_data(municipality)
     consumption_results = consumption_calculator(
         current_electricity_bill,
         electricity_rate,
@@ -753,6 +918,7 @@ def build_ecosim_dashboard_response(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
+    mode: str = "municipality",
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
@@ -761,23 +927,39 @@ def build_ecosim_dashboard_response(
         )
 
     electricity_rate = monthly_bill / monthly_consumption
-    municipality_name = get_municipality_name_by_id(municipality_id)
+    if mode == "province":
+        municipality_name = get_province_name_by_id(municipality_id)
+    else:
+        municipality_name = get_municipality_name_by_id(municipality_id)
 
     # Fetch municipality lat/lon for proximity boost
     muni_lat: float | None = None
     muni_lon: float | None = None
     try:
         client = get_supabase_client()
-        muni_resp = (
-            client.table("municipalities")
-            .select("lat,lon")
-            .eq("municipality_id", municipality_id)
-            .single()
-            .execute()
-        )
-        if muni_resp.data:
-            muni_lat = muni_resp.data.get("lat")
-            muni_lon = muni_resp.data.get("lon")
+        if mode == "province":
+            # For province mode, lat/lon come from the provinces table
+            prov_resp = (
+                client.table("provinces")
+                .select("lat,lon")
+                .eq("province_id", municipality_id)
+                .single()
+                .execute()
+            )
+            if prov_resp.data:
+                muni_lat = prov_resp.data.get("lat")
+                muni_lon = prov_resp.data.get("lon")
+        else:
+            muni_resp = (
+                client.table("municipalities")
+                .select("lat,lon")
+                .eq("municipality_id", municipality_id)
+                .single()
+                .execute()
+            )
+            if muni_resp.data:
+                muni_lat = muni_resp.data.get("lat")
+                muni_lon = muni_resp.data.get("lon")
     except Exception:
         pass
 
@@ -792,6 +974,7 @@ def build_ecosim_dashboard_response(
         use_rag=use_rag,
         rag_query=rag_query,
         nearby_geo_plants=nearby_geo_plants,
+        mode=mode,
     )
 
     renewable_results = base_results["renewable_energy_results"]

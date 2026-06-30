@@ -9,6 +9,7 @@ from app.routes.geothermal import router as geothermal_router
 from app.routes.chat import router as chat_router
 from app.routes.admin import router as admin_router
 from app.routes.simulations import router as simulations_router
+from app.routes.products import router as products_router
 
 api_router = APIRouter()
 
@@ -21,3 +22,4 @@ api_router.include_router(geothermal_router, prefix="/geothermal", tags=["geothe
 api_router.include_router(chat_router, prefix="/chat", tags=["chat"])
 api_router.include_router(simulations_router, prefix="/simulations", tags=["simulations"])
 api_router.include_router(admin_router, prefix="/admin", tags=["admin"])
+api_router.include_router(products_router, prefix="/products", tags=["products"])

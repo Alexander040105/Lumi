@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
-import { getEcosim, getMunicipalities } from "@/services/apiClient";
+import { getEcosim, getMunicipalities, getProvinces, getProductRecommendations } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
@@ -35,11 +35,17 @@ export default function Ecosim() {
   const { user, accessToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [mode, setMode] = useState("municipality");
   const [municipalityId, setMunicipalityId] = useState("");
   const [municipalities, setMunicipalities] = useState([]);
   const [municipalitiesError, setMunicipalitiesError] = useState(null);
   const [muniQuery, setMuniQuery] = useState("");
   const [muniOpen, setMuniOpen] = useState(false);
+  const [provinceId, setProvinceId] = useState("");
+  const [provinces, setProvinces] = useState([]);
+  const [provincesError, setProvincesError] = useState(null);
+  const [provinceQuery, setProvinceQuery] = useState("");
+  const [provinceOpen, setProvinceOpen] = useState(false);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
   const [desiredSavings, setDesiredSavings] = useState(50);
@@ -47,6 +53,8 @@ export default function Ecosim() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  const [productRecs, setProductRecs] = useState(null);
+  const [productLoading, setProductLoading] = useState(false);
 
   // Save simulation dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -58,6 +66,12 @@ export default function Ecosim() {
     if (!q) return municipalities;
     return municipalities.filter((m) => m.name.toLowerCase().includes(q));
   }, [municipalities, muniQuery]);
+
+  const filteredProvinces = useMemo(() => {
+    const q = provinceQuery.trim().toLowerCase();
+    if (!q) return provinces;
+    return provinces.filter((p) => p.name.toLowerCase().includes(q));
+  }, [provinces, provinceQuery]);
 
   const comparisonMax = useMemo(() => {
     if (!result?.options?.length) return 0;
@@ -144,6 +158,33 @@ export default function Ecosim() {
     };
   }, [searchParams, user, municipalities]);
 
+  useEffect(() => {
+    let isActive = true;
+
+    const loadProvinces = async () => {
+      try {
+        const data = await getProvinces();
+        if (!isActive) return;
+        const items = data?.items || [];
+        setProvinces(items);
+        if (items.length && !provinceId) {
+          setProvinceId(String(items[0].province_id));
+          setProvinceQuery(items[0].name);
+        }
+      } catch (err) {
+        if (!isActive) return;
+        setProvincesError(err?.message || "Unable to load provinces.");
+      }
+    };
+
+    loadProvinces();
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const activeId = mode === "province" ? provinceId : municipalityId;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(null);
@@ -151,13 +192,29 @@ export default function Ecosim() {
 
     try {
       const data = await getEcosim({
-        municipalityId: String(municipalityId).trim(),
+        municipalityId: String(activeId).trim(),
         monthlyConsumption: Number(monthlyConsumption),
         monthlyBill: Number(monthlyBill),
         desiredSavings: Number(desiredSavings) / 100,
         includeAi,
+        mode,
       });
       setResult(data);
+      // Fetch product recommendations for the recommended source
+      const source = data?.recommended_source?.toLowerCase();
+      if (source && source !== "geothermal") {
+        setProductLoading(true);
+        try {
+          const recs = await getProductRecommendations(source, null, 4);
+          setProductRecs(recs);
+        } catch {
+          setProductRecs(null);
+        } finally {
+          setProductLoading(false);
+        }
+      } else {
+        setProductRecs(null);
+      }
     } catch (err) {
       setError(err?.message || "Unable to load Ecosim data.");
     } finally {
@@ -257,55 +314,134 @@ export default function Ecosim() {
                 onChange={(event) => setMonthlyBill(Number(event.target.value))}
               />
             </div>
-            <div className="relative space-y-2">
-              <label className="text-sm font-medium">Municipality</label>
-              <Input
-                type="text"
-                placeholder="Search municipality..."
-                value={muniQuery}
-                onChange={(e) => {
-                  setMuniQuery(e.target.value);
-                  setMuniOpen(true);
-                }}
-                onFocus={() => setMuniOpen(true)}
-                onBlur={() => setMuniOpen(false)}
-                disabled={loading}
-                autoComplete="off"
-              />
-              {muniOpen && (
-                <div className="absolute z-10 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
-                  {filteredMunicipalities.length ? (
-                    filteredMunicipalities.map((item) => (
-                      <button
-                        key={item.municipality_id}
-                        type="button"
-                        className={
-                          "w-full px-3 py-2.5 text-left text-sm text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground " +
-                          (String(item.municipality_id) === municipalityId
-                            ? "bg-accent font-medium text-accent-foreground"
-                            : "")
-                        }
-                        onMouseDown={(e) => e.preventDefault()}
-                        onClick={() => {
-                          setMunicipalityId(String(item.municipality_id));
-                          setMuniQuery(item.name);
-                          setMuniOpen(false);
-                        }}
-                      >
-                        {item.name}
-                      </button>
-                    ))
-                  ) : (
-                    <div className="px-3 py-2.5 text-sm text-muted-foreground">
-                      No results found
-                    </div>
-                  )}
-                </div>
-              )}
-              {municipalitiesError && (
-                <p className="text-xs text-destructive">{municipalitiesError}</p>
-              )}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Analysis mode</label>
+              <div className="flex items-center space-x-4">
+                <label className="flex items-center space-x-1 text-sm">
+                  <input
+                    type="radio"
+                    name="mode"
+                    value="municipality"
+                    checked={mode === "municipality"}
+                    onChange={() => setMode("municipality")}
+                    className="h-4 w-4 border-brand-light text-primary accent-primary"
+                  />
+                  <span>Municipality</span>
+                </label>
+                <label className="flex items-center space-x-1 text-sm">
+                  <input
+                    type="radio"
+                    name="mode"
+                    value="province"
+                    checked={mode === "province"}
+                    onChange={() => setMode("province")}
+                    className="h-4 w-4 border-brand-light text-primary accent-primary"
+                  />
+                  <span>Province</span>
+                </label>
+              </div>
             </div>
+            {mode === "municipality" ? (
+              <div className="relative space-y-2">
+                <label className="text-sm font-medium">Municipality</label>
+                <Input
+                  type="text"
+                  placeholder="Search municipality..."
+                  value={muniQuery}
+                  onChange={(e) => {
+                    setMuniQuery(e.target.value);
+                    setMuniOpen(true);
+                  }}
+                  onFocus={() => setMuniOpen(true)}
+                  onBlur={() => setMuniOpen(false)}
+                  disabled={loading}
+                  autoComplete="off"
+                />
+                {muniOpen && (
+                  <div className="absolute z-10 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
+                    {filteredMunicipalities.length ? (
+                      filteredMunicipalities.map((item) => (
+                        <button
+                          key={item.municipality_id}
+                          type="button"
+                          className={
+                            "w-full px-3 py-2.5 text-left text-sm text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground " +
+                            (String(item.municipality_id) === municipalityId
+                              ? "bg-accent font-medium text-accent-foreground"
+                              : "")
+                          }
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            setMunicipalityId(String(item.municipality_id));
+                            setMuniQuery(item.name);
+                            setMuniOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2.5 text-sm text-muted-foreground">
+                        No results found
+                      </div>
+                    )}
+                  </div>
+                )}
+                {municipalitiesError && (
+                  <p className="text-xs text-destructive">{municipalitiesError}</p>
+                )}
+              </div>
+            ) : (
+              <div className="relative space-y-2">
+                <label className="text-sm font-medium">Province</label>
+                <Input
+                  type="text"
+                  placeholder="Search province..."
+                  value={provinceQuery}
+                  onChange={(e) => {
+                    setProvinceQuery(e.target.value);
+                    setProvinceOpen(true);
+                  }}
+                  onFocus={() => setProvinceOpen(true)}
+                  onBlur={() => setProvinceOpen(false)}
+                  disabled={loading}
+                  autoComplete="off"
+                />
+                {provinceOpen && (
+                  <div className="absolute z-10 mt-1 max-h-56 w-full min-w-[240px] overflow-auto rounded-md border border-input bg-popover text-popover-foreground shadow-md">
+                    {filteredProvinces.length ? (
+                      filteredProvinces.map((item) => (
+                        <button
+                          key={item.province_id}
+                          type="button"
+                          className={
+                            "w-full px-3 py-2.5 text-left text-sm text-popover-foreground transition-colors hover:bg-accent hover:text-accent-foreground " +
+                            (String(item.province_id) === provinceId
+                              ? "bg-accent font-medium text-accent-foreground"
+                              : "")
+                          }
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            setProvinceId(String(item.province_id));
+                            setProvinceQuery(item.name);
+                            setProvinceOpen(false);
+                          }}
+                        >
+                          {item.name}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-3 py-2.5 text-sm text-muted-foreground">
+                        No results found
+                      </div>
+                    )}
+                  </div>
+                )}
+                {provincesError && (
+                  <p className="text-xs text-destructive">{provincesError}</p>
+                )}
+              </div>
+            )}
             <div className="space-y-2">
               <label className="text-sm font-medium">Desired savings (%)</label>
               <Input
@@ -329,7 +465,7 @@ export default function Ecosim() {
               </label>
             </div>
             <div className="flex items-end">
-              <Button type="submit" disabled={loading || !municipalityId} className="w-full">
+              <Button type="submit" disabled={loading || !activeId} className="w-full">
                 {loading ? "Running simulation..." : "Run simulation"}
               </Button>
             </div>
@@ -742,6 +878,55 @@ export default function Ecosim() {
                       ) : null
                     )}
                   </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Product Recommendations */}
+          {(productRecs || productLoading) && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Recommended Products</CardTitle>
+                <CardDescription>
+                  Actual marketplace listings for {result?.recommended_source} equipment
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {productLoading && (
+                  <div className="h-24 animate-pulse rounded bg-muted" />
+                )}
+                {!productLoading && productRecs?.items?.length > 0 && (
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    {productRecs.items.map((item, idx) => (
+                      <a
+                        key={idx}
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="rounded-lg border bg-card p-3 shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <p className="text-sm font-medium line-clamp-2">{item.product_name}</p>
+                        <p className="mt-1 text-sm text-muted-foreground">
+                          {item.currency} {item.price_value?.toLocaleString?.() || item.price_value}
+                        </p>
+                        <p className="text-xs text-muted-foreground capitalize">
+                          {item.source_site} · {item.energy_subcategory}
+                        </p>
+                        {item.ratings && (
+                          <p className="text-xs text-amber-600">{item.ratings}</p>
+                        )}
+                      </a>
+                    ))}
+                  </div>
+                )}
+                {!productLoading && productRecs && (!productRecs.items || productRecs.items.length === 0) && (
+                  <p className="text-sm text-muted-foreground">
+                    No matching products found with URLs. Run a product data audit to identify scraper improvements.
+                  </p>
+                )}
+                {productRecs?.note && (
+                  <p className="mt-2 text-xs text-muted-foreground">{productRecs.note}</p>
                 )}
               </CardContent>
             </Card>

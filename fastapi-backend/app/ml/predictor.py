@@ -17,8 +17,8 @@ _GEOJSON_DIR = Path(__file__).resolve().parents[3] / "philippine_geojson"
 # --- Loaders ---
 
 
-def _load_csv(filename: str) -> pd.DataFrame | None:
-    path = _DATA_DIR / filename
+def _load_csv(filename: str, subdir: str = "") -> pd.DataFrame | None:
+    path = _DATA_DIR / subdir / filename if subdir else _DATA_DIR / filename
     if not path.exists():
         return None
     return pd.read_csv(path)
@@ -28,9 +28,8 @@ class EnergyHubML:
     """Lightweight ML prediction service for LUMI EnergyHub.
 
     Loads pre-computed ARIMA forecasts and historical data from the
-    DOE_Data_Extracted directory.  No model retraining occurs at
-    runtime; the ARIMA(1,1,1) model was trained offline in
-    DOE_arima_forecasting.ipynb and its outputs are baked into CSVs.
+    DOE_Data_Extracted directory.  Prefers data_v2_preprocessed/ over
+    legacy data_v1/. No model retraining occurs at runtime.
     """
 
     def __init__(self) -> None:
@@ -39,14 +38,23 @@ class EnergyHubML:
         self._forecast_peak: pd.DataFrame | None = None
         self._model_comparison: pd.DataFrame | None = None
         self._tabula_raw: pd.DataFrame | None = None
+        self._provincial_consumption: pd.DataFrame | None = None
+        self._regional_sales: pd.DataFrame | None = None
         self._load_all()
 
     def _load_all(self) -> None:
-        self._historical = _load_csv("master_preprocessed.csv")
-        self._forecast_consumption = _load_csv("forecast_consumption_2025_2030.csv")
-        self._forecast_peak = _load_csv("forecast_peak_demand_2025_2030.csv")
-        self._model_comparison = _load_csv("model_comparison_results.csv")
-        self._tabula_raw = _load_csv("Tabula_DOE_Data.csv")
+        # Prefer v2 preprocessed; fall back to v1 for backward compatibility
+        def _prefer_v2(filename: str) -> pd.DataFrame | None:
+            v2 = _load_csv(filename, "data_v2_preprocessed")
+            return v2 if v2 is not None else _load_csv(filename, "data_v1")
+
+        self._historical = _prefer_v2("master_preprocessed.csv")
+        self._forecast_consumption = _prefer_v2("forecast_consumption_2025_2030.csv")
+        self._forecast_peak = _prefer_v2("forecast_peak_demand_2025_2030.csv")
+        self._model_comparison = _prefer_v2("model_comparison_results.csv")
+        self._tabula_raw = _load_csv("Tabula_DOE_Data.csv", "data_v1")
+        self._provincial_consumption = _load_csv("provincial_consumption_2003_2025.csv", "data_v2_preprocessed")
+        self._regional_sales = _load_csv("regional_sales_2025.csv", "data_v2_preprocessed")
 
     # --- Public API ---
 
@@ -259,6 +267,32 @@ class EnergyHubML:
             "recommendation": recommendation,
             "data_year": latest_year,
         }
+
+    # --- Provincial / Regional Demand ---
+
+    def get_provincial_consumption(self, region: str | None = None) -> dict[str, Any]:
+        """Return provincial/regional consumption breakdown from DOE Annex 8.
+
+        Values are in MWh as reported by DOE.  If region is None, all
+        regions are returned.
+        """
+        if self._provincial_consumption is None or self._provincial_consumption.empty:
+            return {"items": []}
+        df = self._provincial_consumption.copy()
+        if region:
+            df = df[df["region"].str.upper() == region.upper()]
+        items = df.to_dict(orient="records")
+        return {"items": items}
+
+    def get_regional_sales(self, region: str | None = None) -> dict[str, Any]:
+        """Return 2025 total sales per region."""
+        if self._regional_sales is None or self._regional_sales.empty:
+            return {"items": []}
+        df = self._regional_sales.copy()
+        if region:
+            df = df[df["region"].str.upper() == region.upper()]
+        items = df.to_dict(orient="records")
+        return {"items": items}
 
 
 # Singleton instance

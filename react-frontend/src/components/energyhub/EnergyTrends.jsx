@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
 import PlotlyChart from "./PlotlyChart";
+import ChartExplanation from "./ChartExplanation";
 
 function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   if (!analysis && !loading) {
@@ -200,6 +201,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Total Consumption (GWh) — Historical vs Forecast</p>
         </div>
+        <ChartExplanation
+          what="This chart shows historical national electricity consumption in the Philippines and the ARIMA forecast through 2030."
+          why="Higher consumption indicates increased opportunities for renewable energy investments and may signal future grid stress."
+          action="If your region shows above-average growth, consider solar or wind investments ahead of peak-period strain."
+        />
         <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
           <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
         </div>
@@ -218,6 +224,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <p className="text-sm text-muted-foreground mb-2">Peak Demand (MW)</p>
+          <ChartExplanation
+            what="This chart shows the highest recorded electricity demand per year across all Philippine grids."
+            why="Rising peak demand means the grid needs more reliable capacity, which renewables can supplement."
+            action="Municipalities with high peak-demand growth should prioritize distributed solar or battery storage."
+          />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
             <PlotlyChart data={peakDemandTrace} layout={peakDemandLayout} />
           </div>
@@ -233,6 +244,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         </div>
         <div>
           <p className="text-sm text-muted-foreground mb-2">Renewable Generation (GWh)</p>
+          <ChartExplanation
+            what="This chart shows total renewable energy generation (solar, wind, hydro, geothermal, biomass) per year."
+            why="A rising share indicates successful clean-energy policy implementation and declining fossil dependence."
+            action="Advocate for local RE adoption if your province lags the national renewable growth trend."
+          />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
             <PlotlyChart data={renewableGenTrace} layout={renewableGenLayout} />
           </div>

@@ -103,3 +103,30 @@ class TrendsResponse(BaseModel):
     forecast: ForecastResponse | None = None
     source_breakdown: SourceBreakdownResponse | None = None
     grid_breakdown: GridBreakdownResponse | None = None
+
+
+class ProvincialConsumptionItem(BaseModel):
+    region: str
+    sector: str
+    value_mwh: float
+    year: int
+
+
+class ProvincialDemandResponse(BaseModel):
+    items: list[ProvincialConsumptionItem]
+    region: str | None = None
+    note: str = "Values in MWh from DOE Annex 8 (2025)."
+
+
+class MunicipalDemandEstimate(BaseModel):
+    municipality_id: int
+    municipality_name: str
+    province_name: str
+    estimated_demand_mwh: float
+    method: str = "population_weighted_disaggregation"
+    note: str = "Estimated from provincial DOE data using PSA population ratios. Actual demand may vary."
+
+
+class MunicipalDemandResponse(BaseModel):
+    items: list[MunicipalDemandEstimate]
+    province: str | None = None

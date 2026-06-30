@@ -16,6 +16,7 @@ import EnergyMap from "@/components/energyhub/EnergyMap";
 import EnergyTrends from "@/components/energyhub/EnergyTrends";
 import EnergySources from "@/components/energyhub/EnergySources";
 import AiInsightPanel from "@/components/energyhub/AiInsightPanel";
+import ProvincialDemand from "@/components/energyhub/ProvincialDemand";
 
 const SUITABILITY_METRICS = [
   "renewable_potential",
@@ -241,7 +242,12 @@ export default function EnergyHub() {
           <EnergyOverview data={overview} />
         </section>
 
-        {/* Section 2: Choropleth Map */}
+        {/* Section 2: Provincial Demand */}
+        <section>
+          <ProvincialDemand />
+        </section>
+
+        {/* Section 3: Choropleth Map */}
         <section>
           <EnergyMap
             mapData={mapData}

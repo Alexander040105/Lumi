@@ -71,12 +71,41 @@ export function getEcosim(params) {
     search.append("use_rag", "true");
     search.append("rag_query", params.ragQuery);
   }
+  if (params.mode) {
+    search.append("mode", params.mode);
+  }
 
   return request(`/ecosim/?${search.toString()}`);
 }
 
 export function getMunicipalities() {
   return request("/ecosim/municipalities");
+}
+
+export function getProvinces() {
+  return request("/ecosim/provinces");
+}
+
+export function getProductRecommendations(energyType, budgetPhp = null, limit = 5) {
+  const params = new URLSearchParams({ energy_type: energyType, limit: String(limit) });
+  if (budgetPhp) params.append("budget_php", String(budgetPhp));
+  return request(`/products/recommend?${params.toString()}`);
+}
+
+export function browseProducts(filters = {}) {
+  const params = new URLSearchParams();
+  if (filters.category) params.append("category", filters.category);
+  if (filters.subcategory) params.append("subcategory", filters.subcategory);
+  if (filters.source_site) params.append("source_site", filters.source_site);
+  if (filters.min_price) params.append("min_price", String(filters.min_price));
+  if (filters.max_price) params.append("max_price", String(filters.max_price));
+  params.append("page", String(filters.page || 1));
+  params.append("page_size", String(filters.page_size || 20));
+  return request(`/products/browse?${params.toString()}`);
+}
+
+export function getProductAudit() {
+  return request("/products/audit");
 }
 
 export function getGeothermal(municipalityId) {
