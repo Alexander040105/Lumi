@@ -260,7 +260,7 @@ export default function EnergyHub() {
               <div className="rounded-lg border bg-muted/30 p-3">
                 <p className="text-xs text-muted-foreground">Latest RE Capacity</p>
                 <p className="text-lg font-semibold">
-                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "OnGrid").pop()?.capacity_mw?.toLocaleString?.() || "—"} MW
+                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "On-grid").pop()?.capacity_mw?.toLocaleString?.() ?? "—"} MW
                 </p>
               </div>
               <div className="rounded-lg border bg-muted/30 p-3">
@@ -272,7 +272,7 @@ export default function EnergyHub() {
               <div className="rounded-lg border bg-muted/30 p-3">
                 <p className="text-xs text-muted-foreground">RE Share (latest)</p>
                 <p className="text-lg font-semibold">
-                  {irena.renewable_share?.pop()?.renewable_share_pct || "—"}%
+                  {irena.renewable_share?.pop()?.renewable_share_pct ?? "—"}%
                 </p>
               </div>
             </div>

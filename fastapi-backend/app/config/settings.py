@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 from functools import lru_cache
 from typing import List
@@ -7,9 +8,10 @@ from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import AliasChoices, Field, field_validator
 
+logger = logging.getLogger(__name__)
 
 ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
-print(f"Loading settings from: {ENV_FILE}")
+logger.info("Loading settings from: %s", ENV_FILE)
 load_dotenv(ENV_FILE)
 
 
@@ -45,5 +47,5 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    print(f"Settings env file path: {ENV_FILE}")
+    logger.info("Settings env file path: %s", ENV_FILE)
     return Settings()

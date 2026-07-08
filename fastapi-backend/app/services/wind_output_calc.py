@@ -50,8 +50,6 @@ avg_power_coefficient = load_wind_averages["avg_power_coefficient"]
 avg_rotos_summary= load_wind_averages["summary_rotor"]
 avg_cp_summary = load_wind_averages["summary_cp"]
 
-print(avg_power_coefficient)
-
 
 def calculate_wind_output(
     wind_speed_mps: float,

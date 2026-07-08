@@ -351,6 +351,7 @@ class EnergyHubML:
                 return {"rate_php_per_kwh": None, "year": year, "note": "No data for requested year"}
             row = match.iloc[0]
         else:
+            df = df.sort_values("year", ascending=True)
             row = df.iloc[-1]
         return {
             "rate_php_per_kwh": float(row["rate_php_per_kwh"]),
@@ -370,7 +371,7 @@ class EnergyHubML:
             return {"items": [], "note": "Solar Atlas data not available"}
         df = self._solar_atlas.copy()
         if location:
-            df = df[df["location"].str.lower().str.contains(location.lower())]
+            df = df[df["location"].str.lower().str.contains(location.lower(), regex=False)]
         items = df.to_dict(orient="records")
         return {"items": items, "note": "Data from Global Solar Atlas v2 (long-term annual averages)."}
 

@@ -99,7 +99,9 @@ def _get_user_role(user_id: str) -> str:
         logger.warning("_get_user_role: no data returned for user_id=%s", user_id)
         return "user"
     except Exception as exc:
-        logger.error("_get_user_role failed for user_id=%s: %s", user_id, exc)
+        # NOTE: Returning "user" on DB failure fails safely (no privilege escalation),
+        # but legitimate admins will be denied access during outages.
+        logger.error("_get_user_role DB failure for user_id=%s: %s", user_id, exc)
         return "user"
 
 

@@ -10,6 +10,7 @@ Known data quality issues:
 - Products without URLs are excluded from recommendation but included in audit.
 """
 
+import threading
 from pathlib import Path
 import pandas as pd
 from fastapi import HTTPException, status
@@ -24,20 +25,22 @@ _PRODUCTS_CSV = (
 
 # Lazy-loaded DataFrame
 _products_df: pd.DataFrame | None = None
+_products_lock = threading.Lock()
 
 
 def _load_products() -> pd.DataFrame:
     global _products_df
-    if _products_df is None:
-        if not _PRODUCTS_CSV.exists():
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                detail="Product dataset not found.",
-            )
-        _products_df = pd.read_csv(_PRODUCTS_CSV)
-        _products_df["price_value"] = pd.to_numeric(_products_df["price_value"], errors="coerce")
-        # Fix misclassified categories based on source_file name
-        _products_df["energy_category"] = _products_df.apply(_fix_category, axis=1)
+    with _products_lock:
+        if _products_df is None:
+            if not _PRODUCTS_CSV.exists():
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail="Product dataset not found.",
+                )
+            _products_df = pd.read_csv(_PRODUCTS_CSV)
+            _products_df["price_value"] = pd.to_numeric(_products_df["price_value"], errors="coerce")
+            # Fix misclassified categories based on source_file name
+            _products_df["energy_category"] = _products_df.apply(_fix_category, axis=1)
     return _products_df
 
 
@@ -45,13 +48,15 @@ def _fix_category(row: pd.Series) -> str:
     """Correct misclassified categories using source_file hints."""
     cat = str(row.get("energy_category", "")).lower().strip()
     src = str(row.get("source_file", "")).lower()
-    if "hydro" in src and cat == "wind":
+    base = src.split("/")[-1].split("\\")[-1]
+    # Only override when the source file name explicitly indicates the category
+    if base.endswith("_hydro.csv") and cat == "wind":
         return "hydro"
-    if "solar" in src and cat != "solar":
+    if base.endswith("_solar.csv") and cat != "solar":
         return "solar"
-    if "wind" in src and cat != "wind":
+    if base.endswith("_wind.csv") and cat != "wind":
         return "wind"
-    if "geothermal" in src and cat != "geothermal":
+    if base.endswith("_geothermal.csv") and cat != "geothermal":
         return "geothermal"
     return cat
 
@@ -90,19 +95,23 @@ def get_product_recommendations(energy_type: str, budget_php: float | None = Non
     # Only recommend products with valid URLs
     filtered = filtered[filtered["url"].notna() & (filtered["url"].str.strip() != "")]
 
+    # Rough conversion: assume USD if currency is USD, otherwise use as-is
+    def in_php(row):
+        val = row["price_value"]
+        if pd.isna(val):
+            return float("inf")
+        curr = str(row.get("currency", "")).upper()
+        if "USD" in curr:
+            return val * 56.0  # configurable fallback rate
+        return val
+
     if budget_php is not None and budget_php > 0:
-        # Rough conversion: assume USD if currency is USD, otherwise use as-is
-        def in_php(row):
-            val = row["price_value"]
-            if pd.isna(val):
-                return float("inf")
-            curr = str(row.get("currency", "")).upper()
-            if "USD" in curr:
-                return val * 56.0  # configurable fallback rate
-            return val
         filtered = filtered[filtered.apply(lambda r: in_php(r) <= budget_php, axis=1)]
 
-    filtered = filtered.sort_values("price_value", na_position="last").head(limit)
+    filtered = filtered.copy()
+    filtered["price_in_php"] = filtered.apply(in_php, axis=1)
+    filtered = filtered.sort_values("price_in_php", na_position="last").head(limit)
+    filtered = filtered.drop(columns=["price_in_php"])
     items = [_row_to_dict(r) for _, r in filtered.iterrows()]
 
     return {

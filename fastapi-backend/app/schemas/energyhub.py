@@ -130,6 +130,7 @@ class MunicipalDemandEstimate(BaseModel):
 class MunicipalDemandResponse(BaseModel):
     items: list[MunicipalDemandEstimate]
     province: str | None = None
+    note: str = ""
 
 
 class IrenaCapacityItem(BaseModel):

@@ -372,7 +372,7 @@ def retrieve_with_filter(
 
 def index_stats() -> dict[str, Any]:
     return {
-        "chunks_loaded": len(_chunks),
+        "chunks_loaded": len(_chunks) if _chunks is not None else 0,
         "index_present": _index is not None,
         "index_path_exists": INDEX_PATH.exists(),
         "chunks_path_exists": CHUNKS_PATH.exists(),
@@ -381,4 +381,6 @@ def index_stats() -> dict[str, Any]:
 
 def sample_chunks(n: int = 3) -> list[dict[str, Any]]:
     """Return a sample of stored chunks for debugging."""
+    if _chunks is None:
+        return []
     return _chunks[:n]

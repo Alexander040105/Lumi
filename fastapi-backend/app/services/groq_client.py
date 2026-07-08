@@ -15,13 +15,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from pathlib import Path
 from typing import Any
-
-from dotenv import load_dotenv
-
-_repo_root = Path(__file__).resolve().parents[3]
-load_dotenv(dotenv_path=_repo_root / ".env")
 
 logger = logging.getLogger(__name__)
 

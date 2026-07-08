@@ -349,10 +349,13 @@ def train_and_forecast(df):
     results.append({"model": "ARIMA(1,1,1)", "mae": mae_a, "rmse": rmse_a, "mape": mape_a})
 
     # SARIMAX placeholder (no exog available in v2 raw)
-    results.append({"model": "SARIMAX(1,1,1) + Exog", "mae": mae_a * 1.45, "rmse": rmse_a * 1.39, "mape": mape_a * 1.46})
-
-    # Random Forest placeholder
-    results.append({"model": "Random Forest Regression", "mae": mae_a * 2.33, "rmse": rmse_a * 2.15, "mape": mape_a * 2.36})
+    placeholder_models = [
+        {"model": "SARIMAX(1,1,1) + Exog", "mae": mae_a * 1.45, "rmse": rmse_a * 1.39, "mape": mape_a * 1.46},
+        {"model": "Random Forest Regression", "mae": mae_a * 2.33, "rmse": rmse_a * 2.15, "mape": mape_a * 2.36},
+    ]
+    for p in placeholder_models:
+        p["note"] = "placeholder — model not executed"
+    results.extend(placeholder_models)
 
     df_comp = pd.DataFrame(results)
     return df_fc_c, df_fc_p, df_comp
@@ -402,17 +405,6 @@ def main():
     master = build_master_preprocessed(annex1)
     master_path = OUTPUT_DIR / "master_preprocessed.csv"
     master.to_csv(master_path, index=False)
-    # Inject duplicate "year" column header to match v1 schema exactly
-    text = master_path.read_text(encoding="utf-8")
-    lines = text.splitlines()
-    header = lines[0]
-    parts = header.split(",")
-    # Insert a second "year" right after total_generation_gwh (index 16)
-    # But simpler: just duplicate year at index 34 position
-    # v1 has year at position 0 and 34 (0-indexed)
-    parts.insert(34, "year")
-    lines[0] = ",".join(parts)
-    master_path.write_text("\n".join(lines), encoding="utf-8")
 
     print("[3/5] Training ARIMA & model comparison...")
     try:

@@ -63,15 +63,9 @@ def _retrieve_context(query: str, top_k: int = 5) -> list[dict]:
 
 def _generate_response(prompt: str) -> str:
     """Call Groq directly (no Gemini, no JSON mode) for fast chat responses."""
-    import os
-    api_key = os.getenv("GROQ_API_KEY")
-    if not api_key:
-        logger.error("GROQ_API_KEY is not set")
-        return "I'm sorry, I couldn't generate a response at this time. Our AI service is temporarily unavailable — please try again later."
-
     try:
-        from groq import Groq
-        client = Groq(api_key=api_key)
+        from app.services.groq_client import _get_groq_client
+        client = _get_groq_client()
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[

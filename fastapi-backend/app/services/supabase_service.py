@@ -1,5 +1,6 @@
 import logging
 import re
+import urllib.parse
 from typing import Any
 
 import httpx
@@ -35,7 +36,7 @@ class SupabaseRestQuery:
         return self
 
     def eq(self, column: str, value: str) -> "SupabaseRestQuery":
-        self._filters.append((column, value))
+        self._filters.append((column, urllib.parse.quote(str(value), safe="")))
         return self
 
     def limit(self, n: int) -> "SupabaseRestQuery":
@@ -78,6 +79,12 @@ class SupabaseRestClient:
             "Authorization": f"Bearer {api_key}",
         }
         self.http = httpx.Client(timeout=10.0)
+
+    def __del__(self):
+        try:
+            self.http.close()
+        except Exception:
+            pass
 
     def table(self, table_name: str) -> SupabaseRestQuery:
         return SupabaseRestQuery(self, table_name)

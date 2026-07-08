@@ -78,7 +78,7 @@ export default function ProvincialDemand({ region = null }) {
   }
 
   // Build chart data: one row per region, one bar per sector
-  const regions = [...new Set(items.map((i) => i.region))];
+  const regions = [...new Set(items.map((i) => i.region))].sort((a, b) => a.localeCompare(b));
   const chartData = regions.map((r) => {
     const row = { region: r };
     for (const sector of SECTORS) {
@@ -105,7 +105,7 @@ export default function ProvincialDemand({ region = null }) {
             <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="region" />
-              <YAxis tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+              <YAxis tickFormatter={(v) => `${v.toFixed(0)}`} />
               <Tooltip
                 formatter={(value, name) => [formatNumber(value) + " GWh", name]}
                 labelFormatter={(label) => `Region: ${label}`}

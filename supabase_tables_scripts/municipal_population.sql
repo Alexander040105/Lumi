@@ -22,6 +22,11 @@ create table if not exists public.municipal_population (
 create index if not exists idx_municipal_population_province_id on public.municipal_population(province_id);
 create index if not exists idx_municipal_population_municipality_id on public.municipal_population(municipality_id);
 
+-- Prevent duplicate census rows for the same municipality and year
+alter table public.municipal_population
+  add constraint if not exists uq_municipal_population_unique
+  unique (province_id, municipality_id, year);
+
 -- Example insert (replace with actual PSA data):
 -- insert into public.municipal_population (province_id, municipality_id, population, year, source)
 -- values (1, 1, 45000, 2020, 'PSA 2020 Census');

@@ -4,15 +4,10 @@ import logging
 import os
 import re
 import time
-from pathlib import Path
 from typing import Any
 
-from dotenv import load_dotenv
 from google import genai
 from google.genai import errors as genai_errors
-
-_repo_root = Path(__file__).resolve().parents[3]
-load_dotenv(dotenv_path=_repo_root / ".env")
 
 logger = logging.getLogger(__name__)
 

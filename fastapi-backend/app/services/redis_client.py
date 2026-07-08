@@ -10,15 +10,24 @@ logger = logging.getLogger(__name__)
 
 _DEFAULT_TTL = 3600  # 1 hour
 
+_redis_async: Redis | None = None
+_redis_sync: redis_sync.Redis | None = None
+
 
 def get_redis() -> Redis:
-    redis_url = os.getenv("UPSTASH_REDIS_URL")
-    return Redis.from_url(redis_url, decode_responses=True)
+    global _redis_async
+    if _redis_async is None:
+        redis_url = os.getenv("UPSTASH_REDIS_URL")
+        _redis_async = Redis.from_url(redis_url, decode_responses=True)
+    return _redis_async
 
 
 def get_redis_sync() -> redis_sync.Redis:
-    redis_url = os.getenv("UPSTASH_REDIS_URL")
-    return redis_sync.Redis.from_url(redis_url, decode_responses=True)
+    global _redis_sync
+    if _redis_sync is None:
+        redis_url = os.getenv("UPSTASH_REDIS_URL")
+        _redis_sync = redis_sync.Redis.from_url(redis_url, decode_responses=True)
+    return _redis_sync
 
 
 # ---------------------------------------------------------------------------

@@ -31,8 +31,8 @@ def _log_admin_action(admin_id: str, action: str, target_user_id: str | None = N
             "details": details or {},
             "created_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
-    except Exception:
-        pass  # Audit logging is best-effort
+    except Exception as exc:
+        logger.warning("Admin audit log write failed: %s", exc)
 
 
 def _has_auth_admin_api(client: Any) -> bool:
@@ -103,8 +103,8 @@ async def list_users(user: dict = Depends(require_admin)) -> dict[str, Any]:
                     "is_active": prof.get("is_active", True),
                     "created_at": ud.get("created_at") or prof.get("created_at"),
                 })
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.warning("Admin user list enrichment failed for a user: %s", exc)
 
     # Fallback: if auth admin API is unavailable, return whatever profiles we have
     if not users:
@@ -178,16 +178,16 @@ async def create_user(
             "plan": plan,
             "is_active": True,
         }).execute()
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Admin profile upsert failed: %s", exc)
 
     try:
         client.table("user_roles").upsert({
             "user_id": user_id,
             "role": role,
         }).execute()
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Admin role upsert failed: %s", exc)
 
     _log_admin_action(
         admin_user.get("sub"),
@@ -230,8 +230,8 @@ async def get_user_detail(
             auth_resp = client.auth.admin.get_user_by_id(user_id)
             u = auth_resp.user if hasattr(auth_resp, "user") else (auth_resp.data or {}).get("user")
             auth_info = _auth_user_to_dict(u)
-        except Exception:
-            pass
+        except Exception as exc:
+            logger.warning("Admin auth metadata fetch failed: %s", exc)
 
     _log_admin_action(admin_user.get("sub"), "view_user", target_user_id=user_id)
     return {
@@ -484,8 +484,8 @@ async def update_config(
             "value": payload,
             "updated_at": datetime.now(timezone.utc).isoformat(),
         }).execute()
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Admin config upsert failed: %s", exc)
 
     _log_admin_action(admin_user.get("sub"), "update_config", details=payload)
     return {"status": "ok", "config": payload}

@@ -925,9 +925,9 @@ export default function Ecosim() {
                 )}
                 {!productLoading && productRecs?.items?.length > 0 && (
                   <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    {productRecs.items.map((item, idx) => (
+                    {productRecs.items.map((item) => (
                       <a
-                        key={idx}
+                        key={item.url || item.product_name}
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"

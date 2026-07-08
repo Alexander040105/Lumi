@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timezone
 from typing import Any
 
@@ -7,6 +8,7 @@ from pydantic import BaseModel, Field
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
 from app.services.supabase_service import get_supabase_client
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -30,8 +32,8 @@ def _get_free_sim_limit() -> int | None:
             value = resp.data.get("value", {})
             limit = value.get("free_sim_limit")
             return int(limit) if limit is not None else None
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Free sim limit fetch failed, using default: %s", exc)
     return 3  # default fallback
 
 

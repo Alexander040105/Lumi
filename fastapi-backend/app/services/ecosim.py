@@ -265,7 +265,7 @@ def get_province_data(province_name: str) -> dict:
         terrain_resp = (
             client.table("hydropower_suitability")
             .select("hydraulic_head_m,runoff_potential,watershed_gradient,mean_slope_deg,gravity_flow_potential")
-            .in_("municipality_id", municipality_ids[:500])  # limit batch
+            .in_("municipality_id", municipality_ids)
             .execute()
         )
         terrain_rows = terrain_resp.data or []
@@ -960,8 +960,8 @@ def build_ecosim_dashboard_response(
             if muni_resp.data:
                 muni_lat = muni_resp.data.get("lat")
                 muni_lon = muni_resp.data.get("lon")
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Municipality lat/lon fetch failed: %s", exc)
 
     nearby_geo_plants: list[dict[str, Any]] = []
     base_results = renewable_energy_calculator(
@@ -1061,29 +1061,43 @@ def build_ecosim_dashboard_response(
     meralco_franchise_provinces = {
         "metro manila", "ncr", "bulacan", "cavite", "laguna", "rizal"
     }
+    # Known Meralco-served municipalities (subset; extend as needed)
+    meralco_franchise_municipalities: set[str] = {
+        "calamba", "cabuyao", "santa rosa", "biñan", "san pedro",
+        "general trias", "imus", "dasmariñas", "bacoor", "kawit",
+        "norzagaray", "malolos", "meycauayan", "marilao", "bocaue",
+        "cainta", "taytay", "angono", "binangonan", "antipolo",
+    }
     meralco_info = None
     try:
+        client = get_supabase_client()
         if mode == "province":
             prov_name = municipality_name.lower()
+            muni_name = ""
         else:
-            # Fetch province name for municipality
-            muni_prov = (
+            # Fetch municipality and province name
+            muni_resp = (
                 client.table("municipalities")
-                .select("provinces(name)")
+                .select("name,provinces(name)")
                 .eq("municipality_id", municipality_id)
                 .single()
                 .execute()
             )
+            muni_data = muni_resp.data or {}
+            muni_name = str(muni_data.get("name", "")).lower().strip()
             prov_name = (
-                muni_prov.data.get("provinces", {}).get("name", "").lower()
-                if muni_prov.data else ""
+                str(muni_data.get("provinces", {}).get("name", "")).lower().strip()
+                if isinstance(muni_data.get("provinces"), dict) else ""
             )
-        if any(p in prov_name for p in meralco_franchise_provinces):
+        # Municipality-level whitelist first, then province fallback
+        if muni_name in meralco_franchise_municipalities or any(
+            p in prov_name for p in meralco_franchise_provinces
+        ):
             from app.ml.predictor import get_energyhub_ml
             ml = get_energyhub_ml()
             meralco_info = ml.get_meralco_rate()
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.warning("Meralco franchise lookup failed: %s", exc)
 
     return {
         "municipality": municipality_name.upper(),
