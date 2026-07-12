@@ -21,18 +21,18 @@ class LatestStatisticsResponse(BaseModel):
     total_generation_gwh: float
     renewable_generation_gwh: float
     renewable_share_pct: float
-    capacity_margin_mw: float
-    capacity_margin_pct: float
+    capacity_margin_mw: float | None = None
+    capacity_margin_pct: float | None = None
 
 
 class HistoricalTrendsResponse(BaseModel):
     years: list[int]
-    series: dict[str, list[float]]
+    series: dict[str, list[float | None]]
 
 
 class ForecastResponse(BaseModel):
     forecast_years: list[int]
-    forecast_values: list[float]
+    forecast_values: list[float | None]
     ci_lower: list[float | None]
     ci_upper: list[float | None]
     model: str
@@ -99,7 +99,7 @@ class MapDataResponse(BaseModel):
 
 class TrendsResponse(BaseModel):
     years: list[int]
-    series: dict[str, list[float]]
+    series: dict[str, list[float | None]]
     forecast: ForecastResponse | None = None
     source_breakdown: SourceBreakdownResponse | None = None
     grid_breakdown: GridBreakdownResponse | None = None

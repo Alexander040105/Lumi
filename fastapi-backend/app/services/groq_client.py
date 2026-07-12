@@ -1,13 +1,19 @@
 """
 Groq LLM client — free-tier alternative to Gemini.
 
-Groq free tier (as of 2025):
+Groq free tier (as of 2026):
   - 20 requests / minute
   - 200,000 tokens / minute
   - 500,000 tokens / day
   - 6,000 requests / day
 
 Sign up at https://console.groq.com to get a free API key.
+
+Model stack (updated July 2026 — llama-3.3-70b-versatile deprecated Aug 16, 2026):
+  Primary: qwen/qwen3-32b (60 RPM, 500K TPD)
+  Fallback 1: meta-llama/llama-4-scout-17b-16e-instruct (30K TPM, 500K TPD)
+  Fallback 2: llama-3.1-8b-instant (14.4K RPD, fast)
+  Emergency: openai/gpt-oss-120b (high quality, lower TPD)
 """
 
 from __future__ import annotations
@@ -19,15 +25,15 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "qwen/qwen3-32b")
 DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
 DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "4000"))
 
-# Free-tier Groq models that work well for structured JSON output
+# Free-tier Groq models — updated July 2026 after llama-3.3-70b-versatile deprecation
 FALLBACK_GROQ_MODELS = [
-    "llama-3.1-70b-versatile",
-    "mixtral-8x7b-32768",
+    "meta-llama/llama-4-scout-17b-16e-instruct",
     "llama-3.1-8b-instant",
+    "openai/gpt-oss-120b",
 ]
 
 _groq_client: Any | None = None
@@ -82,9 +88,18 @@ def generate_groq_response(
                         {
                             "role": "system",
                             "content": (
-                                "You are a helpful assistant that always returns "
-                                "valid JSON. Do not include markdown formatting, "
-                                "explanations, or anything outside the JSON object."
+                                "You are a friendly energy advisor speaking to a Filipino homeowner who has NO technical background. "
+                                "You must always return valid JSON. Do not include markdown formatting, explanations, or anything outside the JSON object. "
+                                "Rules for all text you generate inside the JSON:"
+                                "\n- Use plain English. Avoid jargon. If you must use a technical term, explain it immediately in simple words."
+                                "\n- Example: Instead of 'solar irradiance is 5.8 kWh/m²/day', say 'Your area gets plenty of sunlight — about 5.8 hours of strong sun each day, which is excellent for solar panels.'"
+                                "\n- Example: Instead of 'capacity factor', say 'how efficiently the system runs compared to its best possible performance.'"
+                                "\n- Always explain WHY something matters to the user's wallet or home."
+                                "\n- Keep sentences short and conversational."
+                                "\n- Use everyday comparisons: 'That's like leaving 10 light bulbs on all day.'"
+                                "\n- Never assume the user knows what kWh, MW, GWh, or capacity factor mean."
+                                "\n- If giving a number, always pair it with a plain-English interpretation."
+                                "\n- The target audience includes teenagers and homeowners with zero engineering knowledge."
                             ),
                         },
                         {"role": "user", "content": content},

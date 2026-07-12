@@ -63,16 +63,26 @@ def _fix_category(row: pd.Series) -> str:
 
 def _row_to_dict(row: pd.Series) -> dict:
     """Serialize a product row for API responses."""
+    def _clean(val):
+        if val is None:
+            return None
+        try:
+            if pd.isna(val):
+                return None
+        except (TypeError, ValueError):
+            pass
+        return val
+
     return {
-        "product_name": row.get("product_name"),
+        "product_name": _clean(row.get("product_name")),
         "price_value": round(row.get("price_value"), 2) if pd.notna(row.get("price_value")) else None,
-        "currency": row.get("currency"),
-        "energy_category": row.get("energy_category"),
-        "energy_subcategory": row.get("energy_subcategory"),
-        "source_site": row.get("source_site"),
-        "url": row.get("url"),
-        "ratings": row.get("ratings"),
-        "reviews": row.get("reviews"),
+        "currency": _clean(row.get("currency")),
+        "energy_category": _clean(row.get("energy_category")),
+        "energy_subcategory": _clean(row.get("energy_subcategory")),
+        "source_site": _clean(row.get("source_site")),
+        "url": _clean(row.get("url")),
+        "ratings": _clean(row.get("ratings")),
+        "reviews": _clean(row.get("reviews")),
     }
 
 

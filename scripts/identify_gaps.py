@@ -176,7 +176,24 @@ def main() -> int:
 
     # Also build by normalized name for fuzzy matching
     def norm(name: str) -> str:
-        return name.lower().replace("city of ", "").replace("municipality of ", "").strip()
+        import re as _re
+        n = name.lower().strip()
+        # Strip parenthetical aliases: "paranas (wright)" -> "paranas"
+        n = _re.sub(r'\s*\([^)]*\)\s*', ' ', n).strip()
+        for prefix in ("city of ", "municipality of ", "province of "):
+            if n.startswith(prefix):
+                n = n[len(prefix):]
+        for suffix in (" city", " municipality"):
+            if n.endswith(suffix):
+                n = n[: -len(suffix)]
+        # Common aliases
+        aliases = {
+            "gen. s.k. pendatun": "general salipada k. pendatun",
+            "pi v. corpuz": "pio v. corpuz",
+            "muñoz": "munoz",
+            "science city of muñoz": "munoz",
+        }
+        return aliases.get(n, n)
 
     db_by_name = {norm(row["name"]): row for row in db_munis if row.get("name")}
 

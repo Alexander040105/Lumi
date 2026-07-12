@@ -117,12 +117,13 @@ class EnergyHubService:
         All metrics use sub-national data:
         - Province-level: aggregated from municipality climate/terrain/suitability scores.
         - Municipality-level: pre-computed suitability scores from Supabase.
+        - Barangay-level: inherits parent municipality suitability scores
+          with centroid coordinates from geospatial_metadata.
 
         Args:
             metric: Metric to visualise. One of: renewable_potential,
                 solar_potential, wind_potential, hydro_potential, geothermal_potential.
-            level: "province" or "municipality". Municipality level uses
-                pre-computed suitability scores from the municipalities table.
+            level: "province", "municipality", or "barangay".
         """
         items: list[dict[str, Any]] = []
 
@@ -138,6 +139,10 @@ class EnergyHubService:
         if metric in municipality_metrics and level == "municipality":
             column_prefix = municipality_metrics[metric]
             items = self._build_municipality_potential_map(column_prefix)
+            return {"items": items, "metric": metric, "level": level}
+
+        if metric in municipality_metrics and level == "barangay":
+            items = self._build_barangay_potential_map(municipality_metrics[metric])
             return {"items": items, "metric": metric, "level": level}
 
         if metric == "renewable_potential":
@@ -556,6 +561,72 @@ class EnergyHubService:
                 set_suitability_cache_sync(metric_name, "municipality", items)
         except Exception as exc:
             logger.warning("Supabase query failed for municipality map data: %s", exc)
+
+        return items
+
+    def _build_barangay_potential_map(self, column_prefix: str) -> list[dict[str, Any]]:
+        """Build barangay-level suitability map by inheriting parent municipality scores.
+
+        Barangays don't have their own suitability scores — they inherit
+        from their parent municipality. Centroids come from geospatial_metadata
+        or barangays.lat/lon as fallback.
+        """
+        metric_name = f"{column_prefix}_potential" if column_prefix != "composite" else "renewable_potential"
+        cached = get_suitability_cache_sync(metric_name, "barangay")
+        if cached and column_prefix != "geothermal":
+            logger.info("Cache hit for barangay %s suitability", metric_name)
+            return cached  # type: ignore[return-value]
+
+        client = get_supabase_client()
+        items: list[dict[str, Any]] = []
+
+        score_col = f"{column_prefix}_suitability_score"
+        class_col = f"{column_prefix}_classification"
+
+        try:
+            # Fetch barangays with parent municipality info
+            select_cols = (
+                f"barangay_id, name, municipality_id, lat, lon, "
+                f"municipalities(name, province_id, {score_col}, {class_col}, provinces(name))"
+            )
+            resp = (
+                client.table("barangays")
+                .select(select_cols)
+                .limit(50000)
+                .execute()
+            )
+            rows = resp.data or []
+
+            for r in rows:
+                muni = r.get("municipalities")
+                if not muni:
+                    continue
+                score = muni.get(score_col)
+                if score is None:
+                    continue
+
+                prov_obj = muni.get("provinces")
+                province_name = prov_obj.get("name", "") if prov_obj else ""
+
+                items.append({
+                    "region": "",
+                    "province": province_name,
+                    "municipality": muni.get("name"),
+                    "barangay": r.get("name"),
+                    "barangay_id": r.get("barangay_id"),
+                    "value": float(score),
+                    "classification": muni.get(class_col),
+                    "metric": metric_name,
+                    "lat": r.get("lat"),
+                    "lon": r.get("lon"),
+                    "nearby_plants": [],
+                })
+
+            if column_prefix != "geothermal" and items:
+                set_suitability_cache_sync(metric_name, "barangay", items)
+
+        except Exception as exc:
+            logger.warning("Supabase query failed for barangay map data: %s", exc)
 
         return items
 

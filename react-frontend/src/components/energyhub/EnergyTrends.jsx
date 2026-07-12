@@ -3,6 +3,39 @@ import { Sparkles, Loader2 } from "lucide-react";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
+function sanitizeLLMOutput(text = "") {
+  if (!text) return "";
+  let t = text;
+
+  // Remove repetitive greeting lines that appear in every panel
+  t = t.replace(/Hello there! I'm LUMI, your friendly energy advisor\.\s*Let's chat about.*?\n*/is, "");
+  t = t.replace(/Hi there! I'm LUMI.*?\n*/is, "");
+
+  // Normalize repeated "Recommendation 1:" blocks into a single numbered list
+  // When the LLM restarts numbering mid-text, renumber them sequentially
+  const recBlocks = [];
+  const recRegex = /\*?\s*\*\*?\s*Recommendation\s*(\d+)[:\.*\-]*\s*\*?\*?\s*(.*?)(?=\*?\s*\*\*?\s*Recommendation\s*\d+[:\.*\-]*|$)/gis;
+  let m;
+  while ((m = recRegex.exec(t)) !== null) {
+    recBlocks.push(m[2].trim());
+  }
+  if (recBlocks.length > 0) {
+    const numbered = recBlocks.map((b, i) => `${i + 1}. ${b.replace(/\n+/g, " ")}`).join("\n");
+    t = t.replace(/\*?\s*\*\*?\s*Recommendation\s*\d+[:\.*\-]*\s*\*?\*?\s*.*/gis, "").trim();
+    t = t + "\n\nRecommendations:\n" + numbered;
+  }
+
+  // Collapse multiple blank lines into one
+  t = t.replace(/\n{3,}/g, "\n\n");
+
+  // Trim to a reasonable length for panel display (soft cap ~800 chars)
+  if (t.length > 900) {
+    t = t.slice(0, 900).replace(/\s+\S*$/, "") + "…";
+  }
+
+  return t.trim();
+}
+
 function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   if (!analysis && !loading) {
     return (
@@ -28,7 +61,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   return (
     <div className="mt-2 rounded-lg bg-amber-50 border border-amber-100 p-3">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-xs leading-relaxed text-amber-900 whitespace-pre-line flex-1">{analysis?.insight}</p>
+        <p className="text-xs leading-relaxed text-amber-900 whitespace-pre-line flex-1">{sanitizeLLMOutput(analysis?.insight)}</p>
         {onRefresh && (
           <button
             onClick={onRefresh}
@@ -199,11 +232,14 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       {/* Consumption trend */}
       <div className="mt-4">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Total Consumption (GWh) — Historical vs Forecast</p>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Total Electricity Use Over Time</p>
+            <p className="text-xs text-muted-foreground">How much electricity the whole country uses, and where it's heading</p>
+          </div>
         </div>
         <ChartExplanation
-          what="This chart shows historical national electricity consumption in the Philippines and the ARIMA forecast through 2030."
-          why="Higher consumption indicates increased opportunities for renewable energy investments and may signal future grid stress."
+          what="This chart shows historical national electricity consumption in the Philippines and the forecast through 2030."
+          why="Higher consumption means more power plants are needed. It also means more opportunities for clean energy to replace fossil fuels."
           action="If your region shows above-average growth, consider solar or wind investments ahead of peak-period strain."
         />
         <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
@@ -223,10 +259,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       {/* Peak demand + Renewable generation */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <p className="text-sm text-muted-foreground mb-2">Peak Demand (MW)</p>
+          <p className="text-sm font-semibold text-foreground">Peak Electricity Demand</p>
+          <p className="text-xs text-muted-foreground mb-2">The highest amount of electricity needed at any single moment</p>
           <ChartExplanation
             what="This chart shows the highest recorded electricity demand per year across all Philippine grids."
-            why="Rising peak demand means the grid needs more reliable capacity, which renewables can supplement."
+            why="Rising peak demand means the grid needs more reliable capacity. When peaks are too high, brownouts can happen."
             action="Municipalities with high peak-demand growth should prioritize distributed solar or battery storage."
           />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
@@ -243,10 +280,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           )}
         </div>
         <div>
-          <p className="text-sm text-muted-foreground mb-2">Renewable Generation (GWh)</p>
+          <p className="text-sm font-semibold text-foreground">Clean Energy Generation</p>
+          <p className="text-xs text-muted-foreground mb-2">How much electricity comes from solar, wind, hydro, and geothermal sources</p>
           <ChartExplanation
             what="This chart shows total renewable energy generation (solar, wind, hydro, geothermal, biomass) per year."
-            why="A rising share indicates successful clean-energy policy implementation and declining fossil dependence."
+            why="A rising share means the country is successfully replacing coal and gas with clean energy. This helps reduce electricity costs and pollution over time."
             action="Advocate for local RE adoption if your province lags the national renewable growth trend."
           />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">

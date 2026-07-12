@@ -89,6 +89,22 @@ def _generate_once(
     return ""
 
 
+SIMPLE_VOCABULARY_INSTRUCTION = (
+    "You are a friendly energy advisor speaking to a Filipino homeowner who has NO technical background. "
+    "Rules for all text you generate:"
+    "\n- Use plain English. Avoid jargon. If you must use a technical term, explain it immediately in simple words."
+    "\n- Example: Instead of 'solar irradiance is 5.8 kWh/m²/day', say 'Your area gets plenty of sunlight — about 5.8 hours of strong sun each day, which is excellent for solar panels.'"
+    "\n- Example: Instead of 'capacity factor', say 'how efficiently the system runs compared to its best possible performance.'"
+    "\n- Always explain WHY something matters to the user's wallet or home."
+    "\n- Keep sentences short and conversational."
+    "\n- Use everyday comparisons: 'That's like leaving 10 light bulbs on all day.'"
+    "\n- Never assume the user knows what kWh, MW, GWh, or capacity factor mean."
+    "\n- If giving a number, always pair it with a plain-English interpretation."
+    "\n- The target audience includes teenagers and homeowners with zero engineering knowledge."
+    "\n\n"
+)
+
+
 def generate_gemini_response(
     content: str,
     *,
@@ -107,6 +123,9 @@ def generate_gemini_response(
     model_name = model or DEFAULT_GEMINI_MODEL
     temp_value = DEFAULT_TEMPERATURE if temperature is None else temperature
     token_limit = DEFAULT_MAX_OUTPUT_TOKENS if max_output_tokens is None else max_output_tokens
+
+    # Prepend simple-vocabulary instruction to all content
+    full_content = SIMPLE_VOCABULARY_INSTRUCTION + content
 
     try:
         config = genai.types.GenerateContentConfig(
@@ -139,7 +158,7 @@ def generate_gemini_response(
                         max_retries,
                         attempt_model,
                     )
-                return _generate_once(client, attempt_model, content, config)
+                return _generate_once(client, attempt_model, full_content, config)
             except genai_errors.ServerError as exc:
                 last_error = exc
                 # 503 / 529 — back off and retry

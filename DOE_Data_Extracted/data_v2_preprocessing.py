@@ -371,20 +371,25 @@ def build_provincial_consumption():
     raw = pd.read_csv(path, header=None)
     rows = raw.values.tolist()
 
-    # Row 2 has region codes for first half, Row 11 for second half
+    # Row 1 has first-half region headers, Row 10 has second-half region headers
     regions_a = [str(r).strip() for r in rows[1][1:10]]
-    regions_b = [str(r).strip() for r in rows[11][1:11]]
+    regions_b = [str(r).strip() for r in rows[10][1:11]]
     all_regions = regions_a + regions_b
 
     data = []
+    EXCLUDE_REGIONS = {"Total", "NIR"}
     for r in rows[2:10]:
         sector = str(r[0]).strip()
         for i, region in enumerate(regions_a):
+            if region in EXCLUDE_REGIONS:
+                continue
             val = parse_number(r[i + 1])
             data.append({"region": region, "sector": sector, "value_mwh": val, "year": 2025})
-    for r in rows[12:20]:
+    for r in rows[11:19]:
         sector = str(r[0]).strip()
         for i, region in enumerate(regions_b):
+            if region in EXCLUDE_REGIONS:
+                continue
             val = parse_number(r[i + 1])
             data.append({"region": region, "sector": sector, "value_mwh": val, "year": 2025})
 

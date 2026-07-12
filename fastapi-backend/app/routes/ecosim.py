@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, Query, status
 from app.schemas.ecosim import (
+    BarangayListResponse,
     EcosimDashboardResponse,
     EcosimQueryParams,
     EcosimResponse,
@@ -10,6 +11,7 @@ from app.schemas.ecosim import (
 )
 from app.services.ecosim import (
     build_ecosim_dashboard_response,
+    list_barangays,
     list_municipalities,
     list_provinces,
     renewable_energy_calculator,
@@ -44,6 +46,13 @@ async def get_municipalities():
 @router.get("/provinces", response_model=ProvinceListResponse)
 async def get_provinces():
     return {"items": list_provinces()}
+
+
+@router.get("/barangays", response_model=BarangayListResponse)
+async def get_barangays(
+    municipality_id: int | None = Query(default=None, description="Filter by municipality ID"),
+):
+    return {"items": list_barangays(municipality_id)}
 
 
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)

@@ -188,6 +188,45 @@ def list_provinces() -> list[dict]:
     )
 
 
+def list_barangays(municipality_id: int | None = None) -> list[dict]:
+    """List barangays, optionally filtered by municipality_id."""
+    client = get_supabase_client()
+    try:
+        query = (
+            client.table("barangays")
+            .select("barangay_id,name,municipality_id")
+            .order("name")
+            .limit(50000)
+        )
+        if municipality_id is not None:
+            query = query.eq("municipality_id", str(municipality_id))
+        result = query.execute()
+    except APIError as exc:
+        error = getattr(exc, "args", [{}])[0]
+        if isinstance(error, dict):
+            message = error.get("message") or "Failed to load barangays"
+        else:
+            message = "Failed to load barangays"
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=message,
+        )
+
+    items = result.data or []
+    return sorted(
+        (
+            {
+                "barangay_id": item.get("barangay_id"),
+                "name": item.get("name"),
+                "municipality_id": item.get("municipality_id"),
+            }
+            for item in items
+            if item.get("barangay_id") and item.get("name")
+        ),
+        key=lambda item: item["name"].upper(),
+    )
+
+
 def get_province_data(province_name: str) -> dict:
     """Aggregate municipality climate data for a province.
 
@@ -820,10 +859,13 @@ def _calculate_option_summary(
        Taduran & Piao (2025) measured 3.01 kWh/kWp/day (Final Yield) in
        Tarlac City, while NREL data show 4.0–6.0 kWh/m²/day nationwide.
 
-    4. Weighted suitability score
-       score = 0.6 × energy_ratio + 0.4 × source_score
-       Standard weighted linear combination (WLC) used in GIS-MCDA
-       renewable-energy site-selection (Asadi et al., 2023).
+    4. Weighted suitability score (0–100 scale)
+       score = source_score × (0.4 + 0.6 × energy_ratio) × 100
+       Multiplicative scoring ensures source quality (climate/resource conditions)
+       is the primary driver. A source with poor climate conditions cannot win
+       simply because its energy output is high. This prevents misleading
+       recommendations where, for example, wind is chosen over solar despite
+       clearly inferior wind speeds.
 
     References
     ----------
@@ -894,7 +936,10 @@ def _calculate_option_summary(
         scale = "residential"
 
     energy_ratio = min(generation_kwh / consumption_kwh, 1.0) if consumption_kwh > 0 else 0.0
-    suitability_score = round((0.6 * energy_ratio) + (0.4 * source_score), 3)
+    # Multiplicative scoring: source quality is primary, energy coverage is secondary.
+    # This prevents poor-quality sources from winning just because they generate more energy.
+    source_score = float(source_score or 0.0)
+    suitability_score = round(source_score * (0.4 + 0.6 * energy_ratio) * 100, 1)
     carbon_reduction = usable_kwh * CO2_KG_PER_KWH
 
     return {
@@ -985,7 +1030,18 @@ def build_ecosim_dashboard_response(
 
     solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
     hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
-    wind_score = min(float(wind_output.get("capacity_factor", 0.0)) * 1.5, 1.0)
+    # Derive wind source quality from actual wind speed, not fixed capacity factor
+    wind_speed_mps = float(base_results.get("climate", {}).get("avg_ws10m", 0.0))
+    if wind_speed_mps >= 6.0:
+        wind_score = 0.85
+    elif wind_speed_mps >= 4.5:
+        wind_score = 0.60
+    elif wind_speed_mps >= 3.0:
+        wind_score = 0.35
+    elif wind_speed_mps > 0:
+        wind_score = 0.15
+    else:
+        wind_score = 0.0
 
     # Apply proximity boost to geothermal score if municipality is near an operating plant
     raw_geo_score = float(geothermal_output.get("suitability_score", 0.0))
@@ -1037,9 +1093,24 @@ def build_ecosim_dashboard_response(
     ]
 
     for option in options:
+        score = option["suitability_score"]
+        gen = option["estimated_generation_kwh"]
+        pct = (gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
+        if score >= 80:
+            rating = "Excellent"
+            why = "This location has ideal conditions for this type of energy."
+        elif score >= 60:
+            rating = "Good"
+            why = "This location has favorable conditions, but may need some planning."
+        elif score >= 40:
+            rating = "Moderate"
+            why = "This location can work, but it may not be the most cost-effective option."
+        else:
+            rating = "Fair"
+            why = "Conditions at this location are not ideal for this type of energy."
         option["explanation"] = (
-            f"Estimated {option['estimated_generation_kwh']:.0f} kWh/month with "
-            f"{option['suitability_score']:.2f} suitability score."
+            f"{rating} match — {why} With your current usage, this system could generate about "
+            f"{gen:.0f} kWh per month, covering roughly {pct:.0f}% of your electricity needs."
         )
 
     # Recommend only household-scale sources (exclude utility-scale geothermal)
@@ -1052,9 +1123,21 @@ def build_ecosim_dashboard_response(
     net_consumption = max(monthly_consumption - recommended["estimated_generation_kwh"], 0.0)
     net_bill = net_consumption * electricity_rate
 
+    rec_gen = recommended["estimated_generation_kwh"]
+    rec_savings = recommended["monthly_savings"]
+    rec_payback = recommended.get("payback_years")
+    rec_pct = (rec_gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
+
+    payback_text = (
+        f" The system would pay for itself in about {rec_payback:.1f} years through savings on your bill."
+        if rec_payback is not None and rec_payback > 0 and rec_payback < 100
+        else ""
+    )
+
     explanation = (
-        f"{recommended['source']} scores highest for this municipality based on climate data and "
-        "expected generation compared with your monthly usage."
+        f"Based on your location's climate and your monthly electricity use, {recommended['source']} energy is the best match for your home. "
+        f"A typical {recommended['source'].lower()} system here could generate about {rec_gen:.0f} kWh per month, "
+        f"covering roughly {rec_pct:.0f}% of your electricity needs and saving you about PHP {rec_savings:,.0f} per month.{payback_text}"
     )
 
     # Meralco franchise area check

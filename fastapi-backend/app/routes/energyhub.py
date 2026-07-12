@@ -64,7 +64,7 @@ async def get_map_data(
     ),
     level: str = Query(
         default="province",
-        description="Geographic level: province or municipality. Municipality requires pre-computed suitability scores.",
+        description="Geographic level: province, municipality, or barangay. Municipality/barangay require pre-computed suitability scores.",
     ),
 ):
     """Return geographic data points for the choropleth map.
@@ -72,6 +72,7 @@ async def get_map_data(
     All metrics use sub-national data:
     - Province-level: aggregated from municipality climate/terrain/suitability scores.
     - Municipality-level: pre-computed suitability scores from Supabase.
+    - Barangay-level: inherits parent municipality suitability scores with barangay centroids.
     """
     svc = get_energyhub_service()
     return svc.build_map_data(metric, level)

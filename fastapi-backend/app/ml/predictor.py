@@ -101,8 +101,8 @@ class EnergyHubML:
             "total_generation_gwh": round(total_generation, 2),
             "renewable_generation_gwh": round(renewable_gen, 2),
             "renewable_share_pct": round(renewable_share, 2),
-            "capacity_margin_mw": round(float(latest.get("capacity_margin_mw", 0)), 2),
-            "capacity_margin_pct": round(float(latest.get("capacity_margin_pct", 0)), 2),
+            "capacity_margin_mw": round(float(latest.get("capacity_margin_mw") or 0), 2),
+            "capacity_margin_pct": round(float(latest.get("capacity_margin_pct") or 0), 2),
         })
 
     def get_historical_trends(self) -> dict[str, Any]:
