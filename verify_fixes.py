@@ -192,7 +192,7 @@ print("STEP 3: Specific logic checks")
 print("=" * 60)
 
 # Check regex=False is present in predictor.py
-predictor_src = (REPO / "fastapi-backend/app/ml/predictor.py").read_text()
+predictor_src = (REPO / "fastapi-backend/app/ml/predictor.py").read_text(encoding="utf-8")
 if "regex=False" in predictor_src:
     print("  OK  predictor.py uses regex=False in get_solar_atlas")
 else:
@@ -207,7 +207,7 @@ else:
     errors.append(("predictor.py year sort", "missing"))
 
 # Check CORS restriction in main.py
-main_src = (REPO / "fastapi-backend/main.py").read_text()
+main_src = (REPO / "fastapi-backend/main.py").read_text(encoding="utf-8")
 if 'allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]' in main_src:
     print("  OK  main.py restricts CORS methods")
 else:
@@ -215,7 +215,7 @@ else:
     errors.append(("main.py CORS", "not restricted"))
 
 # Check print() removed from settings.py
-settings_src = (REPO / "fastapi-backend/app/config/settings.py").read_text()
+settings_src = (REPO / "fastapi-backend/app/config/settings.py").read_text(encoding="utf-8")
 if "print(" not in settings_src:
     print("  OK  settings.py has no print() statements")
 else:
@@ -223,7 +223,7 @@ else:
     errors.append(("settings.py print()", "still present"))
 
 # Check print() removed from wind_output_calc.py
-wind_src = (REPO / "fastapi-backend/app/services/wind_output_calc.py").read_text()
+wind_src = (REPO / "fastapi-backend/app/services/wind_output_calc.py").read_text(encoding="utf-8")
 if "print(" not in wind_src:
     print("  OK  wind_output_calc.py has no print() statements")
 else:
@@ -232,7 +232,7 @@ else:
 
 # Check load_dotenv removed from gemini_funcs, groq_client, llm_client
 for fname in ["gemini_funcs.py", "groq_client.py", "llm_client.py"]:
-    src = (REPO / f"fastapi-backend/app/services/{fname}").read_text()
+    src = (REPO / f"fastapi-backend/app/services/{fname}").read_text(encoding="utf-8")
     if "load_dotenv" not in src:
         print(f"  OK  {fname} has no load_dotenv()")
     else:
@@ -240,7 +240,7 @@ for fname in ["gemini_funcs.py", "groq_client.py", "llm_client.py"]:
         errors.append((fname, "load_dotenv still present"))
 
 # Check thread lock in products.py
-products_src = (REPO / "fastapi-backend/app/services/products.py").read_text()
+products_src = (REPO / "fastapi-backend/app/services/products.py").read_text(encoding="utf-8")
 if "threading.Lock()" in products_src:
     print("  OK  products.py has threading lock")
 else:
@@ -248,7 +248,7 @@ else:
     errors.append(("products.py lock", "missing"))
 
 # Check _chunks None guard in rag_pipeline.py
-rag_src = (REPO / "fastapi-backend/app/services/rag_pipeline.py").read_text()
+rag_src = (REPO / "fastapi-backend/app/services/rag_pipeline.py").read_text(encoding="utf-8")
 if "if _chunks is None:" in rag_src:
     print("  OK  rag_pipeline.py guards _chunks None")
 else:
@@ -256,7 +256,7 @@ else:
     errors.append(("rag_pipeline.py _chunks", "missing guard"))
 
 # Check httpx.Client __del__ in supabase_service.py
-supa_src = (REPO / "fastapi-backend/app/services/supabase_service.py").read_text()
+supa_src = (REPO / "fastapi-backend/app/services/supabase_service.py").read_text(encoding="utf-8")
 if "__del__" in supa_src:
     print("  OK  supabase_service.py has __del__ for httpx.Client")
 else:
@@ -271,7 +271,7 @@ else:
     errors.append(("supabase_service.py quote", "missing"))
 
 # Check Redis pool caching in redis_client.py
-redis_src = (REPO / "fastapi-backend/app/services/redis_client.py").read_text()
+redis_src = (REPO / "fastapi-backend/app/services/redis_client.py").read_text(encoding="utf-8")
 if "_redis_async: Redis | None = None" in redis_src and "_redis_sync: redis_sync.Redis | None = None" in redis_src:
     print("  OK  redis_client.py caches connection pools")
 else:
@@ -279,7 +279,7 @@ else:
     errors.append(("redis_client.py cache", "missing"))
 
 # Check note field in MunicipalDemandResponse
-schema_src = (REPO / "fastapi-backend/app/schemas/energyhub.py").read_text()
+schema_src = (REPO / "fastapi-backend/app/schemas/energyhub.py").read_text(encoding="utf-8")
 if 'class MunicipalDemandResponse' in schema_src and 'note: str = ""' in schema_src:
     print("  OK  MunicipalDemandResponse has note field")
 else:
@@ -287,9 +287,9 @@ else:
     errors.append(("MunicipalDemandResponse note", "missing"))
 
 # Check province mappings in energyhub.py
-hub_src = (REPO / "fastapi-backend/app/services/energyhub.py").read_text()
+hub_src = (REPO / "fastapi-backend/app/services/energyhub.py").read_text(encoding="utf-8")
 if '"siargao": "XIII"' in hub_src:
-    print("  OK  energyhub.py Siargao → XIII")
+    print("  OK  energyhub.py Siargao -> XIII")
 else:
     print("  FAIL energyhub.py Siargao mapping wrong")
     errors.append(("energyhub.py siargao", "wrong"))
@@ -301,13 +301,13 @@ else:
     errors.append(("energyhub.py compostela valley", "leading space"))
 
 if '"davao de oro": "XI"' in hub_src:
-    print("  OK  energyhub.py has davao de oro → XI")
+    print("  OK  energyhub.py has davao de oro -> XI")
 else:
     print("  FAIL energyhub.py missing davao de oro")
     errors.append(("energyhub.py davao de oro", "missing"))
 
 # Check ecosim.py Meralco improvements
-ecosim_src = (REPO / "fastapi-backend/app/services/ecosim.py").read_text()
+ecosim_src = (REPO / "fastapi-backend/app/services/ecosim.py").read_text(encoding="utf-8")
 if "meralco_franchise_municipalities" in ecosim_src:
     print("  OK  ecosim.py has municipality-level Meralco whitelist")
 else:
@@ -327,21 +327,21 @@ else:
     errors.append(("ecosim.py [:500]", "still present"))
 
 # Check data_v2_preprocessing.py fixes
-pre_src = (REPO / "DOE_Data_Extracted/data_v2_preprocessing.py").read_text()
+pre_src = (REPO / "DOE_Data_Extracted/data_v2_preprocessing.py").read_text(encoding="utf-8")
 if 'parts.insert(34, "year")' not in pre_src:
     print("  OK  data_v2_preprocessing.py removed duplicate year hack")
 else:
     print("  FAIL data_v2_preprocessing.py still has duplicate year hack")
     errors.append(("data_v2_preprocessing.py year hack", "still present"))
 
-if 'placeholder — model not executed' in pre_src:
+if "placeholder" in pre_src and "model not executed" in pre_src:
     print("  OK  data_v2_preprocessing.py labels synthetic metrics as placeholder")
 else:
     print("  FAIL data_v2_preprocessing.py missing placeholder label")
     errors.append(("data_v2_preprocessing.py placeholder", "missing"))
 
 # Check frontend files
-energyhub_jsx = (REPO / "react-frontend/src/pages/EnergyHub.jsx").read_text()
+energyhub_jsx = (REPO / "react-frontend/src/pages/EnergyHub.jsx").read_text(encoding="utf-8")
 if '"On-grid"' in energyhub_jsx and '"OnGrid"' not in energyhub_jsx:
     print("  OK  EnergyHub.jsx uses On-grid (with hyphen)")
 else:
@@ -354,7 +354,7 @@ else:
     print("  FAIL EnergyHub.jsx missing ?? operator")
     errors.append(("EnergyHub.jsx ??", "missing"))
 
-prov_src = (REPO / "react-frontend/src/components/energyhub/ProvincialDemand.jsx").read_text()
+prov_src = (REPO / "react-frontend/src/components/energyhub/ProvincialDemand.jsx").read_text(encoding="utf-8")
 if "(v / 1000).toFixed(0)" not in prov_src:
     print("  OK  ProvincialDemand.jsx removed extra /1000")
 else:
@@ -367,7 +367,7 @@ else:
     print("  FAIL ProvincialDemand.jsx missing region sort")
     errors.append(("ProvincialDemand.jsx sort", "missing"))
 
-ecosim_jsx = (REPO / "react-frontend/src/pages/Ecosim.jsx").read_text()
+ecosim_jsx = (REPO / "react-frontend/src/pages/Ecosim.jsx").read_text(encoding="utf-8")
 if 'key={item.url || item.product_name}' in ecosim_jsx:
     print("  OK  Ecosim.jsx uses stable key for product cards")
 else:
@@ -375,7 +375,7 @@ else:
     errors.append(("Ecosim.jsx key", "unstable"))
 
 # Check auth.py comment about safe fallback
-auth_src = (REPO / "fastapi-backend/app/dependencies/auth.py").read_text()
+auth_src = (REPO / "fastapi-backend/app/dependencies/auth.py").read_text(encoding="utf-8")
 if "fails safely (no privilege escalation)" in auth_src:
     print("  OK  auth.py documents safe fallback behavior")
 else:
@@ -383,7 +383,7 @@ else:
     errors.append(("auth.py comment", "missing"))
 
 # Check admin.py warning logs
-admin_src = (REPO / "fastapi-backend/app/routes/admin.py").read_text()
+admin_src = (REPO / "fastapi-backend/app/routes/admin.py").read_text(encoding="utf-8")
 if 'logger.warning("Admin audit log write failed' in admin_src:
     print("  OK  admin.py logs audit failures")
 else:
@@ -397,7 +397,7 @@ else:
     errors.append(("admin.py enrichment warning", "missing"))
 
 # Check simulations.py logging
-sim_src = (REPO / "fastapi-backend/app/routes/simulations.py").read_text()
+sim_src = (REPO / "fastapi-backend/app/routes/simulations.py").read_text(encoding="utf-8")
 if 'logger.warning("Free sim limit fetch failed' in sim_src:
     print("  OK  simulations.py logs free sim limit failures")
 else:
@@ -405,7 +405,7 @@ else:
     errors.append(("simulations.py warning", "missing"))
 
 # Check SQL unique constraint
-sql_src = (REPO / "supabase_tables_scripts/municipal_population.sql").read_text()
+sql_src = (REPO / "supabase_tables_scripts/municipal_population.sql").read_text(encoding="utf-8")
 if "unique (province_id, municipality_id, year)" in sql_src:
     print("  OK  municipal_population.sql has unique constraint")
 else:

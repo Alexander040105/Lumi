@@ -119,7 +119,7 @@ def main() -> int:
     print(f"Loaded {len(province_psgc_to_name)} provinces from GeoJSON")
 
     # Fetch DB provinces to map name -> province_id
-    resp = client.table("provinces").select("province_id,name").limit(10000).execute()
+    resp = client.table("provinces").select("province_id,name").execute()
     db_provinces = resp.data or []
     province_name_to_id = {}
     for p in db_provinces:

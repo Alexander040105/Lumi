@@ -77,17 +77,34 @@ export default function ProvincialDemand({ region = null }) {
     );
   }
 
-  // Build chart data: one row per region, one bar per sector
-  const regions = [...new Set(items.map((i) => i.region))].sort((a, b) => a.localeCompare(b));
+  // Build chart data: normalize region names, aggregate by region+sector,
+  // then produce one row per unique region.
+  const aggregated = {};
+  for (const item of items) {
+    const region = (item.region ?? "").trim();
+    if (!region) continue;
+    const sector = item.sector;
+    const key = `${region}||${sector}`;
+    if (!aggregated[key]) {
+      aggregated[key] = { region, sector, value_mwh: 0 };
+    }
+    aggregated[key].value_mwh += item.value_mwh ?? 0;
+  }
+
+  const regionSet = new Set();
+  for (const key in aggregated) {
+    regionSet.add(aggregated[key].region);
+  }
+  const regions = [...regionSet].sort((a, b) => a.localeCompare(b));
+
   const chartData = regions.map((r) => {
     const row = { region: r };
     for (const sector of SECTORS) {
-      const match = items.find((i) => i.region === r && i.sector === sector);
-      row[sector] = match ? match.value_mwh / 1000 : 0; // convert MWh to GWh for readability
+      const key = `${r}||${sector}`;
+      row[sector] = aggregated[key] ? aggregated[key].value_mwh / 1000 : 0;
     }
-    // Total consumption
-    const totalMatch = items.find((i) => i.region === r && i.sector === "Total Consumption");
-    row["Total"] = totalMatch ? totalMatch.value_mwh / 1000 : 0;
+    const totalKey = `${r}||Total Consumption`;
+    row["Total"] = aggregated[totalKey] ? aggregated[totalKey].value_mwh / 1000 : 0;
     return row;
   });
 

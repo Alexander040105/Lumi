@@ -4,7 +4,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from app.ml.predictor import get_energyhub_ml
+from app.ml.predictor import get_energyhub_ml, _sanitize_nan
 from app.services.supabase_service import get_supabase_client
 from app.services.redis_client import (
     get_suitability_cache_sync,
@@ -79,11 +79,11 @@ class EnergyHubService:
                 ),
             }
 
-        return {
+        return _sanitize_nan({
             "latest": latest,
             "forecast_summary": forecast_summary,
             "model_comparison": comparison,
-        }
+        })
 
     # --- Forecast ---
 
@@ -97,13 +97,13 @@ class EnergyHubService:
         forecast = self._ml.get_forecast("consumption")
         source_breakdown = self._ml.get_source_breakdown()
         grid_breakdown = self._ml.get_grid_breakdown()
-        return {
+        return _sanitize_nan({
             "years": historical["years"],
             "series": historical["series"],
             "forecast": forecast,
             "source_breakdown": source_breakdown,
             "grid_breakdown": grid_breakdown,
-        }
+        })
 
     # --- Map Data ---
 
