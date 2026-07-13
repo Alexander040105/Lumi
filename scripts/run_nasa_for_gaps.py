@@ -115,6 +115,67 @@ def load_gap_municipality_ids() -> set[int]:
     return ids
 
 
+def fetch_db_gap_municipalities(client: SupabaseRestClient) -> list[dict]:
+    """Find all municipalities that have coordinates but no climate data.
+
+    Queries the DB for municipalities with lat/lon that don't have
+    any rows in municipality_climate_monthly. This catches newly inserted
+    municipalities from the PSGC sync.
+    """
+    # 1. Fetch all municipalities with lat/lon
+    all_munis: list[dict] = []
+    start = 0
+    batch = 1000
+    while True:
+        resp = (
+            client.table("municipalities")
+            .select("municipality_id,name,lat,lon")
+            .not_.is_("lat", "null")
+            .range(start, start + batch - 1)
+            .execute()
+        )
+        rows = resp.data or []
+        if not rows:
+            break
+        all_munis.extend(rows)
+        if len(rows) < batch:
+            break
+        start += batch
+
+    # 2. Fetch all municipality_ids that already have climate data
+    climate_ids: set[int] = set()
+    start = 0
+    while True:
+        resp = (
+            client.table("municipality_climate_monthly")
+            .select("municipality_id")
+            .range(start, start + batch - 1)
+            .execute()
+        )
+        rows = resp.data or []
+        if not rows:
+            break
+        for r in rows:
+            mid = r.get("municipality_id")
+            if mid is not None:
+                climate_ids.add(int(mid))
+        if len(rows) < batch:
+            break
+        start += batch
+
+    # 3. Return municipalities without climate data
+    gaps = []
+    for m in all_munis:
+        if m["municipality_id"] not in climate_ids:
+            gaps.append({
+                "municipality_id": m["municipality_id"],
+                "name": m.get("name", ""),
+                "lat": float(m["lat"]),
+                "lon": float(m["lon"]),
+            })
+    return gaps
+
+
 def fetch_gap_municipalities(client: SupabaseRestClient, ids: set[int]) -> list[dict]:
     all_rows = []
     id_list = sorted(ids)
@@ -192,6 +253,12 @@ def build_climate_rows(municipality_id: int, payload: dict) -> list[dict]:
 
 
 def main() -> int:
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Fetch NASA POWER climate data for gap municipalities")
+    parser.add_argument("--db-only", action="store_true", help="Query DB for gaps instead of using CSV files")
+    args = parser.parse_args()
+
     logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(message)s")
     load_dotenv(dotenv_path=REPO_ROOT / ".env", override=False)
 
@@ -207,15 +274,24 @@ def main() -> int:
         return 1
 
     client = SupabaseRestClient(url, key)
-    gap_ids = load_gap_municipality_ids()
-    print(f"Gap municipalities to process: {len(gap_ids)}")
 
-    munis = fetch_gap_municipalities(client, gap_ids)
-    print(f"Found in DB with coordinates: {len(munis)}")
+    if args.db_only:
+        print("Querying DB for municipalities without climate data...")
+        munis = fetch_db_gap_municipalities(client)
+    else:
+        gap_ids = load_gap_municipality_ids()
+        print(f"Gap municipalities from CSVs: {len(gap_ids)}")
+        munis = fetch_gap_municipalities(client, gap_ids)
+
+    print(f"Municipalities to process (with coordinates): {len(munis)}")
+
+    if not munis:
+        print("No gap municipalities found. All municipalities have climate data.")
+        return 0
 
     processed = 0
     failed = 0
-    for m in munis:
+    for i, m in enumerate(munis, 1):
         mid = m["municipality_id"]
         payload = fetch_nasa_data(m["lat"], m["lon"])
         if not payload:
@@ -227,6 +303,8 @@ def main() -> int:
             try:
                 client.table("municipality_climate_monthly").insert(rows).execute()
                 processed += 1
+                if i % 50 == 0:
+                    print(f"  Progress: {i}/{len(munis)} (processed={processed}, failed={failed})")
             except Exception as exc:
                 logging.warning("Insert failed for municipality %s: %s", mid, exc)
                 failed += 1
