@@ -53,6 +53,7 @@ const navLinks = [
   { to: "/about", label: "About" },
   { to: "/ecosim", label: "Ecosim" },
   { to: "/energyhub", label: "EnergyHub" },
+  { to: "/map", label: "Map" },
   { to: "/chat", label: "Chat" },
 ];
 

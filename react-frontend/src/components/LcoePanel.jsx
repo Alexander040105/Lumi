@@ -1,0 +1,93 @@
+import { useMemo } from "react";
+
+export default function LcoePanel({ options }) {
+  if (!options || !Array.isArray(options) || options.length === 0) {
+    return null;
+  }
+
+  const sorted = useMemo(
+    () => [...options].sort((a, b) => (a.lcoe_php_kwh ?? Infinity) - (b.lcoe_php_kwh ?? Infinity)),
+    [options]
+  );
+
+  const bestLcoe = sorted[0]?.lcoe_php_kwh;
+  const tariff = options[0]?.monthly_savings && options[0]?.estimated_generation_kwh
+    ? options[0].monthly_savings / options[0].estimated_generation_kwh
+    : null;
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h3 className="text-lg font-bold text-gray-900 mb-1">LCOE Comparison</h3>
+      <p className="text-sm text-gray-500 mb-4">
+        Levelized Cost of Energy (PHP/kWh) — lower is more cost-effective.
+        {tariff && (
+          <span className="ml-1 text-blue-600">
+            Your electricity rate: ~₱{tariff.toFixed(2)}/kWh
+          </span>
+        )}
+      </p>
+
+      <div className="space-y-3">
+        {sorted.map((opt) => {
+          const lcoe = opt.lcoe_php_kwh;
+          const isBest = lcoe === bestLcoe && lcoe != null;
+          const gridTariff = tariff ?? 12.0;
+          const barWidth = lcoe != null
+            ? Math.min((lcoe / gridTariff) * 100, 200)
+            : 0;
+
+          return (
+            <div key={opt.source} className="space-y-1">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-gray-900">{opt.source}</span>
+                  {isBest && (
+                    <span className="inline-block px-2 py-0.5 rounded text-xs bg-green-100 text-green-700 font-medium">
+                      Best LCOE
+                    </span>
+                  )}
+                </div>
+                <div className="text-right">
+                  <span className={`font-bold ${isBest ? "text-green-600" : "text-gray-900"}`}>
+                    {lcoe != null ? `₱${lcoe.toFixed(2)}` : "—"}
+                  </span>
+                  <span className="text-gray-400 text-xs ml-1">/kWh</span>
+                </div>
+              </div>
+
+              {/* LCOE bar */}
+              <div className="relative h-6 bg-gray-100 rounded-lg overflow-hidden">
+                <div
+                  className={`h-full rounded-lg transition-all ${
+                    isBest ? "bg-green-500" : lcoe != null && lcoe < gridTariff ? "bg-blue-400" : "bg-orange-400"
+                  }`}
+                  style={{ width: `${barWidth}%` }}
+                />
+                {/* Grid tariff marker */}
+                <div
+                  className="absolute top-0 bottom-0 w-0.5 bg-gray-700"
+                  style={{ left: "50%" }}
+                  title={`Grid tariff: ₱${gridTariff.toFixed(2)}/kWh`}
+                />
+              </div>
+
+              {/* Financial details */}
+              <div className="flex flex-wrap gap-3 text-xs text-gray-500">
+                <span>NPV: {opt.npv_php != null ? `₱${(opt.npv_php / 1e6).toFixed(1)}M` : "—"}</span>
+                <span>IRR: {opt.irr != null ? `${(opt.irr * 100).toFixed(1)}%` : "—"}</span>
+                <span>Disc. Payback: {opt.discounted_payback_years != null ? `${opt.discounted_payback_years.toFixed(1)} yrs` : "—"}</span>
+                <span>BCR: {opt.benefit_cost_ratio != null ? opt.benefit_cost_ratio.toFixed(2) : "—"}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-gray-400">
+        LCOE = Lifetime cost ÷ Lifetime energy production.
+        NPV at 10% discount rate. IRR = internal rate of return.
+        BCR = benefit-cost ratio (≥1.0 means profitable).
+      </div>
+    </div>
+  );
+}

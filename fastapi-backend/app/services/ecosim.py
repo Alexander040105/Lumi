@@ -21,6 +21,8 @@ from app.services.geothermal.plants import (
     calculate_proximity_boost,
     get_plants_near,
 )
+from app.services.financials import FinancialInputs, analyze_financials, to_dict as financials_to_dict
+from app.services.confidence import ConfidenceFactors, calculate_confidence
 logger = logging.getLogger(__name__)
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 _CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
@@ -942,6 +944,21 @@ def _calculate_option_summary(
     suitability_score = round(source_score * (0.4 + 0.6 * energy_ratio) * 100, 1)
     carbon_reduction = usable_kwh * CO2_KG_PER_KWH
 
+    # Financial analysis (NPV, IRR, LCOE, discounted payback)
+    annual_energy = generation_kwh * 12.0
+    fin_inputs = FinancialInputs(
+        system_capacity_kw=round(system_kw, 3),
+        annual_energy_kwh=annual_energy,
+        capital_cost_php=installation_cost,
+        annual_om_cost_php=installation_cost * 0.01,  # 1% of CapEx annually
+        electricity_tariff_php_kwh=electricity_rate,
+        discount_rate=0.10,
+        system_lifetime_years=25 if scale == "residential" else 30,
+        degradation_rate=0.005,
+    )
+    fin_results = analyze_financials(fin_inputs)
+    financials = financials_to_dict(fin_results)
+
     return {
         "source": source,
         "suitability_score": suitability_score,
@@ -949,6 +966,11 @@ def _calculate_option_summary(
         "monthly_savings": monthly_savings,
         "installation_cost": installation_cost,
         "payback_years": payback_years,
+        "discounted_payback_years": financials["discounted_payback_years"],
+        "npv_php": financials["npv_php"],
+        "irr": financials["irr"],
+        "lcoe_php_kwh": financials["lcoe_php_kwh"],
+        "benefit_cost_ratio": financials["benefit_cost_ratio"],
         "carbon_reduction": carbon_reduction,
         "system_kw": round(system_kw, 3),
         "scale": scale,
@@ -1112,6 +1134,24 @@ def build_ecosim_dashboard_response(
             f"{rating} match — {why} With your current usage, this system could generate about "
             f"{gen:.0f} kWh per month, covering roughly {pct:.0f}% of your electricity needs."
         )
+
+    # Confidence scoring per energy type
+    climate_data = renewable_results.get("climate", {})
+    climate_vars_available = sum(1 for v in climate_data.values() if v is not None)
+    for option in options:
+        src_lower = (option["source"] or "").lower()
+        energy_type = "solar" if "solar" in src_lower else "wind" if "wind" in src_lower else "hydro" if "hydro" in src_lower else "geothermal"
+        conf_factors = ConfidenceFactors(
+            has_climate_data=climate_vars_available > 0,
+            climate_variables_count=climate_vars_available,
+            climate_data_year=2024,
+            has_terrain_data=terrain_data is not None if mode != "province" else True,
+            has_population_data=False,
+            has_tariff_data=electricity_rate > 0,
+            user_provided_inputs=monthly_consumption > 0,
+            energy_type=energy_type,
+        )
+        option["confidence"] = calculate_confidence(conf_factors)
 
     # Recommend only household-scale sources (exclude utility-scale geothermal)
     household_options = [o for o in options if o.get("scale") != "utility"]

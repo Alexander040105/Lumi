@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and push images
+        run: |
+          docker build -f deploy/backend/Dockerfile -t ${{ secrets.DO_REGISTRY }}/lumi-backend:latest .
+          docker build -f deploy/frontend/Dockerfile -t ${{ secrets.DO_REGISTRY }}/lumi-frontend:latest .
+          echo "${{ secrets.DO_REGISTRY_TOKEN }}" | docker login -u ${{ secrets.DO_REGISTRY_USER }} --password-stdin
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-backend:latest
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-frontend:latest
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_SSH_USER }}
+          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/lumi
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod pull
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d
+            docker image prune -f

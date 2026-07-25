@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import CoverageDashboard from "../components/CoverageDashboard";
+import ForecastPanel from "../components/ForecastPanel";
 
 export default function Dashboard() {
   const { user, refreshProfile } = useAuth();
@@ -440,6 +442,12 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Forecasting & Coverage */}
+      <div className="grid gap-4 md:grid-cols-2 mt-4">
+        <ForecastPanel />
+        <CoverageDashboard />
       </div>
     </section>
   );

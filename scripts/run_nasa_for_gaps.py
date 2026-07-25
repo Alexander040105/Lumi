@@ -61,6 +61,22 @@ class SupabaseRestQuery:
         self._filters.append((column, "in", f"({','.join(str(v) for v in values)})"))
         return self
 
+    def not_(self) -> "SupabaseRestQuery":
+        self._negate_next = True
+        return self
+
+    def is_(self, column: str, value: str) -> "SupabaseRestQuery":
+        op = "is"
+        if getattr(self, "_negate_next", False):
+            op = "not.is"
+            self._negate_next = False
+        self._filters.append((column, op, str(value)))
+        return self
+
+    def not_is(self, column: str, value: str) -> "SupabaseRestQuery":
+        self._filters.append((column, "not.is", str(value)))
+        return self
+
     def order(self, column: str, desc: bool = False) -> "SupabaseRestQuery":
         self._order = f"{column}.{'desc' if desc else 'asc'}"
         return self
@@ -130,7 +146,7 @@ def fetch_db_gap_municipalities(client: SupabaseRestClient) -> list[dict]:
         resp = (
             client.table("municipalities")
             .select("municipality_id,name,lat,lon")
-            .not_.is_("lat", "null")
+            .not_is("lat", "null")
             .range(start, start + batch - 1)
             .execute()
         )

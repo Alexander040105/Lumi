@@ -11,6 +11,9 @@ from app.routes.chat import router as chat_router
 from app.routes.admin import router as admin_router
 from app.routes.simulations import router as simulations_router
 from app.routes.products import router as products_router
+from app.routes.forecast import router as forecast_router
+from app.routes.map import router as map_router
+from app.routes.etl import router as etl_router
 
 api_router = APIRouter()
 
@@ -25,3 +28,6 @@ api_router.include_router(chat_router, prefix="/chat", tags=["chat"])
 api_router.include_router(simulations_router, prefix="/simulations", tags=["simulations"])
 api_router.include_router(admin_router, prefix="/admin", tags=["admin"])
 api_router.include_router(products_router, prefix="/products", tags=["products"])
+api_router.include_router(forecast_router, prefix="/forecast", tags=["forecasting"])
+api_router.include_router(map_router, prefix="/map", tags=["mapping"])
+api_router.include_router(etl_router, prefix="/etl", tags=["etl"])

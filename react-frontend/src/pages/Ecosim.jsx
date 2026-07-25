@@ -18,6 +18,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
+import LcoePanel from "../components/LcoePanel";
 import { getEcosim, getMunicipalities, getProvinces, getProductRecommendations } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -347,6 +348,12 @@ export default function Ecosim() {
           productRecs={productRecs}
           productLoading={productLoading}
         />
+      )}
+
+      {result?.options && !loading && (
+        <div className="mt-4">
+          <LcoePanel options={result.options} />
+        </div>
       )}
 
       {/* Save Simulation Dialog */}

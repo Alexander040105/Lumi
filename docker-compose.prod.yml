@@ -1,0 +1,23 @@
+# LUMI — Production docker-compose overlay
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d
+
+services:
+  backend:
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 2G
+    environment:
+      - WORKERS=4
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4"]
+
+  frontend:
+    deploy:
+      replicas: 1
+
+  nginx:
+    profiles:
+      - prod
+    deploy:
+      replicas: 1

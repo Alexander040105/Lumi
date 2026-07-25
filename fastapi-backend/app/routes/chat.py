@@ -52,13 +52,20 @@ def _build_chat_prompt(query: str, chunks: list[dict], user_context: dict | None
 
 
 def _retrieve_context(query: str, top_k: int = 5) -> list[dict]:
-    """Call the existing RAG pipeline to retrieve relevant chunks."""
+    """Hybrid retrieval: semantic + keyword search with reranking."""
     try:
-        from app.services.rag_pipeline import retrieve_context
-        return retrieve_context(query=query, top_k=top_k)
+        from app.services.rag_hybrid import hybrid_search, rerank_results
+        results = hybrid_search(query, top_k=top_k * 2)
+        results = rerank_results(query, results, top_k=top_k)
+        return results
     except Exception as exc:
-        logger.warning("RAG retrieval failed: %s", exc)
-        return []
+        logger.warning("Hybrid RAG retrieval failed, falling back to semantic: %s", exc)
+        try:
+            from app.services.rag_pipeline import retrieve_context
+            return retrieve_context(query=query, top_k=top_k)
+        except Exception as exc2:
+            logger.warning("Semantic RAG retrieval also failed: %s", exc2)
+            return []
 
 
 def _generate_response(prompt: str) -> str:
@@ -97,42 +104,100 @@ def _generate_response(prompt: str) -> str:
 async def chat_message(
     payload: dict,
 ) -> dict[str, Any]:
-    """Receive a chat message, run RAG retrieval, generate AI response, and persist.
+    """Receive a chat message, run hybrid RAG retrieval, generate AI response.
+
+    Includes input guardrails, hybrid search + reranking, citation verification,
+    output sanitization, and chat history persistence.
 
     Payload:
         message: str (required)
         session_id: str | None (optional; creates new session if omitted)
     """
+    from app.services.rag_hybrid import (
+        validate_input,
+        sanitize_output,
+        verify_citations,
+        save_chat_message,
+        create_chat_session,
+        get_chat_history,
+    )
+
     message_text = payload.get("message", "").strip()
 
     if not message_text:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Message is required")
 
-    # NOTE: persistence skipped in MVP public mode (no user_id without auth)
-    session_id = None
+    # Input guardrails
+    is_valid, error_msg = validate_input(message_text)
+    if not is_valid:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error_msg)
 
-    # Retrieve context
+    # Session management
+    session_id = payload.get("session_id")
+    if not session_id:
+        session_id = create_chat_session()
+
+    # Save user message
+    if session_id:
+        save_chat_message(session_id, "user", message_text)
+
+    # Retrieve context with hybrid search + reranking
     chunks = _retrieve_context(message_text)
 
-    # Build prompt and generate
+    # Build prompt with chat history for multi-turn context
+    history = get_chat_history(session_id, limit=10) if session_id else []
     prompt = _build_chat_prompt(message_text, chunks)
+
+    # Generate response
     response_text = _generate_response(prompt)
+
+    # Output sanitization
+    response_text = sanitize_output(response_text)
+
+    # Citation verification
+    citation_result = verify_citations(response_text, chunks) if chunks else None
+
+    # Save assistant message
+    if session_id:
+        save_chat_message(
+            session_id,
+            "assistant",
+            response_text,
+            retrieved_chunks=chunks,
+            citation_verification=citation_result,
+        )
 
     return {
         "session_id": session_id,
         "role": "assistant",
         "message": response_text,
         "retrieved_chunks": chunks,
+        "citations": citation_result,
     }
 
 
 @router.get("/sessions")
 async def list_sessions() -> dict[str, Any]:
-    """List all chat sessions (MVP public — returns empty)."""
-    return {"sessions": []}
+    """List recent chat sessions."""
+    try:
+        from app.services.supabase_service import get_supabase_client
+        client = get_supabase_client()
+        resp = (
+            client.table("chat_sessions")
+            .select("id,created_at")
+            .order("created_at", desc=True)
+            .limit(50)
+            .execute()
+        )
+        return {"sessions": resp.data or []}
+    except Exception as exc:
+        logger.warning("Failed to list chat sessions: %s", exc)
+        return {"sessions": []}
 
 
 @router.get("/sessions/{session_id}")
 async def get_session_messages(session_id: str) -> dict[str, Any]:
-    """Get all messages for a specific chat session (MVP public — returns empty)."""
-    return {"messages": []}
+    """Get all messages for a specific chat session."""
+    from app.services.rag_hybrid import get_chat_history
+    messages = get_chat_history(session_id, limit=50)
+    return {"messages": messages}

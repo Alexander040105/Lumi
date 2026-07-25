@@ -75,9 +75,52 @@ def normalize_name(name: str) -> str:
     return s
 
 
-# Known name overrides: DB name -> PSA name (normalized)
+_PAREN_EXTRACT = re.compile(r"\(([^)]+)\)")
+
+
+def extract_parenthetical(name: str) -> str:
+    """Extract the text inside the first pair of parentheses, normalized."""
+    if not name:
+        return ""
+    m = _PAREN_EXTRACT.search(name)
+    if m:
+        return normalize_name(m.group(1))
+    return ""
+
+
+def normalize_with_old_name(name: str, old_name: str = "") -> list[str]:
+    """Return all possible normalized forms of a name for matching.
+
+    Includes the primary normalized name, the parenthetical content,
+    and the old_name field if provided.
+    """
+    results = [normalize_name(name)]
+    paren = extract_parenthetical(name)
+    if paren and paren not in results:
+        results.append(paren)
+    if old_name:
+        old_norm = normalize_name(old_name)
+        if old_norm and old_norm not in results:
+            results.append(old_norm)
+        old_paren = extract_parenthetical(old_name)
+        if old_paren and old_paren not in results:
+            results.append(old_paren)
+    return results
+
+
+# Known name overrides: normalized DB name -> normalized API name
+# Used when DB names are structurally different from API names
 NAME_OVERRIDES: dict[str, str] = {
-    # Add known mismatches here as discovered
+    # NCR district mapping (DB province name -> API HUC name)
+    "ncr 1st district manila": "manila",
+    "ncr 2nd district": "caloocan",
+    "ncr 3rd district": "pasig",
+    "ncr 4th district": "quezon city",
+    "taguigpateros": "taguig",
+    # Compostela Valley was renamed to Davao de Oro
+    "compostela valley": "davao de oro",
+    # Maguindanao was split into Maguindanao del Norte and del Sur
+    "maguindanao": "maguindanao del norte",
 }
 
 
@@ -299,6 +342,10 @@ def sync_regions(
     logger.info("=== Syncing REGIONS ===")
     db_rows = sb.fetch_all_rows("regions", "region_id,name,psgc_code,lat,lon")
 
+    if not db_rows:
+        logger.warning("No existing regions fetched from DB — skipping sync to avoid duplicates (possible network issue)")
+        return {"matched": 0, "updated": 0, "inserted": 0, "unmatched": 0}
+
     # Build lookup by normalized name
     db_by_name: dict[str, dict[str, Any]] = {}
     for row in db_rows:
@@ -318,6 +365,8 @@ def sync_regions(
     updated = 0
     inserted = 0
     unmatched = 0
+    max_id = sb.get_max_id("regions", "region_id")
+    new_regions: list[dict[str, Any]] = []
 
     for rec in api_records:
         api_name = rec.get("area_name", "").strip()
@@ -351,14 +400,29 @@ def sync_regions(
             if sb.update_row("regions", "region_id", region_id, update_data):
                 updated += 1
         else:
-            unmatched += 1
-            report.append({
-                "level": "region",
-                "api_name": api_name,
+            # Insert new region (e.g., NIR - Negros Island Region)
+            max_id += 1
+            new_regions.append({
+                "region_id": max_id,
+                "name": api_name,
                 "psgc_code": psgc_code,
-                "status": "unmatched",
+                "island_group": island_group,
+                "geographic_level": geo_level,
+                "population_2015": pop["population_2015"],
+                "population_2020": pop["population_2020"],
+                "population_2024": pop["population_2024"],
             })
-            logger.warning("Unmatched region: %s (psgc: %s)", api_name, psgc_code)
+            inserted += 1
+            db_by_name[api_norm] = {"region_id": max_id}
+            logger.info("Inserting new region: %s (psgc: %s)", api_name, psgc_code)
+
+    # Batch insert new regions
+    if new_regions:
+        count, err = sb.insert_batch("regions", new_regions)
+        if err:
+            logger.error("Region insert error: %s", err)
+        else:
+            logger.info("Inserted %s new regions", count)
 
     logger.info("Regions: matched=%s updated=%s unmatched=%s", matched, updated, unmatched)
     return {"matched": matched, "updated": updated, "inserted": inserted, "unmatched": unmatched}
@@ -374,6 +438,10 @@ def sync_provinces(
     db_rows = sb.fetch_all_rows("provinces", "province_id,region_id,name,psgc_code,lat,lon")
     db_regions = sb.fetch_all_rows("regions", "region_id,name,psgc_code")
 
+    if not db_rows:
+        logger.warning("No existing provinces fetched from DB — skipping sync (possible network issue)")
+        return {"matched": 0, "updated": 0, "inserted": 0, "unmatched": 0}
+
     # Build region lookup by psgc_code and by normalized name
     region_by_psgc: dict[str, int] = {}
     region_by_name: dict[str, int] = {}
@@ -385,13 +453,24 @@ def sync_provinces(
     # Build province lookup by normalized name within region
     db_by_name: dict[tuple[str, int], dict[str, Any]] = {}
     db_by_psgc: dict[str, dict[str, Any]] = {}
+    db_by_norm_only: dict[str, dict[str, Any]] = {}
     for row in db_rows:
         norm = normalize_name(row.get("name", ""))
         region_id = row.get("region_id", 0)
         if norm:
             db_by_name[(norm, region_id)] = row
+            db_by_norm_only[norm] = row
+        # Also index by parenthetical content (old name)
+        paren = extract_parenthetical(row.get("name", ""))
+        if paren and paren not in db_by_norm_only:
+            db_by_norm_only[paren] = row
         if row.get("psgc_code"):
             db_by_psgc[row["psgc_code"]] = row
+
+    # Build reverse NAME_OVERRIDES: API normalized name -> DB normalized name
+    api_to_db_override: dict[str, str] = {}
+    for db_norm, api_norm in NAME_OVERRIDES.items():
+        api_to_db_override[api_norm] = db_norm
 
     matched = 0
     updated = 0
@@ -430,9 +509,29 @@ def sync_provinces(
 
         # Try match by name only (any region)
         if not db_row:
-            for (norm, rid), row in db_by_name.items():
-                if norm == api_norm:
-                    db_row = row
+            db_row = db_by_norm_only.get(api_norm)
+
+        # Try NAME_OVERRIDES (API name -> DB name)
+        if not db_row:
+            db_norm_override = api_to_db_override.get(api_norm)
+            if db_norm_override:
+                db_row = db_by_norm_only.get(db_norm_override)
+
+        # Try matching API old_name to DB names
+        if not db_row and old_name:
+            for alt in normalize_with_old_name(api_name, old_name):
+                if alt == api_norm:
+                    continue
+                db_row = db_by_norm_only.get(alt)
+                if db_row:
+                    break
+
+        # Try matching API name to DB parenthetical/old names
+        if not db_row:
+            for db_norm, db_row_val in db_by_norm_only.items():
+                db_paren = extract_parenthetical(db_norm)
+                if db_paren and db_paren == api_norm:
+                    db_row = db_row_val
                     break
 
         if db_row:
@@ -504,6 +603,10 @@ def sync_municipalities(
     )
     db_provinces = sb.fetch_all_rows("provinces", "province_id,region_id,name,psgc_code")
 
+    if not db_rows:
+        logger.warning("No existing municipalities fetched from DB — skipping sync (possible network issue)")
+        return {"matched": 0, "updated": 0, "inserted": 0, "unmatched": 0}
+
     # Build province lookup by psgc_code
     prov_by_psgc: dict[str, dict[str, Any]] = {}
     for p in db_provinces:
@@ -513,11 +616,18 @@ def sync_municipalities(
     # Build municipality lookup
     db_by_name: dict[tuple[str, int], dict[str, Any]] = {}
     db_by_psgc: dict[str, dict[str, Any]] = {}
+    db_by_norm_only: dict[str, dict[str, Any]] = {}
     for row in db_rows:
         norm = normalize_name(row.get("name", ""))
         province_id = row.get("province_id", 0)
         if norm:
             db_by_name[(norm, province_id)] = row
+            if norm not in db_by_norm_only:
+                db_by_norm_only[norm] = row
+        # Also index by parenthetical content (old name in parentheses)
+        paren = extract_parenthetical(row.get("name", ""))
+        if paren and paren not in db_by_norm_only:
+            db_by_norm_only[paren] = row
         if row.get("psgc_code"):
             db_by_psgc[row["psgc_code"]] = row
 
@@ -568,11 +678,29 @@ def sync_municipalities(
         if not db_row and parent_province_id is not None:
             db_row = db_by_name.get((api_norm, parent_province_id))
 
-        # Try match by name only
+        # Try match by name only (any province)
         if not db_row:
-            for (norm, pid), row in db_by_name.items():
-                if norm == api_norm:
-                    db_row = row
+            db_row = db_by_norm_only.get(api_norm)
+
+        # Try matching API old_name to DB names
+        if not db_row and old_name:
+            for alt in normalize_with_old_name(api_name, old_name):
+                if alt == api_norm:
+                    continue
+                db_row = db_by_norm_only.get(alt)
+                if db_row:
+                    break
+
+        # Try matching API name to DB parenthetical/old names
+        if not db_row:
+            api_paren = extract_parenthetical(api_name)
+            if api_paren:
+                db_row = db_by_norm_only.get(api_paren)
+        if not db_row:
+            for db_norm_key, db_row_val in db_by_norm_only.items():
+                db_paren = extract_parenthetical(db_norm_key)
+                if db_paren and db_paren == api_norm:
+                    db_row = db_row_val
                     break
 
         if db_row:
@@ -654,7 +782,7 @@ def sync_municipalities(
         # Do in batches of 500
         for i in range(0, len(pop_rows), 500):
             batch = pop_rows[i : i + 500]
-            count, err = sb.upsert_batch("municipal_population", batch)
+            count, err = sb.upsert_batch("municipal_population", batch, on_conflict="municipality_id")
             if err:
                 logger.warning("municipal_population upsert error (batch %s): %s", i // 500, err)
             else:
@@ -674,11 +802,22 @@ def sync_barangays(
     db_rows = sb.fetch_all_rows("barangays", "barangay_id,municipality_id,name,psgc_code,lat,lon")
     db_munis = sb.fetch_all_rows("municipalities", "municipality_id,province_id,name,psgc_code")
 
-    # Build municipality lookup by psgc_code
+    if not db_rows:
+        logger.warning("No existing barangays fetched from DB — skipping sync (possible network issue)")
+        return {"matched": 0, "updated": 0, "inserted": 0, "unmatched": 0}
+
+    # Build municipality lookup by psgc_code and by name
     muni_by_psgc: dict[str, dict[str, Any]] = {}
+    muni_by_name: dict[str, dict[str, Any]] = {}
     for m in db_munis:
         if m.get("psgc_code"):
             muni_by_psgc[m["psgc_code"]] = m
+        norm = normalize_name(m.get("name", ""))
+        if norm and norm not in muni_by_name:
+            muni_by_name[norm] = m
+        paren = extract_parenthetical(m.get("name", ""))
+        if paren and paren not in muni_by_name:
+            muni_by_name[paren] = m
 
     # Build barangay lookup by (normalized name, municipality_id)
     db_by_name: dict[tuple[str, int], dict[str, Any]] = {}
@@ -690,6 +829,17 @@ def sync_barangays(
             db_by_name[(norm, muni_id)] = row
         if row.get("psgc_code"):
             db_by_psgc[row["psgc_code"]] = row
+
+    # Build API municipality lookup by PSGC code for parent matching fallback
+    api_muni_by_psgc: dict[str, str] = {}  # psgc_code -> normalized name
+    api_muni_cache = CACHE_DIR / "municipalities.json"
+    if api_muni_cache.exists():
+        with open(api_muni_cache, "r", encoding="utf-8") as f:
+            api_munis = json.load(f)
+            for am in api_munis:
+                ac = am.get("psgc_code", "")
+                if ac:
+                    api_muni_by_psgc[ac] = normalize_name(am.get("area_name", ""))
 
     matched = 0
     updated = 0
@@ -730,6 +880,22 @@ def sync_barangays(
                             break
                     if parent_muni_id:
                         break
+
+        # Fallback: use API municipality cache to find parent by name
+        if not parent_muni_id and psgc_code and len(psgc_code) >= 7:
+            muni_psgc = psgc_code[:7] + "000"
+            api_muni_norm = api_muni_by_psgc.get(muni_psgc)
+            if api_muni_norm:
+                # Try exact name match
+                m_row = muni_by_name.get(api_muni_norm)
+                if m_row:
+                    parent_muni_id = m_row["municipality_id"]
+                else:
+                    # Try parenthetical match
+                    for mn, mr in muni_by_name.items():
+                        if extract_parenthetical(mn) == api_muni_norm:
+                            parent_muni_id = mr["municipality_id"]
+                            break
 
         # Try match by psgc_code first
         db_row = db_by_psgc.get(psgc_code) if psgc_code else None

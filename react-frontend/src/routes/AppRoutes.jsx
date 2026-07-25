@@ -10,6 +10,7 @@ import SavedSimulations from "../pages/SavedSimulations";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
 import ChatPage from "../pages/ChatPage";
+import MapPage from "../pages/MapPage";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminAnalytics from "../pages/admin/AdminAnalytics";
@@ -65,6 +66,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          <Route path="map" element={<MapPage />} />
           <Route
             path="saved-simulations"
             element={

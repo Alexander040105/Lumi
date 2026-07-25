@@ -111,3 +111,77 @@ export function getProductAudit() {
 export function getGeothermal(municipalityId) {
   return request(`/geothermal/${municipalityId}`);
 }
+
+// --- Forecasting ---
+
+export function runForecast(metric = "consumption", orderP = 1, orderD = 1, orderQ = 1, forecastTo = 2030) {
+  const params = new URLSearchParams({
+    metric,
+    order_p: String(orderP),
+    order_d: String(orderD),
+    order_q: String(orderQ),
+    forecast_to: String(forecastTo),
+  });
+  return request(`/forecast/run?${params.toString()}`);
+}
+
+export function runBacktest(metric = "consumption", trainEndYear = 2020) {
+  const params = new URLSearchParams({ metric, train_end_year: String(trainEndYear) });
+  return request(`/forecast/backtest?${params.toString()}`);
+}
+
+export function getModelRuns(limit = 20) {
+  return request(`/forecast/models?limit=${limit}`);
+}
+
+// --- Map / GIS ---
+
+export function getSuitabilityMap(renewableType, level = "municipality") {
+  return request(`/map/${renewableType}?level=${level}`);
+}
+
+export function getPsgcHierarchy(municipalityId = null, provinceId = null) {
+  const params = new URLSearchParams();
+  if (municipalityId) params.append("municipality_id", String(municipalityId));
+  if (provinceId) params.append("province_id", String(provinceId));
+  return request(`/map/psgc/hierarchy?${params.toString()}`);
+}
+
+export function getCoverageSummary(level = "municipality") {
+  return request(`/map/coverage?level=${level}`);
+}
+
+// --- ETL ---
+
+export function runClimateEtl() {
+  return request("/etl/run/climate", { method: "POST" });
+}
+
+export function getLineage(source = null, table = null, limit = 50) {
+  const params = new URLSearchParams({ limit: String(limit) });
+  if (source) params.append("source", source);
+  if (table) params.append("table", table);
+  return request(`/etl/lineage?${params.toString()}`);
+}
+
+// --- Chat ---
+
+export function sendChatMessage(message, sessionId = null) {
+  const body = { message };
+  if (sessionId) body.session_id = sessionId;
+  return request("/chat/", { method: "POST", body: JSON.stringify(body) });
+}
+
+export function getChatSessions() {
+  return request("/chat/sessions");
+}
+
+export function getChatSessionMessages(sessionId) {
+  return request(`/chat/sessions/${sessionId}`);
+}
+
+// --- Health ---
+
+export function getDetailedHealth() {
+  return request("/health/detailed");
+}
