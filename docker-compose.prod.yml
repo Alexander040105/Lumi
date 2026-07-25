@@ -1,8 +1,14 @@
 # LUMI — Production docker-compose overlay
-# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d
+# Usage:
+#   export LUMI_REGISTRY=registry.digitalocean.com/<your-registry>
+#   export LUMI_IMAGE_TAG=latest
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod pull
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d
 
 services:
   backend:
+    image: ${LUMI_REGISTRY:-lumi}/lumi-backend:${LUMI_IMAGE_TAG:-latest}
+    build: !reset null
     deploy:
       replicas: 2
       resources:
@@ -13,6 +19,8 @@ services:
     command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4"]
 
   frontend:
+    image: ${LUMI_REGISTRY:-lumi}/lumi-frontend:${LUMI_IMAGE_TAG:-latest}
+    build: !reset null
     deploy:
       replicas: 1
 

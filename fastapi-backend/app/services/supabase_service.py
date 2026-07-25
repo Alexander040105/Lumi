@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import logging
 import re
 import urllib.parse
-from typing import Any
+from typing import Any, Union
 
 import httpx
 from supabase import Client, create_client
@@ -12,9 +14,20 @@ logger = logging.getLogger(__name__)
 
 _JWT_PATTERN = re.compile(r"^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$")
 
+# Module-level singletons so we do not create a new client for every request.
+_supabase_client: Union[Client, "SupabaseRestClient", None] = None
+_supabase_public_client: Union[Client, "SupabaseRestClient", None] = None
+
 
 def _is_jwt_key(key: str | None) -> bool:
     return bool(key) and _JWT_PATTERN.match(key) is not None
+
+
+def _reset_supabase_client() -> None:
+    """Reset singletons (useful for testing or after settings change)."""
+    global _supabase_client, _supabase_public_client
+    _supabase_client = None
+    _supabase_public_client = None
 
 
 class SupabaseResponse:
@@ -90,55 +103,40 @@ class SupabaseRestClient:
         return SupabaseRestQuery(self, table_name)
 
 
-def get_supabase_client() -> Client | SupabaseRestClient:
-    settings = get_settings()
-    key = settings.supabase_service_role_key or settings.supabase_anon_key
-    key_source = "service_role" if settings.supabase_service_role_key else "anon"
-    if not key:
-        raise ValueError("Supabase key is missing. Check your .env and environment overrides.")
+def _create_client(url: str, key: str) -> Client | SupabaseRestClient:
     if _is_jwt_key(key):
-        logger.debug(
-            "Supabase settings loaded: url=%s key_source=%s key_present=%s key_len=%s",
-            settings.supabase_url,
-            key_source,
-            bool(key),
-            len(key),
-        )
-        return create_client(settings.supabase_url, key)
+        return create_client(url, key)
+    logger.warning("Supabase key is not JWT; using REST client fallback for table queries only.")
+    return SupabaseRestClient(url, key)
 
-    logger.warning(
-        "Supabase key is not JWT; using REST client fallback for table queries only."
-    )
-    logger.debug(
-        "Supabase settings loaded: url=%s key_source=%s key_present=%s key_len=%s",
-        settings.supabase_url,
-        key_source,
-        bool(key),
-        len(key),
-    )
-    return SupabaseRestClient(settings.supabase_url, key)
+
+def get_supabase_client() -> Client | SupabaseRestClient:
+    global _supabase_client
+    if _supabase_client is None:
+        settings = get_settings()
+        key = settings.supabase_service_role_key or settings.supabase_anon_key
+        if not key:
+            raise ValueError("Supabase key is missing. Check your .env and environment overrides.")
+        _supabase_client = _create_client(settings.supabase_url, key)
+        logger.debug(
+            "Supabase client initialized: url=%s key_source=%s key_present=%s",
+            settings.supabase_url,
+            "service_role" if settings.supabase_service_role_key else "anon",
+            bool(key),
+        )
+    return _supabase_client
 
 
 def get_supabase_public_client() -> Client | SupabaseRestClient:
-    settings = get_settings()
-    if not settings.supabase_anon_key:
-        raise ValueError("Supabase anon key is missing. Check your .env and environment overrides.")
-    if _is_jwt_key(settings.supabase_anon_key):
+    global _supabase_public_client
+    if _supabase_public_client is None:
+        settings = get_settings()
+        if not settings.supabase_anon_key:
+            raise ValueError("Supabase anon key is missing. Check your .env and environment overrides.")
+        _supabase_public_client = _create_client(settings.supabase_url, settings.supabase_anon_key)
         logger.debug(
-            "Supabase public settings loaded: url=%s key_present=%s key_len=%s",
+            "Supabase public client initialized: url=%s key_present=%s",
             settings.supabase_url,
             bool(settings.supabase_anon_key),
-            len(settings.supabase_anon_key),
         )
-        return create_client(settings.supabase_url, settings.supabase_anon_key)
-
-    logger.warning(
-        "Supabase anon key is not JWT; using REST client fallback for table queries only."
-    )
-    logger.debug(
-        "Supabase public settings loaded: url=%s key_present=%s key_len=%s",
-        settings.supabase_url,
-        bool(settings.supabase_anon_key),
-        len(settings.supabase_anon_key),
-    )
-    return SupabaseRestClient(settings.supabase_url, settings.supabase_anon_key)
+    return _supabase_public_client

@@ -244,6 +244,9 @@ def idw_heat_flow(
 
     for _, row in measurements.iterrows():
         d = _haversine(lat, lon, float(row["lat"]), float(row["lon"]))
+        if d == 0.0:
+            # Exact match: no interpolation needed.
+            return float(row["heat_flow_mw_m2"])
         if 0 < d < radius_km:
             w = 1.0 / (d ** power)
             if prefer_onshore and "onshore" in str(row.get("environment", "")).lower():
@@ -258,7 +261,7 @@ def idw_heat_flow(
 
 
 def calculate_heatflow_score(heat_flow_mw_m2: float | None) -> float | None:
-    """Normalize heat flow (mW/m2) to a 0-1 score using 40-150 range.
+    """Normalize heat flow (mW/m2) to a 0-1 score using 40-120 range.
 
     Args:
         heat_flow_mw_m2: Heat flow value in mW/m2.
@@ -268,7 +271,7 @@ def calculate_heatflow_score(heat_flow_mw_m2: float | None) -> float | None:
     """
     if heat_flow_mw_m2 is None:
         return None
-    return round(_normalize(heat_flow_mw_m2, 40.0, 150.0), 4)
+    return round(_normalize(heat_flow_mw_m2, 40.0, 120.0), 4)
 
 
 def calculate_aquifer_score(

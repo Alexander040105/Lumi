@@ -10,6 +10,7 @@ This module replaces the ad-hoc text slicing in the old RAG implementation with:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
@@ -17,6 +18,8 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+
+from app.services.redis_client import get_redis_sync
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +35,8 @@ CHUNKS_PATH = LOCAL_DATA_DIR / "rag_chunks.json"
 KNOWLEDGE_JSON_PATH = LOCAL_DATA_DIR / "rag_knowledge_base.json"
 
 DEFAULT_EMBEDDING_MODEL = "all-MiniLM-L6-v2"
+_RAG_CACHE_TTL_SECONDS = 120
+_RAG_CACHE_PREFIX = "lumi:rag:result"
 
 
 def _index_is_stale() -> bool:
@@ -290,28 +295,122 @@ def ensure_index_built(
 
 
 # ---------------------------------------------------------------------------
-# Retrieval
+# Retrieval with caching and hybrid reranking
 # ---------------------------------------------------------------------------
+
+def _rag_cache_key(
+    query: str,
+    model_name: str,
+    top_k: int,
+    score_threshold: float,
+    renewable_type: str | None,
+    category: str | None,
+) -> str:
+    """Stable cache key for a retrieval call."""
+    payload = f"{query}:{model_name}:{top_k}:{score_threshold}:{renewable_type}:{category}"
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:32]
+    return f"{_RAG_CACHE_PREFIX}:{digest}"
+
+
+def _query_tokens(query: str) -> set[str]:
+    """Simple lowercase, non-empty token set for keyword matching."""
+    return {t.lower() for t in re.findall(r"\b\w+\b", query) if len(t) > 2}
+
+
+def _keyword_score(query: str, text: str) -> float:
+    """Jaccard-ish overlap between query and chunk tokens."""
+    q = _query_tokens(query)
+    if not q:
+        return 0.0
+    t = {tok.lower() for tok in re.findall(r"\b\w+\b", text) if len(tok) > 2}
+    if not t:
+        return 0.0
+    overlap = len(q & t)
+    return overlap / len(q)
+
+
+def _hybrid_score(
+    semantic_score: float,
+    keyword_score: float,
+    chunk: dict[str, Any],
+    query: str,
+    renewable_type: str | None,
+    category: str | None,
+) -> float:
+    """Combine semantic similarity, keyword overlap, and metadata boosts."""
+    score = 0.7 * semantic_score + 0.3 * keyword_score
+
+    # Normalize query for matching
+    q = query.lower()
+
+    # Metadata boost when explicit filters match
+    if renewable_type and chunk.get("renewable_type", "").lower() == renewable_type.lower():
+        score += 0.05
+    if category and chunk.get("category", "").lower() == category.lower():
+        score += 0.05
+
+    # Soft boost if the renewable type keyword appears in the query
+    rtype = chunk.get("renewable_type", "").lower()
+    if rtype and rtype in q:
+        score += 0.04
+
+    return min(score, 1.0)
+
+
+def _rerank_results(
+    query: str,
+    candidates: list[dict[str, Any]],
+    renewable_type: str | None,
+    category: str | None,
+) -> list[dict[str, Any]]:
+    """Re-rank candidates using semantic + keyword + metadata signals."""
+    for c in candidates:
+        c["hybrid_score"] = round(
+            _hybrid_score(
+                c.get("score", 0.0),
+                _keyword_score(query, c.get("text", "")),
+                c,
+                query,
+                renewable_type,
+                category,
+            ),
+            4,
+        )
+    ranked = sorted(candidates, key=lambda x: x["hybrid_score"], reverse=True)
+    return [{**c, "score": c["hybrid_score"]} for c in ranked]
+
 
 def retrieve_context(
     query: str,
     top_k: int = 5,
     model_name: str = DEFAULT_EMBEDDING_MODEL,
     score_threshold: float = 0.25,
+    use_cache: bool = True,
 ) -> list[dict[str, Any]]:
     """
     Retrieve the most semantically similar chunks for a query.
 
-    Because we use IndexFlatIP + normalized vectors, the raw score is
-    cosine similarity (range 0..1).  *score_threshold* filters out
-    irrelevant matches.
+    Uses FAISS for approximate semantic search, then re-ranks with keyword
+    overlap and metadata boosts.  Results are short-cached in Redis.
     """
+    cache_key = _rag_cache_key(query, model_name, top_k, score_threshold, None, None)
+    if use_cache:
+        try:
+            redis = get_redis_sync()
+            cached = redis.get(cache_key)
+            if cached:
+                return json.loads(cached)
+        except Exception as exc:
+            logger.debug("RAG cache read failed: %s", exc)
+
     if _index is None:
         ensure_index_built(model_name=model_name)
 
     if _index is None or not _chunks:
         raise RuntimeError("FAISS index is not available")
 
+    # Retrieve extra candidates so reranking has a good candidate pool.
+    fetch_k = max(top_k * 4, 20)
     embedder = _get_embedder(model_name)
     query_emb = embedder.encode(
         [query],
@@ -320,8 +419,8 @@ def retrieve_context(
     )
     query_emb = query_emb.astype("float32")
 
-    scores, indices = _index.search(query_emb, top_k)
-    results: list[dict[str, Any]] = []
+    scores, indices = _index.search(query_emb, fetch_k)
+    candidates: list[dict[str, Any]] = []
 
     for score, idx in zip(scores[0], indices[0]):
         if idx < 0 or idx >= len(_chunks):
@@ -329,7 +428,7 @@ def retrieve_context(
         if score < score_threshold:
             continue
         chunk = _chunks[idx]
-        results.append({
+        candidates.append({
             "text": chunk["text"],
             "score": round(float(score), 4),
             "renewable_type": chunk.get("renewable_type", ""),
@@ -338,7 +437,20 @@ def retrieve_context(
             "sources": chunk.get("sources", []),
         })
 
-    return results
+    ranked = _rerank_results(query, candidates, None, None)[:top_k]
+
+    if use_cache:
+        try:
+            redis = get_redis_sync()
+            redis.setex(
+                cache_key,
+                _RAG_CACHE_TTL_SECONDS,
+                json.dumps(ranked, default=str),
+            )
+        except Exception as exc:
+            logger.debug("RAG cache write failed: %s", exc)
+
+    return ranked
 
 
 def retrieve_with_filter(
@@ -348,22 +460,49 @@ def retrieve_with_filter(
     category: str | None = None,
     model_name: str = DEFAULT_EMBEDDING_MODEL,
     score_threshold: float = 0.25,
+    use_cache: bool = True,
 ) -> list[dict[str, Any]]:
     """
     Same as retrieve_context but allows post-filtering by metadata fields.
     Retrieves more candidates than top_k so filtering still yields results.
     """
+    cache_key = _rag_cache_key(query, model_name, top_k, score_threshold, renewable_type, category)
+    if use_cache:
+        try:
+            redis = get_redis_sync()
+            cached = redis.get(cache_key)
+            if cached:
+                return json.loads(cached)
+        except Exception as exc:
+            logger.debug("RAG filtered cache read failed: %s", exc)
+
     candidates = retrieve_context(
         query,
         top_k=top_k * 4,
         model_name=model_name,
         score_threshold=score_threshold,
+        use_cache=False,
     )
+
     if renewable_type:
-        candidates = [c for c in candidates if c.get("renewable_type") == renewable_type]
+        candidates = [c for c in candidates if c.get("renewable_type", "").lower() == renewable_type.lower()]
     if category:
-        candidates = [c for c in candidates if c.get("category") == category]
-    return candidates[:top_k]
+        candidates = [c for c in candidates if c.get("category", "").lower() == category.lower()]
+
+    ranked = _rerank_results(query, candidates, renewable_type, category)[:top_k]
+
+    if use_cache:
+        try:
+            redis = get_redis_sync()
+            redis.setex(
+                cache_key,
+                _RAG_CACHE_TTL_SECONDS,
+                json.dumps(ranked, default=str),
+            )
+        except Exception as exc:
+            logger.debug("RAG filtered cache write failed: %s", exc)
+
+    return ranked
 
 
 # ---------------------------------------------------------------------------

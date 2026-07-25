@@ -5,6 +5,8 @@ from typing import Any
 
 from fastapi import APIRouter
 
+from app.services.redis_client import is_redis_available
+
 router = APIRouter()
 
 _start_time = time.time()
@@ -34,12 +36,7 @@ async def detailed_health_check() -> dict[str, Any]:
 
     # Redis check (optional)
     try:
-        from app.services.redis_client import get_redis_sync
-        redis = get_redis_sync()
-        if redis is not None:
-            checks["redis"] = "ok" if redis.ping() else "degraded"
-        else:
-            checks["redis"] = "not_configured"
+        checks["redis"] = "ok" if is_redis_available() else "not_configured"
     except Exception:
         checks["redis"] = "not_configured"
 

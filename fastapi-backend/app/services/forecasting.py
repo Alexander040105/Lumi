@@ -11,6 +11,8 @@ Uses statsmodels for the underlying ARIMA/SARIMAX implementation.
 """
 from __future__ import annotations
 
+import hashlib
+import json
 import logging
 import warnings
 from dataclasses import dataclass, field
@@ -19,10 +21,24 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from app.services.redis_client import get_redis_sync
+
 logger = logging.getLogger(__name__)
 
 # Suppress statsmodels convergence warnings for production
 warnings.filterwarnings("ignore", category=Warning, module="statsmodels")
+
+FORECAST_CACHE_TTL_SECONDS = 86400  # 24 hours for stable historical forecasts
+
+
+def _forecast_cache_key(
+    target_col: str,
+    exog_cols: tuple[str, ...] | None,
+    forecast_years: tuple[int, ...],
+) -> str:
+    payload = f"{target_col}:{sorted(exog_cols or ())}:{forecast_years}"
+    digest = hashlib.md5(payload.encode("utf-8")).hexdigest()[:24]
+    return f"lumi:forecast:{digest}"
 
 
 @dataclass
@@ -457,3 +473,98 @@ def log_model_run(
     except Exception as exc:
         logger.warning("Failed to log model run: %s", exc)
     return None
+
+
+def select_best_sarima_config(
+    series: pd.Series,
+    candidates: list[SARIMAConfig] | None = None,
+    criterion: str = "aic",
+) -> SARIMAConfig:
+    """Try multiple SARIMA configs and return the one with the lowest AIC/BIC.
+
+    This is a lightweight auto-arima that avoids the heavy ``pmdarima``
+    dependency.  It silently skips configs that fail to converge.
+    """
+    if candidates is None:
+        candidates = [
+            SARIMAConfig(order=(0, 1, 0)),
+            SARIMAConfig(order=(1, 1, 0)),
+            SARIMAConfig(order=(0, 1, 1)),
+            SARIMAConfig(order=(1, 1, 1)),
+            SARIMAConfig(order=(2, 1, 2)),
+            SARIMAConfig(order=(1, 1, 2)),
+            SARIMAConfig(order=(2, 1, 1)),
+        ]
+
+    best_config = candidates[0]
+    best_score = float("inf")
+
+    for config in candidates:
+        try:
+            fitted = fit_sarima(series, config)
+            score = float(getattr(fitted, criterion, float("inf")))
+            if score < best_score:
+                best_score = score
+                best_config = config
+        except Exception as exc:
+            logger.debug("SARIMA config %s failed: %s", config, exc)
+
+    logger.info("Selected SARIMA config %s with %s=%.2f", best_config, criterion, best_score)
+    return best_config
+
+
+def run_forecast_pipeline_cached(
+    df: pd.DataFrame,
+    target_col: str = "total_consumption_gwh",
+    year_col: str = "year",
+    forecast_years: list[int] | None = None,
+    train_end_year: int = 2020,
+    config: SARIMAConfig | None = None,
+    exog_cols: list[str] | None = None,
+    auto_select: bool = True,
+) -> ForecastResult:
+    """Forecast pipeline with Redis result caching and optional auto order selection."""
+    if forecast_years is None:
+        forecast_years = list(range(2025, 2031))
+
+    cache_key = _forecast_cache_key(
+        target_col,
+        tuple(exog_cols) if exog_cols else None,
+        tuple(forecast_years),
+    )
+
+    try:
+        redis = get_redis_sync()
+        cached = redis.get(cache_key)
+        if cached:
+            parsed = json.loads(cached)
+            return ForecastResult(**parsed)
+    except Exception as exc:
+        logger.debug("Forecast cache read failed: %s", exc)
+
+    if auto_select and config is None:
+        df_sorted = df.sort_values(year_col).reset_index(drop=True)
+        series = df_sorted.set_index(year_col)[target_col]
+        config = select_best_sarima_config(series)
+
+    result = run_forecast_pipeline(
+        df,
+        target_col=target_col,
+        year_col=year_col,
+        forecast_years=forecast_years,
+        train_end_year=train_end_year,
+        config=config,
+        exog_cols=exog_cols,
+    )
+
+    try:
+        redis = get_redis_sync()
+        redis.setex(
+            cache_key,
+            FORECAST_CACHE_TTL_SECONDS,
+            json.dumps(result.__dict__, default=str),
+        )
+    except Exception as exc:
+        logger.debug("Forecast cache write failed: %s", exc)
+
+    return result

@@ -1,10 +1,11 @@
 import json
 import logging
-import os
 from typing import Any
 
 import redis as redis_sync
 from redis.asyncio import Redis
+
+from app.config.settings import get_settings
 
 logger = logging.getLogger(__name__)
 
@@ -17,20 +18,89 @@ _redis_async: Redis | None = None
 _redis_sync: redis_sync.Redis | None = None
 
 
-def get_redis() -> Redis:
+class NullRedis:
+    """No-op async Redis-compatible client used when Redis is unavailable."""
+
+    async def get(self, key: str) -> None:
+        return None
+
+    async def setex(self, key: str, ttl: int, value: str) -> None:
+        return None
+
+    async def keys(self, pattern: str) -> list[str]:
+        return []
+
+    async def delete(self, *keys: str) -> int:
+        return 0
+
+
+class NullRedisSync:
+    """No-op sync Redis-compatible client used when Redis is unavailable."""
+
+    def get(self, key: str) -> None:
+        return None
+
+    def setex(self, key: str, ttl: int, value: str) -> None:
+        return None
+
+    def keys(self, pattern: str) -> list[str]:
+        return []
+
+    def delete(self, *keys: str) -> int:
+        return 0
+
+
+def _redis_url() -> str | None:
+    settings = get_settings()
+    return settings.upstash_redis_url if settings.use_redis_cache else None
+
+
+def get_redis() -> Redis | NullRedis:
     global _redis_async
     if _redis_async is None:
-        redis_url = os.getenv("UPSTASH_REDIS_URL")
-        _redis_async = Redis.from_url(redis_url, decode_responses=True)
+        redis_url = _redis_url()
+        if not redis_url:
+            logger.warning("UPSTASH_REDIS_URL is not configured; using null Redis cache.")
+            _redis_async = NullRedis()
+        else:
+            try:
+                _redis_async = Redis.from_url(redis_url, decode_responses=True)
+            except Exception as exc:
+                logger.warning("Failed to initialize async Redis: %s; using null cache.", exc)
+                _redis_async = NullRedis()
     return _redis_async
 
 
-def get_redis_sync() -> redis_sync.Redis:
+def get_redis_sync() -> redis_sync.Redis | NullRedisSync:
     global _redis_sync
     if _redis_sync is None:
-        redis_url = os.getenv("UPSTASH_REDIS_URL")
-        _redis_sync = redis_sync.Redis.from_url(redis_url, decode_responses=True)
+        redis_url = _redis_url()
+        if not redis_url:
+            logger.warning("UPSTASH_REDIS_URL is not configured; using null Redis sync cache.")
+            _redis_sync = NullRedisSync()
+        else:
+            try:
+                _redis_sync = redis_sync.Redis.from_url(redis_url, decode_responses=True)
+            except Exception as exc:
+                logger.warning("Failed to initialize sync Redis: %s; using null cache.", exc)
+                _redis_sync = NullRedisSync()
     return _redis_sync
+
+
+def is_redis_available() -> bool:
+    """Return True if a real Redis connection is configured and healthy."""
+    settings = get_settings()
+    if not settings.use_redis_cache or not settings.upstash_redis_url:
+        return False
+    redis = get_redis_sync()
+    if isinstance(redis, NullRedisSync):
+        return False
+    try:
+        redis.ping()
+        return True
+    except Exception as exc:
+        logger.warning("Redis health check failed: %s", exc)
+        return False
 
 
 # ---------------------------------------------------------------------------

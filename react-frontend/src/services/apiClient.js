@@ -1,8 +1,32 @@
 import { getApiBaseUrl } from "../utils/env";
 
 const BASE_URL = getApiBaseUrl();
+const DEFAULT_TIMEOUT_MS = 30000;
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY_MS = 500;
 
-export async function request(path, { token, ...options } = {}) {
+function generateRequestId() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function fetchWithTimeout(url, options, timeoutMs = DEFAULT_TIMEOUT_MS) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+export async function request(path, { token, timeoutMs, ...options } = {}) {
   const headers = new Headers(options.headers || {});
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
@@ -10,33 +34,58 @@ export async function request(path, { token, ...options } = {}) {
   if (!headers.has("Content-Type") && options.body) {
     headers.set("Content-Type", "application/json");
   }
+  headers.set("X-Request-ID", generateRequestId());
 
-  const response = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers
-  });
+  const url = `${BASE_URL}${path}`;
+  const fetchOptions = { ...options, headers };
+  const effectiveTimeout = timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
-  if (!response.ok) {
-    let message = "Request failed";
-    const text = await response.clone().text();
+  let lastError;
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt += 1) {
     try {
-      const errorBody = JSON.parse(text);
-      if (Array.isArray(errorBody.detail)) {
-        message = errorBody.detail.map((d) => d.msg || String(d)).join("; ");
-      } else if (typeof errorBody.detail === "string") {
-        message = errorBody.detail;
-      } else if (errorBody.message) {
-        message = errorBody.message;
-      } else {
-        message = JSON.stringify(errorBody);
+      const response = await fetchWithTimeout(url, fetchOptions, effectiveTimeout);
+
+      if (!response.ok) {
+        // Retry on rate limit or server overload with backoff
+        if ((response.status === 429 || response.status >= 500) && attempt < MAX_RETRIES - 1) {
+          const retryAfter = response.headers.get("Retry-After");
+          const delay = retryAfter ? Number(retryAfter) * 1000 : INITIAL_RETRY_DELAY_MS * 2 ** attempt;
+          await sleep(delay);
+          continue;
+        }
+
+        let message = "Request failed";
+        const text = await response.clone().text();
+        try {
+          const errorBody = JSON.parse(text);
+          if (Array.isArray(errorBody.detail)) {
+            message = errorBody.detail.map((d) => d.msg || String(d)).join("; ");
+          } else if (typeof errorBody.detail === "string") {
+            message = errorBody.detail;
+          } else if (errorBody.message) {
+            message = errorBody.message;
+          } else {
+            message = JSON.stringify(errorBody);
+          }
+        } catch {
+          if (text) message = text;
+        }
+        throw new Error(message);
       }
-    } catch {
-      if (text) message = text;
+
+      return response.json();
+    } catch (error) {
+      lastError = error;
+      const isNetworkError = error.name === "TypeError" || error.name === "AbortError";
+      if (isNetworkError && attempt < MAX_RETRIES - 1) {
+        await sleep(INITIAL_RETRY_DELAY_MS * 2 ** attempt);
+        continue;
+      }
+      throw error;
     }
-    throw new Error(message);
   }
 
-  return response.json();
+  throw lastError || new Error("Request failed after retries");
 }
 
 export function getHealth() {

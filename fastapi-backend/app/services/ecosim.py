@@ -1,7 +1,8 @@
 import calendar
 import datetime as dt
+import hashlib
+import json
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,10 @@ from fastapi import HTTPException, status
 from postgrest.exceptions import APIError
 from app.schemas.ecosim import PostHouse
 from app.services.supabase_service import get_supabase_client
+from app.services.redis_client import (
+    get_ecosim_cache_sync,
+    set_ecosim_cache_sync,
+)
 from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, calculate_dust_loss_from_wind, calculate_degradation_from_humidity    
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
 from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
@@ -515,6 +520,30 @@ def renewable_energy_calculator(
         municipality_results = get_municipality_data(municipality)
         municipality_data = municipality_results[0]
         terrain_data = get_municipality_terrain_data(municipality)
+
+    # Try Redis cache for the full EcoSim result
+    geo_id = municipality_data.get("municipality_id")
+    params_hash: str | None = None
+    if geo_id:
+        cache_payload = {
+            "house": house,
+            "municipality": municipality,
+            "mode": mode,
+            "current_electricity_bill": current_electricity_bill,
+            "electricity_rate": electricity_rate,
+            "desired_savings": desired_savings,
+            "include_ai": include_ai,
+            "use_rag": use_rag,
+            "rag_query": rag_query,
+        }
+        params_hash = hashlib.md5(
+            json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
+        ).hexdigest()[:24]
+        cached = get_ecosim_cache_sync("municipality", geo_id, params_hash)
+        if cached:
+            logger.info("EcoSim cache hit for %s (geo_id=%s)", municipality, geo_id)
+            return cached
+
     consumption_results = consumption_calculator(
         current_electricity_bill,
         electricity_rate,
@@ -673,12 +702,17 @@ def renewable_energy_calculator(
                 ra[key] = text
         ai_analysis["renewable_analysis"] = ra
 
-    return {
+    result = {
         "municipality_data": municipality_results,
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
     }
+
+    if geo_id and params_hash:
+        set_ecosim_cache_sync("municipality", geo_id, params_hash, result)
+
+    return result
 
 
 def _build_static_renewable_explanations(results: dict) -> dict[str, str]:

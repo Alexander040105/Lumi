@@ -196,7 +196,7 @@ def analyze_financials(inputs: FinancialInputs) -> FinancialResults:
 
     for t in range(1, inputs.system_lifetime_years + 1):
         energy = inputs.annual_energy_kwh * ((1 - inputs.degradation_rate) ** (t - 1))
-        revenue = energy * inputs.electricity_tariff_php
+        revenue = energy * inputs.electricity_tariff_php_kwh
         om = inputs.annual_om_cost_php
         net = revenue - om
         cash_flows.append(net)
@@ -234,7 +234,7 @@ def analyze_financials(inputs: FinancialInputs) -> FinancialResults:
     # Benefit-cost ratio
     pv_benefits = sum(
         inputs.annual_energy_kwh * ((1 - inputs.degradation_rate) ** (t - 1))
-        * inputs.electricity_tariff_php / ((1 + inputs.discount_rate) ** t)
+        * inputs.electricity_tariff_php_kwh / ((1 + inputs.discount_rate) ** t)
         for t in range(1, inputs.system_lifetime_years + 1)
     )
     pv_costs = inputs.capital_cost_php + sum(

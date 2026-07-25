@@ -393,12 +393,12 @@ class TestCalculateOptionSummary:
         result = ecosim._calculate_option_summary(
             source="solar",
             estimated_generation_kwh=200.0,
-            source_score=75.0,
+            source_score=0.75,
             monthly_consumption_kwh=300.0,
             electricity_rate=10.0,
             installation_cost_per_kw=45000.0,
         )
-        assert 0.0 <= result["suitability_score"] <= 1.0
+        assert 0.0 <= result["suitability_score"] <= 100.0
         assert result["payback_years"] is not None
         assert result["payback_years"] > 0
         assert result["monthly_savings"] > 0
@@ -424,20 +424,20 @@ class TestCalculateOptionSummary:
         result = ecosim._calculate_option_summary(
             source="wind",
             estimated_generation_kwh=150.0,
-            source_score=60.0,
+            source_score=0.60,
             monthly_consumption_kwh=300.0,
             electricity_rate=10.0,
             installation_cost_per_kw=60000.0,
         )
         assert result["scale"] == "residential"
-        assert 0.0 <= result["suitability_score"] <= 1.0
+        assert 0.0 <= result["suitability_score"] <= 100.0
 
     def test_geothermal_scale(self):
         """Geothermal should return utility scale with no payback."""
         result = ecosim._calculate_option_summary(
             source="geothermal",
             estimated_generation_kwh=50000.0,
-            source_score=80.0,
+            source_score=0.80,
             monthly_consumption_kwh=300.0,
             electricity_rate=10.0,
             installation_cost_per_kw=200000.0,
