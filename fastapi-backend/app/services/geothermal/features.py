@@ -474,8 +474,8 @@ def compute_geothermal_suitability(
     # Sub-scores (all 0-1)
     sub_scores = {
         "heat_flow": heat_flow_score or 0.0,
-        "fault": math.exp(-(fault_dist or 100) / 20.0) if fault_dist is not None else 0.0,
-        "volcano": math.exp(-(volcano_dist or 100) / 30.0) if volcano_dist is not None else 0.0,
+        "fault": math.exp(-(fault_dist if fault_dist is not None else 100) / 20.0),
+        "volcano": math.exp(-(volcano_dist if volcano_dist is not None else 100) / 30.0),
         "aquifer": aquifer_score or 0.0,
         "temperature": temp_score or 0.0,
     }
