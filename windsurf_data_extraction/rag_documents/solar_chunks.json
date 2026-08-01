@@ -1,0 +1,5562 @@
+[
+  {
+    "content": "unnamed 0 was Total Installed Capacity, 2014 was 17944.0, 2015 was 18765.0, 2016 was 21423.0, 2017 was 22728.0, 2018 was 23815.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2014 was 5708.0, 2015 was 5963.0, 2016 was 7419.0, 2017 was 8049.0, 2018 was 8844.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 3476.0, 2015 was 3610.0, 2016 was 3616.0, 2017 was 4153.0, 2018 was 4292.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Natural Gas, 2014 was 2862.0, 2015 was 2862.0, 2016 was 3431.0, 2017 was 3447.0, 2018 was 3453.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Renewable Energy, 2014 was 5898.0, 2015 was 6330.0, 2016 was 6958.0, 2017 was 7079.0, 2018 was 7227.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, 2014 was 1918.0, 2015 was 1917.0, 2016 was 1916.0, 2017 was 1916.0, 2018 was 1944.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Hydro, 2014 was 3543.0, 2015 was 3600.0, 2016 was 3618.0, 2017 was 3627.0, 2018 was 3701.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Wind, 2014 was 283.0, 2015 was 427.0, 2016 was 427.0, 2017 was 427.0, 2018 was 427.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Solar (a), 2014 was 23.0, 2015 was 165.0, 2016 was 765.0, 2017 was 885.0, 2018 was 896.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2014 was 131.0, 2015 was 221.0, 2016 was 233.0, 2017 was 224.0, 2018 was 258.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_001.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total Installed Capacity, 2020 was 26286.0, 2021 was 26882.0, 2022 was 28258.0, 2023 was 28291.0, 2024 was 29706.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2020 was 10944.0, 2021 was 11669.0, 2022 was 12428.0, 2023 was 12406.0, 2024 was 13006.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 4237.0, 2021 was 3847.0, 2022 was 3834.0, 2023 was 3737.0, 2024 was 3448.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Natural Gas, 2020 was 3453.0, 2021 was 3453.0, 2022 was 3732.0, 2023 was 3732.0, 2024 was 3732.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Renewable Energy, 2020 was 7653.0, 2021 was 7914.0, 2022 was 8264.0, 2023 was 8417.0, 2024 was 9520.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, 2020 was 1928.0, 2021 was 1928.0, 2022 was 1952.0, 2023 was 1952.0, 2024 was 1952.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Hydro, 2020 was 3779.0, 2021 was 3752.0, 2022 was 3745.0, 2023 was 3799.0, 2024 was 3836.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Wind, 2020 was 443.0, 2021 was 427.0, 2022 was 427.0, 2023 was 427.0, 2024 was 427.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Solar (a), 2020 was 1019.0, 2021 was 1317.0, 2022 was 1530.0, 2023 was 1653.0, 2024 was 2710.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2020 was 484.0, 2021 was 489.0, 2022 was 611.0, 2023 was 585.0, 2024 was 595.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_002.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Coal, 2014 was 27346.0, 2015 was 29680.0, 2016 was 33143.0, 2017 was 33953.0, 2018 was 37362.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 0,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Oil, 2014 was 2342.0, 2015 was 1845.0, 2016 was 2562.0, 2017 was 2379.0, 2018 was 2188.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 1,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Natural Gas, 2014 was 18686.0, 2015 was 18878.0, 2016 was 19854.0, 2017 was 20547.0, 2018 was 21334.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 2,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Renewable Energy, 2014 was 8392.0, 2015 was 9711.0, 2016 was 10938.0, 2017 was 11633.0, 2018 was 11845.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 3,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Geothermal, 2014 was 3817.0, 2015 was 4096.0, 2016 was 4227.0, 2017 was 3910.0, 2018 was 3871.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 4,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Hydro, 2014 was 4357.0, 2015 was 4769.0, 2016 was 5011.0, 2017 was 5730.0, 2018 was 5945.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 5,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Biomass, 2014 was 65.0, 2015 was 187.0, 2016 was 439.0, 2017 was 599.0, 2018 was 594.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 6,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Solar (a), 2015 was 66.0, 2016 was 495.0, 2017 was 496.0, 2018 was 503.0, 2019 was 493.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 7,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Wind, 2014 was 152.0, 2015 was 592.0, 2016 was 767.0, 2017 was 899.0, 2018 was 931.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 8,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Total, 2014 was 56766.0, 2015 was 60113.0, 2016 was 66498.0, 2017 was 68512.0, 2018 was 72728.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 9,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Luzon, 2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 10,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Coal, 2014 was 40576.0, 2015 was 43133.0, 2016 was 48626.0, 2017 was 53072.0, 2018 was 57070.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 11,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Oil, 2014 was 1804.0, 2015 was 996.0, 2016 was 1507.0, 2017 was 708.0, 2018 was 603.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 12,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Natural Gas, 2014 was 19497.0, 2015 was 19060.0, 2016 was 17884.0, 2017 was 16668.0, 2018 was 18047.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 13,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Renewable Energy, 2014 was 10542.0, 2015 was 12053.0, 2016 was 11803.0, 2017 was 12842.0, 2018 was 14550.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 14,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Geothermal, 2014 was 3808.0, 2015 was 3838.0, 2016 was 3921.0, 2017 was 4286.0, 2018 was 4657.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 15,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Hydro, 2014 was 4510.0, 2015 was 5412.0, 2016 was 5239.0, 2017 was 5080.0, 2018 was 5308.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 16,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Biomass, 2014 was 780.0, 2015 was 988.0, 2016 was 691.0, 2017 was 684.0, 2018 was 645.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 17,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Solar (a), 2014 was 588.0, 2015 was 721.0, 2016 was 1099.0, 2017 was 1678.0, 2018 was 2905.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 18,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Wind, 2014 was 855.0, 2015 was 1095.0, 2016 was 854.0, 2017 was 1114.0, 2018 was 1034.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 19,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Total, 2014 was 72419.0, 2015 was 75243.0, 2016 was 79821.0, 2017 was 83290.0, 2018 was 90269.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_003.csv",
+      "row_id": 20,
+      "columns": [
+        "luzon",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Coal, 2014 was 4449.0, 2015 was 4968.0, 2016 was 5270.0, 2017 was 6624.0, 2018 was 6785.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 0,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Oil, 2014 was 766.0, 2015 was 672.0, 2016 was 637.0, 2017 was 541.0, 2018 was 353.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 1,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Natural Gas (a), 2014 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 2,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Renewable Energy, 2014 was 5794.0, 2015 was 6530.0, 2016 was 7047.0, 2017 was 6889.0, 2018 was 7129.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 3,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Geothermal, 2014 was 5627.0, 2015 was 6105.0, 2016 was 5974.0, 2017 was 5564.0, 2018 was 5737.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 4,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Hydro, 2014 was 35.0, 2015 was 38.0, 2016 was 64.0, 2017 was 90.0, 2018 was 73.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 5,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Biomass, 2014 was 117.0, 2015 was 159.0, 2016 was 276.0, 2017 was 414.0, 2018 was 439.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 6,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Solar, 2014 was 15.0, 2015 was 71.0, 2016 was 525.0, 2017 was 627.0, 2018 was 658.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 7,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Wind (b), 2015 was 157.0, 2016 was 209.0, 2017 was 194.0, 2018 was 222.0, 2019 was 218.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 8,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Total, 2014 was 11014.0, 2015 was 12170.0, 2016 was 12955.0, 2017 was 14054.0, 2018 was 14266.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 9,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Visayas, 2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 10,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Coal, 2014 was 7696.0, 2015 was 8999.0, 2016 was 8501.0, 2017 was 10401.0, 2018 was 8571.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 11,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Oil, 2014 was 298.0, 2015 was 468.0, 2016 was 563.0, 2017 was 473.0, 2018 was 519.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 12,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Natural Gas (a).",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 13,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Renewable Energy, 2014 was 7491.0, 2015 was 6801.0, 2016 was 7159.0, 2017 was 7289.0, 2018 was 7009.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 14,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Geothermal, 2014 was 6205.0, 2015 was 5535.0, 2016 was 5813.0, 2017 was 5740.0, 2018 was 5408.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 15,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Hydro, 2014 was 65.0, 2015 was 89.0, 2016 was 39.0, 2017 was 141.0, 2018 was 162.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 16,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Biomass, 2014 was 374.0, 2015 was 350.0, 2016 was 517.0, 2017 was 488.0, 2018 was 514.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 17,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Solar, 2014 was 676.0, 2015 was 652.0, 2016 was 614.0, 2017 was 727.0, 2018 was 720.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 18,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Wind (b), 2014 was 171.0, 2015 was 174.0, 2016 was 176.0, 2017 was 194.0, 2018 was 205.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 19,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Total, 2014 was 15485.0, 2015 was 16268.0, 2016 was 16222.0, 2017 was 18163.0, 2018 was 16099.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_004.csv",
+      "row_id": 20,
+      "columns": [
+        "visayas",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Coal, 2014 was 1258.0, 2015 was 2038.0, 2016 was 4890.0, 2017 was 6271.0, 2018 was 7785.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 0,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Oil, 2014 was 2599.0, 2015 was 3369.0, 2016 was 2462.0, 2017 was 867.0, 2018 was 633.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 1,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Natural Gas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 2,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Renewable Energy, 2014 was 5624.0, 2015 was 4723.0, 2016 was 3994.0, 2017 was 4666.0, 2018 was 4352.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 3,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Geothermal, 2014 was 864.0, 2015 was 842.0, 2016 was 869.0, 2017 was 797.0, 2018 was 826.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 4,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Hydro, 2014 was 4745.0, 2015 was 3858.0, 2016 was 3036.0, 2017 was 3791.0, 2018 was 3366.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 5,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Biomass, 2014 was 14.0, 2015 was 21.0, 2016 was 11.0, 2018 was 72.0, 2019 was 93.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 6,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Solar (a), 2014 was 1.0, 2015 was 2.0, 2016 was 77.0, 2017 was 78.0, 2018 was 88.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 7,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Wind, 2014 was 0.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 8,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Total, 2014 was 9481.0, 2015 was 10130.0, 2016 was 11345.0, 2017 was 11804.0, 2018 was 12770.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 9,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Mindanao, 2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 10,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Coal, 2014 was 9904.0, 2015 was 9920.0, 2016 was 9303.0, 2017 was 10281.0, 2018 was 13718.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 11,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Oil, 2014 was 372.0, 2015 was 152.0, 2016 was 449.0, 2017 was 123.0, 2018 was 220.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 12,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Natural Gas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 13,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Renewable Energy, 2014 was 3576.0, 2015 was 4532.0, 2016 was 5721.0, 2017 was 6147.0, 2018 was 6634.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 14,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Geothermal, 2014 was 744.0, 2015 was 643.0, 2016 was 690.0, 2017 was 704.0, 2018 was 724.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 15,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Hydro, 2014 was 2617.0, 2015 was 3684.0, 2016 was 4807.0, 2017 was 5067.0, 2018 was 5438.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 16,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Biomass, 2014 was 107.0, 2015 was 107.0, 2016 was 114.0, 2017 was 237.0, 2018 was 286.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 17,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Solar (a), 2014 was 108.0, 2015 was 97.0, 2016 was 110.0, 2017 was 139.0, 2018 was 186.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 18,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Wind.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 19,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Total, 2014 was 13852.0, 2015 was 14604.0, 2016 was 15473.0, 2017 was 16551.0, 2018 was 20572.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_005.csv",
+      "row_id": 20,
+      "columns": [
+        "mindanao",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Coal, 2014 was 33054.0, 2015 was 36686.0, 2016 was 43303.0, 2017 was 46847.0, 2018 was 51932.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 0,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Oil, 2014 was 5708.0, 2015 was 5886.0, 2016 was 5661.0, 2017 was 3787.0, 2018 was 3173.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 1,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Natural Gas, 2014 was 18690.0, 2015 was 18878.0, 2016 was 19854.0, 2017 was 20547.0, 2018 was 21334.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 2,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Renewable Energy, 2014 was 19810.0, 2015 was 20963.0, 2016 was 21979.0, 2017 was 23189.0, 2018 was 23326.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 3,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Geothermal, 2014 was 10308.0, 2015 was 11044.0, 2016 was 11070.0, 2017 was 10270.0, 2018 was 10435.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 4,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Hydro, 2014 was 9137.0, 2015 was 8665.0, 2016 was 8111.0, 2017 was 9611.0, 2018 was 9384.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 5,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Biomass, 2014 was 196.0, 2015 was 367.0, 2016 was 726.0, 2017 was 1013.0, 2018 was 1105.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 6,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Solar (a), 2014 was 17.0, 2015 was 139.0, 2016 was 1097.0, 2017 was 1201.0, 2018 was 1249.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 7,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Wind, 2014 was 152.0, 2015 was 748.0, 2016 was 975.0, 2017 was 1094.0, 2018 was 1153.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 8,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Total, 2014 was 77261.0, 2015 was 82413.0, 2016 was 90798.0, 2017 was 94370.0, 2018 was 99765.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 9,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was **Self-sufficiency level (%), 2014 was 53.0, 2015 was 53.0, 2016 was 51.0, 2017 was 54.0, 2018 was 51.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 10,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Philippines, 2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 11,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Coal, 2014 was 58176.0, 2015 was 62052.0, 2016 was 66430.0, 2017 was 73754.0, 2018 was 79359.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 12,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Oil, 2014 was 2474.0, 2015 was 1616.0, 2016 was 2519.0, 2017 was 1304.0, 2018 was 1342.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 13,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Natural Gas, 2014 was 19497.0, 2015 was 19060.0, 2016 was 17884.0, 2017 was 16668.0, 2018 was 18047.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 14,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Renewable Energy, 2014 was 21609.0, 2015 was 23386.0, 2016 was 24684.0, 2017 was 26278.0, 2018 was 28193.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 15,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Geothermal, 2014 was 10757.0, 2015 was 10016.0, 2016 was 10425.0, 2017 was 10730.0, 2018 was 10789.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 16,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Hydro, 2014 was 7192.0, 2015 was 9185.0, 2016 was 10085.0, 2017 was 10287.0, 2018 was 10909.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 17,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Biomass, 2014 was 1261.0, 2015 was 1445.0, 2016 was 1322.0, 2017 was 1409.0, 2018 was 1446.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 18,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Solar (a), 2014 was 1373.0, 2015 was 1470.0, 2016 was 1822.0, 2017 was 2544.0, 2018 was 3811.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 19,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Wind, 2014 was 1026.0, 2015 was 1270.0, 2016 was 1030.0, 2017 was 1308.0, 2018 was 1239.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 20,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Total, 2014 was 101756.0, 2015 was 106115.0, 2016 was 111516.0, 2017 was 118004.0, 2018 was 126941.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 21,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was **Self-sufficiency level (%), 2014 was 47.0, 2015 was 45.0, 2016 was 43.0, 2017 was 42.0, 2018 was 39.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_006.csv",
+      "row_id": 22,
+      "columns": [
+        "philippines",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was A. Indigenous Energy.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 0,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was 1. Fossil Fuels.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 1,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was i.  Oil.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 2,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was ii.  Coal.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 3,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was iii.  Natural Gas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 4,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was 2. Renewable Energy.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 5,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was i.  Geothermal, Biomass, Hydro, Solar.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 6,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "iii total primary energy supply was ii.  Wind and Biofuels.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "category": "solar",
+      "table": "solar_consolidated_007.csv",
+      "row_id": 7,
+      "columns": [
+        "iii_total_primary_energy_supply"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total Installed Capacity, 2014 was 17944.0, 2015 was 18765.0, 2016 was 21423.0, 2017 was 22728.0, 2018 was 23815.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2014 was 5708.0, 2015 was 5963.0, 2016 was 7419.0, 2017 was 8049.0, 2018 was 8844.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 3476.0, 2015 was 3610.0, 2016 was 3616.0, 2017 was 4153.0, 2018 was 4292.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Natural Gas, 2014 was 2862.0, 2015 was 2862.0, 2016 was 3431.0, 2017 was 3447.0, 2018 was 3453.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Renewable Energy, 2014 was 5898.0, 2015 was 6330.0, 2016 was 6958.0, 2017 was 7079.0, 2018 was 7227.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, 2014 was 1918.0, 2015 was 1917.0, 2016 was 1916.0, 2017 was 1916.0, 2018 was 1944.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Hydro, 2014 was 3543.0, 2015 was 3600.0, 2016 was 3618.0, 2017 was 3627.0, 2018 was 3701.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Wind, 2014 was 283.0, 2015 was 427.0, 2016 was 427.0, 2017 was 427.0, 2018 was 427.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Solar (a), 2014 was 23.0, 2015 was 165.0, 2016 was 765.0, 2017 was 885.0, 2018 was 896.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2014 was 131.0, 2015 was 221.0, 2016 was 233.0, 2017 was 224.0, 2018 was 258.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total Installed Capacity, 2014 was 26286.0, 2015 was 26882.0, 2016 was 28258.0, 2017 was 28291.0, 2018 was 29706.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2014 was 10944.0, 2015 was 11669.0, 2016 was 12428.0, 2017 was 12406.0, 2018 was 13006.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 4237.0, 2015 was 3847.0, 2016 was 3834.0, 2017 was 3737.0, 2018 was 3448.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Natural Gas, 2014 was 3453.0, 2015 was 3453.0, 2016 was 3732.0, 2017 was 3732.0, 2018 was 3732.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Renewable Energy, 2014 was 7653.0, 2015 was 7914.0, 2016 was 8264.0, 2017 was 8417.0, 2018 was 9520.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, 2014 was 1928.0, 2015 was 1928.0, 2016 was 1952.0, 2017 was 1952.0, 2018 was 1952.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Hydro, 2014 was 3779.0, 2015 was 3752.0, 2016 was 3745.0, 2017 was 3799.0, 2018 was 3836.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 17,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Wind, 2014 was 443.0, 2015 was 427.0, 2016 was 427.0, 2017 was 427.0, 2018 was 427.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 18,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Solar (a), 2014 was 1019.0, 2015 was 1317.0, 2016 was 1530.0, 2017 was 1653.0, 2018 was 2710.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 19,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2014 was 484.0, 2015 was 489.0, 2016 was 611.0, 2017 was 585.0, 2018 was 595.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "category": "solar",
+      "table": "solar_consolidated_008.csv",
+      "row_id": 20,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Luzon, unnamed 1 was 2019.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 0,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 40508.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 1,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was 2674.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 2,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas, unnamed 1 was 22354.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 3,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 10640.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 4,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was 3647.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 5,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 5084.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 6,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 592.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 7,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar (a), unnamed 1 was 493.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 8,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind, unnamed 1 was 824.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 9,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 76177.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 10,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Luzon.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 11,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 8.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 12,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was -13.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 13,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas, unnamed 1 was 0.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 14,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 6.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 15,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was 2.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 16,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 2.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 17,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 26.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 18,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar (a), unnamed 1 was 52.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 19,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind, unnamed 1 was 21.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 20,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 5.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 21,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was in GWh.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 22,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Visayas, unnamed 1 was 2019.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 23,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 7962.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 24,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was 524.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 25,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas (a).",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 26,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 7573.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 27,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was 6278.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 28,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 57.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 29,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 356.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 30,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar, unnamed 1 was 665.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 31,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind (b), unnamed 1 was 218.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 32,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 16060.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 33,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Visayas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 34,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 7.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 35,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was -4.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 36,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas (a).",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 37,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 2.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 38,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was -0.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 39,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 16.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 40,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 16.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 41,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar, unnamed 1 was 47.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 42,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind (b), unnamed 1 was 3.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 43,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 4.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "category": "solar",
+      "table": "solar_consolidated_009.csv",
+      "row_id": 44,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Mindanao, unnamed 1 was 2019.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 0,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 9420.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 1,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was 554.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 2,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 3,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 3831.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 4,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was 766.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 5,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 2885.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 6,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 93.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 7,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar (a), unnamed 1 was 87.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 8,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 9,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 13805.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 10,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Mindanao.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 11,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Coal, unnamed 1 was 27.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 12,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Oil, unnamed 1 was -22.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 13,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Natural Gas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 14,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Renewable Energy, unnamed 1 was 1.7 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 15,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Geothermal, unnamed 1 was -1.8 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 16,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Hydro, unnamed 1 was 1.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 17,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Biomass, unnamed 1 was 35.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 18,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Solar (a), unnamed 1 was 12.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 19,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Wind.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 20,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was Total, unnamed 1 was 8.0 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 21,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "in gwh was in GWh.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "category": "solar",
+      "table": "solar_consolidated_010.csv",
+      "row_id": 22,
+      "columns": [
+        "in_gwh",
+        "unnamed_1",
+        "unnamed_1_numeric",
+        "unnamed_1_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total Installed Capacity, 2023 was 28291.0, 2024 was 29706.0, gr was 5.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2023 was 12406.0, 2024 was 13006.0, gr was 4.8 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2023 was 3737.0, 2024 was 3448.0, gr was -7.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Natural Gas, 2023 was 3732.0, 2024 was 3732.0, gr was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Renewable Energy, 2023 was 8417.0, 2024 was 9520.0, gr was 13.1 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, 2023 was 1952.0, 2024 was 1952.0, gr was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Hydro, 2023 was 3799.0, 2024 was 3836.0, gr was 1.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Wind, 2023 was 427.0, 2024 was 427.0, gr was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Solar, 2023 was 1653.0, 2024 was 2710.0, gr was 63.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2023 was 585.0, 2024 was 595.0, gr was 1.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_011.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Coal, 2023 was 53072.0, 2024 was 57070.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 0,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Oil, 2023 was 708.0, 2024 was 603.0, gr was -15.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 1,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Natural Gas, 2023 was 16668.0, 2024 was 18047.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 2,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Renewable Energy, 2023 was 12842.0, 2024 was 14550.0, gr was 13.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 3,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Geothermal, 2023 was 4286.0, 2024 was 4657.0, gr was 9.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 4,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Hydro, 2023 was 5080.0, 2024 was 5308.0, gr was 4.5 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 5,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Biomass, 2023 was 684.0, 2024 was 645.0, gr was -6.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 6,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Solar, 2023 was 1678.0, 2024 was 2905.0, gr was 73.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 7,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Wind, 2023 was 1114.0, 2024 was 1034.0, gr was -7.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 8,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "luzon was Total, 2023 was 83290.0, 2024 was 90269.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "category": "solar",
+      "table": "solar_consolidated_012.csv",
+      "row_id": 9,
+      "columns": [
+        "luzon",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Coal, 2023 was 10401.0, 2024 was 8571.0, gr was -18.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 0,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Oil, 2023 was 473.0, 2024 was 519.0, gr was 10.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 1,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Natural Gas.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 2,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Renewable Energy, 2023 was 7289.0, 2024 was 7009.0, gr was -4.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 3,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Geothermal, 2023 was 5740.0, 2024 was 5408.0, gr was -5.8 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 4,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Hydro, 2023 was 141.0, 2024 was 162.0, gr was 16.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 5,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Biomass, 2023 was 488.0, 2024 was 514.0, gr was 5.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 6,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Solar, 2023 was 727.0, 2024 was 720.0, gr was -1.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 7,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Wind, 2023 was 194.0, 2024 was 205.0, gr was 5.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 8,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "visayas was Total, 2023 was 18163.0, 2024 was 16099.0, gr was -11.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "category": "solar",
+      "table": "solar_consolidated_013.csv",
+      "row_id": 9,
+      "columns": [
+        "visayas",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Coal, 2023 was 10281.0, 2024 was 13718.0, gr was 33.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 0,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Oil, 2023 was 123.0, 2024 was 220.0, gr was 79.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 1,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Natural Gas.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 2,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Renewable Energy, 2023 was 6147.0, 2024 was 6634.0, gr was 7.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 3,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Geothermal, 2023 was 704.0, 2024 was 724.0, gr was 2.8 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 4,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Hydro, 2023 was 5067.0, 2024 was 5438.0, gr was 7.3 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 5,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Biomass, 2023 was 237.0, 2024 was 286.0, gr was 21.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 6,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Solar, 2023 was 139.0, 2024 was 186.0, gr was 34.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 7,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Wind.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 8,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "mindanao was Total, 2023 was 16551.0, 2024 was 20572.0, gr was 24.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "category": "solar",
+      "table": "solar_consolidated_014.csv",
+      "row_id": 9,
+      "columns": [
+        "mindanao",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Coal, 2023 was 73754.0, 2024 was 79359.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 0,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Oil, 2023 was 1304.0, 2024 was 1342.0, gr was 3.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 1,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Natural Gas, 2023 was 16668.0, 2024 was 18047.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 2,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Renewable Energy, 2023 was 26278.0, 2024 was 28193.0, gr was 7.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 3,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Geothermal, 2023 was 10730.0, 2024 was 10789.0, gr was 0.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 4,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Hydro, 2023 was 10287.0, 2024 was 10909.0, gr was 6.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 5,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Biomass, 2023 was 1409.0, 2024 was 1446.0, gr was 3.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 6,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Solar, 2023 was 2544.0, 2024 was 3811.0, gr was 50.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 7,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Wind, 2023 was 1308.0, 2024 was 1239.0, gr was -5.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 8,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Total, 2023 was 118004.0, 2024 was 126941.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 9,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was *Self-sufficiency level (%), 2023 was 42.0, 2024 was 39.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_015.csv",
+      "row_id": 10,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Oil, 4 8 was -7.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 0,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Natural Gas, 4 8 was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 1,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Renewable Energy, 4 8 was 13.1 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 2,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Geothermal, 4 8 was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 3,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Hydro, 4 8 was 1.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 4,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Wind, 4 8 was 0.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 5,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Solar, 4 8 was 63.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 6,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Biomass, 4 8 was 1.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "category": "solar",
+      "table": "solar_consolidated_016.csv",
+      "row_id": 7,
+      "columns": [
+        "coal",
+        "4_8",
+        "4_8_numeric",
+        "4_8_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Coal, 2023 was 73754.0, 2024 was 79359.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 0,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Oil, 2023 was 1304.0, 2024 was 1342.0, gr was 3.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 1,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Natural Gas, 2023 was 16668.0, 2024 was 18047.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 2,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Renewable Energy, 2023 was 26278.0, 2024 was 28193.0, gr was 7.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 3,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Geothermal, 2023 was 10730.0, 2024 was 10789.0, gr was 0.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 4,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Hydro, 2023 was 10287.0, 2024 was 10909.0, gr was 6.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 5,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Biomass, 2023 was 1409.0, 2024 was 1446.0, gr was 3.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 6,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Solar, 2023 was 2544.0, 2024 was 3811.0, gr was 50.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 7,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Wind, 2023 was 1308.0, 2024 was 1239.0, gr was -5.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 8,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "philippines was Total, 2023 was 118004.0, 2024 was 126941.0, gr was 8.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "category": "solar",
+      "table": "solar_consolidated_017.csv",
+      "row_id": 9,
+      "columns": [
+        "philippines",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  }
+]

@@ -1,0 +1,24 @@
+KEY ENERGY STATISTICS
+7
+GHG Emission by Fuel Type
+MtCO2e
+Sector and Activity
+2023
+2024
+GR
+Liquid Fossils (Oil) 
+55.70 
+57.89 
+3.9%
+Solid Fossils (Coal)
+90.15 
+97.10 
+7.7%
+Gaseous Fossil (Natural Gas)
+5.90 
+7.14 
+21.0%
+TOTAL
+ 151.75 
+ 162.13 
+6.8%

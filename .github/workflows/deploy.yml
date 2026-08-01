@@ -1,0 +1,48 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set image tags
+        run: |
+          echo "SHA_TAG=${GITHUB_SHA::8}" >> $GITHUB_ENV
+
+      - name: Build and push images
+        run: |
+          echo "${{ secrets.DO_REGISTRY_TOKEN }}" | docker login -u ${{ secrets.DO_REGISTRY_USER }} --password-stdin
+
+          docker build -f deploy/backend/Dockerfile \
+            -t ${{ secrets.DO_REGISTRY }}/lumi-backend:latest \
+            -t ${{ secrets.DO_REGISTRY }}/lumi-backend:${{ env.SHA_TAG }} .
+          docker build -f deploy/frontend/Dockerfile \
+            -t ${{ secrets.DO_REGISTRY }}/lumi-frontend:latest \
+            -t ${{ secrets.DO_REGISTRY }}/lumi-frontend:${{ env.SHA_TAG }} .
+
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-backend:latest
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-backend:${{ env.SHA_TAG }}
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-frontend:latest
+          docker push ${{ secrets.DO_REGISTRY }}/lumi-frontend:${{ env.SHA_TAG }}
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DO_DROPLET_IP }}
+          username: ${{ secrets.DO_SSH_USER }}
+          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/lumi
+            export LUMI_IMAGE_TAG=${{ env.SHA_TAG }}
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod pull
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d
+            docker image prune -f

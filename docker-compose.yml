@@ -1,0 +1,47 @@
+# LUMI — docker-compose for local development parity
+# Usage: docker compose up -d
+# Backend runs on :8080, Frontend on :5173 (dev) or nginx :80 (prod)
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: deploy/backend/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; r=httpx.get('http://localhost:8080/api/v1/health/'); r.raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/frontend/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Full-stack with nginx reverse proxy (use: docker compose -f docker-compose.yml -f docker-compose.prod.yml up)
+  nginx:
+    build:
+      context: .
+      dockerfile: deploy/nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    profiles:
+      - prod
+    restart: unless-stopped

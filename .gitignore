@@ -1,7 +1,8 @@
 .env
+.env.*
+lumi_oauth.json
 altea-booking-system-9bb45fa21aeb.json
 client_secret_64241280734-dfat02rr7fc1q48u898aiqb1fgij9t5d.apps.googleusercontent.com.json
-.env
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -20,6 +21,8 @@ downloads/
 eggs/
 .eggs/
 lib/
+!react-frontend/src/lib/
+!react-frontend/src/lib/utils.js
 lib64/
 parts/
 sdist/
@@ -219,3 +222,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / frontend
+node_modules/
+react-frontend/node_modules/
+react-frontend/dist/
+react-frontend/.vite/
+
+#runtime data
+scraped_data/runtime/

@@ -1,0 +1,96 @@
+
+============================================================
+Test 1 ΓÇö Solar budget
+============================================================
+Retrieved 5 chunks
+  1. [solar/installation_cost] score=0.6701
+     Solar installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 10,606 (median PHP 1,687)....
+  2. [solar/equipment_cost] score=0.5933
+     Solar panel equipment cost: Prices range from PHP 6 to PHP 473,224. Median PHP 1,291, average PHP 5,782. Based on 3611 product listings. Sources: amaz...
+  3. [solar/maintenance_cost] score=0.5718
+     Solar maintenance cost: Annual maintenance for residential solar is typically 0.5-1% of total system cost per year. Key tasks include panel cleaning (...
+  4. [solar/equipment_cost] score=0.5664
+     Solar generator equipment cost: Prices range from PHP 150 to PHP 126,105. Median PHP 5,294, average PHP 16,817. Based on 30 product listings. Sources:...
+  5. [solar/equipment_cost] score=0.5494
+     Solar inverter equipment cost: Prices range from PHP 5 to PHP 507,541. Median PHP 15,816, average PHP 44,333. Based on 749 product listings. Sources: ...
+
+Prompt length: 4431 chars
+Prompt snippet (first 800 chars):
+You are LUMI, an AI assistant for renewable energy analysis in the Philippines.
+
+GROUNDING RULES (STRICT):
+1. ALL cost figures, price ranges, and equipment names MUST come from the RETRIEVED KNOWLEDGE below.
+2. If the retrieved knowledge does not contain a specific number, say soΓÇödo NOT hallucinate a price.
+3. When giving budgets, cite the renewable type and category (e.g., 'solar panel equipment cost', 'wind installation cost').
+4. Use the ECOSIM DATA to tailor the recommendation to the municipality's climate and generation potential.
+5. Do not use your internal parametric knowledge for Philippine-specific pricing.
+
+OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:
+{
+  "recommended_energy_source": "solar|wind|hydro",
+  "estimated_budget": {
+    "equipment": ["item: price ra
+
+============================================================
+Test 2 ΓÇö Hydro equipment
+============================================================
+Retrieved 5 chunks
+  1. [hydro/components] score=0.7626
+     Hydro system required components: intake/weir structure, trash rack, penstock (PVC or steel pipe), forebay tank with overflow, turbine (Pelton, Franci...
+  2. [hydro/equipment_cost] score=0.5107
+     Product: Wind generator, 5V/12V/80V Micro Hydro Water Generator Flow Pump Hydroelectric Power Energy,for Home Boat Marine(F50-12V With voltage regulat...
+  3. [hydro/capacity_info] score=0.5034
+     Hydro capacity assumptions: Micro-hydro output depends on head (vertical drop) and flow rate. Power (kW) Γëê 9.81 ├ù flow (m┬│/s) ├ù head (m) ├ù system effi...
+  4. [wind/components] score=0.4817
+     Wind system required components: rotor blades, permanent-magnet generator or alternator, tower (guyed or freestanding), charge controller or grid-tie ...
+  5. [hydro/equipment_cost] score=0.4811
+     Product: DC Miniature Hand-Cranked Generator, Portable Dynamotor for Backup Power, Charging, Teaching, and Hydroelectric Use. Type: hydro generator. P...
+
+Prompt length: 4556 chars
+Prompt snippet (first 800 chars):
+You are LUMI, an AI assistant for renewable energy analysis in the Philippines.
+
+GROUNDING RULES (STRICT):
+1. ALL cost figures, price ranges, and equipment names MUST come from the RETRIEVED KNOWLEDGE below.
+2. If the retrieved knowledge does not contain a specific number, say soΓÇödo NOT hallucinate a price.
+3. When giving budgets, cite the renewable type and category (e.g., 'solar panel equipment cost', 'wind installation cost').
+4. Use the ECOSIM DATA to tailor the recommendation to the municipality's climate and generation potential.
+5. Do not use your internal parametric knowledge for Philippine-specific pricing.
+
+OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:
+{
+  "recommended_energy_source": "solar|wind|hydro",
+  "estimated_budget": {
+    "equipment": ["item: price ra
+
+============================================================
+Test 3 ΓÇö Solar vs Wind
+============================================================
+Retrieved 5 chunks
+  1. [all/comparison] score=0.6725
+     Solar vs Wind vs Hydro cost comparison (Philippines context): Solar has the lowest upfront cost per kW installed (PHP ~60,000-80,000/kW) and the wides...
+  2. [solar/equipment_cost] score=0.5125
+     Product: Small Horizontal Axis Wind Turbine Generator 100W 200W 300W 400W for Home Use Street Lighting Wind And Solar Complementary Light. Type: solar...
+  3. [wind/components] score=0.481
+     Wind system required components: rotor blades, permanent-magnet generator or alternator, tower (guyed or freestanding), charge controller or grid-tie ...
+  4. [solar/equipment_cost] score=0.4794
+     Product: Wind power generator home 220V small wind energy high power 12v24v permanent magnet wind-solar power generation complementary system.. Type: ...
+  5. [solar/equipment_cost] score=0.4788
+     Product: 400W Wind Turbine Generator AC 12Volt Economy 3 Bl es Windmill for Wind Solar Hybrid System 2.5m/s Start Wind Speed,400w Windmill Generator f...
+
+Prompt length: 4725 chars
+Prompt snippet (first 800 chars):
+You are LUMI, an AI assistant for renewable energy analysis in the Philippines.
+
+GROUNDING RULES (STRICT):
+1. ALL cost figures, price ranges, and equipment names MUST come from the RETRIEVED KNOWLEDGE below.
+2. If the retrieved knowledge does not contain a specific number, say soΓÇödo NOT hallucinate a price.
+3. When giving budgets, cite the renewable type and category (e.g., 'solar panel equipment cost', 'wind installation cost').
+4. Use the ECOSIM DATA to tailor the recommendation to the municipality's climate and generation potential.
+5. Do not use your internal parametric knowledge for Philippine-specific pricing.
+
+OUTPUT FORMAT: Return ONLY valid JSON with this exact structure:
+{
+  "recommended_energy_source": "solar|wind|hydro",
+  "estimated_budget": {
+    "equipment": ["item: price ra

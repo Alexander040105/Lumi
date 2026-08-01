@@ -1,0 +1,1348 @@
+[
+  {
+    "content": "fuels was Others (MB), to ktoe was 0.1233.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 0,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Ricehull (MT), to ktoe was 0.000345.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 1,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Charcoal (MT), to ktoe was 0.0006.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 2,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Fuelwood (MT), to ktoe was 0.000329.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 3,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Bagasse (MT), to ktoe was 0.000426.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 4,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Agriwaste (MT), to ktoe was 0.000329.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 5,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Animal Waste (MT), to ktoe was 0.000516.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 6,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Ethanol (BBL), to ktoe was 8.9e-05.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 7,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was CME (BBL), to ktoe was 0.00013.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 8,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Hydro (GWh), to ktoe was 0.086.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 9,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Geothermal (GWh), to ktoe was 0.86.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 10,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Wind (GWh), to ktoe was 0.86.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 11,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuels was Solar (GWh), to ktoe was 0.86.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_001.csv",
+      "row_id": 12,
+      "columns": [
+        "fuels",
+        "to_ktoe",
+        "to_ktoe_numeric"
+      ]
+    }
+  },
+  {
+    "content": "condensate was Dependable  \nCapacity, liquid hydrocarbons separated from gas production was The capacity that can be relied upon to carry \nsystem load for a specified time interval and \nperiod,  provide  assumed \nreserve,  and/or \nmeet firm power obligations..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_065_p53.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_002.csv",
+      "row_id": 0,
+      "columns": [
+        "condensate",
+        "liquid_hydrocarbons_separated_from_gas_production"
+      ]
+    }
+  },
+  {
+    "content": "condensate was Electrification, liquid hydrocarbons separated from gas production was Electrification \nis  either  done \nthrough  grid \nor  off-grid  connection. \n  When  a  barangay \nis  provided  with  electricity \nthrough  grid \nconnection, it means that the distribution line \nhas reached the barangay proper.  It may also \nmean  that  almost  50.0  percent  of  potential \nhouseholds  in  the  barangay  are  connected \nto  a  distribution  utility  (DU)  (i.e.  MERALCO) \nor  at  least  one  is  connected  to  other  DUs. \nOff-grid  connection  pertains  to  a  barangay \nhaving about 20 to 30 households availing the \nconnection..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_065_p53.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_002.csv",
+      "row_id": 1,
+      "columns": [
+        "condensate",
+        "liquid_hydrocarbons_separated_from_gas_production"
+      ]
+    }
+  },
+  {
+    "content": "condensate was Energy Intensity, liquid hydrocarbons separated from gas production was Calculated  as  units  of  energy  (million  tons \nof  oil  equivalent,  MTOE)  per  unit  of  GDP  (in \nbillion pesos)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_065_p53.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_002.csv",
+      "row_id": 2,
+      "columns": [
+        "condensate",
+        "liquid_hydrocarbons_separated_from_gas_production"
+      ]
+    }
+  },
+  {
+    "content": "condensate was Energy Per\nCapita, liquid hydrocarbons separated from gas production was Amount  of  energy  used  per  person.  It \nis \ncalculated  as  total  primary  energy  demand \n(in MTOE) over population (in millions)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_065_p53.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_002.csv",
+      "row_id": 3,
+      "columns": [
+        "condensate",
+        "liquid_hydrocarbons_separated_from_gas_production"
+      ]
+    }
+  },
+  {
+    "content": "energy self sufficiency was Energy to GDP \nElasticity, the ratio of the country s domestic energy supply to total supply measures the d was The  percentage  change  in  energy  supply  to \nachieve one percent change in national GDP. \nCalculated as the ratio of growth of primary \nenergy demand over GDP growth..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_003.csv",
+      "row_id": 0,
+      "columns": [
+        "energy_self_sufficiency",
+        "the_ratio_of_the_country_s_domestic_energy_supply_to_total_supply_measures_the_d"
+      ]
+    }
+  },
+  {
+    "content": "energy self sufficiency was Gas\n(or Natural Gas), the ratio of the country s domestic energy supply to total supply measures the d was A naturally occurring mixture of hydrocarbon \nand \nnon-hydrocarbon \ngases \nin \nporous \nformations beneath the earth's surface, often \nin  association  with  petroleum.  The  principal \nconstituent is methane..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_003.csv",
+      "row_id": 1,
+      "columns": [
+        "energy_self_sufficiency",
+        "the_ratio_of_the_country_s_domestic_energy_supply_to_total_supply_measures_the_d"
+      ]
+    }
+  },
+  {
+    "content": "energy self sufficiency was Geothermal \nEnergy, the ratio of the country s domestic energy supply to total supply measures the d was Energy generated by heat stored in the earth, \nor  the  collection  of  absorbed  heat  derived \nfrom  underground \nin  the  atmosphere  and \noceans..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_003.csv",
+      "row_id": 2,
+      "columns": [
+        "energy_self_sufficiency",
+        "the_ratio_of_the_country_s_domestic_energy_supply_to_total_supply_measures_the_d"
+      ]
+    }
+  },
+  {
+    "content": "energy self sufficiency was Gross Domestic \nProduct (GDP), the ratio of the country s domestic energy supply to total supply measures the d was Total  market  value  of  all  final  goods  and \nservices  produced  within  the  country \nin  a \ngiven period of time (usually a calendar year), \nor the sum of value added of all final goods \nand  services  produced  within  a  country  in  a \ngiven period of time..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_003.csv",
+      "row_id": 3,
+      "columns": [
+        "energy_self_sufficiency",
+        "the_ratio_of_the_country_s_domestic_energy_supply_to_total_supply_measures_the_d"
+      ]
+    }
+  },
+  {
+    "content": "energy self sufficiency was Gross National \nProduct (GNP), the ratio of the country s domestic energy supply to total supply measures the d was The  value  of  all  (final)  goods  and  services \nproduced in a country in one year, plus income \nearned  by  its  citizens  abroad,  minus  income \nearned by foreigners in the country..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_003.csv",
+      "row_id": 4,
+      "columns": [
+        "energy_self_sufficiency",
+        "the_ratio_of_the_country_s_domestic_energy_supply_to_total_supply_measures_the_d"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Indigenous \nEnergy, also called hydraulic power or water power derived from the force or energy of m was Refers \nto \nall \nenergy \nforms \nproduced/\nsourced  from  within  the  country’s  natural \nresources..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 0,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Installed Capacity, also called hydraulic power or water power derived from the force or energy of m was The  total  of  the  capacities  shown  on  the \nnameplates  of  the  generating  units \nin  a \npowerplant..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 1,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Renewable \nEnergy, also called hydraulic power or water power derived from the force or energy of m was Energy  generated  from  natural  resources \nwhich  are  naturally  replenished.  It  includes \nsolar  power,  wind  power,  hydroelectricity, \nmicro hydro, biomass and biofuels..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 2,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Run of Mine, also called hydraulic power or water power derived from the force or energy of m was Coal directly coming from the mine..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 3,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Total Final Energy \nConsumption \n(TFEC), also called hydraulic power or water power derived from the force or energy of m was The sum of all energy forms consumed/used \nby different economic sectors..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 4,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Total Primary \nEnergy Demand \n(TPED), also called hydraulic power or water power derived from the force or energy of m was The  sum  of  total  final  consumption,  power \ngeneration,  other  energy  sector  (own  use \nand losses)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 5,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "hydropower was Total Primary \nEnergy Supply \n(TPES), also called hydraulic power or water power derived from the force or energy of m was The sum of all energy derived from domestic \nsources  (indigeneous,  renewable),  imported \nfrom outside the country, stock change (+/-) \nand export (-)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_004.csv",
+      "row_id": 6,
+      "columns": [
+        "hydropower",
+        "also_called_hydraulic_power_or_water_power_derived_from_the_force_or_energy_of_m"
+      ]
+    }
+  },
+  {
+    "content": "nan was 10789.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 0,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was (GWh).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 1,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Hydropower.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 2,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Installed Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 3,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "nan was 3836.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 4,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 5,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Dependable Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 6,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "nan was 3485.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 7,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 8,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Electricity Generation.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 9,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "nan was 10909.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 10,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was (GWh).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 11,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Wind.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 12,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Installed Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 13,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 14,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Dependable Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 15,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 16,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Electricity Generation.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 17,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "nan was 1239.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 18,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was (GWh).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_005.csv",
+      "row_id": 19,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Energy Self, the ratio of the country s domestic energy was supply  to  total  supply;  measures  the  degree.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Sufficiency, the ratio of the country s domestic energy was at which domestic energy forms can support.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was total energy demand..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was The  percentage  change  in  energy  supply  to.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Energy to GDP, the ratio of the country s domestic energy was achieve one percent change in national GDP..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Elasticity, the ratio of the country s domestic energy was Calculated as the ratio of growth of primary.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was energy demand over GDP growth..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was A naturally occurring mixture of hydrocarbon.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was and \nnon-hydrocarbon \ngases \nin \nporous.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gas.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was formations beneath the earth's surface, often.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was (or Natural Gas).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was in  association  with  petroleum.  The  principal.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was constituent is methane..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was Energy generated by heat stored in the earth,.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Geothermal, the ratio of the country s domestic energy was or  the  collection  of  absorbed  heat  derived.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Energy, the ratio of the country s domestic energy was from  underground \nin  the  atmosphere  and.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was oceans..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 17,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was Total  market  value  of  all  final  goods  and.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 18,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was services  produced  within  the  country \nin  a.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 19,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gross Domestic, the ratio of the country s domestic energy was given period of time (usually a calendar year),.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 20,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Product (GDP), the ratio of the country s domestic energy was or the sum of value added of all final goods.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 21,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was and  services  produced  within  a  country  in  a.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 22,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was given period of time..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 23,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was The  value  of  all  (final)  goods  and  services.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 24,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gross National, the ratio of the country s domestic energy was produced in a country in one year, plus income.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 25,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Product (GNP), the ratio of the country s domestic energy was earned  by  its  citizens  abroad,  minus  income.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 26,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "the ratio of the country s domestic energy was earned by foreigners in the country..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_006.csv",
+      "row_id": 27,
+      "columns": [
+        "unnamed_0",
+        "the_ratio_of_the_country_s_domestic_energy"
+      ]
+    }
+  },
+  {
+    "content": "nan was resources..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 0,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was The  total  of  the  capacities  shown  on  the.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 1,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Installed Capacity, nan was nameplates  of  the  generating  units \nin  a.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 2,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was powerplant..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 3,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was Energy  generated  from  natural  resources.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 4,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Renewable, nan was which  are  naturally  replenished.  It  includes.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 5,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Energy, nan was solar  power,  wind  power,  hydroelectricity,.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 6,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was micro hydro, biomass and biofuels..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 7,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Run of Mine, nan was Coal directly coming from the mine..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 8,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Total Final Energy.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 9,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was The sum of all energy forms consumed/used.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 10,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Consumption.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 11,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was by different economic sectors..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 12,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was (TFEC).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 13,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Total Primary, nan was The  sum  of  total  final  consumption,  power.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 14,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Energy Demand, nan was generation,  other  energy  sector  (own  use.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 15,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was (TPED), nan was and losses)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 16,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was The sum of all energy derived from domestic.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 17,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Total Primary.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 18,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was sources  (indigeneous,  renewable),  imported.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 19,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was Energy Supply.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 20,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was from outside the country, stock change (+/-).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 21,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "energy was (TPES).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 22,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was and export (-)..",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "category": "hydro",
+      "table": "hydro_consolidated_007.csv",
+      "row_id": 23,
+      "columns": [
+        "energy",
+        "nan"
+      ]
+    }
+  }
+]

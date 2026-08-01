@@ -1,0 +1,104 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+25
+GHG Reduction Measures
+2023
+Reduction 
+Impact* 
+%
+2024
+Reduction 
+Impact* 
+%
+% 
+Change
+Demand side
+12,805.71
+7.61
+12,581.48
+7.03
+-1.75
+Efficiency in Electricity Consumption (EEC)
+3,806.59
+2.26
+3,711.29
+2.07
+-2.50
+Efficiency in Fossil Fuel Consumption (EEF)
+6,814.23
+4.05
+6,620.82
+3.70
+-2.84
+Biofuel
+2,184.89
+1.30
+2,249.38
+1.26
+2.95
+CNG/NG
+0.00
+0.00
+0.00
+0.00
+-2.42
+Supply side
+ 
+ 
+ 
+ 
+Fuel Diversification in Power Generation @ 2018 
+GDP & EF**
+3,801.20
+2.26
+4,210.61
+2.35
+10.77
+Total Avoidance (Demand + Supply - EEC)
+16,606.91
+9.86
+16,792.09
+9.38
+1.12
+Actual GHG Emission
+151,749.51
+ 
+162,133.22
+ 
+6.84
+Hypothetical GHG Emission (Actual + Total 
+Avoidance)
+168,356.42
+ 
+178,925.31
+ 
+6.28
+*Refers to the percent reduced emission (Total Avoidance / Hypothetical GHG Emission x 100)
+** Includes efficiency in Power Generation and EEC
+The Philippine economy continued to show resilience and steady momentum, posting 
+a slightly faster gross domestic product (GDP) growth of 5.7 percent in 2024 compared 
+to the previous year’s 5.5 percent. Despite this modest acceleration, the country 
+ranked as the second fastest growing economy in the region – next to Vietnam and 
+ahead of its other regional peers23. This underscored the domestic economy’s ability 
+to sustain growth amidst persistent external challenges, including subdued global 
+demand, climate-related disruptions, and geopolitical tensions reminiscent of 2023.
+The sectoral gross value added (GVA) of industry and services remained the strongest 
+engines of growth for the year, expanding by 6.7 percent and 5.6 percent, respectively. 
+The industry benefitted from recovery in manufacturing and public infrastructure 
+while the services sector remained buoyant with thriving information technology and 
+business process management (IT-BPM) activities24 and domestic tourism25. On the 
+other hand, the agriculture sector contracted by 1.5 percent, weighed down by back-
+to-back typhoons26 that impacted northern Luzon, coupled with the prevalence of 
+animal diseases that disrupted the sector’s value chains during the year.
+On the expenditure side, capital formation, which includes public and private 
+construction, was the largest contributor to economic growth as it registered a 7.7 
+percent expansion in 2024. Meanwhile, government spending grew by 7.3 percent, while
+23	 2024 Beyond Boundaries Annual Report. (2024). Bangko Sentral ng Pilipinas (BSP). https://www.bsp.gov.ph/Media_And_Research/Annual%20Report/Ann­
+Rep_2024.pdf 
+24	 IT & Business Process Association Philippines (IBPAP). (2025, January 16). Philippine IT-BPM Industry Caps 2024 with Milestone Achievements. https://
+ibpap.org/news-room/21
+25	 Department of Tourism. (2025, January 13). Philippines hits record high tourism revenue in 2024. https://beta.tourism.gov.ph/news_and_updates/phl-hits-
+record-high-tourism-revenue-in-2024/
+26	 Cagayan’s agri damage from 4 typhoons reaches P1.4-B. (n.d.). Philippine News Agency. https://www.pna.gov.ph/articles/1237983
+Table 3. CO2 Avoidance from the Mitigation Measures (in ktCO2e)
+V. ENERGY – ECONOMY AND 
+ENVIRONMENTAL INDICATORS                               

@@ -1,0 +1,664 @@
+import React, { useEffect, useMemo, useState } from "react";
+import { MapPin, Layers, Map as MapIcon } from "lucide-react";
+import { useI18n } from "@/i18n";
+
+const METRIC_KEYS = [
+  "renewable_potential",
+  "solar_potential",
+  "wind_potential",
+  "hydro_potential",
+  "geothermal_potential",
+];
+
+const LEVEL_KEYS = ["province", "municipality"];
+
+const SUITABILITY_METRICS = [
+  "renewable_potential",
+  "solar_potential",
+  "wind_potential",
+  "hydro_potential",
+  "geothermal_potential",
+];
+
+function isSuitabilityMetric(metric) {
+  return SUITABILITY_METRICS.includes(metric);
+}
+
+function getColorForValue(value) {
+  if (value === null || value === undefined) {
+    return "var(--map-no-data)";
+  }
+  // 5-tier classification for all suitability metrics
+  if (value >= 81) return "var(--map-very-high)";
+  if (value >= 61) return "var(--map-high)";
+  if (value >= 41) return "var(--map-moderate)";
+  if (value >= 21) return "var(--map-low)";
+  return "var(--map-very-low)";
+}
+
+function getClassificationLabel(value, t) {
+  let key;
+  if (value === null || value === undefined) key = "noData";
+  else if (value >= 81) key = "veryHigh";
+  else if (value >= 61) key = "high";
+  else if (value >= 41) key = "moderate";
+  else if (value >= 21) key = "low";
+  else key = "veryLow";
+  return t(`energyHub.map.classification.${key}`);
+}
+
+function formatFactors(factors) {
+  // Supabase JSONB may return a string; parse lazily
+  let parsed = factors;
+  if (typeof factors === "string") {
+    try { parsed = JSON.parse(factors); } catch { return factors; }
+  }
+  if (!parsed || typeof parsed !== "object") return "";
+  const parts = [];
+  for (const [key, val] of Object.entries(parsed)) {
+    if (val !== null && val !== undefined) {
+      const label = key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+      parts.push(`${label}: ${val}`);
+    }
+  }
+  return parts.join("<br/>");
+}
+
+// ---------------------------------------------------------------------------
+// GeoJSON localStorage cache — avoids re-downloading the large polygon file
+// ---------------------------------------------------------------------------
+const GEOJSON_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+async function fetchGeoJsonCached(url) {
+  const cacheKey = `lumi_geojson_${url}`;
+  try {
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+      const { ts, data } = JSON.parse(cached);
+      if (Date.now() - ts < GEOJSON_CACHE_TTL_MS) {
+        return data;
+      }
+    }
+  } catch {
+    // ignore parse errors
+  }
+  const resp = await fetch(url);
+  if (!resp.ok) return null;
+  const data = await resp.json();
+  try {
+    localStorage.setItem(cacheKey, JSON.stringify({ ts: Date.now(), data }));
+  } catch {
+    // ignore quota errors
+  }
+  return data;
+}
+
+function removeAccents(str) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function normalizeGeoName(name) {
+  if (!name) return "";
+  return removeAccents(name)
+    .toLowerCase()
+    .trim()
+    .replace(/^city of\s+/i, "")
+    .replace(/^municipality of\s+/i, "")
+    .replace(/\s+capital$/i, "")
+    .replace(/\s+\(capital\)$/i, "")
+    .replace(/\bsta\.?\b/g, "santa")
+    .replace(/\bsto\.?\b/g, "santo")
+    .replace(/\bsan\b/g, "san")
+    .replace(/[-']/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// ---------------------------------------------------------------------------
+// Coordinate-based polygon matching — eliminates name-mismatch grey areas
+// ---------------------------------------------------------------------------
+function computeCentroid(geometry) {
+  if (!geometry?.coordinates) return { lat: 0, lon: 0 };
+  const coords = geometry.coordinates;
+  const lats = [];
+  const lons = [];
+
+  function visit(c) {
+    if (Array.isArray(c[0])) {
+      c.forEach(visit);
+    } else {
+      lons.push(c[0]);
+      lats.push(c[1]);
+    }
+  }
+  visit(coords);
+
+  if (lats.length === 0) return { lat: 0, lon: 0 };
+  const lat = lats.reduce((a, b) => a + b, 0) / lats.length;
+  const lon = lons.reduce((a, b) => a + b, 0) / lons.length;
+  return { lat, lon };
+}
+
+function matchByCoordinates(geojson, data, maxDeg = 0.8) {
+  // maxDeg ≈ 0.8° ≈ 90 km radius — generous enough for municipality centroids
+  if (!geojson?.features || !data?.length) return {};
+
+  // 1. Pre-compute centroids (skip null geometries), build lookup by original index
+  const centroidByIdx = new Map();
+  const centroidList = [];
+  geojson.features.forEach((f, idx) => {
+    const c = computeCentroid(f.geometry);
+    if (c.lat !== 0 || c.lon !== 0) {
+      const entry = { idx, ...c };
+      centroidByIdx.set(idx, entry);
+      centroidList.push(entry);
+    }
+  });
+
+  // 2. For each data item, find nearest centroid
+  const map = {};
+  for (const item of data) {
+    if (item.lat == null || item.lon == null) continue;
+
+    let bestIdx = -1;
+    let bestDist = Infinity;
+
+    for (const c of centroidList) {
+      const dLat = c.lat - item.lat;
+      const dLon = c.lon - item.lon;
+      const dist = dLat * dLat + dLon * dLon;
+      if (dist < bestDist) {
+        bestDist = dist;
+        bestIdx = c.idx;
+      }
+    }
+
+    if (bestIdx >= 0 && bestDist <= maxDeg * maxDeg) {
+      // Prefer coordinate match, but if a feature already has a closer item, keep closer
+      const existing = map[bestIdx];
+      if (!existing) {
+        map[bestIdx] = item;
+      } else {
+        const cent = centroidByIdx.get(bestIdx);
+        if (cent) {
+          const dLatE = cent.lat - existing.lat;
+          const dLonE = cent.lon - existing.lon;
+          const distE = dLatE * dLatE + dLonE * dLonE;
+          if (bestDist < distE) {
+            map[bestIdx] = item;
+          }
+        }
+      }
+    }
+  }
+
+  return map;
+}
+
+function FallbackMapGrid({ data, metric, level }) {
+  const { t } = useI18n();
+  if (!data || data.length === 0) return null;
+  const labelKey = level === "municipality" ? "municipality" : "province";
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+      {data.map((item, idx) => {
+        const hasData = item.value !== null && item.value !== undefined;
+        const displayName = item[labelKey] || item.province || item.region;
+        return (
+          <div
+            key={`${item.region}-${item.province || idx}-${item.municipality || ""}`}
+            className="rounded-lg border p-3 text-center transition-transform hover:scale-[1.02]"
+            style={{ borderLeft: `4px solid ${getColorForValue(item.value)}` }}
+          >
+            <p className="text-xs text-muted-foreground truncate">
+              {displayName}
+            </p>
+            <p className="mt-1 text-lg font-bold" style={{ color: getColorForValue(item.value) }}>
+              {hasData ? `${item.value}` : t("energyHub.map.na")}
+              {hasData && <span className="text-xs ml-0.5">{t("energyHub.map.unit")}</span>}
+            </p>
+            {hasData && (
+              <p className="text-[10px] text-muted-foreground">{getClassificationLabel(item.value, t)}</p>
+            )}
+            <p className="text-[10px] text-muted-foreground uppercase tracking-wide">{t(`energyHub.map.metrics.${metric}`)}</p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} }) {
+  const { t } = useI18n();
+  const [L, setL] = useState(null);
+  const [RL, setRL] = useState(null);
+  const [rawGeojson, setRawGeojson] = useState(null);
+  const [volcanoGeojson, setVolcanoGeojson] = useState(null);
+
+  const geojsonUrl =
+    level === "municipality"
+      ? "/philippine_geojson_file_per_provinces.min.json"
+      : "/philippine_geojson_file_per_region.json";
+
+  const nameProperty = level === "municipality" ? "adm3_en" : "adm2_en";
+
+  // 1. Name-based lookup (fallback)
+  const nameLookup = useMemo(() => {
+    const map = {};
+    for (const item of data) {
+      const rawName = level === "municipality"
+        ? item.municipality || ""
+        : item.province || "";
+      const key = normalizeGeoName(rawName);
+      const altKey = rawName.toLowerCase().trim();
+      if (key) {
+        const entry = {
+          value: item.value,
+          classification: item.classification,
+          factors: item.factors,
+          province: item.province,
+          municipality: item.municipality,
+        };
+        map[key] = entry;
+        map[altKey] = entry;
+      }
+    }
+    return map;
+  }, [data, level]);
+
+  // 2. Coordinate-based matching (primary) + name fallback
+  const enrichedGeojson = useMemo(() => {
+    if (!rawGeojson?.features) return null;
+
+    const coordMap = matchByCoordinates(rawGeojson, data);
+
+    const features = rawGeojson.features.map((feature, idx) => {
+      // Try coordinate match first
+      let matched = coordMap[idx];
+
+      // Fallback to name match
+      if (!matched) {
+        const name = normalizeGeoName(feature.properties?.[nameProperty] || "");
+        matched = nameLookup[name];
+      }
+
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          _lumi_data: matched || null,
+        },
+      };
+    });
+
+    return { ...rawGeojson, features };
+  }, [rawGeojson, data, nameLookup, nameProperty]);
+
+  // Load volcano GeoJSON once
+  useEffect(() => {
+    let mounted = true;
+    fetchGeoJsonCached("/geothermal_volcanoes.json")
+      .then((volcanoData) => {
+        if (mounted) setVolcanoGeojson(volcanoData);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Load Leaflet + GeoJSON once per level change
+  useEffect(() => {
+    let mounted = true;
+    setRawGeojson(null);
+    Promise.all([
+      import("leaflet"),
+      import("react-leaflet"),
+      fetchGeoJsonCached(geojsonUrl),
+    ])
+      .then(([leafletMod, reactLeafletMod, geoData]) => {
+        if (!mounted) return;
+        const leaflet = leafletMod.default || leafletMod;
+        const rl = reactLeafletMod;
+        setL(leaflet);
+        setRL(rl);
+        setRawGeojson(geoData);
+      })
+      .catch(() => {
+        // Silently fall back
+      });
+    return () => {
+      mounted = false;
+    };
+  }, [geojsonUrl]);
+
+  if (!L || !RL || !enrichedGeojson) {
+    return <FallbackMapGrid data={data} metric={metric} level={level} />;
+  }
+
+  const { MapContainer, TileLayer, GeoJSON, ImageOverlay } = RL;
+
+  const styleFeature = (feature) => {
+    const item = feature.properties?._lumi_data;
+    const val = item?.value ?? null;
+    return {
+      fillColor: getColorForValue(val),
+      weight: level === "municipality" ? 0.6 : 1.5,
+      opacity: 1,
+      color: "var(--border)",
+      dashArray: "",
+      fillOpacity: level === "municipality" ? 0.6 : 0.65,
+    };
+  };
+
+  const onEachFeature = (feature, layer) => {
+    const geoName = feature.properties?.[nameProperty] || t("energyHub.map.unknown");
+    const item = feature.properties?._lumi_data;
+    const hasData = item && item.value !== null && item.value !== undefined;
+    const displayName = item?.municipality || geoName;
+    const province = item?.province || "";
+
+    let tooltipHtml = `<div style="font-family:sans-serif;font-size:13px;line-height:1.4;min-width:160px">
+      <div style="font-size:14px;font-weight:600;color:var(--foreground);margin-bottom:2px">${displayName}</div>`;
+
+    if (level === "municipality" && province) {
+      tooltipHtml += `<div style="color:var(--muted-foreground);font-size:12px;margin-bottom:4px">${province}</div>`;
+    }
+
+    if (hasData) {
+      const unit = t("energyHub.map.unit");
+      const color = getColorForValue(item.value);
+      tooltipHtml += `<div style="margin-top:4px">
+        <span style="color:var(--muted-foreground);font-size:12px">${t(`energyHub.map.metrics.${metric}`)}:</span>
+        <strong style="font-size:14px;color:${color}">${item.value.toLocaleString()}${unit}</strong>
+      </div>`;
+      tooltipHtml += `<div style="margin-top:2px;font-size:12px;color:${color};font-weight:500">${getClassificationLabel(item.value, t)}</div>`;
+      const factorsHtml = formatFactors(item.factors);
+      if (factorsHtml) {
+        tooltipHtml += `<div style="margin-top:6px;padding-top:4px;border-top:1px solid var(--border);color:var(--muted-foreground);font-size:11px;line-height:1.5">${factorsHtml}</div>`;
+      }
+    } else {
+      tooltipHtml += `<div style="margin-top:4px;color:var(--map-no-data);font-size:12px">${t("energyHub.map.classification.noData")}</div>`;
+    }
+
+    tooltipHtml += `</div>`;
+    layer.bindTooltip(tooltipHtml, { sticky: true, className: "lumi-tooltip" });
+  };
+
+  const showVolcanoes = overlays.volcanoes?.visible;
+
+  const volcanoPointToLayer = (feature, latlng) => {
+    return L.circleMarker(latlng, {
+      radius: 6,
+      color: "var(--chart-geothermal)",
+      fillColor: "var(--chart-geothermal)",
+      fillOpacity: 0.8,
+      weight: 2,
+    });
+  };
+
+  const onEachVolcano = (feature, layer) => {
+    const name = feature.properties?.name || t("energyHub.map.volcano");
+    const province = feature.properties?.province || "";
+    const tooltipHtml = `<div style="font-family:sans-serif;font-size:13px;line-height:1.4;min-width:140px">
+      <div style="font-size:14px;font-weight:600;color:var(--foreground)">${name}</div>
+      ${province ? `<div style="color:var(--muted-foreground);font-size:12px">${province}</div>` : ""}
+    </div>`;
+    layer.bindTooltip(tooltipHtml, { sticky: true, className: "lumi-tooltip" });
+  };
+
+  // Filter operating plants for markers
+  const showPlantMarkers = metric === "geothermal_potential";
+  const operatingPlants = geothermalPlants.filter((p) => p.status === "operating");
+
+  return (
+    <div className="rounded-xl border overflow-hidden" style={{ height: 480 }}>
+      <MapContainer
+        center={[12.8797, 121.774]}
+        zoom={level === "municipality" ? 7 : 6}
+        scrollWheelZoom={false}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        />
+        <GeoJSON data={enrichedGeojson} style={styleFeature} onEachFeature={onEachFeature} />
+        {showPlantMarkers && L && RL && operatingPlants.map((p) => {
+          const icon = L.divIcon({
+            className: "",
+            html: `<div style="width:14px;height:14px;border-radius:50%;background:var(--chart-geothermal);border:2px solid var(--map-marker-stroke);box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+          });
+          return (
+            <RL.Marker
+              key={p.project_name + (p.unit_name || "")}
+              position={[p.latitude, p.longitude]}
+              icon={icon}
+            >
+              <RL.Popup>
+                <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 160 }}>
+                  <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 4 }}>
+                    {p.project_name}
+                  </div>
+                  <div style={{ color: "var(--muted-foreground)", fontSize: 12 }}>
+                    {p.capacity_mw !== null && p.capacity_mw !== undefined ? `${p.capacity_mw} MW` : ""}
+                    {p.technology ? ` · ${p.technology}` : ""}
+                  </div>
+                  <div style={{ color: "var(--muted-foreground)", fontSize: 12, marginTop: 2 }}>
+                    {t("energyHub.map.status")}: <span style={{ color: "var(--primary)", fontWeight: 500 }}>{p.status}</span>
+                  </div>
+                  {p.wiki_url && (
+                    <div style={{ marginTop: 6 }}>
+                      <a
+                        href={p.wiki_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "var(--primary)", fontSize: 12 }}
+                      >
+                        {t("energyHub.map.viewOnGemWiki")}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </RL.Popup>
+            </RL.Marker>
+          );
+        })}
+        {/* Geothermal raster overlays (volcanoes, faults) */}
+        {overlays.volcanoes?.visible && overlays.volcanoes?.bounds && (
+          <ImageOverlay
+            url={overlays.volcanoes.url}
+            bounds={[
+              [overlays.volcanoes.bounds.south, overlays.volcanoes.bounds.west],
+              [overlays.volcanoes.bounds.north, overlays.volcanoes.bounds.east],
+            ]}
+            opacity={0.5}
+          />
+        )}
+        {overlays.faults?.visible && overlays.faults?.bounds && (
+          <ImageOverlay
+            url={overlays.faults.url}
+            bounds={[
+              [overlays.faults.bounds.south, overlays.faults.bounds.west],
+              [overlays.faults.bounds.north, overlays.faults.bounds.east],
+            ]}
+            opacity={0.5}
+          />
+        )}
+        {showVolcanoes && volcanoGeojson && (
+          <GeoJSON
+            data={volcanoGeojson}
+            pointToLayer={volcanoPointToLayer}
+            onEachFeature={onEachVolcano}
+          />
+        )}
+      </MapContainer>
+    </div>
+  );
+}
+
+function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapLoading = false, geothermalPlants = [] }) {
+  const { t } = useI18n();
+  const [leafletReady, setLeafletReady] = useState(false);
+  const [overlayManifest, setOverlayManifest] = useState(null);
+  const [showVolcanoes, setShowVolcanoes] = useState(false);
+  const [showFaults, setShowFaults] = useState(false);
+
+  useEffect(() => {
+    import("leaflet")
+      .then(() => setLeafletReady(true))
+      .catch(() => setLeafletReady(false));
+  }, []);
+
+  // Fetch overlay manifest once
+  useEffect(() => {
+    fetch("/geothermal_overlays.json")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setOverlayManifest(data))
+      .catch(() => setOverlayManifest(null));
+  }, []);
+
+  const data = mapData?.items || [];
+
+  const showSuitabilityLegend = isSuitabilityMetric(metric);
+  const isGeothermal = metric === "geothermal_potential";
+
+  const overlays = {
+    volcanoes: overlayManifest?.volcanoes
+      ? {
+          url: `/${overlayManifest.volcanoes.png_filename}`,
+          bounds: overlayManifest.volcanoes.bounds,
+          visible: showVolcanoes,
+        }
+      : null,
+    faults: overlayManifest?.faults
+      ? {
+          url: `/${overlayManifest.faults.png_filename}`,
+          bounds: overlayManifest.faults.bounds,
+          visible: showFaults,
+        }
+      : null,
+  };
+
+  return (
+    <div className="rounded-xl border bg-card p-6 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-primary" />
+            {t("energyHub.map.title")}
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            {t("energyHub.map.subtitle", { level: t(`energyHub.map.levels.${level}`) })}
+          </p>
+        </div>
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Level toggle */}
+          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1">
+            <MapIcon className="h-3.5 w-3.5 text-muted-foreground" />
+            <select
+              className="bg-transparent text-sm focus:outline-none"
+              value={level}
+              onChange={(e) => onLevelChange(e.target.value)}
+            >
+              {LEVEL_KEYS.map((key) => (
+                <option key={key} value={key}>
+                  {t(`energyHub.map.levels.${key}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Metric selector */}
+          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1">
+            <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+            <select
+              className="bg-transparent text-sm focus:outline-none"
+              value={metric}
+              onChange={(e) => onMetricChange(e.target.value)}
+            >
+              {METRIC_KEYS.map((key) => (
+                <option key={key} value={key}>
+                  {t(`energyHub.map.metrics.${key}`)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Overlay toggles (only when geothermal metric selected) */}
+          {isGeothermal && overlayManifest && (
+            <>
+              <button
+                type="button"
+                onClick={() => setShowVolcanoes((v) => !v)}
+                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                  showVolcanoes
+                    ? "bg-destructive/10 border-destructive/20 text-foreground"
+                    : "bg-background border-muted text-muted-foreground hover:bg-muted"
+                }`}
+                title={t("energyHub.map.toggleVolcanoes")}
+              >
+                <span className="inline-block h-2 w-2 rounded-full bg-destructive" />
+                {t("energyHub.map.volcanoes")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFaults((v) => !v)}
+                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                  showFaults
+                    ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"
+                    : "bg-background border-muted text-muted-foreground hover:bg-muted"
+                }`}
+                title={t("energyHub.map.toggleFaults")}
+              >
+                <span className="inline-block h-2 w-2 rounded-full bg-chart-geothermal" />
+                {t("energyHub.map.faults")}
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {mapLoading && (
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground" style={{ height: 480 }}>
+          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+          {t("energyHub.map.loading")}
+        </div>
+      )}
+
+      {!mapLoading && (
+        <div className="mt-4">
+          {leafletReady ? (
+            <LeafletMap data={data} metric={metric} level={level} geothermalPlants={geothermalPlants} overlays={overlays} />
+          ) : (
+            <FallbackMapGrid data={data} metric={metric} level={level} />
+          )}
+        </div>
+      )}
+
+      {showSuitabilityLegend && (
+        <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
+          {[
+            { key: "veryHigh", cls: "bg-map-very-high" },
+            { key: "high", cls: "bg-map-high" },
+            { key: "moderate", cls: "bg-map-moderate" },
+            { key: "low", cls: "bg-map-low" },
+            { key: "veryLow", cls: "bg-map-very-low" },
+            { key: "noData", cls: "bg-map-no-data" },
+          ].map((item) => (
+            <span key={item.key} className="inline-flex items-center gap-1">
+              <span className={`inline-block h-3 w-3 rounded-sm ${item.cls}`} />
+              {t(`energyHub.map.legend.${item.key}`)}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default React.memo(EnergyMap);

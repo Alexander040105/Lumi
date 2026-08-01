@@ -1,0 +1,45 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+19
+15	 https://legacy.doe.gov.ph/sites/default/files/pdf/energy_statistics/03_Installed%20and%20Dependable%20Capacity.pdf
+16	 Includes charcoal, fuelwood, rice hull bagasse, agriculture, animal and municipal wastes
+17	 Department of Energy (Philippines). (n.d.). Installed and dependable capacity [PDF] https://legacy.doe.gov.ph/sites/default/files/pdf/energy_statistics/03_In­
+stalled%20and%20Dependable%20Capacity.pdf
+18 19 Ibid
+iii.	Natural Gas
+Domestic natural gas production sustained its decline and reached 1.6 MTOE or 70.3 
+billion standard cubic feet of gas (BSCF) in 2024, which is 12.8 percent lower compared 
+to the previous year. This decline is mainly due to the depletion of the Malampaya 
+gas field, the country’s only indigenous source, which has seen reduced reserves and 
+lower production. Additionally, operational issues such as maintenance shutdowns and 
+infrastructure constraints have further reduced production levels.
+Renewable Energy
+i.	 Geothermal
+Geothermal energy continued to dominate the country’s renewable energy landscape 
+with a 13.4 percent share of TPES, albeit a moderate increase in levels  as it reached 
+9.3 MTOE in 2024 compared to its year-ago level of 9.2 MTOE. As of end-2024, 33 
+geothermal service contracts had been awarded, reflecting sustained interest in 
+the sector, as installed capacity remained at 1,951.7 MW15. It secured the Philippines’ 
+position as the world’s third-largest geothermal producer behind the United States 
+and Indonesia.
+ii.	Biomass
+The country’s total biomass16 supply grew steadily by 1.0 percent to 7.9 MTOE in 2024 
+and equivalent to 11.4 percent share in the energy mix. A substantial portion (92.9 
+percent) of the biomass supply was directed toward end-use consumption, primarily 
+for household cooking, industrial heating, and agricultural processing, while the 
+remaining share was used for power generation. Around 63 biomass energy contracts 
+have been awarded that brought the cumulative biomass capacity to 595 MW as of 
+December 202417.
+iii.	Hydro
+Hydropower output grew by 6.0 percent to 2.7 MTOE with a 3.9 percent contribution to 
+the energy mix during the year. This growth was mainly driven by the commissioning 
+of new small-scale hydro plants, improved rainfall that boosted water inflow to dams 
+and rivers, and continued government support through the Green Energy Auction 
+Program (GEAP). These developments also helped increase capacity of existing and 
+new hydropower facilities to 3,836 MW18 in 2024.
+iv.	Solar
+Solar energy, despite a modest share of 0.5 percent in the energy mix, grew remarkably 
+by 49.8 percent during the year to 327.7 kTOE from 218.7 kTOE. This rapid expansion 
+was fueled by accelerated commissioning of new solar farms, driven by investor-
+friendly reforms and cost declines in solar technology. By year-end, installed capacity 
+reached 2,710 MW19, while 569 solar projects were approved for commercial or own-use 
+purposes that underscored the sustained momentum in the sector’s development.

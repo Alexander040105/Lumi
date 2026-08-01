@@ -1,0 +1,181 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+24
+Sector
+CO2 Emission 
+(MTCO2e)
+Total NonCO2 
+Emission 
+(MTCO2e)
+Total GHG 
+Emission*** 
+(MTCO2e)
+Total GHG 
+Emission
+(% Change)
+2023
+2024
+2023
+2024
+2023
+2024
+2023-2024
+Oil
+55.35
+57.53
+0.35
+0.37
+55.70
+57.89
+3.94
+Coal
+89.75
+96.66
+0.40
+0.43
+90.15
+97.10
+7.71
+Gas
+5.9
+7.14
+0.01
+0.01
+5.90
+7.14
+21.05
+Total
+150.99
+161.33
+0.76
+0.80
+151.75
+162.13
+6.84
+% Distribution
+Change in 
+Distribution
+Oil
+36.66
+35.66
+46.14
+45.44
+36.71
+35.71
+(1.00)
+Coal
+59.44
+59.92
+53.10
+53.69
+59.41
+59.89
+0.48
+Gas
+3.9
+4.42
+0.76
+3.89
+3.89
+4.41
+0.52
+Total
+100.0
+100.0
+100.0
+100.0
+100.0
+100.0
+ 
+Table 2: GHG Emission, by Fuel: 2023 vs 2024
+*** GWP Values and EF based on the Fifth Assessment Report  (AR5) and 2006 IPCC Guidelines (Tier 1), respectively
+Higher generation output from coal and natural gas-fired power plants in 2024 pushed 
+GHG emissions from coal and natural gas by 7.7 percent and 21.1 percent, respectively, 
+and accounted for an aggregate share of 64.3 percent of total GHG emissions. Oil-
+related emissions rose 3.9 percent, from 55.7 to 57.9 MTCO2e, comprising 35.7 percent 
+of the total during the period. (Table 2)
+The country recorded a 
+1.1 percent increase in 
+greenhouse gas (GHG) 
+avoidance 
+in 
+2024, 
+which translated to 16.8 
+MTCO2e 
+as 
+illustrated 
+in Figure 19 and Table 
+3. 
+This 
+was 
+primarily 
+driven 
+by 
+the 
+10.8 
+percent hike in avoided 
+emissions 
+through 
+utilization of renewable 
+energy 
+sources, 
+such 
+as 
+geothermal, 
+hydro, 
+wind, solar and biomass, 
+in 
+power 
+generation, 
+from 
+3.8 
+MTCO2e 
+in 
+2023 to 4.2 MTCO2e in 
+2024. In contrast, GHG 
+avoidance from demand-side management  declined by 1.8 percent, from 12.8 MTCO2e 
+to 12.6 MTCO2e. Overall, the gains in the supply-side offset the drop in demand-side 
+contributions, resulting in a modest net improvement in national GHG avoidance 
+performance for the year.
+195
+175
+155
+135
+115
+95
+75
+55
+2000
+2001
+2002
+2003
+2004
+2005
+2006
+2007
+2008
+2009
+2010
+2011
+2012
+2013
+2014
+2015
+2016
+2017
+2018
+2019
+2020
+2021
+2022
+2023
+2024
+16.8 MTCO2e in 2024 - 9.4%
+16.6 MTCO2e in 2023 - 9.9%
+Avoided GHG Emissions
+MTCO2e
+GHG avoidance
+Hypothentical GHG emission @ 2000 EI & EF
+Actual GHG Emission
+Figure 17. Actual GHG Emission, Hypothetical GHG Emission and GHG Avoidance: 2000 – 2024
+Note: Hypothetical GHG Emission is equivalent to Actual GHG Emission plus GHG Emission 
+Avoidance; GHG Base year is CY 2000 GHG Emission Level

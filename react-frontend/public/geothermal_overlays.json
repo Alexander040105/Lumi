@@ -1,0 +1,22 @@
+{
+  "volcanoes": {
+    "png_filename": "geothermal_volcanoes.png",
+    "bounds": {
+      "north": 22.60181837860448,
+      "south": 3.88862201874025,
+      "east": 128.62000505065748,
+      "west": 115.38286339215404
+    },
+    "kind": "volcanoes"
+  },
+  "faults": {
+    "png_filename": "geothermal_faults.png",
+    "bounds": {
+      "north": 22.579337990613205,
+      "south": 3.8676263029083877,
+      "east": 128.6182324649211,
+      "west": 115.38163757324219
+    },
+    "kind": "faults"
+  }
+}

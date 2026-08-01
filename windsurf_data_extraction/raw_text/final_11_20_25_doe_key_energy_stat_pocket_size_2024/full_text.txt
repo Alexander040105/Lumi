@@ -1,0 +1,2422 @@
+KEY ENERGY
+STATISTICS
+2024
+DEPARTMENT OF ENERGY
+
+
+---PAGE BREAK---
+
+
+
+---PAGE BREAK---
+
+FOREWORD 
+The Key Energy Statistics (KES) presents the 
+country’s annual designated energy statistics 
+on energy supply and demand. It is published 
+to provide the public with a timely, accurate, 
+and comprehensive overview of the country’s 
+energy sector, fostering greater awareness and 
+appreciation of its developments. We hope that 
+this publication will serve as a valuable resource 
+for energy research and studies, and as a useful 
+reference for policy formulation and decision-
+making.
+The KES is the product of close collaboration 
+between the Department of Energy (DOE), and 
+energy data users and producers.
+The Policy Formulation and Research Division 
+(PFRD) of the Energy Policy and Planning Bureau 
+(EPPB) serves as the lead division responsible for 
+the preparation of the KES, with data inputs from 
+various DOE bureaus.
+
+
+---PAGE BREAK---
+
+Table of Contents
+ Energy-Economy Interaction
+4
+     Economic Parameters
+4
+     Energy Intensity 
+5
+     Energy-to-GDP Elasticity 
+5
+     Energy Per Capita
+5
+ Energy and Environment
+6
+     GHG Emission, by Sector and Activity
+6
+     GHG Emission, by Fuel Type
+7
+     Environmental Emission Indicators
+8
+ Energy
+9
+     Total Primary Energy Supply Mix
+9
+     Total Final Energy Consumption, by Sector and Fuel Type
+11
+ Oil and Gas
+15
+    Oil and Gas Production, by Source
+15
+    Crude Oil Importation, by Country of Source 
+16
+    Petroleum Products Importation, by Fuel Type
+18
+    Petroleum Products Importation, by Country of Source 
+20
+    Petroleum Products Exportation, by Country of Destination
+22
+    Petroleum Products Consumption, by Sector and Fuel Type
+23
+    Petroleum Products Consumption, by Fuel Type 
+25
+    Petroleum Products Consumption, by Sector
+27
+
+
+---PAGE BREAK---
+
+ Coal
+29
+     Coal Production, by Source
+29
+     Coal Importation, by Country of Source
+31
+     Coal Exportation, by Country of Destination
+33
+     Coal Consumption, by Major Type of User
+35
+ Renewable Energy Production
+36
+     Biomass Production, by Fuel Type
+36
+     Geothermal, Hydro, Wind, Solar and Biomass
+38
+ Power
+40
+    Installed Generating Capacity
+40
+    Power Generation, by Source 
+42
+    Power Consumption, by Sector
+46
+    Regional Household Electrification Level
+48
+ Glossary
+51
+ Units of Measurement and Conversion Table
+54
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+4
+Energy and Economy 
+Energy and Economic Indicators
+2023
+2024
+GR
+GDP (in billion pesos: at 
+constant 2018 prices)
+ 21,046.39  22,244.36 
+5.7%
+Total Final Energy 
+Consumption
+(in MTOE)
+ 37.02 
+ 38.90 
+5.1%
+Total Primary Energy Supply 
+(in MTOE)
+ 65.64 
+ 69.04 
+5.2%
+Population (in million)
+ 111.81 
+ 112.78 
+0.9%
+Forex (in Pesos/USD)
+ 55.57 
+ 58.01 
+4.4%
+Average Crude Price
+(in USD / barrel)
+ 82.10 
+ 79.61 
+-3.0%
+Sources:
+Gross Domestic Product (GDP), Population-National Accounts, Philippine Statistics 
+Authority (Rebased 2018)
+Foreign Exchange Rate - Bangko Sentral ng Pilipinas (BSP)
+Energy Supply - Policy Formulation and Research Division (PFRD), DOE
+Crude Oil Price - Oil Industry Management Bureau (OIMB), DOE
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+5
+Energy and Economic Indicators
+2023
+2024
+GR
+Intensity
+Energy to GDP*
+(TOE/Php 1M)
+ 3.12 
+ 3.10 
+-0.5%
+Oil to GDP
+(BBL/Php 100,000)
+ 7.60 
+ 7.47 
+-1.6%
+Electricity to GDP
+(Wh/Php)
+ 5.61 
+ 5.71 
+1.8%
+Elasticity
+Energy to GDP 
+ 1.30 
+ 0.91 
+-30.1%
+Oil to GDP
+ 0.16 
+ 0.70 
+327.4%
+Electricity to GDP 
+ 1.05 
+ 1.33 
+26.2%
+Energy Per Capita
+(TOE/person)
+ 0.59 
+ 0.61 
+4.3%
+*GDP Rebased 2018 at constant price
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+6
+Sector and Activity
+2023
+2024
+GR
+Industry
+12.75 
+12.96 
+1.7%
+Transport
+36.93 
+38.81 
+5.1%
+Others(2)
+10.35 
+11.15 
+7.7%
+Electricity Generation
+90.22 
+97.46 
+8.0%
+Energy(3)
+1.51 
+1.75 
+16.5%
+TOTAL
+ 151.75 
+ 162.13 
+6.8%
+Energy and Environment 
+GHG Emission, by Sector and Activity
+MtCO2e
+Notes:
+(1) Million tons of CO2 Equivalent (MTCO2e)
+(2) includes Household, Services and Agriculture Sectors
+(3) includes Oil refining, Electricity and other Energy sector own use and losses 
+         *average annual growth rate
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+7
+GHG Emission by Fuel Type
+MtCO2e
+Sector and Activity
+2023
+2024
+GR
+Liquid Fossils (Oil) 
+55.70 
+57.89 
+3.9%
+Solid Fossils (Coal)
+90.15 
+97.10 
+7.7%
+Gaseous Fossil (Natural Gas)
+5.90 
+7.14 
+21.0%
+TOTAL
+ 151.75 
+ 162.13 
+6.8%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+8
+Environmental Emission Indicators
+GHG emission is expressed in carbon dioxide equivalent (CO2e) 
+which accounts for the global warming potential (GWP) of 
+methane (CH4) and nitrous oxide (N2O), as prescribed by the 
+Inter-governmental Panel on Climate Change (IPCC). GWP is 
+the ratio of the warming resulting from the emission of one 
+kilogram of a greenhouse gas to that of one kilogram emission 
+of CO2 over a fixed period of time (i.e. CH4 and N2O GWP is 21 
+times and 310 times the CO2 emission, respectively).
+Indicator
+2023
+2024
+GR
+GHG emission-to-GDP ratio
+(tCO2e/PhP 100K, 2000=100)
+ 0.72 
+ 0.73 
+1.1%
+GHG emission per capita
+(tCO2e/person)
+ 1.36 
+ 1.44 
+5.9%
+GHG emission per Electricity 
+Generation (tCO2e/MWh)
+ 0.76 
+ 0.77 
+0.4%
+GHG emission per Oil consumption 
+(tCO2e/TOE)
+ 2.73 
+ 2.73 
+0.2%
+GHG emission per TPES 
+(tCO2e/TOE)
+ 2.32 
+ 2.35 
+1.4%
+Energy and Environment 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+9
+2024
+Energy Mix
+Total Primary Energy Supply Mix
+2023
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+10
+Total Energy and Self-Sufficiency Level
+In kTOE
+2023
+2024
+GR
+Indigenous Energy 
+ 30,534 
+ 31,042 
+1.7%
+Oil
+ 266 
+ 241 
+-9.4%
+Natural Gas
+ 1,879 
+ 1,638 
+-12.8%
+Coal
+ 8,052 
+ 8,401 
+4.3%
+Hydro
+ 2,561 
+ 2,716 
+6.0%
+Geothermal
+ 9,226 
+ 9,277 
+0.6%
+Biomass
+ 7,819 
+ 7,899 
+1.0%
+Wind
+ 112 
+ 107 
+-5.3%
+Solar
+ 219 
+ 328 
+49.8%
+Biodiesel
+ 186 
+ 219 
+17.6%
+Bioethanol
+ 214 
+ 217 
+1.2%
+Imported Energy
+ 35,111 
+ 38,000 
+8.2%
+Oil
+ 19,346 
+ 20,136 
+4.1%
+Coal
+ 14,902 
+ 16,231 
+8.9%
+Bioethanol
+ 219 
+ 218 
+-0.4%
+Coal
+ 644 
+ 1,415 
+119.8%
+Total Energy 
+ 65,645 
+ 69,041 
+5.2%
+Renewable Energy (RE)
+ 20,556 
+ 20,979 
+2.1%
+Green Energy (RE + Natural Gas)
+ 23,078 
+ 24,032 
+4.1%
+Self Sufficiency (%)
+ 47 
+ 45 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+11
+Energy Consumption
+Total Final Energy Consumption, by Sector and Fuel Type
+In kTOE
+2023
+2024
+GR
+Industry
+7,068
+7,260
+2.7%
+Coal
+1,987
+2,147
+8.0%
+Natural Gas
+ - 
+ - 
+Oil
+1,595
+1,492
+-6.5%
+Diesel
+1,085
+996
+-8.2%
+Fuel Oil
+296
+295
+-0.3%
+LPG
+199
+188
+-5.6%
+Kerosene
+15
+12
+-20.0%
+Biomass
+928
+931
+0.3%
+Ricehull
+40
+40
+0.5%
+Fuelwood
+135
+134
+-0.6%
+Bagasse
+404
+405
+0.5%
+Agriwaste
+334
+335
+0.5%
+Animal Waste
+17
+17
+0.5%
+Biodiesel
+21
+20
+-8.8%
+Electricity
+2,536
+2,672
+5.4%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+12
+Total Final Energy Consumption, by Sector and Fuel Type
+In kTOE
+2023
+2024
+GR
+Transport
+12,880
+13,548
+5.2%
+Natural Gas
+ - 
+ - 
+Oil
+12,309
+12,938
+5.1%
+Gasoline
+ 5,590 
+ 5,921 
+5.9%
+Diesel
+ 6,111 
+ 6,420 
+5.1%
+Fuel Oil
+ 219 
+ 231 
+5.5%
+Auto LPG 
+ - 
+ - 
+Aviation fuel
+ 389 
+ 365 
+-6.0%
+Biodiesel
+121
+127
+5.1%
+Bioethanol
+437
+462
+5.6%
+Electricity
+13
+21
+60.4%
+Households
+10,536
+10,985
+4.3%
+Oil
+1,350
+1,373
+1.8%
+LPG
+ 1,318 
+ 1,343 
+1.9%
+ Kerosene
+ 32 
+ 30 
+-6.2%
+Biomass
+6,008
+6,069
+1.0%
+Fuelwood
+ 4,145 
+ 4,153 
+0.2%
+Charcoal
+ 1,372 
+ 1,431 
+4.3%
+Agriwaste
+ 491 
+ 484 
+-1.3%
+Electricity
+3,179
+3,543
+11.5%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+13
+Total Final Energy Consumption, by Sector and Fuel Type
+In kTOE
+2023
+2024
+GR
+Services
+4,736
+5,138
+8.5%
+Oil
+2,117
+2,357
+11.3%
+Diesel
+ 1,480 
+ 1,691 
+14.3%
+Fuel Oil
+ 151 
+ 147 
+-2.4%
+LPG 
+ 487 
+ 519 
+6.7%
+Biomass
+ 334 
+ 336 
+0.7%
+Ricehull
+ 5 
+ 4 
+-4.5%
+Charcoal
+ 159 
+ 160 
+0.6%
+Fuelwood
+ 170 
+ 172 
+0.9%
+Biodiesel
+ 29 
+ 34 
+15.0%
+Electricity
+ 2,256 
+ 2,410 
+6.9%
+Agriculture
+402
+439
+9.3%
+Oil
+145
+148
+2.4%
+Gasoline
+ 10 
+ 4 
+-58.2%
+Kerosene
+ - 
+ 0 
+Diesel
+ 133 
+ 143 
+7.0%
+Fuel Oil
+ 1 
+ 1 
+26.9%
+Biodiesel
+ 3 
+ 3 
+4.4%
+Electricity
+ 254 
+ 288 
+13.2%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+14
+2023
+2024
+GR
+Non-Energy Use 
+ 1,397 
+ 1,528 
+9.4%
+Oil
+ 1,317 
+ 1,445 
+9.7%
+Coal
+ 80 
+ 83 
+3.4%
+Total Energy 
+37,019
+38,898
+5.1%
+*does not include energy for power application
+Total Final Energy Consumption, by Sector and Fuel Type
+In kTOE
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+15
+2023
+2024
+GR
+In MB
+Total Oil
+ 501 
+ 448 
+-10.6%
+Galoc
+ 501 
+ 448 
+-10.6%
+Alegria
+ 0 
+ - 
+Total Condensate
+ 1,904 
+ 1,733 
+-9.0%
+Malampaya Condensate
+ 1,904 
+ 1,733 
+-9.0%
+in MMSCF
+Total Gas 
+ 80,660 
+ 70,338 
+-12.8%
+Malampaya Gas 
+ 80,660 
+ 70,338 
+-12.8%
+Oil and Gas
+Oil and Gas Production, by Source
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+16
+Crude Oil Importation, by Country of Source
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+17
+Crude Oil Importation, by Country of Source
+In MB
+Source
+2023
+2024
+GR
+Middle East
+ 47,481 
+ 43,931 
+-7.5%
+Saudi Arabia
+ 24,102 
+ 23,340 
+-3.2%
+Iraq
+ 5,976 
+ 6,060 
+1.4%
+Kuwait
+ 798 
+ - 
+UAE
+ 14,597 
+ 14,020 
+-4.0%
+Qatar
+ 999 
+ 510 
+-48.9%
+Oman 
+ 1,009 
+ - 
+Malaysia
+ - 
+ 306 
+Others*
+ - 
+ 1,130 
+Total 
+ 47,481 
+ 45,366 
+-4.5%
+*includes Singapore, Brunei, Russia, Vietnam, Korea, Australia and other Asia and 
+Pacific Region
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+18
+Petroleum Products Importation, by Fuel Type
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+19
+Petroleum Products Importation, by Fuel Type
+In MB
+Fuel
+2023
+2024
+GR
+Diesel
+51,071
+54,060
+5.9%
+Gasoline
+32,925
+35,120
+6.7%
+LPG
+18,722
+19,495
+4.1%
+IFO/Fuel Oil
+7,039
+6,567
+-6.7%
+Jet Fuel
+8,405
+8,917
+6.1%
+Kerosene
+167
+162
+-3.0%
+Others*
+9,922
+9,835
+-0.9%
+Total 
+128,250
+134,157
+4.6%
+* Others include asphalt, solvents, naptha/reformate, condensate
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+20
+Petroleum Products Importation, by Country of Source
+In MB
+Source
+2023
+2024
+GR
+Middle East
+ 5,287 
+ 5,864 
+10.9%
+Bahrain
+ 5 
+ 992 
+ 
+Iraq
+ 44 
+ - 
+KSA
+ 1,092 
+ 786 
+Kuwait
+ 1,764 
+ 975 
+Oman
+ - 
+ 240 
+Qatar
+ 1,790 
+ 2,364 
+UAE
+ 593 
+ 506 
+ASEAN
+ 50,053 
+ 41,201 
+-17.7%
+   Brunei
+ 3,408 
+ 3,176 
+Indonesia
+ 141 
+ 26 
+Malaysia
+ 16,049 
+ 16,611 
+Singapore
+ 27,323 
+ 19,620 
+Thailand
+ 2,521 
+ 1,769 
+Vietnam
+ 612 
+ - 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+21
+*Others include countries from Africa, Asia and Pacific, Europe and North America
+Source
+2023
+2024
+GR
+OTHER ASIA
+ 71,140 
+ 86,402 
+21.5%
+China
+ 31,470 
+ 32,945 
+ 
+India
+ 1,950 
+ 4,365 
+Japan
+ 4,137 
+ 3,920 
+Russia
+ 241 
+ - 
+South Korea
+ 29,780 
+ 38,754 
+Taiwan
+ 3,560 
+ 6,418 
+OTHERS*
+ 1,770 
+ 690 
+-61.0%
+Total 
+ 128,250 
+ 134,157 
+4.6%
+Petroleum Products Importation, by Country of Source
+In MB
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+22
+*Others include Australia, Bangladesh, Guam, Egypt, Saipan and USA
+Destination
+2023
+2024
+GR
+MIDDLE EAST 
+ 11 
+ - 
+UAE
+ 11 
+ - 
+ 
+ASEAN
+ 2,459 
+ 3,025 
+23.0%
+Brunei
+ 291 
+ 913 
+Indonesia
+ 96 
+ 206 
+Malaysia
+ 93 
+ 649 
+Singapore
+ 1,171 
+ 577 
+Thailand
+ 809 
+ 651 
+Vietnam
+ - 
+ 29 
+OTHER ASIA
+ 2,828 
+ 3,210 
+14%
+China
+ 1,492 
+ 2,203 
+India
+ 231 
+ 554 
+Japan
+ 32 
+ - 
+South Korea
+ 966 
+ 277 
+Taiwan
+ 107 
+ 176 
+OTHERS
+ 472 
+ - 
+Total 
+ 5,770 
+ 6,236 
+8.1%
+Petroleum Products Exportation, by Country of Destination
+In MB
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+23
+2023
+2024
+GR
+Industry
+12,548
+11,723
+-6.6%
+Kerosene
+120
+96
+-20.0%
+LPG
+2,154
+2,034
+-5.6%
+Diesel
+8,056
+7,396
+-8.2%
+Fuel Oil
+2,053
+2,046
+-0.3%
+Biodiesel
+164
+150
+-8.8%
+Transport
+114,299
+120,771
+5.7%
+Gasoline
+45,362
+48,062
+6.0%
+Diesel
+45,601
+47,958
+5.2%
+Fuel Oil
+1,667
+1,709
+2.6%
+Aviation Fuel 
+15,824
+16,871
+6.6%
+LPG 
+0
+0
+Bioethanol
+4,919
+5,197
+5.6%
+Biodiesel 
+926
+974
+5.1%
+Households
+14,542
+14,805
+1.8%
+LPG
+14,291
+14,570
+1.9%
+Kerosene
+251
+235
+-6.2%
+Petroleum Products Consumption, by Sector and Fuel Type
+In MB
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+24
+2023
+2024
+GR
+Services
+17,534
+19,464
+11.0%
+LPG
+5,280
+5,633
+6.7%
+Diesel
+10,985
+12,553
+14.3%
+Fuel Oil
+1,044
+1,019
+-2.4%
+Biodiesel 
+224
+258
+15.0%
+Agriculture
+1,101
+1,123
+2.0%
+Gasoline
+86
+36
+-58.2%
+Kerosene
+ - 
+ 0.05 
+Diesel
+991
+1,060
+7.0%
+Fuel Oil
+5
+6
+26.9%
+Biodiesel
+20
+21
+4.4%
+Power Generation
+5,079
+5,158
+1.6%
+Diesel
+2,865
+3,269
+14.1%
+Fuel Oil
+2,155
+1,824
+-15.4%
+Biodiesel 
+58
+66
+12.4%
+Non-Energy Use
+10,477
+11,471
+9.5%
+Total 
+175,580
+184,515
+5.1%
+Petroleum Products Consumption, by Sector and Fuel Type
+In MB
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+25
+Petroleum Products Consumption, Fuel Type
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+26
+*include asphalts, solvents, naphtha/reformate, condensate
+Petroleum Products Consumption, Fuel Type
+In MB
+2023
+2024
+GR
+Gasoline
+45,448
+48,098
+5.8%
+Diesel
+68,497
+72,236
+5.5%
+Fuel Oil
+6,924
+6,605
+-4.6%
+Aviation Fuel 
+15,824
+16,871
+6.6%
+LPG
+21,726
+22,237
+2.4%
+Kerosene
+371
+332
+-10.6%
+Biodiesel 
+1,393
+1,468
+5.4%
+Bioethanol
+4,919
+5,197
+5.6%
+Others*
+10,477
+11,471
+9.5%
+Total 
+175,580
+184,515
+5.1%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+27
+Petroleum Products Consumption, by Sector
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+28
+2023
+2024
+GR
+Transport
+114,299
+120,771
+5.7%
+Industry
+12,548
+11,723
+-6.6%
+Households
+14,542
+14,805
+1.8%
+Services
+17,534
+19,464
+11.0%
+Agriculture
+1,101
+1,123
+2.0%
+Power Generation
+5,079
+5,158
+1.6%
+Non-Energy Use
+10,477
+11,471
+9.5%
+Total 
+175,580
+184,515
+5.1%
+Petroleum Products Consumption, by Sector
+In MB
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+29
+Coal
+Coal Production, by Source
+in MMT at 10,000 BTU/lb
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+30
+2023
+2024
+GR
+Semirara
+ 14,917.6 
+ 14,917.5 
+0.0%
+Zamboanga
+ 1.0 
+ 18.6 
+1782.8%
+Cebu
+ 3.8 
+ 4.2 
+11.4%
+Albay, Bicol
+ 10.0 
+ 6.2 
+-38.0%
+Negros 
+ 0.9 
+ 2.2 
+160.1%
+South Cotabato 
+ 228.7 
+ 851.4 
+272.3%
+Small-scale Mines
+ 93.2 
+ 117.3 
+25.9%
+ Total Production 
+ 15,255 
+ 15,918 
+4.3%
+ Run of Mine (MMT) 
+ 16,509 
+ 17,661 
+7.0%
+Coal Production, by Source
+in MMT at 10,000 BTU/lb
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+31
+Coal Importation, by Country of Source
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+32
+Country
+2023
+2024
+GR
+Indonesia
+ 34,822 
+ 40,139 
+15.3%
+Australia
+ 207 
+ 82 
+-60.6%
+China
+0.35
+0.33
+-7.5%
+Vietnam
+ 164 
+ 134 
+-18.4%
+Others*
+ 341 
+ 1 
+-99.6%
+Total
+ 35,535 
+ 40,356 
+13.6%
+Coal Importation, by Country of Source
+in MMT at 10,000 BTU/lb
+*Imports from India, Malaysia, Peru, Russia, Taiwan, South Korea, South Africa and USA
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+33
+Coal Exportation, by Country of Destination
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+34
+Country
+2023
+2024
+GR
+Brunei 
+ 286 
+ 193 
+-32.6%
+China 
+ 4,866 
+ 7,058 
+45.1%
+India 
+ 71 
+ - 
+Japan 
+ 163 
+ - 
+South Korea
+ 2,061 
+ 626 
+-69.6%
+Others*
+ 69 
+ - 
+Total
+ 7,516 
+ 7,877 
+4.8%
+Coal Exportation, by Country of Destination
+in MMT at 10,000 BTU/lb
+*includes Cambodia, Papua New Guinea, and Vietnam
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+35
+Coal Consumption, by Major Type of User
+2023
+2024
+GR
+Power Generation
+39,573
+42,446
+7.3%
+Cement
+1,716
+2,295
+33.7%
+Industrial/Direct Uses*
+2,200
+1,930
+-12.3%
+TOTAL
+43,490
+46,670
+7.3%
+in MMT at 10,000 BTU/lb
+*non-energy use as raw materials
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+36
+Renewable Energy 
+Biomass Production, by Fuel Type
+kTOE
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+37
+2023
+2024
+GR
+Fuelwood
+ 4,450 
+ 4,459 
+0.2%
+Charcoal
+ 1,531 
+ 1,592 
+3.9%
+Agriwaste
+ 824 
+ 819 
+-0.6%
+Bagasse
+ 947 
+ 961 
+1.5%
+Ricehull
+ 44 
+ 44 
+-0.1%
+Animal Waste
+ 17 
+ 17 
+0.5%
+Municipal Waste
+ 5 
+ 7 
+32.6%
+Total
+ 7,819 
+ 7,899 
+1.0%
+Biomass Production, by Fuel Type
+in kTOE
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+38
+Geothermal
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 1,928 
+ 1,928 
+ 1,952 
+ 1,952 
+ 1,952 
+Dependable Generating 
+Capacity (MW) 
+ 1,753 
+ 1,753 
+ 1,763 
+ 1,708 
+ 1,708 
+Electricity Generation 
+(GWh) 
+ 10,757 
+ 10,016 
+ 10,425 
+ 10,730 
+ 10,789 
+Hydropower
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 3,779 
+ 3,752 
+ 3,745 
+ 3,799 
+ 3,836 
+Dependable Generating 
+Capacity (MW) 
+ 3,527 
+3,500 
+ 3,444 
+ 3,499 
+ 3,485 
+Electricity Generation 
+(GWh) 
+ 7,192 
+ 9,185 
+ 10,085 
+ 10,287 
+ 10,909 
+ Wind
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 443 
+427
+ 427 
+ 427 
+ 427 
+Dependable Generating 
+Capacity (MW) 
+ 443 
+427 
+ 412 
+ 412 
+ 412 
+Electricity Generation 
+(GWh) 
+ 1,026 
+ 1,270 
+ 1,030 
+ 1,308 
+ 1,239 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+39
+Solar
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 1,019 
+ 1,317 
+ 1,530 
+ 1,653 
+ 2,710 
+Dependable Generating 
+Capacity (MW) 
+ 817 
+1,034 
+ 1,150 
+ 1,249 
+ 2,154 
+Electricity Generation 
+(GWh) 
+ 1,373 
+ 1,470 
+ 1,822 
+ 2,544 
+ 3,811 
+Biomass
+2020
+2021
+2022
+2023
+2024
+Installed Generating 
+Capacity (MW) 
+ 483 
+ 489 
+ 611 
+ 585 
+ 595 
+Dependable Generating 
+Capacity (MW) 
+ 285 
+291
+ 382 
+ 374 
+ 378 
+Electricity Generation 
+(GWh) 
+ 1,261 
+ 1,445 
+ 1,322 
+ 1,409 
+ 1,446 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+40
+Power
+Installed Generating Capacity, by Source 
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+41
+2023
+2024
+GR
+Total Installed Capacity
+ 28,291 
+ 29,706 
+5.0%
+Coal
+ 12,406 
+ 13,006 
+4.8%
+Oil
+ 3,737 
+ 3,448 
+-7.7%
+Natural Gas
+ 3,732 
+ 3,732 
+0.0%
+Renewable Energy 
+ 8,417 
+ 9,520 
+13.1%
+Geothermal
+ 1,952 
+ 1,952 
+0.0%
+Hydro
+ 3,799 
+ 3,836 
+1.0%
+Wind
+ 427 
+ 427 
+0.0%
+Solar
+ 1,653 
+ 2,710 
+63.9%
+Biomass 
+ 585 
+ 595 
+1.7%
+Installed Generating Capacity, by Source
+in MW
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+42
+Luzon
+2023
+2024
+GR
+Coal
+ 53,072 
+ 57,070 
+8%
+Oil
+ 708 
+ 603 
+-15%
+Natural Gas
+ 16,668 
+ 18,047 
+8%
+Renewable Energy
+ 12,842 
+ 14,550 
+13%
+Geothermal
+ 4,286 
+ 4,657 
+9%
+Hydro
+ 5,080 
+ 5,308 
+4.5%
+Biomass 
+ 684 
+ 645 
+-6%
+Solar
+ 1,678 
+ 2,905 
+73%
+Wind
+ 1,114 
+ 1,034 
+-7%
+Total
+ 83,290 
+ 90,269 
+8%
+Power Generation, by Source and Grid (in GWh)
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+43
+Visayas
+2023
+2024
+GR
+Coal
+ 10,401 
+ 8,571 
+-18%
+Oil
+ 473 
+ 519 
+10%
+Natural Gas
+ - 
+ - 
+Renewable Energy
+ 7,289 
+ 7,009 
+-4%
+Geothermal
+ 5,740 
+ 5,408 
+-5.8%
+Hydro
+ 141 
+ 162 
+16%
+Biomass 
+ 488 
+ 514 
+5%
+Solar
+ 727 
+ 720 
+-1%
+Wind
+ 194 
+ 205 
+5%
+Total
+ 18,163 
+ 16,099 
+-11%
+Power Generation, by Source and Grid (in GWh)
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+44
+Mindanao
+2023
+2024
+GR
+Coal
+ 10,281 
+ 13,718 
+33%
+Oil
+123
+220
+79%
+Natural Gas 
+ - 
+ - 
+Renewable Energy
+6,147
+6,634
+7.9%
+Geothermal
+704
+724
+2.8%
+Hydro
+5,067
+5,438
+7.3%
+Biomass 
+ 237 
+ 286 
+21%
+Solar
+ 139 
+ 186 
+34%
+Wind
+ - 
+ - 
+Total
+16,551
+20,572
+24%
+Power Generation, by Source and Grid (in GWh)
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+45
+Philippines
+2023
+2024
+GR
+Coal
+ 73,754 
+ 79,359 
+8%
+Oil
+ 1,304 
+ 1,342 
+3%
+Natural Gas
+ 16,668 
+ 18,047 
+8%
+Renewable Energy
+26,278
+28,193
+7%
+Geothermal
+ 10,730 
+ 10,789 
+0.6%
+Hydro
+ 10,287 
+ 10,909 
+6%
+Biomass 
+ 1,409 
+ 1,446 
+3%
+Solar
+ 2,544 
+ 3,811 
+50%
+Wind
+ 1,308 
+ 1,239 
+-5%
+Total
+ 118,004 
+ 126,941 
+8%
+*Self-sufficiency level (%)
+42
+39
+*includes off grid and on grid
+Power Generation, by Source and Grid (in GWh)
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+46
+Electricity Consumption, by Sector
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+47
+2023
+2024
+GR
+Households
+ 36,968 
+ 41,205 
+11.5%
+Services
+ 26,236 
+ 28,033 
+6.9%
+Industrial
+ 29,493 
+ 31,074 
+5.4%
+Others*
+ 3,112 
+ 3,596 
+15.6%
+Utilities Own Use
+ 10,403 
+ 10,558 
+1.5%
+ Power Losses
+ 11,793 
+ 12,475 
+5.8%
+ Total
+ 118,004 
+ 126,941 
+7.6%
+* others includeTransport and Agriculture
+Electricity Consumption, by Sector
+in GWh
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+48
+Regional Household Electrification Level
+Ilocos Region
+(Region I) 100%
+Central Luzon
+(Region III) 100%
+NCR
+(Metropolitan Manila) 98.5%
+Cagayan Valley
+(Region II) 96.6%
+Cordillera Administrative Region 
+(CAR) 96.3%
+CALABARZON
+(Region IV-A) 100%
+MIMAROPA
+(Region IV-B) 
+87.8%
+Western Visayas 
+(Region VI) 96.4%
+Zamboanga Peninsula 
+(Region IX) 83.3%
+Bangsamoro 
+Autonomous Region in 
+Muslim Mindanao 
+(BARMM) 43.2%
+Bicol Region
+(Region V) 91.0%
+Central Visayas
+(Region VII) 99.8%
+Eastern Visayas
+(Region VIII) 95.9%
+CARAGA 
+(Region XIII) 96.4%
+Northern 
+Mindanao 
+(Region X) 93.5%
+Davao Region 
+(Region XI) 89.2%
+SOCCSKSARGEN
+(Region XII) 86.2%
+Negros Island Region 
+(NIR) 87.0%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+49
+Region
+"Potential HHs"
+"Served HHs "
+Unserved HHs 
+(Actual per DU per Province)
+Electrification 
+Rate (%)
+CAR
+504,527
+485,827
+18,700
+96.3%
+I
+1,441,212
+1,450,906
+ - 
+100.0%
+II
+1,043,304
+1,007,889
+ 35,415 
+96.6%
+III
+3,469,528
+3,539,679
+ - 
+100.0%
+IV-A
+4,598,185
+4,672,611
+ - 
+100.0%
+IV-B
+887,864
+779,948
+107,916
+87.8%
+V
+1,492,297
+1,358,578
+133,719
+91.0%
+NCR
+3,947,966
+3,886,962
+61,004
+98.5%
+LUZON
+17,384,883
+17,182,400
+202,483
+98.8%
+NIR
+1,261,845
+1,097,256
+164,589
+87.0%
+VI
+1,304,302
+1,257,561
+46,741
+96.4%
+VII
+1,777,144
+1,772,742
+4,402
+99.8%
+VIII
+1,195,646
+1,147,196
+48,450
+95.9%
+VISAYAS
+5,538,937
+5,274,755
+264,182
+95.2%
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+50
+Region
+"Potential HHs"
+"Served HHs "
+Unserved HHs 
+(Actual per DU per Province)
+Electrification 
+Rate (%)
+IX
+950,310
+791,320
+158,990
+83.3%
+X
+1,281,438
+1,198,767
+82,671
+93.5%
+XI
+1,479,195
+1,319,870
+159,325
+89.2%
+XII
+1,142,888
+985,488
+157,400
+86.2%
+CARAGA
+798,382
+769,643
+28,739
+96.4%
+BARMM
+865,385
+373,734
+491,651
+43.2%
+MINDANAO
+6,517,598
+5,438,822
+1,078,776
+83.4%
+PHILIPPINES
+29,441,418
+27,895,977
+1,545,441
+94.8%
+2024 Notes:
+a) Electrification Rate = Served HHs/Potential HHs;
+b) Potential HHs is based on PSA Census on Population and Housing projected and 
+adjusted (CPH 2020 for 2024);
+c) Unserved HHs = Potential HHs - Served HHs
+d) Projections were agreed by NEA and NPC.
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+51
+Glossary
+Condensate
+Liquid hydrocarbons separated from gas 
+production.
+Dependable  
+Capacity 
+The capacity that can be relied upon to carry 
+system load for a specified time interval and 
+period, provide assumed reserve, and/or 
+meet firm power obligations.
+Electrification
+Electrification is either done through grid 
+or off-grid connection.  When a barangay 
+is provided with electricity through grid 
+connection, it means that the distribution line 
+has reached the barangay proper.  It may also 
+mean that almost 50.0 percent of potential 
+households in the barangay are connected 
+to a distribution utility (DU) (i.e. MERALCO) 
+or at least one is connected to other DUs. 
+Off-grid connection pertains to a barangay 
+having about 20 to 30 households availing the 
+connection.
+Energy Intensity
+Calculated as units of energy (million tons 
+of oil equivalent, MTOE) per unit of GDP (in 
+billion pesos).
+Energy Per
+Capita
+Amount of energy used per person. It is 
+calculated as total primary energy demand 
+(in MTOE) over population (in millions).
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+52
+Energy Self 
+Sufficiency
+The ratio of the country’s domestic energy 
+supply to total supply; measures the degree 
+at which domestic energy forms can support 
+total energy demand.
+Energy to GDP 
+Elasticity
+The percentage change in energy supply to 
+achieve one percent change in national GDP. 
+Calculated as the ratio of growth of primary 
+energy demand over GDP growth.
+Gas
+(or Natural Gas)
+A naturally occurring mixture of hydrocarbon 
+and 
+non-hydrocarbon 
+gases 
+in 
+porous 
+formations beneath the earth's surface, often 
+in association with petroleum. The principal 
+constituent is methane. 
+Geothermal 
+Energy
+Energy generated by heat stored in the earth, 
+or the collection of absorbed heat derived 
+from underground in the atmosphere and 
+oceans.
+Gross Domestic 
+Product (GDP)
+Total market value of all final goods and 
+services produced within the country in a 
+given period of time (usually a calendar year), 
+or the sum of value added of all final goods 
+and services produced within a country in a 
+given period of time.
+Gross National 
+Product (GNP)
+The value of all (final) goods and services 
+produced in a country in one year, plus income 
+earned by its citizens abroad, minus income 
+earned by foreigners in the country.
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+53
+Hydropower
+Also called hydraulic power or water power; 
+derived from the force or energy of moving 
+water, which may be harnessed for useful 
+purposes.
+Indigenous 
+Energy
+Refers to all energy forms produced/
+sourced from within the country’s natural 
+resources.
+Installed Capacity
+The total of the capacities shown on the 
+nameplates of the generating units in a 
+powerplant.
+Renewable 
+Energy 
+Energy generated from natural resources 
+which are naturally replenished. It includes 
+solar power, wind power, hydroelectricity, 
+micro hydro, biomass and biofuels.
+Run of Mine
+Coal directly coming from the mine.
+Total Final Energy 
+Consumption 
+(TFEC)
+The sum of all energy forms consumed/used 
+by different economic sectors.
+Total Primary 
+Energy Demand 
+(TPED)
+The sum of total final consumption, power 
+generation, other energy sector (own use 
+and losses).
+Total Primary 
+Energy Supply 
+(TPES)
+The sum of all energy derived from domestic 
+sources (indigeneous, renewable), imported 
+from outside the country, stock change (+/-) 
+and export (-).
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+54
+Units of Measurement
+	
+BCF	
+Billion Cubic Feet
+	
+BTu	
+British Thermal Units
+	
+GWh	
+Gigawatt-Hour
+	
+KWh	
+Kilowatt-hour
+	
+kTOE	
+Thousand tonnes of oil equivalent
+	
+Lb	
+Pound
+	
+MB	
+Thousand Barrels
+	
+MMMT	
+Million Metric Tons
+	
+MMSCF	
+Million Standard Cubic Feet
+	
+MMT	
+Thousand Metric Tons
+	
+MW	
+Megawatt
+	
+Php	
+Philippine Peso
+	
+ROM	
+Run of Mine
+	
+USD	
+US Dollar
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+55
+Fuels
+to KTOE
+ Coal (MT@10,000 btu/lb.) 
+ 0.000528 
+ Natural Gas (MMSCF) 
+ 0.023290 
+ Crude (MB) 
+ 0.134400 
+ Condensate (NGL) (MB) 
+ 0.104400 
+ Premium Gasoline (MB) 
+ 0.124500 
+ Regular Gasoline (MB) 
+ 0.122300 
+ Kerosene (MB) 
+ 0.127000 
+ Diesel (MB) 
+ 0.134700 
+ Fuel Oil (MB) 
+ 0.144400 
+ LPG (MB) 
+ 0.092200 
+ Jet (MB) 
+ 0.127000 
+ Avgas (MB) 
+ 0.122400 
+ Naphtha (MB) 
+ 0.123800 
+ Asphalts (MB) 
+ 0.152100 
+ Lubes & Greases (MB) 
+ 0.141200 
+Conversion Table
+
+
+---PAGE BREAK---
+
+KEY ENERGY STATISTICS
+56
+Fuels
+to KTOE
+ Others (MB) 
+ 0.123300 
+ Ricehull (MT) 
+ 0.000345 
+ Charcoal (MT) 
+ 0.000600 
+ Fuelwood (MT) 
+ 0.000329 
+ Bagasse (MT) 
+ 0.000426 
+ Agriwaste (MT) 
+ 0.000329 
+ Animal Waste (MT) 
+ 0.000516 
+ Ethanol (BBL) 
+ 0.000089 
+ CME (BBL) 
+ 0.000130 
+ Hydro (GWh) 
+ 0.086000 
+ Geothermal (GWh) 
+ 0.860000 
+ Wind (GWh) 
+ 0.860000 
+ Solar (GWh) 
+ 0.860000 
+
+
+---PAGE BREAK---
+
+
+
+---PAGE BREAK---
+
+DEPARTMENT OF ENERGY
+Energy Center, Rizal Drive, Bonifacio Global City (BGC) 
+Taguig City, Philippines 1632
+Tel Nos.:8840; 8479 - 2900 Local 270, 302, 316
+www.doe.gov.ph                                 /doe.gov.ph                                   /doe_ph

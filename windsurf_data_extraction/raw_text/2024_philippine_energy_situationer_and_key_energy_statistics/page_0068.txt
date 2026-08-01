@@ -1,0 +1,142 @@
+KEY ENERGY STATISTICS
+68
+Solar
+2020
+2021
+2022
+2023
+2024
+Installed Generating Capacity (MW) 
+ 1,928 
+ 1,928 
+ 1,952 
+ 1,952 
+ 1,952 
+Dependable Generating Capacity (MW) 
+ 1,753 
+ 1,753 
+ 1,763 
+ 1,708 
+ 1,708 
+Electricity Generation (GWh) 
+ 10,757 
+ 10,016 
+ 10,425 
+ 10,730 
+ 10,789 
+2015
+2016
+2017
+2018
+2019
+Installed Generating Capacity (MW) 
+ 165 
+ 765 
+ 885 
+ 896 
+ 921 
+Dependable Generating Capacity (MW) 
+ 125 
+ 594 
+ 700 
+ 740 
+ 737 
+Electricity Generation (GWh) 
+ 139 
+ 1,097 
+ 1,201 
+ 1,249 
+ 1,246 
+2020
+2021
+2022
+2023
+2024
+Installed Generating Capacity (MW) 
+ 1,019 
+ 1,317 
+ 1,530 
+ 1,653 
+ 2,710 
+Dependable Generating Capacity (MW) 
+ 817 
+1,034 
+ 1,150 
+ 1,249 
+ 2,154 
+Electricity Generation (GWh) 
+ 1,373 
+ 1,470 
+ 1,822 
+ 2,544 
+ 3,811 
+Biomass
+2020
+2021
+2022
+2023
+2024
+Installed Generating Capacity (MW) 
+ 1,928 
+ 1,928 
+ 1,952 
+ 1,952 
+ 1,952 
+Dependable Generating Capacity (MW) 
+ 1,753 
+ 1,753 
+ 1,763 
+ 1,708 
+ 1,708 
+Electricity Generation (GWh) 
+ 10,757 
+ 10,016 
+ 10,425 
+ 10,730 
+ 10,789 
+2015
+2016
+2017
+2018
+2019
+Installed Generating Capacity (MW) 
+ 221 
+ 233 
+ 224 
+ 258 
+ 363 
+Dependable Generating Capacity (MW) 
+ 146 
+ 157 
+ 160 
+ 182 
+ 227 
+Electricity Generation (GWh) 
+ 367 
+ 726 
+ 1,013 
+ 1,105 
+ 1,040 
+2020
+2021
+2022
+2023
+2024
+Installed Generating Capacity (MW) 
+ 483 
+ 489 
+ 611 
+ 585 
+ 595 
+Dependable Generating Capacity (MW) 
+ 285 
+291
+ 382 
+ 374 
+ 378 
+Electricity Generation (GWh) 
+ 1,261 
+ 1,445 
+ 1,322 
+ 1,409 
+ 1,446 

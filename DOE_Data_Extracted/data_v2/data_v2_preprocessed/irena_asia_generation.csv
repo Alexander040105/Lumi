@@ -1,0 +1,121 @@
+region,technology,year,generation_gwh
+Asia,Geothermal energy,2000,20367.5
+Asia,Geothermal energy,2001,19933.0
+Asia,Geothermal energy,2002,20085.43
+Asia,Geothermal energy,2003,19319.56
+Asia,Geothermal energy,2004,20044.31
+Asia,Geothermal energy,2005,19827.4
+Asia,Geothermal energy,2006,20299.5
+Asia,Geothermal energy,2007,20374.03
+Asia,Geothermal energy,2008,21876.58
+Asia,Geothermal energy,2009,22599.75
+Asia,Geothermal energy,2010,22059.29
+Asia,Geothermal energy,2011,22130.65
+Asia,Geothermal energy,2012,22416.36
+Asia,Geothermal energy,2013,21766.35
+Asia,Geothermal energy,2014,23111.05
+Asia,Geothermal energy,2015,23831.54
+Asia,Geothermal energy,2016,24372.3
+Asia,Geothermal energy,2017,25636.18
+Asia,Geothermal energy,2018,27123.49
+Asia,Geothermal energy,2019,27782.84
+Asia,Geothermal energy,2020,29458.19
+Asia,Geothermal energy,2021,29077.18
+Asia,Geothermal energy,2022,30251.57
+Asia,Geothermal energy,2023,31233.93
+Asia,Hydropower (excl. Pumped Storage),2000,513321.0
+Asia,Hydropower (excl. Pumped Storage),2001,568390.03
+Asia,Hydropower (excl. Pumped Storage),2002,575323.2
+Asia,Hydropower (excl. Pumped Storage),2003,592607.81
+Asia,Hydropower (excl. Pumped Storage),2004,675281.55
+Asia,Hydropower (excl. Pumped Storage),2005,718126.24
+Asia,Hydropower (excl. Pumped Storage),2006,795080.43
+Asia,Hydropower (excl. Pumped Storage),2007,840771.44
+Asia,Hydropower (excl. Pumped Storage),2008,952562.58
+Asia,Hydropower (excl. Pumped Storage),2009,973081.53
+Asia,Hydropower (excl. Pumped Storage),2010,1093673.83
+Asia,Hydropower (excl. Pumped Storage),2011,1106379.71
+Asia,Hydropower (excl. Pumped Storage),2012,1296564.79
+Asia,Hydropower (excl. Pumped Storage),2013,1356896.36
+Asia,Hydropower (excl. Pumped Storage),2014,1515870.48
+Asia,Hydropower (excl. Pumped Storage),2015,1572542.7
+Asia,Hydropower (excl. Pumped Storage),2016,1640190.24
+Asia,Hydropower (excl. Pumped Storage),2017,1686384.91
+Asia,Hydropower (excl. Pumped Storage),2018,1730222.92
+Asia,Hydropower (excl. Pumped Storage),2019,1793070.34
+Asia,Hydropower (excl. Pumped Storage),2020,1872717.84
+Asia,Hydropower (excl. Pumped Storage),2021,1865277.42
+Asia,Hydropower (excl. Pumped Storage),2022,1906078.67
+Asia,Hydropower (excl. Pumped Storage),2023,1812829.3
+Asia,Solar energy,2000,400.3
+Asia,Solar energy,2001,606.85
+Asia,Solar energy,2002,733.87
+Asia,Solar energy,2003,967.12
+Asia,Solar energy,2004,1245.78
+Asia,Solar energy,2005,1610.36
+Asia,Solar energy,2006,1989.21
+Asia,Solar energy,2007,2356.31
+Asia,Solar energy,2008,2878.2
+Asia,Solar energy,2009,3771.09
+Asia,Solar energy,2010,5326.97
+Asia,Solar energy,2011,8466.84
+Asia,Solar energy,2012,14105.15
+Asia,Solar energy,2013,27138.14
+Asia,Solar energy,2014,55762.12
+Asia,Solar energy,2015,89444.46
+Asia,Solar energy,2016,136361.25
+Asia,Solar energy,2017,208432.03
+Asia,Solar energy,2018,292488.29
+Asia,Solar energy,2019,370130.97
+Asia,Solar energy,2020,442375.58
+Asia,Solar energy,2021,551916.6
+Asia,Solar energy,2022,687390.46
+Asia,Solar energy,2023,875464.64
+Asia,Total renewable,2000,563722.62
+Asia,Total renewable,2001,619037.29
+Asia,Total renewable,2002,629734.31
+Asia,Total renewable,2003,650639.78
+Asia,Total renewable,2004,738063.97
+Asia,Total renewable,2005,789840.59
+Asia,Total renewable,2006,873575.77
+Asia,Total renewable,2007,934754.2
+Asia,Total renewable,2008,1064123.07
+Asia,Total renewable,2009,1108433.11
+Asia,Total renewable,2010,1264033.38
+Asia,Total renewable,2011,1313261.57
+Asia,Total renewable,2012,1556149.12
+Asia,Total renewable,2013,1673157.37
+Asia,Total renewable,2014,1898996.96
+Asia,Total renewable,2015,2033198.82
+Asia,Total renewable,2016,2217725.44
+Asia,Total renewable,2017,2429953.78
+Asia,Total renewable,2018,2648057.34
+Asia,Total renewable,2019,2865400.66
+Asia,Total renewable,2020,3099303.67
+Asia,Total renewable,2021,3427094.98
+Asia,Total renewable,2022,3751498.35
+Asia,Total renewable,2023,4007625.5
+Asia,Wind energy,2000,2064.27
+Asia,Wind energy,2001,2566.32
+Asia,Wind energy,2002,3528.33
+Asia,Wind energy,2003,4474.74
+Asia,Wind energy,2004,6640.06
+Asia,Wind energy,2005,9154.1
+Asia,Wind energy,2006,12412.34
+Asia,Wind energy,2007,18579.36
+Asia,Wind energy,2008,27331.84
+Asia,Wind energy,2009,44688.2
+Asia,Wind energy,2010,71243.74
+Asia,Wind energy,2011,98490.18
+Asia,Wind energy,2012,133705.3
+Asia,Wind energy,2013,171841.51
+Asia,Wind energy,2014,196758.76
+Asia,Wind energy,2015,228939.42
+Asia,Wind energy,2016,291508.75
+Asia,Wind energy,2017,368255.51
+Asia,Wind energy,2018,440344.21
+Asia,Wind energy,2019,491436.94
+Asia,Wind energy,2020,554791.61
+Asia,Wind energy,2021,747715.67
+Asia,Wind energy,2022,869400.39
+Asia,Wind energy,2023,1007031.13

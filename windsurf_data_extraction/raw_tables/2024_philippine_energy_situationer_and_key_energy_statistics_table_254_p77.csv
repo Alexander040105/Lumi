@@ -1,0 +1,30 @@
+﻿Units of Measurement,
+Fuels,to kTOE
+"Coal (MT@10,000 btu/lb.)",0.000528
+Natural Gas (MMSCF),0.023290
+Crude (MB),0.134400
+Condensate (NGL) (MB),0.104400
+Premium Gasoline (MB),0.124500
+Regular Gasoline (MB),0.122300
+Kerosene (MB),0.127000
+Diesel (MB),0.134700
+Fuel Oil (MB),0.144400
+LPG (MB),0.092200
+Jet (MB),0.127000
+Avgas (MB),0.122400
+Naphtha (MB),0.123800
+Asphalts (MB),0.152100
+Lubes & Greases (MB),0.141200
+Others (MB),0.123300
+Ricehull (MT),0.000345
+Charcoal (MT),0.000600
+Fuelwood (MT),0.000329
+Bagasse (MT),0.000426
+Agriwaste (MT),0.000329
+Animal Waste (MT),0.000516
+Ethanol (BBL),0.000089
+CME (BBL),0.000130
+Hydro (GWh),0.086000
+Geothermal (GWh),0.860000
+Wind (GWh),0.860000
+Solar (GWh),0.860000

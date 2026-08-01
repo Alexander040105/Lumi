@@ -1,0 +1,32 @@
+﻿i_total_final_energy_consumption,7,7_numeric,source_pdf,detected_category
+"A. Total Final Energy Consumption, by Fuel",8,8.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"B. Total Final Energy Consumption, by Sector",9,9.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+1. Transport,9,9.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+2. Households,11,11.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+3. Industry,12,12.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+4. Services,13,13.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+5. Agriculture,14,14.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"II. 
+TRANSFORMATION",15,15.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+A. Oil Refining,15,15.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+B. Power Generation and Fuel Input,16,16.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+III.  TOTAL PRIMARY ENERGY SUPPLY,17,17.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+A. Indigenous Energy,18,18.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+1. Fossil Fuels,18,18.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+i.  Oil,18,18.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+ii.  Coal,18,18.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+iii.  Natural Gas,19,19.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+2. Renewable Energy,19,19.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"i.  Geothermal, Biomass, Hydro, Solar",19,19.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+ii.  Wind and Biofuels,20,20.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+B. Net Energy Imports,20,20.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"IV. 
+ENVIRONMENTAL IMPACT",23,23.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"V. 
+ENERGY – ECONOMY and ENVIRONMENTAL INDICATORS",25,25.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+A. Energy Intensity,26,26.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+B. Energy Elasticity,26,26.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+A. Energy Per Capita,27,27.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+B. GHG Emission,27,27.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil
+"VI. 
+ENERGY BALANCE TABLES, 2024 and 2023",28,28.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv,oil

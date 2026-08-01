@@ -1,0 +1,10 @@
+﻿Indicators,ENERGY,ELECTRICITY,OIL
+Intensity,TOE/MPhp,Wh/Php,bbl/Php
+2023,3.12,5.61,7.60
+2024,3.10,5.71,7.47
+Per Capita,TOE,kWh,bbl
+2023,0.59,"1,055.42",1.43
+2024,0.61,"1,125.56",1.47
+Elasticity,,,
+2023,1.30,1.05,0.16
+2024,0.91,1.33,0.70

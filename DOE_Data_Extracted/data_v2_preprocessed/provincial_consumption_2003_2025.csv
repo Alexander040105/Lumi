@@ -1,0 +1,137 @@
+region,sector,value_mwh,year
+ARMM,Residential,364757.0,2025
+CAR,Residential,469164.0,2025
+NCR,Residential,9887610.0,2025
+I,Residential,2059598.0,2025
+II,Residential,1010967.0,2025
+III,Residential,6648317.0,2025
+IV-A,Residential,8529837.0,2025
+IV-B,Residential,657279.0,2025
+V,Residential,1328802.0,2025
+ARMM,Commercial,45230.0,2025
+CAR,Commercial,247365.0,2025
+NCR,Commercial,9989164.0,2025
+I,Commercial,851948.0,2025
+II,Commercial,387988.0,2025
+III,Commercial,4394378.0,2025
+IV-A,Commercial,7810773.0,2025
+IV-B,Commercial,353635.0,2025
+V,Commercial,607251.0,2025
+ARMM,Industrial,12036.0,2025
+CAR,Industrial,17906.0,2025
+NCR,Industrial,7309185.0,2025
+I,Industrial,300245.0,2025
+II,Industrial,264516.0,2025
+III,Industrial,4068576.0,2025
+IV-A,Industrial,6016152.0,2025
+IV-B,Industrial,67757.0,2025
+V,Industrial,112618.0,2025
+ARMM,Others,45326.0,2025
+CAR,Others,60599.0,2025
+NCR,Others,74709.0,2025
+I,Others,214444.0,2025
+II,Others,177219.0,2025
+III,Others,350685.0,2025
+IV-A,Others,275902.0,2025
+IV-B,Others,138728.0,2025
+V,Others,227840.0,2025
+ARMM,Total Sales,467348.0,2025
+CAR,Total Sales,795035.0,2025
+NCR,Total Sales,27260668.0,2025
+I,Total Sales,3426234.0,2025
+II,Total Sales,1840691.0,2025
+III,Total Sales,15461957.0,2025
+IV-A,Total Sales,22632664.0,2025
+IV-B,Total Sales,1217399.0,2025
+V,Total Sales,2276512.0,2025
+ARMM,Own-Use,1448.0,2025
+CAR,Own-Use,1736.0,2025
+NCR,Own-Use,32725.0,2025
+I,Own-Use,6872.0,2025
+II,Own-Use,3481.0,2025
+III,Own-Use,19751.0,2025
+IV-A,Own-Use,27586.0,2025
+IV-B,Own-Use,2068.0,2025
+V,Own-Use,3844.0,2025
+ARMM,System Loss,185301.0,2025
+CAR,System Loss,90661.0,2025
+NCR,System Loss,1695243.0,2025
+I,System Loss,352080.0,2025
+II,System Loss,188171.0,2025
+III,System Loss,1079199.0,2025
+IV-A,System Loss,1530020.0,2025
+IV-B,System Loss,160454.0,2025
+V,System Loss,391606.0,2025
+ARMM,Total Consumption,654097.0,2025
+CAR,Total Consumption,887432.0,2025
+NCR,Total Consumption,28988636.0,2025
+I,Total Consumption,3785186.0,2025
+II,Total Consumption,2032342.0,2025
+III,Total Consumption,16560907.0,2025
+IV-A,Total Consumption,24190270.0,2025
+IV-B,Total Consumption,1379921.0,2025
+V,Total Consumption,2671962.0,2025
+VI,Residential,1473160.0,2025
+VII,Residential,2398370.0,2025
+VIII,Residential,959178.0,2025
+IX,Residential,831531.0,2025
+X,Residential,1233093.0,2025
+XI,Residential,1869275.0,2025
+XII,Residential,1269548.0,2025
+XIII,Residential,712835.0,2025
+VI,Commercial,627946.0,2025
+VII,Commercial,961492.0,2025
+VIII,Commercial,262497.0,2025
+IX,Commercial,417890.0,2025
+X,Commercial,604299.0,2025
+XI,Commercial,457014.0,2025
+XII,Commercial,388500.0,2025
+XIII,Commercial,278167.0,2025
+VI,Industrial,431695.0,2025
+VII,Industrial,3331895.0,2025
+VIII,Industrial,282247.0,2025
+IX,Industrial,234400.0,2025
+X,Industrial,1889289.0,2025
+XI,Industrial,2192057.0,2025
+XII,Industrial,833543.0,2025
+XIII,Industrial,293371.0,2025
+VI,Others,189163.0,2025
+VII,Others,235332.0,2025
+VIII,Others,210970.0,2025
+IX,Others,159372.0,2025
+X,Others,121028.0,2025
+XI,Others,101231.0,2025
+XII,Others,105723.0,2025
+XIII,Others,127936.0,2025
+VI,Total Sales,2721964.0,2025
+VII,Total Sales,6927089.0,2025
+VIII,Total Sales,1714893.0,2025
+IX,Total Sales,1643194.0,2025
+X,Total Sales,3847709.0,2025
+XI,Total Sales,4619577.0,2025
+XII,Total Sales,2597314.0,2025
+XIII,Total Sales,1412309.0,2025
+VI,Own-Use,3746.0,2025
+VII,Own-Use,8383.0,2025
+VIII,Own-Use,4078.0,2025
+IX,Own-Use,2971.0,2025
+X,Own-Use,7357.0,2025
+XI,Own-Use,4125.0,2025
+XII,Own-Use,2985.0,2025
+XIII,Own-Use,2449.0,2025
+VI,System Loss,250074.0,2025
+VII,System Loss,495822.0,2025
+VIII,System Loss,162073.0,2025
+IX,System Loss,265186.0,2025
+X,System Loss,272318.0,2025
+XI,System Loss,527751.0,2025
+XII,System Loss,408644.0,2025
+XIII,System Loss,148145.0,2025
+VI,Total Consumption,2975784.0,2025
+VII,Total Consumption,7431294.0,2025
+VIII,Total Consumption,1881044.0,2025
+IX,Total Consumption,1911350.0,2025
+X,Total Consumption,4127384.0,2025
+XI,Total Consumption,5151453.0,2025
+XII,Total Consumption,3008943.0,2025
+XIII,Total Consumption,1562903.0,2025

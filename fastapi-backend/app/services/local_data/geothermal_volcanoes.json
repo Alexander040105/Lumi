@@ -1,0 +1,77 @@
+[
+  {
+    "lat": 13.2548,
+    "lon": 123.685,
+    "name": "Mayon"
+  },
+  {
+    "lat": 14.0027,
+    "lon": 120.9935,
+    "name": "Taal"
+  },
+  {
+    "lat": 15.1429,
+    "lon": 120.3496,
+    "name": "Pinatubo"
+  },
+  {
+    "lat": 12.7697,
+    "lon": 124.0561,
+    "name": "Bulusan"
+  },
+  {
+    "lat": 10.4117,
+    "lon": 123.1319,
+    "name": "Kanlaon"
+  },
+  {
+    "lat": 9.1969,
+    "lon": 124.6578,
+    "name": "Hibok-Hibok"
+  },
+  {
+    "lat": 6.9876,
+    "lon": 125.2694,
+    "name": "Mount Apo"
+  },
+  {
+    "lat": 14.0697,
+    "lon": 121.4844,
+    "name": "Mount Banahaw"
+  },
+  {
+    "lat": 14.1308,
+    "lon": 121.1956,
+    "name": "Mount Makiling"
+  },
+  {
+    "lat": 13.32,
+    "lon": 123.7,
+    "name": "Malinao"
+  },
+  {
+    "lat": 13.22,
+    "lon": 123.6,
+    "name": "Masaraga"
+  },
+  {
+    "lat": 11.52,
+    "lon": 124.45,
+    "name": "Biliran"
+  },
+  {
+    "lat": 8.0,
+    "lon": 123.2,
+    "name": "Camiguin"
+  },
+  {
+    "lat": 7.9,
+    "lon": 124.3,
+    "name": "Ragang"
+  },
+  {
+    "lat": 6.98,
+    "lon": 121.95,
+    "name": "Matutum"
+  }
+]

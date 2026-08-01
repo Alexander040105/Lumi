@@ -1,0 +1,4065 @@
+[
+  {
+    "content": "unnamed 0 was Households, 2014 was 8488.0, 2015 was 8731.0, 2016 was 9035.0, 2017 was 9192.0, 2018 was 9431.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 862.0, 2015 was 973.0, 2016 was 1122.0, 2017 was 1159.0, 2018 was 1255.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2014 was 769.0, 2015 was 888.0, 2016 was 1043.0, 2017 was 1083.0, 2018 was 1176.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene, 2014 was 93.0, 2015 was 85.0, 2016 was 79.0, 2017 was 75.0, 2018 was 79.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2014 was 5823.0, 2015 was 5802.0, 2016 was 5709.0, 2017 was 5731.0, 2018 was 5746.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2014 was 4290.0, 2015 was 4259.0, 2016 was 4131.0, 2017 was 4119.0, 2018 was 4107.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2014 was 946.0, 2015 was 973.0, 2016 was 1027.0, 2017 was 1067.0, 2018 was 1110.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2014 was 588.0, 2015 was 570.0, 2016 was 551.0, 2017 was 545.0, 2018 was 529.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2014 was 1803.0, 2015 was 1956.0, 2016 was 2204.0, 2017 was 2303.0, 2018 was 2430.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Services, 2014 was 3397.0, 2015 was 3370.0, 2016 was 3865.0, 2017 was 4404.0, 2018 was 4668.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 1432.0, 2015 was 1292.0, 2016 was 1632.0, 2017 was 2074.0, 2018 was 2223.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2014 was 1053.0, 2015 was 843.0, 2016 was 1058.0, 2017 was 1397.0, 2018 was 1568.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2014 was 113.0, 2015 was 138.0, 2016 was 201.0, 2017 was 146.0, 2018 was 148.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2014 was 266.0, 2015 was 310.0, 2016 was 374.0, 2017 was 532.0, 2018 was 507.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2014 was 332.0, 2015 was 337.0, 2016 was 340.0, 2017 was 345.0, 2018 was 350.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2014 was 7.0, 2015 was 6.0, 2016 was 6.0, 2017 was 7.0, 2018 was 7.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2014 was 162.0, 2015 was 164.0, 2016 was 166.0, 2017 was 168.0, 2018 was 171.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2014 was 164.0, 2015 was 166.0, 2016 was 168.0, 2017 was 170.0, 2018 was 173.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 17,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2014 was 20.0, 2015 was 14.0, 2016 was 21.0, 2017 was 28.0, 2018 was 30.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 18,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2014 was 1613.0, 2015 was 1727.0, 2016 was 1872.0, 2017 was 1958.0, 2018 was 2065.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 19,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriculture, 2014 was 354.0, 2015 was 401.0, 2016 was 450.0, 2017 was 515.0, 2018 was 439.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 20,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 172.0, 2015 was 194.0, 2016 was 229.0, 2017 was 290.0, 2018 was 208.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 21,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gasoline, 2014 was 5.0, 2015 was 8.0, 2016 was 7.0, 2017 was 12.0, 2018 was 7.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 22,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene(c), 2014 was 0.0, 2015 was 0.0, 2016 was 1.0, 2017 was 0.0, 2018 was 0.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 23,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2014 was 165.0, 2015 was 182.0, 2016 was 212.0, 2017 was 270.0, 2018 was 200.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 24,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2014 was 2.0, 2015 was 3.0, 2016 was 8.0, 2017 was 7.0, 2018 was 1.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 25,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2014 was 3.0, 2015 was 4.0, 2016 was 4.0, 2017 was 5.0, 2018 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 26,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2014 was 178.0, 2015 was 203.0, 2016 was 218.0, 2017 was 220.0, 2018 was 227.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 27,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Non-Energy Use, 2014 was 605.0, 2015 was 1179.0, 2016 was 1306.0, 2017 was 1613.0, 2018 was 1423.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 28,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2014 was 450.0, 2015 was 1047.0, 2016 was 1129.0, 2017 was 1458.0, 2018 was 1261.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 29,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2014 was 154.0, 2015 was 132.0, 2016 was 177.0, 2017 was 155.0, 2018 was 162.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 30,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2014 was 28506.0, 2015 was 30988.0, 2016 was 33530.0, 2017 was 35474.0, 2018 was 35723.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_001.csv",
+      "row_id": 31,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Households, 2020 was 10028.0, 2021 was 10179.0, 2022 was 10310.0, 2023 was 10536.0, 2024 was 10985.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 1238.0, 2021 was 1266.0, 2022 was 1311.0, 2023 was 1350.0, 2024 was 1373.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2020 was 1187.0, 2021 was 1215.0, 2022 was 1265.0, 2023 was 1318.0, 2024 was 1343.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene, 2020 was 51.0, 2021 was 51.0, 2022 was 46.0, 2023 was 32.0, 2024 was 30.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2020 was 5842.0, 2021 was 5904.0, 2022 was 5962.0, 2023 was 6008.0, 2024 was 6069.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2020 was 4121.0, 2021 was 4136.0, 2022 was 4145.0, 2023 was 4145.0, 2024 was 4153.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2020 was 1209.0, 2021 was 1263.0, 2022 was 1317.0, 2023 was 1372.0, 2024 was 1431.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2020 was 512.0, 2021 was 506.0, 2022 was 500.0, 2023 was 491.0, 2024 was 484.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 2949.0, 2021 was 3008.0, 2022 was 3037.0, 2023 was 3179.0, 2024 was 3543.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Services, 2020 was 4606.0, 2021 was 4848.0, 2022 was 4452.0, 2023 was 4736.0, 2024 was 5138.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 2462.0, 2021 was 2662.0, 2022 was 2005.0, 2023 was 2117.0, 2024 was 2357.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2020 was 1877.0, 2021 was 2027.0, 2022 was 1318.0, 2023 was 1480.0, 2024 was 1691.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2020 was 121.0, 2021 was 155.0, 2022 was 173.0, 2023 was 151.0, 2024 was 147.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2020 was 464.0, 2021 was 480.0, 2022 was 514.0, 2023 was 487.0, 2024 was 519.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2020 was 325.0, 2021 was 330.0, 2022 was 332.0, 2023 was 334.0, 2024 was 336.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2020 was 5.0, 2021 was 5.0, 2022 was 5.0, 2023 was 5.0, 2024 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2020 was 155.0, 2021 was 157.0, 2022 was 158.0, 2023 was 159.0, 2024 was 160.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2020 was 165.0, 2021 was 167.0, 2022 was 169.0, 2023 was 170.0, 2024 was 172.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 17,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2020 was 37.0, 2021 was 40.0, 2022 was 26.0, 2023 was 29.0, 2024 was 34.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 18,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 1782.0, 2021 was 1816.0, 2022 was 2089.0, 2023 was 2256.0, 2024 was 2410.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 19,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriculture, 2020 was 436.0, 2021 was 556.0, 2022 was 379.0, 2023 was 402.0, 2024 was 439.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 20,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 211.0, 2021 was 243.0, 2022 was 139.0, 2023 was 145.0, 2024 was 148.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 21,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gasoline, 2020 was 10.0, 2021 was 15.0, 2022 was 17.0, 2023 was 10.0, 2024 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 22,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene(c), 2020 was 1.0, 2021 was 0.5, 2022 was 0.1, 2024 was 0.0, aagr was -11.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 23,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2020 was 198.0, 2021 was 226.0, 2022 was 121.0, 2023 was 133.0, 2024 was 143.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 24,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2020 was 2.0, 2021 was 2.0, 2022 was 1.0, 2023 was 1.0, 2024 was 1.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 25,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2020 was 4.0, 2021 was 4.0, 2022 was 2.0, 2023 was 3.0, 2024 was 3.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 26,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 221.0, 2021 was 308.0, 2022 was 237.0, 2023 was 254.0, 2024 was 288.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 27,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Non-Energy Use, 2020 was 1372.0, 2021 was 1642.0, 2022 was 1289.0, 2023 was 1397.0, 2024 was 1528.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 28,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 1160.0, 2021 was 1430.0, 2022 was 1198.0, 2023 was 1317.0, 2024 was 1445.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 29,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2020 was 212.0, 2021 was 213.0, 2022 was 91.0, 2023 was 80.0, 2024 was 83.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 30,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2020 was 32601.0, 2021 was 35028.0, 2022 was 35859.0, 2023 was 37019.0, 2024 was 38898.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_002.csv",
+      "row_id": 31,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2014 was 4623.0, 2015 was 4596.0, 2016 was 4472.0, 2017 was 4465.0, 2018 was 4458.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2014 was 1107.0, 2015 was 1138.0, 2016 was 1193.0, 2017 was 1236.0, 2018 was 1281.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2014 was 992.0, 2015 was 982.0, 2016 was 967.0, 2017 was 968.0, 2018 was 958.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Bagasse, 2014 was 540.0, 2015 was 627.0, 2016 was 780.0, 2017 was 899.0, 2018 was 942.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2014 was 55.0, 2015 was 55.0, 2016 was 56.0, 2017 was 57.0, 2018 was 58.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Animal Waste, 2014 was 20.0, 2015 was 21.0, 2016 was 21.0, 2017 was 21.0, 2018 was 21.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Municipal Waste, 2014 was 19.0, 2015 was 11.0, 2016 was 5.0, 2017 was 6.0, 2018 was 6.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2014 was 7356.0, 2015 was 7431.0, 2016 was 7494.0, 2017 was 7651.0, 2018 was 7725.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_003.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2020 was 4421.0, 2021 was 4439.0, 2022 was 4449.0, 2023 was 4450.0, 2024 was 4459.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2020 was 1364.0, 2021 was 1420.0, 2022 was 1476.0, 2023 was 1531.0, 2024 was 1592.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2020 was 836.0, 2021 was 837.0, 2022 was 831.0, 2023 was 824.0, 2024 was 819.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Bagasse, 2020 was 877.0, 2021 was 959.0, 2022 was 908.0, 2023 was 947.0, 2024 was 961.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2020 was 43.0, 2021 was 44.0, 2022 was 44.0, 2023 was 44.0, 2024 was 44.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Animal Waste, 2020 was 16.0, 2021 was 17.0, 2022 was 17.0, 2023 was 17.0, 2024 was 17.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Municipal Waste, 2020 was 5.0, 2021 was 4.0, 2022 was 7.0, 2023 was 5.0, 2024 was 7.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2020 was 7563.0, 2021 was 7721.0, 2022 was 7731.0, 2023 was 7819.0, 2024 was 7899.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_004.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was household activities increased by 4.3 percent to 11.0 MTOE from 10.5 MTOE in 2023. This.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 0,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was upward trend was largely attributed to enhanced access to energy services, driven by.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 1,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was the  government’s  sustained  electrification  initiatives,  expanded  availability  of  clean.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 2,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was cooking fuels, and programs promoting energy efficiency at the household level..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 3,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was Biomass  remained  the  primary  fuel  source,, nan was with  fuelwood  accounting  for  37.8.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 4,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was percent of household energy use (Figure 6), followed by charcoal at 13.0 percent and.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 5,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was agricultural  waste  at  4.4  percent.  Although  total  biomass  consumption  grew  slightly.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 6,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was by 1.0 percent from 6.0 MTOE in 2023 to 6.1 MTOE in 2024, its share to the household.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 7,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was energy mix declined by 1.8 percentage points. This shift reflected a gradual transition.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 8,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was toward cleaner and more modern fuels, such as electricity and LPG, driven by improved.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 9,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was electrification and wider access to clean cooking technologies..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 10,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was Successfully  electrified  over, nan was reported  by \nthe.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 11,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was Distribution Utilities (DUs) as of the first half of 2024, the Department of Energy (DOE).",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 12,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was continued the implementation of its Total Electrification Program10. This development.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 13,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was led  to  an  11.5  percent  increase  in  household  electricity  consumption,  which  reached.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 14,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was 3.5  MTOE  in  2024  and  accounted  for  32.3  percent  of  the  household  energy  mix.  The.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 15,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was increased  adoption  of  electricity,  recognized  as  a  cleaner  and  more  efficient  fuel,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 16,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was reflected a growing preference for modern energy sources and marked a shift away.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 17,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was from traditional fuels..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 18,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was Liquefied \npetroleum \ngas.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 19,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was (LPG) \nconsumption \nrose.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 20,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was modestly \nby \n1.9 \npercent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 21,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was to  1.3  MTOE \nin  2024  and.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 22,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was comprised 12.2 percent of the.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 23,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was Charcoal.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 24,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was household  energy  demand.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 25,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "nan was 13.0%.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 26,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was mix.  Meanwhile, \nkerosene.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 27,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was use  declined  by  6.2  percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 28,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was to  29.9  kTOE  in  2024.  These.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 29,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was trends  reflected  the  impact, nan was Other\nBiomass.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 30,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was of \nimproved  electrification, nan was LPG.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 31,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was and \nexpanded \naccess \nto, nan was 12.2%\n4.4%.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 32,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was cleaner \ntechnologies \non.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 33,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was household \nfuel \nchoices..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 34,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was 9 \nMioten,  E. \n(2025,  March \n3).  The  Philippines’, nan was https://www.bworldonline.com/special-fea-.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 35,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "consuming sector in the philippines with its 28 2 percent share to tfec energy e was 10  2024–2033 National Total Electrification Roadmap, DOE.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_005.csv",
+      "row_id": 36,
+      "columns": [
+        "consuming_sector_in_the_philippines_with_its_28_2_percent_share_to_tfec_energy_e",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Households, 2020 was 10028.0, 2021 was 10179.0, 2022 was 10310.0, 2023 was 10536.0, 2024 was 10985.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 1238.0, 2021 was 1266.0, 2022 was 1311.0, 2023 was 1350.0, 2024 was 1373.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2020 was 1187.0, 2021 was 1215.0, 2022 was 1265.0, 2023 was 1318.0, 2024 was 1343.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene, 2020 was 51.0, 2021 was 51.0, 2022 was 46.0, 2023 was 32.0, 2024 was 30.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2020 was 5842.0, 2021 was 5904.0, 2022 was 5962.0, 2023 was 6008.0, 2024 was 6069.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2020 was 4121.0, 2021 was 4136.0, 2022 was 4145.0, 2023 was 4145.0, 2024 was 4153.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2020 was 1209.0, 2021 was 1263.0, 2022 was 1317.0, 2023 was 1372.0, 2024 was 1431.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2020 was 512.0, 2021 was 506.0, 2022 was 500.0, 2023 was 491.0, 2024 was 484.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 2949.0, 2021 was 3008.0, 2022 was 3037.0, 2023 was 3179.0, 2024 was 3543.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Services, 2020 was 4606.0, 2021 was 4848.0, 2022 was 4452.0, 2023 was 4736.0, 2024 was 5138.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 2462.0, 2021 was 2662.0, 2022 was 2005.0, 2023 was 2117.0, 2024 was 2357.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2020 was 1877.0, 2021 was 2027.0, 2022 was 1318.0, 2023 was 1480.0, 2024 was 1691.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2020 was 121.0, 2021 was 155.0, 2022 was 173.0, 2023 was 151.0, 2024 was 147.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was LPG, 2020 was 464.0, 2021 was 480.0, 2022 was 514.0, 2023 was 487.0, 2024 was 519.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biomass, 2020 was 325.0, 2021 was 330.0, 2022 was 332.0, 2023 was 334.0, 2024 was 336.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2020 was 5.0, 2021 was 5.0, 2022 was 5.0, 2023 was 5.0, 2024 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2020 was 155.0, 2021 was 157.0, 2022 was 158.0, 2023 was 159.0, 2024 was 160.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2020 was 165.0, 2021 was 167.0, 2022 was 169.0, 2023 was 170.0, 2024 was 172.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 17,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2020 was 37.0, 2021 was 40.0, 2022 was 26.0, 2023 was 29.0, 2024 was 34.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 18,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 1782.0, 2021 was 1816.0, 2022 was 2089.0, 2023 was 2256.0, 2024 was 2410.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 19,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriculture, 2020 was 436.0, 2021 was 556.0, 2022 was 379.0, 2023 was 402.0, 2024 was 439.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 20,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 211.0, 2021 was 243.0, 2022 was 139.0, 2023 was 145.0, 2024 was 148.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 21,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Gasoline, 2020 was 10.0, 2021 was 15.0, 2022 was 17.0, 2023 was 10.0, 2024 was 4.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 22,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Kerosene(c), 2020 was 1.0, 2021 was 0.5, 2022 was 0.1, 2024 was 0.0, aagr was -11.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 23,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Diesel, 2020 was 198.0, 2021 was 226.0, 2022 was 121.0, 2023 was 133.0, 2024 was 143.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 24,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuel Oil, 2020 was 2.0, 2021 was 2.0, 2022 was 1.0, 2023 was 1.0, 2024 was 1.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 25,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Biodiesel, 2020 was 4.0, 2021 was 4.0, 2022 was 2.0, 2023 was 3.0, 2024 was 3.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 26,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Electricity, 2020 was 221.0, 2021 was 308.0, 2022 was 237.0, 2023 was 254.0, 2024 was 288.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 27,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Non-Energy Use, 2020 was 1372.0, 2021 was 1642.0, 2022 was 1289.0, 2023 was 1397.0, 2024 was 1528.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 28,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2020 was 1160.0, 2021 was 1430.0, 2022 was 1198.0, 2023 was 1317.0, 2024 was 1445.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 29,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2020 was 212.0, 2021 was 213.0, 2022 was 91.0, 2023 was 80.0, 2024 was 83.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 30,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2020 was 32601.0, 2021 was 35028.0, 2022 was 35859.0, 2023 was 37019.0, 2024 was 38898.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_006.csv",
+      "row_id": 31,
+      "columns": [
+        "unnamed_0",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2014 was 4623.0, 2015 was 4596.0, 2016 was 4472.0, 2017 was 4465.0, 2018 was 4458.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2014 was 1107.0, 2015 was 1138.0, 2016 was 1193.0, 2017 was 1236.0, 2018 was 1281.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2014 was 992.0, 2015 was 982.0, 2016 was 967.0, 2017 was 968.0, 2018 was 958.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Bagasse, 2014 was 540.0, 2015 was 627.0, 2016 was 780.0, 2017 was 899.0, 2018 was 942.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2014 was 55.0, 2015 was 55.0, 2016 was 56.0, 2017 was 57.0, 2018 was 58.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Animal Waste, 2014 was 20.0, 2015 was 21.0, 2016 was 21.0, 2017 was 21.0, 2018 was 21.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Municipal Waste, 2014 was 19.0, 2015 was 11.0, 2016 was 5.0, 2017 was 6.0, 2018 was 6.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2014 was 7356.0, 2015 was 7431.0, 2016 was 7494.0, 2017 was 7651.0, 2018 was 7725.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "2014 was 2020.0, 2015 was 2021.0, 2016 was 2022.0, 2017 was 2023.0, 2018 was 2024.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 8,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2014 was 4421.0, 2015 was 4439.0, 2016 was 4449.0, 2017 was 4450.0, 2018 was 4459.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 9,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2014 was 1364.0, 2015 was 1420.0, 2016 was 1476.0, 2017 was 1531.0, 2018 was 1592.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 10,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2014 was 836.0, 2015 was 837.0, 2016 was 831.0, 2017 was 824.0, 2018 was 819.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 11,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Bagasse, 2014 was 877.0, 2015 was 959.0, 2016 was 908.0, 2017 was 947.0, 2018 was 961.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 12,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2014 was 43.0, 2015 was 44.0, 2016 was 44.0, 2017 was 44.0, 2018 was 44.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 13,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Animal Waste, 2014 was 16.0, 2015 was 17.0, 2016 was 17.0, 2017 was 17.0, 2018 was 17.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 14,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Municipal Waste, 2014 was 5.0, 2015 was 4.0, 2016 was 7.0, 2017 was 5.0, 2018 was 7.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 15,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2014 was 7563.0, 2015 was 7721.0, 2016 was 7731.0, 2017 was 7819.0, 2018 was 7899.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_007.csv",
+      "row_id": 16,
+      "columns": [
+        "unnamed_0",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric",
+        "2019_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Fuelwood, 2023 was 4450.0, 2024 was 4459.0, gr was 0.2 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Charcoal, 2023 was 1531.0, 2024 was 1592.0, gr was 3.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Agriwaste, 2023 was 824.0, 2024 was 819.0, gr was -0.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Bagasse, 2023 was 947.0, 2024 was 961.0, gr was 1.5 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Ricehull, 2023 was 44.0, 2024 was 44.0, gr was -0.1 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Animal Waste, 2023 was 17.0, 2024 was 17.0, gr was 0.5 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Municipal Waste, 2023 was 5.0, 2024 was 7.0, gr was 32.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 6,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total, 2023 was 7819.0, 2024 was 7899.0, gr was 1.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_008.csv",
+      "row_id": 7,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Charcoal, 0 2 was 3.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 0,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Agriwaste, 0 2 was -0.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 1,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Bagasse, 0 2 was 1.5 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 2,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Ricehull, 0 2 was -0.1 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 3,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Animal Waste, 0 2 was 0.5 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 4,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Municipal Waste, 0 2 was 32.6 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 5,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuelwood was Total, 0 2 was 1.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_009.csv",
+      "row_id": 6,
+      "columns": [
+        "fuelwood",
+        "0_2",
+        "0_2_numeric",
+        "0_2_unit"
+      ]
+    }
+  },
+  {
+    "content": "nan was 3811.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 0,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was (GWh).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 1,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Biomass.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 2,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Installed Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 3,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 4,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Dependable Generating.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 5,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Capacity (MW).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 6,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was Electricity Generation.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 7,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "nan was 1446.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 8,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  },
+  {
+    "content": "electricity generationeration was (GWh).",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "category": "biomass",
+      "table": "biomass_consolidated_010.csv",
+      "row_id": 9,
+      "columns": [
+        "electricity_generationeration",
+        "nan",
+        "nan_numeric"
+      ]
+    }
+  }
+]

@@ -1,0 +1,58 @@
+**Renewable Energy Providers** 
+
+Factors to consider: 
+
+* **DOE Solar PV Installer Registry** (Reference: [https://drive.google.com/file/d/1KmvolNEbgFZc9Jxw7dUlWtqituO\_FLUd/view?usp=sharing](https://drive.google.com/file/d/1KmvolNEbgFZc9Jxw7dUlWtqituO_FLUd/view?usp=sharing))   
+* **ASIP** (Association of Solar Installers in the Philippines) \- created: September 22, 2022 (reference: [https://www.asipinc.org/history-of-asip.html\#/](https://www.asipinc.org/history-of-asip.html#/)) ([https://www.facebook.com/ASIPINC/](https://www.facebook.com/ASIPINC/))
+
+**Notes:** 
+
+* Region VIII \- R.K.I. Building Technologies Inc. \- no available information, but included in the registry   
+* Region V \- Solargy Solutions \- has available information, but last active in 2022
+
+***Source from Official DOE Solar PV Installer Registry (updated as of June 25, 2025\) & Association of Solar Installers in the Philippines (ASIP in green color)*** 
+
+| Business Name | Type of Business | Region | Address | Years in the Industry | Facebook Page |
+| ----- | ----- | ----- | ----- | ----- | ----- |
+| NCO General Merchandise | Sole Proprietorship  | I  | National Highway, Brgy. San Marcos, San Nicolas, Ilocos Norte | Since 2011, 29 years | [https://www.facebook.com/NCOgeneralmdse/](https://www.facebook.com/NCOgeneralmdse/)  |
+| Ecosense Technologies  | Sole Proprietorship  | II  | 2D Tomtor Bldg, Luna Street, Ugac Norte, Tuguegarao, Cagayan | N/A | [https://www.facebook.com/ecosense.ventures](https://www.facebook.com/ecosense.ventures)  |
+| Prismatech Solar Enterprise Incorporated | Sole Proprietorship  | III | [Roman Super Highway, Alauli, Pilar, Bataan, Pilar, Philippines, 2101](https://www.bing.com/maps/default.aspx?v=2&pc=FACEBK&mid=8100&where1=Roman%20Super%20Highway%2C%20Alauli%2C%20Pilar%2C%20Bataan%2C%20Pilar%2C%20Philippines%2C%202101&FORM=FBKPL1&mkt=en-US&fbclid=IwZXh0bgNhZW0CMTAAYnJpZBExaDJia1U2RXhPSGkzV3dwOXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR7zPscjFHIaQHJYoOkOuWJnxaM0pwkw4ZD8fxPugJ894Sy7UH-9DQWlJ1JPHQ_aem_vJGtQhBdyh4PMF3a0XqbVA)  | Since 2021, 5 years  | [https://www.facebook.com/prismatechsolar/](https://www.facebook.com/prismatechsolar/)  |
+| El'Sol Wealth Phils Engineering Services | Sole Proprietorship  | III | Plaridel, Philippines  | Since 2020, 6 years  | [https://www.facebook.com/ELSolWealthPhils/](https://www.facebook.com/ELSolWealthPhils/)  |
+| Solaren Renewable Energy Solutions Corporation | Corporation  | III  | 127 Sta Rosa Road, Caramutan, La Paz, Tarlac | Since 2014, 12 years  | [https://www.facebook.com/solarenpower/](https://www.facebook.com/solarenpower/)  |
+| Bandacorp Solar Inc.  | Corporation  | III  | Unit A G/F SBHD Bldg., Blk 8 Lot 2B, Waterfront Road, Subic Bay Freeport Zone, Subic, Zambales  | Since 2006, 20 years  | [http://www.bandasolar.com/](http://www.bandasolar.com/)  |
+| AlphaSolar Inc.  | Corporation  | III  | 101-1, FRDC Bldg., Greenfield Square, MacArthur Highway, Sinadalan, San Fernando City, Pampanga | Since 2011, 15 years  | [https://www.alphasolarinc.com/about-us](https://www.alphasolarinc.com/about-us)  |
+| Macspower Construction Supply and Services Corporation | Sole Proprietorship  | III | 848 PUROK 3, MALAMIG, BUSTOS, BULACAN  | Since 2018, 8 years  | [https://www.macspower.net/aboutus](https://www.macspower.net/aboutus)  |
+| Sonnelink Green Builders and Trading Corporation | Corporation  | III | Lot 1 Block 939 Kamagong Drive Phase 9 Heritage Homes Loma de Gato, Marilao, Bulacan  | Since 2019, 7 years  |  [Sonnelink](https://sonnelink.com/) [web](https://sonnelink.com/)  [https://www.facebook.com/SonnelinkGreenBuilders/](https://www.facebook.com/SonnelinkGreenBuilders/)  |
+| Metrogreen Technologies Corporation | Corporation  | III | 0016 – A Unit 2 Little Baguio, Malhacan, Meycauayan, Bulacan  | Since 2016, 10 years  | [Metrogreen Technologies Corporation | Get Solar Solutions Today](https://www.metrogreentech.com/)  |
+| SJ Renewable Energy  | Sole Proprietorship  | III | Zone 6, Pinagcuartelan, Sto. Niño, San Jose City, Nueva Ecija  | Since 2017, 9 years  | [SJ Renewable Energy | San Jose | Facebook](https://www.facebook.com/sjrenergy/) |
+| HHO Trading (HHOT Solar)  | Sole Proprietorship  | IV-A | 7 30 Jordan Estates Subd., Brgy. San Antonio I, Noveleta, Cavite | Since 2015, 11 years   | [https://www.facebook.com/hhotsolar/](https://www.facebook.com/hhotsolar/)  |
+| Aibishter Engineering Services | Sole Proprietorship  | IV-A | Purol Ipil-ipil, Citta Grande Isabang, Lucena City, Quezon | Since 2020, 6 years  | [https://www.facebook.com/aibishterengineering](https://www.facebook.com/aibishterengineering)  |
+| Ecoplus Solar Inc  | Corporation  | IV-A  | Town's Delight Commissary, Purok 6, Tanza \- Trece Road, Barangay De Ocampo, Trece Martires City, Trece Martires, Philippines, 4109 | Since 2022, 4 years  | [https://www.facebook.com/ecoplussolarph](https://www.facebook.com/ecoplussolarph)  |
+| MissionPH Renewables Corporation  | Corporation  | IV-A  | JE Business Center Pinesville Road Dolores, Taytay, Rizal | Since 2023, 3 years | [https://www.facebook.com/p/Mission-PH-Renewables-61553359966346/](https://www.facebook.com/p/Mission-PH-Renewables-61553359966346/)  |
+| Hive Energy OPC | Corporation  | IV-B | A\&N Building Bonifacio Drive Ilaya, Calapan City, Calapan City, Oriental Mindoro  | Since 2020, 6 years  | [https://www.facebook.com/HiveEnergyPH/](https://www.facebook.com/HiveEnergyPH/)  |
+| Next-Gen Solar Panel Installation Services | Sole Proprietorship  | NCR | Block 13 Lot 13 Road 8A UPS 5, San Isidro, ParaÃ±aque City, Metro Manila | Since 2022, 4 years  | [https://www.facebook.com/NextgenSolar/](https://www.facebook.com/NextgenSolar/)  |
+| MSpectrum, Inc. | Corporation  | NCR  | 3/F Business Solution Center, Meralco Comp. Ortigas Ave., Ugong, Pasig City, Metro Manila | Member of Meralco Group, 120+ years  | [https://www.mspectrum.com.ph/about-us](https://www.mspectrum.com.ph/about-us)  |
+| Surge Electrical Supply and Contracting Corp | Corporation  | NCR | 8280 Dr. A. Santos Avenue., Brgy. San Isidro, Paranaque City, Metro Manila | 9 years | [https://sescocorp.com/](https://sescocorp.com/)  |
+| GenWATT Energy Solutions Corp. | Corporation  | NCR | 38A Maayusin St. UP Village, Quezon City, Metro Manila | Since 2021, 5 years  | [https://www.facebook.com/GenWattPH/](https://www.facebook.com/GenWattPH/)  |
+| Advanced Energy Technologies Renewables Plus Co., Inc | Corporation  | NCR | Unit 1237, City and Land Mega Plaza, ADB Avenue corner Garnet Road, Ortigas Center, Pasig City, Metro Manila  | Since 2012, 14 years  | [https://aet-rp.com/about-aet/](https://aet-rp.com/about-aet/)  |
+| Solaric Corp | Corporation  | NCR  | 2320 Chino Roces Avenue Extension, Makati, Metro Manila  | Since 2013, 13 years  | [https://www.facebook.com/solaricPH/](https://www.facebook.com/solaricPH/)  |
+| Solarix Enterprise | Sole Proprietorship  | NCR | Unit 103 & 104 Firenza Place, Rainbow corner Azure Street, Concepcion II, Marikina City, Metro Manila  | Since 2017, 9 years  | [https://www.facebook.com/p/Solarix-Enterprise-100054654121069/](https://www.facebook.com/p/Solarix-Enterprise-100054654121069/)  |
+| Vega Energy Services Corp | Corporation  | NCR  | L24, Philippine Stock Exchange Tower, One Bonifacio High Street, 5th Ave. cor. 28th St, Bonifacio Global City, Taguig City, Metro Manila  | Since 2022, 4 years  | [https://vega.ph/about/](https://vega.ph/about/)  |
+| PHILERGY German Solar | Corporation  | NCR | Unit 803, 8F, Magnitude Bldg. III, 186 E. Rodriguez Jr. Ave., Bagumbayan District 3, Quezon City, Metro Manila | Since 2017, 9 years  | [https://www.philergy.com/about-us](https://www.philergy.com/about-us)  |
+| PAVI Green Renewable Energy, Inc. | Corporation  | NCR  | 4th Floor Starmall I.T. Hub C.V. STARR, Phil-Am Life Village, Pamplona Dos, Las PiÃ±as City, Las PiÃ±as, Metro Manila | Since 2021, 5 years  | [https://pavigreen.com.ph/about-us/](https://pavigreen.com.ph/about-us/)  |
+| SPE Energy & Builders, Inc. | Corporation | NCR | 2F Liwasang Kalayaan Street, C\&B Circle Mall, Marikina Heights, Marikina City, Metro Manila | Since 2016, 10 years  | [https://www.facebook.com/SPEEnergyBuilders/](https://www.facebook.com/SPEEnergyBuilders/)  |
+| MOBI SOLAR Philippines INC.  | Corporation  | NCR | 6th Flr Kings Court 2 Bldg 2129 Chino Roces Ave. Pio Del Pilar, Makati City  | Since 2023, 3 years  | [https://mobisolar.ph/about](https://mobisolar.ph/about)  |
+| CENAG SOLAR INC | Corporation  | NCR | 2570 Rubi St., San Andres Bukid, Brgy. 763, Manila, Metro Manila  | Since 2012, 14 years  | [https://www.facebook.com/cenagsolar/](https://www.facebook.com/cenagsolar/)  |
+| Power 4 All, Inc. | Corporation  | NCR | 7F Estancia Offices, West Wing, Meralco Ave., Capitol Commons, Brgy. Oranbo, Pasig City, Metro Manila | Since 2014, 12 years  | [https://www.facebook.com/power4all.org/](https://www.facebook.com/power4all.org/)  |
+| Netsolar Incorporated | Corporation  | NCR  | 302 Centerpoint Bldg. Julia Vargas cor. Garnet Road, Ortigas Center, San Antonio, Pasig City, Metro Manila | Since 2015, 13 years  | [https://www.netsolar.com.ph/business](https://www.netsolar.com.ph/business)  |
+| Maxtec Solutions Philippines Inc | Corporation  | NCR | 498A. BONI AVENUE, Mandaluyong, Metro Manila | Since 2024, 2 years  | [https://www.facebook.com/p/Maxtec-Solutions-Philippines-61565517066678/](https://www.facebook.com/p/Maxtec-Solutions-Philippines-61565517066678/)  |
+| Superserve Corporation | Corporation  | NCR | No. 18 Mother Ignacia Ave., Brgy. Paligsahan Quezon City | Since 2003, 23 years  | [https://superservecorp.com/](https://superservecorp.com/)  |
+| SkyBright Solar PH | Corporation  | VI  | Unit 6, Solid Bldg., Donato Pison Avenue., Brgy. San Rafael, Mandurriao, Iloilo  | Since 2017, 9 years  | [https://sbne.energy/about-us/](https://sbne.energy/about-us/)  |
+| Cantones Solar Power Engineering Services | Sole Proprietorship  | VII | Purok 2 Pig-Ot, Brgy. Loon, Loon, Bohol | Since 2022, 4 years  | [https://www.facebook.com/CantonesElectroTechPv/](https://www.facebook.com/CantonesElectroTechPv/)  |
+| Physics Research \- Sales & Services Corp. | Corporation  | VII  | Unit 4 Krystall Mall, San Isidro, Talisay, Cebu | N/A | [https://prsscorp.com/](https://prsscorp.com/)  |
+| Sunstruck Solar Solutions Inc.  | Corporation | XI | Door 209 & 210 BGP Commercial Complex Building II McArthur Highway Talomo District, Matina Crossing, Davao City, Davao del Sur  | Since 2018, 8 years  | [Sunstruck Solar Solutions Inc. | Davao City | Facebook](https://www.facebook.com/sunstrucksolarsolutions/)  |
+| Alectric Engineering Services | Sole Proprietorship  | XII | Purok 10, Lagao, General Santos City, South Cotabato  | Since 2020, 6 years  | https://www.facebook.com/solaralectric/ |
+| Energisto Philippines Renewable Energy Development Corporation | Corporation  | XII  | Maduramente Building, National Highway, City Heights,, General Santos City, South Cotabato  | Since 2015, 11 years  | [https://energisto.ph/about-us/](https://energisto.ph/about-us/)  |
+| Villanueva-Ong Electrical Lights Trading | Sole Proprietorship  | XII  | Millan St., Brgy. General P. Santos, Koronadal City, South Cotabato | Since 2021, 5 years  | [https://www.facebook.com/p/VO-Electrical-Lights-Trading-100070349910288/](https://www.facebook.com/p/VO-Electrical-Lights-Trading-100070349910288/)  |
+| Don Solar Solar Power Engineering Services | Sole Proprietorship  | XIII | FT Emporium Bldg., Narciso Street, Surigao City, Surigao del Norte | Since 2021, 5 years  | [https://www.facebook.com/DonSolarSurigao/](https://www.facebook.com/DonSolarSurigao/)  |
+

@@ -1,0 +1,4 @@
+scraped_data/runtime/** filter=lfs diff=lfs merge=lfs -text
+scraped_data/output/** filter=lfs diff=lfs merge=lfs -text
+GeothermalDatasets/** filter=lfs diff=lfs merge=lfs -text
+ThesisResearchStudies/** filter=lfs diff=lfs merge=lfs -text

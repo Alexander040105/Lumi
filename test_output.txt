@@ -1,0 +1,488 @@
+....F.........F..F..................F..EEEEEEEEEEEEEEEEEEEEEEEEEEEEEE... [ 29%]
+........................................................................ [ 58%]
+........................................................................ [ 87%]
+............................F.F.                                         [100%]
+=================================== ERRORS ====================================
+__________ ERROR at setup of TestSchemaExists.test_all_tables_exist ___________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestSchemaExists.test_regional_lookup_view_exists _____
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_______ ERROR at setup of TestSchemaExists.test_expected_indexes_exist ________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_insert_region _____________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_select_region _____________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_update_region _____________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_delete_region _____________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestProvincesCRUD.test_insert_province_with_valid_fk ____
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestProvincesCRUD.test_insert_province_with_invalid_fk_fails _
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestMunicipalitiesCRUD.test_insert_municipality ______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestMunicipalitiesCRUD.test_delete_municipality_cascades_to_climate _
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestClimateDataCRUD.test_insert_climate_record _______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestClimateDataCRUD.test_month_constraint_valid ______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestClimateDataCRUD.test_month_constraint_invalid _____
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestClimateDataCRUD.test_year_constraint_invalid ______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestHydropowerSuitabilityCRUD.test_insert_hydropower_record _
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_barangays_municipality_fk ___
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_municipalities_province_fk __
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestForeignKeyIntegrity.test_provinces_region_fk ______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_hydropower_municipality_fk __
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestForeignKeyIntegrity.test_climate_municipality_fk ____
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_______ ERROR at setup of TestRegionalLookupView.test_view_returns_rows _______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestRegionalLookupView.test_view_has_expected_columns ___
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestRegionalLookupView.test_view_municipality_count_matches _
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestNullConstraints.test_regions_name_not_null _______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestNullConstraints.test_provinces_name_not_null ______
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestNullConstraints.test_municipalities_name_not_null ___
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_________ ERROR at setup of TestDataTypes.test_climate_t2m_is_double __________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+________ ERROR at setup of TestDataTypes.test_climate_year_is_smallint ________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__________ ERROR at setup of TestDataTypes.test_climate_month_check ___________
+lumi_tests\tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+lumi_tests\tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+================================== FAILURES ===================================
+________ TestApiResponsePerformance.test_health_endpoint_response_time ________
+lumi_tests\tests\integration\performance_test.py:232: in test_health_endpoint_response_time
+    assert resp.status_code == 200
+E   assert 307 == 200
+E    +  where 307 = <Response [307 Temporary Redirect]>.status_code
+__________________ TestHealthEndpoint.test_health_check_live __________________
+lumi_tests\tests\integration\test_api.py:149: in test_health_check_live
+    assert resp.status_code == 200
+E   assert 307 == 200
+E    +  where 307 = <Response [307 Temporary Redirect]>.status_code
+______________ TestEnergyHubEndpoints.test_forecast_metric_param ______________
+.venv\Lib\site-packages\pandas\core\indexes\base.py:3641: in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pandas/_libs/index.pyx:168: in pandas._libs.index.IndexEngine.get_loc
+    ???
+pandas/_libs/index.pyx:197: in pandas._libs.index.IndexEngine.get_loc
+    ???
+pandas/_libs/hashtable_class_helper.pxi:7668: in pandas._libs.hashtable.PyObjectHashTable.get_item
+    ???
+pandas/_libs/hashtable_class_helper.pxi:7676: in pandas._libs.hashtable.PyObjectHashTable.get_item
+    ???
+E   KeyError: 'year'
+
+The above exception was the direct cause of the following exception:
+lumi_tests\tests\integration\test_api.py:179: in test_forecast_metric_param
+    response = client.get(f"/api/v1/energyhub/forecast?metric={metric}")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:518: in get
+    return super().get(
+.venv\Lib\site-packages\httpx\_client.py:1066: in get
+    return self.request(
+.venv\Lib\site-packages\starlette\testclient.py:488: in request
+    return super().request(
+.venv\Lib\site-packages\httpx\_client.py:837: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:926: in send
+    response = self._send_handling_auth(
+.venv\Lib\site-packages\httpx\_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+.venv\Lib\site-packages\httpx\_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:381: in handle_request
+    raise exc
+.venv\Lib\site-packages\starlette\testclient.py:378: in handle_request
+    portal.call(self.app, scope, receive, send)
+.venv\Lib\site-packages\anyio\from_thread.py:334: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+.venv\Lib\site-packages\anyio\from_thread.py:259: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+.venv\Lib\site-packages\starlette\applications.py:113: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\middleware\errors.py:187: in __call__
+    raise exc
+.venv\Lib\site-packages\starlette\middleware\errors.py:165: in __call__
+    await self.app(scope, receive, _send)
+.venv\Lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\starlette\middleware\exceptions.py:62: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:62: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:51: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\starlette\routing.py:715: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:735: in app
+    await route.handle(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:288: in handle
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:76: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:62: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:51: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\starlette\routing.py:73: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\routing.py:301: in app
+    raw_response = await run_endpoint_function(
+.venv\Lib\site-packages\fastapi\routing.py:212: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+fastapi-backend\app\routes\energyhub.py:39: in get_forecast
+    return svc.get_forecast(metric)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+fastapi-backend\app\services\energyhub.py:91: in get_forecast
+    return self._ml.get_forecast(metric)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+fastapi-backend\app\ml\predictor.py:113: in get_forecast
+    years = df["year"].astype(int).tolist()
+            ^^^^^^^^^^
+.venv\Lib\site-packages\pandas\core\frame.py:4378: in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pandas\core\indexes\base.py:3648: in get_loc
+    raise KeyError(key) from err
+E   KeyError: 'year'
+____________ TestEcoSimPost.test_post_ecosim_invalid_municipality _____________
+lumi_tests\tests\integration\test_api.py:375: in test_post_ecosim_invalid_municipality
+    response = client.post("/api/v1/ecosim/", json=payload)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:597: in post
+    return super().post(
+.venv\Lib\site-packages\httpx\_client.py:1157: in post
+    return self.request(
+.venv\Lib\site-packages\starlette\testclient.py:488: in request
+    return super().request(
+.venv\Lib\site-packages\httpx\_client.py:837: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:926: in send
+    response = self._send_handling_auth(
+.venv\Lib\site-packages\httpx\_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+.venv\Lib\site-packages\httpx\_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\httpx\_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\starlette\testclient.py:381: in handle_request
+    raise exc
+.venv\Lib\site-packages\starlette\testclient.py:378: in handle_request
+    portal.call(self.app, scope, receive, send)
+.venv\Lib\site-packages\anyio\from_thread.py:334: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+.venv\Lib\site-packages\anyio\from_thread.py:259: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+.venv\Lib\site-packages\starlette\applications.py:113: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\middleware\errors.py:187: in __call__
+    raise exc
+.venv\Lib\site-packages\starlette\middleware\errors.py:165: in __call__
+    await self.app(scope, receive, _send)
+.venv\Lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\starlette\middleware\exceptions.py:62: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:62: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:51: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\starlette\routing.py:715: in __call__
+    await self.middleware_stack(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:735: in app
+    await route.handle(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:288: in handle
+    await self.app(scope, receive, send)
+.venv\Lib\site-packages\starlette\routing.py:76: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+.venv\Lib\site-packages\starlette\_exception_handler.py:62: in wrapped_app
+    raise exc
+.venv\Lib\site-packages\starlette\_exception_handler.py:51: in wrapped_app
+    await app(scope, receive, sender)
+.venv\Lib\site-packages\starlette\routing.py:73: in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\fastapi\routing.py:301: in app
+    raw_response = await run_endpoint_function(
+.venv\Lib\site-packages\fastapi\routing.py:212: in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+fastapi-backend\app\routes\ecosim.py:44: in post_item
+    response_data = renewable_energy_calculator(
+fastapi-backend\app\services\ecosim.py:299: in renewable_energy_calculator
+    municipality_results = get_municipality_data(municipality)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+fastapi-backend\app\services\ecosim.py:74: in get_municipality_data
+    .execute()
+     ^^^^^^^^^
+.venv\Lib\site-packages\postgrest\_sync\request_builder.py:127: in execute
+    raise APIError(r.json())
+E   postgrest.exceptions.APIError: {'code': 'PGRST116', 'details': 'The result contains 0 rows', 'hint': None, 'message': 'Cannot coerce the result to a single JSON object'}
+_______________ TestCalculateOptionSummary.test_solar_scenario ________________
+lumi_tests\tests\unit\test_renewable_calculations.py:401: in test_solar_scenario
+    assert 0.0 <= result["suitability_score"] <= 1.0
+E   assert 30.4 <= 1.0
+_________________ TestCalculateOptionSummary.test_wind_scale __________________
+lumi_tests\tests\unit\test_renewable_calculations.py:433: in test_wind_scale
+    assert 0.0 <= result["suitability_score"] <= 1.0
+E   assert 24.3 <= 1.0
+============================== warnings summary ===============================
+.venv\Lib\site-packages\supabase\__init__.py:1
+  D:\63947\Documents\GitHub\Lumi\.venv\Lib\site-packages\supabase\__init__.py:1: DeprecationWarning: The `gotrue` package is deprecated, is not going to receive updates in the future. Please, use `supabase_auth` instead.
+    from gotrue.errors import (
+
+fastapi-backend\main.py:22
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\main.py:22: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+.venv\Lib\site-packages\fastapi\applications.py:4495
+  D:\63947\Documents\GitHub\Lumi\.venv\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/integration/test_api.py::TestHealthEndpoint::test_health_check_mock
+  D:\63947\Documents\GitHub\Lumi\.venv\Lib\site-packages\faiss\loader.py:49: DeprecationWarning: numpy.core._multiarray_umath is deprecated and has been renamed to numpy._core._multiarray_umath. The numpy._core namespace contains private NumPy internals and its use is discouraged, as NumPy internals can change without warning in any release. In practice, most real-world usage of numpy.core is to access functionality in the public NumPy API. If that is the case, use the public NumPy API. If not, you are using NumPy internals. If you would still like to access an internal attribute, use numpy._core._multiarray_umath.__cpu_features__.
+    from numpy.core._multiarray_umath import __cpu_features__
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED lumi_tests\tests\integration\performance_test.py::TestApiResponsePerformance::test_health_endpoint_response_time
+FAILED lumi_tests\tests\integration\test_api.py::TestHealthEndpoint::test_health_check_live
+FAILED lumi_tests\tests\integration\test_api.py::TestEnergyHubEndpoints::test_forecast_metric_param
+FAILED lumi_tests\tests\integration\test_api.py::TestEcoSimPost::test_post_ecosim_invalid_municipality
+FAILED lumi_tests\tests\unit\test_renewable_calculations.py::TestCalculateOptionSummary::test_solar_scenario
+FAILED lumi_tests\tests\unit\test_renewable_calculations.py::TestCalculateOptionSummary::test_wind_scale
+ERROR lumi_tests\tests\integration\test_database.py::TestSchemaExists::test_all_tables_exist
+ERROR lumi_tests\tests\integration\test_database.py::TestSchemaExists::test_regional_lookup_view_exists
+ERROR lumi_tests\tests\integration\test_database.py::TestSchemaExists::test_expected_indexes_exist
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionsCRUD::test_insert_region
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionsCRUD::test_select_region
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionsCRUD::test_update_region
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionsCRUD::test_delete_region
+ERROR lumi_tests\tests\integration\test_database.py::TestProvincesCRUD::test_insert_province_with_valid_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestProvincesCRUD::test_insert_province_with_invalid_fk_fails
+ERROR lumi_tests\tests\integration\test_database.py::TestMunicipalitiesCRUD::test_insert_municipality
+ERROR lumi_tests\tests\integration\test_database.py::TestMunicipalitiesCRUD::test_delete_municipality_cascades_to_climate
+ERROR lumi_tests\tests\integration\test_database.py::TestClimateDataCRUD::test_insert_climate_record
+ERROR lumi_tests\tests\integration\test_database.py::TestClimateDataCRUD::test_month_constraint_valid
+ERROR lumi_tests\tests\integration\test_database.py::TestClimateDataCRUD::test_month_constraint_invalid
+ERROR lumi_tests\tests\integration\test_database.py::TestClimateDataCRUD::test_year_constraint_invalid
+ERROR lumi_tests\tests\integration\test_database.py::TestHydropowerSuitabilityCRUD::test_insert_hydropower_record
+ERROR lumi_tests\tests\integration\test_database.py::TestForeignKeyIntegrity::test_barangays_municipality_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestForeignKeyIntegrity::test_municipalities_province_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestForeignKeyIntegrity::test_provinces_region_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestForeignKeyIntegrity::test_hydropower_municipality_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestForeignKeyIntegrity::test_climate_municipality_fk
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionalLookupView::test_view_returns_rows
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionalLookupView::test_view_has_expected_columns
+ERROR lumi_tests\tests\integration\test_database.py::TestRegionalLookupView::test_view_municipality_count_matches
+ERROR lumi_tests\tests\integration\test_database.py::TestNullConstraints::test_regions_name_not_null
+ERROR lumi_tests\tests\integration\test_database.py::TestNullConstraints::test_provinces_name_not_null
+ERROR lumi_tests\tests\integration\test_database.py::TestNullConstraints::test_municipalities_name_not_null
+ERROR lumi_tests\tests\integration\test_database.py::TestDataTypes::test_climate_t2m_is_double
+ERROR lumi_tests\tests\integration\test_database.py::TestDataTypes::test_climate_year_is_smallint
+ERROR lumi_tests\tests\integration\test_database.py::TestDataTypes::test_climate_month_check
+6 failed, 212 passed, 4 warnings, 30 errors in 25.99s

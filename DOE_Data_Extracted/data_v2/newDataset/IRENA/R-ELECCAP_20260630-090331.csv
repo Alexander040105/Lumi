@@ -1,0 +1,263 @@
+"Electricity capacity statistics by Region, Technology, Grid connection and Year"
+
+"Region","Technology","Grid connection","Year",Electricity capacity statistics
+"Asia","Total renewable energy","OnGrid","2000",169657.77
+"Asia","Total renewable energy","OnGrid","2001",180663.79
+"Asia","Total renewable energy","OnGrid","2002",186004.19
+"Asia","Total renewable energy","OnGrid","2003",200565.50
+"Asia","Total renewable energy","OnGrid","2004",216844.07
+"Asia","Total renewable energy","OnGrid","2005",233420.49
+"Asia","Total renewable energy","OnGrid","2006",253765.45
+"Asia","Total renewable energy","OnGrid","2007",276251.16
+"Asia","Total renewable energy","OnGrid","2008",309622.89
+"Asia","Total renewable energy","OnGrid","2009",346385.67
+"Asia","Total renewable energy","OnGrid","2010",384374.92
+"Asia","Total renewable energy","OnGrid","2011",429695.09
+"Asia","Total renewable energy","OnGrid","2012",474117.50
+"Asia","Total renewable energy","OnGrid","2013",548307.06
+"Asia","Total renewable energy","OnGrid","2014",627942.51
+"Asia","Total renewable energy","OnGrid","2015",717018.81
+"Asia","Total renewable energy","OnGrid","2016",807324.32
+"Asia","Total renewable energy","OnGrid","2017",914656.49
+"Asia","Total renewable energy","OnGrid","2018",1018064.71
+"Asia","Total renewable energy","OnGrid","2019",1118136.02
+"Asia","Total renewable energy","OnGrid","2020",1293604.57
+"Asia","Total renewable energy","OnGrid","2021",1447835.06
+"Asia","Total renewable energy","OnGrid","2022",1621035.10
+"Asia","Total renewable energy","OnGrid","2023",1951523.13
+"Asia","Total renewable energy","OnGrid","2024",2365432.36
+"Asia","Total renewable energy","OnGrid","2025",2877602.82
+"Asia","Total renewable energy","OffGrid","2000",1456.57
+"Asia","Total renewable energy","OffGrid","2001",1484.79
+"Asia","Total renewable energy","OffGrid","2002",1504.90
+"Asia","Total renewable energy","OffGrid","2003",1524.08
+"Asia","Total renewable energy","OffGrid","2004",1540.88
+"Asia","Total renewable energy","OffGrid","2005",2005.89
+"Asia","Total renewable energy","OffGrid","2006",2082.74
+"Asia","Total renewable energy","OffGrid","2007",2217.12
+"Asia","Total renewable energy","OffGrid","2008",2492.94
+"Asia","Total renewable energy","OffGrid","2009",3136.31
+"Asia","Total renewable energy","OffGrid","2010",3392.93
+"Asia","Total renewable energy","OffGrid","2011",3836.91
+"Asia","Total renewable energy","OffGrid","2012",4107.80
+"Asia","Total renewable energy","OffGrid","2013",4422.27
+"Asia","Total renewable energy","OffGrid","2014",5212.99
+"Asia","Total renewable energy","OffGrid","2015",5668.64
+"Asia","Total renewable energy","OffGrid","2016",5960.85
+"Asia","Total renewable energy","OffGrid","2017",5684.57
+"Asia","Total renewable energy","OffGrid","2018",7096.32
+"Asia","Total renewable energy","OffGrid","2019",7049.55
+"Asia","Total renewable energy","OffGrid","2020",7969.91
+"Asia","Total renewable energy","OffGrid","2021",8521.74
+"Asia","Total renewable energy","OffGrid","2022",9797.14
+"Asia","Total renewable energy","OffGrid","2023",10198.86
+"Asia","Total renewable energy","OffGrid","2024",11833.30
+"Asia","Total renewable energy","OffGrid","2025",13012.23
+"Asia","Solar energy","OnGrid","2000",344.73
+"Asia","Solar energy","OnGrid","2001",468.95
+"Asia","Solar energy","OnGrid","2002",653.20
+"Asia","Solar energy","OnGrid","2003",877.66
+"Asia","Solar energy","OnGrid","2004",1155.09
+"Asia","Solar energy","OnGrid","2005",1511.71
+"Asia","Solar energy","OnGrid","2006",1860.69
+"Asia","Solar energy","OnGrid","2007",2141.44
+"Asia","Solar energy","OnGrid","2008",2686.33
+"Asia","Solar energy","OnGrid","2009",3503.22
+"Asia","Solar energy","OnGrid","2010",5266.58
+"Asia","Solar energy","OnGrid","2011",9306.52
+"Asia","Solar energy","OnGrid","2012",15713.30
+"Asia","Solar energy","OnGrid","2013",35446.26
+"Asia","Solar energy","OnGrid","2014",59610.59
+"Asia","Solar energy","OnGrid","2015",89194.77
+"Asia","Solar energy","OnGrid","2016",138872.33
+"Asia","Solar energy","OnGrid","2017",209849.19
+"Asia","Solar energy","OnGrid","2018",273820.49
+"Asia","Solar energy","OnGrid","2019",329186.81
+"Asia","Solar energy","OnGrid","2020",409916.70
+"Asia","Solar energy","OnGrid","2021",486475.37
+"Asia","Solar energy","OnGrid","2022",597632.93
+"Asia","Solar energy","OnGrid","2023",839019.53
+"Asia","Solar energy","OnGrid","2024",1154598.10
+"Asia","Solar energy","OnGrid","2025",1524746.78
+"Asia","Solar energy","OffGrid","2000",23.85
+"Asia","Solar energy","OffGrid","2001",35.38
+"Asia","Solar energy","OffGrid","2002",56.78
+"Asia","Solar energy","OffGrid","2003",70.76
+"Asia","Solar energy","OffGrid","2004",81.97
+"Asia","Solar energy","OffGrid","2005",94.93
+"Asia","Solar energy","OffGrid","2006",106.74
+"Asia","Solar energy","OffGrid","2007",149.55
+"Asia","Solar energy","OffGrid","2008",180.79
+"Asia","Solar energy","OffGrid","2009",217.39
+"Asia","Solar energy","OffGrid","2010",269.67
+"Asia","Solar energy","OffGrid","2011",404.43
+"Asia","Solar energy","OffGrid","2012",562.42
+"Asia","Solar energy","OffGrid","2013",803.68
+"Asia","Solar energy","OffGrid","2014",994.90
+"Asia","Solar energy","OffGrid","2015",1172.33
+"Asia","Solar energy","OffGrid","2016",1311.95
+"Asia","Solar energy","OffGrid","2017",1668.91
+"Asia","Solar energy","OffGrid","2018",1947.65
+"Asia","Solar energy","OffGrid","2019",2047.21
+"Asia","Solar energy","OffGrid","2020",2435.99
+"Asia","Solar energy","OffGrid","2021",2569.41
+"Asia","Solar energy","OffGrid","2022",2993.26
+"Asia","Solar energy","OffGrid","2023",3133.98
+"Asia","Solar energy","OffGrid","2024",4627.49
+"Asia","Solar energy","OffGrid","2025",5640.42
+"Asia","Wind energy","OnGrid","2000",1385.60
+"Asia","Wind energy","OnGrid","2001",2151.00
+"Asia","Wind energy","OnGrid","2002",2369.54
+"Asia","Wind energy","OnGrid","2003",3565.54
+"Asia","Wind energy","OnGrid","2004",5387.54
+"Asia","Wind energy","OnGrid","2005",6964.84
+"Asia","Wind energy","OnGrid","2006",10519.23
+"Asia","Wind energy","OnGrid","2007",13988.45
+"Asia","Wind energy","OnGrid","2008",20980.38
+"Asia","Wind energy","OnGrid","2009",31286.79
+"Asia","Wind energy","OnGrid","2010",46007.30
+"Asia","Wind energy","OnGrid","2011",65892.95
+"Asia","Wind energy","OnGrid","2012",82660.25
+"Asia","Wind energy","OnGrid","2013",99329.32
+"Asia","Wind energy","OnGrid","2014",124110.92
+"Asia","Wind energy","OnGrid","2015",161502.51
+"Asia","Wind energy","OnGrid","2016",183758.51
+"Asia","Wind energy","OnGrid","2017",204563.79
+"Asia","Wind energy","OnGrid","2018",228564.07
+"Asia","Wind energy","OnGrid","2019",257209.31
+"Asia","Wind energy","OnGrid","2020",331448.66
+"Asia","Wind energy","OnGrid","2021",384279.12
+"Asia","Wind energy","OnGrid","2022",425927.95
+"Asia","Wind energy","OnGrid","2023",507956.44
+"Asia","Wind energy","OnGrid","2024",593520.55
+"Asia","Wind energy","OnGrid","2025",723199.19
+"Asia","Wind energy","OffGrid","2000",0.01
+"Asia","Wind energy","OffGrid","2001",0.01
+"Asia","Wind energy","OffGrid","2002",0.01
+"Asia","Wind energy","OffGrid","2003",0.02
+"Asia","Wind energy","OffGrid","2004",0.02
+"Asia","Wind energy","OffGrid","2005",0.02
+"Asia","Wind energy","OffGrid","2006",0.02
+"Asia","Wind energy","OffGrid","2007",0.47
+"Asia","Wind energy","OffGrid","2008",2.88
+"Asia","Wind energy","OffGrid","2009",3.13
+"Asia","Wind energy","OffGrid","2010",61.33
+"Asia","Wind energy","OffGrid","2011",127.93
+"Asia","Wind energy","OffGrid","2012",177.45
+"Asia","Wind energy","OffGrid","2013",220.52
+"Asia","Wind energy","OffGrid","2014",259.12
+"Asia","Wind energy","OffGrid","2015",308.72
+"Asia","Wind energy","OffGrid","2016",353.68
+"Asia","Wind energy","OffGrid","2017",381.38
+"Asia","Wind energy","OffGrid","2018",412.72
+"Asia","Wind energy","OffGrid","2019",460.07
+"Asia","Wind energy","OffGrid","2020",492.92
+"Asia","Wind energy","OffGrid","2021",523.76
+"Asia","Wind energy","OffGrid","2022",554.52
+"Asia","Wind energy","OffGrid","2023",583.10
+"Asia","Wind energy","OffGrid","2024",613.86
+"Asia","Wind energy","OffGrid","2025",643.63
+"Asia","Renewable hydropower","OnGrid","2000",161206.60
+"Asia","Renewable hydropower","OnGrid","2001",170881.55
+"Asia","Renewable hydropower","OnGrid","2002",175186.76
+"Asia","Renewable hydropower","OnGrid","2003",187999.98
+"Asia","Renewable hydropower","OnGrid","2004",201701.52
+"Asia","Renewable hydropower","OnGrid","2005",215902.12
+"Asia","Renewable hydropower","OnGrid","2006",230982.20
+"Asia","Renewable hydropower","OnGrid","2007",248347.75
+"Asia","Renewable hydropower","OnGrid","2008",273097.83
+"Asia","Renewable hydropower","OnGrid","2009",296717.84
+"Asia","Renewable hydropower","OnGrid","2010",318476.52
+"Asia","Renewable hydropower","OnGrid","2011",338603.23
+"Asia","Renewable hydropower","OnGrid","2012",359354.14
+"Asia","Renewable hydropower","OnGrid","2013",394640.61
+"Asia","Renewable hydropower","OnGrid","2014",423032.36
+"Asia","Renewable hydropower","OnGrid","2015",442493.35
+"Asia","Renewable hydropower","OnGrid","2016",454552.11
+"Asia","Renewable hydropower","OnGrid","2017",465861.71
+"Asia","Renewable hydropower","OnGrid","2018",477456.05
+"Asia","Renewable hydropower","OnGrid","2019",488204.80
+"Asia","Renewable hydropower","OnGrid","2020",502466.79
+"Asia","Renewable hydropower","OnGrid","2021",521378.09
+"Asia","Renewable hydropower","OnGrid","2022",538084.92
+"Asia","Renewable hydropower","OnGrid","2023",542405.04
+"Asia","Renewable hydropower","OnGrid","2024",553222.68
+"Asia","Renewable hydropower","OnGrid","2025",563315.70
+"Asia","Renewable hydropower","OffGrid","2000",71.32
+"Asia","Renewable hydropower","OffGrid","2001",77.43
+"Asia","Renewable hydropower","OffGrid","2002",79.23
+"Asia","Renewable hydropower","OffGrid","2003",82.25
+"Asia","Renewable hydropower","OffGrid","2004",86.05
+"Asia","Renewable hydropower","OffGrid","2005",144.70
+"Asia","Renewable hydropower","OffGrid","2006",150.94
+"Asia","Renewable hydropower","OffGrid","2007",160.64
+"Asia","Renewable hydropower","OffGrid","2008",166.51
+"Asia","Renewable hydropower","OffGrid","2009",181.79
+"Asia","Renewable hydropower","OffGrid","2010",200.19
+"Asia","Renewable hydropower","OffGrid","2011",218.00
+"Asia","Renewable hydropower","OffGrid","2012",233.05
+"Asia","Renewable hydropower","OffGrid","2013",246.36
+"Asia","Renewable hydropower","OffGrid","2014",256.67
+"Asia","Renewable hydropower","OffGrid","2015",275.19
+"Asia","Renewable hydropower","OffGrid","2016",284.63
+"Asia","Renewable hydropower","OffGrid","2017",289.87
+"Asia","Renewable hydropower","OffGrid","2018",1228.38
+"Asia","Renewable hydropower","OffGrid","2019",1242.37
+"Asia","Renewable hydropower","OffGrid","2020",1245.79
+"Asia","Renewable hydropower","OffGrid","2021",1267.22
+"Asia","Renewable hydropower","OffGrid","2022",1264.98
+"Asia","Renewable hydropower","OffGrid","2023",1272.18
+"Asia","Renewable hydropower","OffGrid","2024",1452.35
+"Asia","Renewable hydropower","OffGrid","2025",1453.26
+"Asia","Geothermal energy","OnGrid","2000",2926.65
+"Asia","Geothermal energy","OnGrid","2001",3186.65
+"Asia","Geothermal energy","OnGrid","2002",3186.65
+"Asia","Geothermal energy","OnGrid","2003",3208.65
+"Asia","Geothermal energy","OnGrid","2004",3223.65
+"Asia","Geothermal energy","OnGrid","2005",3253.65
+"Asia","Geothermal energy","OnGrid","2006",3250.65
+"Asia","Geothermal energy","OnGrid","2007",3380.65
+"Asia","Geothermal energy","OnGrid","2008",3455.75
+"Asia","Geothermal energy","OnGrid","2009",3595.75
+"Asia","Geothermal energy","OnGrid","2010",3597.05
+"Asia","Geothermal energy","OnGrid","2011",3636.15
+"Asia","Geothermal energy","OnGrid","2012",3721.15
+"Asia","Geothermal energy","OnGrid","2013",3728.45
+"Asia","Geothermal energy","OnGrid","2014",3853.85
+"Asia","Geothermal energy","OnGrid","2015",3896.45
+"Asia","Geothermal energy","OnGrid","2016",4001.45
+"Asia","Geothermal energy","OnGrid","2017",4221.82
+"Asia","Geothermal energy","OnGrid","2018",4375.60
+"Asia","Geothermal energy","OnGrid","2019",4565.86
+"Asia","Geothermal energy","OnGrid","2020",4572.15
+"Asia","Geothermal energy","OnGrid","2021",4731.51
+"Asia","Geothermal energy","OnGrid","2022",4760.19
+"Asia","Geothermal energy","OnGrid","2023",5038.70
+"Asia","Geothermal energy","OnGrid","2024",5113.15
+"Asia","Geothermal energy","OnGrid","2025",5331.75
+"Asia","Geothermal energy","OffGrid","2000",-
+"Asia","Geothermal energy","OffGrid","2001",-
+"Asia","Geothermal energy","OffGrid","2002",-
+"Asia","Geothermal energy","OffGrid","2003",-
+"Asia","Geothermal energy","OffGrid","2004",-
+"Asia","Geothermal energy","OffGrid","2005",-
+"Asia","Geothermal energy","OffGrid","2006",-
+"Asia","Geothermal energy","OffGrid","2007",-
+"Asia","Geothermal energy","OffGrid","2008",-
+"Asia","Geothermal energy","OffGrid","2009",-
+"Asia","Geothermal energy","OffGrid","2010",-
+"Asia","Geothermal energy","OffGrid","2011",-
+"Asia","Geothermal energy","OffGrid","2012",-
+"Asia","Geothermal energy","OffGrid","2013",-
+"Asia","Geothermal energy","OffGrid","2014",-
+"Asia","Geothermal energy","OffGrid","2015",-
+"Asia","Geothermal energy","OffGrid","2016",-
+"Asia","Geothermal energy","OffGrid","2017",-
+"Asia","Geothermal energy","OffGrid","2018",-
+"Asia","Geothermal energy","OffGrid","2019",-
+"Asia","Geothermal energy","OffGrid","2020",-
+"Asia","Geothermal energy","OffGrid","2021",-
+"Asia","Geothermal energy","OffGrid","2022",-
+"Asia","Geothermal energy","OffGrid","2023",-
+"Asia","Geothermal energy","OffGrid","2024",-
+"Asia","Geothermal energy","OffGrid","2025",-

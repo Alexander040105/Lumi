@@ -1,0 +1,12 @@
+﻿philippines,2023,2024,gr,2023_numeric,2024_numeric,gr_numeric,gr_unit,source_pdf,detected_category
+Coal,"73,754","79,359",8%,73754.0,79359.0,8.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Oil,"1,304","1,342",3%,1304.0,1342.0,3.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Natural Gas,"16,668","18,047",8%,16668.0,18047.0,8.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Renewable Energy,"26,278","28,193",7%,26278.0,28193.0,7.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Geothermal,"10,730","10,789",0.6%,10730.0,10789.0,0.6,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Hydro,"10,287","10,909",6%,10287.0,10909.0,6.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Biomass,"1,409","1,446",3%,1409.0,1446.0,3.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Solar,"2,544","3,811",50%,2544.0,3811.0,50.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Wind,"1,308","1,239",-5%,1308.0,1239.0,-5.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+Total,"118,004","126,941",8%,118004.0,126941.0,8.0,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar
+*Self-sufficiency level (%),42,39,,42.0,39.0,,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv,solar

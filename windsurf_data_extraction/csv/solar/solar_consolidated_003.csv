@@ -1,0 +1,22 @@
+﻿luzon,2014,2015,2016,2017,2018,2019,2014_numeric,2015_numeric,2016_numeric,2017_numeric,2018_numeric,2019_numeric,2019_unit,source_pdf,detected_category
+Coal,"27,346","29,680","33,143","33,953","37,362","40,508",27346.0,29680.0,33143.0,33953.0,37362.0,40508.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Oil,"2,342","1,845","2,562","2,379","2,188","2,674",2342.0,1845.0,2562.0,2379.0,2188.0,2674.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Natural Gas,"18,686","18,878","19,854","20,547","21,334","22,354",18686.0,18878.0,19854.0,20547.0,21334.0,22354.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Renewable Energy,"8,392","9,711","10,938","11,633","11,845","10,640",8392.0,9711.0,10938.0,11633.0,11845.0,10640.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Geothermal,"3,817","4,096","4,227","3,910","3,871","3,647",3817.0,4096.0,4227.0,3910.0,3871.0,3647.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Hydro,"4,357","4,769","5,011","5,730","5,945","5,084",4357.0,4769.0,5011.0,5730.0,5945.0,5084.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Biomass,65,187,439,599,594,592,65.0,187.0,439.0,599.0,594.0,592.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Solar (a),-,66,495,496,503,493,,66.0,495.0,496.0,503.0,493.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Wind,152,592,767,899,931,824,152.0,592.0,767.0,899.0,931.0,824.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Total,"56,766","60,113","66,498","68,512","72,728","76,177",56766.0,60113.0,66498.0,68512.0,72728.0,76177.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Luzon,2020,2021,2022,2023,2024,AAGR*,2020.0,2021.0,2022.0,2023.0,2024.0,,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Coal,"40,576","43,133","48,626","53,072","57,070",8%,40576.0,43133.0,48626.0,53072.0,57070.0,8.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Oil,"1,804",996,"1,507",708,603,-13%,1804.0,996.0,1507.0,708.0,603.0,-13.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Natural Gas,"19,497","19,060","17,884","16,668","18,047",0%,19497.0,19060.0,17884.0,16668.0,18047.0,0.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Renewable Energy,"10,542","12,053","11,803","12,842","14,550",6%,10542.0,12053.0,11803.0,12842.0,14550.0,6.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Geothermal,"3,808","3,838","3,921","4,286","4,657",2%,3808.0,3838.0,3921.0,4286.0,4657.0,2.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Hydro,"4,510","5,412","5,239","5,080","5,308",2.0%,4510.0,5412.0,5239.0,5080.0,5308.0,2.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Biomass,780,988,691,684,645,26%,780.0,988.0,691.0,684.0,645.0,26.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Solar (a),588,721,"1,099","1,678","2,905",52%,588.0,721.0,1099.0,1678.0,2905.0,52.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Wind,855,"1,095",854,"1,114","1,034",21%,855.0,1095.0,854.0,1114.0,1034.0,21.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar
+Total,"72,419","75,243","79,821","83,290","90,269",5%,72419.0,75243.0,79821.0,83290.0,90269.0,5.0,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv,solar

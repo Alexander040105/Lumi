@@ -1,0 +1,175 @@
+KEY ENERGY STATISTICS
+51
+OIL AND GAS
+Oil and Gas Production, by Source
+2014
+2015
+2016
+2017
+2018
+2019
+In MB
+Total Oil
+ 3,078.68  2,409.75 
+ 2,013.56 
+ 1,586.61 
+ 1,263.53 
+ 776.09 
+Nido(a)
+ 79.11 
+ 71.15 
+ 53.65 
+ 56.16 
+ 51.74 
+ 20.63 
+Matinloc(b)
+ 69.83 
+ 70.72 
+ 72.75 
+ 67.49 
+ 43.05 
+ 1.54 
+North Matinloc(c)
+ 8.87 
+ 8.36 
+ 9.12 
+ 2.10 
+ - 
+ - 
+Galoc
+ 2,920.88 
+ 2,259.52 
+ 1,878.04 
+ 1,460.85 
+ 1,166.76 
+ 744.45 
+Alegria(d)
+ - 
+ - 
+ - 
+ - 
+ 1.98 
+ 9.47 
+Total Condensate
+ 3,078.68  2,409.75 
+ 2,013.56 
+ 1,586.61 
+ 1,263.53 
+ 776.09 
+Galoc
+ 2,920.88 
+ 2,259.52 
+ 1,878.04 
+ 1,460.85 
+ 1,166.76 
+ 744.45 
+in MMSCF
+Total Gas 
+ 130,351 
+ 122,541 
+ 140,398 
+ 138,497 
+ 154,622 
+ 155,690 
+Libertad(e) 
+ 35 
+ 15 
+ - 
+ - 
+ - 
+ - 
+Malampaya Gas 
+ 130,316 
+ 122,527 
+ 140,398 
+ 138,497 
+ 154,622 
+ 155,690 
+2020
+2021
+2022
+2023
+2024
+AAGR*
+In MB
+Total Oil
+ 700.12 
+ 632.29 
+ 558.28 
+ 501.20 
+ 447.86 
+-17.5%
+Nido(a)
+ - 
+ - 
+ - 
+ - 
+ - 
+-23.6%
+Matinloc(b)
+ - 
+ - 
+ - 
+ - 
+ - 
+-53.4%
+North Matinloc(c)
+ - 
+ - 
+ - 
+ - 
+ - 
+-38.1%
+Galoc
+ 695.25 
+ 630.25 
+ 556.90 
+ 501.14 
+ 447.86 
+-17.1%
+Alegria(d)
+ 4.87 
+ 2.04 
+ 1.37 
+ 0.06 
+ - 
+-49.7%
+Total Condensate
+ 3,469.45  2,936.44 
+ 2,706.11  1,904.42  1,733.44 
+-8.4%
+Galoc
+ 3,469.45 
+ 2,936.44 
+ 2,706.11 
+ 1,904.42 
+ 1,733.44 
+-8.4%
+in MMSCF
+Total Gas 
+ 141,191 
+ 121,089 
+ 112,172 
+ 80,660 
+ 70,338 
+-6.7%
+Libertad(e) 
+ - 
+ - 
+ - 
+ - 
+ - 
+-58.2%
+Malampaya Gas 
+ 141,191 
+ 121,089 
+ 112,172 
+ 80,660 
+ 70,338 
+-6.0%
+*average annual growth rate
+(a)  average annual growth rate from 2014 to 2019
+(b)  average annual growth rate from 2014 to 2019
+(c)  average annual growth rate from 2014 to 2017
+(d)  average annual growth rate from 2018 to 2023
+(e) average annual growth rate from 2014 to 2015

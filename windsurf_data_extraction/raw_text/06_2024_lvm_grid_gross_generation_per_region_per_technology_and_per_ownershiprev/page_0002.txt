@@ -1,0 +1,218 @@
+TECHNOLOGY
+TOTAL
+90,269,376
+                  
+16,099,169
+                  
+20,572,282
+                  
+GROSS GENERATION
+NPC
+NPC-IPP
+NON-NPC/IPP
+NPC
+NPC-IPP
+NON-NPC/IPP
+NPC
+NPC-IPP
+NON-NPC/IPP
+COAL
+                   79,359,333 
+-
+-
+57,069,815
+                 
+-
+-
+8,571,171
+                   
+-
+1,521,834
+             
+12,196,513
+                 
+OIL-BASED
+                     1,341,663 
+                            -                                -                          602,894 
+                                 -                               -                          518,583 
+                             -                               -                          220,186 
+Combined Cycle
+138,612
+                       
+-
+-
+138,612
+                      
+-
+-
+-
+-
+-
+-
+Diesel
+1,185,442
+                    
+-
+-
+446,674
+                      
+-
+-
+518,583
+                      
+-
+-
+220,186
+                      
+Gas Turbine
+-
+                                
+-
+-
+-
+-
+-
+-
+-
+-
+-
+Oil Thermal
+17,608
+                         
+-
+-
+17,608
+                         
+-
+-
+-
+-
+-
+-
+NATURAL GAS
+                   18,046,729 
+-
+-
+18,046,729
+                 
+-
+-
+-
+                               
+-
+-
+-
+GEOTHERMAL
+                   10,789,220 
+-
+-
+4,657,447
+                   
+-
+2,751,476
+             
+2,656,727
+                   
+-
+-
+723,571
+                      
+BIOMASS
+                     1,445,921 
+                            -                                -                          645,430 
+                                 -                               -                          514,460 
+                             -                               -                          286,031 
+LFG
+8,359
+                           
+-
+-
+8,359
+                           
+-
+-
+-
+-
+-
+-
+Biogas
+14,934
+                         
+-
+-
+5,579
+                           
+-
+-
+-
+-
+-
+9,355
+                           
+Rice, Bagasse, Napier
+1,422,628
+                    
+-
+-
+631,492
+                      
+-
+-
+514,460
+                      
+-
+-
+276,676
+                      
+WIND
+                     1,238,671 
+-
+-
+1,034,027
+                   
+-
+-
+204,645
+                      
+-
+-
+-
+SOLAR
+                     3,810,693 
+-
+-
+2,905,248
+                   
+-
+-
+719,676
+                      
+-
+-
+185,769
+                      
+HYDRO
+                   10,908,597 
+-
+1,341,859
+               
+3,965,928
+                   
+-
+-
+162,433
+                      
+4,513,003
+              
+-
+925,374
+                      
+Source: 2024 DOE Power Statistics
+Note: 
+  -includes Grid-connected (Grid and Embedded/Self-Gen Facilities) only
+  -Regional Generation depends on the location of the Generating facilities
+MINDANAO
+LUZON
+VISAYAS
+LVM GROSS GENERATION PER OWNERSHIP AND TECHNOLOGY (GRID), in MWh 
+2024

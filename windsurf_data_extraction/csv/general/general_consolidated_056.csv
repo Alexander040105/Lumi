@@ -1,0 +1,12 @@
+﻿ghg_reduction_measures,2023,reduction_impact,2024,change,2023_numeric,reduction_impact_numeric,2024_numeric,change_numeric,source_pdf,detected_category
+Demand side,"12,805.71",7.03,"12,581.48",-1.75,12805.71,7.03,12581.48,-1.75,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+Efficiency in Electricity Consumption (EEC),"3,806.59",2.07,"3,711.29",-2.50,3806.59,2.07,3711.29,-2.5,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+Efficiency in Fossil Fuel Consumption (EEF),"6,814.23",3.70,"6,620.82",-2.84,6814.23,3.7,6620.82,-2.84,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+Biofuel,"2,184.89",1.26,"2,249.38",2.95,2184.89,1.26,2249.38,2.95,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+CNG/NG,0.00,0.00,0.00,-2.42,0.0,0.0,0.0,-2.42,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+"Fuel Diversification in Power Generation @ 2018 
+GDP & EF**","3,801.20",2.35,"4,210.61",10.77,3801.2,2.35,4210.61,10.77,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+Total Avoidance (Demand + Supply - EEC),"16,606.91",9.38,"16,792.09",1.12,16606.91,9.38,16792.09,1.12,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+Actual GHG Emission,"151,749.51",,"162,133.22",6.84,151749.51,,162133.22,6.84,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general
+"Hypothetical GHG Emission (Actual + Total 
+Avoidance)","168,356.42",,"178,925.31",6.28,168356.42,,178925.31,6.28,2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv,general

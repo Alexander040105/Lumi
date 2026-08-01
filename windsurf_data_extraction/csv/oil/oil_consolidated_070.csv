@@ -1,0 +1,16 @@
+﻿indicator,2023,2024,gr,indicator_numeric,indicator_unit,2023_numeric,2024_numeric,gr_numeric,gr_unit,source_pdf,detected_category
+"GHG emission-to-GDP ratio
+(tCOe/PhP 100K, 2000=100)
+2",0.72,0.73,1.1%,,megawatt_hours,0.72,0.73,1.1,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv,oil
+"GHG emission per capita
+(tCOe/person)
+2",1.36,1.44,5.9%,-2.0,megawatt_hours,1.36,1.44,5.9,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv,oil
+"GHG emission per Electricity
+Generation (tCOe/MWh)
+2",0.76,0.77,0.4%,-2.0,megawatt_hours,0.76,0.77,0.4,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv,oil
+"GHG emission per Oil consumption
+(tCOe/TOE)
+2",2.73,2.73,0.2%,-2.0,megawatt_hours,2.73,2.73,0.2,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv,oil
+"GHG emission per TPES
+(tCOe/TOE)
+2",2.32,2.35,1.4%,-2.0,megawatt_hours,2.32,2.35,1.4,percent,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv,oil

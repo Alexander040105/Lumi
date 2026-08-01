@@ -1,0 +1,14 @@
+﻿fuels,to_ktoe,to_ktoe_numeric,source_pdf,detected_category
+Others (MB),0.123300,0.1233,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Ricehull (MT),0.000345,0.000345,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Charcoal (MT),0.000600,0.0006,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Fuelwood (MT),0.000329,0.000329,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Bagasse (MT),0.000426,0.000426,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Agriwaste (MT),0.000329,0.000329,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Animal Waste (MT),0.000516,0.000516,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Ethanol (BBL),0.000089,8.9e-05,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+CME (BBL),0.000130,0.00013,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Hydro (GWh),0.086000,0.086,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Geothermal (GWh),0.860000,0.86,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Wind (GWh),0.860000,0.86,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro
+Solar (GWh),0.860000,0.86,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv,hydro

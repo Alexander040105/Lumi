@@ -1,0 +1,9 @@
+﻿country,2014,2015,2016,2017,2018,2019,2014_numeric,2015_numeric,2016_numeric,2017_numeric,2018_numeric,2019_numeric,source_pdf,detected_category
+China,"4,318","2,574","6,121","5,333","4,610","9,012",4318.0,2574.0,6121.0,5333.0,4610.0,9012.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+India (a),51,-,44,148,51,51,51.0,,44.0,148.0,51.0,51.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+Hongkong (b),252,-,-,-,-,-,252.0,,,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+Thailand (c),288,300,208,98,51,213,288.0,300.0,208.0,98.0,51.0,213.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+Taiwan (d),73,-,-,177,-,65,73.0,,,177.0,,65.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+S. Korea,193,-,-,-,-,-,193.0,,,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+Others*** (e),203,22,-,-,-,-,203.0,22.0,,,,,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general
+Total,"5,377","2,896","6,373","5,755","4,713","9,341",5377.0,2896.0,6373.0,5755.0,4713.0,9341.0,2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv,general

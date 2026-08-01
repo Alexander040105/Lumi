@@ -1,0 +1,3283 @@
+[
+  {
+    "content": "0 mtoe electricity 32 3 was 0.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_006_p11.csv",
+      "category": "coal",
+      "table": "coal_consolidated_001.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "0_mtoe_electricity_32_3",
+        "charcoal_13_0",
+        "nan",
+        "unnamed_0_numeric",
+        "unnamed_0_unit",
+        "0_mtoe_electricity_32_3_numeric",
+        "charcoal_13_0_numeric",
+        "charcoal_13_0_unit",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 37.8 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_006_p11.csv",
+      "category": "coal",
+      "table": "coal_consolidated_001.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "0_mtoe_electricity_32_3",
+        "charcoal_13_0",
+        "nan",
+        "unnamed_0_numeric",
+        "unnamed_0_unit",
+        "0_mtoe_electricity_32_3_numeric",
+        "charcoal_13_0_numeric",
+        "charcoal_13_0_unit",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "charcoal 13 0 was 12.2 percent, nan was 4.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_006_p11.csv",
+      "category": "coal",
+      "table": "coal_consolidated_001.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "0_mtoe_electricity_32_3",
+        "charcoal_13_0",
+        "nan",
+        "unnamed_0_numeric",
+        "unnamed_0_unit",
+        "0_mtoe_electricity_32_3_numeric",
+        "charcoal_13_0_numeric",
+        "charcoal_13_0_unit",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 23.5 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 29.2 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: unnamed_0=Natural Gas 2.4%\nHydro 3.9%, unnamed_0_unit=percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 11.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 12.2 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 4,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was 13.4 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_002.csv",
+      "row_id": 5,
+      "columns": [
+        "unnamed_0",
+        "unnamed_0_numeric",
+        "unnamed_0_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal 22 7 was 29.5 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_003.csv",
+      "row_id": 0,
+      "columns": [
+        "coal_22_7",
+        "coal_22_7_numeric",
+        "coal_22_7_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: coal_22_7=Natural Gas 2.9%\nHydro 3.9%, coal_22_7_unit=percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_003.csv",
+      "row_id": 1,
+      "columns": [
+        "coal_22_7",
+        "coal_22_7_numeric",
+        "coal_22_7_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal 22 7 was 11.9 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_003.csv",
+      "row_id": 2,
+      "columns": [
+        "coal_22_7",
+        "coal_22_7_numeric",
+        "coal_22_7_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal 22 7 was 12.3 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_003.csv",
+      "row_id": 3,
+      "columns": [
+        "coal_22_7",
+        "coal_22_7_numeric",
+        "coal_22_7_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal 22 7 was 14.1 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "category": "coal",
+      "table": "coal_consolidated_003.csv",
+      "row_id": 4,
+      "columns": [
+        "coal_22_7",
+        "coal_22_7_numeric",
+        "coal_22_7_unit"
+      ]
+    }
+  },
+  {
+    "content": "co2 emission mtcoe 2 was 2023.0, nan was 2024.0, total nonco2 emission mtcoe 2 was 2023.0, total ghg emission mtcoe 2 was 2023.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 0,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Oil, co2 emission mtcoe 2 was 55.35, nan was 57.89, total nonco2 emission mtcoe 2 was 0.35, total ghg emission mtcoe 2 was 55.7, total ghg emission change was 3.94.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 1,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Coal, co2 emission mtcoe 2 was 89.75, nan was 97.1, total nonco2 emission mtcoe 2 was 0.4, total ghg emission mtcoe 2 was 90.15, total ghg emission change was 7.71.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 2,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Gas, co2 emission mtcoe 2 was 5.9, nan was 7.14, total nonco2 emission mtcoe 2 was 0.01, total ghg emission mtcoe 2 was 5.9, total ghg emission change was 21.05.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 3,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Total, co2 emission mtcoe 2 was 150.99, nan was 162.13, total nonco2 emission mtcoe 2 was 0.76, total ghg emission mtcoe 2 was 151.75, total ghg emission change was 6.84.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 4,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was % Distribution.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 5,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Oil, co2 emission mtcoe 2 was 36.66, nan was 35.71, total nonco2 emission mtcoe 2 was 46.14, total ghg emission mtcoe 2 was 36.71, total ghg emission change was -1.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 6,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Coal, co2 emission mtcoe 2 was 59.44, nan was 59.89, total nonco2 emission mtcoe 2 was 53.1, total ghg emission mtcoe 2 was 59.41, total ghg emission change was 0.48.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 7,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Gas, co2 emission mtcoe 2 was 3.9, nan was 4.41, total nonco2 emission mtcoe 2 was 0.76, total ghg emission mtcoe 2 was 3.89, total ghg emission change was 0.52.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 8,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Total, co2 emission mtcoe 2 was 100.0, nan was 100.0, total nonco2 emission mtcoe 2 was 100.0, total ghg emission mtcoe 2 was 100.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_004.csv",
+      "row_id": 9,
+      "columns": [
+        "sector",
+        "co2_emission_mtcoe_2",
+        "nan",
+        "total_nonco2_emission_mtcoe_2",
+        "total_ghg_emission_mtcoe_2",
+        "total_ghg_emission_change",
+        "co2_emission_mtcoe_2_numeric",
+        "nan_numeric",
+        "total_nonco2_emission_mtcoe_2_numeric",
+        "total_ghg_emission_mtcoe_2_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Liquid Fossils (Oil), 2014 was 42.56, 2015 was 47.15, 2016 was 50.47, 2017 was 52.47, 2018 was 53.06.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_039_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_005.csv",
+      "row_id": 0,
+      "columns": [
+        "fuel_type",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Solid Fossils (Coal), 2014 was 41.56, 2015 was 45.48, 2016 was 51.13, 2017 was 60.67, 2018 was 64.1.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_039_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_005.csv",
+      "row_id": 1,
+      "columns": [
+        "fuel_type",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Gaseous Fossil (Natural Gas), 2014 was 7.1, 2015 was 6.68, 2016 was 7.65, 2017 was 7.55, 2018 was 8.42.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_039_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_005.csv",
+      "row_id": 2,
+      "columns": [
+        "fuel_type",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was TOTAL, 2014 was 91.22, 2015 was 99.3, 2016 was 109.25, 2017 was 120.69, 2018 was 125.58.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_039_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_005.csv",
+      "row_id": 3,
+      "columns": [
+        "fuel_type",
+        "2014",
+        "2015",
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2014_numeric",
+        "2015_numeric",
+        "2016_numeric",
+        "2017_numeric",
+        "2018_numeric",
+        "2019_numeric"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Liquid Fossils (Oil), 2020 was 45.88, 2021 was 49.81, 2022 was 54.4, 2023 was 55.7, 2024 was 57.89.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_006.csv",
+      "row_id": 0,
+      "columns": [
+        "fuel_type",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Solid Fossils (Coal), 2020 was 68.63, 2021 was 74.05, 2022 was 75.17, 2023 was 90.15, 2024 was 97.1.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_006.csv",
+      "row_id": 1,
+      "columns": [
+        "fuel_type",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was Gaseous Fossil (Natural Gas), 2020 was 7.69, 2021 was 6.6, 2022 was 6.11, 2023 was 5.9, 2024 was 7.14.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_006.csv",
+      "row_id": 2,
+      "columns": [
+        "fuel_type",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuel type was TOTAL, 2020 was 122.2, 2021 was 130.45, 2022 was 135.68, 2023 was 151.75, 2024 was 162.13.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv",
+      "category": "coal",
+      "table": "coal_consolidated_006.csv",
+      "row_id": 3,
+      "columns": [
+        "fuel_type",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "aagr",
+        "2020_numeric",
+        "2021_numeric",
+        "2022_numeric",
+        "2023_numeric",
+        "2024_numeric",
+        "aagr_numeric",
+        "aagr_unit"
+      ]
+    }
+  },
+  {
+    "content": "co2 emission mtco2e was 2023.0, unnamed 2 was 2024.0, total nonco2 emission mtco2e was 2023.0, total ghg emission mtco2e was 2023.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 0,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Oil, co2 emission mtco2e was 55.35, unnamed 2 was 57.89, total nonco2 emission mtco2e was 0.35, total ghg emission mtco2e was 55.7, total ghg emission change was 3.94.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 1,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Coal, co2 emission mtco2e was 89.75, unnamed 2 was 97.1, total nonco2 emission mtco2e was 0.4, total ghg emission mtco2e was 90.15, total ghg emission change was 7.71.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 2,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Gas, co2 emission mtco2e was 5.9, unnamed 2 was 7.14, total nonco2 emission mtco2e was 0.01, total ghg emission mtco2e was 5.9, total ghg emission change was 21.05.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 3,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Total, co2 emission mtco2e was 150.99, unnamed 2 was 162.13, total nonco2 emission mtco2e was 0.76, total ghg emission mtco2e was 151.75, total ghg emission change was 6.84.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 4,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was % Distribution.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 5,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Oil, co2 emission mtco2e was 36.66, unnamed 2 was 35.71, total nonco2 emission mtco2e was 46.14, total ghg emission mtco2e was 36.71, total ghg emission change was -1.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 6,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Coal, co2 emission mtco2e was 59.44, unnamed 2 was 59.89, total nonco2 emission mtco2e was 53.1, total ghg emission mtco2e was 59.41, total ghg emission change was 0.48.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 7,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Gas, co2 emission mtco2e was 3.9, unnamed 2 was 4.41, total nonco2 emission mtco2e was 0.76, total ghg emission mtco2e was 3.89, total ghg emission change was 0.52.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 8,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector was Total, co2 emission mtco2e was 100.0, unnamed 2 was 100.0, total nonco2 emission mtco2e was 100.0, total ghg emission mtco2e was 100.0.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "category": "coal",
+      "table": "coal_consolidated_007.csv",
+      "row_id": 9,
+      "columns": [
+        "sector",
+        "co2_emission_mtco2e",
+        "unnamed_2",
+        "total_nonco2_emission_mtco2e",
+        "total_ghg_emission_mtco2e",
+        "total_ghg_emission_change",
+        "co2_emission_mtco2e_numeric",
+        "unnamed_2_numeric",
+        "total_nonco2_emission_mtco2e_numeric",
+        "total_ghg_emission_mtco2e_numeric",
+        "total_ghg_emission_change_numeric"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 5.7%\nmineral  processing,  cement,  and  other  heavy.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 0,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was industries  accounted \nfor \nthe  bulk  of  coal \nBiomass.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 1,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 18.9%.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 2,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was demand..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 3,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Parallel  with \nthe \nincreased \nutilization \nof.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 4,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 2024 TFEC.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 5,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was gasoline and diesel, consumption of biodiesel.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 6,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 38.9 MTOE.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 7,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was reached \n182.6 \nkTOE, \nwhile \nbioethanol.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 8,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was totaled  461.8  kTOE,  as  both  fuels  made  vital.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 9,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Oil &.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 10,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was contributions  in  decarbonizing  the  transport \nPetroleum.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 11,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Electricity\nProducts.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 12,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was sector during the year. Collectively, bioethanol.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 13,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 23.0%\n50.8%.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 14,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was and  biodiesel  accounted  for  1.7  percent  of.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 15,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was TFEC in 2024.\nFigure 4: TFEC Shares by Fuel, 2024.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 16,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was B. Total Final Energy Consumption by Sector.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 17,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 1.  Transport.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 18,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Energy consumption of the transport sector sustained its upward trajectory with a 5.2.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 19,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was percent increase to 13.5 MTOE in 2024 from 12.9 MTOE in 2023. This was attributed to.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 20,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was several key factors such as expanded infrastructure, increased vehicle ownership, and.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 21,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was rising freight activity. Specifically, the surge in electric vehicle use, supported by zero-.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 22,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was tariff policies, also contributed to higher electricity demand and gradual adoption of.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 23,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was cleaner technologies..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 24,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Road transport’s energy consumption grew by 6.0 percent to 12.3 MTOE, with a 90.7.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 25,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was percent share to the sector’s energy mix (Figure 5). The uptrend compensated for the.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 26,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was decline in energy consumption across other transport subsectors and was supported.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 27,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was by robust growth in vehicle sales, which increased by 8.7 percent in 2024, according.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 28,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was to  a  joint  report  by  the  Chamber  of  Automotive  Manufacturers  of  the  Philippines,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 29,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Inc. (CAMPI) and the Truck Manufacturers Association (TMA)2. The rise in new vehicle.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 30,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was registrations—which spanned private cars, commercial vehicles, and delivery fleets—.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 31,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was reflected growing mobility demand, urbanization, and increased economic activity..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 32,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was Rail transport reported a 6.2 percent drop in energy use, from 11.9 kTOE in 2023 to 11.2.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 33,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was in 2024, due to a double-digit reduction in both diesel and biodiesel of more than 40.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 34,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was percent attributed to the suspension of Philippine National Railways (PNR) operations.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 35,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was in  Metro  Manila3,  which  took  effect  on  28  March  2024.  The  five-year  service  halt  is.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 36,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was intended to expedite the construction of the North-South Commuter Railway (NSCR)..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 37,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was On the other hand, the surge in passenger ridership for both Metro Rail Transit (MRT).",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 38,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was and  Light  Rail  Transit  Authority  (LRTA)  systems  –  which  reached  over  189  million.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 39,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was passengers  in  2024  from  170  million  in  20234  5  slightly  cushioned  the  downtrend  as.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 40,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was electricity use for rail improved by 3.4 percent..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 41,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "1 7 coal was 2 \nJON VIKTOR D. CABUENAS,GMA Integrated News & JON VIKTOR D. CABUENAS, GMA Integrated News. (2025b, January 14). Over 467,000 vehicles.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_008.csv",
+      "row_id": 42,
+      "columns": [
+        "1_7_coal"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was B. Power Generation and Fuel Input.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 0,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was Aggregate power generation reached 126.9 terawatt-hours (TWh) in 2024, 7.6 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 1,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was more than its 2023 level of 118.0 TWh. The increase was in response to robust economic.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 2,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was performance and continued expansion in electricity demand across sectors during the.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 3,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was year..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 4,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was Coal-fired power plants remained the dominant source of supply, accounting for 62.5.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 5,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was percent  (Figure 13)  of  the  total  generation  mix  or  79.4  TWh  in  2024,  a  significant.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 6,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was increase of 7.6 percent from its 2023 level of 73.8 TWh. Natural gas power generation.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 7,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was also grew steadily, contributing 18.0 TWh or 14.2 percent of total generation, up from.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 8,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was its previous year’s level of 16.7 TWh. Oil-based power plants also posted increased in.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 9,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was their generation output at 2.9 percent..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 10,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was Meanwhile,  renewable  energy  sources  supplied  22.2  percent  of  the  total  generation.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 11,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was output in 2024. Geothermal and hydropower, with combined shares of 17.1 percent, each.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 12,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was contributed more than 10 TWh. Solar energy showed a notable 49.8 percent growth,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 13,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was as it produced 3.8 TWh of power. Wind power dropped by 5.3 percent to 1.2 TWh with.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 14,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was only 1.0 percent share, while biomass generation stood at 1.4 TWh, equivalent to a 1.1.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 15,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "increased by 20 7 percent was percent share of the generation mix..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 16,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "nan was 0.3 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_009.csv",
+      "row_id": 17,
+      "columns": [
+        "increased_by_20_7_percent",
+        "nan",
+        "nan_numeric",
+        "nan_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was MTOE, which was 7.3 percent more than its year-ago level of 23.0 MTOE. The volume.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 0,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was of  local and imported coal ramped up by 4.3 percent and 8.9 percent, respectively, to.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 1,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was provide  for  the  demand  from  power  and  industrial  processes.  Aggregate  renewable.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 2,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was energy  sources  (geothermal,  hydro,  solar,  wind,  biomass,  and  biofuels)  posted  a  2.1.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 3,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was percent  expansion  as  it  reached  21.0  MTOE  or  30.4  percent  share  to  the  country’s.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 4,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was energy  mix.  Meanwhile,  total  oil  supply  rose  by  3.9  percent,  from  19.6  MTOE  in  2023.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 5,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was to  20.4  MTOE  in  2024,  and  contributed  29.5  percent  to  TPES.  Bulk  of  the  increase  is.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 6,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was attributed  to  the  continued  reliance  on  imported  petroleum  products,  as  domestic.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 7,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was production remained limited. Meanwhile, natural gas supply significantly increased by.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 8,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was 21.0 percent boosted by the double-digit hike in LNG imnports during the year..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 9,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was A. Indigenous Energy.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 10,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was The uptrend in domestic coal production and renewable energy sources, such as hydro,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 11,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was solar and biofuels, offset the decline in oil, natural gas and wind to keep the level of.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 12,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was total indigenous energy production afloat at 31.0 MTOE or 1.7 percent higher than 30.5.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 13,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was MTOE recorded in 2023. This was an improvement to the slowdown exhibited in 2023,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 14,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was and  reflected  the  country’s  continued  efforts  to  strengthen  energy  security  through.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 15,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was aggressive promotion indigenous energy sources..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 16,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was Fossil Fuels.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 17,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was i.  Oil.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 18,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was Combined production of crude oil and condensate fell by 9.4 percent to 241.2 kTOE (2.2.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 19,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was million barrels (MMB)) in 2024 from 266.2 kTOE (2.4 MMB) in 2023. Galoc oil field, the.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 20,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was country’s only commercially producing oil field during the year, recorded a 10.6 percent.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 21,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was reduction  in  crude  oil  production  due  to  aging  infrastructure  and  the  progressive.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 22,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was depletion  of  its  reservoir  consistent  with  its  late-life  production  phase.  Condensate.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 23,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was production  from  the  Malampaya  gas  field,  which  is  fully  exported,  also  dropped  by.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 24,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was 9.0  percent,  consistent  with  the  field’s  ongoing  decline  in  natural  gas  output  and.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 25,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was associated liquids..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 26,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was ii.  Coal.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 27,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was Coal production increased by 4.3 percent in 2024 to 8.4 MTOE (15.9 million metric tons.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 28,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was (MMMT)) from 8.1 MTOE (15.3 MMMT) in the previous year. Semirara Mining and Power.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 29,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was Corporation (SMPC), the country’s largest coal producer, sustained its production level.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 30,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was at 14.7 MMT and accounted for 93.7 percent of total domestic production. Meanwhile,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 31,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was coal mines in South Cotabato, Sarrangi and Sultan Kudarat  and Zamboanga reported.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 32,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was a  surge  of  as  much  as  four  (4)  times  their  combined  production  level  in  2023  to  0.9.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 33,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was MMMT  and  translated  to  a  share  of  5.5  percent  to  total  domestic  coal  production..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 34,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was Small-scale mines and those in Cebu, Negros and Bicol contributed an additional 0.1.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 35,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "coal remained the dominant energy source with 35 7 percent share to tpes or 24 6 was MMMT or 0.8 percent share..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "category": "coal",
+      "table": "coal_consolidated_010.csv",
+      "row_id": 36,
+      "columns": [
+        "coal_remained_the_dominant_energy_source_with_35_7_percent_share_to_tpes_or_24_6"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was Saudi Arabia (7.1 percent), and Singapore (4.2 percent). Together, the top five trading.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 0,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was partners supplied 76.6 percent of the country’s total energy imports in 2024..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 1,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was On the other hand, the Philippines shipped a total of 5.2 MTOE of combined oil, coal.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 2,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was and  condensate  volume  in  2024.  China  continued  to  be  the  primary  destination  of.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 3,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was Philippine  energy  commodities,  particularly  coal,  as  it  absorbed  4.0  MTOE  or  77.2.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 4,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was percent of total energy exports due to strong trade relations, cost-efficient logistics,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 5,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was and  a  mutually  beneficial  trade  structure.  Other  key  export  markets  included  South.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 6,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was Korea  (7.4  percent),  Brunei  (4.2  percent),  Thailand  (2.5  percent),  and  Malaysia  (1.6.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 7,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was percent), bringing the top five destinations to a combined 92.8 percent share of total.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 8,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was exports..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 9,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was For, nan was in.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 10,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was 2023 to 1.8 MTOE in 2024, up by 9.6 percent due to continued recovery of global air.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 11,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was travel,  with  more  flight  routes  restored,  higher  passenger  traffic,  and  a  boost  from.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 12,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was tourism-related activities. Meanwhile, the combined diesel and fuel consumption for.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 13,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was international marine bunkers rose to 55.0 kTOE from 52.5 kTOE in 2023, or an increase.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 14,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was of 4.7 percent. This growth reflected stronger shipping activity, supported by higher.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 15,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was international trade volumes and increased cargo movement through Philippine ports..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 16,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was Both  segments  posted  year-on-year  gains,  highlighting  the  sustained  rebound  of.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 17,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was international  transport  demand  after  earlier  pandemic-induced  contractions.  The.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 18,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was combined volume of coal and other petroleum products was recorded as stock-build.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 19,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "power generationeration this was followed by south korea 10 6 percent china 9 0  was up in 2024 stood at 829.1 kTOE..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "category": "coal",
+      "table": "coal_consolidated_011.csv",
+      "row_id": 20,
+      "columns": [
+        "power_generationeration_this_was_followed_by_south_korea_10_6_percent_china_9_0_",
+        "nan"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was In  2024,  total  greenhouse  gas  (GHG)  emissions  rose  by  6.8  percent  to  162.1  million.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 0,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was tonnes  of  CO₂  equivalent  (MTCO2e)  from  151.8  MTCO2e  in  2023.  This  increase  was.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 1,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was largely due to the sustained reliance on fossil fuels, particularly coal and oil, for power.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 2,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was generation and transportation. The power sector remained as the largest GHG emitter.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 3,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was with 60.1 percent share to the national total, as emissions from coal-fired plants surged.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 4,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was by 8.0 percent to 97.5 MTCO2e in 2024 from the previous year’s 90.2 MTCO2e. (Table 1)..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 5,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was GHG emission from the transport sector went up by 5.1 percent to 38.8 MTCO2e in 2024.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 6,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was from  last  year’s  36.9  MTCO2e  driven  by  economic  growth  and  increased  household.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 7,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was consumption. The sector accounted for 23.9 percent of total GHG emissions, which is.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 8,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was attributed to its continued dependence on internal combustion engine (ICE) vehicles,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 9,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was which still comprised the largest share of the national vehicle fleet despite aggressive.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 10,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "iv environmental impact was efforts to promote electric mobility..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "category": "coal",
+      "table": "coal_consolidated_012.csv",
+      "row_id": 11,
+      "columns": [
+        "iv_environmental_impact"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was TOE,  1,125.56  kWh,  and  1.47  bbl,  respectively,  and  surpassed  their  2023  levels.  This.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 0,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was upward trend reflected improved access to energy for both daily needs and productive.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 1,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was activities, supporting higher living standards and economic participation..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 2,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was GHG Emission Indicators.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 3,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was Carbon intensity of GDP in 2024 remained relatively at the same level as the previous.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 4,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was year’s  0.7  tonnes  of  CO₂  equivalent  (tCO₂e)  per  PHP  100,000.  Meanwhile,  the  carbon.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 5,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was intensity of TPES and electricity generation increased by 1.4 percent and 0.4 percent,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 6,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was respectively.  These  upticks  were \nlargely  attributed  to  the  growing  share  of  fossil.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 7,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was fuels,  particularly  coal, \nin  the  energy  and  power  generation  mixes.  Consequently,.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 8,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was GHG  emissions  per  capita  also  rose  by  5.9  percent,  in  line  with  higher  overall  energy.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 9,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "energy per capita per capita energy electricity and oil e in 2024 rose to 0 61 was consumption and emissions output. (Figure 18)..",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_013.csv",
+      "row_id": 10,
+      "columns": [
+        "energy_per_capita_per_capita_energy_electricity_and_oil_e_in_2024_rose_to_0_61"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 5.9 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 0,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque=consumption and emissions output. (Figure 18)., fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 1,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque=2.5\n2.32 2.35, fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit=megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 2,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 20232024.0 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 3,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 2.0 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 4,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 1.41 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 5,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque=1.5\n1.36, fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit=megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 6,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 1.0 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 7,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "Data point in coal: fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque=0.76 0.77\n0.73, fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit=megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 8,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 0.72 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 9,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 0.5 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 10,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 0.0 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 11,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "fuels particularly coal in the energy and power generationeration mixes conseque was 2100222.0 megawatt_hours.",
+    "metadata": {
+      "source": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "category": "coal",
+      "table": "coal_consolidated_014.csv",
+      "row_id": 12,
+      "columns": [
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_numeric",
+        "fuels_particularly_coal_in_the_energy_and_power_generationeration_mixes_conseque_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Liquid Fossils (Oil), 2023 was 55.7, 2024 was 57.89, gr was 3.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_006_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_015.csv",
+      "row_id": 0,
+      "columns": [
+        "sector_and_activity",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Solid Fossils (Coal), 2023 was 90.15, 2024 was 97.1, gr was 7.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_006_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_015.csv",
+      "row_id": 1,
+      "columns": [
+        "sector_and_activity",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Gaseous Fossil (Natural Gas), 2023 was 5.9, 2024 was 7.14, gr was 21.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_006_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_015.csv",
+      "row_id": 2,
+      "columns": [
+        "sector_and_activity",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was TOTAL, 2023 was 151.75, 2024 was 162.13, gr was 6.8 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_006_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_015.csv",
+      "row_id": 3,
+      "columns": [
+        "sector_and_activity",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Non-Energy Use, 2023 was 1397.0, 2024 was 1528.0, gr was 9.4 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_014_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_016.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Oil, 2023 was 1317.0, 2024 was 1445.0, gr was 9.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_014_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_016.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Coal, 2023 was 80.0, 2024 was 83.0, gr was 3.4 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_014_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_016.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "unnamed 0 was Total Energy, 2023 was 37019.0, 2024 was 38898.0, gr was 5.1 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_014_p16.csv",
+      "category": "coal",
+      "table": "coal_consolidated_016.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "2023",
+        "2024",
+        "gr",
+        "2023_numeric",
+        "2024_numeric",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal was Coal Production, by Source, 29 was 29.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 0,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Coal Importation, by Country of Source, 29 was 31.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 1,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Coal Exportation, by Country of Destination, 29 was 33.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 2,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Coal Consumption, by Major Type of User, 29 was 35.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 3,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Renewable Energy Production, 29 was 36.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 4,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Biomass Production, by Fuel Type, 29 was 36.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 5,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Geothermal, Hydro, Wind, Solar and Biomass, 29 was 38.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 6,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Power, 29 was 40.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 7,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Installed Generating Capacity, 29 was 40.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 8,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Power Generation, by Source, 29 was 42.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 9,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Power Consumption, by Sector, 29 was 46.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 10,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Regional Household Electrification Level, 29 was 48.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 11,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Glossary, 29 was 51.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 12,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal was Units of Measurement and Conversion Table, 29 was 54.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "category": "coal",
+      "table": "coal_consolidated_017.csv",
+      "row_id": 13,
+      "columns": [
+        "coal",
+        "29",
+        "29_numeric"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Liquid Fossils (Oil), gr was 3.9 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_018.csv",
+      "row_id": 0,
+      "columns": [
+        "sector_and_activity",
+        "gr",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Solid Fossils (Coal), gr was 7.7 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_018.csv",
+      "row_id": 1,
+      "columns": [
+        "sector_and_activity",
+        "gr",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was Gaseous Fossil (Natural Gas), gr was 21.0 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_018.csv",
+      "row_id": 2,
+      "columns": [
+        "sector_and_activity",
+        "gr",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "sector and activity was TOTAL, gr was 6.8 percent.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv",
+      "category": "coal",
+      "table": "coal_consolidated_018.csv",
+      "row_id": 3,
+      "columns": [
+        "sector_and_activity",
+        "gr",
+        "gr_numeric",
+        "gr_unit"
+      ]
+    }
+  },
+  {
+    "content": "coal consumption by major type of er was 39573.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_102_p37.csv",
+      "category": "coal",
+      "table": "coal_consolidated_019.csv",
+      "row_id": 0,
+      "columns": [
+        "unnamed_0",
+        "coal_consumption_by_major_type_of_er",
+        "coal_consumption_by_major_type_of_er_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal consumption by major type of er was 1716.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_102_p37.csv",
+      "category": "coal",
+      "table": "coal_consolidated_019.csv",
+      "row_id": 1,
+      "columns": [
+        "unnamed_0",
+        "coal_consumption_by_major_type_of_er",
+        "coal_consumption_by_major_type_of_er_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal consumption by major type of er was 2200.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_102_p37.csv",
+      "category": "coal",
+      "table": "coal_consolidated_019.csv",
+      "row_id": 2,
+      "columns": [
+        "unnamed_0",
+        "coal_consumption_by_major_type_of_er",
+        "coal_consumption_by_major_type_of_er_numeric"
+      ]
+    }
+  },
+  {
+    "content": "coal consumption by major type of er was 43490.0.",
+    "metadata": {
+      "source": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_102_p37.csv",
+      "category": "coal",
+      "table": "coal_consolidated_019.csv",
+      "row_id": 3,
+      "columns": [
+        "unnamed_0",
+        "coal_consumption_by_major_type_of_er",
+        "coal_consumption_by_major_type_of_er_numeric"
+      ]
+    }
+  }
+]

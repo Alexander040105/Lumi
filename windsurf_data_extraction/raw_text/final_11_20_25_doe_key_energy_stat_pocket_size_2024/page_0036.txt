@@ -1,0 +1,34 @@
+KEY ENERGY STATISTICS
+34
+Country
+2023
+2024
+GR
+Brunei 
+ 286 
+ 193 
+-32.6%
+China 
+ 4,866 
+ 7,058 
+45.1%
+India 
+ 71 
+ - 
+Japan 
+ 163 
+ - 
+South Korea
+ 2,061 
+ 626 
+-69.6%
+Others*
+ 69 
+ - 
+Total
+ 7,516 
+ 7,877 
+4.8%
+Coal Exportation, by Country of Destination
+in MMT at 10,000 BTU/lb
+*includes Cambodia, Papua New Guinea, and Vietnam

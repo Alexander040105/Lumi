@@ -1,0 +1,94 @@
+import { useState } from "react";
+
+import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
+import { getApiBaseUrl } from "@/utils/env";
+
+export default function AdminConfig() {
+  const { t } = useI18n();
+  const { accessToken } = useAuth();
+  const [config, setConfig] = useState({
+    chatbot_enabled: true,
+    maintenance_mode: false,
+    free_chat_limit: 5,
+    free_sim_limit: 3,
+  });
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleSave = async () => {
+    setSaving(true);
+    setMessage("");
+    try {
+      await fetch(`${getApiBaseUrl()}/admin/config`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify(config),
+      });
+      setMessage(t("admin.configPage.saved"));
+    } catch {
+      setMessage(t("admin.configPage.failed"));
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">{t("admin.configPage.title")}</h1>
+      <div className="space-y-4">
+        <label className="flex items-center justify-between p-3 border rounded-lg">
+          <span>{t("admin.configPage.chatbotEnabled")}</span>
+          <input
+            type="checkbox"
+            checked={config.chatbot_enabled}
+            onChange={(e) => setConfig({ ...config, chatbot_enabled: e.target.checked })}
+            className="w-5 h-5"
+          />
+        </label>
+        <label className="flex items-center justify-between p-3 border rounded-lg">
+          <span>{t("admin.configPage.maintenanceMode")}</span>
+          <input
+            type="checkbox"
+            checked={config.maintenance_mode}
+            onChange={(e) => setConfig({ ...config, maintenance_mode: e.target.checked })}
+            className="w-5 h-5"
+          />
+        </label>
+        <div className="p-3 border rounded-lg">
+          <label className="block text-sm font-medium mb-1">{t("admin.configPage.freeChatLimit")}</label>
+          <input
+            type="number"
+            value={config.free_chat_limit}
+            onChange={(e) => setConfig({ ...config, free_chat_limit: parseInt(e.target.value) || 0 })}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </div>
+        <div className="p-3 border rounded-lg">
+          <label className="block text-sm font-medium mb-1">{t("admin.configPage.freeSimLimit")}</label>
+          <input
+            type="number"
+            value={config.free_sim_limit}
+            onChange={(e) => setConfig({ ...config, free_sim_limit: parseInt(e.target.value) || 0 })}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </div>
+        {message && (
+          <p className={`text-sm ${message.includes("Failed") ? "text-destructive" : "text-green-600"}`}>
+            {message}
+          </p>
+        )}
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
+        >
+          {saving ? t("admin.configPage.saving") : t("admin.configPage.saveConfiguration")}
+        </button>
+      </div>
+    </div>
+  );
+}

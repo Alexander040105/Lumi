@@ -1,0 +1,3010 @@
+{
+  "raw_files_processed": 382,
+  "tables_cleaned": 293,
+  "tables_discarded": 89,
+  "category_counts": {
+    "oil": 1,
+    "general": 1,
+    "coal": 1,
+    "biomass": 1,
+    "solar": 1,
+    "geothermal": 1,
+    "natural_gas": 1,
+    "hydro": 1
+  },
+  "files": [
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_001_p1.csv",
+      "original_rows": 54,
+      "cleaned_rows": 48,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_002_p2.csv",
+      "original_rows": 20,
+      "cleaned_rows": 16,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_003_p1.csv",
+      "original_rows": 52,
+      "cleaned_rows": 18,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_004_p2.csv",
+      "original_rows": 20,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_005_p1.csv",
+      "original_rows": 49,
+      "cleaned_rows": 30,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "06_2024_lvm_grid_gross_generation_per_region_per_technology_and_per_ownershiprev_table_006_p2.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_001_p7.csv",
+      "original_rows": 6,
+      "cleaned_rows": 1,
+      "columns": 8,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_002_p8.csv",
+      "original_rows": 3,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_003_p10.csv",
+      "original_rows": 2,
+      "cleaned_rows": 2,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_004_p10.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_005_p10.csv",
+      "original_rows": 2,
+      "cleaned_rows": 2,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_006_p11.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_007_p12.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_008_p12.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_009_p13.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_010_p14.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_011_p14.csv",
+      "original_rows": 2,
+      "cleaned_rows": 2,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_012_p15.csv",
+      "original_rows": 10,
+      "cleaned_rows": 1,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_013_p17.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 5,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_014_p17.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_015_p21.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_016_p21.csv",
+      "original_rows": 4,
+      "cleaned_rows": 3,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_017_p23.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_018_p24.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 13,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_019_p25.csv",
+      "original_rows": 10,
+      "cleaned_rows": 9,
+      "columns": 11,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_020_p26.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 12,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_021_p27.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_022_p28.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 19,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_023_p29.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_024_p30.csv",
+      "original_rows": 28,
+      "cleaned_rows": 27,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_025_p31.csv",
+      "original_rows": 28,
+      "cleaned_rows": 27,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_026_p32.csv",
+      "original_rows": 31,
+      "cleaned_rows": 31,
+      "columns": 19,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_027_p33.csv",
+      "original_rows": 31,
+      "cleaned_rows": 31,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_028_p34.csv",
+      "original_rows": 33,
+      "cleaned_rows": 32,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_029_p35.csv",
+      "original_rows": 33,
+      "cleaned_rows": 32,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_030_p37.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_031_p40.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_032_p40.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_033_p41.csv",
+      "original_rows": 7,
+      "cleaned_rows": 6,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_034_p41.csv",
+      "original_rows": 7,
+      "cleaned_rows": 6,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_035_p42.csv",
+      "original_rows": 8,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_036_p42.csv",
+      "original_rows": 9,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_037_p43.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_038_p43.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_039_p43.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 15,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 16,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_041_p44.csv",
+      "original_rows": 2,
+      "cleaned_rows": 1,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_042_p44.csv",
+      "original_rows": 2,
+      "cleaned_rows": 1,
+      "columns": 17,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_043_p45.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_044_p45.csv",
+      "original_rows": 3,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_045_p46.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_046_p46.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_047_p47.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_048_p48.csv",
+      "original_rows": 32,
+      "cleaned_rows": 32,
+      "columns": 15,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_049_p49.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_050_p50.csv",
+      "original_rows": 32,
+      "cleaned_rows": 32,
+      "columns": 16,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_051_p51.csv",
+      "original_rows": 13,
+      "cleaned_rows": 10,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_052_p51.csv",
+      "original_rows": 13,
+      "cleaned_rows": 10,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_053_p53.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_054_p53.csv",
+      "original_rows": 11,
+      "cleaned_rows": 11,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_055_p54.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_056_p54.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_057_p55.csv",
+      "original_rows": 29,
+      "cleaned_rows": 29,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_058_p56.csv",
+      "original_rows": 26,
+      "cleaned_rows": 26,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_059_p57.csv",
+      "original_rows": 16,
+      "cleaned_rows": 16,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_060_p57.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_061_p58.csv",
+      "original_rows": 50,
+      "cleaned_rows": 36,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_062_p59.csv",
+      "original_rows": 50,
+      "cleaned_rows": 36,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_063_p60.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_064_p60.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_065_p60.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_066_p61.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_067_p61.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_068_p61.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_069_p62.csv",
+      "original_rows": 7,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_070_p62.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_071_p62.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_072_p63.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_073_p63.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_074_p64.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_075_p64.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 14,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_076_p65.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_077_p65.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_078_p66.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_079_p66.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 15,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_080_p66.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 16,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_081_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_082_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_083_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_084_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_085_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_086_p67.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_087_p68.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_088_p68.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_089_p68.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_090_p68.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_091_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_092_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_093_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_094_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_095_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_096_p69.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_097_p69.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 15,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_098_p69.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_099_p70.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_100_p70.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_101_p71.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_102_p71.csv",
+      "original_rows": 23,
+      "cleaned_rows": 23,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_103_p72.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_104_p72.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_105_p72.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_106_p73.csv",
+      "original_rows": 22,
+      "cleaned_rows": 22,
+      "columns": 12,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv",
+      "original_rows": 28,
+      "cleaned_rows": 28,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_108_p78.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_109_p78.csv",
+      "original_rows": 8,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_110_p78.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_111_p79.csv",
+      "original_rows": 4,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_112_p79.csv",
+      "original_rows": 3,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_113_p7.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_114_p8.csv",
+      "original_rows": 3,
+      "cleaned_rows": 1,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_115_p10.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_116_p12.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_117_p14.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_118_p15.csv",
+      "original_rows": 11,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_119_p17.csv",
+      "original_rows": 2,
+      "cleaned_rows": 2,
+      "columns": 11,
+      "category": "geothermal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_120_p21.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_121_p23.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_122_p24.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 13,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_123_p25.csv",
+      "original_rows": 10,
+      "cleaned_rows": 9,
+      "columns": 11,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_124_p27.csv",
+      "original_rows": 3,
+      "cleaned_rows": 2,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_125_p28.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 19,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_126_p29.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_127_p30.csv",
+      "original_rows": 28,
+      "cleaned_rows": 27,
+      "columns": 16,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_128_p31.csv",
+      "original_rows": 28,
+      "cleaned_rows": 27,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_129_p32.csv",
+      "original_rows": 31,
+      "cleaned_rows": 31,
+      "columns": 19,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_130_p33.csv",
+      "original_rows": 31,
+      "cleaned_rows": 31,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_131_p34.csv",
+      "original_rows": 33,
+      "cleaned_rows": 32,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_132_p35.csv",
+      "original_rows": 33,
+      "cleaned_rows": 32,
+      "columns": 17,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_133_p40.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_134_p40.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_135_p41.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_136_p41.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_137_p42.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_138_p42.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_139_p43.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_140_p43.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_141_p43.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_142_p43.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_143_p44.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_144_p44.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_145_p45.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_146_p45.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_147_p46.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 5,
+      "category": "natural_gas"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_148_p46.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 5,
+      "category": "natural_gas"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_149_p51.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_150_p51.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 15,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_151_p51.csv",
+      "original_rows": 6,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_152_p51.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 11,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_153_p51.csv",
+      "original_rows": 6,
+      "cleaned_rows": 5,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_154_p53.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_155_p53.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_156_p54.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_157_p54.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_158_p56.csv",
+      "original_rows": 26,
+      "cleaned_rows": 26,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_159_p57.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_160_p57.csv",
+      "original_rows": 19,
+      "cleaned_rows": 13,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_161_p58.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_162_p59.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_163_p60.csv",
+      "original_rows": 4,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_164_p60.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_165_p60.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_166_p63.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_167_p63.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_168_p65.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_169_p67.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_170_p67.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_171_p79.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_172_p79.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_173_p3.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_174_p5.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 3,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_175_p5.csv",
+      "original_rows": 27,
+      "cleaned_rows": 27,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_176_p6.csv",
+      "original_rows": 30,
+      "cleaned_rows": 27,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_177_p7.csv",
+      "original_rows": 62,
+      "cleaned_rows": 60,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_178_p8.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_179_p8.csv",
+      "original_rows": 23,
+      "cleaned_rows": 21,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_180_p9.csv",
+      "original_rows": 43,
+      "cleaned_rows": 43,
+      "columns": 3,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_181_p10.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_182_p10.csv",
+      "original_rows": 15,
+      "cleaned_rows": 4,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_183_p10.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_184_p11.csv",
+      "original_rows": 40,
+      "cleaned_rows": 37,
+      "columns": 4,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_185_p12.csv",
+      "original_rows": 49,
+      "cleaned_rows": 49,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_186_p13.csv",
+      "original_rows": 26,
+      "cleaned_rows": 25,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_187_p13.csv",
+      "original_rows": 21,
+      "cleaned_rows": 15,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_188_p14.csv",
+      "original_rows": 43,
+      "cleaned_rows": 40,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_189_p15.csv",
+      "original_rows": 31,
+      "cleaned_rows": 31,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_190_p15.csv",
+      "original_rows": 6,
+      "cleaned_rows": 5,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_191_p16.csv",
+      "original_rows": 18,
+      "cleaned_rows": 18,
+      "columns": 6,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_192_p16.csv",
+      "original_rows": 21,
+      "cleaned_rows": 2,
+      "columns": 8,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_193_p17.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 3,
+      "category": "natural_gas"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_194_p17.csv",
+      "original_rows": 28,
+      "cleaned_rows": 19,
+      "columns": 6,
+      "category": "natural_gas"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_195_p18.csv",
+      "original_rows": 37,
+      "cleaned_rows": 37,
+      "columns": 3,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_196_p19.csv",
+      "original_rows": 42,
+      "cleaned_rows": 42,
+      "columns": 3,
+      "category": "geothermal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_197_p20.csv",
+      "original_rows": 9,
+      "cleaned_rows": 8,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_198_p20.csv",
+      "original_rows": 26,
+      "cleaned_rows": 17,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_199_p21.csv",
+      "original_rows": 26,
+      "cleaned_rows": 26,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_200_p21.csv",
+      "original_rows": 20,
+      "cleaned_rows": 19,
+      "columns": 6,
+      "category": "natural_gas"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_201_p22.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 4,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_202_p23.csv",
+      "original_rows": 12,
+      "cleaned_rows": 12,
+      "columns": 3,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_203_p23.csv",
+      "original_rows": 19,
+      "cleaned_rows": 15,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_204_p24.csv",
+      "original_rows": 15,
+      "cleaned_rows": 12,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_205_p24.csv",
+      "original_rows": 39,
+      "cleaned_rows": 24,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_206_p25.csv",
+      "original_rows": 20,
+      "cleaned_rows": 11,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_207_p25.csv",
+      "original_rows": 11,
+      "cleaned_rows": 11,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_208_p26.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 3,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_209_p26.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_210_p27.csv",
+      "original_rows": 11,
+      "cleaned_rows": 11,
+      "columns": 3,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_211_p27.csv",
+      "original_rows": 14,
+      "cleaned_rows": 13,
+      "columns": 5,
+      "category": "coal"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_212_p28.csv",
+      "original_rows": 43,
+      "cleaned_rows": 29,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_213_p30.csv",
+      "original_rows": 40,
+      "cleaned_rows": 30,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_214_p32.csv",
+      "original_rows": 36,
+      "cleaned_rows": 21,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_215_p32.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 21,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_216_p34.csv",
+      "original_rows": 45,
+      "cleaned_rows": 35,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_217_p37.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_218_p39.csv",
+      "original_rows": 36,
+      "cleaned_rows": 36,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_219_p40.csv",
+      "original_rows": 25,
+      "cleaned_rows": 12,
+      "columns": 16,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_220_p42.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_221_p43.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_222_p44.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_223_p45.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_224_p46.csv",
+      "original_rows": 40,
+      "cleaned_rows": 40,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_225_p46.csv",
+      "original_rows": 43,
+      "cleaned_rows": 40,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_226_p47.csv",
+      "original_rows": 26,
+      "cleaned_rows": 26,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_227_p49.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_228_p50.csv",
+      "original_rows": 33,
+      "cleaned_rows": 32,
+      "columns": 16,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_229_p52.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_230_p53.csv",
+      "original_rows": 24,
+      "cleaned_rows": 24,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_231_p54.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_232_p55.csv",
+      "original_rows": 28,
+      "cleaned_rows": 28,
+      "columns": 15,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_233_p56.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_234_p57.csv",
+      "original_rows": 38,
+      "cleaned_rows": 38,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_235_p58.csv",
+      "original_rows": 53,
+      "cleaned_rows": 53,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_236_p59.csv",
+      "original_rows": 53,
+      "cleaned_rows": 53,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_237_p60.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_238_p61.csv",
+      "original_rows": 17,
+      "cleaned_rows": 17,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_239_p62.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_240_p63.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_241_p64.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_242_p65.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_243_p66.csv",
+      "original_rows": 18,
+      "cleaned_rows": 17,
+      "columns": 16,
+      "category": "biomass"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_244_p67.csv",
+      "original_rows": 6,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_245_p68.csv",
+      "original_rows": 6,
+      "cleaned_rows": 5,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_246_p69.csv",
+      "original_rows": 22,
+      "cleaned_rows": 21,
+      "columns": 16,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_247_p70.csv",
+      "original_rows": 45,
+      "cleaned_rows": 45,
+      "columns": 6,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_248_p71.csv",
+      "original_rows": 23,
+      "cleaned_rows": 23,
+      "columns": 6,
+      "category": "solar"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_249_p72.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_250_p73.csv",
+      "original_rows": 22,
+      "cleaned_rows": 21,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_251_p74.csv",
+      "original_rows": 34,
+      "cleaned_rows": 34,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_252_p75.csv",
+      "original_rows": 33,
+      "cleaned_rows": 33,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_253_p76.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_254_p77.csv",
+      "original_rows": 29,
+      "cleaned_rows": 29,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_255_p78.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "2024_philippine_energy_situationer_and_key_energy_statistics_table_256_p79.csv",
+      "original_rows": 10,
+      "cleaned_rows": 3,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_001_p1.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_002_p1.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_003_p6.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_004_p7.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_005_p8.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_006_p9.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 10,
+      "category": "coal"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_007_p10.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 12,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_008_p11.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_009_p11.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_010_p12.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_011_p13.csv",
+      "original_rows": 16,
+      "cleaned_rows": 16,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_012_p14.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_013_p15.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_014_p16.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 10,
+      "category": "coal"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_015_p17.csv",
+      "original_rows": 9,
+      "cleaned_rows": 7,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_016_p19.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_017_p20.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_018_p21.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_019_p22.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_020_p23.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_021_p24.csv",
+      "original_rows": 17,
+      "cleaned_rows": 17,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_022_p25.csv",
+      "original_rows": 17,
+      "cleaned_rows": 17,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_023_p26.csv",
+      "original_rows": 17,
+      "cleaned_rows": 17,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_024_p27.csv",
+      "original_rows": 11,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_025_p28.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_026_p29.csv",
+      "original_rows": 12,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_027_p30.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_028_p31.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_029_p32.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_030_p34.csv",
+      "original_rows": 6,
+      "cleaned_rows": 6,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_031_p36.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_032_p37.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_033_p37.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_034_p37.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_035_p38.csv",
+      "original_rows": 8,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_036_p39.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 10,
+      "category": "biomass"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_037_p40.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_038_p40.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_039_p40.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_040_p41.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_041_p41.csv",
+      "original_rows": 3,
+      "cleaned_rows": 3,
+      "columns": 13,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_042_p42.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_043_p42.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_044_p43.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_045_p44.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_046_p45.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_047_p46.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_048_p47.csv",
+      "original_rows": 11,
+      "cleaned_rows": 11,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_049_p48.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_050_p48.csv",
+      "original_rows": 4,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_051_p49.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_052_p51.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 12,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_053_p52.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 12,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_054_p57.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_055_p58.csv",
+      "original_rows": 13,
+      "cleaned_rows": 13,
+      "columns": 5,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_056_p60.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_057_p60.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_058_p1.csv",
+      "original_rows": 3,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_059_p11.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_060_p11.csv",
+      "original_rows": 6,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_061_p29.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_062_p35.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_063_p37.csv",
+      "original_rows": 7,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_064_p38.csv",
+      "original_rows": 5,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_065_p53.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 4,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_066_p54.csv",
+      "original_rows": 5,
+      "cleaned_rows": 5,
+      "columns": 4,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_067_p55.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 4,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_068_p60.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_069_p1.csv",
+      "original_rows": 1,
+      "cleaned_rows": 1,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_070_p3.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_071_p4.csv",
+      "original_rows": 21,
+      "cleaned_rows": 21,
+      "columns": 5,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_072_p5.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 5,
+      "category": "coal"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_073_p6.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_074_p7.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_075_p8.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_076_p9.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 6,
+      "category": "coal"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_077_p10.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 3,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_078_p10.csv",
+      "original_rows": 16,
+      "cleaned_rows": 16,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_079_p11.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_080_p12.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_081_p13.csv",
+      "original_rows": 16,
+      "cleaned_rows": 16,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_082_p14.csv",
+      "original_rows": 20,
+      "cleaned_rows": 20,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_083_p15.csv",
+      "original_rows": 19,
+      "cleaned_rows": 19,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_084_p16.csv",
+      "original_rows": 9,
+      "cleaned_rows": 5,
+      "columns": 7,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_085_p18.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_086_p19.csv",
+      "original_rows": 12,
+      "cleaned_rows": 12,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_087_p20.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_088_p21.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_089_p22.csv",
+      "original_rows": 15,
+      "cleaned_rows": 15,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_090_p23.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_091_p24.csv",
+      "original_rows": 21,
+      "cleaned_rows": 19,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_092_p25.csv",
+      "original_rows": 17,
+      "cleaned_rows": 17,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_093_p27.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_094_p28.csv",
+      "original_rows": 9,
+      "cleaned_rows": 9,
+      "columns": 6,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_095_p29.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_096_p31.csv",
+      "original_rows": 2,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_097_p32.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_098_p33.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_099_p34.csv",
+      "original_rows": 8,
+      "cleaned_rows": 7,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_100_p35.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_101_p36.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_102_p37.csv",
+      "original_rows": 9,
+      "cleaned_rows": 4,
+      "columns": 5,
+      "category": "coal"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_103_p38.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_104_p39.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 6,
+      "category": "biomass"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_105_p40.csv",
+      "original_rows": 24,
+      "cleaned_rows": 20,
+      "columns": 5,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_106_p41.csv",
+      "original_rows": 13,
+      "cleaned_rows": 10,
+      "columns": 5,
+      "category": "biomass"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_107_p42.csv",
+      "original_rows": 1,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_108_p43.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 6,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_109_p47.csv",
+      "original_rows": 10,
+      "cleaned_rows": 10,
+      "columns": 10,
+      "category": "solar"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_110_p48.csv",
+      "original_rows": 0,
+      "cleaned_rows": 0,
+      "columns": 0,
+      "category": "discarded"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_111_p49.csv",
+      "original_rows": 7,
+      "cleaned_rows": 7,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_112_p50.csv",
+      "original_rows": 28,
+      "cleaned_rows": 27,
+      "columns": 6,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_113_p51.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 9,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_114_p52.csv",
+      "original_rows": 8,
+      "cleaned_rows": 8,
+      "columns": 9,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_115_p53.csv",
+      "original_rows": 24,
+      "cleaned_rows": 24,
+      "columns": 4,
+      "category": "general"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_116_p54.csv",
+      "original_rows": 28,
+      "cleaned_rows": 28,
+      "columns": 4,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_117_p55.csv",
+      "original_rows": 24,
+      "cleaned_rows": 24,
+      "columns": 4,
+      "category": "hydro"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_118_p56.csv",
+      "original_rows": 14,
+      "cleaned_rows": 14,
+      "columns": 4,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv",
+      "original_rows": 16,
+      "cleaned_rows": 16,
+      "columns": 5,
+      "category": "oil"
+    },
+    {
+      "file": "final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_120_p60.csv",
+      "original_rows": 4,
+      "cleaned_rows": 4,
+      "columns": 3,
+      "category": "general"
+    }
+  ],
+  "exported_paths": {
+    "oil": [
+      "oil\\oil_consolidated_001.csv",
+      "oil\\oil_consolidated_002.csv",
+      "oil\\oil_consolidated_003.csv",
+      "oil\\oil_consolidated_004.csv",
+      "oil\\oil_consolidated_005.csv",
+      "oil\\oil_consolidated_006.csv",
+      "oil\\oil_consolidated_007.csv",
+      "oil\\oil_consolidated_008.csv",
+      "oil\\oil_consolidated_009.csv",
+      "oil\\oil_consolidated_010.csv",
+      "oil\\oil_consolidated_011.csv",
+      "oil\\oil_consolidated_012.csv",
+      "oil\\oil_consolidated_013.csv",
+      "oil\\oil_consolidated_014.csv",
+      "oil\\oil_consolidated_015.csv",
+      "oil\\oil_consolidated_016.csv",
+      "oil\\oil_consolidated_017.csv",
+      "oil\\oil_consolidated_018.csv",
+      "oil\\oil_consolidated_019.csv",
+      "oil\\oil_consolidated_020.csv",
+      "oil\\oil_consolidated_021.csv",
+      "oil\\oil_consolidated_022.csv",
+      "oil\\oil_consolidated_023.csv",
+      "oil\\oil_consolidated_024.csv",
+      "oil\\oil_consolidated_025.csv",
+      "oil\\oil_consolidated_026.csv",
+      "oil\\oil_consolidated_027.csv",
+      "oil\\oil_consolidated_028.csv",
+      "oil\\oil_consolidated_029.csv",
+      "oil\\oil_consolidated_030.csv",
+      "oil\\oil_consolidated_031.csv",
+      "oil\\oil_consolidated_032.csv",
+      "oil\\oil_consolidated_033.csv",
+      "oil\\oil_consolidated_034.csv",
+      "oil\\oil_consolidated_035.csv",
+      "oil\\oil_consolidated_036.csv",
+      "oil\\oil_consolidated_037.csv",
+      "oil\\oil_consolidated_038.csv",
+      "oil\\oil_consolidated_039.csv",
+      "oil\\oil_consolidated_040.csv",
+      "oil\\oil_consolidated_041.csv",
+      "oil\\oil_consolidated_042.csv",
+      "oil\\oil_consolidated_043.csv",
+      "oil\\oil_consolidated_044.csv",
+      "oil\\oil_consolidated_045.csv",
+      "oil\\oil_consolidated_046.csv",
+      "oil\\oil_consolidated_047.csv",
+      "oil\\oil_consolidated_048.csv",
+      "oil\\oil_consolidated_049.csv",
+      "oil\\oil_consolidated_050.csv",
+      "oil\\oil_consolidated_051.csv",
+      "oil\\oil_consolidated_052.csv",
+      "oil\\oil_consolidated_053.csv",
+      "oil\\oil_consolidated_054.csv",
+      "oil\\oil_consolidated_055.csv",
+      "oil\\oil_consolidated_056.csv",
+      "oil\\oil_consolidated_057.csv",
+      "oil\\oil_consolidated_058.csv",
+      "oil\\oil_consolidated_059.csv",
+      "oil\\oil_consolidated_060.csv",
+      "oil\\oil_consolidated_061.csv",
+      "oil\\oil_consolidated_062.csv",
+      "oil\\oil_consolidated_063.csv",
+      "oil\\oil_consolidated_064.csv",
+      "oil\\oil_consolidated_065.csv",
+      "oil\\oil_consolidated_066.csv",
+      "oil\\oil_consolidated_067.csv",
+      "oil\\oil_consolidated_068.csv",
+      "oil\\oil_consolidated_069.csv",
+      "oil\\oil_consolidated_070.csv",
+      "oil\\oil_consolidated_071.csv",
+      "oil\\oil_consolidated_072.csv",
+      "oil\\oil_consolidated_073.csv",
+      "oil\\oil_consolidated_074.csv",
+      "oil\\oil_consolidated_075.csv",
+      "oil\\oil_consolidated_076.csv",
+      "oil\\oil_consolidated_077.csv",
+      "oil\\oil_consolidated_078.csv",
+      "oil\\oil_consolidated_079.csv",
+      "oil\\oil_consolidated_080.csv",
+      "oil\\oil_consolidated_081.csv",
+      "oil\\oil_consolidated_082.csv",
+      "oil\\oil_consolidated_083.csv",
+      "oil\\oil_consolidated_084.csv",
+      "oil\\oil_consolidated_085.csv",
+      "oil\\oil_consolidated_086.csv",
+      "oil\\oil_consolidated_087.csv",
+      "oil\\oil_consolidated_088.csv",
+      "oil\\oil_consolidated_089.csv",
+      "oil\\oil_consolidated_090.csv",
+      "oil\\oil_consolidated_091.csv",
+      "oil\\oil_all.csv"
+    ],
+    "general": [
+      "general\\general_consolidated_001.csv",
+      "general\\general_consolidated_002.csv",
+      "general\\general_consolidated_003.csv",
+      "general\\general_consolidated_004.csv",
+      "general\\general_consolidated_005.csv",
+      "general\\general_consolidated_006.csv",
+      "general\\general_consolidated_007.csv",
+      "general\\general_consolidated_008.csv",
+      "general\\general_consolidated_009.csv",
+      "general\\general_consolidated_010.csv",
+      "general\\general_consolidated_011.csv",
+      "general\\general_consolidated_012.csv",
+      "general\\general_consolidated_013.csv",
+      "general\\general_consolidated_014.csv",
+      "general\\general_consolidated_015.csv",
+      "general\\general_consolidated_016.csv",
+      "general\\general_consolidated_017.csv",
+      "general\\general_consolidated_018.csv",
+      "general\\general_consolidated_019.csv",
+      "general\\general_consolidated_020.csv",
+      "general\\general_consolidated_021.csv",
+      "general\\general_consolidated_022.csv",
+      "general\\general_consolidated_023.csv",
+      "general\\general_consolidated_024.csv",
+      "general\\general_consolidated_025.csv",
+      "general\\general_consolidated_026.csv",
+      "general\\general_consolidated_027.csv",
+      "general\\general_consolidated_028.csv",
+      "general\\general_consolidated_029.csv",
+      "general\\general_consolidated_030.csv",
+      "general\\general_consolidated_031.csv",
+      "general\\general_consolidated_032.csv",
+      "general\\general_consolidated_033.csv",
+      "general\\general_consolidated_034.csv",
+      "general\\general_consolidated_035.csv",
+      "general\\general_consolidated_036.csv",
+      "general\\general_consolidated_037.csv",
+      "general\\general_consolidated_038.csv",
+      "general\\general_consolidated_039.csv",
+      "general\\general_consolidated_040.csv",
+      "general\\general_consolidated_041.csv",
+      "general\\general_consolidated_042.csv",
+      "general\\general_consolidated_043.csv",
+      "general\\general_consolidated_044.csv",
+      "general\\general_consolidated_045.csv",
+      "general\\general_consolidated_046.csv",
+      "general\\general_consolidated_047.csv",
+      "general\\general_consolidated_048.csv",
+      "general\\general_consolidated_049.csv",
+      "general\\general_consolidated_050.csv",
+      "general\\general_consolidated_051.csv",
+      "general\\general_consolidated_052.csv",
+      "general\\general_consolidated_053.csv",
+      "general\\general_consolidated_054.csv",
+      "general\\general_consolidated_055.csv",
+      "general\\general_consolidated_056.csv",
+      "general\\general_consolidated_057.csv",
+      "general\\general_consolidated_058.csv",
+      "general\\general_consolidated_059.csv",
+      "general\\general_consolidated_060.csv",
+      "general\\general_consolidated_061.csv",
+      "general\\general_consolidated_062.csv",
+      "general\\general_consolidated_063.csv",
+      "general\\general_consolidated_064.csv",
+      "general\\general_consolidated_065.csv",
+      "general\\general_consolidated_066.csv",
+      "general\\general_consolidated_067.csv",
+      "general\\general_consolidated_068.csv",
+      "general\\general_consolidated_069.csv",
+      "general\\general_consolidated_070.csv",
+      "general\\general_consolidated_071.csv",
+      "general\\general_consolidated_072.csv",
+      "general\\general_consolidated_073.csv",
+      "general\\general_consolidated_074.csv",
+      "general\\general_consolidated_075.csv",
+      "general\\general_consolidated_076.csv",
+      "general\\general_consolidated_077.csv",
+      "general\\general_consolidated_078.csv",
+      "general\\general_consolidated_079.csv",
+      "general\\general_consolidated_080.csv",
+      "general\\general_consolidated_081.csv",
+      "general\\general_consolidated_082.csv",
+      "general\\general_consolidated_083.csv",
+      "general\\general_consolidated_084.csv",
+      "general\\general_consolidated_085.csv",
+      "general\\general_consolidated_086.csv",
+      "general\\general_consolidated_087.csv",
+      "general\\general_consolidated_088.csv",
+      "general\\general_consolidated_089.csv",
+      "general\\general_consolidated_090.csv",
+      "general\\general_consolidated_091.csv",
+      "general\\general_consolidated_092.csv",
+      "general\\general_consolidated_093.csv",
+      "general\\general_consolidated_094.csv",
+      "general\\general_consolidated_095.csv",
+      "general\\general_consolidated_096.csv",
+      "general\\general_consolidated_097.csv",
+      "general\\general_consolidated_098.csv",
+      "general\\general_consolidated_099.csv",
+      "general\\general_consolidated_100.csv",
+      "general\\general_consolidated_101.csv",
+      "general\\general_consolidated_102.csv",
+      "general\\general_consolidated_103.csv",
+      "general\\general_consolidated_104.csv",
+      "general\\general_consolidated_105.csv",
+      "general\\general_consolidated_106.csv",
+      "general\\general_consolidated_107.csv",
+      "general\\general_consolidated_108.csv",
+      "general\\general_consolidated_109.csv",
+      "general\\general_consolidated_110.csv",
+      "general\\general_consolidated_111.csv",
+      "general\\general_consolidated_112.csv",
+      "general\\general_consolidated_113.csv",
+      "general\\general_consolidated_114.csv",
+      "general\\general_consolidated_115.csv",
+      "general\\general_consolidated_116.csv",
+      "general\\general_consolidated_117.csv",
+      "general\\general_consolidated_118.csv",
+      "general\\general_consolidated_119.csv",
+      "general\\general_consolidated_120.csv",
+      "general\\general_consolidated_121.csv",
+      "general\\general_consolidated_122.csv",
+      "general\\general_consolidated_123.csv",
+      "general\\general_consolidated_124.csv",
+      "general\\general_consolidated_125.csv",
+      "general\\general_consolidated_126.csv",
+      "general\\general_consolidated_127.csv",
+      "general\\general_consolidated_128.csv",
+      "general\\general_consolidated_129.csv",
+      "general\\general_consolidated_130.csv",
+      "general\\general_consolidated_131.csv",
+      "general\\general_consolidated_132.csv",
+      "general\\general_consolidated_133.csv",
+      "general\\general_consolidated_134.csv",
+      "general\\general_consolidated_135.csv",
+      "general\\general_consolidated_136.csv",
+      "general\\general_consolidated_137.csv",
+      "general\\general_consolidated_138.csv",
+      "general\\general_consolidated_139.csv",
+      "general\\general_consolidated_140.csv",
+      "general\\general_consolidated_141.csv",
+      "general\\general_consolidated_142.csv",
+      "general\\general_all.csv"
+    ],
+    "coal": [
+      "coal\\coal_consolidated_001.csv",
+      "coal\\coal_consolidated_002.csv",
+      "coal\\coal_consolidated_003.csv",
+      "coal\\coal_consolidated_004.csv",
+      "coal\\coal_consolidated_005.csv",
+      "coal\\coal_consolidated_006.csv",
+      "coal\\coal_consolidated_007.csv",
+      "coal\\coal_consolidated_008.csv",
+      "coal\\coal_consolidated_009.csv",
+      "coal\\coal_consolidated_010.csv",
+      "coal\\coal_consolidated_011.csv",
+      "coal\\coal_consolidated_012.csv",
+      "coal\\coal_consolidated_013.csv",
+      "coal\\coal_consolidated_014.csv",
+      "coal\\coal_consolidated_015.csv",
+      "coal\\coal_consolidated_016.csv",
+      "coal\\coal_consolidated_017.csv",
+      "coal\\coal_consolidated_018.csv",
+      "coal\\coal_consolidated_019.csv",
+      "coal\\coal_all.csv"
+    ],
+    "biomass": [
+      "biomass\\biomass_consolidated_001.csv",
+      "biomass\\biomass_consolidated_002.csv",
+      "biomass\\biomass_consolidated_003.csv",
+      "biomass\\biomass_consolidated_004.csv",
+      "biomass\\biomass_consolidated_005.csv",
+      "biomass\\biomass_consolidated_006.csv",
+      "biomass\\biomass_consolidated_007.csv",
+      "biomass\\biomass_consolidated_008.csv",
+      "biomass\\biomass_consolidated_009.csv",
+      "biomass\\biomass_consolidated_010.csv",
+      "biomass\\biomass_all.csv"
+    ],
+    "solar": [
+      "solar\\solar_consolidated_001.csv",
+      "solar\\solar_consolidated_002.csv",
+      "solar\\solar_consolidated_003.csv",
+      "solar\\solar_consolidated_004.csv",
+      "solar\\solar_consolidated_005.csv",
+      "solar\\solar_consolidated_006.csv",
+      "solar\\solar_consolidated_007.csv",
+      "solar\\solar_consolidated_008.csv",
+      "solar\\solar_consolidated_009.csv",
+      "solar\\solar_consolidated_010.csv",
+      "solar\\solar_consolidated_011.csv",
+      "solar\\solar_consolidated_012.csv",
+      "solar\\solar_consolidated_013.csv",
+      "solar\\solar_consolidated_014.csv",
+      "solar\\solar_consolidated_015.csv",
+      "solar\\solar_consolidated_016.csv",
+      "solar\\solar_consolidated_017.csv",
+      "solar\\solar_all.csv"
+    ],
+    "geothermal": [
+      "geothermal\\geothermal_consolidated_001.csv",
+      "geothermal\\geothermal_consolidated_002.csv",
+      "geothermal\\geothermal_all.csv"
+    ],
+    "natural_gas": [
+      "natural_gas\\natural_gas_consolidated_001.csv",
+      "natural_gas\\natural_gas_consolidated_002.csv",
+      "natural_gas\\natural_gas_consolidated_003.csv",
+      "natural_gas\\natural_gas_consolidated_004.csv",
+      "natural_gas\\natural_gas_consolidated_005.csv",
+      "natural_gas\\natural_gas_all.csv"
+    ],
+    "hydro": [
+      "hydro\\hydro_consolidated_001.csv",
+      "hydro\\hydro_consolidated_002.csv",
+      "hydro\\hydro_consolidated_003.csv",
+      "hydro\\hydro_consolidated_004.csv",
+      "hydro\\hydro_consolidated_005.csv",
+      "hydro\\hydro_consolidated_006.csv",
+      "hydro\\hydro_consolidated_007.csv",
+      "hydro\\hydro_all.csv"
+    ]
+  }
+}

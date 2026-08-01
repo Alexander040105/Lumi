@@ -1,0 +1,523 @@
+"Electricity capacity statistics by Country/area, Technology, Grid connection and Year"
+
+"Country/area","Technology","Grid connection","Year",Electricity capacity statistics
+"Philippines","Total renewable energy","OnGrid","2000",3474.80
+"Philippines","Total renewable energy","OnGrid","2001",3556.80
+"Philippines","Total renewable energy","OnGrid","2002",3764.50
+"Philippines","Total renewable energy","OnGrid","2003",4199.50
+"Philippines","Total renewable energy","OnGrid","2004",4500.50
+"Philippines","Total renewable energy","OnGrid","2005",4533.50
+"Philippines","Total renewable energy","OnGrid","2006",4533.50
+"Philippines","Total renewable energy","OnGrid","2007",4533.50
+"Philippines","Total renewable energy","OnGrid","2008",4536.00
+"Philippines","Total renewable energy","OnGrid","2009",4575.15
+"Philippines","Total renewable energy","OnGrid","2010",4844.05
+"Philippines","Total renewable energy","OnGrid","2011",4847.95
+"Philippines","Total renewable energy","OnGrid","2012",4880.65
+"Philippines","Total renewable energy","OnGrid","2013",4883.25
+"Philippines","Total renewable energy","OnGrid","2014",5309.20
+"Philippines","Total renewable energy","OnGrid","2015",5655.35
+"Philippines","Total renewable energy","OnGrid","2016",6298.20
+"Philippines","Total renewable energy","OnGrid","2017",6458.85
+"Philippines","Total renewable energy","OnGrid","2018",6626.07
+"Philippines","Total renewable energy","OnGrid","2019",6772.43
+"Philippines","Total renewable energy","OnGrid","2020",6990.86
+"Philippines","Total renewable energy","OnGrid","2021",7322.32
+"Philippines","Total renewable energy","OnGrid","2022",7685.15
+"Philippines","Total renewable energy","OnGrid","2023",7881.38
+"Philippines","Total renewable energy","OnGrid","2024",9229.27
+"Philippines","Total renewable energy","OnGrid","2025",10343.35
+"Philippines","Total renewable energy","OffGrid","2000",9.97
+"Philippines","Total renewable energy","OffGrid","2001",10.05
+"Philippines","Total renewable energy","OffGrid","2002",10.05
+"Philippines","Total renewable energy","OffGrid","2003",10.05
+"Philippines","Total renewable energy","OffGrid","2004",10.05
+"Philippines","Total renewable energy","OffGrid","2005",10.77
+"Philippines","Total renewable energy","OffGrid","2006",10.87
+"Philippines","Total renewable energy","OffGrid","2007",12.62
+"Philippines","Total renewable energy","OffGrid","2008",13.87
+"Philippines","Total renewable energy","OffGrid","2009",15.64
+"Philippines","Total renewable energy","OffGrid","2010",19.55
+"Philippines","Total renewable energy","OffGrid","2011",23.52
+"Philippines","Total renewable energy","OffGrid","2012",26.50
+"Philippines","Total renewable energy","OffGrid","2013",31.52
+"Philippines","Total renewable energy","OffGrid","2014",31.97
+"Philippines","Total renewable energy","OffGrid","2015",35.92
+"Philippines","Total renewable energy","OffGrid","2016",36.00
+"Philippines","Total renewable energy","OffGrid","2017",36.32
+"Philippines","Total renewable energy","OffGrid","2018",47.28
+"Philippines","Total renewable energy","OffGrid","2019",84.39
+"Philippines","Total renewable energy","OffGrid","2020",84.97
+"Philippines","Total renewable energy","OffGrid","2021",85.79
+"Philippines","Total renewable energy","OffGrid","2022",85.38
+"Philippines","Total renewable energy","OffGrid","2023",88.16
+"Philippines","Total renewable energy","OffGrid","2024",92.36
+"Philippines","Total renewable energy","OffGrid","2025",92.36
+"Philippines","Solar energy","OnGrid","2000",-
+"Philippines","Solar energy","OnGrid","2001",-
+"Philippines","Solar energy","OnGrid","2002",-
+"Philippines","Solar energy","OnGrid","2003",-
+"Philippines","Solar energy","OnGrid","2004",1.00
+"Philippines","Solar energy","OnGrid","2005",1.00
+"Philippines","Solar energy","OnGrid","2006",1.00
+"Philippines","Solar energy","OnGrid","2007",1.00
+"Philippines","Solar energy","OnGrid","2008",1.00
+"Philippines","Solar energy","OnGrid","2009",1.00
+"Philippines","Solar energy","OnGrid","2010",1.00
+"Philippines","Solar energy","OnGrid","2011",1.10
+"Philippines","Solar energy","OnGrid","2012",1.70
+"Philippines","Solar energy","OnGrid","2013",2.80
+"Philippines","Solar energy","OnGrid","2014",28.75
+"Philippines","Solar energy","OnGrid","2015",174.10
+"Philippines","Solar energy","OnGrid","2016",789.85
+"Philippines","Solar energy","OnGrid","2017",914.50
+"Philippines","Solar energy","OnGrid","2018",925.57
+"Philippines","Solar energy","OnGrid","2019",987.83
+"Philippines","Solar energy","OnGrid","2020",1067.86
+"Philippines","Solar energy","OnGrid","2021",1389.92
+"Philippines","Solar energy","OnGrid","2022",1642.35
+"Philippines","Solar energy","OnGrid","2023",1782.55
+"Philippines","Solar energy","OnGrid","2024",2970.57
+"Philippines","Solar energy","OnGrid","2025",3869.15
+"Philippines","Solar energy","OffGrid","2000",-
+"Philippines","Solar energy","OffGrid","2001",-
+"Philippines","Solar energy","OffGrid","2002",-
+"Philippines","Solar energy","OffGrid","2003",-
+"Philippines","Solar energy","OffGrid","2004",-
+"Philippines","Solar energy","OffGrid","2005",0.02
+"Philippines","Solar energy","OffGrid","2006",0.02
+"Philippines","Solar energy","OffGrid","2007",0.02
+"Philippines","Solar energy","OffGrid","2008",0.02
+"Philippines","Solar energy","OffGrid","2009",0.02
+"Philippines","Solar energy","OffGrid","2010",0.02
+"Philippines","Solar energy","OffGrid","2011",0.02
+"Philippines","Solar energy","OffGrid","2012",0.02
+"Philippines","Solar energy","OffGrid","2013",0.05
+"Philippines","Solar energy","OffGrid","2014",0.50
+"Philippines","Solar energy","OffGrid","2015",0.74
+"Philippines","Solar energy","OffGrid","2016",0.83
+"Philippines","Solar energy","OffGrid","2017",1.15
+"Philippines","Solar energy","OffGrid","2018",4.11
+"Philippines","Solar energy","OffGrid","2019",14.65
+"Philippines","Solar energy","OffGrid","2020",15.24
+"Philippines","Solar energy","OffGrid","2021",16.06
+"Philippines","Solar energy","OffGrid","2022",17.82
+"Philippines","Solar energy","OffGrid","2023",18.42
+"Philippines","Solar energy","OffGrid","2024",22.62
+"Philippines","Solar energy","OffGrid","2025",22.62
+"Philippines","Solar photovoltaic","OnGrid","2000",-
+"Philippines","Solar photovoltaic","OnGrid","2001",-
+"Philippines","Solar photovoltaic","OnGrid","2002",-
+"Philippines","Solar photovoltaic","OnGrid","2003",-
+"Philippines","Solar photovoltaic","OnGrid","2004",1.00
+"Philippines","Solar photovoltaic","OnGrid","2005",1.00
+"Philippines","Solar photovoltaic","OnGrid","2006",1.00
+"Philippines","Solar photovoltaic","OnGrid","2007",1.00
+"Philippines","Solar photovoltaic","OnGrid","2008",1.00
+"Philippines","Solar photovoltaic","OnGrid","2009",1.00
+"Philippines","Solar photovoltaic","OnGrid","2010",1.00
+"Philippines","Solar photovoltaic","OnGrid","2011",1.10
+"Philippines","Solar photovoltaic","OnGrid","2012",1.70
+"Philippines","Solar photovoltaic","OnGrid","2013",2.80
+"Philippines","Solar photovoltaic","OnGrid","2014",28.75
+"Philippines","Solar photovoltaic","OnGrid","2015",174.10
+"Philippines","Solar photovoltaic","OnGrid","2016",789.85
+"Philippines","Solar photovoltaic","OnGrid","2017",914.50
+"Philippines","Solar photovoltaic","OnGrid","2018",925.57
+"Philippines","Solar photovoltaic","OnGrid","2019",987.83
+"Philippines","Solar photovoltaic","OnGrid","2020",1067.86
+"Philippines","Solar photovoltaic","OnGrid","2021",1389.92
+"Philippines","Solar photovoltaic","OnGrid","2022",1642.35
+"Philippines","Solar photovoltaic","OnGrid","2023",1782.55
+"Philippines","Solar photovoltaic","OnGrid","2024",2970.57
+"Philippines","Solar photovoltaic","OnGrid","2025",3869.15
+"Philippines","Solar photovoltaic","OffGrid","2000",-
+"Philippines","Solar photovoltaic","OffGrid","2001",-
+"Philippines","Solar photovoltaic","OffGrid","2002",-
+"Philippines","Solar photovoltaic","OffGrid","2003",-
+"Philippines","Solar photovoltaic","OffGrid","2004",-
+"Philippines","Solar photovoltaic","OffGrid","2005",0.02
+"Philippines","Solar photovoltaic","OffGrid","2006",0.02
+"Philippines","Solar photovoltaic","OffGrid","2007",0.02
+"Philippines","Solar photovoltaic","OffGrid","2008",0.02
+"Philippines","Solar photovoltaic","OffGrid","2009",0.02
+"Philippines","Solar photovoltaic","OffGrid","2010",0.02
+"Philippines","Solar photovoltaic","OffGrid","2011",0.02
+"Philippines","Solar photovoltaic","OffGrid","2012",0.02
+"Philippines","Solar photovoltaic","OffGrid","2013",0.05
+"Philippines","Solar photovoltaic","OffGrid","2014",0.50
+"Philippines","Solar photovoltaic","OffGrid","2015",0.74
+"Philippines","Solar photovoltaic","OffGrid","2016",0.83
+"Philippines","Solar photovoltaic","OffGrid","2017",1.15
+"Philippines","Solar photovoltaic","OffGrid","2018",4.11
+"Philippines","Solar photovoltaic","OffGrid","2019",14.65
+"Philippines","Solar photovoltaic","OffGrid","2020",15.24
+"Philippines","Solar photovoltaic","OffGrid","2021",16.06
+"Philippines","Solar photovoltaic","OffGrid","2022",17.82
+"Philippines","Solar photovoltaic","OffGrid","2023",18.42
+"Philippines","Solar photovoltaic","OffGrid","2024",22.62
+"Philippines","Solar photovoltaic","OffGrid","2025",22.62
+"Philippines","Solar thermal energy","OnGrid","2000",-
+"Philippines","Solar thermal energy","OnGrid","2001",-
+"Philippines","Solar thermal energy","OnGrid","2002",-
+"Philippines","Solar thermal energy","OnGrid","2003",-
+"Philippines","Solar thermal energy","OnGrid","2004",-
+"Philippines","Solar thermal energy","OnGrid","2005",-
+"Philippines","Solar thermal energy","OnGrid","2006",-
+"Philippines","Solar thermal energy","OnGrid","2007",-
+"Philippines","Solar thermal energy","OnGrid","2008",-
+"Philippines","Solar thermal energy","OnGrid","2009",-
+"Philippines","Solar thermal energy","OnGrid","2010",-
+"Philippines","Solar thermal energy","OnGrid","2011",-
+"Philippines","Solar thermal energy","OnGrid","2012",-
+"Philippines","Solar thermal energy","OnGrid","2013",-
+"Philippines","Solar thermal energy","OnGrid","2014",-
+"Philippines","Solar thermal energy","OnGrid","2015",-
+"Philippines","Solar thermal energy","OnGrid","2016",-
+"Philippines","Solar thermal energy","OnGrid","2017",-
+"Philippines","Solar thermal energy","OnGrid","2018",-
+"Philippines","Solar thermal energy","OnGrid","2019",-
+"Philippines","Solar thermal energy","OnGrid","2020",-
+"Philippines","Solar thermal energy","OnGrid","2021",-
+"Philippines","Solar thermal energy","OnGrid","2022",-
+"Philippines","Solar thermal energy","OnGrid","2023",-
+"Philippines","Solar thermal energy","OnGrid","2024",-
+"Philippines","Solar thermal energy","OnGrid","2025",-
+"Philippines","Solar thermal energy","OffGrid","2000",-
+"Philippines","Solar thermal energy","OffGrid","2001",-
+"Philippines","Solar thermal energy","OffGrid","2002",-
+"Philippines","Solar thermal energy","OffGrid","2003",-
+"Philippines","Solar thermal energy","OffGrid","2004",-
+"Philippines","Solar thermal energy","OffGrid","2005",-
+"Philippines","Solar thermal energy","OffGrid","2006",-
+"Philippines","Solar thermal energy","OffGrid","2007",-
+"Philippines","Solar thermal energy","OffGrid","2008",-
+"Philippines","Solar thermal energy","OffGrid","2009",-
+"Philippines","Solar thermal energy","OffGrid","2010",-
+"Philippines","Solar thermal energy","OffGrid","2011",-
+"Philippines","Solar thermal energy","OffGrid","2012",-
+"Philippines","Solar thermal energy","OffGrid","2013",-
+"Philippines","Solar thermal energy","OffGrid","2014",-
+"Philippines","Solar thermal energy","OffGrid","2015",-
+"Philippines","Solar thermal energy","OffGrid","2016",-
+"Philippines","Solar thermal energy","OffGrid","2017",-
+"Philippines","Solar thermal energy","OffGrid","2018",-
+"Philippines","Solar thermal energy","OffGrid","2019",-
+"Philippines","Solar thermal energy","OffGrid","2020",-
+"Philippines","Solar thermal energy","OffGrid","2021",-
+"Philippines","Solar thermal energy","OffGrid","2022",-
+"Philippines","Solar thermal energy","OffGrid","2023",-
+"Philippines","Solar thermal energy","OffGrid","2024",-
+"Philippines","Solar thermal energy","OffGrid","2025",-
+"Philippines","Wind energy","OnGrid","2000",-
+"Philippines","Wind energy","OnGrid","2001",-
+"Philippines","Wind energy","OnGrid","2002",-
+"Philippines","Wind energy","OnGrid","2003",-
+"Philippines","Wind energy","OnGrid","2004",-
+"Philippines","Wind energy","OnGrid","2005",33.00
+"Philippines","Wind energy","OnGrid","2006",33.00
+"Philippines","Wind energy","OnGrid","2007",33.00
+"Philippines","Wind energy","OnGrid","2008",33.00
+"Philippines","Wind energy","OnGrid","2009",33.00
+"Philippines","Wind energy","OnGrid","2010",33.00
+"Philippines","Wind energy","OnGrid","2011",33.00
+"Philippines","Wind energy","OnGrid","2012",33.00
+"Philippines","Wind energy","OnGrid","2013",33.00
+"Philippines","Wind energy","OnGrid","2014",336.90
+"Philippines","Wind energy","OnGrid","2015",426.90
+"Philippines","Wind energy","OnGrid","2016",426.90
+"Philippines","Wind energy","OnGrid","2017",426.90
+"Philippines","Wind energy","OnGrid","2018",426.90
+"Philippines","Wind energy","OnGrid","2019",426.90
+"Philippines","Wind energy","OnGrid","2020",426.90
+"Philippines","Wind energy","OnGrid","2021",426.90
+"Philippines","Wind energy","OnGrid","2022",426.90
+"Philippines","Wind energy","OnGrid","2023",426.90
+"Philippines","Wind energy","OnGrid","2024",426.90
+"Philippines","Wind energy","OnGrid","2025",501.90
+"Philippines","Wind energy","OffGrid","2000",-
+"Philippines","Wind energy","OffGrid","2001",-
+"Philippines","Wind energy","OffGrid","2002",-
+"Philippines","Wind energy","OffGrid","2003",-
+"Philippines","Wind energy","OffGrid","2004",-
+"Philippines","Wind energy","OffGrid","2005",-
+"Philippines","Wind energy","OffGrid","2006",-
+"Philippines","Wind energy","OffGrid","2007",-
+"Philippines","Wind energy","OffGrid","2008",-
+"Philippines","Wind energy","OffGrid","2009",-
+"Philippines","Wind energy","OffGrid","2010",-
+"Philippines","Wind energy","OffGrid","2011",-
+"Philippines","Wind energy","OffGrid","2012",-
+"Philippines","Wind energy","OffGrid","2013",-
+"Philippines","Wind energy","OffGrid","2014",-
+"Philippines","Wind energy","OffGrid","2015",-
+"Philippines","Wind energy","OffGrid","2016",-
+"Philippines","Wind energy","OffGrid","2017",-
+"Philippines","Wind energy","OffGrid","2018",-
+"Philippines","Wind energy","OffGrid","2019",16.56
+"Philippines","Wind energy","OffGrid","2020",16.56
+"Philippines","Wind energy","OffGrid","2021",16.56
+"Philippines","Wind energy","OffGrid","2022",16.56
+"Philippines","Wind energy","OffGrid","2023",16.56
+"Philippines","Wind energy","OffGrid","2024",16.56
+"Philippines","Wind energy","OffGrid","2025",16.56
+"Philippines","Onshore wind energy","OnGrid","2000",-
+"Philippines","Onshore wind energy","OnGrid","2001",-
+"Philippines","Onshore wind energy","OnGrid","2002",-
+"Philippines","Onshore wind energy","OnGrid","2003",-
+"Philippines","Onshore wind energy","OnGrid","2004",-
+"Philippines","Onshore wind energy","OnGrid","2005",33.00
+"Philippines","Onshore wind energy","OnGrid","2006",33.00
+"Philippines","Onshore wind energy","OnGrid","2007",33.00
+"Philippines","Onshore wind energy","OnGrid","2008",33.00
+"Philippines","Onshore wind energy","OnGrid","2009",33.00
+"Philippines","Onshore wind energy","OnGrid","2010",33.00
+"Philippines","Onshore wind energy","OnGrid","2011",33.00
+"Philippines","Onshore wind energy","OnGrid","2012",33.00
+"Philippines","Onshore wind energy","OnGrid","2013",33.00
+"Philippines","Onshore wind energy","OnGrid","2014",336.90
+"Philippines","Onshore wind energy","OnGrid","2015",426.90
+"Philippines","Onshore wind energy","OnGrid","2016",426.90
+"Philippines","Onshore wind energy","OnGrid","2017",426.90
+"Philippines","Onshore wind energy","OnGrid","2018",426.90
+"Philippines","Onshore wind energy","OnGrid","2019",426.90
+"Philippines","Onshore wind energy","OnGrid","2020",426.90
+"Philippines","Onshore wind energy","OnGrid","2021",426.90
+"Philippines","Onshore wind energy","OnGrid","2022",426.90
+"Philippines","Onshore wind energy","OnGrid","2023",426.90
+"Philippines","Onshore wind energy","OnGrid","2024",426.90
+"Philippines","Onshore wind energy","OnGrid","2025",501.90
+"Philippines","Onshore wind energy","OffGrid","2000",-
+"Philippines","Onshore wind energy","OffGrid","2001",-
+"Philippines","Onshore wind energy","OffGrid","2002",-
+"Philippines","Onshore wind energy","OffGrid","2003",-
+"Philippines","Onshore wind energy","OffGrid","2004",-
+"Philippines","Onshore wind energy","OffGrid","2005",-
+"Philippines","Onshore wind energy","OffGrid","2006",-
+"Philippines","Onshore wind energy","OffGrid","2007",-
+"Philippines","Onshore wind energy","OffGrid","2008",-
+"Philippines","Onshore wind energy","OffGrid","2009",-
+"Philippines","Onshore wind energy","OffGrid","2010",-
+"Philippines","Onshore wind energy","OffGrid","2011",-
+"Philippines","Onshore wind energy","OffGrid","2012",-
+"Philippines","Onshore wind energy","OffGrid","2013",-
+"Philippines","Onshore wind energy","OffGrid","2014",-
+"Philippines","Onshore wind energy","OffGrid","2015",-
+"Philippines","Onshore wind energy","OffGrid","2016",-
+"Philippines","Onshore wind energy","OffGrid","2017",-
+"Philippines","Onshore wind energy","OffGrid","2018",-
+"Philippines","Onshore wind energy","OffGrid","2019",16.56
+"Philippines","Onshore wind energy","OffGrid","2020",16.56
+"Philippines","Onshore wind energy","OffGrid","2021",16.56
+"Philippines","Onshore wind energy","OffGrid","2022",16.56
+"Philippines","Onshore wind energy","OffGrid","2023",16.56
+"Philippines","Onshore wind energy","OffGrid","2024",16.56
+"Philippines","Onshore wind energy","OffGrid","2025",16.56
+"Philippines","Offshore wind energy","OnGrid","2000",-
+"Philippines","Offshore wind energy","OnGrid","2001",-
+"Philippines","Offshore wind energy","OnGrid","2002",-
+"Philippines","Offshore wind energy","OnGrid","2003",-
+"Philippines","Offshore wind energy","OnGrid","2004",-
+"Philippines","Offshore wind energy","OnGrid","2005",-
+"Philippines","Offshore wind energy","OnGrid","2006",-
+"Philippines","Offshore wind energy","OnGrid","2007",-
+"Philippines","Offshore wind energy","OnGrid","2008",-
+"Philippines","Offshore wind energy","OnGrid","2009",-
+"Philippines","Offshore wind energy","OnGrid","2010",-
+"Philippines","Offshore wind energy","OnGrid","2011",-
+"Philippines","Offshore wind energy","OnGrid","2012",-
+"Philippines","Offshore wind energy","OnGrid","2013",-
+"Philippines","Offshore wind energy","OnGrid","2014",-
+"Philippines","Offshore wind energy","OnGrid","2015",-
+"Philippines","Offshore wind energy","OnGrid","2016",-
+"Philippines","Offshore wind energy","OnGrid","2017",-
+"Philippines","Offshore wind energy","OnGrid","2018",-
+"Philippines","Offshore wind energy","OnGrid","2019",-
+"Philippines","Offshore wind energy","OnGrid","2020",-
+"Philippines","Offshore wind energy","OnGrid","2021",-
+"Philippines","Offshore wind energy","OnGrid","2022",-
+"Philippines","Offshore wind energy","OnGrid","2023",-
+"Philippines","Offshore wind energy","OnGrid","2024",-
+"Philippines","Offshore wind energy","OnGrid","2025",-
+"Philippines","Offshore wind energy","OffGrid","2000",-
+"Philippines","Offshore wind energy","OffGrid","2001",-
+"Philippines","Offshore wind energy","OffGrid","2002",-
+"Philippines","Offshore wind energy","OffGrid","2003",-
+"Philippines","Offshore wind energy","OffGrid","2004",-
+"Philippines","Offshore wind energy","OffGrid","2005",-
+"Philippines","Offshore wind energy","OffGrid","2006",-
+"Philippines","Offshore wind energy","OffGrid","2007",-
+"Philippines","Offshore wind energy","OffGrid","2008",-
+"Philippines","Offshore wind energy","OffGrid","2009",-
+"Philippines","Offshore wind energy","OffGrid","2010",-
+"Philippines","Offshore wind energy","OffGrid","2011",-
+"Philippines","Offshore wind energy","OffGrid","2012",-
+"Philippines","Offshore wind energy","OffGrid","2013",-
+"Philippines","Offshore wind energy","OffGrid","2014",-
+"Philippines","Offshore wind energy","OffGrid","2015",-
+"Philippines","Offshore wind energy","OffGrid","2016",-
+"Philippines","Offshore wind energy","OffGrid","2017",-
+"Philippines","Offshore wind energy","OffGrid","2018",-
+"Philippines","Offshore wind energy","OffGrid","2019",-
+"Philippines","Offshore wind energy","OffGrid","2020",-
+"Philippines","Offshore wind energy","OffGrid","2021",-
+"Philippines","Offshore wind energy","OffGrid","2022",-
+"Philippines","Offshore wind energy","OffGrid","2023",-
+"Philippines","Offshore wind energy","OffGrid","2024",-
+"Philippines","Offshore wind energy","OffGrid","2025",-
+"Philippines","Renewable hydropower","OnGrid","2000",1628.10
+"Philippines","Renewable hydropower","OnGrid","2001",1710.10
+"Philippines","Renewable hydropower","OnGrid","2002",1917.80
+"Philippines","Renewable hydropower","OnGrid","2003",2352.80
+"Philippines","Renewable hydropower","OnGrid","2004",2652.80
+"Philippines","Renewable hydropower","OnGrid","2005",2652.80
+"Philippines","Renewable hydropower","OnGrid","2006",2652.80
+"Philippines","Renewable hydropower","OnGrid","2007",2652.80
+"Philippines","Renewable hydropower","OnGrid","2008",2655.30
+"Philippines","Renewable hydropower","OnGrid","2009",2655.30
+"Philippines","Renewable hydropower","OnGrid","2010",2820.60
+"Philippines","Renewable hydropower","OnGrid","2011",2824.40
+"Philippines","Renewable hydropower","OnGrid","2012",2835.10
+"Philippines","Renewable hydropower","OnGrid","2013",2835.10
+"Philippines","Renewable hydropower","OnGrid","2014",2849.80
+"Philippines","Renewable hydropower","OnGrid","2015",2865.60
+"Philippines","Renewable hydropower","OnGrid","2016",2875.70
+"Philippines","Renewable hydropower","OnGrid","2017",2885.00
+"Philippines","Renewable hydropower","OnGrid","2018",2963.90
+"Philippines","Renewable hydropower","OnGrid","2019",2996.00
+"Philippines","Renewable hydropower","OnGrid","2020",3014.50
+"Philippines","Renewable hydropower","OnGrid","2021",3017.90
+"Philippines","Renewable hydropower","OnGrid","2022",3010.50
+"Philippines","Renewable hydropower","OnGrid","2023",3065.00
+"Philippines","Renewable hydropower","OnGrid","2024",3102.10
+"Philippines","Renewable hydropower","OnGrid","2025",3122.70
+"Philippines","Renewable hydropower","OffGrid","2000",2.47
+"Philippines","Renewable hydropower","OffGrid","2001",2.47
+"Philippines","Renewable hydropower","OffGrid","2002",2.47
+"Philippines","Renewable hydropower","OffGrid","2003",2.47
+"Philippines","Renewable hydropower","OffGrid","2004",2.47
+"Philippines","Renewable hydropower","OffGrid","2005",2.47
+"Philippines","Renewable hydropower","OffGrid","2006",2.47
+"Philippines","Renewable hydropower","OffGrid","2007",2.47
+"Philippines","Renewable hydropower","OffGrid","2008",2.47
+"Philippines","Renewable hydropower","OffGrid","2009",2.47
+"Philippines","Renewable hydropower","OffGrid","2010",5.32
+"Philippines","Renewable hydropower","OffGrid","2011",7.42
+"Philippines","Renewable hydropower","OffGrid","2012",9.60
+"Philippines","Renewable hydropower","OffGrid","2013",9.60
+"Philippines","Renewable hydropower","OffGrid","2014",9.60
+"Philippines","Renewable hydropower","OffGrid","2015",12.60
+"Philippines","Renewable hydropower","OffGrid","2016",12.60
+"Philippines","Renewable hydropower","OffGrid","2017",12.60
+"Philippines","Renewable hydropower","OffGrid","2018",20.60
+"Philippines","Renewable hydropower","OffGrid","2019",30.60
+"Philippines","Renewable hydropower","OffGrid","2020",30.60
+"Philippines","Renewable hydropower","OffGrid","2021",30.60
+"Philippines","Renewable hydropower","OffGrid","2022",28.43
+"Philippines","Renewable hydropower","OffGrid","2023",30.61
+"Philippines","Renewable hydropower","OffGrid","2024",30.60
+"Philippines","Renewable hydropower","OffGrid","2025",30.60
+"Philippines","Mixed hydropower","OnGrid","2000",-
+"Philippines","Mixed hydropower","OnGrid","2001",-
+"Philippines","Mixed hydropower","OnGrid","2002",-
+"Philippines","Mixed hydropower","OnGrid","2003",-
+"Philippines","Mixed hydropower","OnGrid","2004",-
+"Philippines","Mixed hydropower","OnGrid","2005",-
+"Philippines","Mixed hydropower","OnGrid","2006",-
+"Philippines","Mixed hydropower","OnGrid","2007",-
+"Philippines","Mixed hydropower","OnGrid","2008",-
+"Philippines","Mixed hydropower","OnGrid","2009",-
+"Philippines","Mixed hydropower","OnGrid","2010",-
+"Philippines","Mixed hydropower","OnGrid","2011",-
+"Philippines","Mixed hydropower","OnGrid","2012",-
+"Philippines","Mixed hydropower","OnGrid","2013",-
+"Philippines","Mixed hydropower","OnGrid","2014",-
+"Philippines","Mixed hydropower","OnGrid","2015",-
+"Philippines","Mixed hydropower","OnGrid","2016",-
+"Philippines","Mixed hydropower","OnGrid","2017",-
+"Philippines","Mixed hydropower","OnGrid","2018",-
+"Philippines","Mixed hydropower","OnGrid","2019",-
+"Philippines","Mixed hydropower","OnGrid","2020",-
+"Philippines","Mixed hydropower","OnGrid","2021",-
+"Philippines","Mixed hydropower","OnGrid","2022",-
+"Philippines","Mixed hydropower","OnGrid","2023",-
+"Philippines","Mixed hydropower","OnGrid","2024",-
+"Philippines","Mixed hydropower","OnGrid","2025",-
+"Philippines","Mixed hydropower","OffGrid","2000",-
+"Philippines","Mixed hydropower","OffGrid","2001",-
+"Philippines","Mixed hydropower","OffGrid","2002",-
+"Philippines","Mixed hydropower","OffGrid","2003",-
+"Philippines","Mixed hydropower","OffGrid","2004",-
+"Philippines","Mixed hydropower","OffGrid","2005",-
+"Philippines","Mixed hydropower","OffGrid","2006",-
+"Philippines","Mixed hydropower","OffGrid","2007",-
+"Philippines","Mixed hydropower","OffGrid","2008",-
+"Philippines","Mixed hydropower","OffGrid","2009",-
+"Philippines","Mixed hydropower","OffGrid","2010",-
+"Philippines","Mixed hydropower","OffGrid","2011",-
+"Philippines","Mixed hydropower","OffGrid","2012",-
+"Philippines","Mixed hydropower","OffGrid","2013",-
+"Philippines","Mixed hydropower","OffGrid","2014",-
+"Philippines","Mixed hydropower","OffGrid","2015",-
+"Philippines","Mixed hydropower","OffGrid","2016",-
+"Philippines","Mixed hydropower","OffGrid","2017",-
+"Philippines","Mixed hydropower","OffGrid","2018",-
+"Philippines","Mixed hydropower","OffGrid","2019",-
+"Philippines","Mixed hydropower","OffGrid","2020",-
+"Philippines","Mixed hydropower","OffGrid","2021",-
+"Philippines","Mixed hydropower","OffGrid","2022",-
+"Philippines","Mixed hydropower","OffGrid","2023",-
+"Philippines","Mixed hydropower","OffGrid","2024",-
+"Philippines","Mixed hydropower","OffGrid","2025",-
+"Philippines","Geothermal energy","OnGrid","2000",1846.70
+"Philippines","Geothermal energy","OnGrid","2001",1846.70
+"Philippines","Geothermal energy","OnGrid","2002",1846.70
+"Philippines","Geothermal energy","OnGrid","2003",1846.70
+"Philippines","Geothermal energy","OnGrid","2004",1846.70
+"Philippines","Geothermal energy","OnGrid","2005",1846.70
+"Philippines","Geothermal energy","OnGrid","2006",1846.70
+"Philippines","Geothermal energy","OnGrid","2007",1846.70
+"Philippines","Geothermal energy","OnGrid","2008",1846.70
+"Philippines","Geothermal energy","OnGrid","2009",1846.70
+"Philippines","Geothermal energy","OnGrid","2010",1846.70
+"Philippines","Geothermal energy","OnGrid","2011",1846.70
+"Philippines","Geothermal energy","OnGrid","2012",1846.70
+"Philippines","Geothermal energy","OnGrid","2013",1846.70
+"Philippines","Geothermal energy","OnGrid","2014",1916.10
+"Philippines","Geothermal energy","OnGrid","2015",1916.10
+"Philippines","Geothermal energy","OnGrid","2016",1916.10
+"Philippines","Geothermal energy","OnGrid","2017",1916.10
+"Philippines","Geothermal energy","OnGrid","2018",1928.10
+"Philippines","Geothermal energy","OnGrid","2019",1928.10
+"Philippines","Geothermal energy","OnGrid","2020",1928.10
+"Philippines","Geothermal energy","OnGrid","2021",1928.10
+"Philippines","Geothermal energy","OnGrid","2022",1932.00
+"Philippines","Geothermal energy","OnGrid","2023",1951.80
+"Philippines","Geothermal energy","OnGrid","2024",1951.80
+"Philippines","Geothermal energy","OnGrid","2025",2057.40
+"Philippines","Geothermal energy","OffGrid","2000",-
+"Philippines","Geothermal energy","OffGrid","2001",-
+"Philippines","Geothermal energy","OffGrid","2002",-
+"Philippines","Geothermal energy","OffGrid","2003",-
+"Philippines","Geothermal energy","OffGrid","2004",-
+"Philippines","Geothermal energy","OffGrid","2005",-
+"Philippines","Geothermal energy","OffGrid","2006",-
+"Philippines","Geothermal energy","OffGrid","2007",-
+"Philippines","Geothermal energy","OffGrid","2008",-
+"Philippines","Geothermal energy","OffGrid","2009",-
+"Philippines","Geothermal energy","OffGrid","2010",-
+"Philippines","Geothermal energy","OffGrid","2011",-
+"Philippines","Geothermal energy","OffGrid","2012",-
+"Philippines","Geothermal energy","OffGrid","2013",-
+"Philippines","Geothermal energy","OffGrid","2014",-
+"Philippines","Geothermal energy","OffGrid","2015",-
+"Philippines","Geothermal energy","OffGrid","2016",-
+"Philippines","Geothermal energy","OffGrid","2017",-
+"Philippines","Geothermal energy","OffGrid","2018",-
+"Philippines","Geothermal energy","OffGrid","2019",-
+"Philippines","Geothermal energy","OffGrid","2020",-
+"Philippines","Geothermal energy","OffGrid","2021",-
+"Philippines","Geothermal energy","OffGrid","2022",-
+"Philippines","Geothermal energy","OffGrid","2023",-
+"Philippines","Geothermal energy","OffGrid","2024",-
+"Philippines","Geothermal energy","OffGrid","2025",-

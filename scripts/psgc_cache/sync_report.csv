@@ -1,0 +1,101 @@
+level,api_name,psgc_code,status
+barangay,Agapito del Rosario,0330100001,unmatched_no_parent
+barangay,Anunas,0330100002,unmatched_no_parent
+barangay,Balibago,0330100003,unmatched_no_parent
+barangay,Capaya,0330100004,unmatched_no_parent
+barangay,Claro M. Recto,0330100005,unmatched_no_parent
+barangay,Cuayan,0330100006,unmatched_no_parent
+barangay,Cutcut,0330100007,unmatched_no_parent
+barangay,Cutud,0330100008,unmatched_no_parent
+barangay,Lourdes North West,0330100010,unmatched_no_parent
+barangay,Lourdes Sur,0330100011,unmatched_no_parent
+barangay,Lourdes Sur East,0330100012,unmatched_no_parent
+barangay,MalabaÃ±as,0330100013,unmatched_no_parent
+barangay,Margot,0330100014,unmatched_no_parent
+barangay,Mining,0330100015,unmatched_no_parent
+barangay,Pampang,0330100017,unmatched_no_parent
+barangay,Pandan,0330100018,unmatched_no_parent
+barangay,Pulung Maragul,0330100019,unmatched_no_parent
+barangay,Pulungbulu,0330100020,unmatched_no_parent
+barangay,Pulung Cacutud,0330100021,unmatched_no_parent
+barangay,Salapungan,0330100022,unmatched_no_parent
+barangay,San Jose,0330100023,unmatched_no_parent
+barangay,San Nicolas,0330100024,unmatched_no_parent
+barangay,Sta. Teresita,0330100025,unmatched_no_parent
+barangay,Sta. Trinidad,0330100026,unmatched_no_parent
+barangay,Sto. Cristo,0330100027,unmatched_no_parent
+barangay,Sto. Domingo,0330100028,unmatched_no_parent
+barangay,Sto. Rosario,0330100029,unmatched_no_parent
+barangay,Sapalibutad,0330100030,unmatched_no_parent
+barangay,Sapangbato,0330100031,unmatched_no_parent
+barangay,Tabun,0330100032,unmatched_no_parent
+barangay,Virgen Delos Remedios,0330100034,unmatched_no_parent
+barangay,Amsic,0330100035,unmatched_no_parent
+barangay,Ninoy Aquino,0330100036,unmatched_no_parent
+barangay,Asinan,0331400001,unmatched_no_parent
+barangay,Banicain,0331400002,unmatched_no_parent
+barangay,Barretto,0331400003,unmatched_no_parent
+barangay,East Bajac-bajac,0331400005,unmatched_no_parent
+barangay,East Tapinac,0331400006,unmatched_no_parent
+barangay,Gordon Heights,0331400008,unmatched_no_parent
+barangay,Kalaklan,0331400011,unmatched_no_parent
+barangay,New Kalalake,0331400012,unmatched_no_parent
+barangay,Mabayuan,0331400013,unmatched_no_parent
+barangay,New Cabalan,0331400014,unmatched_no_parent
+barangay,New Ilalim,0331400015,unmatched_no_parent
+barangay,New Kababae,0331400016,unmatched_no_parent
+barangay,Pag-asa,0331400017,unmatched_no_parent
+barangay,Santa Rita,0331400018,unmatched_no_parent
+barangay,West Bajac-bajac,0331400019,unmatched_no_parent
+barangay,West Tapinac,0331400020,unmatched_no_parent
+barangay,Old Cabalan,0331400021,unmatched_no_parent
+barangay,Barangay 1,0431200002,unmatched_no_parent
+barangay,Barangay 10,0431200003,unmatched_no_parent
+barangay,Barangay 11,0431200004,unmatched_no_parent
+barangay,Barangay 2,0431200005,unmatched_no_parent
+barangay,Barangay 3,0431200006,unmatched_no_parent
+barangay,Barangay 4,0431200007,unmatched_no_parent
+barangay,Barangay 5,0431200008,unmatched_no_parent
+barangay,Barangay 6,0431200009,unmatched_no_parent
+barangay,Barangay 7,0431200010,unmatched_no_parent
+barangay,Barangay 8,0431200011,unmatched_no_parent
+barangay,Barangay 9,0431200012,unmatched_no_parent
+barangay,Barra,0431200013,unmatched_no_parent
+barangay,Bocohan,0431200014,unmatched_no_parent
+barangay,Mayao Castillo,0431200015,unmatched_no_parent
+barangay,Cotta,0431200016,unmatched_no_parent
+barangay,Gulang-gulang,0431200017,unmatched_no_parent
+barangay,Dalahican,0431200018,unmatched_no_parent
+barangay,Domoit,0431200019,unmatched_no_parent
+barangay,Ibabang Dupay,0431200020,unmatched_no_parent
+barangay,Ibabang Iyam,0431200021,unmatched_no_parent
+barangay,Ibabang Talim,0431200022,unmatched_no_parent
+barangay,Ilayang Dupay,0431200023,unmatched_no_parent
+barangay,Ilayang Iyam,0431200024,unmatched_no_parent
+barangay,Ilayang Talim,0431200025,unmatched_no_parent
+barangay,Isabang,0431200026,unmatched_no_parent
+barangay,Mayao Crossing,0431200027,unmatched_no_parent
+barangay,Mayao Kanluran,0431200028,unmatched_no_parent
+barangay,Mayao Parada,0431200029,unmatched_no_parent
+barangay,Mayao Silangan,0431200030,unmatched_no_parent
+barangay,Ransohan,0431200032,unmatched_no_parent
+barangay,Salinas,0431200033,unmatched_no_parent
+barangay,Talao-talao,0431200034,unmatched_no_parent
+barangay,Market View,0431200035,unmatched_no_parent
+barangay,Santa Cruz,0631000001,unmatched_no_parent
+barangay,Aguinaldo,0631000003,unmatched_no_parent
+barangay,Airport,0631000004,unmatched_no_parent
+barangay,Alalasan Lapuz,0631000005,unmatched_no_parent
+barangay,Arguelles,0631000006,unmatched_no_parent
+barangay,Arsenal Aduana,0631000007,unmatched_no_parent
+barangay,North AvanceÃ±a,0631000008,unmatched_no_parent
+barangay,Bakhaw,0631000009,unmatched_no_parent
+barangay,Balabago,0631000010,unmatched_no_parent
+barangay,Balantang,0631000011,unmatched_no_parent
+barangay,Baldoza,0631000012,unmatched_no_parent
+barangay,Sinikway,0631000014,unmatched_no_parent
+barangay,Bantud,0631000015,unmatched_no_parent
+barangay,Banuyao,0631000016,unmatched_no_parent
+barangay,Baybay Tanza,0631000017,unmatched_no_parent
+barangay,Benedicto,0631000018,unmatched_no_parent
+barangay,Bito-on,0631000019,unmatched_no_parent

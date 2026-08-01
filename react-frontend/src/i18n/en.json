@@ -1,0 +1,1058 @@
+{
+  "greeting": "Hello",
+  "interpolated": "Hello, {{name}}",
+  "common": {
+    "user": "User",
+    "guest": "Guest",
+    "loading": "Loading...",
+    "language": "Language",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "open": "Open",
+    "saving": "Saving...",
+    "toggleTheme": "Toggle theme",
+    "close": "Close",
+    "submit": "Submit",
+    "yes": "Yes",
+    "no": "No",
+    "send": "Send",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "explore": "Explore",
+    "notAvailable": "—",
+    "ratings": {
+      "excellent": "Excellent",
+      "good": "Good",
+      "moderate": "Moderate",
+      "fair": "Fair",
+      "poor": "Poor",
+      "limited": "Limited"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "ecosim": "EcoSim",
+    "energyHub": "Energy Hub",
+    "map": "Map",
+    "chat": "Chat",
+    "dashboard": "Dashboard",
+    "savedSims": "Saved Simulations",
+    "adminPortal": "Admin Portal",
+    "mfa": "Two-Factor Auth",
+    "login": "Login",
+    "logout": "Logout",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "login": {
+    "welcomeBack": "Welcome back",
+    "description": "Use email/password or Google sign in.",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "createAccount": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password?",
+    "resetPassword": "Reset password",
+    "sendResetEmail": "Send reset email",
+    "backToSignIn": "Back to sign in",
+    "continueWithGoogle": "Continue with Google",
+    "checkYourEmail": "Check your email",
+    "confirmationSentDesc": "We sent a confirmation link to {{email}}. Click it to verify your account.",
+    "resend": "Didn't receive it? Resend",
+    "accountCreated": "Account created!",
+    "noEmailConfirmation": "No email confirmation required for this domain.",
+    "error": "Authentication failed"
+  },
+  "admin": {
+    "portal": "Admin Portal",
+    "welcome": "Welcome, admin",
+    "summary": "Manage users, review analytics, configure the system, and moderate content.",
+    "users": "User Management",
+    "usersDesc": "View and manage registered users.",
+    "analytics": "Analytics",
+    "analyticsDesc": "View system usage metrics and trends.",
+    "config": "System Config",
+    "configDesc": "Toggle features and adjust system settings.",
+    "moderation": "Content Moderation",
+    "moderationDesc": "Review chat sessions and flag inappropriate content.",
+    "stats": "Quick stats",
+    "usersCount": "{{count}} users",
+    "simsCount": "{{count}} simulations",
+    "usersPage": {
+      "title": "User Management",
+      "createUser": "Create User",
+      "searchPlaceholder": "Search by email or name...",
+      "allRoles": "All Roles",
+      "roleUser": "User",
+      "roleAdmin": "Admin",
+      "roleDev": "Dev",
+      "allPlans": "All Plans",
+      "planFree": "Free",
+      "planPremium": "Premium",
+      "allStatus": "All Status",
+      "statusActive": "Active",
+      "statusBanned": "Banned",
+      "loading": "Loading users...",
+      "columns": {
+        "user": "User",
+        "email": "Email",
+        "role": "Role",
+        "plan": "Plan",
+        "status": "Status",
+        "joined": "Joined",
+        "actions": "Actions"
+      },
+      "view": "View",
+      "ban": "Ban",
+      "unban": "Unban",
+      "deleteConfirm": "Soft-delete this user? They will be banned and anonymised.",
+      "delete": "Delete",
+      "noResults": "No users match your filters."
+    },
+    "analyticsPage": {
+      "title": "System Analytics",
+      "totalUsers": "Total Users",
+      "simulations": "Simulations",
+      "chatSessions": "Chat Sessions",
+      "freePremium": "Free / Premium"
+    },
+    "configPage": {
+      "title": "System Configuration",
+      "chatbotEnabled": "Chatbot Enabled",
+      "maintenanceMode": "Maintenance Mode",
+      "freeChatLimit": "Free Chat Messages / Month",
+      "freeSimLimit": "Free Saved Simulations",
+      "saved": "Configuration saved.",
+      "failed": "Failed to save configuration.",
+      "saving": "Saving...",
+      "saveConfiguration": "Save Configuration"
+    },
+    "moderationPage": {
+      "title": "Content Moderation",
+      "loading": "Loading chat sessions...",
+      "columns": {
+        "session": "Session",
+        "userId": "User ID",
+        "messages": "Messages",
+        "created": "Created",
+        "flagged": "Flagged",
+        "actions": "Actions"
+      },
+      "untitled": "Untitled",
+      "flagged": "Flagged",
+      "clean": "Clean",
+      "hide": "Hide",
+      "view": "View",
+      "unflag": "Unflag",
+      "flag": "Flag",
+      "noMessages": "No messages.",
+      "noSessions": "No chat sessions found."
+    },
+    "createUserModal": {
+      "title": "Create New User",
+      "description": "Create a new account with a temporary password.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "user@example.com",
+      "fullNameLabel": "Full Name",
+      "fullNamePlaceholder": "John Doe",
+      "roleLabel": "Role",
+      "planLabel": "Plan",
+      "adminPremium": "Admins are always premium.",
+      "userCreated": "User created successfully!",
+      "email": "Email",
+      "role": "Role",
+      "plan": "Plan",
+      "tempPassword": "Temp Password",
+      "createAnother": "Create Another",
+      "creating": "Creating...",
+      "createUser": "Create User",
+      "cancel": "Cancel"
+    },
+    "userDetail": {
+      "title": "User Details",
+      "tabs": {
+        "overview": "Overview",
+        "simulations": "Simulations",
+        "reports": "Reports"
+      },
+      "loading": "Loading...",
+      "email": "Email",
+      "name": "Name",
+      "role": "Role",
+      "plan": "Plan",
+      "status": "Status",
+      "active": "Active",
+      "banned": "Banned",
+      "joined": "Joined",
+      "lastSignIn": "Last Sign In",
+      "emailConfirmed": "Email Confirmed",
+      "yes": "Yes",
+      "no": "No",
+      "noSavedSimulations": "No saved simulations.",
+      "untitled": "Untitled",
+      "municipality": "Municipality",
+      "totalSimulations": "Total Simulations",
+      "chatSessions": "Chat Sessions",
+      "peakMunicipality": "Peak Municipality",
+      "lastActive": "Last Active",
+      "recentSimulations": "Recent Simulations"
+    }
+  },
+  "dashboard": {
+    "title": "Decision Dashboard",
+    "mfaLink": "Enable two-factor authentication",
+    "adminLink": "Open admin portal",
+    "overview": "Overview",
+    "overviewDescription": "Select a municipality to see its renewable potential.",
+    "selectMunicipality": "Select a municipality",
+    "compositeScore": "Composite Renewable Score",
+    "compositeDescription": "Averaged across solar, wind, hydro, and geothermal suitability.",
+    "selectPrompt": "Choose a municipality to display its renewable potential score.",
+    "quickActions": "Quick Actions",
+    "runEcosim": "Run EcoSim",
+    "askLumiAi": "Ask LUMI AI",
+    "viewEnergyHub": "View EnergyHub",
+    "savedLocations": "Saved Locations",
+    "savedLocationsDescription": "Your bookmarked municipalities.",
+    "loginToSaveLocations": "Log in to save locations.",
+    "noSavedLocations": "No saved locations yet.",
+    "municipality": "Municipality",
+    "savedSims": "Saved Simulations",
+    "savedSimsDescription": "Track your EcoSim analyses and chat history.",
+    "loginToSaveSims": "Log in to save simulations.",
+    "viewAllSavedSims": "View All Saved Simulations",
+    "aiCenter": "AI Center",
+    "aiCenterDescription": "Quick insights from the LUMI assistant.",
+    "askAi": "Ask the AI about renewable energy in your area.",
+    "exampleQuery1": "Is solar good for Calamba?",
+    "exampleQuery2": "Compare wind vs hydro",
+    "editAvatar": "Edit",
+    "loginToSaveProfile": "Log in to save your profile and data.",
+    "fullNamePlaceholder": "Full Name",
+    "organizationPlaceholder": "Organization",
+    "locationPlaceholder": "Location",
+    "editProfile": "Edit Profile",
+    "loadError": "Failed to load dashboard data",
+    "loginToSaveProfileToast": "Please log in to save your profile.",
+    "profileUpdated": "Profile updated",
+    "profileUpdateFailed": "Failed to update profile",
+    "imageTooLarge": "Image must be under 2MB",
+    "photoUpdated": "Profile photo updated",
+    "uploadFailed": "Upload failed: "
+  },
+  "mfa": {
+    "title": "Two-Factor Authentication",
+    "status": "MFA status",
+    "description": "Add an extra layer of security to your account using an authenticator app.",
+    "enabledStatus": "Two-factor authentication is enabled",
+    "disabledStatus": "Two-factor authentication is not enabled",
+    "enable": "Enable 2FA",
+    "disable": "Disable 2FA",
+    "verify": "Verify",
+    "scanQR": "Scan QR code",
+    "scanQRDescription": "Scan this QR code with your authenticator app, then enter the generated code.",
+    "codePlaceholder": "6-digit code",
+    "factorError": "Failed to load MFA factors",
+    "enrollError": "Failed to start 2FA enrollment",
+    "verifyError": "Failed to verify code",
+    "unenrollError": "Failed to disable 2FA",
+    "enabled": "Two-factor authentication enabled",
+    "disabled": "Two-factor authentication disabled",
+    "verified": "Two-factor authentication verified",
+    "disableConfirm": "Disable two-factor authentication? This makes your account less secure.",
+    "verifyTitle": "Two-Factor Authentication",
+    "verifyDescription": "Enter the 6-digit code from your authenticator app.",
+    "resetSent": "Password reset email sent",
+    "confirmResent": "Confirmation email resent",
+    "resendError": "Failed to resend email",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "error": "Authentication failed"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you requested does not exist.",
+    "goHome": "Go home"
+  },
+  "map": {
+    "title": "Renewable Energy Map",
+    "description": "Explore suitability scores for solar, wind, hydro, and geothermal across the Philippines."
+  },
+  "chat": {
+    "title": "LUMI AI Assistant",
+    "newChat": "New Chat",
+    "empty": "Ask me anything about renewable energy in the Philippines.",
+    "thinking": "Thinking...",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "failedToLoadHistory": "Failed to load chat history",
+    "failedToCreateSession": "Failed to create chat session",
+    "serverError": "Server error {{status}}: {{statusText}}"
+  },
+  "home": {
+    "hero": {
+      "badge": "Environmental Intelligence for the Philippines",
+      "title": "Data-Driven Insights for a",
+      "titleHighlight": "Sustainable Future",
+      "subtitle": "LUMI transforms complex climate and energy data into accessible, actionable insights. Evaluate renewable energy options, understand regional climate patterns, and make informed decisions backed by predictive analytics and AI-powered recommendations.",
+      "tryEnergyHub": "Try EnergyHub",
+      "learnMore": "Learn More"
+    },
+    "stats": {
+      "regionsCovered": { "label": "Regions Covered", "value": "17+", "sub": "Luzon, Visayas, Mindanao" },
+      "energySources": { "label": "Energy Sources", "value": "3", "sub": "Solar, Wind, Hydro" },
+      "dataPoints": { "label": "Data Points", "value": "10K+", "sub": "Climate & energy records" },
+      "aiInsights": { "label": "AI Insights", "value": "Real-time", "sub": "Gemini-powered analysis" }
+    },
+    "features": {
+      "badge": "Platform Modules",
+      "title": "Intelligent Tools for Energy Decisions",
+      "subtitle": "LUMI combines interactive dashboards, predictive forecasting, and AI-driven recommendations to bridge the gap between technical climate data and public understanding.",
+      "energyHub": {
+        "title": "EnergyHub",
+        "description": "Interactive climate and energy dashboard displaying temperature trends, rainfall patterns, energy consumption, and electricity demand across Philippine regions with AI-generated interpretations.",
+        "tags": ["Regional Filtering", "KPIs & Charts", "AI Insights", "NGCP & OpenWeather"]
+      },
+      "ecosim": {
+        "title": "Ecosim",
+        "description": "A rule-based recommendation and simulation engine that evaluates solar, wind, and hydro feasibility per region. Input your monthly bill and consumption to see estimated costs, savings, and environmental impact.",
+        "tags": ["What-If Scenarios", "Cost Analysis", "ROI Estimation", "Source Comparison"]
+      },
+      "ai": {
+        "title": "AI Intelligence",
+        "description": "Powered by Gemini API, LUMI delivers contextual explanations for every chart, forecast, and recommendation. Natural language insights make complex environmental data understandable for everyone.",
+        "tags": ["Natural Language", "Chart Explanations", "Recommendations", "Comparative Summaries"]
+      }
+    },
+    "howItWorks": {
+      "badge": "How LUMI Works",
+      "title": "From Raw Data to Clear Decisions",
+      "subtitle": "LUMI simplifies the journey from scattered climate and energy information to confident renewable energy choices.",
+      "step": "Step",
+      "steps": [
+        { "title": "Data Collection", "description": "Aggregates public climate and energy datasets from NGCP, OpenWeather, and regional statistics into a unified, queryable foundation." },
+        { "title": "Climate & Energy Analysis", "description": "Visualizes temperature trends, rainfall patterns, energy consumption, and demand across Luzon, Visayas, and Mindanao." },
+        { "title": "AI Processing", "description": "Applies rule-based logic and Gemini-powered AI to interpret patterns, generate forecasts, and produce contextual recommendations." },
+        { "title": "Decision Support", "description": "Presents actionable insights, what-if simulations, and costed recommendations so users can choose the best renewable path forward." }
+      ]
+    },
+    "renewable": {
+      "badge": "Renewable Energy Evaluation",
+      "title": "Solar, Wind & Hydro Analysis",
+      "subtitle": "LUMI evaluates the feasibility of three core renewable energy sources tailored to Philippine regional conditions, helping users understand suitability, costs, and environmental benefits.",
+      "solar": {
+        "title": "Solar Energy",
+        "description": "Evaluates solar irradiance, peak sun hours, and rooftop potential per region. Research shows Filipinos in Metro Manila demonstrate a strong preference for solar over biomass, wind, and small-scale hydropower, and community-based solar initiatives have provided positive impacts in island communities.",
+        "stat": "Palanca-Tan et al., 2024; Franco & Taeihagh, 2024"
+      },
+      "wind": {
+        "title": "Wind Energy",
+        "description": "Analyzes wind speed patterns and turbine viability for coastal and elevated areas. Studies in the Philippines confirm that combining multi-criteria decision methods with machine learning yields accurate site selection for wind power, providing policymakers and investors with objective feasibility data.",
+        "stat": "Cerna et al., 2023; Abdullah et al., 2025"
+      },
+      "hydro": {
+        "title": "Hydro Energy",
+        "description": "Assesses rainfall trends, river flow data, and micro-hydro opportunities. Research on hybrid renewable systems in Southern Philippines identifies hydropower as a viable component alongside solar and wind, with socio-environmental and techno-economic factors determining site suitability.",
+        "stat": "Tarife et al., 2023"
+      },
+      "insight": {
+        "title": "Why the Philippines Needs Renewable Intelligence",
+        "description": "The Philippine grid relies on fossil fuels for approximately 70.5% of energy production{{c1}}. In developing countries like the Philippines, financial limitations, governance challenges, and societal resistance remain significant barriers{{c2}}. Public perception and education also significantly shape adoption intentions{{c3}}. LUMI closes this gap by transforming fragmented technical data into accessible, cost-inclusive insights.",
+        "readResearch": "Read the Research"
+      }
+    },
+    "cta": {
+      "title": "Start Analyzing Your Energy Future",
+      "subtitle": "Whether you are a student, homeowner, policymaker, or researcher, LUMI gives you the clarity to evaluate renewable energy with confidence backed by real data.",
+      "tryEcosim": "Try Ecosim",
+      "tryEnergyHub": "Try EnergyHub"
+    },
+    "references": "References",
+    "footer": {
+      "title": "Ready to Explore LUMI?",
+      "subtitle": "Dive into regional climate data, run renewable energy simulations, and discover actionable insights tailored to the Philippines.",
+      "tryEnergyHub": "Try EnergyHub",
+      "launchEcosim": "Launch Ecosim"
+    }
+  },
+  "about": {
+    "hero": {
+      "badge": "About the System",
+      "title": "Understanding",
+      "titleHighlight": "LUMI",
+      "subtitle": "A research-driven environmental intelligence system built to bridge the divide between complex climate data and the communities who need it most.",
+      "tryEnergyHub": "Try EnergyHub",
+      "tryEcosim": "Try Ecosim"
+    },
+    "problem": {
+      "badge": "The Problem We Address",
+      "title": "Why LUMI Was Developed",
+      "paragraph1": "The Philippine electrical grid has a capacity of approximately 27.0 GW and is heavily dependent on fossil fuels, which make up around 70.5% of the country's energy production, with coal alone accounting for 43.1%, while only 29.5% comes from renewables{{c1}}. In developing countries such as the Philippines, financial limitations, governance challenges, and societal resistance have been identified as persistent barriers to renewable energy adoption{{c2}}. Despite growing awareness, renewable energy remains poorly understood and is often perceived as an expensive investment{{c3}}.",
+      "paragraph2": "Furthermore, fragmented climate and energy-related data are often presented in complex formats, hindering public understanding and utilization{{c1}}. Public perception and education significantly shape adoption intentions, and increasing climate awareness can shift sentiment in favor of renewables{{c2}}. LUMI was developed to close this gap by transforming overwhelming technical datasets into clear, visual, and actionable insights with cost-inclusive transparency.",
+      "paragraph3": "Unlike generic information websites, LUMI is an interactive decision-support platform grounded in research on multi-criteria decision analysis and intelligent decision support systems{{c1}}, allowing users to simulate scenarios, compare energy sources, and understand regional climate patterns in the context of real energy demand.",
+      "stats": {
+        "fossilShare": { "value": "70.5%", "label": "Fossil Fuel Share", "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%{{c1}}" },
+        "renewableShare": { "value": "29.5%", "label": "Renewable Share", "description": "Only about 29.5% of the country's energy is generated from renewable sources{{c1}}" },
+        "barriers": { "value": "3 Barriers", "label": "To Adoption", "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries{{c1}}" }
+      }
+    },
+    "mission": {
+      "badge": "Guiding Principles",
+      "title": "Mission & Vision",
+      "subtitle": "LUMI is guided by a commitment to environmental literacy and democratized access to energy intelligence.",
+      "mission": {
+        "title": "Mission",
+        "description": "To democratize environmental intelligence by transforming complex climate and energy data into accessible, actionable insights that empower every Filipino to understand, evaluate, and transition toward renewable energy solutions with confidence and transparency."
+      },
+      "vision": {
+        "title": "Vision",
+        "description": "A future where data-driven sustainability is within reach of every community. We envision a Philippines where students, households, and policymakers alike make informed energy decisions rooted in clear analytics, reducing fossil fuel dependence and accelerating national climate resilience."
+      }
+    },
+    "research": {
+      "badge": "Research Foundation",
+      "title": "The Need for Environmental Intelligence",
+      "subtitle": "LUMI is built on a recognized research gap: the absence of user-friendly, data-driven tools for renewable energy evaluation in the Philippines.",
+      "educational": {
+        "title": "Educational Resource",
+        "description": "Research shows that education significantly affects people's perception of energy sources and their willingness to transition{{c1}}. LUMI serves as a living case study that makes abstract climate concepts tangible through interactive visualizations, directly supporting classroom and community learning."
+      },
+      "decisionSupport": {
+        "title": "Decision Support",
+        "description": "Studies confirm that multi-criteria decision analysis improves social impact and policy comprehension in renewable energy planning{{c1}}. Government agencies can use LUMI to identify high-potential zones and craft strategies backed by structured evaluation rather than assumptions."
+      },
+      "researchGroundwork": {
+        "title": "Research Groundwork",
+        "description": "Environmental intelligence, defined as the use of machine learning and AI to simulate predicted environment models{{c1}}, is a growing field. LUMI demonstrates the practical application of rule-based AI and predictive analytics in tackling real-world environmental challenges, creating a foundation for future systems."
+      },
+      "problemStatement": {
+        "title": "Research Problem Statement",
+        "description": "Despite growing public awareness of renewable energy, it remains poorly understood and perceived as costly{{c1}}. With approximately 70.5% of the Philippines' energy production coming from fossil fuels{{c2}}, the lack of a system that educates the public and allows them to evaluate renewable energy options results in continued dependence on unsustainable sources. In developing countries, barriers such as financial limitations, governance challenges, and societal resistance significantly affect adoption intentions{{c3}}. LUMI directly addresses this gap by providing an intuitive platform for data-driven evaluation and informed decision-making grounded in multi-criteria and predictive methods{{c4}}."
+      }
+    },
+    "system": {
+      "badge": "System Architecture",
+      "title": "How LUMI Is Structured",
+      "subtitle": "LUMI integrates four interconnected modules that guide users from raw environmental data to confident renewable energy decisions.",
+      "modules": {
+        "energyHub": {
+          "title": "EnergyHub",
+          "description": "Interactive dashboard for climate patterns, energy consumption, and demand trends. Dashboards that use graphical visualizations improve comprehension of complex data{{c1}}, while meteorological data is a critical input for predicting renewable energy output{{c2}}."
+        },
+        "ecosim": {
+          "title": "Ecosim",
+          "description": "Rule-based recommendation and what-if simulation engine comparing solar, wind, and hydro with real costing and savings estimates. Studies confirm that technical criteria hold the most weight (53.6%) in renewable energy decision-making, followed by environmental impact (29.0%){{c1}}."
+        },
+        "ai": {
+          "title": "AI Analysis",
+          "description": "AI-powered natural language explanations for charts, forecasts, and recommendations. Explainable artificial intelligence ensures insights are tailored to user needs and unambiguous{{c1}}, while AI can effectively optimize renewable energy by predicting supply and demand{{c2}}."
+        },
+        "dataViz": {
+          "title": "Data Visualization",
+          "description": "Unified visual analytics including KPIs, trend charts, comparative graphs, and regional overview panels. Data visualization is defined as the representation of data using graphics to make patterns accessible{{c1}}, and classical forecasting models are sufficient when seasonal patterns are predictable{{c2}}."
+        }
+      }
+    },
+    "technology": {
+      "badge": "Built With Modern Tools",
+      "title": "Technology Stack",
+      "subtitle": "LUMI uses a modern, scalable architecture designed for performance, accessibility, and seamless integration of AI and environmental data services.",
+      "frontend": { "title": "Frontend", "items": ["React 18 + Vite", "Tailwind CSS", "shadcn/ui Components", "React Router", "Lucide Icons"] },
+      "backend": { "title": "Backend", "items": ["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"] },
+      "database": { "title": "Database", "items": ["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"] },
+      "ai": { "title": "AI & ML", "items": ["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"] },
+      "impact": {
+        "title": "Designed for Real-World Impact",
+        "description": "Every technology choice in LUMI serves the goal of making environmental intelligence fast, accessible, and understandable. From responsive mobile layouts to AI-generated explanations, the architecture supports users across all backgrounds and devices.",
+        "tags": ["Responsive Design", "Dark Mode Support", "Accessibility First", "Performance Optimized"]
+      }
+    },
+    "references": "References",
+    "footer": {
+      "title": "Ready to Explore LUMI?",
+      "subtitle": "Dive into regional climate data, run renewable energy simulations, and discover actionable insights tailored to the Philippines.",
+      "tryEnergyHub": "Try EnergyHub",
+      "launchEcosim": "Launch Ecosim"
+    }
+  },
+  "energyHub": {
+    "title": "EnergyHub",
+    "description": "Explore Philippine national energy statistics, ARIMA-based demand forecasts, and renewable potential across regions. Data sourced from the Department of Energy (DOE) and NASA POWER climate archives.",
+    "disclaimer": "Disclaimer: This module provides educational insights and is not a substitute for professional energy planning.",
+    "sections": {
+      "nationalOverview": "National Overview",
+      "irena": {
+        "title": "IRENA Benchmark",
+        "description": "Philippines renewable energy statistics from IRENA (cross-reference with DOE data).",
+        "latestReCapacity": "Latest RE Capacity",
+        "latestReGeneration": "Latest RE Generation",
+        "reShareLatest": "RE Share (latest)",
+        "unitMW": "MW",
+        "unitGWh": "GWh"
+      }
+    },
+    "toast": {
+      "loadError": "Failed to load EnergyHub data",
+      "llmError": "LLM insight failed",
+      "analyzeError": "Failed to analyze {{chartType}}"
+    },
+    "overview": {
+      "consumption": {
+        "label": "Total Consumption",
+        "value": "{{value}} GWh",
+        "sub": "Year {{year}}",
+        "interpretation": "The Philippines used {{value}} billion kWh of electricity in {{year}}. That's enough to power millions of homes."
+      },
+      "peakDemand": {
+        "label": "Peak Demand",
+        "value": "{{value}} MW",
+        "sub": "Year {{year}}",
+        "interpretation": "The highest electricity demand ever recorded. When demand is high, prices can spike and brownouts become more likely."
+      },
+      "renewableShare": {
+        "label": "Renewable Share",
+        "value": "{{share}}%",
+        "sub": "{{generated}} GWh generated",
+        "interpretation": "{{share}}% of electricity comes from clean sources like solar, wind, and hydro. The Philippines aims to reach 35% by 2030."
+      },
+      "forecastGrowth": {
+        "label": "Forecast Growth (2030)",
+        "value": "{{value}}",
+        "sub": "{{value}} GWh projected",
+        "subEmpty": "",
+        "interpretation": "By 2030, electricity use is expected to grow {{pct}}%. More clean energy is needed to meet this demand.",
+        "interpretationFallback": "Future electricity demand projections help plan for new power plants and renewable energy investments.",
+        "na": "N/A"
+      }
+    },
+    "provincialDemand": {
+      "title": "Provincial Demand",
+      "loading": "Loading DOE Annex 8 regional consumption data...",
+      "noData": "No data available.",
+      "note": "Electricity consumption by sector per region (GWh). Sourced from DOE Annex 8.",
+      "regionLabel": "Region: {{region}}",
+      "sectors": {
+        "residential": "Residential",
+        "commercial": "Commercial",
+        "industrial": "Industrial",
+        "others": "Others"
+      },
+      "insight": {
+        "title": "What you are seeing",
+        "description": "This chart shows how much electricity each Philippine region used in 2025, broken down by who uses it: homes (green), businesses (blue), factories (orange), and government or street lighting (gray). NCR and Calabarzon (IV-A) tower over the rest because they are the country’s economic and population hubs — think of them as the “engine rooms” of the Philippines. Smaller bars do not mean those regions are less important; they simply have fewer people and industries connected to the main grid. Some remote or island regions may also rely more on local generators rather than the national grid, so their numbers here can look lower than their actual energy use.",
+        "whyTitle": "Why 17 regions?",
+        "whyDescription": "The Philippines has 17 administrative regions. The data here follows the Department of Energy’s 2025 reporting format, which still labels the Bangsamoro region as “ARMM” (its older name). The now-dissolved Negros Island Region (NIR) is excluded because it was re-merged into Western Visayas (VI) and Central Visayas (VII) in 2015."
+      },
+      "error": "Failed to load provincial demand."
+    },
+    "trends": {
+      "title": "Energy Trends",
+      "legend": {
+        "historical": "Historical",
+        "forecast": "Forecast"
+      },
+      "chartAxis": {
+        "year": "Year",
+        "gwh": "GWh",
+        "mw": "MW"
+      },
+      "hover": {
+        "consumption": "%{year}<br>%{value} GWh<extra>{{extra}}</extra>",
+        "peakDemand": "%{year}<br>%{value} MW<extra></extra>",
+        "renewable": "%{year}<br>%{value} GWh<extra></extra>"
+      },
+      "consumption": {
+        "title": "Total Electricity Use Over Time",
+        "subtitle": "How much electricity the whole country uses, and where it's heading",
+        "explanation": {
+          "what": "This chart shows historical national electricity consumption in the Philippines and the forecast through 2030.",
+          "why": "Higher consumption means more power plants are needed. It also means more opportunities for clean energy to replace fossil fuels.",
+          "action": "If your region shows above-average growth, consider solar or wind investments ahead of peak-period strain."
+        }
+      },
+      "peakDemand": {
+        "title": "Peak Electricity Demand",
+        "subtitle": "The highest amount of electricity needed at any single moment",
+        "explanation": {
+          "what": "This chart shows the highest recorded electricity demand per year across all Philippine grids.",
+          "why": "Rising peak demand means the grid needs more reliable capacity. When peaks are too high, brownouts can happen.",
+          "action": "Municipalities with high peak-demand growth should prioritize distributed solar or battery storage."
+        }
+      },
+      "renewable": {
+        "title": "Clean Energy Generation",
+        "subtitle": "How much electricity comes from solar, wind, hydro, and geothermal sources",
+        "explanation": {
+          "what": "This chart shows total renewable energy generation (solar, wind, hydro, geothermal, biomass) per year.",
+          "why": "A rising share means the country is successfully replacing coal and gas with clean energy. This helps reduce electricity costs and pollution over time.",
+          "action": "Advocate for local RE adoption if your province lags the national renewable growth trend."
+        }
+      },
+      "aiExplain": "AI Explain",
+      "generating": "Generating analysis...",
+      "refresh": "Refresh",
+      "getDifferent": "Get a different explanation"
+    },
+    "sources": {
+      "title": "Energy Source Comparison",
+      "totalGeneration": "Total Generation: {{value}} GWh",
+      "labels": {
+        "coal": "Coal",
+        "natural_gas": "Natural Gas",
+        "oil_based": "Oil-Based",
+        "geothermal": "Geothermal",
+        "hydro": "Hydro",
+        "solar": "Solar",
+        "wind": "Wind",
+        "biomass": "Biomass"
+      },
+      "explanation": {
+        "what": "This donut chart shows what share of total electricity generation comes from each source: coal, natural gas, oil-based, geothermal, hydro, solar, wind, and biomass.",
+        "why": "Understanding the mix reveals how dependent the grid is on fossil fuels versus renewables. A high fossil share means higher carbon emissions and exposure to fuel price volatility.",
+        "action": "If fossil sources dominate, push for local solar or wind adoption to reduce household carbon footprint and buffer against fuel price hikes."
+      }
+    },
+    "aiInsight": {
+      "title": "AI Insight",
+      "loading": "Generating LLM analysis...",
+      "llmMode": "LLM Mode",
+      "staticMode": "Static Mode",
+      "poweredByLlm": "Powered by Gemini/Groq LLM — analyzing energy data dynamically.",
+      "poweredByStatic": "Data-driven observation based on {{year}} statistics and ARIMA forecast",
+      "tabs": {
+        "overview": "Overview",
+        "trends": "Trends",
+        "sources": "Sources",
+        "map": "Map"
+      }
+    },
+    "chartExplanation": {
+      "what": "What:",
+      "why": "Why it matters:",
+      "action": "What to do:"
+    },
+    "map": {
+      "title": "Energy Choropleth Map",
+      "subtitle": "{{level}} renewable potential derived from climate & terrain data",
+      "loading": "Loading map data...",
+      "na": "N/A",
+      "unit": "/100",
+      "unknown": "Unknown",
+      "status": "Status",
+      "viewOnGemWiki": "View on GEM Wiki →",
+      "volcano": "Volcano",
+      "volcanoes": "Volcanoes",
+      "faults": "Faults",
+      "toggleVolcanoes": "Toggle volcano raster overlay",
+      "toggleFaults": "Toggle fault raster overlay",
+      "metrics": {
+        "renewable_potential": "Renewable Potential",
+        "solar_potential": "Solar Potential",
+        "wind_potential": "Wind Potential",
+        "hydro_potential": "Hydropower Potential",
+        "geothermal_potential": "Geothermal Potential"
+      },
+      "levels": {
+        "province": "Province",
+        "municipality": "Municipality"
+      },
+      "classification": {
+        "noData": "No data",
+        "veryHigh": "Very High",
+        "high": "High",
+        "moderate": "Moderate",
+        "low": "Low",
+        "veryLow": "Very Low"
+      },
+      "legend": {
+        "veryHigh": "Very High (81-100)",
+        "high": "High (61-80)",
+        "moderate": "Moderate (41-60)",
+        "low": "Low (21-40)",
+        "veryLow": "Very Low (0-20)",
+        "noData": "No data"
+      }
+    }
+  },
+  "ecosim": {
+    "title": "Renewable Energy Simulation",
+    "subtitle": "Ecosim evaluates solar, wind, and hydropower options for your location based on consumption patterns and environmental data.",
+    "errorCardTitle": "Simulation error",
+    "defaults": {
+      "simulation": "Simulation",
+      "renewable": "Renewable"
+    },
+    "saveDialog": {
+      "title": "Save Simulation",
+      "description": "Give your simulation a name so you can revisit it later.",
+      "label": "Simulation name",
+      "placeholder": "e.g., Calamba Solar Feasibility",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving..."
+    },
+    "toasts": {
+      "loginRequired": "Please log in to save simulations",
+      "runFirst": "Run a simulation first",
+      "saveLimit": "Save limit reached ({{limit}}). Upgrade to save more.",
+      "saveFailed": "Failed to save simulation",
+      "saveSuccess": "Simulation saved successfully",
+      "loadSuccess": "Loaded saved simulation",
+      "loadFailed": "Failed to load saved simulation",
+      "municipalitiesError": "Unable to load municipalities.",
+      "provincesError": "Unable to load provinces.",
+      "ecosimError": "Unable to load Ecosim data."
+    },
+    "wizard": {
+      "step": "Step {{current}} of {{total}}",
+      "steps": {
+        "step1": "Select your city or municipality so we can analyze your local climate and resources.",
+        "step2": "Tell us how much electricity you use each month so we can estimate your savings.",
+        "step3": "How much of your bill would you like to eliminate with renewable energy?",
+        "step4": "Review your inputs and run the analysis."
+      },
+      "searchMode": "Search mode",
+      "municipality": "Municipality",
+      "province": "Province",
+      "municipalityHint": "Choose municipality for the most accurate local climate data.",
+      "provinceHint": "Choose province for a broader regional overview.",
+      "searchMunicipality": "Search municipality",
+      "searchProvince": "Search province",
+      "placeholderMunicipality": "e.g., Calamba, Santa Rosa",
+      "placeholderProvince": "e.g., Laguna, Cavite",
+      "noResults": "No results found",
+      "selected": "Selected: {{name}}",
+      "notSelected": "Not selected",
+      "consumptionLabel": "Monthly consumption (kWh)",
+      "consumptionPlaceholder": "e.g. 300",
+      "consumptionHint": "Find this on your electric bill. It is usually the biggest number in the Usage section.",
+      "billLabel": "Monthly bill (PHP)",
+      "billPlaceholder": "e.g. 5000",
+      "billHint": "The total amount you pay each month, before any subsidies or discounts.",
+      "rateText": "Your effective rate is about PHP {{rate}} per kWh. This helps us estimate your savings accurately.",
+      "savingsLabel": "Desired savings",
+      "savingsLevels": {
+        "exploring": "Just exploring",
+        "little": "Save a little",
+        "half": "Cut my bill in half",
+        "offGrid": "Go almost off-grid"
+      },
+      "savingsSliderStart": "Just exploring",
+      "savingsSliderEnd": "Go off-grid",
+      "aiAnalysis": "Include AI analysis",
+      "aiAnalysisHint": "Adds a detailed plain-English explanation of why this renewable source is recommended for your area, along with next steps.",
+      "summaryTitle": "Your Inputs",
+      "summary": {
+        "location": "Location",
+        "consumption": "Consumption",
+        "bill": "Bill",
+        "savingsGoal": "Savings goal",
+        "aiAnalysis": "AI analysis"
+      },
+      "reviewTitle": "Review your inputs",
+      "compareText": "We will compare solar, wind, hydro, and geothermal for your location and recommend the best match.",
+      "yes": "Yes",
+      "no": "No",
+      "back": "Back",
+      "next": "Next",
+      "runSimulation": "Run simulation",
+      "running": "Running...",
+      "save": "Save"
+    },
+    "results": {
+      "bestMatch": "{{match}} Match",
+      "isBestFor": "{{source}} Energy is Best for Your Location",
+      "suitabilityScore": "Suitability Score",
+      "sources": {
+        "Solar": "Solar",
+        "Wind": "Wind",
+        "Hydro": "Hydro",
+        "Geothermal": "Geothermal"
+      },
+      "benefits": {
+        "monthlySavings": "Monthly Savings",
+        "energyCoverage": "Energy Coverage",
+        "paybackPeriod": "Payback Period",
+        "co2Reduction": "CO₂ Reduction",
+        "offYourCurrentBill": "{{pct}}% off your current bill",
+        "ofYourMonthlyConsumption": "of your monthly consumption",
+        "timeToBreakEven": "time to break even",
+        "lessCarbonPerMonth": "less carbon per month"
+      },
+      "whyRecommended": {
+        "title": "Why {{source}} Was Recommended",
+        "description": "How your location and climate led to this recommendation",
+        "yourLocation": "Your Location",
+        "locationText": "{{municipality}} — ID {{id}}",
+        "usageText": "Based on {{consumption}} kWh/month usage and {{bill}} monthly bill (effective rate: {{rate}}/kWh).",
+        "climateAdvantage": "Climate Advantage"
+      },
+      "climateTemplates": {
+        "Solar": "{{value}} kWh/m²/day — {{desc}}",
+        "Wind": "{{value}} m/s — {{desc}}",
+        "Hydro": "Score {{value}} — {{desc}}",
+        "Geothermal": "{{desc}}"
+      },
+      "potentialTitle": "Renewable Energy Potential at Your Location",
+      "potentialDescription": "How suitable your area is for each type of renewable energy",
+      "recommended": "Recommended",
+      "financial": {
+        "title": "Your Financial Impact",
+        "description": "How your electricity bill would change with the recommended system",
+        "currentBill": "Current Monthly Bill",
+        "newBill": "New Monthly Bill",
+        "monthlySavings": "Monthly Savings",
+        "used": "{{consumption}} kWh used",
+        "afterOffset": "After {{source}} offset",
+        "reduction": "{{pct}}% reduction",
+        "installationCost": "Estimated Installation Cost",
+        "costNote": "Actual costs vary by installer, system size, and brand.",
+        "payback": "Payback Period",
+        "years": "{{years}} years",
+        "notCalculable": "Not calculable",
+        "paybackNote": "Time for savings to equal the installation cost."
+      },
+      "productRecs": {
+        "title": "Recommended Equipment for {{source}}",
+        "description": "Marketplace listings you can explore for your installation",
+        "none": "No matching products with links found. Try searching \"{{source}} panels Philippines\" or \"{{source}} turbine home\" on your preferred marketplace.",
+        "note": "{{note}}"
+      },
+      "nextSteps": {
+        "title": "Recommended Next Steps",
+        "description": "Practical actions to move forward with your renewable energy plan"
+      },
+      "technical": {
+        "hide": "Hide technical details",
+        "show": "Show technical details for advanced users",
+        "climateData": "Climate Data",
+        "climateDescription": "Average conditions for this location (NASA POWER)",
+        "output": "{{source}} output",
+        "daily": "Daily",
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "score": "Score",
+        "scenarioComparison": "Scenario Comparison",
+        "scenarioDescription": "Current usage vs recommended renewable offset",
+        "current": "Current",
+        "withSource": "With {{source}}"
+      },
+      "climateLabels": {
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "rainfall": "Rainfall",
+        "solarIrradiance": "Solar irradiance",
+        "windSpeed": "Wind speed",
+        "cloudCoverage": "Cloud coverage",
+        "surfacePressure": "Surface pressure",
+        "elevation": "Elevation"
+      },
+      "info": {
+        "Solar": {
+          "excellent": "Your area receives plenty of sunlight, making solar panels a highly recommended option.",
+          "good": "Your location gets good sunlight. Solar panels can work well here with proper placement.",
+          "moderate": "Sunlight is moderate. Solar may still work but may need a larger system.",
+          "fair": "Sunlight is limited. Solar panels may not be the best choice here."
+        },
+        "Wind": {
+          "excellent": "Strong winds make this location suitable for small wind turbines.",
+          "good": "Moderate wind speeds. Small turbines may generate some power in open areas.",
+          "moderate": "Wind is present but limited. Turbines may not be cost-effective for homes.",
+          "poor": "Wind speeds are low. Consider solar instead."
+        },
+        "Hydro": {
+          "good": "Sufficient water flow and elevation. Micro-hydro could be viable if you have a stream.",
+          "moderate": "Some water resources, but may not be reliable year-round.",
+          "fair": "Limited water or flat terrain. Hydro is not recommended here."
+        },
+        "Geothermal": {
+          "good": "Nearby geothermal activity. This is a utility resource, not for home installation.",
+          "limited": "No significant geothermal activity nearby. Not a home-scale option."
+        }
+      },
+      "nextStepsList": {
+        "Solar": [
+          { "title": "Get quotes from local solar installers", "description": "Compare at least 3 quotes for a system that covers your energy needs." },
+          { "title": "Check net metering eligibility", "description": "Ask your electric utility about selling excess power back to the grid." },
+          { "title": "Assess your roof condition", "description": "Ensure your roof can support panels and is not heavily shaded." },
+          { "title": "Research government incentives", "description": "Check DOE and LGU programs for renewable energy subsidies." }
+        ],
+        "Wind": [
+          { "title": "Consult a wind energy specialist", "description": "Small turbines require proper siting and wind assessment." },
+          { "title": "Check local zoning regulations", "description": "Some areas restrict turbine height or require permits." },
+          { "title": "Consider hybrid systems", "description": "Combining wind with solar can provide more consistent power." },
+          { "title": "Monitor wind for 3-6 months", "description": "Install a small anemometer before investing in a turbine." }
+        ],
+        "Hydro": [
+          { "title": "Survey local water sources", "description": "Identify streams or rivers with consistent year-round flow." },
+          { "title": "Check water rights regulations", "description": "You may need permits to use water flow for power generation." },
+          { "title": "Consult a micro-hydro expert", "description": "Site assessment and system design require specialized knowledge." },
+          { "title": "Measure head and flow", "description": "These two measurements determine how much power you can generate." }
+        ],
+        "Geothermal": [
+          { "title": "Geothermal is not a home-scale option", "description": "This is a utility-scale resource. Consider solar or wind instead for your home." },
+          { "title": "Switch to a renewable energy provider", "description": "Some utilities offer geothermal or green power programs." },
+          { "title": "Advocate for community geothermal", "description": "Support local initiatives for geothermal district heating if applicable." },
+          { "title": "Re-run EcoSim with alternative sources", "description": "Try Solar or Wind simulation to see home-scale options." }
+        ]
+      },
+      "meralco": {
+        "title": "Meralco Generation Charge Reference",
+        "description": "Your selected location falls within the Meralco franchise area.",
+        "generationCharge": "Generation charge ({{year}})",
+        "yourEffectiveRate": "Your effective rate",
+        "customerClass": "Customer class"
+      }
+    },
+    "bom": {
+      "title": "Bill of Materials",
+      "description": "Estimated components for the recommended system",
+      "notApplicable": "Geothermal energy is a utility-scale resource. A home-scale bill of materials is not applicable.",
+      "estimated": "Estimated {{kw}} kW {{source}} system · {{cost}} total",
+      "component": "Component",
+      "qty": "Qty",
+      "unit": "Unit",
+      "unitCost": "Unit Cost",
+      "total": "Total",
+      "estimatedTotal": "Estimated Total",
+      "items": {
+        "solar_panels": { "item": "Solar panels (400 W)", "unit": "panel" },
+        "solar_inverter": { "item": "Inverter", "unit": "unit" },
+        "solar_mounting": { "item": "Mounting & wiring", "unit": "set" },
+        "solar_labor": { "item": "Installation labor", "unit": "set" },
+        "solar_permits": { "item": "Permits & miscellaneous", "unit": "set" },
+        "wind_turbine": { "item": "Small wind turbine", "unit": "unit" },
+        "wind_tower": { "item": "Tower / mast", "unit": "unit" },
+        "wind_controller": { "item": "Controller & inverter", "unit": "unit" },
+        "wind_labor": { "item": "Installation & anchoring", "unit": "set" },
+        "hydro_turbine": { "item": "Micro-hydro turbine & generator", "unit": "unit" },
+        "hydro_penstock": { "item": "Penstock & civil works", "unit": "set" },
+        "hydro_controller": { "item": "Controller & protection", "unit": "unit" },
+        "hydro_labor": { "item": "Installation & commissioning", "unit": "set" }
+      }
+    },
+    "providers": {
+      "title": "Trusted Solar Installers in Your Region",
+      "description": "These companies are registered with the DOE Solar PV Installer Registry (as of June 2025). Always verify current status before hiring.",
+      "visit": "Visit",
+      "none": "No registered providers found in your region. Consider contacting providers in nearby regions, or search online for \"{{area}} solar installer\".",
+      "note": "This registry is solar-focused. Wind, hydro, and geothermal providers are not listed yet."
+    },
+    "lcoe": {
+      "title": "LCOE Comparison",
+      "description": "Levelized Cost of Energy (PHP/kWh) — lower is more cost-effective.",
+      "rateText": "Your electricity rate: ~₱{{rate}}/kWh",
+      "bestLcoe": "Best LCOE",
+      "gridTariff": "Grid tariff: ₱{{rate}}/kWh",
+      "npv": "NPV",
+      "irr": "IRR",
+      "discountedPayback": "Disc. Payback",
+      "bcr": "BCR",
+      "formula": "LCOE = Lifetime cost ÷ Lifetime energy production. NPV at 10% discount rate. IRR = internal rate of return. BCR = benefit-cost ratio (≥1.0 means profitable)."
+    }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "loading": "Loading...",
+    "changePhoto": "Change Photo",
+    "uploading": "Uploading...",
+    "removePhoto": "Remove Photo",
+    "fullName": "Full Name",
+    "organization": "Organization",
+    "location": "Location",
+    "saveChanges": "Save Changes",
+    "updated": "Profile updated successfully.",
+    "updateFailed": "Failed to update profile.",
+    "avatarUpdated": "Avatar updated successfully.",
+    "avatarUploadFailed": "Failed to upload avatar: ",
+    "avatarRemoved": "Avatar removed.",
+    "avatarRemoveFailed": "Failed to remove avatar."
+  },
+  "savedSimulations": {
+    "title": "Saved Simulations",
+    "pleaseLogin": "Please log in.",
+    "ecoSimsTitle": "EcoSim Saves",
+    "ecoSimsDescription": "Your persisted EcoSim analyses.",
+    "noSimulations": "No saved simulations yet.",
+    "runOne": "Run one now",
+    "unnamedSimulation": "Unnamed Simulation",
+    "open": "Open",
+    "delete": "Delete",
+    "deleteSimConfirm": "Delete this simulation?",
+    "simDeleted": "Simulation deleted",
+    "simDeleteFailed": "Failed to delete simulation",
+    "chatHistoryTitle": "Chat History",
+    "chatHistoryDescription": "Your past conversations with LUMI AI.",
+    "noChatHistory": "No chat history yet.",
+    "startChat": "Start chatting",
+    "newChat": "New Chat",
+    "flagged": "Flagged",
+    "continueChat": "Continue Chat",
+    "deleteChatConfirm": "Delete this chat session?",
+    "chatDeleted": "Chat deleted",
+    "chatDeleteFailed": "Failed to delete chat",
+    "loadError": "Failed to load data"
+  },
+  "resetPassword": {
+    "title": "Reset your password",
+    "description": "Set a new password after confirming your email.",
+    "noSession": "Open this page from the reset link in your email.",
+    "newPasswordPlaceholder": "New password",
+    "confirmPasswordPlaceholder": "Confirm new password",
+    "updatePassword": "Update password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "success": "Password updated. You can sign in again.",
+    "error": "Password update failed"
+  },
+  "errorBoundary": {
+    "connectionErrorTitle": "Connection Error",
+    "genericErrorTitle": "Something went wrong",
+    "connectionErrorDescription": "We couldn't reach the LUMI server. Please check your connection and try again.",
+    "genericErrorDescription": "An unexpected error occurred.",
+    "tryAgain": "Try Again"
+  },
+  "layout": {
+    "workspace": "Workspace",
+    "overview": "Overview",
+    "modules": "Modules",
+    "settings": "Settings"
+  },
+  "glossary": {
+    "solar_irradiance": "The amount of sunlight reaching your area. More sunlight generally means more electricity can be produced by solar panels.",
+    "capacity_factor": "Shows how efficiently a renewable energy system is expected to operate compared to its maximum possible output.",
+    "hydraulic_head": "The height difference of flowing water. Greater height usually means more electricity can be generated.",
+    "payback_period": "The estimated number of years needed to recover the cost of your renewable energy investment.",
+    "net_metering": "A program where you can sell excess electricity back to the power company, reducing your bill even further.",
+    "kwh": "Kilowatt-hour — the unit of electricity on your bill. One kWh is like running a 1,000-watt appliance for one hour.",
+    "mw": "Megawatt — a large unit of power. One MW equals 1,000 kilowatts, enough to power hundreds of homes.",
+    "gwh": "Gigawatt-hour — a very large amount of electricity, often used to measure national or regional energy use.",
+    "renewable_share": "The percentage of electricity that comes from clean sources like solar, wind, hydro, or geothermal instead of fossil fuels.",
+    "fossil_fuels": "Coal, oil, and natural gas. Burning them produces electricity but also releases pollution and carbon dioxide.",
+    "carbon_reduction": "The amount of CO₂ (carbon dioxide) pollution you avoid by using clean energy instead of fossil fuels.",
+    "suitability_score": "A rating from 0 to 100 that tells you how well a renewable energy type matches your location's conditions.",
+    "elevation": "How high above sea level your location is. Higher areas can have different wind and temperature conditions.",
+    "transmission_charge": "The cost of moving electricity from power plants to your area through large power lines.",
+    "distribution_charge": "The cost of delivering electricity from local substations to your home through neighborhood power lines.",
+    "generation_charge": "The cost of actually producing electricity at power plants. This is the biggest part of your electric bill.",
+    "utility_scale": "Large power plants that serve thousands of homes, not something you can install in your backyard.",
+    "micro_hydro": "A small water-powered generator for homes or small communities, using nearby streams or rivers.",
+    "rooftop_solar": "Solar panels installed on your roof to generate electricity for your home.",
+    "off_grid": "Being completely independent from the electric company by generating all your own power.",
+    "grid_tied": "Connected to the electric company lines. You can use grid power when your solar or wind isn't producing enough.",
+    "inverter": "A device that converts the electricity from solar panels into the type of electricity your home appliances use.",
+    "battery_storage": "Batteries that store excess solar or wind energy for use at night or during cloudy days.",
+    "peak_demand": "The highest amount of electricity the country needs at any single moment. High peaks can cause brownouts.",
+    "brownout": "A temporary drop in electricity supply, causing lights to dim and appliances to work poorly.",
+    "blackout": "A complete loss of electricity in an area, usually caused by storms or overloaded power systems.",
+    "municipality": "A city or town with its own local government. We use this to match your area with local climate and resource data."
+  }
+}

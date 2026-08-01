@@ -1,0 +1,47 @@
+KEY ENERGY STATISTICS
+42
+Luzon
+2023
+2024
+GR
+Coal
+ 53,072 
+ 57,070 
+8%
+Oil
+ 708 
+ 603 
+-15%
+Natural Gas
+ 16,668 
+ 18,047 
+8%
+Renewable Energy
+ 12,842 
+ 14,550 
+13%
+Geothermal
+ 4,286 
+ 4,657 
+9%
+Hydro
+ 5,080 
+ 5,308 
+4.5%
+Biomass 
+ 684 
+ 645 
+-6%
+Solar
+ 1,678 
+ 2,905 
+73%
+Wind
+ 1,114 
+ 1,034 
+-7%
+Total
+ 83,290 
+ 90,269 
+8%
+Power Generation, by Source and Grid (in GWh)

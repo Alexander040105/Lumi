@@ -1,0 +1,80 @@
+[
+  {
+    "lat": 16.5,
+    "lon": 121.5,
+    "name": "Philippine Fault N-Luzon",
+    "length_km": 300
+  },
+  {
+    "lat": 15.5,
+    "lon": 121.0,
+    "name": "Philippine Fault C-Luzon",
+    "length_km": 250
+  },
+  {
+    "lat": 14.0,
+    "lon": 122.0,
+    "name": "Philippine Fault S-Luzon",
+    "length_km": 200
+  },
+  {
+    "lat": 11.5,
+    "lon": 125.0,
+    "name": "Philippine Fault Visayas",
+    "length_km": 300
+  },
+  {
+    "lat": 8.0,
+    "lon": 126.0,
+    "name": "Philippine Fault Mindanao",
+    "length_km": 350
+  },
+  {
+    "lat": 14.6,
+    "lon": 121.1,
+    "name": "Marikina Valley Fault",
+    "length_km": 80
+  },
+  {
+    "lat": 14.0,
+    "lon": 120.0,
+    "name": "Western Philippine Fault",
+    "length_km": 150
+  },
+  {
+    "lat": 14.5,
+    "lon": 123.0,
+    "name": "Eastern Philippine Fault",
+    "length_km": 180
+  },
+  {
+    "lat": 7.0,
+    "lon": 125.0,
+    "name": "Central Mindanao Fault",
+    "length_km": 200
+  },
+  {
+    "lat": 9.5,
+    "lon": 125.5,
+    "name": "Surigao Fault",
+    "length_km": 120
+  },
+  {
+    "lat": 13.5,
+    "lon": 122.0,
+    "name": "Macolod Corridor",
+    "length_km": 100
+  },
+  {
+    "lat": 15.0,
+    "lon": 120.5,
+    "name": "Lubao Fault",
+    "length_km": 60
+  },
+  {
+    "lat": 13.8,
+    "lon": 121.0,
+    "name": "Verde Passage Fault",
+    "length_km": 70
+  }
+]

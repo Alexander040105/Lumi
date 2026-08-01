@@ -1,0 +1,38 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+27
+ENERGY PER CAPITA.  Per capita energy, electricity, and oil use in 2024 rose to 0.61 
+TOE, 1,125.56 kWh, and 1.47 bbl, respectively, and surpassed their 2023 levels. This 
+upward trend reflected improved access to energy for both daily needs and productive 
+activities, supporting higher living standards and economic participation.
+GHG Emission Indicators
+Carbon intensity of GDP in 2024 remained relatively at the same level as the previous 
+year’s 0.7 tonnes of CO₂ equivalent (tCO₂e) per PHP 100,000. Meanwhile, the carbon 
+intensity of TPES and electricity generation increased by 1.4 percent and 0.4 percent, 
+respectively. These upticks were largely attributed to the growing share of fossil 
+fuels, particularly coal, in the energy and power generation mixes. Consequently, 
+GHG emissions per capita also rose by 5.9 percent, in line with higher overall energy 
+consumption and emissions output. (Figure 18). 
+2.5
+2.0
+1.5
+1.0
+0.5
+0.0
+tCO2e/person
+2023
+2024
+0.72
+Figure 18. Environmental Emission Indicators:  2023 vs 2024
+0.73
+0.76 0.77
+2.32 2.35
+1.36 1.41
+tCO2e/Php 100K
+GDP
+tCO2e/MWh
+Electricity
+Generation
+tCO2e/TOE
+TPES
+GHG Intensity
+Per Capita

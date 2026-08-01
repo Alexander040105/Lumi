@@ -1,0 +1,43 @@
+KEY ENERGY STATISTICS
+48
+Regional Household Electrification Level
+Ilocos Region
+(Region I) 100%
+Central Luzon
+(Region III) 100%
+NCR
+(Metropolitan Manila) 98.5%
+Cagayan Valley
+(Region II) 96.6%
+Cordillera Administrative Region 
+(CAR) 96.3%
+CALABARZON
+(Region IV-A) 100%
+MIMAROPA
+(Region IV-B) 
+87.8%
+Western Visayas 
+(Region VI) 96.4%
+Zamboanga Peninsula 
+(Region IX) 83.3%
+Bangsamoro 
+Autonomous Region in 
+Muslim Mindanao 
+(BARMM) 43.2%
+Bicol Region
+(Region V) 91.0%
+Central Visayas
+(Region VII) 99.8%
+Eastern Visayas
+(Region VIII) 95.9%
+CARAGA 
+(Region XIII) 96.4%
+Northern 
+Mindanao 
+(Region X) 93.5%
+Davao Region 
+(Region XI) 89.2%
+SOCCSKSARGEN
+(Region XII) 86.2%
+Negros Island Region 
+(NIR) 87.0%

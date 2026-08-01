@@ -1,0 +1,108 @@
+KEY ENERGY STATISTICS
+63
+Coal Importation, by Country of Source
+Country
+2014
+2015
+2016
+2017
+2018
+2019
+Indonesia
+ 14,975 
+ 16,673 
+ 17,988 
+ 19,663 
+ 23,285 
+ 26,305 
+Australia (a)
+ - 
+ 306 
+ 1,310 
+ 1,401 
+ 1,249 
+ 711 
+China (b) 
+ - 
+ - 
+ - 
+ - 
+ 96 
+ 1 
+Vietnam
+ 191.41 
+ 168.07 
+ 270.19 
+ 219.38 
+ 303.26 
+ 181.70 
+Others**
+ 15 
+ 132 
+ 462 
+ 984 
+ 1,368 
+ 494 
+Total
+ 15,182 
+ 17,279 
+ 20,030 
+ 22,268 
+ 26,301 
+ 27,692 
+in MMT at 10,000 BTU/lb
+Country
+2020
+2021
+2022
+2023
+2024
+AAGR*
+Indonesia
+ 28,604 
+ 30,514 
+ 31,955 
+ 34,822 
+ 40,139 
+10.4%
+Australia (a)
+ 538 
+ 242 
+ 433 
+ 207 
+ 82 
+-13.7%
+China(b) 
+ - 
+ 0.05 
+ 0.11 
+ 0.35 
+ 0.33 
+-61.2%
+Vietnam
+ 103 
+ 297 
+ 106 
+ 164 
+ 134 
+-3.5%
+Others** 
+ 279 
+ 186 
+ 202 
+ 341 
+ 1 
+-21.4%
+Total
+ 29,524 
+ 31,239 
+ 32,696 
+ 35,535 
+ 40,356 
+10.3%
+*average annual growth rate 
+	
+(a) AAGR from 2015 to 2024
+	
+(b) AAGR from 2018 to 2024
+**Imports from India, Malaysia, Peru, Russia, Taiwan, South Korea, South Africa and USA

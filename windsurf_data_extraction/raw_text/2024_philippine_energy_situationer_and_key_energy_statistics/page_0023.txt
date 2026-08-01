@@ -1,0 +1,144 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+23
+Industrial GHG emissions reached 13.0 MTCO2e in 2024 and translated to 8.0 percent 
+of the total GHG emissions.  This sluggish uptick of 1.7 percent vis-à-vis 2023 level 
+reflected the modest growth in industrial energy use, as well as increased adoption of 
+cleaner technologies, and gradual shift toward less GHG emissions-intensive industries. 
+Meanwhile, combined emissions from agriculture, services, and households increased 
+by 7.7 percent to 11.1 MTCO2e from 10.3 MTCO2e, with a collective contribution of 6.9 
+percent to the national GHG emission level. Additionally, emissions from refinery 
+operations and own-use energy climbed 16.5 percent, from 1.5 MTCO2e to 1.8 MTCO2e.
+IV. ENVIRONMENTAL IMPACT 
+In 2024, total greenhouse gas (GHG) emissions rose by 6.8 percent to 162.1 million 
+tonnes of CO₂ equivalent (MTCO2e) from 151.8 MTCO2e in 2023. This increase was 
+largely due to the sustained reliance on fossil fuels, particularly coal and oil, for power 
+generation and transportation. The power sector remained as the largest GHG emitter 
+with 60.1 percent share to the national total, as emissions from coal-fired plants surged 
+by 8.0 percent to 97.5 MTCO2e in 2024 from the previous year’s 90.2 MTCO2e. (Table 1). 
+GHG emission from the transport sector went up by 5.1 percent to 38.8 MTCO2e in 2024 
+from last year’s 36.9 MTCO2e driven by economic growth and increased household 
+consumption. The sector accounted for 23.9 percent of total GHG emissions, which is 
+attributed to its continued dependence on internal combustion engine (ICE) vehicles, 
+which still comprised the largest share of the national vehicle fleet despite aggressive 
+efforts to promote electric mobility.
+Sector
+CO2 Emission
+(MTCO2e)
+Total NonCO2
+Emission 
+(MTCO2e)
+Total GHG
+Emission*** 
+(MTCO2e)
+Total GHG 
+Emission
+(% Change)
+2023
+2024
+2023
+2024
+2023
+2024
+2023-2024
+Electricity 
+89.86
+97.07
+0.36
+0.39
+90.22
+97.46
+8.02
+Transport 
+36.67
+38.54
+0.26
+0.27
+36.93
+38.81
+5.10
+Industry 
+12.68
+12.89
+0.07
+0.07
+12.75
+12.96
+1.68
+Other Sectors*
+10.28
+11.08
+0.07
+0.07
+10.35
+11.15
+7.73
+Energy**
+1.5
+1.75
+0.00
+0.00
+1.51
+1.75
+16.48
+Total
+150.99
+161.33
+0.76
+0.80
+151.75
+162.13
+6.84
+% Distribution
+Change in 
+Distribution
+Electricity 
+56.51
+60.17 
+47.61 
+48.19
+59.45
+60.11
+0.66 
+Transport 
+24.29
+23.89 
+33.92 
+33.54
+24.34
+23.94
+(0.40)
+Industry 
+8.40
+7.99 
+9.06 
+8.85
+8.40
+7.99
+(0.41)
+Other
+6.81
+6.86 
+8.78
+8.86
+6.82
+6.87
+0.06
+Energy
+0.99
+1.08 
+0.62
+0.56
+0.99
+1.08
+0.09 
+Total
+100.0
+100.0
+100.0
+100.0
+100.0
+100.0
+Table 1: GHG Emission, by Sector: 2023 vs 2024
+*includes emissions from the services, households, and agriculture
+**includes losses incurred in oil refining
+*** Updated using GWP Values, Fifth Assessment Report(AR5), and EF  based on 2006 IPCC Guidelines (Tier 1)

@@ -1,0 +1,74 @@
+KEY ENERGY STATISTICS
+24
+2023
+2024
+GR
+Services
+17,534
+19,464
+11.0%
+LPG
+5,280
+5,633
+6.7%
+Diesel
+10,985
+12,553
+14.3%
+Fuel Oil
+1,044
+1,019
+-2.4%
+Biodiesel 
+224
+258
+15.0%
+Agriculture
+1,101
+1,123
+2.0%
+Gasoline
+86
+36
+-58.2%
+Kerosene
+ - 
+ 0.05 
+Diesel
+991
+1,060
+7.0%
+Fuel Oil
+5
+6
+26.9%
+Biodiesel
+20
+21
+4.4%
+Power Generation
+5,079
+5,158
+1.6%
+Diesel
+2,865
+3,269
+14.1%
+Fuel Oil
+2,155
+1,824
+-15.4%
+Biodiesel 
+58
+66
+12.4%
+Non-Energy Use
+10,477
+11,471
+9.5%
+Total 
+175,580
+184,515
+5.1%
+Petroleum Products Consumption, by Sector and Fuel Type
+In MB

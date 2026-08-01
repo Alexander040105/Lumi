@@ -1,0 +1,71 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+26
+household consumption posted a modest increment of 4.9 percent, as persistent food 
+price inflation27 caused by low agricultural output led to tightened consumer spending.
+ENERGY-ECONOMY INDICATORS
+ENERGY INTENSITY.  The country’s overall energy intensity28 slightly went down 
+by 0.5 percent to 3.10 TOE/MPhP reflective of modest gains from stronger energy 
+efficiency standards, technology adoption, and enforcement of regulations. Similarly, 
+oil intensity registered a 1.6 percent decline to 7.47 bbl/PhP in 2024, driven by EV 
+adoption and fleet modernization—and in industry through fuel switching. On the other 
+hand, the amount of electricity use per unit of economic output rose from 5.61 Wh/PhP 
+to 5.71 Wh/PhP due to higher consumption in energy-intensive industries, cold storage, 
+and expanding EV use. These trends underscored the inverse trend between electricity 
+and oil intensities, as electrification led to reduced oil reliance.
+By sector, agriculture posted the sharpest rise in energy intensity of 10.9 percent to 
+0.25 TOE/MPhp in 2024 brought about by increased mechanization, irrigation, and 
+post-harvest processing. Industry and households registered intensity reductions of 
+2.6 percent and 0.6 percent, respectively, while services recorded a modest 1.6 percent 
+increase, driven by ICT, commercial, and tourism-related demand.
+Table 4: Energy Indicators 2023 vs 2024
+Indicators
+Intensity
+TOE/MPhp
+Wh/Php
+bbl/Php
+2023
+3.12
+5.61
+7.60
+2024
+3.10
+5.71
+7.47
+Per Capita
+TOE
+kWh
+bbl
+2023
+0.59
+1,055.42
+1.43
+2024
+0.61
+1,125.56
+1.47
+Elasticity 
+2023
+1.30
+1.05
+0.16
+2024
+0.91
+1.33
+0.70
+ENERGY
+ENERGY ELASTICITY29. In 2024, economic output outperformed energy supply, 
+resulting in an energy elasticity of 0.94 compared to 1.27 in 2023. It signified efficiency 
+improvements, and highlighted the economic contribution of services sector, which was 
+generally less-energy intensive. In contrast, oil elasticity increased to 0.70 and pointed 
+to the rebound in fuel demand from heightened transport activity and industrial use. 
+On the other hand, electricity elasticity climbed further to 1.33 in 2024, which implied 
+that robust electricity demand was fueled by expanding electrification in transport and 
+industry, the proliferation of cold storage facilities, and continued penetration of EVs. 
+These movements highlight a structural transition from oil-based to electricity-based 
+energy use.
+27	 PBBM admin made every effort to shield Filipinos from high food prices, keeps inflation within target in 2024. (2024, December 17). Department of Finance. 
+https://www.dof.gov.ph/pbbm-admin-made-every-effort-to-shield-filipinos-from-high-food-prices-keeps-inflation-within-target-in-2024/
+28	 Measured in terms of the amount of energy (TOE) used to produce economic output in million pesos of real GDP or MPhP).
+29	 Elasticity of energy to GDP measures the responsiveness of changes in energy to changes in economic output
+ELECTRICITY
+OIL

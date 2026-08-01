@@ -1,0 +1,74 @@
+PHILIPPINE ENERGY SITUATIONER 2024
+12
+3. Industry
+Aggregate industrial output sped up by 5.6 percent in 2024 vis-à-vis 3.6 percent in 2023, 
+and contributed 29.1 percent share to GDP. This acceleration was primarily driven by 
+robust performances in the construction and manufacturing sectors. Correspondingly, 
+the sector’s energy consumption rebounded by 2.7 percent to 7.3 MTOE, reversing the 
+0.5 percent decline recorded in the previous year.
+Energy 
+use 
+in 
+the 
+manufacturing 
+sub-sector, 
+which consistently accounted 
+for more than 80.0 percent 
+share (Figure 7) to industry 
+total, rose by 4.2 percent 
+as production scaled up to 
+meet increased demand for 
+food 
+products, 
+consumer 
+goods, 
+and 
+construction 
+materials. 
+Energy-intensive 
+manufacturing 
+sub-sectors 
+recorded an accumulated 5.2 
+MTOE of energy utilization or 
+4.5 percent higher than its 
+2023 level of 5.0 MTOE. This 
+was due to higher energy 
+use reported in cement (30.7 
+percent), 
+food 
+processing 
+(0.9 percent) and machinery/
+equipment (1.4 percent).
+Despite the 5.3 percent hike in approved permits for residential and commercial 
+buildings11, energy use in construction declined by 12.8 percent due to double-
+digit reduction in diesel utilization. Ths implied reduced reliance on diesel-powered 
+equipment, and a shift to electric-powered and fuel-efficient machinery, as well as 
+other alternative construction technologies.
+On the other hand, despite the sluggish performance of the mining sub-sector, energy 
+consumption went up by 5.2 percent to 596.3 kTOE in 2024 from its year-ago level of 
+566.8 kTOE. This is attributed to sustained energy use in extraction and processing 
+requirements to address operational challenges such as adverse weather conditions 
+and logistical issues.
+Electricity accounted for the largest share in the sector’s aggregate energy demand 
+mix at 36.8 percent. Its aggregate consumption went up by 5.4 percent to 2.7 MTOE 
+in 2024 (Figure 8) from 2.5 MTOE in the previous year due to its extensive use 
+across production activities and processes. Lower coal prices contributed to the 8.0 
+percent rise in coal consumption during the year, as levels reached 2.1 MTOE from 
+2.0 MTOE in 2023. Coal contributed 29.6 percent share to industry’s energy demand, 
+11	 Philippine Statistics Authority. (n.d.). Construction statistics from approved building permits [Web page]. Retrieved July 22, 2025 from https://psa.gov.ph/
+statistics/construction/pcs
+Figure 7: Industry Energy Demand Mix, by Sub-sector: 2023 vs 2024
+Mining
+Construction
+Manufacturing: Other Industry
+Manufacturing: Energy Intensive
+2023=7.1 MTOE
+0.6 MTOE 8%
+0.6 MTOE 9.1%
+5 MTOE 70.6%
+0.9 MTOE 12.3%
+0.9 MTOE 12.3%
+5.2 MTOE 71.8%
+0.6 MTOE 7.7%
+0.6 MTOE 8.2%
+2024=7.3 MTOE

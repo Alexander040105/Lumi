@@ -1,0 +1,68 @@
+# DigitalOcean App Platform spec for LUMI
+# Usage: doctl apps create deploy/app.yaml
+# Or via DO Console: Apps → Create App → Deploy from source
+
+spec:
+  name: lumi
+  services:
+    - name: backend
+      dockerfile_path: deploy/backend/Dockerfile
+      source_dir: /
+      http_port: 8080
+      instance_count: 2
+      instance_size_slug: basic-2vcpu-4gb
+      health_check:
+        http_path: /api/v1/health/
+        initial_delay_seconds: 60
+        period_seconds: 30
+        timeout_seconds: 10
+        success_threshold: 1
+        failure_threshold: 3
+      envs:
+        - key: SUPABASE_URL
+          scope: RUN_TIME
+          type: SECRET
+        - key: SUPABASE_ANON_KEY
+          scope: RUN_TIME
+          type: SECRET
+        - key: SUPABASE_SERVICE_ROLE_KEY
+          scope: RUN_TIME
+          type: SECRET
+        - key: SUPABASE_JWT_SECRET
+          scope: RUN_TIME
+          type: SECRET
+        - key: UPSTASH_REDIS_URL
+          scope: RUN_TIME
+          type: SECRET
+        - key: GROQ_API_KEY
+          scope: RUN_TIME
+          type: SECRET
+        - key: GEMINI_API_KEY
+          scope: RUN_TIME
+          type: SECRET
+        - key: CORS_ORIGINS
+          scope: RUN_TIME
+          value: '["https://lumi.ondigitalocean.app"]'
+        - key: APP_NAME
+          scope: RUN_TIME
+          value: "Lumi API"
+        - key: API_V1_PREFIX
+          scope: RUN_TIME
+          value: "/api/v1"
+
+    - name: frontend
+      dockerfile_path: deploy/frontend/Dockerfile
+      source_dir: /
+      http_port: 80
+      instance_count: 1
+      instance_size_slug: basic-512mb
+      health_check:
+        http_path: /
+        initial_delay_seconds: 10
+        period_seconds: 30
+
+  routes:
+    - path: /api
+      service: backend
+    - path: /
+      service: frontend

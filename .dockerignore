@@ -1,0 +1,53 @@
+# Build context excludes — keeps Docker images small
+.env
+.env.*
+*.json
+!package.json
+!package-lock.json
+!components.json
+
+# Python
+__pycache__/
+*.py[codz]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+react-frontend/node_modules/
+react-frontend/dist/
+react-frontend/.vite/
+
+# Data / artifacts (too large for image)
+scraped_data/
+windsurf_data_extraction/
+DOE_Data_Extracted/
+GeothermalDatasets/
+ThesisResearchStudies/
+philippine_geojson/
+phl_msk_alt/
+regionalData/
+python_scripts/
+scripts/psgc_cache/
+scripts/gap_output/
+
+# Docs / misc
+*.md
+*.png
+*.jpg
+*.log
+*.csv
+.git/
+.gitignore
+.vscode/
+.windsurf/
+lumi_tests/
+docs/
+deploy/
+supabase/

@@ -1,0 +1,29 @@
+﻿fuels,to_ktoe,to_ktoe_numeric,source_pdf,detected_category
+"Coal (MT@10,000 btu/lb.)",0.000528,0.000528,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Natural Gas (MMSCF),0.023290,0.02329,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Crude (MB),0.134400,0.1344,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Condensate (NGL) (MB),0.104400,0.1044,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Premium Gasoline (MB),0.124500,0.1245,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Regular Gasoline (MB),0.122300,0.1223,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Kerosene (MB),0.127000,0.127,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Diesel (MB),0.134700,0.1347,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Fuel Oil (MB),0.144400,0.1444,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+LPG (MB),0.092200,0.0922,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Jet (MB),0.127000,0.127,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Avgas (MB),0.122400,0.1224,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Naphtha (MB),0.123800,0.1238,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Asphalts (MB),0.152100,0.1521,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Lubes & Greases (MB),0.141200,0.1412,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Others (MB),0.123300,0.1233,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Ricehull (MT),0.000345,0.000345,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Charcoal (MT),0.000600,0.0006,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Fuelwood (MT),0.000329,0.000329,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Bagasse (MT),0.000426,0.000426,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Agriwaste (MT),0.000329,0.000329,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Animal Waste (MT),0.000516,0.000516,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Ethanol (BBL),0.000089,8.9e-05,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+CME (BBL),0.000130,0.00013,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Hydro (GWh),0.086000,0.086,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Geothermal (GWh),0.860000,0.86,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Wind (GWh),0.860000,0.86,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil
+Solar (GWh),0.860000,0.86,2024_philippine_energy_situationer_and_key_energy_statistics_table_107_p77.csv,oil

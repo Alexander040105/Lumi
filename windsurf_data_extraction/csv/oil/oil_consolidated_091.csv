@@ -1,0 +1,17 @@
+﻿conversion_table,unnamed_1,unnamed_1_numeric,source_pdf,detected_category
+Fuels,to KTOE,,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+"Coal (MT@10,000 btu/lb.)",0.000528,0.000528,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Natural Gas (MMSCF),0.023290,0.02329,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Crude (MB),0.134400,0.1344,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Condensate (NGL) (MB),0.104400,0.1044,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Premium Gasoline (MB),0.124500,0.1245,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Regular Gasoline (MB),0.122300,0.1223,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Kerosene (MB),0.127000,0.127,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Diesel (MB),0.134700,0.1347,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Fuel Oil (MB),0.144400,0.1444,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+LPG (MB),0.092200,0.0922,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Jet (MB),0.127000,0.127,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Avgas (MB),0.122400,0.1224,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Naphtha (MB),0.123800,0.1238,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Asphalts (MB),0.152100,0.1521,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil
+Lubes & Greases (MB),0.141200,0.1412,final_11_20_25_doe_key_energy_stat_pocket_size_2024_table_119_p57.csv,oil

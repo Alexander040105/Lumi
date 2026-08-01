@@ -1,0 +1,1173 @@
+\n--- Page 1 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+LUMI: Data-Driven Environmental Intelligence System for Renewable 
+Energy Decision Support  
+ 
+ 
+ 
+An Undergraduate Thesis Presented to 
+The Faculty of the College of Computer Studies 
+University of Perpetual Help System DALTA - Molino Campus 
+Molino III, Bacoor City 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+In Partial Fulfilment of the Requirements for the Degree of 
+Bachelor of Science in Computer Science 
+ 
+ 
+ 
+ 
+ 
+ 
+TORRENO, LERRICA JEREMY S. 
+SOLIS, ALEXANDER JON S.  
+VIRATA, SEAN MAVERICK A.  
+​
+ 
+ 
+ 
+ 
+ 
+ 
+\n\n--- Page 2 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+TABLE OF CONTENTS  
+ 
+CHAPTER 1: THE PROBLEM AND REVIEW OF RELATED LITERATURE………1  
+1.1 PROBLEM AND ITS BACKGROUND …………………………………………1 
+​
+1.1.1 PROJECT CONTEXT…………………………………………………..1 
+1.2 PROBLEM STATEMENT………………………………………………………..3 
+​
+1.2.1 HYPOTHESIS…………………………………………………………..3 
+​
+​
+1.2.1.1 NULL HYPOTHESIS………………………………………...3 
+​
+​
+1.2.1.2 ALTERNATIVE HYPOTHESIS……………………………...3 
+1.3 STATEMENT OF OBJECTIVES…………………………………………………4 
+​
+1.3.1 GENERAL OBJECTIVES……………………………………………...4 
+​
+1.3.2 SPECIFIC OBJECTIVES……………………………………….………4 
+1.4 SCOPE AND DELIMITATIONS OF THE STUDY…...…………………………5 
+1.4.1 SCOPE OF THE STUDY…………………………………….…………5 
+1.4.2 DELIMITATIONS OF THE STUDY…………………………………...5  
+1.5 SIGNIFICANCE OF THE STUDY…………………………………….………...6 
+1.6 REVIEW OF RELATED LITERATURE AND STUDIES……………………….7 
+CHAPTER 2: METHODOLOGY………………………………………………………...20 
+2.1 RESEARCH DESIGN…………………………………………………………...20 
+2.2 PARTICIPANTS OR RESPONDENTS…………………………………………10 
+ 
+i 
+\n\n--- Page 3 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2.3 PROJECT DEVELOPMENT METHODOLOGY………………………………11 
+2.4 REQUIREMENTS SPECIFICATIONS: TOOLS, TECHNOLOGIES, OR  
+PLATFORMS USED………………………………………………………………..12  
+2.5 DATA GATHERING PROCEDURES…………………………………………..13 
+2.6 DATA ANALYSIS PROCEDURES……………………………………………..14 
+REFERENCES……………………………………………………………………………...18 
+ 
+ 
+ 
+i 
+\n\n--- Page 4 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CHAPTER 1 
+ 
+THE PROBLEM AND REVIEW OF LITERATURE 
+ 
+This chapter provides context to the background of study, problem statement, objectives, 
+scope, and the beneficiaries of the study. Related literature is also discussed in the section. 
+ 
+1.1 PROBLEM AND ITS BACKGROUND 
+​
+1.1.1 Project Context 
+Climate change in the Philippines is intensifying, leading to frequent extreme 
+weather events such as heat waves, strong typhoons, and heavy rainfall. The 
+Philippine Atmospheric, Geophysical and Astronomical Services Administration 
+(PAGASA) indicates that these climate shifts since the mid-20th century are primarily 
+driven by human activities, particularly increased greenhouse gas emissions from 
+land-use changes and fossil fuel combustion. These factors exert mounting pressure 
+on the environment and society, with future implications anticipated as the country 
+remains heavily reliant on fossil fuels for energy, underscoring the urgent need for 
+renewable and sustainable energy solutions.  
+ 
+Lenain (2026) highlighted that the Philippine government is making 
+significant investments in climate adaptation initiatives to mitigate the long-term 
+effects of climate change. Additionally, the country is enhancing its renewable energy 
+contributions as part of global climate mitigation efforts. Nevertheless, the adoption 
+1 
+\n\n--- Page 5 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+of renewable energy faces challenges, particularly due to fragmented climate and 
+energy-related data that are often presented in complex formats, hindering public  
+understanding and utilization. Although information on climate change is abundant, 
+there is a noticeable scarcity of user-friendly, data-driven tools that effectively 
+illustrate the consequences of fossil fuel use and the feasibility of transitioning to 
+renewable energy sources.  
+ 
+There is a significant amount of climate and energy-related data available, 
+however, there is a lack of systems that effectively transform this data into accessible 
+and actionable insights for users. Existing information sources often present data in 
+ways that are difficult to interpret, limiting the ability of individuals to make informed 
+decisions regarding energy use and sustainability.  
+ 
+To address this gap, this study proposes Lumi, a data-driven environmental 
+intelligence system designed to provide users with accessible insights and predictive 
+analytics. It aims to support users in understanding current energy consumption and 
+demand trends and evaluating suitable renewable energy options through data 
+visualizations, scenario-based simulations, and recommendation mechanisms which 
+includes the costing needed.  
+ 
+ 
+2 
+\n\n--- Page 6 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1.2 PROBLEM STATEMENT 
+​
+Despite the growing awareness of the public about renewable energy, it is still poorly 
+understood and seen as an expensive investment to some. With a significant portion of the 
+Philippines’ electrical grid still relying on fossil fuels, there is a growing need to transition 
+and increase the country’s energy output to match current demand. The lack of a system that 
+allows the public to be educated and evaluate their renewable energy source options will 
+result in the country still relying on fossil fuels. This study aims to tackle this issue to educate 
+users and allow them to have informed decisions when choosing the appropriate renewable 
+energy source for their application. 
+​
+1.2.1 HYPOTHESIS 
+​
+​
+1.2.1.1 Null Hypothesis  
+LUMI does not demonstrate a significant level of effectiveness in 
+accurately providing data-driven insights for understanding and evaluating 
+renewable energy options.  
+​
+​
+1.2.1.2 Alternative Hypothesis 
+LUMI demonstrates a significant level of effectiveness in accurately 
+providing data-driven insights for understanding and evaluating renewable 
+energy options.  
+ 
+ 
+3 
+\n\n--- Page 7 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1.3 STATEMENT OF OBJECTIVES 
+1.3.1 General Objective 
+To develop a web-based environmental intelligence system that provides 
+accessible, data-driven insights and predictive analytics to help users understand and 
+evaluate renewable energy options.  
+1.3.2 Specific Objectives 
+1.3.2.1 To design and develop a dashboard that visualizes climate patterns and 
+energy trends interpretation.  
+1.3.2.2 To develop a rule-based recommendation engine for identifying 
+suitable renewable energy sources.  
+1.3.2.3 To implement a predictive analytics module for forecasting energy 
+demand trends. 
+1.3.2.4 To create a simple what-if simulation tool for comparing renewable 
+energy scenarios.  
+1.3.2.5 To develop a user-friendly interface that supports data interpretation 
+and decision-making.  
+1.3.2.6 To evaluate the usability, usefulness, and acceptability of the proposed 
+renewable energy recommendation system among potential users. 
+ 1.3.2.7 To test the system performance metrics including the accuracy, recall, 
+F1-score, response time, and memory utilization 
+ 
+4 
+\n\n--- Page 8 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1.4 SCOPE AND DELIMITATIONS OF THE STUDY  
+1.4.1 Scope of the Study 
+This study evaluates Lumi, a web-based environmental intelligence system 
+designed to assist users in assessing renewable energy options. It combines publicly 
+available climate and energy data, like temperature and rainfall patterns with 
+interactive visualizations. Key features include a climate and energy dashboard, 
+predictive analytics for energy demand, a rule-based recommendation engine for 
+renewable sources (solar, wind, hydro, and geothermal), and a what-if simulation 
+tool. These tools in the system will use various modules such as the energy hub 
+dashboard, eco-simulator, and the forecasting module.  Additionally, it offers a region 
+selection module for localized insights within the Philippines. Lumi targets 
+communities and general users, focusing on user-friendly outputs to improve 
+decision-making in renewable energy selection.  
+ 
+1.4.2 Limitations of the Study   
+The study has several limitations: it relies on publicly available datasets, 
+affecting the accuracy of results. The predictive analytics module uses basic statistical 
+methods instead of advanced machine learning, to improve computational costs. The 
+recommendation engine is rule-based and will focus on criteria set in the system. It 
+focuses on specific renewable sources such as solar, wind, and hydro, excluding non- 
+renewable technologies such as fossil fuel based sources. Additionally, the what-if 
+5 
+\n\n--- Page 9 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+simulation tool simplifies comparisons for better user comprehension. It will also 
+provide initial cost estimates for implementing renewable energy sources. The system 
+serves to provide information to the user and improve their comprehension of 
+information related to renewable energy sources.   
+ 
+1.5 SIGNIFICANCE OF THE STUDY 
+For students and educators, it serves as an educational resource that facilitates 
+learning about climate change and renewable energy technologies. For households 
+and community members, it offers practical insights to promote awareness and foster 
+the adoption of sustainable energy practices. 
+ 
+Household residents and homeowners can utilize the system as a 
+decision-support tool to grasp concepts related to renewable energy technologies and 
+energy production. By organizing and interpreting data effectively, the system aids in 
+crafting informed strategies for promoting renewable energy, initiating sustainability 
+initiatives, and improving perception towards renewable energy. 
+ 
+Communities as well as government institutions such as the Department of 
+Energy, Department of Environment and Natural Resources, the National Grid 
+Corporation of the Philippines, and local government units can use the system to plan 
+the adoption of renewable energy sources in the country. These institutions will be 
+6 
+\n\n--- Page 10 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+able to create policies that suit the needs of their localities by providing them with 
+data-driven insights to allow them to make informed decisions. 
+For researchers and developers, the study lays a groundwork for creating 
+advanced environmental intelligence systems that incorporate artificial intelligence 
+and data analytics. It showcases the practical application of rule-based AI and 
+predictive analytics in tackling real-world environmental challenges. 
+ 
+1.6 REVIEW OF RELATED LITERATURE AND STUDIES  
+Studying adoption of renewable energy as well as factors that affect its 
+adoption rates is crucial to understanding the needs of the users of LUMI and the 
+sectors it aims to serve.  
+ 
+Renewable energy adoption 
+There have been a variety of factors that affect the adoption of renewable 
+energy. However, these factors vary based on location and the economy of the 
+country. Khalid et al. (2021), evaluated the adoption of renewable energy by 
+consumers in Poland, a developed country from Europe. Initial costs and risk are seen 
+as the least influencing factors, while environmental concerns, ease of use, and 
+financial incentives are seen as the key influencing factors in adopting renewable 
+sources in Poland (Khalid et al., 2021). Regardless of the purpose of the energy 
+source, perceptions and preference can affect the transition to a new energy source. 
+7 
+\n\n--- Page 11 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Malaysia, a Southeast Asian country in the region, is encountering a lower than the 
+target percentage renewable energy source in their electricity grid, the study revealed 
+that attitude and control over the energy source are seen as major factors that affect 
+intentions to use renewable energy (Wong et al., 2023). Preferences and perceptions 
+of different energy sources can significantly affect the people’s decision to transition, 
+and education can further affect their perception (Aguilera et al., 2024).  
+Public perception also affects policies that govern energy transition, and 
+public engagement as well as increasing the awareness of the public in climate 
+change can shift their sentiment in favor of renewable energy sources (Esiri et al., 
+2024). Moreover, the type of renewable energy can also affect a person’s decision to 
+transition and if they can hire external labor to execute the transition for them (Danne 
+et al., 2021). In developing countries such as the Philippines, financial limitations, 
+governance challenges, and societal resistance to renewable energy have been the 
+barriers to renewable energy adoption (Zhindon-Almeida & Ruiz-Carrillo, 2025). 
+Another study conducted by Rana et al. (2025), stated that these barriers to adopting 
+renewable energy significantly affects intentions to adopt renewable energy 
+particularly in developing countries compared to developed counterparts.The 
+Philippine grid has a capacity of around 27.0GW of energy output, it is heavily 
+dependent on fossil fuels which makes up for around 70.5% of the country’s energy 
+production, 43.1% of which is Coal and 29.5% of energy generated in the country 
+came from renewables (Gonocruz et al., 2024).  A study conducted by Palanca-Tan et 
+8 
+\n\n--- Page 12 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+al. (2024), stated that there is a greater preference to solar energy as a renewable 
+energy source for electricity, and that Filipinos in Metro Manila are more willing 
+spend more in solar energy over biomass, wind, and small-scale hydropower 
+indicating a strong preference to a particular type of renewable energy. In rural areas 
+in the Philippines such as island communities, various community-based renewable 
+energy initiatives have been established to provide access to electricity via renewable 
+energy to different communities, such projects have provided a positive impact to the 
+island communities they serve (Franco & Taeihagh, 2024). 
+The studies above have shown that there are a variety of factors that affect the 
+adoption of renewable energy sources. Environmental concerns and financial 
+incentives are seen as key drivers of adoption in developed, first-world countries such 
+as Poland. However, public perception, attitude, perceived cost, and education still 
+affect the intention to adopt renewable energy. In the Philippines, only 29.5% of the 
+electric grid is powered by renewable energy and still has room for expansion. With 
+community-based renewable energy, the adoption rate and access to electricity 
+produced from renewable energy is also increasing in island communities. There is a 
+strong preference for solar power by Filipinos in Metro Manila which might however, 
+there is still need for additional data beyond Metro Manila. Educating individuals 
+about renewable energy and their options can improve adoption in the country. 
+ 
+Environmental Intelligence 
+9 
+\n\n--- Page 13 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Environmental intelligence as defined by Bassetti (2024), is the use of 
+machine learning algorithms and AI to simulate predicted environment models. AI 
+has been used as a part of environmental intelligence to help curb the amount of CO2 
+emissions, by providing estimations on renewable energy consumption and renewable 
+energy optimization (Khan et al., 2025).  Forecasting models have been used for 
+determining the power generation with renewable energy, particularly with solar and 
+wind. A study conducted by Das et al. (2022), have used a variety of algorithms such 
+as support vector regression (SVR) and artificial neural network to forecast solar 
+power output using specific meteorological data such as solar irradiance and 
+atmospheric temperature, and forecasted output can be improved further with 
+optimized SVR-parameters. Long Short-Term Memory deep learning models can also 
+be used to create prediction models for solar irradiance by utilizing known 
+correlations between weather parameters and solar irradiance which can also provide 
+data for forecasting solar energy output (Bandara et al., 2026). A hybrid approach in 
+predicting wind power output based on deep auto-encoding convolutional neutral 
+network long short-term memory model to allow for effective modelling of offshore 
+wind power (Khan et al., 2021).  
+Forecasting models for predicting source load for renewable energy demand 
+have been created using conditional generative adversarial nets and multi-gate 
+mixture-of-experts (Wang et al., 2025). Such models are useful in anticipating 
+electricity demand and allow data-driven decisions for managing renewable energy 
+10 
+\n\n--- Page 14 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+outputs. According to Deming et al. (2021), technologies such as renewable energy 
+scheduling can allow algorithms to better maximize renewable energy output and 
+energy storage deployment, incorporation of these strategies is necessary to achieving 
+stable renewable energy.  
+AI and machine learning can be used to mitigate the intermittency of 
+renewable energy such as solar and wind to maximize generation and storage 
+(Ojuekaiye, 2025). According to the study of Algburi et al. (2025), AI can effectively 
+optimize renewable energy by predicting supply and demand while also enabling 
+decentralized energy integration which are closer to the consumer side of the electric 
+grid. Such systems that integrate environmental data and forecasting models can be 
+integrated to create a robust data-driven model for predicting renewable energy 
+output. This was discussed in an article by Hannan et al. (2021), which highlighted 
+that while AI can improve the efficiency of the renewable energy system in its role in 
+managing the utilization of renewable energy systems.  A study conducted by Benitez 
+et al. (2024), realized that current forecasting models for the renewable energy 
+sources in the Philippines have been found to be volatile and fails to meet the Mean 
+Absolute Percentage Error (MAPE) threshold of 18% set by the Philippines' 
+Wholesale Electricity Spot Market (WESM), such findings indicate to have improved 
+data-driven forecasting models.  
+The use of environmental intelligence to forecast energy usage and output is 
+necessary to create an optimized renewable energy system that meets demand. 
+11 
+\n\n--- Page 15 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Meteorological data is seen as an important source of data for predicting energy 
+output, especially for solar and wind that rely on solar irradiance and windspeed, 
+respectively. The use of hybrid algorithms are also present in the studies above such 
+as the use of  DACNN-LSTM to model offshore power. Currently, one of the key 
+concerns in renewable energy systems is that they experience intermittency that can 
+be handled with the right forecasting models and energy infrastructure. Furthermore, 
+current studies in forecasting models for the renewable energy sources in the 
+Philippines have demonstrated the unreliability for current systems in place and must 
+be improved. 
+ 
+Multi Criteria Decision Making (MCDM) 
+There have been a number of researches that used Multi Criteria Decision 
+Making to support ongoing efforts to utilize and transition to renewable energy 
+sources. The preference ranking organization method for enrichment evaluations 
+(PROMETHEE) is a type of MCDM that compares a limited set of options using 
+performance scores of different criteria to determine which option will outrank others, 
+a study conducted that utilized a modified PROMETHEE approach that integrates 
+multi period multi-attribute decision making, determined that it can aid in improving 
+the comprehension of various problems by structuring it into a comprehensive 
+evaluation (Witt & Klumpp, 2021).  
+12 
+\n\n--- Page 16 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Using various methods such as Analytical Network Process, Fuzzy Logic, and 
+Weighted Linear Combination, a study have managed to proposed four renewable 
+energy sites in Iran by allocating 57% of the entire study area to build a variety of 
+renewable energy sites such as biomass, geothermal, solar, and wind power plants 
+(Shorabeh et al., 2021). Wind power plants, a type of renewable energy source, 
+requires a suitable location in order to reliable energy generation, using various 
+MCDM methods such as AHP, PROMETHEE, and FAHP and combining them 
+results in an accurate site selection by ensuring objectivity with decision-making 
+(Abdullah et al., 2025). A study conducted by Estévez et al. (2021), sought to 
+improve the participation of locals on topics concerning decision-making related to 
+renewable energy, results showed that multi-criteria decision analysis (MCDA) had 
+improved social impact but still needed expert consultations.  
+The type of renewable energy most appropriate to use varies from different 
+regions as different countries will have different accessibility to each type and must 
+align in the economics of the region (Shatnawi et al., 2021). It is identified that in a 
+criteria based decision making that technical criterion holds the most weight at 
+decision making at 53.6%, followed by environmental impact at 29.0% meanwhile, 
+geographical location and socioeconomic criteria are the lowest at 11.3% and 6.0%, 
+respectively (Shatnawi et al., 2021). Indecision can often impact decision-making and 
+MCDA is seen as an effective aid, a study that was conducted by Ezbakhe and 
+Pérez-Foguet (2021), modified the ELimination and Choice Translating REality 
+13 
+\n\n--- Page 17 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(ELECTRE) III model to curb uncertainty and facilitate informed decision making to 
+evaluate various renewable options for Turkey, using Turkey’s Vision 2023 targets, 
+wind and solar has been identified as the most appropriate renewable energy source. 
+A study conducted by Mandal et al. (2025), utilized Weighted Aggregated Sum 
+Product Assessment and FANMA to handle various decision-making scenarios to 
+identify and rank renewable energy options for Serbia.  
+In the Philippines, local studies have been conducted that utilized MCDM and 
+MCDA for decision making and analysis. A study conducted by Ongpeng et al. 
+(2021), focused on applying MCDA framework to retrofit buildings to integrate 
+renewable energy sources, using a hybrid Analytic Hierarchy Process and VIKOR, 
+this approach allowed engineers to support retrofitting decisions while meeting 
+performance dimensions.  
+Potential sites for single as well as hybrid renewable energy sources that uses 
+various renewable energy sources such as hydropower, wind, and solar have been 
+studied to identify their feasibility to developers, certain factors such as 
+socio-environmental and techno-economic factors have been identified to affect the 
+suitability of sites for renewable energy systems (Tarife et al., 2023). Machine 
+learning models that uses the MCDM method have been used to facilitate decision 
+making that takes into account the feasibility and profitability in identifying optimal 
+locations for wind power plants in the Philippines, which provides the policymakers, 
+14 
+\n\n--- Page 18 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+investors, and other stakeholders to make informed decisions involving investment to 
+the renewal energy sector (Cerna et al., 2023).  
+Studies from foreign and local sources provided a variety of options for 
+MCDM systems. PROMETHEE used ranking based on performance while 
+ELECTRE can aid in reducing indecision among decision makers. A number of 
+studies have also used hybrid systems that combine multiple algorithms to maximize 
+accuracy in providing decision support to the users, often combining at least two to 
+three algorithms. The study would benefit in using a combination of multiple 
+algorithms to maximize the accuracy of the system and would benefit the 
+beneficiaries of this study. 
+ 
+Intelligent decision support systems (IDSS) 
+​
+A data driven decision support system requires a variety of useful data 
+to provide the most accurate decision and recommendation. A study conducted by 
+Krishnan et al. (2024), utilized a number of algorithms such as AutoRegressive 
+Integrated Moving Average (ARIMA) with Reinforcement Learning (RL) to predict 
+energy demand and allocate resources dynamically and utilized Internet of Things 
+(IoT) devices as a source of data to help reduce wasted energy. In forecasting and 
+fault detection, neural networks such as convolutional neural network, recurrent 
+neural network, long short term memory, and graph neural networks, with hybrid 
+models that combines deep learning and optimization algorithms provide improved 
+15 
+\n\n--- Page 19 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+accuracy in system design and energy management (Hu et al., 2026). A study by 
+Gonçalves et al. (2025), created a Machine Learning as a Service (MLaaS) 
+framework to create renewal energy microgrids that leveraged a RL and an 
+open-source simulator Pymgrid to forecast electricity prices and decision making in 
+utilizing energy sources from both the renewable energy microgrid community and 
+the main grid.  
+A study in Bahrain utilized a hybrid analytical hierarchy process with artificial 
+neural networks to determine the suitable renewable energy source for the country 
+and determined that a hybrid system allowed it to generate scenarios and accurately 
+forecast results (Alabbasi et al., 2024). A web-based decision support system in the 
+United Kingdom was made to determine the feasibility of onshore renewable energy 
+sources utilized an MCDA method specifically, the weighted sum model (WSM) to 
+assess, score and rank the strengths and weaknesses of renewable energy options, the 
+lack of need for pairwise comparison allowed the model to run assess the feasibility 
+of renewable energy infrastructure faster (Beriro et al., 2022). Decision support 
+system studies have used a number of different technologies that are designed to 
+improve the efficacy of decision provided by these systems. A temporal MCDA 
+decision support system that utilized the Data vARIability Assessment- Evaluation 
+based on Distance from Average Solution (DARIA-EDAS) method have provided an 
+automated, rapid, objective assessment of problems that required temporal decision 
+16 
+\n\n--- Page 20 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+making to produce unambiguous results that can be interpreted easily (Bączkiewicz et 
+al., 2024). 
+ In a study by Panagoulias et al. (2023), examined the use of explainable 
+artificial intelligence (XAI) in intelligent decision support systems and concluded that 
+it is part of the main feature of IDSS and that it ensures that it is tailored to the needs 
+of the user and that to increase personalization of such systems, the users must be 
+clustered by their perception of usefulness and ease of use of the system. 
+Production-distribution systems with energy awareness for renewable energy have 
+also been integrated with decision support systems to aid in reducing CO2 emissions 
+and improve company profits, these systems are capable of assessing and planning 
+under various circumstances (Mohammadpour & Rahmati, 2023). Intelligent decision 
+support systems have been used to provide decision support for farms powered with 
+renewable energy, using a layered approach combining sensors and machine learning 
+in predicting energy demand with coordination with varying working conditions to 
+greater efficiency, reduced downtime, and continuous operations (Adelakun et al., 
+2025).  
+Decision support systems that integrated machine learning and AI is seen as 
+an effective in handling various challenges related to incomplete data, scalability, and 
+generalizability, in the context of retrofitting buildings to accommodate renewable 
+energy systems, these systems have enhanced the capabilities of retrofitting such as 
+with accuracy and reliability of energy performance predictions (Baset & Jradi, 
+17 
+\n\n--- Page 21 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2024). Various studies have shown that in various scenarios in implementing and 
+improving renewable energy deployment, intelligent decision support systems have 
+provided improvements in decision making and have allowed for data-driven 
+decisions to be taken in these different scenarios about renewable energy. 
+Various studies have shown that in various scenarios in implementing and 
+improving renewable energy deployment, intelligent decision support systems have 
+provided improvements in decision making and have allowed for data-driven 
+decisions to be taken in these different scenarios about renewable energy. The use of 
+artificial intelligence and machine learning to provide an intelligent decision support 
+system is feasible and have been used a number times. Algorithms such as ARIMA 
+with RL can provide the system with a dynamic decision making capability that is 
+capable of adapting with most scenarios. Meanwhile, XAI systems can provide users 
+with information that is unambiguous that also adapts with the users needs and 
+preferences. 
+ 
+Predictive environmental modeling 
+​
+Predictive environmental modeling can be useful in determining energy 
+demand that could then shape the designed output of renewable energy systems. A 
+study conducted by Aljohani and Almansour (2025), utilized predictive models to 
+forecast energy demand using the Renewable energy generation, energy consumption, 
+prices,and weather in Spain (2015–2018) dataset, using CNN-LSTM for forecasting 
+18 
+\n\n--- Page 22 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+and particle swarm optimization (PSO), the model managed to provide strong 
+prediction performance for solar, wind, and hydro power. A study in China utilized a 
+random forest model to investigate the various factors that affect solar energy 
+production in Tengger Desert Solar Park and to provide insights in optimizing solar 
+energy output and integration into the energy grid, with solar irradiance and 
+temperature being key variables that affect output, and the random forest model used 
+in the study demonstrated good predictive ability during training and testing of the 
+model (Li et al., 2026). Traditional and neural network based statistical models have 
+their own advantages, traditional statistical models are often faster and interpretable 
+baselines, while DNN and hybrid models can identify complex patterns that allow 
+them to produce results with greater accuracy (Malakouti, 2026). A comparison of 
+classical, grey, fuzzy, and intelligent models in predicting energy consumption and 
+generation have been conducted, classical models are sufficient on predictable 
+seasonal data, gray and fuzzy methods are useful for scenarios when environmental 
+data is scarce or have erratic behavior, while intelligent systems such as the Prophet 
+are capable for short and medium term forecast with heterogenous localities (Mustafa 
+& Al-Yozbaky, 2025).  
+Using a data-driven Model Predictive Control to allocate the flow of power 
+from various renewable energy sources, the usage of such sources can increase the 
+seasonal utilization rate of renewables by up to 19.71% using a multi-energy source 
+configuration (Zhang & Cai, 2025). Apart from random forest regressors, other 
+19 
+\n\n--- Page 23 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+machine learning models such as gradient boosting regressor, support vector 
+regression, and neural networks have been utilized in the study conducted by 
+Markelov (2025), the models produced accurate forecasts which had the potential to 
+reduce the diesel generator usage and energy waste from simulated scenarios from 
+historical data. Predicting the cleaning needs of solar panels have also been studied 
+and modeled using various time-series approaches such as LSTM to predict 
+performance, the models highlighted factors that affected the frequency for 
+maintenance needed to maximize efficiency and sustainability of solar systems 
+(Abuzaid et al., 2024).  
+In smart grid systems, a hybrid machine learning model that utilized 
+LightGBM, XGBoost, LSTM and SHAP have been used to predict model energy 
+consumption in relation to temperature data and building types, which provides 
+insights into how environmental factors affect energy demands and shape energy 
+consumption patterns (Anonto et al., 2025). A study evaluated deep-learning models 
+to determine accuracy in forecasting city energy demand and solar power supply 
+loads that is relevant to ensuring energy stability, using models such as bidirectional 
+LSTM, gated recurrent unit, and temporal convolutional model, with bidirectional 
+LSTM providing superior performance in particular (Alhayd & Todeschini, 2022). A 
+hyper-heuristic algorithm for improving electricity forecasting models using genetic 
+algorithm (GA) for high-level strategy with PSO and Bat algorithm for low level 
+20 
+\n\n--- Page 24 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+strategy, the algorithm demonstrated high performance in forecasting electricity 
+demand at the cost of higher computational cost (Cao et al., 2025).  
+Multiple studies have utilized and favored the use of LSTM for its various 
+advantages, particularly its accuracy in forecasting data. However, the availability of 
+data for usage can also determine the algorithm that can be used to avoid overfitting. 
+Traditional statistical systems and neural network based systems have their own use 
+cases based on the availability of data. For most use cases, classical systems can be 
+used when the environment and scenarios are simple and predictable. Meanwhile, 
+fuzzy methods are better for more erratic scenarios. Furthermore, the complexity of 
+the algorithm that would be used will often lead to higher computational cost. 
+Therefore, the balance of speed and accuracy must be achieved in choosing the 
+appropriate algorithm for predictive modeling. 
+ 
+Definition of Terms​
+The following terms have been defined to facilitate the understanding of the paper: 
+Artificial Intelligence (AI) is defined as the use of a computer system to perform 
+tasks that require human intelligence (Copeland, 2026). 
+Climate Change is the change in the climate of the Earth. Which are a result of a 
+variety of factors such as changes in the atmosphere, geological, chemical, biological, and 
+geographical factors occurring within the planet (Jackson, 2026). 
+21 
+\n\n--- Page 25 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Climate Data are quantitative and qualitative data about the climate and the variables 
+affecting it such as temperature and humidity that have been collected systematically across 
+various locations and periods of time (Climatic Data, n.d.). 
+Dashboard is a report that uses graphical visualizations to show various data relevant 
+to a person, group, organization, etc (“Dashboard,” 2026). 
+Data Analytics is a process of looking at raw data using different methods and 
+techniques to extract useful information (The Investopedia Team, 2026). 
+Data Visualization is defined as the representation of data using graphics such as 
+charts, graphs, maps, etc to make information and patterns from the data accessible (What Is 
+Data Visualization? Definition, Examples, and Learning Resources, n.d.). 
+Energy data are quantitative measurements of data related to energy such as 
+consumption, demand, and production (What Is Energy Data and How to Use It Smartly? | 
+Insight & Savings, 2025). 
+Fossil fuels are a type of energy source that uses  
+Predictive Analytics is a branch of advanced analytics that uses historical data and 
+analytical techniques such as statistical modeling, data mining techniques and machine 
+learning to make predictions about future outcomes (Finn & Smalley, n.d.). 
+Renewable energy is a type energy source that are harnessed from natural sources 
+that replenishes faster than it is being consumed while also producing far lower emissions of 
+greenhouse gases which includes biomass or biomass, geothermal, hydropower, ocean, solar, 
+and wind energy (United Nations, n.d.). 
+22 
+\n\n--- Page 26 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+REFERENCES  
+Abdullah, A. G., Utami, H. P., Gunawan, B., Ratmono, B. M., & Pasaribu, N. T. (2025). 
+Multi-criteria decision-making for wind power project feasibility: Trends, techniques, and 
+future directions. Cleaner Engineering and Technology, 27, 100987. 
+https://doi.org/10.1016/j.clet.2025.100987 
+ 
+Abuzaid, H., Awad, M., Shamayleh, A., & Alshraideh, H. (2024). Predictive modeling of 
+photovoltaic system cleaning schedules using machine learning techniques. Renewable 
+Energy, 239, 122149. https://doi.org/10.1016/j.renene.2024.122149 
+ 
+Adelakun, N. O., Mosaku, A. O., & Abdulahmid, G. I. (2025). Artificial intelligence driven 
+decision platforms for renewable powered smart farm operations. Zenodo (CERN European 
+Organization for Nuclear Research). https://doi.org/10.5281/zenodo.18333467 
+ 
+Aguilera, F., Reyes, R., Schueftan, A., Zerriffi, H., & Sanhueza, R. (2024). Understanding 
+the role of people’s preferences and perceptions in the analysis of residential energy 
+23 
+\n\n--- Page 27 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+transition: A meta-analysis. Energy Sustainable Development/Energy for Sustainable 
+Development, 82, 101534. https://doi.org/10.1016/j.esd.2024.101534 
+ 
+Alabbasi, A., Sadhukhan, J., Leach, M., & Sanduk, M. (2024). Accelerating the Transition to 
+sustainable energy: An intelligent decision support system for generation expansion planning 
+with renewables. Energy, 304, 131999. https://doi.org/10.1016/j.energy.2024.131999 
+ 
+Algburi, S., Kareem, S. S. a. A., Sapaev, I., Mukhitdinov, O., Hassan, Q., Khalaf, D. H., & 
+Jabbar, F. I. (2025). The role of artificial intelligence in accelerating renewable energy 
+adoption for global energy transformation. Unconventional Resources, 8, 100229. 
+https://doi.org/10.1016/j.uncres.2025.100229 
+ 
+Alhayd, A., & Todeschini, G. (2022). Integrative Forecasting of Solar Energy Production and 
+Demand in Saudi Arabia using Machine Learning. Fuel Cells Bulletin, 2024(7), 467–484. 
+https://fuelcellsbulletin.org/index.php/journal/article/download/65/46/117 
+ 
+Aljohani, R. M., & Almansour, A. (2025). Predictive Models for Renewable energy 
+generation and demand in Smart Cities: A Spatio-Temporal Framework. Energies, 19(1), 87. 
+https://doi.org/10.3390/en19010087 
+ 
+24 
+\n\n--- Page 28 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Anonto, H. Z., Hossain, M. I., Shufian, A., Sheikh, P. P., Alam, S. S., Sayem, M. S., & 
+Shovon, S. M. T. H. (2025). Analyzing energy consumption trends and environmental 
+influences: A time-series study on temperature, renewables, and demand correlations. 
+Cleaner Energy Systems, 12, 100209. https://doi.org/10.1016/j.cles.2025.100209 
+ 
+Bączkiewicz, A., Wątróbski, J., Jankowski, J., & Sałabun, W. (2024). Multi-criteria Temporal 
+Intelligent Decision Support System for Sustainable Energy Mix assessment. In Lecture 
+notes in computer science (pp. 95–106). https://doi.org/10.1007/978-981-97-4985-0_8 
+ 
+Bandara, A., Pandukabhaya, M., Ratnayake, K., Godaliyadda, R., Ekanayake, P., & 
+Ekanayake, J. (2026). LSTM based model for weather-based Solar Irradiance Prediction for 
+Long-Term PV Energy Planning. In 2025 IEEE 19th International Conference on Industrial 
+and Information Systems (ICIIS) (pp. 376–381). 
+https://doi.org/10.1109/iciis69028.2026.11450779 
+ 
+Baset, A., & Jradi, M. (2024). Data-Driven Decision Support for Smart and Efficient 
+Building Energy Retrofits: A review. Applied System Innovation, 8(1), 5. 
+https://doi.org/10.3390/asi8010005 
+ 
+Benitez, I. B., Singh, J. G., & Repedro, K. I. (2024). Variable renewable Energy Forecasting 
+in the Philippines: A review. 2024 International Conference on Sustainable Energy: Energy 
+25 
+\n\n--- Page 29 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Transition and Net-Zero Climate Future (ICUE), 1–6. 
+https://doi.org/10.1109/icue63019.2024.10795644 
+ 
+Beriro, D., Nathanail, J., Salazar, J., Kingdon, A., Marchant, A., Richardson, S., Gillet, A., 
+Rautenberg, S., Hammond, E., Beardmore, J., Moore, T., Angus, P., Waldron, J., Rodrigues, 
+L., & Nathanail, P. (2022). A decision support system to assess the feasibility of onshore 
+renewable energy infrastructure. Renewable and Sustainable Energy Reviews, 168, 112771. 
+https://doi.org/10.1016/j.rser.2022.112771 
+ 
+Cao, Y., Yu, J., Zhong, R., & Munetomo, M. (2025). Forecasting Renewable energy and 
+electricity consumption using evolutionary hyperheuristic algorithm. Scientific Reports, 
+15(1), 2565. https://doi.org/10.1038/s41598-025-87013-8 
+ 
+Cerna, P. D., Evangelista, R. S., Castillo, C. M., Muallam-Darkis, J. A., Velasco, M. a. C., 
+Legaspi, J. P., Darkis, A. T., & Gatdula, M. M. (2023). Wind Power Plant Site Selection 
+using Integrated Machine Learning and Multiple-Criteria Decision Making Technique. E3S 
+Web of Conferences, 405, 02030. https://doi.org/10.1051/e3sconf/202340502030 
+ 
+Danne, M., Meier-Sauthoff, S., & Musshoff, O. (2021). Analyzing German consumers’ 
+willingness to pay for green electricity tariff attributes: a discrete choice experiment. Energy 
+Sustainability and Society, 11(1). https://doi.org/10.1186/s13705-021-00291-8 
+26 
+\n\n--- Page 30 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Das, U. K., Tey, K. S., Idris, M. Y. I. B., Mekhilef, S., Seyedmahmoudian, M., Stojcevski, A., 
+& Horan, B. (2022). Optimized support Vector Regression-Based model for solar power 
+generation forecasting on the basis of online weather reports. IEEE Access, 10, 
+15594–15604. https://doi.org/10.1109/access.2022.3148821 
+ 
+Deming, C., Pasam, P., Allam, A. R., Mohammed, R., Venkata, S. G. N., & Kothapalli, K. R. 
+V. (2021). Real-time scheduling for energy optimization: smart grid integration with 
+renewable energy. Asia Pacific Journal of Energy and Environment, 8(2), 77-88. 
+ 
+Esiri, A. E., Kwakye, J. M., Ekechukwu, D. E., Ogundipe, O. B., & Ikevuje, A. H. (2024). 
+Public perception and policy development in the transition to renewable energy. Magna 
+Scientia Advanced Research and Reviews, 8(2), 228–237. 
+https://doi.org/10.30574/msarr.2023.8.2.0101 
+ 
+Estévez, R. A., Espinoza, V., Ponce Oliva, R. D., Vásquez-Lavín, F., & Gelcich, S. (2021). 
+Multi-criteria decision analysis for renewable energies: research trends, gaps and the 
+challenge of improving participation. Sustainability, 13(6), 3515. 
+https://doi.org/10.3390/su13063515 
+ 
+27 
+\n\n--- Page 31 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Ezbakhe, F., & Pérez-Foguet, A. (2021). Decision analysis for sustainable development: The 
+case of renewable energy planning under uncertainty. European Journal of Operational 
+Research, 291(2), 601–613. https://doi.org/10.1016/j.ejor.2020.02.037 
+ 
+Franco, M. Q., & Taeihagh, A. (2024). Sustainable energy adoption in poor rural areas: A 
+comparative case perspective from the Philippines. Energy Sustainable Development/Energy 
+for Sustainable Development, 79, 101389. https://doi.org/10.1016/j.esd.2024.101389 
+ 
+Gonçalves, R., Gomes, D., & Antunes, M. (2025). Intelligent Management of Renewable 
+Energy Communities: An MLaaS Framework with RL-Based Decision Making. Energies, 
+18(13), 3477. https://doi.org/10.3390/en18133477 
+ 
+Gonocruz, R. a. T., Yoshida, Y., Silava, N. E., Aguirre, R. A., Maguindayao, E. J. H., Ozawa, 
+A., & Santiago, J. V. (2024). A multi-scenario evaluation of the energy transition mechanism 
+in the Philippines towards decarbonization. Journal of Cleaner Production, 438, 140819. 
+https://doi.org/10.1016/j.jclepro.2024.140819 
+ 
+Hannan, M., Al-Shetwi, A. Q., Ker, P. J., Begum, R., Mansor, M., Rahman, S., Dong, Z., 
+Tiong, S., Mahlia, T. I., & Muttaqi, K. (2021). Impact of renewable energy utilization and 
+artificial intelligence in achieving sustainable development goals. Energy Reports, 7, 
+5359–5373. https://doi.org/10.1016/j.egyr.2021.08.172 
+28 
+\n\n--- Page 32 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Hu, Z., Hai, Y., Liang, X., & Wu, H. (2026). Artificial intelligence and data-driven 
+approaches in renewable energy: A review of achievements and challenges. Energy Strategy 
+Reviews, 64, 102093. https://doi.org/10.1016/j.esr.2026.102093 
+ 
+Khalid, B., Urbański, M., Kowalska-Sudyka, M., Wysłocka, E., & Piontek, B. (2021). 
+Evaluating Consumers’ Adoption of Renewable Energy. Energies, 14(21), 7138. 
+https://doi.org/10.3390/en14217138 
+ 
+Khan, M., Al-Ammar, E. A., Naeem, M. R., Ko, W., Choi, H., & Kang, H. (2021). 
+Forecasting renewable energy for environmental resilience through computational 
+intelligence. PLoS ONE, 16(8), e0256381. https://doi.org/10.1371/journal.pone.0256381 
+ 
+Khan, Z., Khan, N., & Zhu, X. (2025). Harnessing artificial intelligence for environmental 
+sustainability via human capital and renewable energy. Scientific Reports, 15(1), 36739. 
+https://doi.org/10.1038/s41598-025-20613-6 
+ 
+Krishnan, R. S., Raj, J. R. F., Saveetha, P., Darney, P. E., Rajkumar, R., & Sankar, G. R. 
+(2024, June 11). Data-Driven Decision Support System for Sustainable Energy Management: 
+An AI-IoT fusion approach. In IEEE. https://doi.org/10.1109/icici62254.2024.00099 
+ 
+29 
+\n\n--- Page 33 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Li, X., Zhang, X., & Cai, H. H. (2026). Impact of environmental factors on renewable energy 
+generation in China: A scenario analysis using predictive modeling for solar energy systems. 
+Renewable and Sustainable Energy Reviews, 234, 116807. 
+https://doi.org/10.1016/j.rser.2026.116807 
+ 
+Malakouti, M. (2026). Machine learning for renewable energy forecasting: advances, 
+challenges, and future directions. Sustainable Energy Research, 13(1). 
+https://doi.org/10.1186/s40807-026-00242-x 
+ 
+Mandal, N., Sarkar, P., & Petrović, N. (2025). Multi-Criteria Decision-Making for Ranking 
+Renewable Energy Sources: A Case Study from the Republic of Serbia. Journal of 
+Engineering Management and Systems Engineering, 4(2), 109–121. 
+https://doi.org/10.56578/jemse040203 
+ 
+Markelov, D. (2025). Intelligent Energy Systems: AI-driven Forecasting and Optimization in 
+Hybrid Renewable Energy Systems [Degree Thesis, Novia University of Applied Sciences]. 
+https://www.theseus.fi/bitstream/handle/10024/890445/Markelov_Daniil.pdf;jsessionid=E4B
+534BF6A744E50A536D0135B187269?sequence=2#:~:text=This%20thesis%20examines%2
+0how%20modern,management%20in%20off%2Dgrid%20environments. 
+ 
+30 
+\n\n--- Page 34 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Mohammadpour, S. R., & Rahmati, S. H. A. (2023). An Intelligent Decision Support System 
+for an Integrated Energy Aware Production-Distribution Model. In Handbook of Smart 
+Energy Systems (pp. 1689–1708). https://doi.org/10.1007/978-3-030-97940-9_77 
+ 
+Mustafa, A. T., & Al-Yozbaky, O. S. A. (2025). Forecasting energy demand and generation 
+using time series models: A comparative analysis of classical, grey, fuzzy, and intelligent 
+approaches. Franklin Open, 12, 100350. https://doi.org/10.1016/j.fraope.2025.100350 
+ 
+Ojuekaiye, O. S. (2025). AI innovation for renewable energy and environmental 
+sustainability. OALib, 12(02), 1–33. https://doi.org/10.4236/oalib.1112844 
+ 
+Ongpeng, J. M. C., Rabe, B. I. B., Razon, L. F., Aviso, K. B., & Tan, R. R. (2021). A 
+multi-criterion decision analysis framework for sustainable energy retrofit in buildings. 
+Energy, 239, 122315. https://doi.org/10.1016/j.energy.2021.122315 
+ 
+‌Palanca-Tan, R., Del Barrio Alvarez, D., Palanca, R. S., Tan, N. M. P., Castillo, G. B., 
+Saplala, D. C. A., & Wang, N. (2024). Households’ Preferences for Alternative Renewable 
+Energy Technologies: An Attribute-Based Choice Experiment survey in Metro Manila, 
+Philippines. International Journal of Sustainable Development and Planning, 19(1), 1–10. 
+https://doi.org/10.18280/ijsdp.190101 
+ 
+31 
+\n\n--- Page 35 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Panagoulias, D. P., Sarmas, E., Marinakis, V., Virvou, M., Tsihrintzis, G. A., & Doukas, H. 
+(2023). Intelligent Decision Support for Energy Management: A methodology for Tailored 
+explainability of Artificial intelligence analytics. Electronics, 12(21), 4430. 
+https://doi.org/10.3390/electronics12214430 
+ 
+Rana, M., Mamun, M. a. A., Hossain, M. K., Rekha, R. S., & Alam, S. M. S. (2025). 
+Understanding the adoption of renewable energy technologies by households in South Asia: a 
+theory of planned behavior perspective. Discover Sustainability, 6(1). 
+https://doi.org/10.1007/s43621-025-01051-w 
+ 
+Shatnawi, N., Abu-Qdais, H., & Qdais, F. A. (2021). Selecting renewable energy options: an 
+application of multi-criteria decision making for Jordan. Sustainability Science Practice and 
+Policy, 17(1), 209–219. https://doi.org/10.1080/15487733.2021.1930715 
+ 
+Shorabeh, S. N., Argany, M., Rabiei, J., Firozjaei, H. K., & Nematollahi, O. (2021). Potential 
+assessment of multi-renewable energy farms establishment using spatial multi-criteria 
+decision analysis: A case study and mapping in Iran. Journal of Cleaner Production, 295, 
+126318. https://doi.org/10.1016/j.jclepro.2021.126318 
+ 
+32 
+\n\n--- Page 36 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Tarife, R., Nakanishi, Y., Zhou, Y., Estoperez, N., & Tahud, A. (2023). Integrated GIS and 
+Fuzzy-AHP Framework for Suitability Analysis of hybrid Renewable Energy Systems: a 
+case in Southern Philippines. Sustainability, 15(3), 2372. https://doi.org/10.3390/su15032372 
+ 
+Wang, J., Zhang, X., Wang, Y., Yang, S., Wang, S., Xie, Y., Gong, J., & Lin, J. (2025). Power 
+system source-load forecasting based on scene generation in extreme weather. Energy, 330, 
+136991. https://doi.org/10.1016/j.energy.2025.136991 
+ 
+Witt, T., & Klumpp, M. (2021). Multi-period multi-criteria decision making under 
+uncertainty: a renewable energy transition case from Germany. Sustainability, 13(11), 6300. 
+https://doi.org/10.3390/su13116300 
+ 
+Wong, G., Wong, K., Lau, T., Lee, J., & Kok, Y. (2023). Study of intention to use renewable 
+energy technology in Malaysia using TAM and TPB. Renewable Energy, 221, 119787. 
+https://doi.org/10.1016/j.renene.2023.119787 
+ 
+Zhang, Q., & Cai, Y. (2025). A model predictive control for a renewable-based multi energy 
+system by integrating data-driven algorithm. Energy Reports, 14, 1491–1508. 
+https://doi.org/10.1016/j.egyr.2025.07.013 
+ 
+33 
+\n\n--- Page 37 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Zhindon-Almeida, R. G., and Ruiz-Carrillo, J. A.. (2025). Factors Influencing the Adoption 
+of Renewable Energies in Developing Countries. Sustainable Development 33(5), 
+7222–7244. https://doi.org/10.1002/sd.3490. 
+ 
+Copeland, B. (2026). Artificial Intelligence. Encyclopedia Britannica. 
+https://www.britannica.com/technology/artificial-intelligence 
+Jackson, S.T. (2026, May 25). climate change. Encyclopedia Britannica. 
+https://www.britannica.com/science/climate-change 
+Climatic Data. (n.d.). ScienceDirect. 
+https://www.sciencedirect.com/topics/social-sciences/climatic-data 
+dashboard. (2026). In Merriam-Webster Dictionary. 
+https://www.merriam-webster.com/dictionary/dashboard 
+The Investopedia Team. (2026). Data Analytics: what it is, how it’s used, and 4 basic 
+techniques. Investopedia. https://www.investopedia.com/terms/d/data-analytics.asp 
+What Is Data Visualization? Definition, Examples, And Learning Resources. (n.d.). Tableau. 
+https://www.tableau.com/visualization/what-is-data-visualization 
+What is Energy Data and how to use it smartly? | Insight & savings. (2025). Aurum Europe. 
+https://www.aurumeurope.com/en/blog/what-is-energy-data-and-how-to-use-it-smartly/ 
+Finn, T., & Smalley, I. (n.d.). Predictive Analytics. IBM Think. 
+https://www.ibm.com/think/topics/predictive-analytics 
+34 
+\n\n--- Page 38 ---\n 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+United Nations. (n.d.). What is renewable energy? | United Nations. 
+https://www.un.org/en/climatechange/what-is-renewable-energy 
+ 
+35 
+\n

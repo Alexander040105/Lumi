@@ -1,0 +1,5 @@
+﻿fuel_type,2020,2021,2022,2023,2024,aagr,2020_numeric,2021_numeric,2022_numeric,2023_numeric,2024_numeric,aagr_numeric,aagr_unit,source_pdf,detected_category
+Liquid Fossils (Oil),45.88,49.81,54.40,55.70,57.89,3.1%,45.88,49.81,54.4,55.7,57.89,3.1,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv,coal
+Solid Fossils (Coal),68.63,74.05,75.17,90.15,97.10,8.9%,68.63,74.05,75.17,90.15,97.1,8.9,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv,coal
+Gaseous Fossil (Natural Gas),7.69,6.60,6.11,5.90,7.14,0.1%,7.69,6.6,6.11,5.9,7.14,0.1,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv,coal
+TOTAL,122.20,130.45,135.68,151.75,162.13,5.9%,122.2,130.45,135.68,151.75,162.13,5.9,percent,2024_philippine_energy_situationer_and_key_energy_statistics_table_040_p43.csv,coal

@@ -1,0 +1,71 @@
+KEY ENERGY STATISTICS
+11
+Energy Consumption
+Total Final Energy Consumption, by Sector and Fuel Type
+In kTOE
+2023
+2024
+GR
+Industry
+7,068
+7,260
+2.7%
+Coal
+1,987
+2,147
+8.0%
+Natural Gas
+ - 
+ - 
+Oil
+1,595
+1,492
+-6.5%
+Diesel
+1,085
+996
+-8.2%
+Fuel Oil
+296
+295
+-0.3%
+LPG
+199
+188
+-5.6%
+Kerosene
+15
+12
+-20.0%
+Biomass
+928
+931
+0.3%
+Ricehull
+40
+40
+0.5%
+Fuelwood
+135
+134
+-0.6%
+Bagasse
+404
+405
+0.5%
+Agriwaste
+334
+335
+0.5%
+Animal Waste
+17
+17
+0.5%
+Biodiesel
+21
+20
+-8.8%
+Electricity
+2,536
+2,672
+5.4%
