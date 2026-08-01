@@ -251,15 +251,19 @@ All project documentation has been organized into categorized folders under `doc
 
 ## Deployment
 
-### Frontend
+### Vercel (full-stack, recommended)
 
-- **Recommended:** [Vercel](https://vercel.com) — zero-config static hosting
-- **Alternative:** Cloudflare Pages
+The repository is now configured for a single-project Vercel deployment:
 
-### Backend
+- `vercel.json` builds the Vite frontend and runs `fastapi-backend/main.py` from `api/index.py` as a Vercel Python Function.
+- Heavy ML/RAG packages (`sentence-transformers`, `faiss-cpu`) are excluded from the Vercel Function bundle.
+- Optional companion ML worker for full RAG/ETL can be set via `ML_WORKER_URL`.
 
-- **Recommended:** [Render](https://render.com) — free-tier FastAPI hosting
-- **Note:** The free tier has 512 MB RAM and 100 s request limits. ARIMA artifacts are pre-computed to avoid heavy inference at runtime.
+See `docs/VERCEL_DEPLOYMENT_GUIDE.md` for environment variables and step-by-step deploy instructions.
+
+### Docker Compose (self-hosted)
+
+For a containerized self-hosted deployment, this project is designed to run using Docker Compose. See `DEPLOYMENT_GUIDE.md` for a detailed setup.
 
 ### Database & Cache
 
