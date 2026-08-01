@@ -10,5 +10,12 @@ sys.path.insert(0, str(_BACKEND))
 # Disable RAG by default to avoid heavy startup and missing packages.
 os.environ.setdefault("ENABLE_RAG", "false")
 
-# Make the FastAPI application available to Vercel's Python runtime.
+# Import the FastAPI application from the backend package.
 from main import app  # noqa: F401
+
+# Optionally route heavy / RAG / long-running requests to a companion ML worker.
+ml_worker_url = os.environ.get("ML_WORKER_URL")
+if ml_worker_url:
+    from app.services.ml_worker_proxy import MLWorkerProxyMiddleware
+
+    app.add_middleware(MLWorkerProxyMiddleware, worker_url=ml_worker_url)
