@@ -6,9 +6,11 @@ import { Input } from "@/components/ui/input";
 import CreateUserModal from "@/components/admin/CreateUserModal";
 import UserDetailDrawer from "@/components/admin/UserDetailDrawer";
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminUsers() {
+  const { t } = useI18n();
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -82,14 +84,14 @@ export default function AdminUsers() {
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">User Management</h1>
-        <Button onClick={() => setCreateOpen(true)}>Create User</Button>
+        <h1 className="text-2xl font-bold">{t("admin.usersPage.title")}</h1>
+        <Button onClick={() => setCreateOpen(true)}>{t("admin.usersPage.createUser")}</Button>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4">
         <Input
-          placeholder="Search by email or name..."
+          placeholder={t("admin.usersPage.searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="max-w-xs"
@@ -99,45 +101,45 @@ export default function AdminUsers() {
           onChange={(e) => setFilterRole(e.target.value)}
           className="rounded-md border px-3 py-2 text-sm"
         >
-          <option value="all">All Roles</option>
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-          <option value="dev">Dev</option>
+          <option value="all">{t("admin.usersPage.allRoles")}</option>
+          <option value="user">{t("admin.usersPage.roleUser")}</option>
+          <option value="admin">{t("admin.usersPage.roleAdmin")}</option>
+          <option value="dev">{t("admin.usersPage.roleDev")}</option>
         </select>
         <select
           value={filterPlan}
           onChange={(e) => setFilterPlan(e.target.value)}
           className="rounded-md border px-3 py-2 text-sm"
         >
-          <option value="all">All Plans</option>
-          <option value="free">Free</option>
-          <option value="premium">Premium</option>
+          <option value="all">{t("admin.usersPage.allPlans")}</option>
+          <option value="free">{t("admin.usersPage.planFree")}</option>
+          <option value="premium">{t("admin.usersPage.planPremium")}</option>
         </select>
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           className="rounded-md border px-3 py-2 text-sm"
         >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="banned">Banned</option>
+          <option value="all">{t("admin.usersPage.allStatus")}</option>
+          <option value="active">{t("admin.usersPage.statusActive")}</option>
+          <option value="banned">{t("admin.usersPage.statusBanned")}</option>
         </select>
       </div>
 
       {loading ? (
-        <p className="text-muted-foreground">Loading users...</p>
+        <p className="text-muted-foreground">{t("admin.usersPage.loading")}</p>
       ) : (
         <div className="border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-muted">
               <tr>
-                <th className="text-left p-3">User</th>
-                <th className="text-left p-3">Email</th>
-                <th className="text-left p-3">Role</th>
-                <th className="text-left p-3">Plan</th>
-                <th className="text-left p-3">Status</th>
-                <th className="text-left p-3">Joined</th>
-                <th className="text-left p-3">Actions</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.user")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.email")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.role")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.plan")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.status")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.joined")}</th>
+                <th className="text-left p-3">{t("admin.usersPage.columns.actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -164,20 +166,20 @@ export default function AdminUsers() {
                           {initials}
                         </div>
                       )}
-                      <span>{u.full_name || "—"}</span>
+                      <span>{u.full_name || t("common.notAvailable")}</span>
                     </div>
                   </td>
                   <td className="p-3 text-xs text-muted-foreground truncate max-w-[160px]">
-                    {u.email || "—"}
+                    {u.email || t("common.notAvailable")}
                   </td>
                   <td className="p-3">
                     <Badge variant="outline" className="capitalize">
-                      {u.role || "user"}
+                      {u.role === "admin" ? t("admin.usersPage.roleAdmin") : u.role === "dev" ? t("admin.usersPage.roleDev") : t("admin.usersPage.roleUser")}
                     </Badge>
                   </td>
                   <td className="p-3">
                     <Badge variant="secondary" className="capitalize">
-                      {u.role === "admin" || u.role === "dev" ? "premium" : (u.plan || "free")}
+                      {u.role === "admin" || u.role === "dev" ? t("admin.usersPage.planPremium") : (u.plan === "premium" ? t("admin.usersPage.planPremium") : t("admin.usersPage.planFree"))}
                     </Badge>
                   </td>
                   <td className="p-3">
@@ -185,14 +187,14 @@ export default function AdminUsers() {
                       variant={u.is_active ? "default" : "destructive"}
                       className="text-xs"
                     >
-                      {u.is_active ? "Active" : "Banned"}
+                      {u.is_active ? t("admin.usersPage.statusActive") : t("admin.usersPage.statusBanned")}
                     </Badge>
                   </td>
                   <td className="p-3">{formatDate(u.created_at)}</td>
                   <td className="p-3">
                     <div className="flex flex-wrap gap-1">
                       <Button size="sm" variant="outline" onClick={() => openDetail(u)}>
-                        View
+                        {t("admin.usersPage.view")}
                       </Button>
                       <Button
                         size="sm"
@@ -203,7 +205,7 @@ export default function AdminUsers() {
                           )
                         }
                       >
-                        {u.is_active ? "Ban" : "Unban"}
+                        {u.is_active ? t("admin.usersPage.ban") : t("admin.usersPage.unban")}
                       </Button>
                       <select
                         value={u.role}
@@ -216,9 +218,9 @@ export default function AdminUsers() {
                         }
                         className="rounded-md border px-2 py-1 text-xs"
                       >
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="dev">Dev</option>
+                        <option value="user">{t("admin.usersPage.roleUser")}</option>
+                        <option value="admin">{t("admin.usersPage.roleAdmin")}</option>
+                        <option value="dev">{t("admin.usersPage.roleDev")}</option>
                       </select>
                       <select
                         value={u.plan}
@@ -231,15 +233,15 @@ export default function AdminUsers() {
                         }
                         className="rounded-md border px-2 py-1 text-xs"
                       >
-                        <option value="free">Free</option>
-                        <option value="premium">Premium</option>
+                        <option value="free">{t("admin.usersPage.planFree")}</option>
+                        <option value="premium">{t("admin.usersPage.planPremium")}</option>
                       </select>
                       <Button
                         size="sm"
                         variant="ghost"
                         className="text-destructive"
                         onClick={() => {
-                          if (confirm("Soft-delete this user? They will be banned and anonymised.")) {
+                          if (confirm(t("admin.usersPage.deleteConfirm"))) {
                             handleAction(
                               `${getApiBaseUrl()}/admin/users/${u.id}`,
                               "DELETE"
@@ -247,7 +249,7 @@ export default function AdminUsers() {
                           }
                         }}
                       >
-                        Delete
+                        {t("admin.usersPage.delete")}
                       </Button>
                     </div>
                   </td>
@@ -257,7 +259,7 @@ export default function AdminUsers() {
               {filtered.length === 0 && (
                 <tr>
                   <td colSpan={7} className="p-6 text-center text-muted-foreground">
-                    No users match your filters.
+                    {t("admin.usersPage.noResults")}
                   </td>
                 </tr>
               )}

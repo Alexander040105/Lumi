@@ -1,9 +1,11 @@
 import { useState } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminConfig() {
+  const { t } = useI18n();
   const { accessToken } = useAuth();
   const [config, setConfig] = useState({
     chatbot_enabled: true,
@@ -26,9 +28,9 @@ export default function AdminConfig() {
         },
         body: JSON.stringify(config),
       });
-      setMessage("Configuration saved.");
+      setMessage(t("admin.configPage.saved"));
     } catch {
-      setMessage("Failed to save configuration.");
+      setMessage(t("admin.configPage.failed"));
     } finally {
       setSaving(false);
     }
@@ -36,10 +38,10 @@ export default function AdminConfig() {
 
   return (
     <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">System Configuration</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("admin.configPage.title")}</h1>
       <div className="space-y-4">
         <label className="flex items-center justify-between p-3 border rounded-lg">
-          <span>Chatbot Enabled</span>
+          <span>{t("admin.configPage.chatbotEnabled")}</span>
           <input
             type="checkbox"
             checked={config.chatbot_enabled}
@@ -48,7 +50,7 @@ export default function AdminConfig() {
           />
         </label>
         <label className="flex items-center justify-between p-3 border rounded-lg">
-          <span>Maintenance Mode</span>
+          <span>{t("admin.configPage.maintenanceMode")}</span>
           <input
             type="checkbox"
             checked={config.maintenance_mode}
@@ -57,7 +59,7 @@ export default function AdminConfig() {
           />
         </label>
         <div className="p-3 border rounded-lg">
-          <label className="block text-sm font-medium mb-1">Free Chat Messages / Month</label>
+          <label className="block text-sm font-medium mb-1">{t("admin.configPage.freeChatLimit")}</label>
           <input
             type="number"
             value={config.free_chat_limit}
@@ -66,7 +68,7 @@ export default function AdminConfig() {
           />
         </div>
         <div className="p-3 border rounded-lg">
-          <label className="block text-sm font-medium mb-1">Free Saved Simulations</label>
+          <label className="block text-sm font-medium mb-1">{t("admin.configPage.freeSimLimit")}</label>
           <input
             type="number"
             value={config.free_sim_limit}
@@ -84,7 +86,7 @@ export default function AdminConfig() {
           disabled={saving}
           className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
-          {saving ? "Saving..." : "Save Configuration"}
+          {saving ? t("admin.configPage.saving") : t("admin.configPage.saveConfiguration")}
         </button>
       </div>
     </div>

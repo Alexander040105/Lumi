@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useI18n } from "@/i18n";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -14,6 +15,7 @@ const SOURCE_META = {
 };
 
 export default function EnergySources({ breakdown }) {
+  const { t } = useI18n();
   const chartData = useMemo(() => {
     if (!breakdown || !breakdown.share_pct) return [];
     const entries = Object.entries(breakdown.share_pct)
@@ -22,12 +24,12 @@ export default function EnergySources({ breakdown }) {
 
     return entries.map(([key, value]) => ({
       key,
-      label: SOURCE_META[key]?.label || key,
+      label: t(`energyHub.sources.labels.${key}`) || key,
       color: SOURCE_META[key]?.color || "#cbd5e1",
       share: value,
       gwh: breakdown.generation_gwh?.[key] || 0,
     }));
-  }, [breakdown]);
+  }, [breakdown, t]);
 
   const plotlyData = useMemo(() => {
     if (chartData.length === 0) return [];
@@ -42,7 +44,7 @@ export default function EnergySources({ breakdown }) {
         textposition: "inside",
         insidetextorientation: "radial",
         textfont: { size: 11, color: "#ffffff" },
-        hovertemplate: "<b>%{label}</b><br>%{value}%<br>%{customdata:,.0f} GWh<extra></extra>",
+        hovertemplate: t("energyHub.sources.hover", { value: "%{value}", gwh: "%{customdata:,.0f}" }),
         customdata: chartData.map((d) => d.gwh),
         showlegend: false,
         sort: false,
@@ -68,7 +70,7 @@ export default function EnergySources({ breakdown }) {
   if (!breakdown || chartData.length === 0) {
     return (
       <div className="rounded-xl border bg-card p-6 shadow-sm">
-        <h3 className="text-lg font-semibold">Energy Source Comparison</h3>
+        <h3 className="text-lg font-semibold">{t("energyHub.sources.title")}</h3>
         <div className="mt-4 h-48 bg-muted rounded-lg animate-pulse" />
       </div>
     );
@@ -77,15 +79,15 @@ export default function EnergySources({ breakdown }) {
   return (
     <div className="rounded-xl border bg-card p-6 shadow-sm">
       <h3 className="text-lg font-semibold">
-        Energy Source Comparison ({breakdown.year})
+        {t("energyHub.sources.title")} ({breakdown.year})
       </h3>
       <p className="text-sm text-muted-foreground">
-        Total Generation: {breakdown.total_generation_gwh.toLocaleString()} GWh
+        {t("energyHub.sources.totalGeneration", { value: breakdown.total_generation_gwh.toLocaleString() })}
       </p>
       <ChartExplanation
-        what="This donut chart shows what share of total electricity generation comes from each source: coal, natural gas, oil-based, geothermal, hydro, solar, wind, and biomass."
-        why="Understanding the mix reveals how dependent the grid is on fossil fuels versus renewables. A high fossil share means higher carbon emissions and exposure to fuel price volatility."
-        action="If fossil sources dominate, push for local solar or wind adoption to reduce household carbon footprint and buffer against fuel price hikes."
+        what={t("energyHub.sources.explanation.what")}
+        why={t("energyHub.sources.explanation.why")}
+        action={t("energyHub.sources.explanation.action")}
       />
 
       <div className="mt-4 flex flex-col md:flex-row items-center gap-6">

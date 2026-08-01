@@ -3,73 +3,121 @@
 
 @layer base {
   :root {
-    /* Lumi Nature Palette — Light Mode */
-    --background: 50 100% 91%;          /* #fff6d2 warm cream */
-    --foreground: 117 61% 22%;          /* #195b16 dark green */
+    /* Lumi Green Palette — Light Mode */
+    --background: 120 30% 97%;          /* #f4fbf4 */
+    --foreground: 120 50% 15%;          /* #122f10 */
 
     --card: 0 0% 100%;                  /* #ffffff */
-    --card-foreground: 117 61% 22%;     /* #195b16 */
+    --card-foreground: 120 50% 15%;     /* #122f10 */
 
     --popover: 0 0% 100%;               /* #ffffff */
-    --popover-foreground: 117 61% 22%; /* #195b16 */
+    --popover-foreground: 120 50% 15%; /* #122f10 */
 
-    --primary: 121 29% 26%;             /* #305731 */
+    --primary: 122 35% 30%;             /* #2e5f2b */
     --primary-foreground: 0 0% 100%;     /* #ffffff */
 
-    --secondary: 118 100% 93%;          /* #ddffdc */
-    --secondary-foreground: 117 61% 22%; /* #195b16 */
+    --secondary: 120 45% 90%;          /* #dff6df */
+    --secondary-foreground: 120 50% 15%; /* #122f10 */
 
-    --muted: 118 100% 89%;              /* #cbffc9 */
-    --muted-foreground: 121 29% 26%;    /* #305731 soft but readable */
+    --muted: 120 35% 93%;              /* #ebf6eb */
+    --muted-foreground: 120 30% 28%;    /* #3a5c3b */
 
-    --accent: 47 100% 73%;              /* #ffe476 yellow */
-    --accent-foreground: 117 61% 22%;   /* #195b16 */
+    --accent: 45 90% 65%;              /* #f6d96a */
+    --accent-foreground: 120 50% 15%;   /* #122f10 */
 
-    --destructive: 0 72% 51%;           /* #dc2626 red */
+    --destructive: 0 72% 51%;           /* #dc2626 */
     --destructive-foreground: 0 0% 100%; /* #ffffff */
 
-    --warning: 47 100% 73%;              /* #ffe476 */
-    --warning-foreground: 117 61% 22%;   /* #195b16 */
+    --warning: 22 85% 40%;              /* #aa4411 */
+    --warning-foreground: 0 0% 100%;     /* #ffffff */
 
-    --border: 100 57% 78%;              /* #c0e7a8 */
-    --input: 100 57% 78%;               /* #c0e7a8 */
-    --ring: 121 29% 26%;                /* #305731 */
+    --border: 120 25% 83%;              /* #c6e0c6 */
+    --input: 120 25% 83%;               /* #c6e0c6 */
+    --ring: 122 35% 35%;                /* #3b6e38 */
 
     --radius: 0.75rem;
+
+    /* Brand tokens */
+    --brand: 122 35% 30%;
+    --brand-dark: 120 50% 15%;
+    --brand-light: 108 48% 69%;
+    --brand-lighter: 120 25% 83%;
+    --brand-pale: 120 45% 90%;
+    --brand-success: 117 42% 56%;
+
+    /* Chart / data colors */
+    --chart-solar: 47 100% 73%;
+    --chart-wind: 117 42% 56%;
+    --chart-hydro: 122 35% 30%;
+    --chart-geothermal: 30 90% 42%;
+    --chart-accent: 47 100% 73%;
+
+    /* Map classification colors */
+    --map-very-high: 142 76% 36%;
+    --map-high: 142 71% 45%;
+    --map-moderate: 48 96% 53%;
+    --map-low: 25 95% 53%;
+    --map-very-low: 0 84% 60%;
+    --map-no-data: 215 20% 65%;
+    --map-marker-stroke: 0 0% 100%;
   }
 
   .dark {
-    /* Lumi Nature Palette — Dark Mode */
-    --background: 120 33% 9%;           /* #0f1f0f deep forest */
-    --foreground: 118 100% 89%;         /* #cbffc9 */
+    /* Lumi Green Palette — Dark Mode */
+    --background: 120 30% 8%;           /* #0f1f0f */
+    --foreground: 118 80% 85%;         /* #cdfbb9 */
 
-    --card: 120 28% 15%;                /* #1a2e1a */
-    --card-foreground: 118 100% 89%;    /* #cbffc9 */
+    --card: 120 28% 13%;                /* #162815 */
+    --card-foreground: 118 80% 85%;    /* #cdfbb9 */
 
-    --popover: 120 28% 15%;             /* #1a2e1a */
-    --popover-foreground: 118 100% 89%; /* #cbffc9 */
+    --popover: 120 28% 13%;             /* #162815 */
+    --popover-foreground: 118 80% 85%; /* #cdfbb9 */
 
-    --primary: 117 42% 56%;             /* #67bb63 */
-    --primary-foreground: 120 33% 9%;   /* #0f1f0f */
+    --primary: 117 45% 55%;             /* #68bb64 */
+    --primary-foreground: 120 30% 8%;   /* #0f1f0f */
 
-    --secondary: 120 33% 17%;           /* #1a3a1a */
-    --secondary-foreground: 118 100% 89%; /* #cbffc9 */
+    --secondary: 120 28% 17%;           /* #1a3a1a */
+    --secondary-foreground: 118 70% 80%; /* #b4f0a0 */
 
-    --muted: 120 33% 17%;               /* #1a3a1a */
-    --muted-foreground: 108 48% 69%;     /* #9ad68b */
+    --muted: 120 28% 17%;               /* #1a3a1a */
+    --muted-foreground: 108 40% 70%;     /* #a4d68b */
 
     --accent: 47 100% 73%;              /* #ffe476 */
-    --accent-foreground: 120 33% 9%;    /* #0f1f0f */
+    --accent-foreground: 120 30% 8%;    /* #0f1f0f */
 
     --destructive: 0 63% 31%;           /* #7f1d1d */
     --destructive-foreground: 0 0% 100%; /* #ffffff */
 
-    --warning: 47 100% 73%;              /* #ffe476 */
-    --warning-foreground: 120 33% 9%;    /* #0f1f0f */
+    --warning: 24 90% 60%;              /* #f26a36 */
+    --warning-foreground: 120 30% 8%;    /* #0f1f0f */
 
-    --border: 121 29% 26%;              /* #305731 */
-    --input: 121 29% 26%;               /* #305731 */
-    --ring: 117 42% 56%;                /* #67bb63 */
+    --border: 120 25% 23%;              /* #253d25 */
+    --input: 120 25% 23%;               /* #253d25 */
+    --ring: 117 45% 55%;                /* #68bb64 */
+
+    /* Brand tokens */
+    --brand: 117 45% 55%;
+    --brand-dark: 118 80% 85%;
+    --brand-light: 122 35% 30%;
+    --brand-lighter: 120 28% 17%;
+    --brand-pale: 120 28% 17%;
+    --brand-success: 117 45% 55%;
+
+    /* Chart / data colors */
+    --chart-solar: 47 100% 73%;
+    --chart-wind: 117 45% 55%;
+    --chart-hydro: 118 80% 85%;
+    --chart-geothermal: 30 90% 50%;
+    --chart-accent: 47 100% 73%;
+
+    /* Map classification colors */
+    --map-very-high: 142 70% 45%;
+    --map-high: 142 65% 55%;
+    --map-moderate: 48 100% 60%;
+    --map-low: 25 100% 60%;
+    --map-very-low: 0 90% 65%;
+    --map-no-data: 215 25% 55%;
+    --map-marker-stroke: 0 0% 100%;
   }
 
   * {

@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useI18n } from "@/i18n";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +29,7 @@ export default function EcosimInputForm({
   loading,
   onSave,
 }) {
+  const { t } = useI18n();
   const [step, setStep] = useState(1);
   const totalSteps = 4;
 
@@ -45,11 +47,11 @@ export default function EcosimInputForm({
 
   const savingsLabel = useMemo(() => {
     const s = desiredSavings || 0;
-    if (s <= 10) return "Just exploring";
-    if (s <= 30) return "Save a little";
-    if (s <= 60) return "Cut my bill in half";
-    return "Go almost off-grid";
-  }, [desiredSavings]);
+    if (s <= 10) return t("ecosim.wizard.savingsLevels.exploring");
+    if (s <= 30) return t("ecosim.wizard.savingsLevels.little");
+    if (s <= 60) return t("ecosim.wizard.savingsLevels.half");
+    return t("ecosim.wizard.savingsLevels.offGrid");
+  }, [desiredSavings, t]);
 
   return (
     <div className="space-y-4">
@@ -87,13 +89,13 @@ export default function EcosimInputForm({
                 {step === 2 && <Zap className="h-5 w-5 text-amber-500" />}
                 {step === 3 && <Target className="h-5 w-5 text-emerald-500" />}
                 {step === 4 && <ArrowRight className="h-5 w-5 text-rose-500" />}
-                Step {step} of {totalSteps}
+                {t("ecosim.wizard.step", { current: step, total: totalSteps })}
               </CardTitle>
               <CardDescription>
-                {step === 1 && "Select your city or municipality so we can analyze your local climate and resources."}
-                {step === 2 && "Tell us how much electricity you use each month so we can estimate your savings."}
-                {step === 3 && "How much of your bill would you like to eliminate with renewable energy?"}
-                {step === 4 && "Review your inputs and run the analysis."}
+                {step === 1 && t("ecosim.wizard.steps.step1")}
+                {step === 2 && t("ecosim.wizard.steps.step2")}
+                {step === 3 && t("ecosim.wizard.steps.step3")}
+                {step === 4 && t("ecosim.wizard.steps.step4")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -102,9 +104,9 @@ export default function EcosimInputForm({
                 <div className="space-y-4">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <label className="text-sm font-medium">Search mode</label>
+                      <label className="text-sm font-medium">{t("ecosim.wizard.searchMode")}</label>
                       <HelpTooltip term="municipality">
-                        <span className="text-sm font-medium">Municipality</span>
+                        <span className="text-sm font-medium">{t("ecosim.wizard.municipality")}</span>
                       </HelpTooltip>
                     </div>
                     <div className="flex gap-2">
@@ -113,35 +115,35 @@ export default function EcosimInputForm({
                         size="sm"
                         onClick={() => setMode("municipality")}
                       >
-                        Municipality
+                        {t("ecosim.wizard.municipality")}
                       </Button>
                       <Button
                         variant={mode === "province" ? "default" : "outline"}
                         size="sm"
                         onClick={() => setMode("province")}
                       >
-                        Province
+                        {t("ecosim.wizard.province")}
                       </Button>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Choose municipality for the most accurate local climate data.
+                      {t("ecosim.wizard.municipalityHint")}
                     </p>
                   </div>
 
                   <div>
                     <label className="text-sm font-medium block mb-1">
-                      {mode === "municipality" ? "Search municipality" : "Search province"}
+                      {mode === "municipality" ? t("ecosim.wizard.searchMunicipality") : t("ecosim.wizard.searchProvince")}
                     </label>
                     <div className="relative">
                       <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
                         className="pl-9"
-                        placeholder={mode === "municipality" ? "e.g., Calamba, Santa Rosa" : "e.g., Laguna, Cavite"}
+                        placeholder={mode === "municipality" ? t("ecosim.wizard.placeholderMunicipality") : t("ecosim.wizard.placeholderProvince")}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
                     </div>
-                    {searching && <p className="text-xs text-muted-foreground mt-1">Searching...</p>}
+                    {searching && <p className="text-xs text-muted-foreground mt-1">{t("common.loading")}</p>}
                     {searchResults.length > 0 && !selectedId && (
                       <div className="mt-2 max-h-48 overflow-y-auto rounded-lg border bg-card shadow-sm">
                         {searchResults.map((item) => (
@@ -158,7 +160,7 @@ export default function EcosimInputForm({
                     )}
                     {selectedId && (
                       <div className="mt-2 rounded-lg border bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-                        Selected: <span className="font-medium">{selectedName}</span>
+                        {t("ecosim.wizard.selected", { name: selectedName })}
                       </div>
                     )}
                   </div>
@@ -171,39 +173,35 @@ export default function EcosimInputForm({
                   <div className="grid gap-4 md:grid-cols-2">
                     <div>
                       <label className="text-sm font-medium block mb-1">
-                        <HelpTooltip term="kWh">Monthly consumption (kWh)</HelpTooltip>
+                        <HelpTooltip term="kWh">{t("ecosim.wizard.consumptionLabel")}</HelpTooltip>
                       </label>
                       <Input
                         type="number"
-                        placeholder="e.g. 300"
+                        placeholder={t("ecosim.wizard.consumptionPlaceholder")}
                         value={monthlyConsumption || ""}
                         onChange={(e) => setMonthlyConsumption(Number(e.target.value))}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Find this on your electric bill. It's usually the biggest number in the "Usage" section.
+                        {t("ecosim.wizard.consumptionHint")}
                       </p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium block mb-1">Monthly bill (PHP)</label>
+                      <label className="text-sm font-medium block mb-1">{t("ecosim.wizard.billLabel")}</label>
                       <Input
                         type="number"
-                        placeholder="e.g. 5000"
+                        placeholder={t("ecosim.wizard.billPlaceholder")}
                         value={monthlyBill || ""}
                         onChange={(e) => setMonthlyBill(Number(e.target.value))}
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        The total amount you pay each month, before any subsidies or discounts.
+                        {t("ecosim.wizard.billHint")}
                       </p>
                     </div>
                   </div>
                   {monthlyConsumption > 0 && monthlyBill > 0 && (
                     <div className="rounded-lg border bg-muted/30 p-3 text-sm">
                       <p className="text-muted-foreground">
-                        Your effective rate is about{" "}
-                        <span className="font-medium text-foreground">
-                          PHP {(monthlyBill / monthlyConsumption).toFixed(2)}
-                        </span>{" "}
-                        per kWh. This helps us estimate your savings accurately.
+                        {t("ecosim.wizard.rateText", { rate: (monthlyBill / monthlyConsumption).toFixed(2) })}
                       </p>
                     </div>
                   )}
@@ -215,7 +213,7 @@ export default function EcosimInputForm({
                 <div className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium">Desired savings</label>
+                      <label className="text-sm font-medium">{t("ecosim.wizard.savingsLabel")}</label>
                       <span className="text-sm font-bold text-sky-600">{desiredSavings}%</span>
                     </div>
                     <Slider
@@ -226,19 +224,19 @@ export default function EcosimInputForm({
                       className="w-full"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                      <span>Just exploring</span>
+                      <span>{t("ecosim.wizard.savingsSliderStart")}</span>
                       <span className="font-medium text-foreground">{savingsLabel}</span>
-                      <span>Go off-grid</span>
+                      <span>{t("ecosim.wizard.savingsSliderEnd")}</span>
                     </div>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <Switch checked={includeAi} onCheckedChange={setIncludeAi} />
-                      <label className="text-sm font-medium">Include AI analysis</label>
+                      <label className="text-sm font-medium">{t("ecosim.wizard.aiAnalysis")}</label>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Adds a detailed plain-English explanation of why this renewable source is recommended for your area, along with next steps.
+                      {t("ecosim.wizard.aiAnalysisHint")}
                     </p>
                   </div>
                 </div>
@@ -249,24 +247,24 @@ export default function EcosimInputForm({
                 <div className="space-y-4">
                   <div className="grid gap-3 md:grid-cols-2">
                     <div className="rounded-lg border bg-muted/30 p-3">
-                      <p className="text-xs text-muted-foreground">Location</p>
-                      <p className="text-sm font-medium">{selectedName || "Not selected"}</p>
+                      <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.location")}</p>
+                      <p className="text-sm font-medium">{selectedName || t("ecosim.wizard.notSelected")}</p>
                     </div>
                     <div className="rounded-lg border bg-muted/30 p-3">
-                      <p className="text-xs text-muted-foreground">Monthly consumption</p>
+                      <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.consumption")}</p>
                       <p className="text-sm font-medium">{monthlyConsumption || 0} kWh</p>
                     </div>
                     <div className="rounded-lg border bg-muted/30 p-3">
-                      <p className="text-xs text-muted-foreground">Monthly bill</p>
+                      <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.bill")}</p>
                       <p className="text-sm font-medium">PHP {monthlyBill?.toLocaleString() || 0}</p>
                     </div>
                     <div className="rounded-lg border bg-muted/30 p-3">
-                      <p className="text-xs text-muted-foreground">Desired savings</p>
+                      <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.savingsGoal")}</p>
                       <p className="text-sm font-medium">{desiredSavings}% — {savingsLabel}</p>
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    We'll compare solar, wind, hydro, and geothermal for your location and recommend the best match.
+                    {t("ecosim.wizard.compareText")}
                   </p>
                 </div>
               )}
@@ -275,28 +273,28 @@ export default function EcosimInputForm({
               <div className="flex items-center justify-between pt-2">
                 {step > 1 ? (
                   <Button variant="outline" onClick={() => setStep(step - 1)} disabled={loading}>
-                    <ArrowLeft className="h-4 w-4 mr-1" /> Back
+                    <ArrowLeft className="h-4 w-4 mr-1" /> {t("ecosim.wizard.back")}
                   </Button>
                 ) : (
                   <div />
                 )}
                 {step < totalSteps ? (
                   <Button onClick={() => setStep(step + 1)} disabled={!canProceed || loading}>
-                    Next <ArrowRight className="h-4 w-4 ml-1" />
+                    {t("ecosim.wizard.next")} <ArrowRight className="h-4 w-4 ml-1" />
                   </Button>
                 ) : (
                   <div className="flex gap-2">
                     <Button variant="outline" onClick={onSave} disabled={loading}>
-                      Save
+                      {t("ecosim.wizard.save")}
                     </Button>
                     <Button onClick={onRun} disabled={loading}>
                       {loading ? (
                         <>
-                          <Loader2 className="h-4 w-4 mr-1 animate-spin" /> Running...
+                          <Loader2 className="h-4 w-4 mr-1 animate-spin" /> {t("ecosim.wizard.running")}
                         </>
                       ) : (
                         <>
-                          Run simulation <ArrowRight className="h-4 w-4 ml-1" />
+                          {t("ecosim.wizard.runSimulation")} <ArrowRight className="h-4 w-4 ml-1" />
                         </>
                       )}
                     </Button>
@@ -311,28 +309,28 @@ export default function EcosimInputForm({
         <div className="hidden md:block">
           <Card className="bg-muted/30">
             <CardHeader>
-              <CardTitle className="text-sm">Your Inputs</CardTitle>
+              <CardTitle className="text-sm">{t("ecosim.wizard.summaryTitle")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div>
-                <p className="text-xs text-muted-foreground">Location</p>
-                <p className="font-medium">{selectedName || "—"}</p>
+                <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.location")}</p>
+                <p className="font-medium">{selectedName || t("common.notAvailable")}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Consumption</p>
+                <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.consumption")}</p>
                 <p className="font-medium">{monthlyConsumption || 0} kWh</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Bill</p>
+                <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.bill")}</p>
                 <p className="font-medium">PHP {monthlyBill?.toLocaleString() || 0}</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">Savings goal</p>
+                <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.savingsGoal")}</p>
                 <p className="font-medium">{desiredSavings}%</p>
               </div>
               <div>
-                <p className="text-xs text-muted-foreground">AI analysis</p>
-                <p className="font-medium">{includeAi ? "Yes" : "No"}</p>
+                <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.aiAnalysis")}</p>
+                <p className="font-medium">{includeAi ? t("ecosim.wizard.yes") : t("ecosim.wizard.no")}</p>
               </div>
             </CardContent>
           </Card>

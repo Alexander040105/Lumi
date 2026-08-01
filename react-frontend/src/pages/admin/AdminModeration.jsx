@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
 
 export default function AdminModeration() {
+  const { t } = useI18n();
   const { accessToken } = useAuth();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,28 +62,28 @@ export default function AdminModeration() {
 
   const formatDate = (d) => (d ? new Date(d).toLocaleString() : "—");
 
-  if (loading) return <p className="p-6">Loading chat sessions...</p>;
+  if (loading) return <p className="p-6">{t("admin.moderationPage.loading")}</p>;
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Content Moderation</h1>
+      <h1 className="text-2xl font-bold mb-6">{t("admin.moderationPage.title")}</h1>
       <div className="border rounded-lg overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-muted">
             <tr>
-              <th className="text-left p-3">Session</th>
-              <th className="text-left p-3">User ID</th>
-              <th className="text-left p-3">Messages</th>
-              <th className="text-left p-3">Created</th>
-              <th className="text-left p-3">Flagged</th>
-              <th className="text-left p-3">Actions</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.session")}</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.userId")}</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.messages")}</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.created")}</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.flagged")}</th>
+              <th className="text-left p-3">{t("admin.moderationPage.columns.actions")}</th>
             </tr>
           </thead>
           <tbody>
             {sessions.map((s) => (
               <>
                 <tr key={s.id} className="border-t hover:bg-muted/50">
-                  <td className="p-3 font-medium">{s.title || "Untitled"}</td>
+                  <td className="p-3 font-medium">{s.title || t("admin.moderationPage.untitled")}</td>
                   <td className="p-3 text-xs text-muted-foreground truncate max-w-[120px]">
                     {s.user_id}
                   </td>
@@ -89,9 +91,9 @@ export default function AdminModeration() {
                   <td className="p-3">{formatDate(s.created_at)}</td>
                   <td className="p-3">
                     {s.is_flagged ? (
-                      <Badge variant="destructive">Flagged</Badge>
+                      <Badge variant="destructive">{t("admin.moderationPage.flagged")}</Badge>
                     ) : (
-                      <Badge variant="outline">Clean</Badge>
+                      <Badge variant="outline">{t("admin.moderationPage.clean")}</Badge>
                     )}
                   </td>
                   <td className="p-3">
@@ -101,14 +103,14 @@ export default function AdminModeration() {
                         variant="outline"
                         onClick={() => toggleExpand(s.id)}
                       >
-                        {expanded[s.id] ? "Hide" : "View"}
+                        {expanded[s.id] ? t("admin.moderationPage.hide") : t("admin.moderationPage.view")}
                       </Button>
                       <Button
                         size="sm"
                         variant={s.is_flagged ? "default" : "destructive"}
                         onClick={() => toggleFlag(s.id, s.is_flagged)}
                       >
-                        {s.is_flagged ? "Unflag" : "Flag"}
+                        {s.is_flagged ? t("admin.moderationPage.unflag") : t("admin.moderationPage.flag")}
                       </Button>
                     </div>
                   </td>
@@ -133,7 +135,7 @@ export default function AdminModeration() {
                           </div>
                         ))}
                         {(s.chat_messages || []).length === 0 && (
-                          <p className="text-sm text-muted-foreground">No messages.</p>
+                          <p className="text-sm text-muted-foreground">{t("admin.moderationPage.noMessages")}</p>
                         )}
                       </div>
                     </td>
@@ -144,7 +146,7 @@ export default function AdminModeration() {
             {sessions.length === 0 && (
               <tr>
                 <td colSpan={6} className="p-6 text-center text-muted-foreground">
-                  No chat sessions found.
+                  {t("admin.moderationPage.noSessions")}
                 </td>
               </tr>
             )}

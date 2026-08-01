@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useAuth } from "../hooks/useAuth";
+import { useI18n } from "../i18n";
 import { supabase } from "../services/supabaseClient";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +19,8 @@ import CoverageDashboard from "../components/CoverageDashboard";
 import ForecastPanel from "../components/ForecastPanel";
 
 export default function Dashboard() {
-  const { user, refreshProfile } = useAuth();
+  const { user, refreshProfile, isAdmin } = useAuth();
+  const { t } = useI18n();
   const isLoggedIn = !!user;
 
   const [loading, setLoading] = useState(true);
@@ -79,7 +81,7 @@ export default function Dashboard() {
           .limit(500);
         setMunicipalities(munis || []);
       } catch (err) {
-        toast.error("Failed to load dashboard data");
+        toast.error(t("dashboard.loadError"));
       } finally {
         setLoading(false);
       }
@@ -117,7 +119,7 @@ export default function Dashboard() {
   // Profile save
   const handleSaveProfile = async () => {
     if (!isLoggedIn) {
-      toast.info("Please log in to save your profile.");
+      toast.info(t("dashboard.loginToSaveProfileToast"));
       return;
     }
     setSavingProfile(true);
@@ -141,9 +143,9 @@ export default function Dashboard() {
         location: editForm.location,
       }));
       setIsEditingProfile(false);
-      toast.success("Profile updated");
+      toast.success(t("dashboard.profileUpdated"));
     } catch (err) {
-      toast.error("Failed to update profile");
+      toast.error(t("dashboard.profileUpdateFailed"));
     } finally {
       setSavingProfile(false);
     }
@@ -155,7 +157,7 @@ export default function Dashboard() {
     if (!file || !isLoggedIn) return;
 
     if (file.size > 2 * 1024 * 1024) {
-      toast.error("Image must be under 2MB");
+      toast.error(t("dashboard.imageTooLarge"));
       return;
     }
 
@@ -182,15 +184,15 @@ export default function Dashboard() {
 
       setProfile((prev) => ({ ...prev, avatar_url: avatarUrl }));
       if (refreshProfile) await refreshProfile();
-      toast.success("Profile photo updated");
+      toast.success(t("dashboard.photoUpdated"));
     } catch (err) {
-      toast.error("Upload failed: " + err.message);
+      toast.error(t("dashboard.uploadFailed") + err.message);
     } finally {
       setSavingProfile(false);
     }
   };
 
-  const displayName = profile?.full_name || user?.email || "Guest";
+  const displayName = profile?.full_name || user?.email || t("common.guest");
   const displayOrg = profile?.organization || "";
   const displayLoc = profile?.location || "";
   const avatarUrl = profile?.avatar_url || "";
@@ -198,7 +200,7 @@ export default function Dashboard() {
   if (loading) {
     return (
       <section className="page-container stack">
-        <h1 className="text-2xl font-bold">Decision Dashboard</h1>
+        <h1 className="text-2xl font-bold">{t("dashboard.title")}</h1>
         <LoadingSkeleton />
       </section>
     );
@@ -206,6 +208,14 @@ export default function Dashboard() {
 
   return (
     <section className="page-container stack space-y-6">
+      {isAdmin && (
+        <div className="rounded-lg border bg-primary/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <p className="text-sm font-medium">{t("dashboard.adminLink")}</p>
+          <Link to="/admin">
+            <Button variant="outline" size="sm">{t("nav.adminPortal")}</Button>
+          </Link>
+        </div>
+      )}
       {/* ===== Profile Card ===== */}
       <Card className="overflow-hidden">
         <div className="bg-gradient-to-r from-primary/10 to-primary/5 px-6 py-6">
@@ -228,7 +238,7 @@ export default function Dashboard() {
                     className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full px-2 py-0.5 shadow hover:bg-primary/90"
                     disabled={savingProfile}
                   >
-                    {savingProfile ? "..." : "Edit"}
+                    {savingProfile ? "..." : t("common.edit")}
                   </button>
                   <input
                     ref={fileInputRef}
@@ -254,7 +264,7 @@ export default function Dashboard() {
                   )}
                   {!isLoggedIn && (
                     <p className="text-sm text-muted-foreground">
-                      <Link to="/login" className="underline text-primary">Log in</Link> to save your profile and data.
+                      <Link to="/login" className="underline text-primary">{t("nav.login")}</Link>{" "}{t("dashboard.loginToSaveProfile")}
                     </p>
                   )}
                 </div>
@@ -262,21 +272,21 @@ export default function Dashboard() {
                 <div className="space-y-2 max-w-md">
                   <input
                     type="text"
-                    placeholder="Full Name"
+                    placeholder={t("dashboard.fullNamePlaceholder")}
                     value={editForm.full_name}
                     onChange={(e) => setEditForm((p) => ({ ...p, full_name: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
                   />
                   <input
                     type="text"
-                    placeholder="Organization"
+                    placeholder={t("dashboard.organizationPlaceholder")}
                     value={editForm.organization}
                     onChange={(e) => setEditForm((p) => ({ ...p, organization: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
                   />
                   <input
                     type="text"
-                    placeholder="Location"
+                    placeholder={t("dashboard.locationPlaceholder")}
                     value={editForm.location}
                     onChange={(e) => setEditForm((p) => ({ ...p, location: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -290,15 +300,15 @@ export default function Dashboard() {
               <div className="shrink-0">
                 {!isEditingProfile ? (
                   <Button variant="outline" size="sm" onClick={() => setIsEditingProfile(true)}>
-                    Edit Profile
+                    {t("dashboard.editProfile")}
                   </Button>
                 ) : (
                   <div className="flex gap-2">
                     <Button size="sm" variant="ghost" onClick={() => setIsEditingProfile(false)}>
-                      Cancel
+                      {t("common.cancel")}
                     </Button>
                     <Button size="sm" onClick={handleSaveProfile} disabled={savingProfile}>
-                      {savingProfile ? "Saving..." : "Save"}
+                      {savingProfile ? t("common.saving") : t("common.save")}
                     </Button>
                   </div>
                 )}
@@ -313,8 +323,8 @@ export default function Dashboard() {
         {/* Overview */}
         <Card className="lg:col-span-2">
           <CardHeader>
-            <CardTitle>Overview</CardTitle>
-            <CardDescription>Select a municipality to see its renewable potential.</CardDescription>
+            <CardTitle>{t("dashboard.overview")}</CardTitle>
+            <CardDescription>{t("dashboard.overviewDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <select
@@ -322,7 +332,7 @@ export default function Dashboard() {
               onChange={(e) => setSelectedMuni(e.target.value)}
               className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="">Select a municipality</option>
+              <option value="">{t("dashboard.selectMunicipality")}</option>
               {municipalities.map((m) => (
                 <option key={m.municipality_id} value={m.municipality_id}>
                   {m.name}
@@ -333,19 +343,19 @@ export default function Dashboard() {
             {selectedMuni && (
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span>Composite Renewable Score</span>
+                  <span>{t("dashboard.compositeScore")}</span>
                   <span className="font-bold">{compositeScore}/100</span>
                 </div>
                 <Progress value={compositeScore} className="h-3" />
                 <p className="text-xs text-muted-foreground">
-                  Averaged across solar, wind, hydro, and geothermal suitability.
+                  {t("dashboard.compositeDescription")}
                 </p>
               </div>
             )}
 
             {!selectedMuni && (
               <p className="text-sm text-muted-foreground text-center py-4">
-                Choose a municipality to display its renewable potential score.
+                {t("dashboard.selectPrompt")}
               </p>
             )}
           </CardContent>
@@ -354,17 +364,20 @@ export default function Dashboard() {
         {/* Quick Actions */}
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle>{t("dashboard.quickActions")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <Link to="/ecosim" className="block">
-              <Button className="w-full">Run EcoSim</Button>
+              <Button className="w-full">{t("dashboard.runEcosim")}</Button>
             </Link>
             <Link to="/chat" className="block">
-              <Button variant="outline" className="w-full">Ask LUMI AI</Button>
+              <Button variant="outline" className="w-full">{t("dashboard.askLumiAi")}</Button>
             </Link>
             <Link to="/energyhub" className="block">
-              <Button variant="outline" className="w-full">View EnergyHub</Button>
+              <Button variant="outline" className="w-full">{t("dashboard.viewEnergyHub")}</Button>
+            </Link>
+            <Link to="/mfa" className="block">
+              <Button variant="outline" className="w-full">{t("dashboard.mfaLink")}</Button>
             </Link>
           </CardContent>
         </Card>
@@ -372,23 +385,23 @@ export default function Dashboard() {
         {/* Saved Locations */}
         <Card>
           <CardHeader>
-            <CardTitle>Saved Locations</CardTitle>
-            <CardDescription>Your bookmarked municipalities.</CardDescription>
+            <CardTitle>{t("dashboard.savedLocations")}</CardTitle>
+            <CardDescription>{t("dashboard.savedLocationsDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             {!isLoggedIn ? (
               <p className="text-sm text-muted-foreground">
-                <Link to="/login" className="underline text-primary">Log in</Link> to save locations.
+                <Link to="/login" className="underline text-primary">{t("nav.login")}</Link>{" "}{t("dashboard.loginToSaveLocations")}
               </p>
             ) : savedLocations.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No saved locations yet.</p>
+              <p className="text-sm text-muted-foreground">{t("dashboard.noSavedLocations")}</p>
             ) : (
               <ul className="space-y-2">
                 {savedLocations.map((loc) => (
                   <li key={loc.id} className="flex items-center justify-between text-sm">
-                    <span>{loc.label || loc.municipalities?.name || "Municipality"}</span>
+                    <span>{loc.label || loc.municipalities?.name || t("dashboard.municipality")}</span>
                     <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
-                      <Button variant="ghost" size="sm">Open</Button>
+                      <Button variant="ghost" size="sm">{t("common.open")}</Button>
                     </Link>
                   </li>
                 ))}
@@ -400,18 +413,18 @@ export default function Dashboard() {
         {/* Saved Simulations CTA */}
         <Card>
           <CardHeader>
-            <CardTitle>Saved Simulations</CardTitle>
-            <CardDescription>Track your EcoSim analyses and chat history.</CardDescription>
+            <CardTitle>{t("dashboard.savedSims")}</CardTitle>
+            <CardDescription>{t("dashboard.savedSimsDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             {!isLoggedIn ? (
               <p className="text-sm text-muted-foreground">
-                <Link to="/login" className="underline text-primary">Log in</Link> to save simulations.
+                <Link to="/login" className="underline text-primary">{t("nav.login")}</Link>{" "}{t("dashboard.loginToSaveSims")}
               </p>
             ) : (
               <Link to="/saved-simulations">
                 <Button variant="outline" className="w-full">
-                  View All Saved Simulations
+                  {t("dashboard.viewAllSavedSims")}
                 </Button>
               </Link>
             )}
@@ -421,22 +434,22 @@ export default function Dashboard() {
         {/* AI Center */}
         <Card>
           <CardHeader>
-            <CardTitle>AI Center</CardTitle>
-            <CardDescription>Quick insights from the LUMI assistant.</CardDescription>
+            <CardTitle>{t("dashboard.aiCenter")}</CardTitle>
+            <CardDescription>{t("dashboard.aiCenterDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">
-              Ask the AI about renewable energy in your area.
+              {t("dashboard.askAi")}
             </p>
             <div className="flex gap-2 flex-wrap">
               <Link to="/chat">
                 <Button size="sm" variant="secondary">
-                  "Is solar good for Calamba?"
+                  {t("dashboard.exampleQuery1")}
                 </Button>
               </Link>
               <Link to="/chat">
                 <Button size="sm" variant="secondary">
-                  "Compare wind vs hydro"
+                  {t("dashboard.exampleQuery2")}
                 </Button>
               </Link>
             </div>

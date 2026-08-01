@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { getProvincialDemand } from "@/services/energyhub";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Lightbulb, Info } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 const SECTORS = ["Residential", "Commercial", "Industrial", "Others"];
 const VALID_REGIONS = new Set([
@@ -21,6 +22,7 @@ function formatNumber(value) {
 }
 
 export default function ProvincialDemand({ region = null }) {
+  const { t } = useI18n();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -33,7 +35,7 @@ export default function ProvincialDemand({ region = null }) {
         if (!cancelled) setData(res);
       })
       .catch((err) => {
-        if (!cancelled) setError(err?.message || "Failed to load provincial demand.");
+        if (!cancelled) setError(err?.message || t("energyHub.provincialDemand.error"));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -47,8 +49,8 @@ export default function ProvincialDemand({ region = null }) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Provincial Demand</CardTitle>
-          <CardDescription>Loading DOE Annex 8 regional consumption data...</CardDescription>
+          <CardTitle>{t("energyHub.provincialDemand.title")}</CardTitle>
+          <CardDescription>{t("energyHub.provincialDemand.loading")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-64 animate-pulse rounded bg-muted" />
@@ -61,7 +63,7 @@ export default function ProvincialDemand({ region = null }) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Provincial Demand</CardTitle>
+          <CardTitle>{t("energyHub.provincialDemand.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-destructive text-sm">{error}</p>
@@ -75,8 +77,8 @@ export default function ProvincialDemand({ region = null }) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Provincial Demand</CardTitle>
-          <CardDescription>{data?.note || "No data available."}</CardDescription>
+          <CardTitle>{t("energyHub.provincialDemand.title")}</CardTitle>
+          <CardDescription>{data?.note || t("energyHub.provincialDemand.noData")}</CardDescription>
         </CardHeader>
       </Card>
     );
@@ -123,9 +125,9 @@ export default function ProvincialDemand({ region = null }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Provincial Demand (2025)</CardTitle>
+        <CardTitle>{t("energyHub.provincialDemand.title")} (2025)</CardTitle>
         <CardDescription>
-          Electricity consumption by sector per region (GWh). Sourced from DOE Annex 8.
+          {t("energyHub.provincialDemand.note")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -137,7 +139,7 @@ export default function ProvincialDemand({ region = null }) {
               <YAxis tickFormatter={(v) => `${v.toFixed(0)}`} />
               <Tooltip
                 formatter={(value, name) => [formatNumber(value) + " GWh", name]}
-                labelFormatter={(label) => `Region: ${label}`}
+                labelFormatter={(label) => t("energyHub.provincialDemand.regionLabel", { region: label })}
               />
               {SECTORS.map((sector) => (
                 <Bar
@@ -145,7 +147,7 @@ export default function ProvincialDemand({ region = null }) {
                   dataKey={sector}
                   stackId="a"
                   fill={COLORS[sector]}
-                  name={sector}
+                  name={t(`energyHub.provincialDemand.sectors.${sector.toLowerCase()}`)}
                   radius={[0, 0, 0, 0]}
                 />
               ))}
@@ -155,17 +157,17 @@ export default function ProvincialDemand({ region = null }) {
         <div className="rounded-md bg-sky-50 border border-sky-100 p-3 space-y-2">
           <div className="flex items-center gap-1.5 text-sky-800">
             <Lightbulb className="h-3.5 w-3.5" />
-            <span className="text-xs font-semibold">What you are seeing</span>
+            <span className="text-xs font-semibold">{t("energyHub.provincialDemand.insight.title")}</span>
           </div>
           <p className="text-xs text-sky-700 leading-relaxed">
-            This chart shows how much electricity each Philippine region used in 2025, broken down by who uses it: homes (green), businesses (blue), factories (orange), and government or street lighting (gray). NCR and Calabarzon (IV-A) tower over the rest because they are the country’s economic and population hubs — think of them as the “engine rooms” of the Philippines. Smaller bars do not mean those regions are less important; they simply have fewer people and industries connected to the main grid. Some remote or island regions may also rely more on local generators rather than the national grid, so their numbers here can look lower than their actual energy use.
+            {t("energyHub.provincialDemand.insight.description")}
           </p>
           <div className="flex items-center gap-1.5 text-sky-800 pt-1">
             <Info className="h-3.5 w-3.5" />
-            <span className="text-xs font-semibold">Why 17 regions?</span>
+            <span className="text-xs font-semibold">{t("energyHub.provincialDemand.insight.whyTitle")}</span>
           </div>
           <p className="text-xs text-sky-700 leading-relaxed">
-            The Philippines has 17 administrative regions. The data here follows the Department of Energy’s 2025 reporting format, which still labels the Bangsamoro region as “ARMM” (its older name). The now-dissolved Negros Island Region (NIR) is excluded because it was re-merged into Western Visayas (VI) and Central Visayas (VII) in 2015.
+            {t("energyHub.provincialDemand.insight.whyDescription")}
           </p>
         </div>
         <p className="text-xs text-muted-foreground">{data?.note || ""}</p>

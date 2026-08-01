@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
 
 export default function CreateUserModal({ open, onClose, onCreated }) {
+  const { t } = useI18n();
   const { accessToken } = useAuth();
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
@@ -54,7 +56,7 @@ export default function CreateUserModal({ open, onClose, onCreated }) {
         body: JSON.stringify({ email, full_name: fullName, role, plan }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || "Failed to create user");
+      if (!res.ok) throw new Error(data.detail || t("admin.createUserModal.createUser"));
       setResult(data);
       onCreated?.();
     } catch (err) {
@@ -68,51 +70,51 @@ export default function CreateUserModal({ open, onClose, onCreated }) {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create New User</DialogTitle>
+          <DialogTitle>{t("admin.createUserModal.title")}</DialogTitle>
           <DialogDescription>
-            Create a new account with a temporary password.
+            {t("admin.createUserModal.description")}
           </DialogDescription>
         </DialogHeader>
 
         {result ? (
           <div className="space-y-4">
             <div className="rounded-lg bg-green-50 p-4 text-sm text-green-700">
-              <p className="font-semibold">User created successfully!</p>
-              <p className="mt-1">Email: {result.email}</p>
-              <p className="mt-1">Role: {result.role}</p>
-              <p className="mt-1">Plan: {result.plan}</p>
+              <p className="font-semibold">{t("admin.createUserModal.userCreated")}</p>
+              <p className="mt-1">{t("admin.createUserModal.email")}: {result.email}</p>
+              <p className="mt-1">{t("admin.createUserModal.role")}: {result.role}</p>
+              <p className="mt-1">{t("admin.createUserModal.plan")}: {result.plan}</p>
               <p className="mt-2 break-all">
-                <span className="font-semibold">Temp Password:</span>{" "}
+                <span className="font-semibold">{t("admin.createUserModal.tempPassword")}:</span>{" "}
                 {result.temp_password}
               </p>
             </div>
             <Button onClick={reset} className="w-full">
-              Create Another
+              {t("admin.createUserModal.createAnother")}
             </Button>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Email</label>
+              <label className="text-sm font-medium">{t("admin.createUserModal.emailLabel")}</label>
               <Input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="user@example.com"
+                placeholder={t("admin.createUserModal.emailPlaceholder")}
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Full Name</label>
+              <label className="text-sm font-medium">{t("admin.createUserModal.fullNameLabel")}</label>
               <Input
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                placeholder="John Doe"
+                placeholder={t("admin.createUserModal.fullNamePlaceholder")}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium">Role</label>
+                <label className="text-sm font-medium">{t("admin.createUserModal.roleLabel")}</label>
                 <select
                   value={role}
                   onChange={(e) => {
@@ -124,34 +126,34 @@ export default function CreateUserModal({ open, onClose, onCreated }) {
                   }}
                   className="w-full rounded-md border px-3 py-2 text-sm"
                 >
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                  <option value="dev">Dev</option>
+                  <option value="user">{t("admin.usersPage.roleUser")}</option>
+                  <option value="admin">{t("admin.usersPage.roleAdmin")}</option>
+                  <option value="dev">{t("admin.usersPage.roleDev")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-sm font-medium">Plan</label>
+                <label className="text-sm font-medium">{t("admin.createUserModal.planLabel")}</label>
                 <select
                   value={displayPlan}
                   onChange={(e) => setPlan(e.target.value)}
                   disabled={isAdminRole}
                   className="w-full rounded-md border px-3 py-2 text-sm disabled:opacity-50"
                 >
-                  <option value="free">Free</option>
-                  <option value="premium">Premium</option>
+                  <option value="free">{t("admin.usersPage.planFree")}</option>
+                  <option value="premium">{t("admin.usersPage.planPremium")}</option>
                 </select>
                 {isAdminRole && (
-                  <p className="text-xs text-muted-foreground mt-1">Admins are always premium.</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t("admin.createUserModal.adminPremium")}</p>
                 )}
               </div>
             </div>
             {error && <p className="text-sm text-destructive">{error}</p>}
             <div className="flex justify-end gap-2">
               <Button type="button" variant="outline" onClick={handleClose}>
-                Cancel
+                {t("admin.createUserModal.cancel")}
               </Button>
               <Button type="submit" disabled={loading}>
-                {loading ? "Creating..." : "Create User"}
+                {loading ? t("admin.createUserModal.creating") : t("admin.createUserModal.createUser")}
               </Button>
             </div>
           </form>

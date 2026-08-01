@@ -23,6 +23,7 @@ import { getEcosim, getMunicipalities, getProvinces, getProductRecommendations }
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
+import { useI18n } from "@/i18n";
 
 const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
@@ -35,6 +36,7 @@ const formatCurrency = (value) =>
   }).format(value ?? 0);
 
 export default function Ecosim() {
+  const { t } = useI18n();
   const { user, accessToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -96,7 +98,7 @@ export default function Ecosim() {
         }
       } catch (err) {
         if (!isActive) return;
-        setMunicipalitiesError(err?.message || "Unable to load municipalities.");
+        setMunicipalitiesError(err?.message || t("ecosim.toasts.municipalitiesError"));
       }
     };
 
@@ -121,7 +123,7 @@ export default function Ecosim() {
           .eq("user_id", user.id)
           .single();
 
-        if (error || !sim) throw new Error(error?.message || "Simulation not found");
+        if (error || !sim) throw new Error(error?.message || t("ecosim.toasts.loadFailed"));
         if (!isActive) return;
 
         // Pre-populate inputs
@@ -149,9 +151,9 @@ export default function Ecosim() {
         if (sim.results) {
           setResult(sim.results);
         }
-        toast.success("Loaded saved simulation");
+        toast.success(t("ecosim.toasts.loadSuccess"));
       } catch (err) {
-        toast.error(err?.message || "Failed to load saved simulation");
+        toast.error(err?.message || t("ecosim.toasts.loadFailed"));
       }
     };
 
@@ -176,7 +178,7 @@ export default function Ecosim() {
         }
       } catch (err) {
         if (!isActive) return;
-        setProvincesError(err?.message || "Unable to load provinces.");
+        setProvincesError(err?.message || t("ecosim.toasts.provincesError"));
       }
     };
 
@@ -219,7 +221,7 @@ export default function Ecosim() {
         setProductRecs(null);
       }
     } catch (err) {
-      setError(err?.message || "Unable to load Ecosim data.");
+      setError(err?.message || t("ecosim.toasts.ecosimError"));
     } finally {
       setLoading(false);
     }
@@ -227,15 +229,15 @@ export default function Ecosim() {
 
   const handleSaveSimulation = async () => {
     if (!user || !accessToken) {
-      toast.error("Please log in to save simulations");
+      toast.error(t("ecosim.toasts.loginRequired"));
       return;
     }
     if (!result || !municipalityId) {
-      toast.error("Run a simulation first");
+      toast.error(t("ecosim.toasts.runFirst"));
       return;
     }
 
-    const defaultLabel = `${result.municipality || "Simulation"} — ${result.recommended_source || "Renewable"}`;
+    const defaultLabel = `${result.municipality || t("ecosim.defaults.simulation")} — ${result.recommended_source || t("ecosim.defaults.renewable")}`;
     const label = saveLabel.trim() || defaultLabel;
 
     setSaving(true);
@@ -265,18 +267,18 @@ export default function Ecosim() {
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
         if (res.status === 403 && errData.detail?.upgrade) {
-          toast.error(`Save limit reached (${errData.detail.limit}). Upgrade to save more.`);
+          toast.error(t("ecosim.toasts.saveLimit", { limit: errData.detail.limit }));
         } else {
-          toast.error(errData.detail?.message || "Failed to save simulation");
+          toast.error(errData.detail?.message || t("ecosim.toasts.saveFailed"));
         }
         return;
       }
 
-      toast.success("Simulation saved successfully");
+      toast.success(t("ecosim.toasts.saveSuccess"));
       setSaveDialogOpen(false);
       setSaveLabel("");
     } catch (err) {
-      toast.error(err?.message || "Failed to save simulation");
+      toast.error(err?.message || t("ecosim.toasts.saveFailed"));
     } finally {
       setSaving(false);
     }
@@ -285,10 +287,9 @@ export default function Ecosim() {
   return (
     <section className="page-container stack">
       <div className="space-y-2">
-        <h1>Renewable Energy Simulation</h1>
+        <h1>{t("ecosim.title")}</h1>
         <p className="text-muted-foreground">
-          Ecosim evaluates solar, wind, and hydropower options for your location based on
-          consumption patterns and environmental data.
+          {t("ecosim.subtitle")}
         </p>
       </div>
 
@@ -325,7 +326,7 @@ export default function Ecosim() {
         result={result}
         user={user}
         onSave={() => {
-          const defaultLabel = `${result.municipality || "Simulation"} — ${result.recommended_source || "Renewable"}`;
+          const defaultLabel = `${result.municipality || t("ecosim.defaults.simulation")} — ${result.recommended_source || t("ecosim.defaults.renewable")}`;
           setSaveLabel(defaultLabel);
           setSaveDialogOpen(true);
         }}
@@ -334,7 +335,7 @@ export default function Ecosim() {
       {error && (
         <Card className="border-destructive text-destructive">
           <CardHeader>
-            <CardTitle>Simulation error</CardTitle>
+            <CardTitle>{t("ecosim.errorCardTitle")}</CardTitle>
             <CardDescription>{error}</CardDescription>
           </CardHeader>
         </Card>
@@ -360,17 +361,17 @@ export default function Ecosim() {
       <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Save Simulation</DialogTitle>
+            <DialogTitle>{t("ecosim.saveDialog.title")}</DialogTitle>
             <DialogDescription>
-              Give your simulation a name so you can revisit it later.
+              {t("ecosim.saveDialog.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
-            <label className="text-sm font-medium">Simulation name</label>
+            <label className="text-sm font-medium">{t("ecosim.saveDialog.label")}</label>
             <Input
               value={saveLabel}
               onChange={(e) => setSaveLabel(e.target.value)}
-              placeholder="e.g., Calamba Solar Feasibility"
+              placeholder={t("ecosim.saveDialog.placeholder")}
               className="mt-2"
               autoFocus
             />
@@ -378,7 +379,7 @@ export default function Ecosim() {
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
-                Cancel
+                {t("ecosim.saveDialog.cancel")}
               </Button>
             </DialogClose>
             <Button
@@ -386,7 +387,7 @@ export default function Ecosim() {
               onClick={handleSaveSimulation}
               disabled={saving}
             >
-              {saving ? "Saving..." : "Save"}
+              {saving ? t("ecosim.saveDialog.saving") : t("ecosim.saveDialog.save")}
             </Button>
           </DialogFooter>
         </DialogContent>

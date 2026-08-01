@@ -15,6 +15,7 @@ import {
   Zap
 } from "lucide-react";
 
+import { useI18n, Trans } from "@/i18n";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -81,6 +82,8 @@ function TechItem({ icon: Icon, title, items }) {
 }
 
 export default function About() {
+  const { t } = useI18n();
+
   return (
     <div className="flex flex-col">
       {/* HERO */}
@@ -95,29 +98,28 @@ export default function About() {
               variant="outline"
               className="border-primary/30 bg-primary/5 text-primary px-3 py-1 text-sm"
             >
-              About the System
+              {t("about.hero.badge")}
             </Badge>
             <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-              Understanding{" "}
+              {t("about.hero.title")}{" "}
               <span className="bg-gradient-to-r from-primary to-brand-success bg-clip-text text-transparent">
-                LUMI
+                {t("about.hero.titleHighlight")}
               </span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed sm:text-xl">
-              A research-driven environmental intelligence system built to bridge the divide
-              between complex climate data and the communities who need it most.
+              {t("about.hero.subtitle")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <Link to="/energyhub">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
                   <BarChart3 className="h-5 w-5" />
-                  Try EnergyHub
+                  {t("about.hero.tryEnergyHub")}
                 </Button>
               </Link>
               <Link to="/ecosim">
                 <Button size="lg" variant="outline" className="gap-2 text-base">
                   <Zap className="h-5 w-5" />
-                  Try Ecosim
+                  {t("about.hero.tryEcosim")}
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </Link>
@@ -131,64 +133,70 @@ export default function About() {
         <div className="grid gap-12 lg:grid-cols-2 items-center">
           <div className="space-y-6">
             <Badge variant="secondary" className="uppercase tracking-wide text-xs">
-              The Problem We Address
+              {t("about.problem.badge")}
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Why LUMI Was Developed
+              {t("about.problem.title")}
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                The Philippine electrical grid has a capacity of approximately 27.0 GW and is
-                heavily dependent on fossil fuels, which make up around 70.5% of the country&apos;s
-                energy production, with coal alone accounting for 43.1%, while only 29.5% comes
-                from renewables <Cite>Gonocruz et al., 2024</Cite>. In developing countries such as
-                the Philippines, financial limitations, governance challenges, and societal resistance
-                have been identified as persistent barriers to renewable energy adoption
-                <Cite>Zhindon-Almeida & Ruiz-Carrillo, 2025; Rana et al., 2025</Cite>. Despite growing
-                awareness, renewable energy remains poorly understood and is often perceived as an
-                expensive investment <Cite>Wong et al., 2023</Cite>.
+                <Trans
+                  k="about.problem.paragraph1"
+                  components={{
+                    c1: <Cite>Gonocruz et al., 2024</Cite>,
+                    c2: <Cite>Zhindon-Almeida &amp; Ruiz-Carrillo, 2025; Rana et al., 2025</Cite>,
+                    c3: <Cite>Wong et al., 2023</Cite>
+                  }}
+                />
               </p>
               <p>
-                Furthermore, fragmented climate and energy-related data are often presented in
-                complex formats, hindering public understanding and utilization
-                <Cite>Lenain, 2026</Cite>. Public perception and education significantly shape
-                adoption intentions, and increasing climate awareness can shift sentiment in favor
-                of renewables <Cite>Esiri et al., 2024; Aguilera et al., 2024</Cite>. LUMI was
-                developed to close this gap by transforming overwhelming technical datasets into
-                clear, visual, and actionable insights with cost-inclusive transparency.
+                <Trans
+                  k="about.problem.paragraph2"
+                  components={{
+                    c1: <Cite>Lenain, 2026</Cite>,
+                    c2: <Cite>Esiri et al., 2024; Aguilera et al., 2024</Cite>
+                  }}
+                />
               </p>
               <p>
-                Unlike generic information websites, LUMI is an interactive decision-support platform
-                grounded in research on multi-criteria decision analysis and intelligent decision
-                support systems <Cite>Beriro et al., 2022; Bączkiewicz et al., 2024</Cite>, allowing
-                users to simulate scenarios, compare energy sources, and understand regional climate
-                patterns in the context of real energy demand.
+                <Trans
+                  k="about.problem.paragraph3"
+                  components={{
+                    c1: <Cite>Beriro et al., 2022; Bączkiewicz et al., 2024</Cite>
+                  }}
+                />
               </p>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6">
-              <div className="text-3xl font-bold text-primary">70.5%</div>
-              <div className="text-sm font-medium text-foreground mt-1">Fossil Fuel Share</div>
+              <div className="text-3xl font-bold text-primary">{t("about.problem.stats.fossilShare.value")}</div>
+              <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.fossilShare.label")}</div>
               <div className="text-xs text-muted-foreground mt-1">
-                Of the Philippines&apos; energy production comes from fossil fuels, with coal at 43.1%
-                <Cite>Gonocruz et al., 2024</Cite>
+                <Trans
+                  k="about.problem.stats.fossilShare.description"
+                  components={{ c1: <Cite>Gonocruz et al., 2024</Cite> }}
+                />
               </div>
             </div>
             <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6">
-              <div className="text-3xl font-bold text-primary">29.5%</div>
-              <div className="text-sm font-medium text-foreground mt-1">Renewable Share</div>
+              <div className="text-3xl font-bold text-primary">{t("about.problem.stats.renewableShare.value")}</div>
+              <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.renewableShare.label")}</div>
               <div className="text-xs text-muted-foreground mt-1">
-                Only about 29.5% of the country&apos;s energy is generated from renewable sources
-                <Cite>Gonocruz et al., 2024</Cite>
+                <Trans
+                  k="about.problem.stats.renewableShare.description"
+                  components={{ c1: <Cite>Gonocruz et al., 2024</Cite> }}
+                />
               </div>
             </div>
             <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6 sm:col-span-2">
-              <div className="text-3xl font-bold text-primary">3 Barriers</div>
-              <div className="text-sm font-medium text-foreground mt-1">To Adoption</div>
+              <div className="text-3xl font-bold text-primary">{t("about.problem.stats.barriers.value")}</div>
+              <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.barriers.label")}</div>
               <div className="text-xs text-muted-foreground mt-1">
-                Financial limitations, governance challenges, and societal resistance hinder renewable
-                transition in developing countries <Cite>Zhindon-Almeida & Ruiz-Carrillo, 2025</Cite>
+                <Trans
+                  k="about.problem.stats.barriers.description"
+                  components={{ c1: <Cite>Zhindon-Almeida &amp; Ruiz-Carrillo, 2025</Cite> }}
+                />
               </div>
             </div>
           </div>
@@ -199,21 +207,21 @@ export default function About() {
       <section className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge="Guiding Principles"
-            title="Mission & Vision"
-            subtitle="LUMI is guided by a commitment to environmental literacy and democratized access to energy intelligence."
+            badge={t("about.mission.badge")}
+            title={t("about.mission.title")}
+            subtitle={t("about.mission.subtitle")}
           />
 
           <div className="grid gap-6 md:grid-cols-2">
             <ValueCard
               icon={Globe}
-              title="Mission"
-              description="To democratize environmental intelligence by transforming complex climate and energy data into accessible, actionable insights that empower every Filipino to understand, evaluate, and transition toward renewable energy solutions with confidence and transparency."
+              title={t("about.mission.mission.title")}
+              description={t("about.mission.mission.description")}
             />
             <ValueCard
               icon={Lightbulb}
-              title="Vision"
-              description="A future where data-driven sustainability is within reach of every community. We envision a Philippines where students, households, and policymakers alike make informed energy decisions rooted in clear analytics, reducing fossil fuel dependence and accelerating national climate resilience."
+              title={t("about.mission.vision.title")}
+              description={t("about.mission.vision.description")}
             />
           </div>
         </div>
@@ -222,9 +230,9 @@ export default function About() {
       {/* RESEARCH BACKGROUND */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge="Research Foundation"
-          title="The Need for Environmental Intelligence"
-          subtitle="LUMI is built on a recognized research gap: the absence of user-friendly, data-driven tools for renewable energy evaluation in the Philippines."
+          badge={t("about.research.badge")}
+          title={t("about.research.title")}
+          subtitle={t("about.research.subtitle")}
         />
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -233,12 +241,12 @@ export default function About() {
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <BookOpen className="h-6 w-6" />
               </div>
-              <CardTitle>Educational Resource</CardTitle>
+              <CardTitle>{t("about.research.educational.title")}</CardTitle>
               <CardDescription className="text-sm leading-relaxed">
-                Research shows that education significantly affects people&apos;s perception of energy
-                sources and their willingness to transition <Cite>Aguilera et al., 2024</Cite>. LUMI
-                serves as a living case study that makes abstract climate concepts tangible through
-                interactive visualizations, directly supporting classroom and community learning.
+                <Trans
+                  k="about.research.educational.description"
+                  components={{ c1: <Cite>Aguilera et al., 2024</Cite> }}
+                />
               </CardDescription>
             </CardHeader>
           </Card>
@@ -247,12 +255,12 @@ export default function About() {
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <Microscope className="h-6 w-6" />
               </div>
-              <CardTitle>Decision Support</CardTitle>
+              <CardTitle>{t("about.research.decisionSupport.title")}</CardTitle>
               <CardDescription className="text-sm leading-relaxed">
-                Studies confirm that multi-criteria decision analysis improves social impact and
-                policy comprehension in renewable energy planning <Cite>Estévez et al., 2021; Witt & Klumpp, 2021</Cite>.
-                Government agencies can use LUMI to identify high-potential zones and craft strategies
-                backed by structured evaluation rather than assumptions.
+                <Trans
+                  k="about.research.decisionSupport.description"
+                  components={{ c1: <Cite>Estévez et al., 2021; Witt &amp; Klumpp, 2021</Cite> }}
+                />
               </CardDescription>
             </CardHeader>
           </Card>
@@ -261,12 +269,12 @@ export default function About() {
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <FlaskConical className="h-6 w-6" />
               </div>
-              <CardTitle>Research Groundwork</CardTitle>
+              <CardTitle>{t("about.research.researchGroundwork.title")}</CardTitle>
               <CardDescription className="text-sm leading-relaxed">
-                Environmental intelligence, defined as the use of machine learning and AI to
-                simulate predicted environment models <Cite>Bassetti, 2024</Cite>, is a growing field.
-                LUMI demonstrates the practical application of rule-based AI and predictive analytics
-                in tackling real-world environmental challenges, creating a foundation for future systems.
+                <Trans
+                  k="about.research.researchGroundwork.description"
+                  components={{ c1: <Cite>Bassetti, 2024</Cite> }}
+                />
               </CardDescription>
             </CardHeader>
           </Card>
@@ -274,19 +282,18 @@ export default function About() {
 
         <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-card to-muted/30 p-6 sm:p-8">
           <h3 className="text-lg font-semibold text-foreground mb-3">
-            Research Problem Statement
+            {t("about.research.problemStatement.title")}
           </h3>
           <p className="text-muted-foreground leading-relaxed">
-            Despite growing public awareness of renewable energy, it remains poorly understood and
-            perceived as costly <Cite>Wong et al., 2023</Cite>. With approximately 70.5% of the
-            Philippines&apos; energy production coming from fossil fuels <Cite>Gonocruz et al., 2024</Cite>,
-            the lack of a system that educates the public and allows them to evaluate renewable
-            energy options results in continued dependence on unsustainable sources. In developing
-            countries, barriers such as financial limitations, governance challenges, and societal
-            resistance significantly affect adoption intentions <Cite>Zhindon-Almeida & Ruiz-Carrillo, 2025; Rana et al., 2025</Cite>.
-            LUMI directly addresses this gap by providing an intuitive platform for data-driven
-            evaluation and informed decision-making grounded in multi-criteria and predictive methods
-            <Cite>Beriro et al., 2022; Bączkiewicz et al., 2024</Cite>.
+            <Trans
+              k="about.research.problemStatement.description"
+              components={{
+                c1: <Cite>Wong et al., 2023</Cite>,
+                c2: <Cite>Gonocruz et al., 2024</Cite>,
+                c3: <Cite>Zhindon-Almeida &amp; Ruiz-Carrillo, 2025; Rana et al., 2025</Cite>,
+                c4: <Cite>Beriro et al., 2022; Bączkiewicz et al., 2024</Cite>
+              }}
+            />
           </p>
         </div>
       </section>
@@ -295,61 +302,28 @@ export default function About() {
       <section className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge="System Architecture"
-            title="How LUMI Is Structured"
-            subtitle="LUMI integrates four interconnected modules that guide users from raw environmental data to confident renewable energy decisions."
+            badge={t("about.system.badge")}
+            title={t("about.system.title")}
+            subtitle={t("about.system.subtitle")}
           />
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-border/60 bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-                <BarChart3 className="h-7 w-7" />
+            {[
+              { icon: BarChart3, key: "energyHub", cites: { c1: <Cite>"Dashboard," 2026; What Is Data Visualization?, n.d.</Cite>, c2: <Cite>Das et al., 2022; Bandara et al., 2026</Cite> } },
+              { icon: Zap, key: "ecosim", cites: { c1: <Cite>Shatnawi et al., 2021</Cite> } },
+              { icon: BrainCircuit, key: "ai", cites: { c1: <Cite>Panagoulias et al., 2023</Cite>, c2: <Cite>Algburi et al., 2025</Cite> } },
+              { icon: Database, key: "dataViz", cites: { c1: <Cite>What Is Data Visualization?, n.d.</Cite>, c2: <Cite>Mustafa &amp; Al-Yozbaky, 2025</Cite> } }
+            ].map(({ icon: Icon, key, cites }) => (
+              <div key={key} className="rounded-2xl border border-border/60 bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
+                  <Icon className="h-7 w-7" />
+                </div>
+                <h3 className="text-lg font-semibold text-foreground">{t(`about.system.modules.${key}.title`)}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                  <Trans k={`about.system.modules.${key}.description`} components={cites} />
+                </p>
               </div>
-              <h3 className="text-lg font-semibold text-foreground">EnergyHub</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Interactive dashboard for climate patterns, energy consumption, and demand trends.
-                Dashboards that use graphical visualizations improve comprehension of complex data
-                <Cite>"Dashboard," 2026; What Is Data Visualization?, n.d.</Cite>, while meteorological
-                data is a critical input for predicting renewable energy output <Cite>Das et al., 2022; Bandara et al., 2026</Cite>.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border/60 bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-                <Zap className="h-7 w-7" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Ecosim</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Rule-based recommendation and what-if simulation engine comparing solar, wind, and
-                hydro with real costing and savings estimates. Studies confirm that technical criteria
-                hold the most weight (53.6%) in renewable energy decision-making, followed by environmental
-                impact (29.0%) <Cite>Shatnawi et al., 2021</Cite>.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border/60 bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-                <BrainCircuit className="h-7 w-7" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">AI Analysis</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                AI-powered natural language explanations for charts, forecasts, and recommendations.
-                Explainable artificial intelligence ensures insights are tailored to user needs and
-                unambiguous <Cite>Panagoulias et al., 2023</Cite>, while AI can effectively optimize
-                renewable energy by predicting supply and demand <Cite>Algburi et al., 2025</Cite>.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-border/60 bg-card p-6 text-center transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary mb-4">
-                <Database className="h-7 w-7" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground">Data Visualization</h3>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                Unified visual analytics including KPIs, trend charts, comparative graphs, and
-                regional overview panels. Data visualization is defined as the representation of data
-                using graphics to make patterns accessible <Cite>What Is Data Visualization?, n.d.</Cite>,
-                and classical forecasting models are sufficient when seasonal patterns are predictable
-                <Cite>Mustafa & Al-Yozbaky, 2025</Cite>.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -357,54 +331,50 @@ export default function About() {
       {/* TECHNOLOGY STACK */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge="Built With Modern Tools"
-          title="Technology Stack"
-          subtitle="LUMI uses a modern, scalable architecture designed for performance, accessibility, and seamless integration of AI and environmental data services."
+          badge={t("about.technology.badge")}
+          title={t("about.technology.title")}
+          subtitle={t("about.technology.subtitle")}
         />
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <TechItem
             icon={Monitor}
-            title="Frontend"
-            items={["React 18 + Vite", "Tailwind CSS", "shadcn/ui Components", "React Router", "Lucide Icons"]}
+            title={t("about.technology.frontend.title")}
+            items={t("about.technology.frontend.items")}
           />
           <TechItem
             icon={Server}
-            title="Backend"
-            items={["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"]}
+            title={t("about.technology.backend.title")}
+            items={t("about.technology.backend.items")}
           />
           <TechItem
             icon={Database}
-            title="Database"
-            items={["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"]}
+            title={t("about.technology.database.title")}
+            items={t("about.technology.database.items")}
           />
           <TechItem
             icon={BrainCircuit}
-            title="AI & ML"
-            items={["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"]}
+            title={t("about.technology.ai.title")}
+            items={t("about.technology.ai.items")}
           />
         </div>
 
         <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 to-accent/5 p-6 sm:p-8 text-center">
           <h3 className="text-xl font-semibold text-foreground">
-            Designed for Real-World Impact
+            {t("about.technology.impact.title")}
           </h3>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground leading-relaxed">
-            Every technology choice in LUMI serves the goal of making environmental intelligence
-            fast, accessible, and understandable. From responsive mobile layouts to AI-generated
-            explanations, the architecture supports users across all backgrounds and devices.
+            {t("about.technology.impact.description")}
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            {["Responsive Design", "Dark Mode Support", "Accessibility First", "Performance Optimized"].map(
-              (tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center rounded-full bg-card border border-border/60 px-3 py-1 text-xs font-medium text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              )
-            )}
+            {t("about.technology.impact.tags").map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center rounded-full bg-card border border-border/60 px-3 py-1 text-xs font-medium text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
       </section>
@@ -414,7 +384,7 @@ export default function About() {
         <div className="page-container py-12">
           <div className="mx-auto max-w-4xl space-y-6">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              References
+              {t("about.references")}
             </h3>
             <ol className="space-y-3 text-xs text-muted-foreground list-decimal list-inside">
               <li>
@@ -523,23 +493,22 @@ export default function About() {
         <div className="relative page-container py-16 sm:py-20">
           <div className="mx-auto max-w-3xl text-center space-y-6">
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Ready to Explore LUMI?
+              {t("about.footer.title")}
             </h2>
             <p className="mx-auto max-w-xl text-lg text-muted-foreground leading-relaxed">
-              Dive into regional climate data, run renewable energy simulations, and discover
-              actionable insights tailored to the Philippines.
+              {t("about.footer.subtitle")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link to="/energyhub">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
                   <BarChart3 className="h-5 w-5" />
-                  Try EnergyHub
+                  {t("about.footer.tryEnergyHub")}
                 </Button>
               </Link>
               <Link to="/ecosim">
                 <Button size="lg" variant="outline" className="gap-2 text-base">
                   <Zap className="h-5 w-5" />
-                  Launch Ecosim
+                  {t("about.footer.launchEcosim")}
                 </Button>
               </Link>
             </div>

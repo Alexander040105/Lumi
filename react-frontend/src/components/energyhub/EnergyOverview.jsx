@@ -1,6 +1,8 @@
 import { Zap, TrendingUp, Sun, Activity } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 export default function EnergyOverview({ data }) {
+  const { t } = useI18n();
   if (!data || !data.latest) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -15,43 +17,45 @@ export default function EnergyOverview({ data }) {
 
   const cards = [
     {
-      label: "Total Consumption",
-      value: `${latest.total_consumption_gwh.toLocaleString()} GWh`,
-      sub: `Year ${latest.year}`,
-      interpretation: `The Philippines used ${latest.total_consumption_gwh.toLocaleString()} billion kWh of electricity in ${latest.year}. That's enough to power millions of homes.`,
+      label: t("energyHub.overview.consumption.label"),
+      value: t("energyHub.overview.consumption.value", { value: latest.total_consumption_gwh.toLocaleString() }),
+      sub: t("energyHub.overview.consumption.sub", { year: latest.year }),
+      interpretation: t("energyHub.overview.consumption.interpretation", { value: latest.total_consumption_gwh.toLocaleString(), year: latest.year }),
       icon: Zap,
       color: "text-amber-500",
       bg: "bg-amber-50",
     },
     {
-      label: "Peak Demand",
-      value: `${latest.total_peak_demand_mw.toLocaleString()} MW`,
-      sub: `Year ${latest.year}`,
-      interpretation: `The highest electricity demand ever recorded. When demand is high, prices can spike and brownouts become more likely.`,
+      label: t("energyHub.overview.peakDemand.label"),
+      value: t("energyHub.overview.peakDemand.value", { value: latest.total_peak_demand_mw.toLocaleString() }),
+      sub: t("energyHub.overview.peakDemand.sub", { year: latest.year }),
+      interpretation: t("energyHub.overview.peakDemand.interpretation"),
       icon: Activity,
       color: "text-rose-500",
       bg: "bg-rose-50",
     },
     {
-      label: "Renewable Share",
-      value: `${latest.renewable_share_pct}%`,
-      sub: `${latest.renewable_generation_gwh.toLocaleString()} GWh generated`,
-      interpretation: `${latest.renewable_share_pct}% of electricity comes from clean sources like solar, wind, and hydro. The Philippines aims to reach 35% by 2030.`,
+      label: t("energyHub.overview.renewableShare.label"),
+      value: t("energyHub.overview.renewableShare.value", { share: latest.renewable_share_pct }),
+      sub: t("energyHub.overview.renewableShare.sub", { generated: latest.renewable_generation_gwh.toLocaleString() }),
+      interpretation: t("energyHub.overview.renewableShare.interpretation", { share: latest.renewable_share_pct }),
       icon: Sun,
       color: "text-emerald-500",
       bg: "bg-emerald-50",
     },
     {
-      label: "Forecast Growth (2030)",
-      value: forecast_summary?.forecast_growth_pct
-        ? `+${forecast_summary.forecast_growth_pct}%`
-        : "N/A",
+      label: t("energyHub.overview.forecastGrowth.label"),
+      value: t("energyHub.overview.forecastGrowth.value", {
+        value: forecast_summary?.forecast_growth_pct
+          ? `+${forecast_summary.forecast_growth_pct}%`
+          : t("energyHub.overview.forecastGrowth.na")
+      }),
       sub: forecast_summary?.forecast_2030_gwh
-        ? `${forecast_summary.forecast_2030_gwh.toLocaleString()} GWh projected`
-        : "",
+        ? t("energyHub.overview.forecastGrowth.sub", { value: forecast_summary.forecast_2030_gwh.toLocaleString() })
+        : t("energyHub.overview.forecastGrowth.subEmpty"),
       interpretation: forecast_summary?.forecast_growth_pct
-        ? `By 2030, electricity use is expected to grow ${forecast_summary.forecast_growth_pct}%. More clean energy is needed to meet this demand.`
-        : "Future electricity demand projections help plan for new power plants and renewable energy investments.",
+        ? t("energyHub.overview.forecastGrowth.interpretation", { pct: forecast_summary.forecast_growth_pct })
+        : t("energyHub.overview.forecastGrowth.interpretationFallback"),
       icon: TrendingUp,
       color: "text-sky-500",
       bg: "bg-sky-50",

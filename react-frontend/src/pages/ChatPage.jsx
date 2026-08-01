@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../services/supabaseClient";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n";
 
 function formatCitations(text) {
   if (!text) return text;
@@ -27,6 +28,7 @@ function formatCitations(text) {
 }
 
 export default function ChatPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState([]);
@@ -49,7 +51,7 @@ export default function ChatPage() {
         .order("created_at", { ascending: true });
 
       if (error) {
-        toast.error("Failed to load chat history");
+        toast.error(t("chat.failedToLoadHistory"));
         return;
       }
 
@@ -87,7 +89,7 @@ export default function ChatPage() {
           .select("id")
           .single();
 
-        if (error) throw new Error("Failed to create chat session");
+        if (error) throw new Error(t("chat.failedToCreateSession"));
         currentSessionId = session.id;
         setSessionId(currentSessionId);
         setSearchParams({ session: currentSessionId });
@@ -111,7 +113,7 @@ export default function ChatPage() {
       });
 
       if (!res.ok) {
-        throw new Error(`Server error ${res.status}: ${res.statusText}`);
+        throw new Error(t("chat.serverError", { status: res.status, statusText: res.statusText }));
       }
 
       const data = await res.json();
@@ -141,15 +143,15 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">LUMI AI Assistant</h1>
+        <h1 className="text-2xl font-bold">{t("chat.title")}</h1>
         <Button variant="outline" size="sm" onClick={handleNewChat}>
-          New Chat
+          {t("chat.newChat")}
         </Button>
       </div>
       <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30">
         {messages.length === 0 && (
           <p className="text-muted-foreground text-center mt-8">
-            Ask me anything about renewable energy in the Philippines.
+            {t("chat.empty")}
           </p>
         )}
         {messages.map((m, i) => (
@@ -166,7 +168,7 @@ export default function ChatPage() {
         ))}
         {isLoading && (
           <div className="bg-muted p-3 rounded-lg max-w-[80%] animate-pulse">
-            Thinking...
+            {t("chat.thinking")}
           </div>
         )}
       </div>
@@ -176,7 +178,7 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type your question..."
+          placeholder={t("chat.placeholder")}
           className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <button
@@ -184,7 +186,7 @@ export default function ChatPage() {
           disabled={isLoading}
           className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
-          Send
+          {t("chat.send")}
         </button>
       </div>
     </div>

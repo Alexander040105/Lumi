@@ -46,23 +46,31 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))"
         },
         brand: {
-          dark: "#195b16",
-          DEFAULT: "#305731",
-          light: "#9ad68b",
-          lighter: "#c0e7a8",
-          pale: "#ddffdc",
-          success: "#67bb63"
+          DEFAULT: "hsl(var(--brand))",
+          dark: "hsl(var(--brand-dark))",
+          light: "hsl(var(--brand-light))",
+          lighter: "hsl(var(--brand-lighter))",
+          pale: "hsl(var(--brand-pale))",
+          success: "hsl(var(--brand-success))"
         },
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))"
         },
         chart: {
-          solar: "#ffe476",
-          wind: "#67bb63",
-          hydro: "#305731",
-          geothermal: "#d97706",
-          accent: "#ffe476"
+          solar: "hsl(var(--chart-solar))",
+          wind: "hsl(var(--chart-wind))",
+          hydro: "hsl(var(--chart-hydro))",
+          geothermal: "hsl(var(--chart-geothermal))",
+          accent: "hsl(var(--chart-accent))"
+        },
+        map: {
+          "very-high": "hsl(var(--map-very-high))",
+          high: "hsl(var(--map-high))",
+          moderate: "hsl(var(--map-moderate))",
+          low: "hsl(var(--map-low))",
+          "very-low": "hsl(var(--map-very-low))",
+          "no-data": "hsl(var(--map-no-data))"
         }
       },
       borderRadius: {

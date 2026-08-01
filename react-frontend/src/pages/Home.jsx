@@ -15,6 +15,7 @@ import {
   ChevronRight
 } from "lucide-react";
 
+import { useI18n, Trans } from "@/i18n";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -77,6 +78,7 @@ function FeatureCard({ icon: Icon, title, description, tags }) {
 }
 
 function StepCard({ number, icon: Icon, title, description }) {
+  const { t } = useI18n();
   return (
     <div className="relative flex flex-col items-center text-center">
       <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground shadow-lg">
@@ -84,7 +86,7 @@ function StepCard({ number, icon: Icon, title, description }) {
       </div>
       <div className="mt-5 space-y-2">
         <div className="text-xs font-bold uppercase tracking-wider text-primary-foreground/70">
-          Step {number}
+          {t("home.howItWorks.step")} {number}
         </div>
         <h3 className="text-lg font-semibold text-primary-foreground">{title}</h3>
         <p className="text-sm leading-relaxed text-primary-foreground/85 max-w-xs">
@@ -118,6 +120,8 @@ function EnergyTypeCard({ icon: Icon, title, description, stat, colorClass }) {
 }
 
 export default function Home() {
+  const { t } = useI18n();
+
   return (
     <div className="flex flex-col">
       {/* HERO */}
@@ -127,101 +131,98 @@ export default function Home() {
         <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
         <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
 
-        <div className="relative page-container py-20 sm:py-28">
-          <div className="mx-auto max-w-4xl text-center space-y-8">
-            <div className="flex justify-center">
-              <img
-                src="/lumi-logo.png"
-                alt="LUMI Logo"
-                className="h-20 w-auto object-contain drop-shadow-sm sm:h-24"
-              />
-            </div>
+      <div className="relative page-container py-20 sm:py-28">
+        <div className="mx-auto max-w-4xl text-center space-y-8">
+          <div className="flex justify-center">
+            <img
+              src="/lumi-logo.png"
+              alt="LUMI Logo"
+              className="h-20 w-auto object-contain drop-shadow-sm sm:h-24"
+            />
+          </div>
 
-            <div className="space-y-4">
-              <Badge
-                variant="outline"
-                className="border-primary/30 bg-primary/5 text-primary px-3 py-1 text-sm"
+          <div className="space-y-4">
+            <Badge
+              variant="outline"
+              className="border-primary/30 bg-primary/5 text-primary px-3 py-1 text-sm"
+            >
+              {t("home.hero.badge")}
+            </Badge>
+            <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+              {t("home.hero.title")}{" "}
+              <span className="bg-gradient-to-r from-primary to-brand-success bg-clip-text text-transparent">
+                {t("home.hero.titleHighlight")}
+              </span>
+            </h1>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed sm:text-xl">
+              {t("home.hero.subtitle")}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link to="/energyhub">
+              <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
+                <BarChart3 className="h-5 w-5" />
+                {t("home.hero.tryEnergyHub")}
+              </Button>
+            </Link>
+            <Link to="/about">
+              <Button size="lg" variant="outline" className="gap-2 text-base">
+                {t("home.hero.learnMore")}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          </div>
+
+          {/* Stats row */}
+          <div className="grid grid-cols-2 gap-4 pt-8 sm:grid-cols-4">
+            {[
+              { label: t("home.stats.regionsCovered.label"), value: t("home.stats.regionsCovered.value"), sub: t("home.stats.regionsCovered.sub") },
+              { label: t("home.stats.energySources.label"), value: t("home.stats.energySources.value"), sub: t("home.stats.energySources.sub") },
+              { label: t("home.stats.dataPoints.label"), value: t("home.stats.dataPoints.value"), sub: t("home.stats.dataPoints.sub") },
+              { label: t("home.stats.aiInsights.label"), value: t("home.stats.aiInsights.value"), sub: t("home.stats.aiInsights.sub") }
+            ].map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-xl border border-border/50 bg-card/60 p-4 backdrop-blur-sm"
               >
-                Environmental Intelligence for the Philippines
-              </Badge>
-              <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-                Data-Driven Insights for a{" "}
-                <span className="bg-gradient-to-r from-primary to-brand-success bg-clip-text text-transparent">
-                  Sustainable Future
-                </span>
-              </h1>
-              <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed sm:text-xl">
-                LUMI transforms complex climate and energy data into accessible,
-                actionable insights. Evaluate renewable energy options, understand
-                regional climate patterns, and make informed decisions backed by
-                predictive analytics and AI-powered recommendations.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link to="/energyhub">
-                <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
-                  <BarChart3 className="h-5 w-5" />
-                  Try EnergyHub
-                </Button>
-              </Link>
-              <Link to="/about">
-                <Button size="lg" variant="outline" className="gap-2 text-base">
-                  Learn More
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
-
-            {/* Stats row */}
-            <div className="grid grid-cols-2 gap-4 pt-8 sm:grid-cols-4">
-              {[
-                { label: "Regions Covered", value: "17+", sub: "Luzon, Visayas, Mindanao" },
-                { label: "Energy Sources", value: "3", sub: "Solar, Wind, Hydro" },
-                { label: "Data Points", value: "10K+", sub: "Climate & energy records" },
-                { label: "AI Insights", value: "Real-time", sub: "Gemini-powered analysis" }
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-xl border border-border/50 bg-card/60 p-4 backdrop-blur-sm"
-                >
-                  <div className="text-2xl font-bold text-primary sm:text-3xl">{stat.value}</div>
-                  <div className="text-sm font-medium text-foreground">{stat.label}</div>
-                  <div className="text-xs text-muted-foreground">{stat.sub}</div>
-                </div>
-              ))}
-            </div>
+                <div className="text-2xl font-bold text-primary sm:text-3xl">{stat.value}</div>
+                <div className="text-sm font-medium text-foreground">{stat.label}</div>
+                <div className="text-xs text-muted-foreground">{stat.sub}</div>
+              </div>
+            ))}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
       {/* FEATURES */}
       <section className="relative border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge="Platform Modules"
-            title="Intelligent Tools for Energy Decisions"
-            subtitle="LUMI combines interactive dashboards, predictive forecasting, and AI-driven recommendations to bridge the gap between technical climate data and public understanding."
+            badge={t("home.features.badge")}
+            title={t("home.features.title")}
+            subtitle={t("home.features.subtitle")}
           />
 
           <div className="grid gap-6 md:grid-cols-3">
             <FeatureCard
               icon={BarChart3}
-              title="EnergyHub"
-              description="Interactive climate and energy dashboard displaying temperature trends, rainfall patterns, energy consumption, and electricity demand across Philippine regions with AI-generated interpretations."
-              tags={["Regional Filtering", "KPIs & Charts", "AI Insights", "NGCP & OpenWeather"]}
+              title={t("home.features.energyHub.title")}
+              description={t("home.features.energyHub.description")}
+              tags={t("home.features.energyHub.tags")}
             />
             <FeatureCard
               icon={Zap}
-              title="Ecosim"
-              description="A rule-based recommendation and simulation engine that evaluates solar, wind, and hydro feasibility per region. Input your monthly bill and consumption to see estimated costs, savings, and environmental impact."
-              tags={["What-If Scenarios", "Cost Analysis", "ROI Estimation", "Source Comparison"]}
+              title={t("home.features.ecosim.title")}
+              description={t("home.features.ecosim.description")}
+              tags={t("home.features.ecosim.tags")}
             />
             <FeatureCard
               icon={BrainCircuit}
-              title="AI Intelligence"
-              description="Powered by Gemini API, LUMI delivers contextual explanations for every chart, forecast, and recommendation. Natural language insights make complex environmental data understandable for everyone."
-              tags={["Natural Language", "Chart Explanations", "Recommendations", "Comparative Summaries"]}
+              title={t("home.features.ai.title")}
+              description={t("home.features.ai.description")}
+              tags={t("home.features.ai.tags")}
             />
           </div>
         </div>
@@ -233,14 +234,13 @@ export default function Home() {
         <div className="page-container py-20 sm:py-24 space-y-16">
           <div className="mx-auto max-w-3xl text-center space-y-4">
             <Badge className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 uppercase tracking-wide">
-              How LUMI Works
+              {t("home.howItWorks.badge")}
             </Badge>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              From Raw Data to Clear Decisions
+              {t("home.howItWorks.title")}
             </h2>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
-              LUMI simplifies the journey from scattered climate and energy information
-              to confident renewable energy choices.
+              {t("home.howItWorks.subtitle")}
             </p>
           </div>
 
@@ -248,30 +248,19 @@ export default function Home() {
             {/* Connector line for desktop */}
             <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-primary-foreground/40" />
 
-            <StepCard
-              number={1}
-              icon={Database}
-              title="Data Collection"
-              description="Aggregates public climate and energy datasets from NGCP, OpenWeather, and regional statistics into a unified, queryable foundation."
-            />
-            <StepCard
-              number={2}
-              icon={LineChart}
-              title="Climate & Energy Analysis"
-              description="Visualizes temperature trends, rainfall patterns, energy consumption, and demand across Luzon, Visayas, and Mindanao."
-            />
-            <StepCard
-              number={3}
-              icon={BrainCircuit}
-              title="AI Processing"
-              description="Applies rule-based logic and Gemini-powered AI to interpret patterns, generate forecasts, and produce contextual recommendations."
-            />
-            <StepCard
-              number={4}
-              icon={Lightbulb}
-              title="Decision Support"
-              description="Presents actionable insights, what-if simulations, and costed recommendations so users can choose the best renewable path forward."
-            />
+            {t("home.howItWorks.steps").map((step, index) => {
+              const icons = [Database, LineChart, BrainCircuit, Lightbulb];
+              const Icon = icons[index];
+              return (
+                <StepCard
+                  key={step.title}
+                  number={index + 1}
+                  icon={Icon}
+                  title={step.title}
+                  description={step.description}
+                />
+              );
+            })}
           </div>
         </div>
       </section>
@@ -279,33 +268,26 @@ export default function Home() {
       {/* RENEWABLE ENERGY */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge="Renewable Energy Evaluation"
-          title="Solar, Wind & Hydro Analysis"
-          subtitle="LUMI evaluates the feasibility of three core renewable energy sources tailored to Philippine regional conditions, helping users understand suitability, costs, and environmental benefits."
+          badge={t("home.renewable.badge")}
+          title={t("home.renewable.title")}
+          subtitle={t("home.renewable.subtitle")}
         />
 
         <div className="grid gap-6 sm:grid-cols-3">
-          <EnergyTypeCard
-            icon={Sun}
-            title="Solar Energy"
-            description="Evaluates solar irradiance, peak sun hours, and rooftop potential per region. Research shows Filipinos in Metro Manila demonstrate a strong preference for solar over biomass, wind, and small-scale hydropower, and community-based solar initiatives have provided positive impacts in island communities."
-            stat="Palanca-Tan et al., 2024; Franco & Taeihagh, 2024"
-            colorClass="bg-accent"
-          />
-          <EnergyTypeCard
-            icon={Wind}
-            title="Wind Energy"
-            description="Analyzes wind speed patterns and turbine viability for coastal and elevated areas. Studies in the Philippines confirm that combining multi-criteria decision methods with machine learning yields accurate site selection for wind power, providing policymakers and investors with objective feasibility data."
-            stat="Cerna et al., 2023; Abdullah et al., 2025"
-            colorClass="bg-brand-success"
-          />
-          <EnergyTypeCard
-            icon={Droplets}
-            title="Hydro Energy"
-            description="Assesses rainfall trends, river flow data, and micro-hydro opportunities. Research on hybrid renewable systems in Southern Philippines identifies hydropower as a viable component alongside solar and wind, with socio-environmental and techno-economic factors determining site suitability."
-            stat="Tarife et al., 2023"
-            colorClass="bg-primary"
-          />
+          {[
+            { icon: Sun, key: "solar", colorClass: "bg-accent" },
+            { icon: Wind, key: "wind", colorClass: "bg-brand-success" },
+            { icon: Droplets, key: "hydro", colorClass: "bg-primary" }
+          ].map(({ icon: Icon, key, colorClass }) => (
+            <EnergyTypeCard
+              key={key}
+              icon={Icon}
+              title={t(`home.renewable.${key}.title`)}
+              description={t(`home.renewable.${key}.description`)}
+              stat={t(`home.renewable.${key}.stat`)}
+              colorClass={colorClass}
+            />
+          ))}
         </div>
 
         {/* Insight banner */}
@@ -313,21 +295,22 @@ export default function Home() {
           <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
               <h3 className="text-lg font-semibold text-foreground">
-                Why the Philippines Needs Renewable Intelligence
+                {t("home.renewable.insight.title")}
               </h3>
               <p className="text-sm text-muted-foreground max-w-xl">
-                The Philippine grid relies on fossil fuels for approximately 70.5% of energy production
-                <Cite>Gonocruz et al., 2024</Cite>. In developing countries like the Philippines, financial
-                limitations, governance challenges, and societal resistance remain significant barriers
-                <Cite>Zhindon-Almeida & Ruiz-Carrillo, 2025</Cite>. Public perception and education also
-                significantly shape adoption intentions <Cite>Esiri et al., 2024; Aguilera et al., 2024</Cite>.
-                LUMI closes this gap by transforming fragmented technical data into accessible,
-                cost-inclusive insights.
+                <Trans
+                  k="home.renewable.insight.description"
+                  components={{
+                    c1: <Cite>Gonocruz et al., 2024</Cite>,
+                    c2: <Cite>Zhindon-Almeida &amp; Ruiz-Carrillo, 2025</Cite>,
+                    c3: <Cite>Esiri et al., 2024; Aguilera et al., 2024</Cite>
+                  }}
+                />
               </p>
             </div>
             <Link to="/about">
               <Button variant="outline" className="shrink-0 gap-2">
-                Read the Research
+                {t("home.renewable.insight.readResearch")}
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </Link>
@@ -344,23 +327,22 @@ export default function Home() {
               <TrendingUp className="h-8 w-8" />
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Start Analyzing Your Energy Future
+              {t("home.cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground leading-relaxed">
-              Whether you are a student, homeowner, policymaker, or researcher, LUMI gives you
-              the clarity to evaluate renewable energy with confidence backed by real data.
+              {t("home.cta.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link to="/ecosim">
                 <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
                   <Zap className="h-5 w-5" />
-                  Try Ecosim
+                  {t("home.cta.tryEcosim")}
                 </Button>
               </Link>
               <Link to="/energyhub">
                 <Button size="lg" variant="outline" className="gap-2 text-base">
                   <BarChart3 className="h-5 w-5" />
-                  Try EnergyHub
+                  {t("home.cta.tryEnergyHub")}
                 </Button>
               </Link>
             </div>
@@ -373,7 +355,7 @@ export default function Home() {
         <div className="page-container py-12">
           <div className="mx-auto max-w-4xl space-y-6">
             <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              References
+              {t("home.references")}
             </h3>
             <ol className="space-y-3 text-xs text-muted-foreground list-decimal list-inside">
               <li>

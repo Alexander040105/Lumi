@@ -93,6 +93,154 @@ def validate_wgs84(lat: float, lon: float) -> bool:
 # Generic map data retrieval
 # ---------------------------------------------------------------------------
 
+def _format_score(score: Any) -> float:
+    """Scale normalized (0-1) scores to 0-100; leave percentage scores as-is."""
+    try:
+        s = float(score)
+    except (TypeError, ValueError):
+        return 0.0
+    return round(s * 100, 2) if s <= 1.0 else round(s, 2)
+
+
+def _aggregate_to_province(
+    client,
+    municipality_rows: list[dict[str, Any]],
+    renewable_type: str,
+) -> list[dict[str, Any]]:
+    """Group municipality scores by province and average them."""
+    province_scores: dict[int, list[float]] = {}
+    for row in municipality_rows:
+        pid = row.get("province_id")
+        if pid is None:
+            continue
+        pid = int(pid)
+        province_scores.setdefault(pid, []).append(float(row["score"]))
+
+    if not province_scores:
+        return []
+
+    try:
+        resp = client.table("provinces").select("province_id,name,lat,lon").limit(50000).execute()
+        province_lookup = {
+            p["province_id"]: p for p in (resp.data or []) if p.get("province_id") is not None
+        }
+    except Exception as exc:
+        logger.warning("Failed to fetch provinces for aggregation: %s", exc)
+        return []
+
+    result = []
+    for pid, scores in province_scores.items():
+        prov = province_lookup.get(pid)
+        if not prov:
+            continue
+        lat = prov.get("lat")
+        lon = prov.get("lon")
+        if not (lat and lon and validate_wgs84(float(lat), float(lon))):
+            continue
+        result.append({
+            "geo_id": pid,
+            "name": prov.get("name"),
+            "lat": float(lat),
+            "lon": float(lon),
+            "score": round(sum(scores) / len(scores), 2),
+            "renewable_type": renewable_type,
+            "level": "province",
+            "province_id": None,
+        })
+    return result
+
+
+def _fetch_municipality_scores(
+    client,
+    renewable_type: str,
+) -> list[dict[str, Any]]:
+    """Return municipality-level rows with name, lat, lon, score, and province_id."""
+    score_source = {
+        "solar": (None, "solar_suitability_score"),
+        "wind": (None, "wind_suitability_score"),
+        "hydro": ("hydropower_suitability", "hydro_suitability_score"),
+        "geothermal": ("geothermal_suitability", "geothermal_score"),
+    }.get(renewable_type)
+
+    if not score_source:
+        logger.warning("Unknown renewable type: %s", renewable_type)
+        return []
+
+    suit_table, score_col = score_source
+
+    if suit_table is None:
+        # solar / wind: scores live directly on the municipalities table
+        resp = client.table("municipalities").select(
+            f"municipality_id,name,lat,lon,province_id,{score_col}"
+        ).limit(50000).execute()
+        rows = resp.data or []
+        result = []
+        for r in rows:
+            score = r.get(score_col)
+            lat = r.get("lat")
+            lon = r.get("lon")
+            if score is None or lat is None or lon is None:
+                continue
+            if not validate_wgs84(float(lat), float(lon)):
+                continue
+            result.append({
+                "geo_id": r.get("municipality_id"),
+                "name": r.get("name"),
+                "lat": float(lat),
+                "lon": float(lon),
+                "score": _format_score(score),
+                "renewable_type": renewable_type,
+                "level": "municipality",
+                "province_id": r.get("province_id"),
+            })
+        return result
+
+    # hydro / geothermal: separate source table, joined to municipalities
+    suit_resp = client.table(suit_table).select(
+        f"municipality_id,{score_col}"
+    ).limit(50000).execute()
+    suit_rows = {
+        r.get("municipality_id"): r.get(score_col)
+        for r in (suit_resp.data or [])
+        if r.get(score_col) is not None
+    }
+
+    if not suit_rows:
+        return []
+
+    muni_resp = client.table("municipalities").select(
+        "municipality_id,name,lat,lon,province_id"
+    ).limit(50000).execute()
+    muni_lookup = {
+        r.get("municipality_id"): r
+        for r in (muni_resp.data or [])
+        if r.get("municipality_id") is not None
+    }
+
+    result = []
+    for muni_id, score in suit_rows.items():
+        muni = muni_lookup.get(muni_id)
+        if not muni:
+            continue
+        lat = muni.get("lat")
+        lon = muni.get("lon")
+        if lat is None or lon is None:
+            continue
+        if not validate_wgs84(float(lat), float(lon)):
+            continue
+        result.append({
+            "geo_id": muni_id,
+            "name": muni.get("name"),
+            "lat": float(lat),
+            "lon": float(lon),
+            "score": _format_score(score),
+            "renewable_type": renewable_type,
+            "level": "municipality",
+            "province_id": muni.get("province_id"),
+        })
+    return result
+
+
 def get_map_data(
     renewable_type: str,
     level: str = "municipality",
@@ -101,36 +249,36 @@ def get_map_data(
 ) -> list[dict[str, Any]]:
     """Fetch map data (suitability scores + centroids) for a renewable type.
 
-    Tries materialized view first, falls back to direct table joins.
-
-    Args:
-        renewable_type: solar, wind, hydro, or geothermal
-        level: municipality or province
-        use_cache: Whether to use Redis cache
-        use_materialized_view: Whether to try MV first
-
-    Returns:
-        List of dicts with geo_id, name, lat, lon, score, and other fields
+    Uses the actual Supabase schema:
+    - solar/wind scores are columns on municipalities
+    - hydro scores are in hydropower_suitability
+    - geothermal scores are in geothermal_suitability
     """
-    # Check cache
+    normalized_level = (level or "municipality").split(":")[0].lower().strip()
+    if normalized_level not in {"municipality", "province"}:
+        normalized_level = "municipality"
+
     if use_cache:
-        cached = get_suitability_cache_sync(renewable_type, level)
+        cached = get_suitability_cache_sync(renewable_type, normalized_level)
         if cached:
             return cached
 
-    # Try materialized view first
-    if use_materialized_view and level in _MV_TABLES:
-        mv_data = _fetch_from_materialized_view(renewable_type, level)
-        if mv_data:
-            if use_cache:
-                set_suitability_cache_sync(renewable_type, level, mv_data)
-            return mv_data
+    try:
+        client = get_supabase_client()
+        municipality_rows = _fetch_municipality_scores(client, renewable_type)
 
-    # Fall back to direct table joins
-    data = _fetch_from_table_join(renewable_type, level)
-    if use_cache and data:
-        set_suitability_cache_sync(renewable_type, level, data)
-    return data
+        if normalized_level == "province":
+            data = _aggregate_to_province(client, municipality_rows, renewable_type)
+        else:
+            data = municipality_rows
+
+        if use_cache and data:
+            set_suitability_cache_sync(renewable_type, normalized_level, data)
+        return data
+
+    except Exception as exc:
+        logger.warning("Map data fetch failed for %s/%s: %s", renewable_type, normalized_level, exc)
+        return []
 
 
 def _fetch_from_materialized_view(
@@ -382,39 +530,45 @@ def get_coverage_summary(level: str = "municipality") -> dict[str, Any]:
 
     Returns counts of units with/without climate data, suitability scores, etc.
     """
+    normalized_level = (level or "municipality").split(":")[0].lower().strip()
+    if normalized_level not in {"municipality", "province"}:
+        normalized_level = "municipality"
+
     client = get_supabase_client()
 
+    # Try a pre-computed coverage_summary table first
     try:
         resp = (
             client.table("coverage_summary")
             .select("*")
-            .eq("level", level)
+            .eq("level", normalized_level)
             .execute()
         )
         rows = resp.data or []
         if rows:
-            return {"level": level, "items": rows}
+            return {"level": normalized_level, "items": rows}
+    except Exception as exc:
+        logger.warning("Pre-computed coverage_summary not available: %s", exc)
 
-        # Fallback: compute on-the-fly
-        if level == "municipality":
+    # Fallback: compute on-the-fly for municipalities
+    if normalized_level == "municipality":
+        try:
             total_resp = client.table("municipalities").select("municipality_id", count="exact").execute()
-            total = total_resp.count or 0
+            total = getattr(total_resp, "count", None) or len(total_resp.data or [])
 
-            climate_resp = (
-                client.table("municipality_climate_monthly")
-                .select("municipality_id", count="exact")
-                .execute()
-            )
-            with_climate = climate_resp.count or 0
+            climate_resp = client.table("municipalities").select(
+                "municipality_id,municipality_climate_monthly!inner(municipality_id)",
+                count="exact",
+            ).execute()
+            with_climate = getattr(climate_resp, "count", None) or len(climate_resp.data or [])
 
             return {
-                "level": level,
+                "level": normalized_level,
                 "total_units": total,
                 "with_climate_data": with_climate,
                 "coverage_pct": round(with_climate / total * 100, 1) if total else 0,
             }
+        except Exception as exc:
+            logger.warning("Coverage on-the-fly count failed: %s", exc)
 
-    except Exception as exc:
-        logger.warning("Coverage summary fetch failed: %s", exc)
-
-    return {"level": level, "items": []}
+    return {"level": normalized_level, "items": []}

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { supabase } from "@/services/supabaseClient";
 import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
 
 export default function ProfilePage() {
+  const { t } = useI18n();
   const { user, accessToken, emailConfirmed } = useAuth();
   const [profile, setProfile] = useState({
     full_name: "",
@@ -48,9 +50,9 @@ export default function ProfilePage() {
         },
         body: JSON.stringify(profile),
       });
-      setMessage("Profile updated successfully.");
+      setMessage(t("profile.updated"));
     } catch {
-      setMessage("Failed to update profile.");
+      setMessage(t("profile.updateFailed"));
     } finally {
       setSaving(false);
     }
@@ -84,9 +86,9 @@ export default function ProfilePage() {
       });
 
       setProfile((p) => ({ ...p, avatar_url: publicUrl }));
-      setMessage("Avatar updated successfully.");
+      setMessage(t("profile.avatarUpdated"));
     } catch (err) {
-      setMessage("Failed to upload avatar: " + err.message);
+      setMessage(t("profile.avatarUploadFailed") + err.message);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -105,9 +107,9 @@ export default function ProfilePage() {
         body: JSON.stringify({ avatar_url: null }),
       });
       setProfile((p) => ({ ...p, avatar_url: "" }));
-      setMessage("Avatar removed.");
+      setMessage(t("profile.avatarRemoved"));
     } catch {
-      setMessage("Failed to remove avatar.");
+      setMessage(t("profile.avatarRemoveFailed"));
     } finally {
       setUploading(false);
     }
@@ -123,21 +125,21 @@ export default function ProfilePage() {
   const currentAvatar =
     profile.avatar_url || user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
 
-  if (!user) return <p>Loading...</p>;
+  if (!user) return <p>{t("common.loading")}</p>;
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-2">Profile Settings</h1>
+      <h1 className="text-2xl font-bold mb-2">{t("profile.title")}</h1>
 
       <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
         <span>{user?.email}</span>
         {emailConfirmed ? (
           <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
-            ✓ Verified
+            ✓ {t("profile.verified")}
           </span>
         ) : (
           <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
-            ⚠ Unverified
+            ⚠ {t("profile.unverified")}
           </span>
         )}
       </div>
@@ -171,7 +173,7 @@ export default function ProfilePage() {
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
           >
-            {uploading ? "Uploading..." : "Change Photo"}
+            {uploading ? t("common.saving") : t("profile.changePhoto")}
           </Button>
           {currentAvatar && (
             <Button
@@ -181,7 +183,7 @@ export default function ProfilePage() {
               onClick={handleRemoveAvatar}
               disabled={uploading}
             >
-              Remove Photo
+              {t("profile.removePhoto")}
             </Button>
           )}
         </div>
@@ -189,7 +191,7 @@ export default function ProfilePage() {
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <label className="block text-sm font-medium mb-1">{t("profile.fullName")}</label>
           <input
             type="text"
             value={profile.full_name || ""}
@@ -198,7 +200,7 @@ export default function ProfilePage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Organization</label>
+          <label className="block text-sm font-medium mb-1">{t("profile.organization")}</label>
           <input
             type="text"
             value={profile.organization || ""}
@@ -207,7 +209,7 @@ export default function ProfilePage() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Location</label>
+          <label className="block text-sm font-medium mb-1">{t("profile.location")}</label>
           <input
             type="text"
             value={profile.location || ""}
@@ -227,7 +229,7 @@ export default function ProfilePage() {
           disabled={saving}
           className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
         >
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? t("common.saving") : t("profile.saveChanges")}
         </button>
       </div>
     </div>

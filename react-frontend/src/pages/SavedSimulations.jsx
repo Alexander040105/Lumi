@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/useAuth";
+import { useI18n } from "@/i18n";
 import { supabase } from "@/services/supabaseClient";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 
 export default function SavedSimulations() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [savedSimulations, setSavedSimulations] = useState([]);
@@ -53,7 +55,7 @@ export default function SavedSimulations() {
         setSavedSimulations(sims || []);
         setChatSessions(sessions || []);
       } catch {
-        toast.error("Failed to load data");
+        toast.error(t("savedSimulations.loadError"));
       } finally {
         setLoading(false);
       }
@@ -78,7 +80,7 @@ export default function SavedSimulations() {
   };
 
   const deleteSimulation = async (id) => {
-    if (!window.confirm("Delete this simulation?")) return;
+    if (!window.confirm(t("savedSimulations.deleteSimConfirm"))) return;
     try {
       const { error } = await supabase
         .from("saved_simulations")
@@ -87,14 +89,14 @@ export default function SavedSimulations() {
         .eq("user_id", user.id);
       if (error) throw error;
       setSavedSimulations((prev) => prev.filter((s) => s.id !== id));
-      toast.success("Simulation deleted");
+      toast.success(t("savedSimulations.simDeleted"));
     } catch {
-      toast.error("Failed to delete simulation");
+      toast.error(t("savedSimulations.simDeleteFailed"));
     }
   };
 
   const deleteChatSession = async (id) => {
-    if (!window.confirm("Delete this chat session?")) return;
+    if (!window.confirm(t("savedSimulations.deleteChatConfirm"))) return;
     try {
       const { error } = await supabase
         .from("chat_sessions")
@@ -104,17 +106,17 @@ export default function SavedSimulations() {
       if (error) throw error;
       setChatSessions((prev) => prev.filter((s) => s.id !== id));
       if (expandedSession === id) setExpandedSession(null);
-      toast.success("Chat deleted");
+      toast.success(t("savedSimulations.chatDeleted"));
     } catch {
-      toast.error("Failed to delete chat");
+      toast.error(t("savedSimulations.chatDeleteFailed"));
     }
   };
 
-  if (!user) return <p className="p-6">Please log in.</p>;
+  if (!user) return <p className="p-6">{t("savedSimulations.pleaseLogin")}</p>;
   if (loading) {
     return (
       <section className="page-container stack">
-        <h1 className="text-2xl font-bold">Saved Simulations</h1>
+        <h1 className="text-2xl font-bold">{t("savedSimulations.title")}</h1>
         <LoadingSkeleton />
       </section>
     );
@@ -122,20 +124,20 @@ export default function SavedSimulations() {
 
   return (
     <section className="page-container stack space-y-6">
-      <h1 className="text-2xl font-bold">Saved Simulations</h1>
+      <h1 className="text-2xl font-bold">{t("savedSimulations.title")}</h1>
 
       {/* EcoSim Saves */}
       <Card>
         <CardHeader>
-          <CardTitle>EcoSim Saves</CardTitle>
-          <CardDescription>Your persisted EcoSim analyses.</CardDescription>
+          <CardTitle>{t("savedSimulations.ecoSimsTitle")}</CardTitle>
+          <CardDescription>{t("savedSimulations.ecoSimsDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {savedSimulations.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              No saved simulations yet.{" "}
+              {t("savedSimulations.noSimulations")}{" "}
               <Link to="/ecosim" className="underline text-primary">
-                Run one now
+                {t("savedSimulations.runOne")}
               </Link>
               .
             </p>
@@ -157,9 +159,9 @@ export default function SavedSimulations() {
                     <div className="flex items-start justify-between gap-2">
                       <h3
                         className="font-semibold text-sm truncate flex-1"
-                        title={sim.label || "Unnamed Simulation"}
+                        title={sim.label || t("savedSimulations.unnamedSimulation")}
                       >
-                        {sim.label || "Unnamed Simulation"}
+                        {sim.label || t("savedSimulations.unnamedSimulation")}
                       </h3>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -177,7 +179,7 @@ export default function SavedSimulations() {
                     <div className="flex items-center gap-2 mt-3">
                       <Link to={`/ecosim?simulation_id=${sim.id}`} className="flex-1">
                         <Button variant="outline" size="sm" className="w-full">
-                          Open
+                          {t("savedSimulations.open")}
                         </Button>
                       </Link>
                       <Button
@@ -186,7 +188,7 @@ export default function SavedSimulations() {
                         onClick={() => deleteSimulation(sim.id)}
                         className="text-destructive hover:text-destructive"
                       >
-                        Delete
+                        {t("savedSimulations.delete")}
                       </Button>
                     </div>
                   </div>
@@ -200,15 +202,15 @@ export default function SavedSimulations() {
       {/* Chat History */}
       <Card>
         <CardHeader>
-          <CardTitle>Chat History</CardTitle>
-          <CardDescription>Your past conversations with LUMI AI.</CardDescription>
+          <CardTitle>{t("savedSimulations.chatHistoryTitle")}</CardTitle>
+          <CardDescription>{t("savedSimulations.chatHistoryDescription")}</CardDescription>
         </CardHeader>
         <CardContent>
           {chatSessions.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              No chat history yet.{" "}
+              {t("savedSimulations.noChatHistory")}{" "}
               <Link to="/chat" className="underline text-primary">
-                Start chatting
+                {t("savedSimulations.startChat")}
               </Link>
               .
             </p>
@@ -227,11 +229,11 @@ export default function SavedSimulations() {
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <span className="text-sm font-medium truncate">
-                          {session.title || "New Chat"}
+                          {session.title || t("savedSimulations.newChat")}
                         </span>
                         {session.is_flagged && (
                           <span className="text-xs bg-destructive/10 text-destructive px-1.5 py-0.5 rounded">
-                            Flagged
+                            {t("savedSimulations.flagged")}
                           </span>
                         )}
                       </div>
@@ -258,7 +260,7 @@ export default function SavedSimulations() {
                         <div className="flex items-center gap-2 mt-1">
                           <Link to={`/chat?session=${session.id}`}>
                             <Button size="sm" variant="outline">
-                              Continue Chat
+                              {t("savedSimulations.continueChat")}
                             </Button>
                           </Link>
                           <Button
@@ -267,7 +269,7 @@ export default function SavedSimulations() {
                             onClick={() => deleteChatSession(session.id)}
                             className="text-destructive hover:text-destructive"
                           >
-                            Delete
+                            {t("savedSimulations.delete")}
                           </Button>
                         </div>
                       </div>

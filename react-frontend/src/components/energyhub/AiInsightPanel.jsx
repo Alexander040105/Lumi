@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Lightbulb, Info, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/i18n";
 
 export default function AiInsightPanel({
   insight,
@@ -10,6 +11,7 @@ export default function AiInsightPanel({
   chartAnalyses = {},
   onAnalyzeChart,
 }) {
+  const { t } = useI18n();
   const [activeTab, setActiveTab] = useState("overview");
 
   const anyLoading = Object.values(llmLoading || {}).some(Boolean);
@@ -20,7 +22,7 @@ export default function AiInsightPanel({
       <div className="rounded-xl border bg-card p-6 shadow-sm">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Lightbulb className="h-5 w-5 text-amber-500" />
-          AI Insight
+          {t("energyHub.aiInsight.title")}
         </h3>
         <div className="mt-4 h-24 bg-muted rounded-lg animate-pulse" />
       </div>
@@ -34,7 +36,7 @@ export default function AiInsightPanel({
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h3 className="text-lg font-semibold flex items-center gap-2">
           <Lightbulb className="h-5 w-5 text-amber-500" />
-          AI Insight
+          {t("energyHub.aiInsight.title")}
         </h3>
         <Button
           variant={useLlm ? "default" : "outline"}
@@ -48,42 +50,37 @@ export default function AiInsightPanel({
           ) : (
             <Sparkles className="h-3.5 w-3.5" />
           )}
-          {useLlm ? "LLM Mode" : "Static Mode"}
+          {useLlm ? t("energyHub.aiInsight.llmMode") : t("energyHub.aiInsight.staticMode")}
         </Button>
       </div>
 
       <p className="mt-1 text-xs text-muted-foreground">
         {useLlm
-          ? "Powered by Gemini/Groq LLM — analyzing energy data dynamically."
-          : `Data-driven observation based on ${insight.data_year} statistics and ARIMA forecast`}
+          ? t("energyHub.aiInsight.poweredByLlm")
+          : t("energyHub.aiInsight.poweredByStatic", { year: insight.data_year })}
       </p>
 
       {/* Tabs for different chart analyses */}
       {useLlm && onAnalyzeChart && (
         <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-          {[
-            { key: "overview", label: "Overview" },
-            { key: "trends", label: "Trends" },
-            { key: "sources", label: "Sources" },
-            { key: "map", label: "Map" },
-          ].map((tab) => (
+          {["overview", "trends", "sources", "map"].map((tab) => (
             <button
-              key={tab.key}
+              key={tab}
               onClick={() => {
-                setActiveTab(tab.key);
-                if (!chartAnalyses[tab.key]) {
-                  onAnalyzeChart(tab.key);
+                setActiveTab(tab);
+                if (!chartAnalyses[tab]) {
+                  onAnalyzeChart(tab);
                 }
               }}
-              disabled={!!(llmLoading || {})[tab.key]}
+              disabled={!!(llmLoading || {})[tab]}
               className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors disabled:opacity-50 ${
-                activeTab === tab.key
+                activeTab === tab
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted text-muted-foreground hover:bg-muted/80"
               }`}
             >
-              {tab.label}
-              {chartAnalyses[tab.key] && <span className="ml-1 text-[10px]">✓</span>}
+              {t(`energyHub.aiInsight.tabs.${tab}`)}
+              {chartAnalyses[tab] && <span className="ml-1 text-[10px]">✓</span>}
             </button>
           ))}
         </div>
@@ -93,7 +90,7 @@ export default function AiInsightPanel({
         {tabLoading && !activeAnalysis?.insight ? (
           <div className="flex items-center gap-2 text-sm text-amber-800">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Generating LLM analysis...
+            {t("energyHub.aiInsight.loading")}
           </div>
         ) : (
           <p className="text-sm leading-relaxed text-amber-900 whitespace-pre-line">

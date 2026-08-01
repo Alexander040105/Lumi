@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HelpCircle } from "lucide-react";
+import { useI18n } from "@/i18n";
 import { getGlossary } from "@/utils/glossary";
 
 /**
@@ -9,7 +10,12 @@ import { getGlossary } from "@/utils/glossary";
 
 export default function HelpTooltip({ term, children, className = "" }) {
   const [show, setShow] = useState(false);
-  const definition = getGlossary(term);
+  const { t } = useI18n();
+
+  const key = (term || "").toLowerCase().trim().replace(/\s+/g, "_");
+  const glossaryKey = `glossary.${key}`;
+  const translated = t(glossaryKey);
+  const definition = translated !== glossaryKey ? translated : getGlossary(term);
 
   if (!definition) {
     return <span className={className}>{children}</span>;

@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import SavedSimulations from "../pages/SavedSimulations";
+import MFASetup from "../pages/MFASetup";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
 import ChatPage from "../pages/ChatPage";
@@ -72,6 +73,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <SavedSimulations />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="mfa"
+            element={
+              <ProtectedRoute>
+                <MFASetup />
               </ProtectedRoute>
             }
           />

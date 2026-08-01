@@ -12,6 +12,7 @@ import {
   getIrenaOverview,
 } from "../services/energyhub";
 
+import { useI18n } from "@/i18n";
 import EnergyOverview from "@/components/energyhub/EnergyOverview";
 import EnergyMap from "@/components/energyhub/EnergyMap";
 import EnergyTrends from "@/components/energyhub/EnergyTrends";
@@ -28,6 +29,7 @@ const SUITABILITY_METRICS = [
 ];
 
 export default function EnergyHub() {
+  const { t } = useI18n();
   const [overview, setOverview] = useState(null);
   const [trends, setTrends] = useState(null);
   const [mapData, setMapData] = useState(null);
@@ -92,7 +94,7 @@ export default function EnergyHub() {
         }
       } catch (err) {
         if (!cancelled) {
-          toast.error("Failed to load EnergyHub data", { description: err.message });
+          toast.error(t("energyHub.toast.loadError"), { description: err.message });
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -119,7 +121,7 @@ export default function EnergyHub() {
         if (!cancelled) setInsight(ai);
       } catch (err) {
         if (!cancelled) {
-          toast.error("LLM insight failed", { description: err.message });
+          toast.error(t("energyHub.toast.llmError"), { description: err.message });
           try {
             const staticAi = await getEnergyHubAiInsight(false);
             if (!cancelled) setInsight(staticAi);
@@ -213,7 +215,7 @@ export default function EnergyHub() {
       const result = await analyzeChart(chartType, chartData, forceRefresh);
       setChartAnalyses((prev) => ({ ...prev, [chartType]: result }));
     } catch (err) {
-      toast.error(`Failed to analyze ${chartType}`, { description: err.message });
+      toast.error(t("energyHub.toast.analyzeError", { chartType }), { description: err.message });
     } finally {
       setLlmLoading((prev) => ({ ...prev, [chartType]: false }));
     }
@@ -224,15 +226,12 @@ export default function EnergyHub() {
       {/* Header */}
       <div className="border-b bg-card">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight">EnergyHub</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t("energyHub.title")}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            Explore Philippine national energy statistics, ARIMA-based demand
-            forecasts, and renewable potential across regions. Data sourced from
-            the Department of Energy (DOE) and NASA POWER climate archives.
+            {t("energyHub.description")}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Disclaimer: This module provides educational insights and is not a
-            substitute for professional energy planning.
+            {t("energyHub.disclaimer")}
           </p>
         </div>
       </div>
@@ -241,7 +240,7 @@ export default function EnergyHub() {
         {/* Section 1: Overview Cards */}
         <section>
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-4">
-            National Overview
+            {t("energyHub.sections.nationalOverview")}
           </h2>
           <EnergyOverview data={overview} />
         </section>
@@ -254,23 +253,23 @@ export default function EnergyHub() {
         {/* Section 2b: IRENA Benchmark */}
         {irena && irena.capacity?.length > 0 && (
           <section className="rounded-xl border bg-card p-6 shadow-sm">
-            <h2 className="text-lg font-semibold">IRENA Benchmark</h2>
-            <p className="text-sm text-muted-foreground">Philippines renewable energy statistics from IRENA (cross-reference with DOE data).</p>
+            <h2 className="text-lg font-semibold">{t("energyHub.sections.irena.title")}</h2>
+            <p className="text-sm text-muted-foreground">{t("energyHub.sections.irena.description")}</p>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">Latest RE Capacity</p>
+                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.latestReCapacity")}</p>
                 <p className="text-lg font-semibold">
-                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "On-grid").pop()?.capacity_mw?.toLocaleString?.() ?? "—"} MW
+                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "On-grid").pop()?.capacity_mw?.toLocaleString?.() ?? "—"} {t("energyHub.sections.irena.unitMW")}
                 </p>
               </div>
               <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">Latest RE Generation</p>
+                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.latestReGeneration")}</p>
                 <p className="text-lg font-semibold">
-                  {irena.generation.filter(g => g.technology === "Total renewable" && g.grid_connection === "On-grid").pop()?.generation_gwh?.toLocaleString?.() || "—"} GWh
+                  {irena.generation.filter(g => g.technology === "Total renewable" && g.grid_connection === "On-grid").pop()?.generation_gwh?.toLocaleString?.() || "—"} {t("energyHub.sections.irena.unitGWh")}
                 </p>
               </div>
               <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">RE Share (latest)</p>
+                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.reShareLatest")}</p>
                 <p className="text-lg font-semibold">
                   {irena.renewable_share?.pop()?.renewable_share_pct ?? "—"}%
                 </p>

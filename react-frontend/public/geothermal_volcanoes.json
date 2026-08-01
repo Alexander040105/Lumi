@@ -1,4 +1,125 @@
 {
   "type": "FeatureCollection",
-  "features": []
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Babuyan Claro", "province": "Babuyan Island Group, Cagayan in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [121.95005, 19.52408] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Banahaw", "province": "Boundaries of Laguna and Quezon in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [121.48803, 14.06038] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Biliran (Anas)", "province": "Leyte in Visayas" },
+      "geometry": { "type": "Point", "coordinates": [124.47162, 11.63268] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Bud Dajo", "province": "Sulu in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [121.05772, 6.01295] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Bulusan", "province": "Sorsogon, Bicol Region in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [124.05445, 12.76853] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cabalian", "province": "Southern Leyte in Visayas" },
+      "geometry": { "type": "Point", "coordinates": [125.21598, 10.27986] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Cagua", "province": "Cagayan in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [122.1163, 18.22116] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Camiguin de Babuyanes", "province": "Babuyan Island Group, Cagayan in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [121.8628, 18.83037] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Didicas", "province": "Babuyan Island Group, Cagayan in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [122.20147, 19.07533] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Hibok-hibok", "province": "Camiguin in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [124.67115, 9.20427] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Iraya", "province": "Batan Island, Batanes in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [122.01078, 20.46669] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Iriga", "province": "Camarines Sur in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [123.45479, 13.45606] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Isarog", "province": "Camarines Sur in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [123.38087, 13.65685] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Kanlaon", "province": "Negros Oriental and Negros Occidental in Visayas" },
+      "geometry": { "type": "Point", "coordinates": [123.13243, 10.41129] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Leonard Kniaseff", "province": "Davao del Norte" },
+      "geometry": { "type": "Point", "coordinates": [126.06418, 7.39359] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Makaturing", "province": "Lanao del Sur" },
+      "geometry": { "type": "Point", "coordinates": [124.31718, 7.64371] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Matutum", "province": "Cotobato in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [125.07603, 6.36111] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Mayon", "province": "Albay, Bicol Region in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [123.68615, 13.25519] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Musuan (Calayo)", "province": "Bukidnon in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [125.06985, 7.8768] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Parker", "province": "South Cotobato/General Santos/ North Cotobato/Sarangani Provinces in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [124.88879, 6.10274] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Pinatubo", "province": "Boundaries of Pampanga, Tarlac and Zambales in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [120.350845, 15.14162] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Ragang", "province": "Lanao del Sur and Cotobato in Mindanao" },
+      "geometry": { "type": "Point", "coordinates": [124.50639, 7.69066] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Smith", "province": "Babuyan Island Group, Cagayan in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [121.91367, 19.53915] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Taal", "province": "Batangas in Luzon" },
+      "geometry": { "type": "Point", "coordinates": [120.99812, 14.01024] }
+    }
+  ]
 }

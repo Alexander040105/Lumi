@@ -1,6 +1,10 @@
 import { Component } from "react";
 
+import { I18nContext } from "@/i18n";
+
 export default class ErrorBoundary extends Component {
+  static contextType = I18nContext;
+
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -21,6 +25,8 @@ export default class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
+      const { t } = this.context || {};
+
       const isApiError = this.state.error?.message?.includes("fetch") ||
                          this.state.error?.message?.includes("Network") ||
                          this.state.error?.message?.includes("Request failed");
@@ -34,18 +40,18 @@ export default class ErrorBoundary extends Component {
               </svg>
             </div>
             <h3 className="text-lg font-bold text-gray-900 mb-2">
-              {isApiError ? "Connection Error" : "Something went wrong"}
+              {isApiError ? t?.("errorBoundary.connectionErrorTitle") : t?.("errorBoundary.genericErrorTitle")}
             </h3>
             <p className="text-sm text-gray-500 mb-4">
               {isApiError
-                ? "We couldn't reach the LUMI server. Please check your connection and try again."
-                : this.state.error?.message || "An unexpected error occurred."}
+                ? t?.("errorBoundary.connectionErrorDescription")
+                : this.state.error?.message || t?.("errorBoundary.genericErrorDescription")}
             </p>
             <button
               onClick={this.handleRetry}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
             >
-              Try Again
+              {t?.("errorBoundary.tryAgain")}
             </button>
           </div>
         </div>

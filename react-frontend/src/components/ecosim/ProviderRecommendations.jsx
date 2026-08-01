@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertTriangle, MapPin, ExternalLink, Building2 } from "lucide-react";
+import { useI18n } from "@/i18n";
 import providersData from "@/data/providers.json";
 import { getRegionFromProvince, getRegionFromMunicipality } from "@/utils/regionMap";
 
@@ -8,6 +9,7 @@ import { getRegionFromProvince, getRegionFromMunicipality } from "@/utils/region
  */
 
 export default function ProviderRecommendations({ municipalityName, provinceName }) {
+  const { t } = useI18n();
   // Determine region
   let region = getRegionFromProvince(provinceName) || getRegionFromMunicipality(municipalityName);
 
@@ -24,12 +26,11 @@ export default function ProviderRecommendations({ municipalityName, provinceName
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-sky-500" />
-          Trusted Solar Installers in Your Region
+          <Building2 className="h-5 w-5 text-primary" />
+          {t("ecosim.providers.title")}
         </CardTitle>
         <CardDescription>
-          These companies are registered with the DOE Solar PV Installer Registry (as of June 2025).
-          Always verify current status before hiring.
+          {t("ecosim.providers.description")}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -44,7 +45,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
                 className="rounded-lg border bg-card p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2"
               >
                 <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-sky-500 shrink-0 mt-0.5" />
+                  <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                   <div className="min-w-0">
                     <p className="text-sm font-medium line-clamp-2">{p.name}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{p.type}</p>
@@ -52,9 +53,9 @@ export default function ProviderRecommendations({ municipalityName, provinceName
                 </div>
                 <p className="text-xs text-muted-foreground line-clamp-2">{p.address}</p>
                 <div className="flex items-center justify-between mt-auto pt-1">
-                  <span className="text-xs text-slate-500">{p.years}</span>
-                  <span className="text-xs text-sky-600 flex items-center gap-1">
-                    Visit <ExternalLink className="h-3 w-3" />
+                  <span className="text-xs text-muted-foreground">{p.years}</span>
+                  <span className="text-xs text-primary flex items-center gap-1">
+                    {t("ecosim.providers.visit")} <ExternalLink className="h-3 w-3" />
                   </span>
                 </div>
               </a>
@@ -62,14 +63,12 @@ export default function ProviderRecommendations({ municipalityName, provinceName
           </div>
         ) : (
           <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
-            <AlertTriangle className="h-4 w-4 inline mr-1 text-amber-500" />
-            No registered providers found in your region.
-            Consider contacting providers in nearby regions, or search online for
-            "{municipalityName || provinceName || "your area"} solar installer".
+            <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" />
+            {t("ecosim.providers.none", { area: municipalityName || provinceName || t("common.notAvailable") })}
           </div>
         )}
         <p className="mt-3 text-xs text-muted-foreground">
-          This registry is solar-focused. Wind, hydro, and geothermal providers are not listed yet.
+          {t("ecosim.providers.note")}
         </p>
       </CardContent>
     </Card>

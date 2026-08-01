@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { Sparkles, Loader2 } from "lucide-react";
+import { useI18n } from "@/i18n";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -37,6 +38,7 @@ function sanitizeLLMOutput(text = "") {
 }
 
 function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
+  const { t } = useI18n();
   if (!analysis && !loading) {
     return (
       <button
@@ -44,7 +46,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
         className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors"
       >
         <Sparkles className="h-3 w-3" />
-        AI Explain
+        {t("energyHub.trends.aiExplain")}
       </button>
     );
   }
@@ -53,7 +55,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
     return (
       <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-700 border border-amber-200">
         <Loader2 className="h-3 w-3 animate-spin" />
-        Generating analysis...
+        {t("energyHub.trends.generating")}
       </div>
     );
   }
@@ -65,11 +67,11 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
         {onRefresh && (
           <button
             onClick={onRefresh}
-            title="Get a different explanation"
+            title={t("energyHub.trends.getDifferent")}
             className="shrink-0 inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700 border border-amber-200 hover:bg-amber-200 transition-colors"
           >
             <Sparkles className="h-3 w-3" />
-            Refresh
+            {t("energyHub.trends.refresh")}
           </button>
         )}
       </div>
@@ -78,6 +80,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
 }
 
 export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnalyzeChart }) {
+  const { t } = useI18n();
   const years = trends?.years || [];
   const series = trends?.series || {};
   const forecast = trends?.forecast || {};
@@ -125,33 +128,33 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         y: histY,
         type: "scatter",
         mode: "lines+markers",
-        name: "Historical",
+        name: t("energyHub.trends.legend.historical"),
         line: { color: "#3b82f6", width: 3 },
         marker: { size: 6 },
-        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra>Historical</extra>",
+        hovertemplate: t("energyHub.trends.hover.consumption", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
       {
         x: forecastX,
         y: forecastY,
         type: "scatter",
         mode: "lines+markers",
-        name: "Forecast",
+        name: t("energyHub.trends.legend.forecast"),
         line: { color: "#f87171", width: 3, dash: "dash" },
         marker: { size: 6 },
-        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra>Forecast</extra>",
+        hovertemplate: t("energyHub.trends.hover.consumption", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
     ];
-  }, [consumptionSeries]);
+  }, [consumptionSeries, t]);
 
   const consumptionLayout = useMemo(
     () => ({
       title: { text: "", font: { size: 14 } },
-      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
-      yaxis: { title: "GWh" },
+      xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
+      yaxis: { title: t("energyHub.trends.chartAxis.gwh") },
       legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
       margin: { t: 16, r: 100, b: 40, l: 56 },
     }),
-    []
+    [t]
   );
 
   const peakDemandTrace = useMemo(() => {
@@ -162,22 +165,22 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         y: vals,
         type: "scatter",
         mode: "lines+markers",
-        name: "Peak Demand",
+        name: t("energyHub.trends.peakDemand.title"),
         line: { color: "#f43f5e", width: 2 },
         marker: { size: 5 },
-        hovertemplate: "%{x}<br>%{y:,.0f} MW<extra></extra>",
+        hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}" }),
       },
     ];
-  }, [years, series]);
+  }, [years, series, t]);
 
   const peakDemandLayout = useMemo(
     () => ({
-      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
-      yaxis: { title: "MW" },
+      xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
+      yaxis: { title: t("energyHub.trends.chartAxis.mw") },
       legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
       margin: { t: 16, r: 100, b: 40, l: 56 },
     }),
-    []
+    [t]
   );
 
   const renewableGenTrace = useMemo(() => {
@@ -187,27 +190,27 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         x: years,
         y: vals,
         type: "bar",
-        name: "Renewable Generation",
+        name: t("energyHub.trends.renewable.title"),
         marker: { color: "#10b981" },
-        hovertemplate: "%{x}<br>%{y:,.0f} GWh<extra></extra>",
+        hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}" }),
       },
     ];
-  }, [years, series]);
+  }, [years, series, t]);
 
   const renewableGenLayout = useMemo(
     () => ({
-      xaxis: { title: "Year", tickmode: "linear", dtick: 1 },
-      yaxis: { title: "GWh" },
+      xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
+      yaxis: { title: t("energyHub.trends.chartAxis.gwh") },
       legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
       margin: { t: 16, r: 120, b: 40, l: 56 },
     }),
-    []
+    [t]
   );
 
   if (!years.length) {
     return (
       <div className="rounded-xl border bg-card p-6 shadow-sm">
-        <h3 className="text-lg font-semibold">Energy Trends</h3>
+        <h3 className="text-lg font-semibold">{t("energyHub.trends.title")}</h3>
         <div className="mt-4 h-48 bg-muted rounded-lg animate-pulse" />
       </div>
     );
@@ -216,15 +219,15 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
   return (
     <div className="rounded-xl border bg-card p-6 shadow-sm">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Energy Trends</h3>
+        <h3 className="text-lg font-semibold">{t("energyHub.trends.title")}</h3>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
             <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
-            Historical
+            {t("energyHub.trends.legend.historical")}
           </span>
           <span className="inline-flex items-center gap-1">
             <span className="inline-block h-2 w-2 rounded-full bg-red-400" />
-            Forecast
+            {t("energyHub.trends.legend.forecast")}
           </span>
         </div>
       </div>
@@ -233,14 +236,14 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       <div className="mt-4">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-semibold text-foreground">Total Electricity Use Over Time</p>
-            <p className="text-xs text-muted-foreground">How much electricity the whole country uses, and where it's heading</p>
+            <p className="text-sm font-semibold text-foreground">{t("energyHub.trends.consumption.title")}</p>
+            <p className="text-xs text-muted-foreground">{t("energyHub.trends.consumption.subtitle")}</p>
           </div>
         </div>
         <ChartExplanation
-          what="This chart shows historical national electricity consumption in the Philippines and the forecast through 2030."
-          why="Higher consumption means more power plants are needed. It also means more opportunities for clean energy to replace fossil fuels."
-          action="If your region shows above-average growth, consider solar or wind investments ahead of peak-period strain."
+          what={t("energyHub.trends.consumption.explanation.what")}
+          why={t("energyHub.trends.consumption.explanation.why")}
+          action={t("energyHub.trends.consumption.explanation.action")}
         />
         <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
           <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
@@ -259,12 +262,12 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       {/* Peak demand + Renewable generation */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <p className="text-sm font-semibold text-foreground">Peak Electricity Demand</p>
-          <p className="text-xs text-muted-foreground mb-2">The highest amount of electricity needed at any single moment</p>
+          <p className="text-sm font-semibold text-foreground">{t("energyHub.trends.peakDemand.title")}</p>
+          <p className="text-xs text-muted-foreground mb-2">{t("energyHub.trends.peakDemand.subtitle")}</p>
           <ChartExplanation
-            what="This chart shows the highest recorded electricity demand per year across all Philippine grids."
-            why="Rising peak demand means the grid needs more reliable capacity. When peaks are too high, brownouts can happen."
-            action="Municipalities with high peak-demand growth should prioritize distributed solar or battery storage."
+            what={t("energyHub.trends.peakDemand.explanation.what")}
+            why={t("energyHub.trends.peakDemand.explanation.why")}
+            action={t("energyHub.trends.peakDemand.explanation.action")}
           />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
             <PlotlyChart data={peakDemandTrace} layout={peakDemandLayout} />
@@ -280,12 +283,12 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           )}
         </div>
         <div>
-          <p className="text-sm font-semibold text-foreground">Clean Energy Generation</p>
-          <p className="text-xs text-muted-foreground mb-2">How much electricity comes from solar, wind, hydro, and geothermal sources</p>
+          <p className="text-sm font-semibold text-foreground">{t("energyHub.trends.renewable.title")}</p>
+          <p className="text-xs text-muted-foreground mb-2">{t("energyHub.trends.renewable.subtitle")}</p>
           <ChartExplanation
-            what="This chart shows total renewable energy generation (solar, wind, hydro, geothermal, biomass) per year."
-            why="A rising share means the country is successfully replacing coal and gas with clean energy. This helps reduce electricity costs and pollution over time."
-            action="Advocate for local RE adoption if your province lags the national renewable growth trend."
+            what={t("energyHub.trends.renewable.explanation.what")}
+            why={t("energyHub.trends.renewable.explanation.why")}
+            action={t("energyHub.trends.renewable.explanation.action")}
           />
           <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
             <PlotlyChart data={renewableGenTrace} layout={renewableGenLayout} />

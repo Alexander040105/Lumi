@@ -1,13 +1,16 @@
+import { useI18n } from "@/i18n";
 import MapPanel from "../components/MapPanel";
 import CoverageDashboard from "../components/CoverageDashboard";
 
 export default function MapPage() {
+  const { t } = useI18n();
+
   return (
     <section className="container mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold">Renewable Energy Map</h1>
+        <h1 className="text-2xl font-bold">{t("map.title")}</h1>
         <p className="text-muted-foreground">
-          Explore suitability scores for solar, wind, hydro, and geothermal across the Philippines.
+          {t("map.description")}
         </p>
       </div>
 
