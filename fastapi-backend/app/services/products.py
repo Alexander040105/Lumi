@@ -15,13 +15,7 @@ from pathlib import Path
 import pandas as pd
 from fastapi import HTTPException, status
 
-_PRODUCTS_CSV = (
-    Path(__file__).resolve().parents[3]
-    / "scraped_data"
-    / "output"
-    / "cleaned"
-    / "cleaned_products_master.csv"
-)
+_PRODUCTS_CSV = Path(__file__).resolve().parent / "local_data" / "products.csv"
 
 # Lazy-loaded DataFrame
 _products_df: pd.DataFrame | None = None

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "framework": null,
+  "installCommand": "cd react-frontend && npm ci && cd .. && pip install -r fastapi-backend/requirements-vercel.txt",
+  "buildCommand": "cd react-frontend && npm run build",
+  "outputDirectory": "react-frontend/dist",
+  "rewrites": [
+    { "source": "/api/v1/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "memory": 1024,
+      "excludeFiles": "{.venv/**,node_modules/**,lumi_tests/**,fastapi-backend/.venv/**,fastapi-backend/**/__pycache__/**,fastapi-backend/**/.pytest_cache/**,fastapi-backend/scripts/**,fastapi-backend/app/services/local_data/rag_faiss.index,fastapi-backend/app/services/local_data/rag_chunks.json,fastapi-backend/app/services/local_data/rag_knowledge_base.json,fastapi-backend/app/services/local_data/wind_products_joined.csv,fastapi-backend/app/services/local_data/cleaned_products_master_kw.csv,fastapi-backend/app/services/local_data/cleaned_products_rejected.csv,fastapi-backend/app/services/test_*.py,scraped_data/**,windsurf_data_extraction/**,python_scripts/**,DOE_Data_Extracted/**/*.tif,DOE_Data_Extracted/**/*.pdf,DOE_Data_Extracted/**/*.png,DOE_Data_Extracted/**/*.ipynb,DOE_Data_Extracted/**/*.xml,DOE_Data_Extracted/**/*.xlsx,DOE_Data_Extracted/**/*.mp4,react-frontend/**}",
+      "includeFiles": "{fastapi-backend/**,DOE_Data_Extracted/data_v1/*.csv,DOE_Data_Extracted/data_v2_preprocessed/*.csv,DOE_Data_Extracted/**/*.csv,DOE_Data_Extracted/**/*.json,philippine_geojson/*.json}"
+    }
+  }
+}
