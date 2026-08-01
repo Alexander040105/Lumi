@@ -55,6 +55,8 @@ Add all of the following in **Project → Settings → Environment Variables** i
 
 ## Deploy steps
 
+### Vercel dashboard (recommended for first deploy)
+
 1. Push the repository to GitHub.
 2. In Vercel, create a new project and import the GitHub repository.
 3. Vercel will use the root `vercel.json`:
@@ -65,6 +67,16 @@ Add all of the following in **Project → Settings → Environment Variables** i
    - all other paths serve the static SPA
 4. Add the environment variables above.
 5. Deploy.
+
+### GitHub Actions
+
+A workflow is provided at `.github/workflows/vercel-deploy.yml`. To use it, add these repository secrets in **Settings → Secrets and variables → Actions**:
+
+- `VERCEL_TOKEN` — from your Vercel account settings
+- `VERCEL_ORG_ID` — from `vercel whoami` or your Vercel dashboard URL
+- `VERCEL_PROJECT_ID` — from the Vercel project settings
+
+Once configured, pushing to `main` will automatically build and deploy to Vercel.
 
 ## Optional companion ML worker
 
