@@ -428,6 +428,20 @@ def reconcile_forecast_cache(
     }
 
 
+def _classify_model_type(model_name: str) -> str:
+    """Map a model name to the constrained ml_model_registry.model_type."""
+    name = model_name.strip().upper()
+    if name.startswith(("SARIMA", "ARIMA")):
+        return "SARIMA"
+    if "LIGHTGBM" in name:
+        return "LightGBM"
+    if "XGBOOST" in name:
+        return "XGBoost"
+    if "PROPHET" in name:
+        return "Prophet"
+    return "SARIMA"
+
+
 def log_model_run(
     model_name: str,
     target_variable: str,
@@ -436,7 +450,10 @@ def log_model_run(
     run_type: str = "train",
     status: str = "success",
 ) -> str | None:
-    """Log a model run to the forecast_model_runs table.
+    """Log a model run and register the model in ml_model_registry.
+
+    Creates a row in ml_model_registry and links it to the new
+    forecast_model_runs row via model_id.
 
     Args:
         model_name: Name of the model
@@ -455,21 +472,36 @@ def log_model_run(
         from datetime import datetime, timezone
 
         client = get_supabase_client()
-        resp = (
-            client.table("forecast_model_runs")
-            .insert({
-                "run_type": run_type,
-                "target_variable": target_variable,
-                "hyperparameters": _json.dumps(hyperparameters or {}),
-                "metrics": _json.dumps(metrics),
-                "started_at": datetime.now(timezone.utc).isoformat(),
-                "finished_at": datetime.now(timezone.utc).isoformat(),
-                "status": status,
-            })
-            .execute()
-        )
-        if resp.data:
-            return resp.data[0].get("id")
+        now = datetime.now(timezone.utc)
+
+        # Register this trained/backtested model version
+        registry_payload = {
+            "model_name": model_name,
+            "model_version": now.strftime("%Y.%m.%d-%H%M%S"),
+            "model_type": _classify_model_type(model_name),
+            "target_variable": target_variable,
+            "train_date": now.date().isoformat(),
+            "metrics": metrics,
+            "is_active": False,
+        }
+        reg_resp = client.table("ml_model_registry").insert(registry_payload).execute()
+        if not reg_resp.data:
+            raise RuntimeError("ml_model_registry insert returned no data")
+        model_id = reg_resp.data[0].get("model_id")
+
+        run_payload = {
+            "model_id": model_id,
+            "run_type": run_type,
+            "target_variable": target_variable,
+            "hyperparameters": _json.dumps(hyperparameters or {}),
+            "metrics": _json.dumps(metrics),
+            "started_at": now.isoformat(),
+            "finished_at": now.isoformat(),
+            "status": status,
+        }
+        run_resp = client.table("forecast_model_runs").insert(run_payload).execute()
+        if run_resp.data:
+            return run_resp.data[0].get("id")
     except Exception as exc:
         logger.warning("Failed to log model run: %s", exc)
     return None

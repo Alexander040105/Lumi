@@ -142,8 +142,8 @@ class EnergyHubML:
 
         years = df["year"].astype(int).tolist()
         values = df[target_col].round(2).tolist()
-        ci_lower = df.get("ci_lower", pd.Series([None] * len(df))).round(2).tolist()
-        ci_upper = df.get("ci_upper", pd.Series([None] * len(df))).round(2).tolist()
+        ci_lower = df["ci_lower"].round(2).tolist() if "ci_lower" in df.columns else [None] * len(df)
+        ci_upper = df["ci_upper"].round(2).tolist() if "ci_upper" in df.columns else [None] * len(df)
 
         return _sanitize_nan({
             "forecast_years": years,
