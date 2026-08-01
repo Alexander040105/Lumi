@@ -21,6 +21,8 @@ downloads/
 eggs/
 .eggs/
 lib/
+!react-frontend/src/lib/
+!react-frontend/src/lib/utils.js
 lib64/
 parts/
 sdist/
