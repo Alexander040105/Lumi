@@ -17,6 +17,9 @@ _EMBEDDING_CACHE_PREFIX = 'lumi:rag:embedding'
 _EMBEDDING_CACHE_TTL_SECONDS = 3600
 _HUGGINGFACE_INFERENCE_URL = 'https://api-inference.huggingface.co/models/{model}'
 
+# Lazy-loaded local sentence-transformers model for the 'sentence-transformers' provider.
+_local_embedder: Any = None
+
 
 def _cache_key(text: str) -> str:
     normalized = text.strip().lower()
@@ -131,6 +134,32 @@ def _embed_with_openai(
     return results
 
 
+def _embed_with_sentence_transformers(texts: list[str], model: str, batch_size: int) -> list[list[float]]:
+    global _local_embedder
+    if _local_embedder is None:
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as exc:
+            raise ImportError(
+                'sentence-transformers is required for the local embedding provider. '
+                'Install it or set EMBEDDING_PROVIDER=huggingface-inference.'
+            ) from exc
+        logger.info('Loading local embedding model %s ...', model)
+        _local_embedder = SentenceTransformer(model)
+
+    results: list[list[float]] = []
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i : i + batch_size]
+        arrays = _local_embedder.encode(
+            batch,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+            show_progress_bar=False,
+        )
+        results.extend(arrays.astype('float32').tolist())
+    return results
+
+
 def _embed_batch(texts: list[str]) -> list[list[float]]:
     settings = get_settings()
     provider = settings.embedding_provider.lower() if settings.embedding_provider else 'huggingface-inference'
@@ -143,6 +172,8 @@ def _embed_batch(texts: list[str]) -> list[list[float]]:
     if provider == 'openai':
         token = settings.openai_api_key or settings.embedding_api_key or None
         return _embed_with_openai(texts, model, token, batch_size)
+    if provider in ('sentence-transformers', 'local', 'st'):
+        return _embed_with_sentence_transformers(texts, model, batch_size)
     raise ValueError(f'Unsupported embedding provider: {settings.embedding_provider}')
 
 
