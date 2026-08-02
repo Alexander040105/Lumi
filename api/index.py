@@ -10,6 +10,8 @@ sys.path.insert(0, str(_BACKEND))
 # Use the serverless pgvector RAG backend by default.
 os.environ.setdefault("RAG_BACKEND", "pgvector")
 os.environ.setdefault("ENABLE_RAG", "true")
+os.environ.setdefault("EMBEDDING_PROVIDER", "huggingface-inference")
+os.environ.setdefault("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
 
 # Import the FastAPI application from the backend package.
 from main import app  # noqa: F401
