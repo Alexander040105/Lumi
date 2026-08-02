@@ -21,7 +21,7 @@ The following remain in Vercel:
 - `fastapi`, `pydantic-settings`, `supabase`, `httpx`, `redis`, `google-genai`, `groq`
 - `pandas`, `numpy`, `statsmodels` (for forecasting)
 
-RAG functionality runs with degraded context when `ML_WORKER_URL` is unset, because `sentence-transformers` and `faiss-cpu` are not present. Chat still responds using Groq/Gemini.
+RAG now runs directly on Vercel via Supabase `pgvector` and the free HuggingFace Inference API (`sentence-transformers/all-MiniLM-L6-v2`). You must enable the `vector` extension in Supabase and run `fastapi-backend/scripts/seed_rag_pgvector.py` once before RAG is available.
 
 ## Environment variables
 
@@ -49,7 +49,12 @@ Add all of the following in **Project → Settings → Environment Variables** i
 | `UPSTASH_REDIS_URL` | `rediss://default:...@...upstash.io:6379` | Optional; app falls back to in-memory cache |
 | `GROQ_API_KEY` | `<key>` | Required for chat/AI insights |
 | `GEMINI_API_KEY` | `<key>` | Optional alternative LLM |
-| `ENABLE_RAG` | `false` | Required on Vercel to skip FAISS startup |
+| `ENABLE_RAG` | `true` | Required on Vercel to enable RAG |
+| `RAG_BACKEND` | `pgvector` | Use `pgvector` on Vercel; `faiss` is for local Docker |
+| `EMBEDDING_PROVIDER` | `huggingface-inference` | Free by default; `openai` is optional and paid |
+| `EMBEDDING_MODEL` | `sentence-transformers/all-MiniLM-L6-v2` | Must match the dimension of the stored vectors |
+| `HF_TOKEN` | `<token>` | Optional; raises HuggingFace rate limits |
+| `OPENAI_API_KEY` | `<key>` | Optional; only used when `EMBEDDING_PROVIDER=openai` |
 | `ML_WORKER_URL` | `https://<worker-domain>` | Optional; see below |
 | `ML_WORKER_PROXY_PREFIXES` | `/api/v1/chat,/api/v1/etl` | Comma-separated prefixes to proxy |
 
@@ -93,7 +98,7 @@ When `ML_WORKER_URL` is not set, those routes run inside the Vercel Function wit
 
 1. Open the deployed Vercel URL.
 2. Visit `/api/v1/health/` -> should return `{"status":"ok"}`.
-3. Visit `/api/v1/health/detailed` -> should return `ok/degraded` status for Supabase, Redis, and `not_loaded` for the RAG index.
+3. Visit `/api/v1/health/detailed` -> should return `ok/degraded` status for Supabase and Redis. `rag_index` is `ok` after seeding and `not_loaded` before.
 4. Open the frontend and verify login, dashboard, and EcoSim work.
 5. Test a light forecast request: `/api/v1/forecast/models`.
 
@@ -106,7 +111,8 @@ When `ML_WORKER_URL` is not set, those routes run inside the Vercel Function wit
 
 ## Troubleshooting
 
-- **ImportError for `sentence_transformers` or `faiss`**: expected; RAG falls back. Enable `ML_WORKER_URL` for full RAG.
+- **RAG returns `not_loaded` or empty context**: make sure the Supabase `vector` extension is enabled and `fastapi-backend/scripts/seed_rag_pgvector.py` has been run.
+- **ImportError for `sentence_transformers` or `faiss`**: expected on Vercel; the pgvector path does not use these packages.
 - **`ModuleNotFoundError: No module named 'main'`**: `api/index.py` uses `Path(__file__).resolve().parents[1]`. Verify `fastapi-backend/main.py` exists.
 - **CORS errors in the browser**: set `CORS_ORIGINS` to your deployed Vercel domain and any preview domains.
 - **Function timeout on forecast/ETL**: increase `maxDuration` in `vercel.json` (up to 60 s on Pro) or route the endpoint to an ML worker.
