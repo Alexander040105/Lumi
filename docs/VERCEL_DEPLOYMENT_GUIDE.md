@@ -86,7 +86,7 @@ Add all of the following in **Project → Settings → Environment Variables** i
    - **Root Directory:** `./`
    - **Build Command:** `cd react-frontend && npm run build`
    - **Output Directory:** `react-frontend/dist`
-   - **Install Command:** `cd react-frontend && npm ci && cd .. && pip install -r fastapi-backend/requirements-vercel.txt`
+   - **Install Command:** `cd react-frontend && npm ci && cd .. && pip install --break-system-packages -r fastapi-backend/requirements-vercel.txt`
 
 4. **Add the environment variables.**
    Go to **Project → Settings → Environment Variables** and add every variable from the "Environment variables" section above.
