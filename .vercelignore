@@ -1,0 +1,31 @@
+# Tests and non-runtime scripts
+lumi_tests/
+scraped_data/
+windsurf_data_extraction/
+python_scripts/
+fastapi-backend/scripts/
+fastapi-backend/app/services/test_*.py
+
+# Python virtual environments and caches
+.venv/
+fastapi-backend/.venv/
+node_modules/
+__pycache__/
+.pytest_cache/
+
+# Heavy local_data files not used at runtime (products.csv is intentionally kept)
+fastapi-backend/app/services/local_data/rag_faiss.index
+fastapi-backend/app/services/local_data/rag_chunks.json
+fastapi-backend/app/services/local_data/rag_knowledge_base.json
+fastapi-backend/app/services/local_data/wind_products_joined.csv
+fastapi-backend/app/services/local_data/cleaned_products_master_kw.csv
+fastapi-backend/app/services/local_data/cleaned_products_rejected.csv
+
+# Heavy DOE binary/zip-like outputs
+DOE_Data_Extracted/**/*.tif
+DOE_Data_Extracted/**/*.pdf
+DOE_Data_Extracted/**/*.png
+DOE_Data_Extracted/**/*.ipynb
+DOE_Data_Extracted/**/*.xml
+DOE_Data_Extracted/**/*.xlsx
+DOE_Data_Extracted/**/*.mp4
