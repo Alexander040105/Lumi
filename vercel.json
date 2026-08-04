@@ -13,7 +13,7 @@
     "api/index.py": {
       "maxDuration": 60,
       "memory": 1024,
-      "excludeFiles": "{.venv/**,node_modules/**,lumi_tests/**,fastapi-backend/.venv/**,fastapi-backend/**/__pycache__/**,fastapi-backend/**/.pytest_cache/**,fastapi-backend/scripts/**, fastapi-backend/app/services/test_*.py,fastapi-backend/app/services/local_data/rag_faiss.index,fastapi-backend/app/services/local_data/rag_chunks.json,fastapi-backend/app/services/local_data/rag_knowledge_base.json,fastapi-backend/app/services/local_data/wind_products_joined.csv,fastapi-backend/app/services/local_data/cleaned_products_master_kw.csv,fastapi-backend/app/services/local_data/cleaned_products_rejected.csv,scraped_data/**,windsurf_data_extraction/**,python_scripts/**,react-frontend/**,DOE_Data_Extracted/**/*.tif,DOE_Data_Extracted/**/*.pdf,DOE_Data_Extracted/**/*.png,DOE_Data_Extracted/**/*.ipynb,DOE_Data_Extracted/**/*.xml,DOE_Data_Extracted/**/*.xlsx,DOE_Data_Extracted/**/*.mp4}",
+      "excludeFiles": "{.venv/**,node_modules/**,react-frontend/**,python_scripts/**,scraped_data/**,windsurf_data_extraction/**,lumi_tests/**,DOE_Data_Extracted/**,fastapi-backend/scripts/**}",
       "includeFiles": "{fastapi-backend/**,DOE_Data_Extracted/data_v1/*.csv,DOE_Data_Extracted/data_v2_preprocessed/*.csv,DOE_Data_Extracted/**/*.csv,DOE_Data_Extracted/**/*.json,philippine_geojson/*.json}"
     }
   }
