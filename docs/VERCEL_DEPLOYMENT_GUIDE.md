@@ -62,16 +62,47 @@ Add all of the following in **Project → Settings → Environment Variables** i
 
 ### Vercel dashboard (recommended for first deploy)
 
-1. Push the repository to GitHub.
-2. In Vercel, create a new project and import the GitHub repository.
-3. Vercel will use the root `vercel.json`:
-   - `buildCommand` builds the React frontend from `react-frontend/`
-   - `installCommand` installs the Vercel Python dependencies from `fastapi-backend/requirements-vercel.txt`
-   - `outputDirectory` is `react-frontend/dist`
-   - `/api/v1/*` is rewritten to the Python Function (`api/index.py`)
-   - all other paths serve the static SPA
-4. Add the environment variables above.
-5. Deploy.
+1. **Push the correct branch to GitHub.**
+   The serverless RAG changes are on branch `lumi-fastapi-react-v2.3`.
+   Either import that branch directly in Vercel, or merge it into `main` first:
+
+   ```bash
+   git checkout main
+   git merge lumi-fastapi-react-v2.3
+   git push origin main
+   ```
+
+2. **Create a new project and import the GitHub repository.**
+   In the Vercel dashboard:
+   - Click **Add New... → Project**.
+   - Choose **Alexander040105/Lumi**.
+   - Select the branch that contains the latest RAG code (`lumi-fastapi-react-v2.3` or `main` after merging).
+
+3. **Configure the build settings.**
+   Vercel will pre-fill the values from `vercel.json`. Verify them against this screenshot:
+
+   - **Project Name:** `lumi` (or any name)
+   - **Framework Preset / Application Preset:** `FastAPI` is fine — `vercel.json` overrides it with `"framework": null` so the build is driven by the explicit commands. If you see an `Other` or `Vite` option you can select that, but `FastAPI` will not break the deploy.
+   - **Root Directory:** `./`
+   - **Build Command:** `cd react-frontend && npm run build`
+   - **Output Directory:** `react-frontend/dist`
+   - **Install Command:** `cd react-frontend && npm ci && cd .. && pip install -r fastapi-backend/requirements-vercel.txt`
+
+4. **Add the environment variables.**
+   Go to **Project → Settings → Environment Variables** and add every variable from the "Environment variables" section above.
+
+5. **Deploy.**
+   Click **Deploy**. The first build will:
+   - Install the frontend (`react-frontend`) dependencies and build the Vite SPA.
+   - Install the backend dependencies from `fastapi-backend/requirements-vercel.txt`.
+   - Package `api/index.py` as a Python serverless function.
+
+6. **Verify.**
+   After the deploy completes, open the production URL and test:
+
+   - `https://<your-domain>/api/v1/health/detailed` → should show `rag_index: ok`.
+   - `https://<your-domain>/api/v1/health/` → should return `{"status":"ok"}`.
+   - Open the frontend and test login + a chat query.
 
 ### GitHub Actions
 
