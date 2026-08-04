@@ -42,8 +42,9 @@ async def detailed_health_check() -> dict[str, Any]:
 
     # RAG index check
     try:
-        from app.services.rag_pipeline import _index
-        checks["rag_index"] = "ok" if _index is not None else "not_loaded"
+        from app.services.rag_pipeline import index_stats
+        stats = index_stats()
+        checks["rag_index"] = "ok" if stats.get("index_present") else "not_loaded"
     except Exception:
         checks["rag_index"] = "not_loaded"
 

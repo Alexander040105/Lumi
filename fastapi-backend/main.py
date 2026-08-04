@@ -43,6 +43,10 @@ async def startup_event():
         logger.info("RAG is disabled via settings.")
         return
 
+    if settings.rag_backend == "pgvector":
+        logger.info("RAG_BACKEND=pgvector; FAISS index is not built at startup.")
+        return
+
     try:
         await asyncio.to_thread(ensure_index_built)
         logger.info("RAG index ready on startup.")

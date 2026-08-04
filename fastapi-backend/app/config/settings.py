@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 logger.info("Loading settings from: %s", ENV_FILE)
-load_dotenv(ENV_FILE)
+load_dotenv(ENV_FILE, override=True)
 
 
 class Settings(BaseSettings):
@@ -55,7 +55,17 @@ class Settings(BaseSettings):
     gemini_debug: bool = False
     groq_api_key: str | None = None
     groq_temperature: float = 0.5
-    embedding_model: str = "all-MiniLM-L6-v2"
+    embedding_provider: str = "huggingface-inference"
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
+    embedding_api_key: str | None = None
+    hf_token: str | None = None
+    openai_api_key: str | None = None
+    embedding_batch_size: int = 32
+    rag_backend: str = "faiss"
+    rag_pgvector_table: str = "rag_chunks"
+    rag_pgvector_rpc: str = "match_rag_chunks"
+    rag_enable_hybrid: bool = True
+    rag_use_cross_encoder: bool = False
     rag_score_threshold: float = 0.25
     rag_top_k: int = 5
 
