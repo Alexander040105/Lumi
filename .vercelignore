@@ -1,0 +1,5 @@
+# Ignore local/development requirements files so Vercel's Python builder
+# uses only api/requirements.txt for the serverless function.
+/requirements.txt
+/requirements-no-torch.txt
+/fastapi-backend/requirements.txt

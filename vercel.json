@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "framework": null,
-  "installCommand": "cd react-frontend && npm ci && cd .. && pip install --break-system-packages -r fastapi-backend/requirements-vercel.txt",
+  "installCommand": "cd react-frontend && npm ci",
   "buildCommand": "cd react-frontend && npm run build",
   "outputDirectory": "react-frontend/dist",
   "rewrites": [

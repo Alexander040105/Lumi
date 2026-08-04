@@ -86,7 +86,7 @@ Add all of the following in **Project → Settings → Environment Variables** i
    - **Root Directory:** `./`
    - **Build Command:** `cd react-frontend && npm run build`
    - **Output Directory:** `react-frontend/dist`
-   - **Install Command:** `cd react-frontend && npm ci && cd .. && pip install --break-system-packages -r fastapi-backend/requirements-vercel.txt`
+   - **Install Command:** `cd react-frontend && npm ci` (Python dependencies are installed from `api/requirements.txt`)
 
 4. **Add the environment variables.**
    Go to **Project → Settings → Environment Variables** and add every variable from the "Environment variables" section above.
@@ -94,7 +94,7 @@ Add all of the following in **Project → Settings → Environment Variables** i
 5. **Deploy.**
    Click **Deploy**. The first build will:
    - Install the frontend (`react-frontend`) dependencies and build the Vite SPA.
-   - Install the backend dependencies from `fastapi-backend/requirements-vercel.txt`.
+   - Install the backend dependencies from `api/requirements.txt`.
    - Package `api/index.py` as a Python serverless function.
 
 6. **Verify.**
@@ -135,7 +135,7 @@ When `ML_WORKER_URL` is not set, those routes run inside the Vercel Function wit
 
 ## Bundle-size notes
 
-- `fastapi-backend/requirements-vercel.txt` keeps the installed size under ~350 MB.
+- `api/requirements.txt` keeps the installed size under ~350 MB.
 - Large data files (`.tif`, `.pdf`, `.png`, `.ipynb`, `.xml`, `.xlsx`, `scraped_data/runtime/`, `scraped_data/drivers/`) are excluded in `vercel.json` `excludeFiles`.
 - Required CSVs and GeoJSON files are included via `includeFiles`.
 - The products dataset was copied to `fastapi-backend/app/services/local_data/products.csv` so it is bundled with the function.
@@ -158,4 +158,4 @@ cd fastapi-backend && uvicorn main:app --host 0.0.0.0 --port 8000
 cd react-frontend && npm run dev
 ```
 
-`vercel.json`, `api/index.py`, and `fastapi-backend/requirements-vercel.txt` are only used by Vercel.
+`vercel.json`, `api/index.py`, `api/requirements.txt`, and `.vercelignore` are only used by Vercel.
