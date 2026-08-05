@@ -10,7 +10,6 @@ import SavedSimulations from "../pages/SavedSimulations";
 import MFASetup from "../pages/MFASetup";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
-import ChatPage from "../pages/ChatPage";
 import MapPage from "../pages/MapPage";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "../pages/admin/AdminUsers";
@@ -59,15 +58,6 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="chat"
-            element={
-              <ProtectedRoute>
-                <ChatPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="map" element={<MapPage />} />
           <Route
             path="saved-simulations"
             element={
