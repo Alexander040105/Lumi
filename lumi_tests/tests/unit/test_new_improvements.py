@@ -14,17 +14,11 @@ import asyncio
 import json
 import logging
 import os
-import sys
 import time
-from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pandas as pd
 import pytest
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-FASTAPI_ROOT = REPO_ROOT / "fastapi-backend"
-sys.path.insert(0, str(FASTAPI_ROOT))
 
 # Ensure required env vars exist for Settings instantiation
 os.environ.setdefault("SUPABASE_URL", "https://placeholder.supabase.co")
@@ -34,7 +28,7 @@ from app.config.settings import get_settings, Settings
 from app.middleware.request_id import SafeJSONFormatter
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.services.redis_client import NullRedis, NullRedisSync, _redis_url, is_redis_available
-from app.services.rag_pipeline import _keyword_score, _hybrid_score, _rerank_results
+from app.services.rag_faiss import _keyword_score, _hybrid_score, _rerank_results
 from app.services.forecasting import (
     SARIMAConfig,
     calculate_metrics,
