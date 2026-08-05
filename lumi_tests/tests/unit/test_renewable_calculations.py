@@ -11,28 +11,17 @@ Coverage:
 from __future__ import annotations
 
 import math
-from pathlib import Path
+import os
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pandas as pd
 import pytest
 
-# ---------------------------------------------------------------------------
-# Import LUMI calculation modules (adjust PYTHONPATH or use repo root)
-# ---------------------------------------------------------------------------
-import sys
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-FASTAPI_SERVICES = REPO_ROOT / "fastapi-backend" / "app" / "services"
-sys.path.insert(0, str(FASTAPI_SERVICES))
-
+# Import LUMI calculation modules
 import solar_output_calc
 import wind_output_calc
 import hydro_output_calc
-
-# Import ecosim for economic summary tests
-sys.path.insert(0, str(REPO_ROOT / "fastapi-backend" / "app" / "services"))
 import ecosim
 
 
@@ -161,21 +150,26 @@ class TestSolarCalc:
 class TestWindLoadAverages:
     """Tests for load_wind_averages()."""
 
-    def test_returns_dict_with_expected_keys(self):
-        result = wind_output_calc.load_wind_averages
-        assert isinstance(result, dict)
-        assert "avg_rotor_radius_m" in result
-        assert "avg_power_coefficient" in result
-        assert "rotor_count" in result
-        assert "cp_count" in result
+    @pytest.fixture
+    def wind_summary(self):
+        os.environ["USE_LOCAL_DATA_FALLBACK"] = "true"
+        wind_output_calc._wind_summary = None
+        return wind_output_calc.load_wind_averages()
 
-    def test_avg_power_coefficient_within_betz(self):
+    def test_returns_dict_with_expected_keys(self, wind_summary):
+        assert isinstance(wind_summary, dict)
+        assert "avg_rotor_radius_m" in wind_summary
+        assert "avg_power_coefficient" in wind_summary
+        assert "rotor_count" in wind_summary
+        assert "cp_count" in wind_summary
+
+    def test_avg_power_coefficient_within_betz(self, wind_summary):
         """Average Cp should be below the Betz limit of 0.593 (59.3%)."""
-        avg_cp = wind_output_calc.avg_power_coefficient
+        avg_cp = wind_summary["avg_power_coefficient"]
         assert avg_cp <= 59.3  # stored as percentage
 
-    def test_avg_rotor_radius_positive(self):
-        assert wind_output_calc.avg_rotor_radius_m > 0.0
+    def test_avg_rotor_radius_positive(self, wind_summary):
+        assert wind_summary["avg_rotor_radius_m"] > 0.0
 
 
 class TestWindCalculateOutput:

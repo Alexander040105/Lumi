@@ -14,21 +14,11 @@ These tests validate the data pipeline used in:
 from __future__ import annotations
 
 import math
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import pytest
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-
-# ---------------------------------------------------------------------------
-# Import path helper
-# ---------------------------------------------------------------------------
-import sys
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(REPO_ROOT))
-
 
 # ---------------------------------------------------------------------------
 # Stand-in functions that replicate the notebook preprocessing logic

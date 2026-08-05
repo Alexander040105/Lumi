@@ -15,22 +15,15 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
+import sys
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 import pytest
 
 # ---------------------------------------------------------------------------
-# Import path helper
-# ---------------------------------------------------------------------------
-import sys
-
-REPO_ROOT = Path(__file__).resolve().parents[3]
-FASTAPI_SERVICES = REPO_ROOT / "fastapi-backend" / "app" / "services"
-sys.path.insert(0, str(FASTAPI_SERVICES))
-
 # Mock google.genai before any import attempts
+# ---------------------------------------------------------------------------
 _mock_genai = MagicMock()
 _mock_genai.Client = MagicMock
 sys.modules["google"] = MagicMock()
@@ -232,4 +225,4 @@ class TestGeminiModuleImports:
         assert hasattr(gemini_funcs, "_get_gemini_client")
 
     def test_rag_functions_exist(self):
-        assert hasattr(rag_pipeline, "_get_embedder") or hasattr(rag_pipeline, "retrieve")
+        assert hasattr(rag_pipeline, "retrieve_context")
