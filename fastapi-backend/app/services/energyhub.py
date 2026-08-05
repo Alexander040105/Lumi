@@ -1,10 +1,12 @@
 import json
 import logging
+import os
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
 from app.ml.predictor import get_energyhub_ml, _sanitize_nan
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
 from app.services.redis_client import (
     get_suitability_cache_sync,
@@ -45,6 +47,44 @@ _PROVINCE_NAME_MAP = {
     "zamboanga del sur": "zamboanga del sur",
     "zamboanga sibugay": "zamboanga sibugay",
 }
+
+
+def _get_geojson_province_names() -> list[dict[str, str]]:
+    """Return the list of GeoJSON province names used to align map data.
+
+    The names come from the provinces table (geojson_name column) with a
+    short-lived Redis cache.  If the DB is unavailable and local fallback is
+    enabled, the original GeoJSON file is parsed.
+    """
+    cache_key = "energyhub:province_names"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
+    names: list[dict[str, str]] = []
+    try:
+        client = get_supabase_client()
+        resp = client.table("provinces").select("name,geojson_name").execute()
+        for row in resp.data or []:
+            name = row.get("geojson_name") or row.get("name")
+            if name:
+                name = str(name).strip()
+                names.append({"name": name, "name_lower": name.lower()})
+    except Exception as exc:
+        logger.warning("Supabase province geojson name query failed: %s", exc)
+
+    if not names and os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true":
+        geojson_path = _GEOJSON_DIR / "philippine_geojson_file_per_region.json"
+        if geojson_path.exists():
+            with open(geojson_path, "r", encoding="utf-8") as f:
+                geo_data = json.load(f)
+            for feat in geo_data.get("features", []):
+                adm2 = (feat.get("properties", {}).get("adm2_en") or "").strip()
+                if adm2:
+                    names.append({"name": adm2, "name_lower": adm2.lower()})
+
+    cache_set_sync(cache_key, names, ttl=86400)
+    return names
 
 
 class EnergyHubService:
@@ -108,6 +148,20 @@ class EnergyHubService:
     # --- Map Data ---
 
     def build_map_data(
+        self,
+        metric: str = "renewable_potential",
+        level: str = "province",
+    ) -> dict[str, Any]:
+        """Return cached map data or build it on demand."""
+        cache_key = f"energyhub:map:{metric}:{level}"
+        cached = cache_get_sync(cache_key)
+        if cached is not None:
+            return cached
+        result = self._build_map_data(metric, level)
+        cache_set_sync(cache_key, result, ttl=3600)
+        return result
+
+    def _build_map_data(
         self,
         metric: str = "renewable_potential",
         level: str = "province",
@@ -235,18 +289,7 @@ class EnergyHubService:
                     "nearby_plants": nearby,
                 }
 
-            geojson_path = _GEOJSON_DIR / "philippine_geojson_file_per_region.json"
-            geojson_provinces: list[dict[str, Any]] = []
-            if geojson_path.exists():
-                with open(geojson_path, "r", encoding="utf-8") as f:
-                    geo_data = json.load(f)
-                for feat in geo_data.get("features", []):
-                    adm2 = (feat.get("properties", {}).get("adm2_en") or "").strip()
-                    if adm2:
-                        geojson_provinces.append({
-                            "name": adm2,
-                            "name_lower": adm2.lower(),
-                        })
+            geojson_provinces: list[dict[str, Any]] = _get_geojson_province_names()
 
             seen = set()
             for gp in geojson_provinces:
@@ -406,18 +449,7 @@ class EnergyHubService:
                 }
 
             # 5. Load GeoJSON to ensure every rendered province has data
-            geojson_path = _GEOJSON_DIR / "philippine_geojson_file_per_region.json"
-            geojson_provinces: list[dict[str, Any]] = []
-            if geojson_path.exists():
-                with open(geojson_path, "r", encoding="utf-8") as f:
-                    geo_data = json.load(f)
-                for feat in geo_data.get("features", []):
-                    adm2 = (feat.get("properties", {}).get("adm2_en") or "").strip()
-                    if adm2:
-                        geojson_provinces.append({
-                            "name": adm2,
-                            "name_lower": adm2.lower(),
-                        })
+            geojson_provinces: list[dict[str, Any]] = _get_geojson_province_names()
 
             # Build final items: for each GeoJSON province, find matching API data
             seen = set()

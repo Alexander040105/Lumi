@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
 
+from app.dependencies.auth import get_verified_user
 from app.schemas.energyhub import (
     AiInsightResponse,
     AnalyzeChartRequest,
@@ -120,6 +121,7 @@ async def get_ai_insight(
 @router.post("/analyze-chart", response_model=AnalyzeChartResponse)
 async def analyze_chart(
     payload: AnalyzeChartRequest,
+    user: dict = Depends(get_verified_user),
     force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
 ):
     """Send chart data to the LLM and receive a narrative explanation.

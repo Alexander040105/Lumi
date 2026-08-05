@@ -29,7 +29,7 @@ function formatCitations(text) {
 
 export default function ChatPage() {
   const { t } = useI18n();
-  const { user } = useAuth();
+  const { user, accessToken } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -108,6 +108,7 @@ export default function ChatPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ message: userMsg.content }),
       });

@@ -1,6 +1,12 @@
-import os
+import logging
 import math
+import os
 import pandas as pd
+
+from app.services.data_cache import cache_get_sync, cache_set_sync
+from app.services.supabase_service import get_supabase_client
+
+logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 DATA_PATH = os.path.join(
@@ -12,7 +18,10 @@ DATA_PATH = os.path.join(
 	"wind_products_joined_betz.csv",
 )
 
-def load_wind_averages(csv_path: str = DATA_PATH) -> dict:
+_wind_summary: dict | None = None
+
+
+def _compute_wind_averages(csv_path: str) -> dict:
 	df = pd.read_csv(csv_path)
 	df["rotor_radius_m"] = pd.to_numeric(df["rotor_radius_m"], errors="coerce")
 	df["power_coefficient"] = pd.to_numeric(df["power_coefficient"], errors="coerce")
@@ -44,19 +53,54 @@ def load_wind_averages(csv_path: str = DATA_PATH) -> dict:
 	}
 
 
-load_wind_averages = load_wind_averages()
-avg_rotor_radius_m = load_wind_averages["avg_rotor_radius_m"]
-avg_power_coefficient = load_wind_averages["avg_power_coefficient"]
-avg_rotos_summary= load_wind_averages["summary_rotor"]
-avg_cp_summary = load_wind_averages["summary_cp"]
+def load_wind_averages(csv_path: str | None = None) -> dict:
+	global _wind_summary
+	if _wind_summary is not None:
+		return _wind_summary
+
+	cache_key = "wind:summary:betz"
+	cached = cache_get_sync(cache_key)
+	if cached is not None:
+		_wind_summary = cached
+		return _wind_summary
+
+	try:
+		client = get_supabase_client()
+		resp = (
+			client.table("wind_products_summary")
+			.select("*")
+			.eq("variant", "betz")
+			.single()
+			.execute()
+		)
+		if resp.data:
+			_wind_summary = resp.data
+			cache_set_sync(cache_key, resp.data, ttl=86400)
+			return _wind_summary
+	except Exception as exc:
+		logger.warning("Failed to load wind summary from Supabase: %s", exc)
+
+	if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true":
+		path = csv_path or DATA_PATH
+		if os.path.exists(path):
+			_wind_summary = _compute_wind_averages(path)
+			return _wind_summary
+
+	raise RuntimeError("Wind summary unavailable and local fallback disabled")
+
+
+avg_rotor_radius_m = None
+avg_power_coefficient = None
+avg_rotos_summary = None
+avg_cp_summary = None
 
 
 def calculate_wind_output(
     wind_speed_mps: float,
     days_in_month: int,
     air_density: float,
-    rotor_radius_m: float = avg_rotor_radius_m,
-    cp: float = avg_power_coefficient / 100,
+    rotor_radius_m: float | None = None,
+    cp: float | None = None,
     efficiency: float = 0.90,
     capacity_factor: float = 0.30,  # NEW: 30% typical for small turbines [Baker et al., 2023]
     operating_hours_per_day: int = 24,
@@ -83,6 +127,13 @@ def calculate_wind_output(
     Returns:
         Dictionary with swept area, power, and energy estimates
     """
+    if rotor_radius_m is None or cp is None:
+        summary = load_wind_averages()
+        if rotor_radius_m is None:
+            rotor_radius_m = float(summary["avg_rotor_radius_m"])
+        if cp is None:
+            cp = float(summary["avg_power_coefficient"]) / 100
+
     # Validate inputs
     if rotor_radius_m <= 0 or wind_speed_mps <= 0:
         raise ValueError("Rotor radius and wind speed must be positive values")

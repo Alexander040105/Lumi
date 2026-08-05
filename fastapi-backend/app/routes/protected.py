@@ -2,12 +2,17 @@ import json
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel, Field
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
 from app.services.redis_client import get_redis
 from app.services.supabase_service import get_supabase_client
 
 router = APIRouter()
+
+
+class SessionPayload(BaseModel):
+    data: dict = Field(default_factory=dict, max_length=50)
 
 
 @router.get("/me")
@@ -85,9 +90,12 @@ async def sync_avatar(user: dict = Depends(get_verified_user)) -> dict:
 
 
 @router.post("/session")
-async def store_session(payload: dict, ttl_seconds: int = 3600, user=Depends(get_verified_user)):
+async def store_session(payload: SessionPayload, ttl_seconds: int = 3600, user=Depends(get_verified_user)):
     redis = get_redis()
     user_id = user.get("sub")
     key = f"user:{user_id}:session"
-    await redis.set(key, json.dumps(payload), ex=ttl_seconds)
+    serialized = json.dumps(payload.data)
+    if len(serialized) > 10_000:
+        raise HTTPException(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Session payload too large")
+    await redis.set(key, serialized, ex=ttl_seconds)
     return {"stored": True, "key": key}

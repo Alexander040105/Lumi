@@ -124,7 +124,7 @@ def main() -> None:
 
         surface_temp = climate_map.get(mid)
 
-        suit = compute_geothermal_suitability(lat, lon, surface_temp, datasets)
+        suit = compute_geothermal_suitability(lat, lon, surface_temp, datasets, municipality_id=mid)
         output = compute_geothermal_output(
             surface_temp,
             suit.get("_gradient_c_km"),

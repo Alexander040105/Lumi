@@ -10,10 +10,17 @@ Known data quality issues:
 - Products without URLs are excluded from recommendation but included in audit.
 """
 
+import logging
+import os
 import threading
 from pathlib import Path
 import pandas as pd
 from fastapi import HTTPException, status
+
+from app.services.data_cache import cache_get_sync, cache_set_sync
+from app.services.supabase_service import get_supabase_client
+
+logger = logging.getLogger(__name__)
 
 _PRODUCTS_CSV = Path(__file__).resolve().parent / "local_data" / "products.csv"
 
@@ -25,17 +32,39 @@ _products_lock = threading.Lock()
 def _load_products() -> pd.DataFrame:
     global _products_df
     with _products_lock:
-        if _products_df is None:
-            if not _PRODUCTS_CSV.exists():
-                raise HTTPException(
-                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                    detail="Product dataset not found.",
-                )
+        if _products_df is not None:
+            return _products_df
+
+        cache_key = "products:dataframe"
+        cached = cache_get_sync(cache_key)
+        if cached is not None:
+            _products_df = pd.DataFrame(cached)
+            return _products_df
+
+        try:
+            client = get_supabase_client()
+            resp = client.table("products").select("*").execute()
+            rows = resp.data or []
+            if rows:
+                df = pd.DataFrame(rows)
+                df["price_value"] = pd.to_numeric(df["price_value"], errors="coerce")
+                df["energy_category"] = df.apply(_fix_category, axis=1)
+                cache_set_sync(cache_key, rows, ttl=1800)
+                _products_df = df
+                return _products_df
+        except Exception as exc:
+            logger.warning("Failed to load products from Supabase: %s", exc)
+
+        if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true" and _PRODUCTS_CSV.exists():
             _products_df = pd.read_csv(_PRODUCTS_CSV)
             _products_df["price_value"] = pd.to_numeric(_products_df["price_value"], errors="coerce")
-            # Fix misclassified categories based on source_file name
             _products_df["energy_category"] = _products_df.apply(_fix_category, axis=1)
-    return _products_df
+            return _products_df
+
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Product dataset not available.",
+        )
 
 
 def _fix_category(row: pd.Series) -> str:

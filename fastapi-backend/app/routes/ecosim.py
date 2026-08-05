@@ -1,4 +1,6 @@
 from fastapi import APIRouter, Depends, Query, status
+
+from app.dependencies.auth import get_verified_user
 from app.schemas.ecosim import (
     BarangayListResponse,
     EcosimDashboardResponse,
@@ -58,6 +60,7 @@ async def get_barangays(
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
 async def post_item(
     body: PostHouse,
+    user: dict = Depends(get_verified_user),
     include_ai: bool = True,
     use_rag: bool = True,
     rag_query: str | None = None,

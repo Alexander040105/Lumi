@@ -83,7 +83,7 @@ async def get_geothermal_analysis(municipality_id: int):
         if temp_resp.data:
             surface_temp = float(temp_resp.data[0].get("t2m", 0))
 
-        suit_data = compute_geothermal_suitability(lat, lon, surface_temp)
+        suit_data = compute_geothermal_suitability(lat, lon, surface_temp, municipality_id=municipality_id)
         out_data = compute_geothermal_output(
             surface_temp,
             suit_data.get("_gradient_c_km"),

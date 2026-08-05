@@ -1,10 +1,17 @@
 import json
+import logging
 import os
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 import numpy as np
+
+from app.services.data_cache import cache_get_sync, cache_set_sync
+from app.services.supabase_service import get_supabase_client
+
+
+logger = logging.getLogger(__name__)
 
 
 def _sanitize_nan(obj: Any) -> Any:
@@ -29,11 +36,45 @@ _GEOJSON_DIR = Path(__file__).resolve().parents[3] / "philippine_geojson"
 # --- Loaders ---
 
 
-def _load_csv(filename: str, subdir: str = "") -> pd.DataFrame | None:
-    path = _DATA_DIR / subdir / filename if subdir else _DATA_DIR / filename
-    if not path.exists():
+def _load_csv_from_supabase(dataset_name: str) -> pd.DataFrame | None:
+    """Load a DOE CSV that has been migrated into public.doe_datasets."""
+    cache_key = f"predictor:doe:{dataset_name}"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return pd.DataFrame(cached)
+
+    try:
+        client = get_supabase_client()
+        resp = (
+            client.table("doe_datasets")
+            .select("data")
+            .eq("dataset_name", dataset_name)
+            .single()
+            .execute()
+        )
+        if not resp.data:
+            return None
+        rows = resp.data.get("data")
+        if not rows:
+            return None
+        cache_set_sync(cache_key, rows, ttl=3600)
+        return pd.DataFrame(rows)
+    except Exception as exc:
+        logger.warning("Failed to load DOE dataset %s from Supabase: %s", dataset_name, exc)
         return None
-    return pd.read_csv(path)
+
+
+def _load_csv(filename: str, subdir: str = "") -> pd.DataFrame | None:
+    dataset_name = f"{subdir}/{filename}" if subdir else filename
+    df = _load_csv_from_supabase(dataset_name)
+    if df is not None:
+        return df
+
+    if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true":
+        path = _DATA_DIR / subdir / filename if subdir else _DATA_DIR / filename
+        if path.exists():
+            return pd.read_csv(path)
+    return None
 
 
 class EnergyHubML:
