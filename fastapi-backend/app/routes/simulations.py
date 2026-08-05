@@ -93,9 +93,10 @@ async def create_simulation(
         )
         return {"simulation": resp.data[0] if resp.data else None}
     except Exception as exc:
+        logger.error("Failed to save simulation for user=%s: %s", user_id, exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to save simulation: {exc}",
+            detail="Failed to save simulation",
         )
 
 
@@ -120,9 +121,10 @@ async def list_simulations(
         )
         return {"simulations": resp.data or [], "limit": limit, "offset": offset}
     except Exception as exc:
+        logger.error("Failed to fetch simulations for user=%s: %s", user_id, exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to fetch simulations: {exc}",
+            detail="Failed to fetch simulations",
         )
 
 
@@ -152,9 +154,10 @@ async def get_simulation(
     except HTTPException:
         raise
     except Exception as exc:
+        logger.error("Failed to fetch simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to fetch simulation: {exc}",
+            detail="Failed to fetch simulation",
         )
 
 
@@ -194,9 +197,10 @@ async def update_simulation(
     except HTTPException:
         raise
     except Exception as exc:
+        logger.error("Failed to update simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to update simulation: {exc}",
+            detail="Failed to update simulation",
         )
 
 
@@ -228,7 +232,8 @@ async def delete_simulation(
     except HTTPException:
         raise
     except Exception as exc:
+        logger.error("Failed to delete simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to delete simulation: {exc}",
+            detail="Failed to delete simulation",
         )

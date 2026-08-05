@@ -61,6 +61,23 @@ export default function ProfilePage() {
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    const ALLOWED_EXTS = ["jpg", "jpeg", "png", "gif", "webp"];
+    const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    if (!ext || !ALLOWED_EXTS.includes(ext)) {
+      setMessage(t("profile.avatarUploadFailed") + "Invalid file type. Allowed: JPG, PNG, GIF, WebP");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      setMessage(t("profile.avatarUploadFailed") + "File must be an image.");
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      setMessage(t("profile.avatarUploadFailed") + "File too large. Maximum size is 2 MB.");
+      return;
+    }
+
     setUploading(true);
     setMessage("");
     try {

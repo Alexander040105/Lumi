@@ -5,15 +5,17 @@ All routes require an admin or dev role (require_admin dependency).
 
 from __future__ import annotations
 
+import logging
 import secrets
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.dependencies.auth import require_admin
-from app.services.supabase_service import SupabaseRestClient, get_supabase_client
+from app.services.supabase_service import get_supabase_client
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -168,7 +170,8 @@ async def create_user(
         new_user = auth_resp.user if hasattr(auth_resp, "user") else (auth_resp.data or {}).get("user")
         user_id = new_user.id if hasattr(new_user, "id") else new_user.get("id")
     except Exception as exc:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Failed to create user: {exc}") from exc
+        logger.error("Admin create_user failed for email=%s: %s", email, exc)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Failed to create user") from exc
 
     # Upsert profile + role (trigger may have already created them)
     try:

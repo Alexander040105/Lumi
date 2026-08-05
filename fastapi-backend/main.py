@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config.settings import get_settings
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.request_id import RequestIDMiddleware, setup_logging
+from app.middleware.security import BodySizeLimitMiddleware, SecurityHeadersMiddleware
 from app.routes.api import api_router
 
 settings = get_settings()
@@ -14,7 +15,9 @@ setup_logging(level=settings.log_level.upper())
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
 
-# Middleware order: outermost first (rate limit → CORS → request ID)
+# Middleware order: outermost first (body size → security headers → rate limit → CORS → request ID)
+app.add_middleware(BodySizeLimitMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RateLimitMiddleware, requests_per_minute=60)
 app.add_middleware(
     CORSMiddleware,

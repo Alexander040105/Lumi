@@ -12,7 +12,9 @@ import json
 import logging
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from app.dependencies.auth import get_verified_user
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -103,6 +105,7 @@ def _generate_response(prompt: str) -> str:
 @router.post("/")
 async def chat_message(
     payload: dict,
+    user: dict = Depends(get_verified_user),
 ) -> dict[str, Any]:
     """Receive a chat message, run hybrid RAG retrieval, generate AI response.
 
@@ -177,14 +180,15 @@ async def chat_message(
 
 
 @router.get("/sessions")
-async def list_sessions() -> dict[str, Any]:
-    """List recent chat sessions."""
+async def list_sessions(user: dict = Depends(get_verified_user)) -> dict[str, Any]:
+    """List recent chat sessions for the authenticated user."""
     try:
         from app.services.supabase_service import get_supabase_client
         client = get_supabase_client()
         resp = (
             client.table("chat_sessions")
             .select("id,created_at")
+            .eq("user_id", user.get("sub"))
             .order("created_at", desc=True)
             .limit(50)
             .execute()
@@ -196,8 +200,31 @@ async def list_sessions() -> dict[str, Any]:
 
 
 @router.get("/sessions/{session_id}")
-async def get_session_messages(session_id: str) -> dict[str, Any]:
-    """Get all messages for a specific chat session."""
+async def get_session_messages(
+    session_id: str,
+    user: dict = Depends(get_verified_user),
+) -> dict[str, Any]:
+    """Get all messages for a specific chat session (owner only)."""
+    from app.services.supabase_service import get_supabase_client
     from app.services.rag_hybrid import get_chat_history
+
+    # Verify session ownership
+    client = get_supabase_client()
+    try:
+        resp = (
+            client.table("chat_sessions")
+            .select("user_id")
+            .eq("id", session_id)
+            .single()
+            .execute()
+        )
+        if not resp.data or resp.data.get("user_id") != user.get("sub"):
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        logger.warning("Failed to verify session ownership: %s", exc)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve session")
+
     messages = get_chat_history(session_id, limit=50)
     return {"messages": messages}
