@@ -3,6 +3,7 @@ import datetime as dt
 import hashlib
 import json
 import logging
+import os
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,7 @@ import pandas as pd
 from fastapi import HTTPException, status
 from postgrest.exceptions import APIError
 from app.schemas.ecosim import PostHouse
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
 from app.services.redis_client import (
     get_ecosim_cache_sync,
@@ -31,7 +33,37 @@ from app.services.confidence import ConfidenceFactors, calculate_confidence
 logger = logging.getLogger(__name__)
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 _CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
-df = pd.read_csv(str(_CLIMATE_CSV))
+_climate_df: pd.DataFrame | None = None
+
+
+def _get_climate_df() -> pd.DataFrame:
+    """Load municipality climate averages from Supabase/cache or local CSV fallback."""
+    global _climate_df
+    if _climate_df is not None:
+        return _climate_df
+
+    cache_key = "climate:all_averages"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        _climate_df = pd.DataFrame(cached)
+        return _climate_df
+
+    try:
+        client = get_supabase_client()
+        resp = client.table("municipality_climate_averages").select("*").execute()
+        rows = resp.data or []
+        if rows:
+            cache_set_sync(cache_key, rows, ttl=86400)
+            _climate_df = pd.DataFrame(rows)
+            return _climate_df
+    except Exception as exc:
+        logger.warning("Failed to load climate averages from Supabase: %s", exc)
+
+    if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true" and _CLIMATE_CSV.exists():
+        _climate_df = pd.read_csv(str(_CLIMATE_CSV))
+        return _climate_df
+
+    raise RuntimeError("Climate data unavailable from Supabase and local fallback disabled")
 
 COST_PER_KW_SOLAR = 60000.0
 COST_PER_KW_WIND = 80000.0
@@ -109,8 +141,9 @@ def get_municipality_data(municipality: str):
         municipality_result.data["municipality_id"]
     )
 
+    climate_df = _get_climate_df()
     municipality_data = (
-        df[df["municipality_id"] == municipality_id]
+        climate_df[climate_df["municipality_id"] == municipality_id]
         .to_dict(orient="records")
     )
 
@@ -285,8 +318,9 @@ def get_province_data(province_name: str) -> dict:
             detail="No municipalities found for this province.",
         )
 
-    # Aggregate climate data from the CSV
-    province_df = df[df["municipality_id"].isin(municipality_ids)]
+    # Aggregate climate data
+    climate_df = _get_climate_df()
+    province_df = climate_df[climate_df["municipality_id"].isin(municipality_ids)]
     if province_df.empty:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -394,7 +428,7 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
             "assumption": "Pre-computed data unavailable; using measured NASA POWER temperature and inferred aquifer/heatflow.",
         }
 
-    suitability = compute_geothermal_suitability(lat, lon, surface_temp)
+    suitability = compute_geothermal_suitability(lat, lon, surface_temp, municipality_id=mid)
     output = compute_geothermal_output(
         surface_temp,
         suitability.get("_gradient_c_km"),

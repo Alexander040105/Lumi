@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS "public"."geothermal_suitability" (
     "geothermal_score" double precision,
     "geothermal_score_mcda" double precision,
     "classification" text,
+    "aquifer_fallback" boolean,
+    "aquifer_distance_km" double precision,
     CONSTRAINT "geothermal_suitability_pkey" PRIMARY KEY ("municipality_id"),
     CONSTRAINT "geothermal_suitability_municipality_id_fkey"
         FOREIGN KEY ("municipality_id") REFERENCES "public"."municipalities"("municipality_id")

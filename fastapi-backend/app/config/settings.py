@@ -90,6 +90,10 @@ class Settings(BaseSettings):
     use_supabase_api: bool = True
     enable_rag: bool = True
     enable_forecast: bool = True
+    use_local_data_fallback: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("USE_LOCAL_DATA_FALLBACK", "use_local_data_fallback"),
+    )
 
     model_config = SettingsConfigDict(extra="ignore")
 

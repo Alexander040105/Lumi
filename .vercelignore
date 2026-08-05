@@ -3,3 +3,9 @@
 /requirements.txt
 /requirements-no-torch.txt
 /fastapi-backend/requirements.txt
+
+# Data files are now offloaded to Supabase / Supabase Storage.
+# Excluding them keeps the Vercel serverless bundle under the 500 MB limit.
+/DOE_Data_Extracted/
+/philippine_geojson/
+/fastapi-backend/app/services/local_data/

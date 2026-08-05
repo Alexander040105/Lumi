@@ -13,8 +13,8 @@
     "api/index.py": {
       "maxDuration": 60,
       "memory": 1024,
-      "excludeFiles": "{.venv/**,node_modules/**,react-frontend/**,python_scripts/**,scraped_data/**,windsurf_data_extraction/**,lumi_tests/**,DOE_Data_Extracted/**,fastapi-backend/scripts/**}",
-      "includeFiles": "{fastapi-backend/**,DOE_Data_Extracted/data_v1/*.csv,DOE_Data_Extracted/data_v2_preprocessed/*.csv,DOE_Data_Extracted/**/*.csv,DOE_Data_Extracted/**/*.json,philippine_geojson/*.json}"
+      "excludeFiles": "{.venv/**,node_modules/**,react-frontend/**,python_scripts/**,scraped_data/**,windsurf_data_extraction/**,lumi_tests/**,DOE_Data_Extracted/**,philippine_geojson/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**}",
+      "includeFiles": "{fastapi-backend/**,api/**}"
     }
   }
 }

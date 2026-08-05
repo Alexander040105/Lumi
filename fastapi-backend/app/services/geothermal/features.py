@@ -10,10 +10,14 @@ from __future__ import annotations
 import json
 import logging
 import math
+import os
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
+
+from app.services.data_cache import cache_get_sync, cache_set_sync
+from app.services.supabase_service import get_supabase_client
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +30,9 @@ _LOCAL_DATA_DIR = Path(__file__).resolve().parent.parent / "local_data"
 _FAULTS_JSON = _LOCAL_DATA_DIR / "geothermal_faults.json"
 _VOLCANOES_JSON = _LOCAL_DATA_DIR / "geothermal_volcanoes.json"
 _HEATFLOW_CSV = _LOCAL_DATA_DIR / "geothermal_heatflow.csv"
+
+# In-memory cache for the small geothermal datasets
+_geothermal_datasets: dict[str, Any] | None = None
 
 # Constants
 CP_KJ_KG_C = 4.186  # kJ/kg C
@@ -59,12 +66,9 @@ def _normalize(value: float | None, min_v: float, max_v: float) -> float:
     return max(0.0, min(1.0, (value - min_v) / (max_v - min_v)))
 
 
-def load_geothermal_datasets() -> dict[str, Any]:
-    """Load pre-extracted geothermal datasets into memory.
-
-    Returns dict with keys: faults, volcanoes, heatflow, aquifers.
-    """
-    datasets: dict[str, Any] = {"faults": [], "volcanoes": [], "heatflow": None, "aquifers": None}
+def _load_local_geothermal_datasets() -> dict[str, Any]:
+    """Original local-file loader used when USE_LOCAL_DATA_FALLBACK is enabled."""
+    datasets: dict[str, Any] = {"faults": [], "volcanoes": [], "heatflow": None, "aquifers": None, "aquifers_gdf": None}
 
     if _FAULTS_JSON.exists():
         with open(_FAULTS_JSON, "r", encoding="utf-8") as f:
@@ -91,7 +95,7 @@ def load_geothermal_datasets() -> dict[str, Any]:
             datasets["aquifers_gdf"] = gpd.read_file(aquifer_geojson)
             logger.info("Loaded spatial aquifer data: %d polygons", len(datasets["aquifers_gdf"]))
         except Exception as exc:
-            logger.warning("Failed to load aquifer GeoJSON: %s", exc)
+            logger.warning("Failed to load local aquifer GeoJSON: %s", exc)
             datasets["aquifers_gdf"] = None
     else:
         datasets["aquifers_gdf"] = None
@@ -104,6 +108,61 @@ def load_geothermal_datasets() -> dict[str, Any]:
         logger.warning("Aquifer data not found at %s", aquifer_path)
 
     return datasets
+
+
+def load_geothermal_datasets() -> dict[str, Any]:
+    """Load pre-extracted geothermal datasets into memory.
+
+    Returns dict with keys: faults, volcanoes, heatflow, aquifers, aquifers_gdf.
+    Small datasets are cached in Redis; the heavy aquifer GeoJSON is no longer
+    loaded at runtime unless local fallback is enabled.
+    """
+    global _geothermal_datasets
+    if _geothermal_datasets is not None:
+        return _geothermal_datasets
+
+    cache_key = "geothermal:datasets"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        _geothermal_datasets = {
+            "faults": cached.get("faults", []),
+            "volcanoes": cached.get("volcanoes", []),
+            "heatflow": pd.DataFrame(cached.get("heatflow", [])) if cached.get("heatflow") else None,
+            "aquifers": None,
+            "aquifers_gdf": None,
+        }
+        return _geothermal_datasets
+
+    try:
+        client = get_supabase_client()
+        faults_resp = client.table("geothermal_faults").select("*").execute()
+        volcanoes_resp = client.table("geothermal_volcanoes").select("*").execute()
+        heatflow_resp = client.table("geothermal_heatflow").select("*").execute()
+
+        datasets = {
+            "faults": faults_resp.data or [],
+            "volcanoes": volcanoes_resp.data or [],
+            "heatflow": pd.DataFrame(heatflow_resp.data) if heatflow_resp.data else None,
+            "aquifers": None,
+            "aquifers_gdf": None,
+        }
+
+        cache_payload = {
+            "faults": datasets["faults"],
+            "volcanoes": datasets["volcanoes"],
+            "heatflow": heatflow_resp.data or [],
+        }
+        cache_set_sync(cache_key, cache_payload, ttl=86400)
+        _geothermal_datasets = datasets
+        return datasets
+    except Exception as exc:
+        logger.warning("Failed to load geothermal datasets from Supabase: %s", exc)
+
+    if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true":
+        _geothermal_datasets = _load_local_geothermal_datasets()
+        return _geothermal_datasets
+
+    return {"faults": [], "volcanoes": [], "heatflow": None, "aquifers": None, "aquifers_gdf": None}
 
 
 def query_aquifer_by_location(
@@ -140,6 +199,39 @@ def query_aquifer_by_location(
         "depth_m": float(row["depth_m"]) if "depth_m" in row else None,
         "basin_name": str(row["basin_name"]) if "basin_name" in row else None,
     }
+
+
+def query_aquifer_by_municipality(municipality_id: int | None) -> dict[str, Any] | None:
+    """Fetch pre-computed aquifer properties for a municipality from Supabase."""
+    if municipality_id is None:
+        return None
+    try:
+        client = get_supabase_client()
+        resp = (
+            client.table("geothermal_suitability")
+            .select(
+                "aquifer_porosity,aquifer_permeability_log10,aquifer_thickness_m,"
+                "aquifer_depth_m,aquifer_basin_name,aquifer_score,"
+                "aquifer_fallback,aquifer_distance_km"
+            )
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+        if resp.data:
+            return {
+                "porosity": resp.data.get("aquifer_porosity"),
+                "permeability_log10": resp.data.get("aquifer_permeability_log10"),
+                "thickness_m": resp.data.get("aquifer_thickness_m"),
+                "depth_m": resp.data.get("aquifer_depth_m"),
+                "basin_name": resp.data.get("aquifer_basin_name"),
+                "aquifer_score": resp.data.get("aquifer_score"),
+                "aquifer_fallback": resp.data.get("aquifer_fallback"),
+                "aquifer_distance_km": resp.data.get("aquifer_distance_km"),
+            }
+    except Exception as exc:
+        logger.warning("Supabase aquifer query failed for %s: %s", municipality_id, exc)
+    return None
 
 
 def calculate_fault_distance(muni_lat: float, muni_lon: float, faults: list[dict] | None = None) -> float | None:
@@ -384,6 +476,7 @@ def compute_geothermal_suitability(
     surface_temp_c: float | None,
     datasets: dict[str, Any] | None = None,
     municipality_area_km2: float = 50.0,
+    municipality_id: int | None = None,
 ) -> dict[str, Any]:
     """Compute all geothermal suitability metrics for a municipality.
 
@@ -423,17 +516,21 @@ def compute_geothermal_suitability(
     thick_val: float | None = None
     basin_name: str | None = None
 
-    # 1. Try spatial GeoJSON first
-    gdf = datasets.get("aquifers_gdf")
-    if gdf is not None and not gdf.empty:
-        aq_match = query_aquifer_by_location(muni_lat, muni_lon, gdf)
-        if aq_match:
-            poro_val = aq_match.get("porosity")
-            perm_val = aq_match.get("permeability_log10")
-            thick_val = aq_match.get("thickness_m")
-            basin_name = aq_match.get("basin_name")
-            if perm_val is not None and poro_val is not None and thick_val is not None:
-                aquifer_score = calculate_aquifer_score(perm_val, poro_val, thick_val)
+    # 1. Try pre-computed Supabase table first; fall back to spatial GeoJSON if local data is available
+    aq_match = query_aquifer_by_municipality(municipality_id)
+    if aq_match is None and datasets is not None:
+        gdf = datasets.get("aquifers_gdf")
+        if gdf is not None and not gdf.empty:
+            aq_match = query_aquifer_by_location(muni_lat, muni_lon, gdf)
+
+    if aq_match:
+        poro_val = aq_match.get("porosity")
+        perm_val = aq_match.get("permeability_log10")
+        thick_val = aq_match.get("thickness_m")
+        basin_name = aq_match.get("basin_name")
+        aquifer_score = aq_match.get("aquifer_score")
+        if aquifer_score is None and perm_val is not None and poro_val is not None and thick_val is not None:
+            aquifer_score = calculate_aquifer_score(perm_val, poro_val, thick_val)
 
     # 2. Fallback to legacy CSV median if spatial query returns nothing
     if aquifer_score is None:
