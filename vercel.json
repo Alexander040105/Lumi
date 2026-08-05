@@ -7,7 +7,7 @@
     "api/index.py": {
       "maxDuration": 10,
       "memory": 1024,
-      "excludeFiles": "{.venv/**,node_modules/**,react-frontend/**,python_scripts/**,scraped_data/**,windsurf_data_extraction/**,lumi_tests/**,DOE_Data_Extracted/**,philippine_geojson/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**,GeothermalDatasets/**,regionalData/**,lumi-details/**,docs/**,supabase/**,expo-mobile/**}",
+      "excludeFiles": "{.venv/**,node_modules/**,__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**}",
       "includeFiles": "{fastapi-backend/**,api/**}"
     }
   }
