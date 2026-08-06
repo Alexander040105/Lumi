@@ -16,8 +16,17 @@ export function getApiBaseUrl() {
   if (import.meta.env.DEV) {
     return "/api/v1";
   }
-  return (
+  const base = (
     import.meta.env.VITE_API_BASE_URL ||
-    "https://lumi-backend-ten.vercel.app/api/v1"
-  );
+    "https://lumi-backend-ten.vercel.app"
+  )
+    .trim()
+    .replace(/\/+$/, "");
+  if (base.endsWith("/api/v1")) {
+    return base;
+  }
+  if (base.endsWith("/api")) {
+    return `${base}/v1`;
+  }
+  return `${base}/api/v1`;
 }
