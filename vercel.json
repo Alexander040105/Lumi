@@ -10,8 +10,8 @@
     "api/index.py": {
       "maxDuration": 10,
       "memory": 1024,
-      "excludeFiles": "{.venv/**,node_modules/**,__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**,windsurf_data_extraction/**,lumi_tests/**,GeothermalDatasets/**,regionalData/**,lumi-details/**,docs/**,supabase/**,expo-mobile/**}",
-      "includeFiles": "{fastapi-backend/**,api/**}"
+      "excludeFiles": "{.venv/**,node_modules/**,__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**,windsurf_data_extraction/**,lumi_tests/**,GeothermalDatasets/**,regionalData/**,lumi-details/**,docs/**,supabase/**,expo-mobile/**,DOE_Data_Extracted/data_v1/**,DOE_Data_Extracted/data_v2/**}",
+      "includeFiles": "{fastapi-backend/**,api/**,DOE_Data_Extracted/data_v2_preprocessed/**}"
     }
   }
 }
