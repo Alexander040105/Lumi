@@ -27,10 +27,10 @@ if ml_worker_url:
 class _PathFix:
     """Normalize ASGI scope paths for Vercel's serverless mount point.
 
-    Vercel invokes the `api/index.py` function with the full public URL path.
-    For a rewrite like `/(.*)` -> `/api/index/$1`, the app may see
-    `/api/index/docs` instead of `/docs`. This wrapper strips the function
-    prefix so FastAPI's routers receive the original request paths.
+    Vercel rewrites every request to `api/index`. The function may see either
+    the original request path (e.g. `/docs`) or the mount path
+    (`/api/index` or `/api/index.py`). This wrapper strips the function
+    prefix and clears `root_path` so FastAPI routes against the public URL.
     """
 
     def __init__(self, app):
@@ -39,8 +39,7 @@ class _PathFix:
     async def __call__(self, scope, receive, send):
         if scope["type"] in ("http", "websocket"):
             path = scope.get("path", "/")
-            raw_path = scope.get("raw_path", b"")
-            root_path = scope.get("root_path", "")
+            raw_path = scope.get("raw_path", b"/")
 
             for prefix in ("/api/index.py", "/api/index"):
                 if path.startswith(prefix):
@@ -54,10 +53,10 @@ class _PathFix:
                     if not raw_rest.startswith(b"/"):
                         raw_rest = b"/" + raw_rest
                     scope["raw_path"] = raw_rest or b"/"
-
-                    if root_path.startswith(prefix):
-                        scope["root_path"] = root_path[len(prefix):] or ""
                     break
+
+            # The app is served from the public root; do not use a subpath mount.
+            scope["root_path"] = ""
 
         await self.app(scope, receive, send)
 
