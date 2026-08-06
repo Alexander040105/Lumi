@@ -4,11 +4,14 @@
 /requirements-no-torch.txt
 /fastapi-backend/requirements.txt
 
-# Data files are now offloaded to Supabase / Supabase Storage.
-# Excluding them keeps the Vercel serverless bundle under the 50 MB Free/Hobby limit.
-/DOE_Data_Extracted/
+# Keep small preprocessed DOE CSVs bundled for the EnergyHub predictor;
+# other DOE raw datasets remain offloaded to Supabase to stay under the 50 MB limit.
+/DOE_Data_Extracted/**
+!/DOE_Data_Extracted/data_v2_preprocessed/
+!/DOE_Data_Extracted/data_v2_preprocessed/**
 /philippine_geojson/
 /fastapi-backend/app/services/local_data/
+/fastapi-backend/scripts/
 /windsurf_data_extraction/
 /lumi_tests/
 /python_scripts/

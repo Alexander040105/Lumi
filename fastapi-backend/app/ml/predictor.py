@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from pathlib import Path
 from typing import Any
 
@@ -9,6 +8,7 @@ import numpy as np
 
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
+from app.config.settings import get_settings
 
 
 logger = logging.getLogger(__name__)
@@ -66,14 +66,21 @@ def _load_csv_from_supabase(dataset_name: str) -> pd.DataFrame | None:
 
 def _load_csv(filename: str, subdir: str = "") -> pd.DataFrame | None:
     dataset_name = f"{subdir}/{filename}" if subdir else filename
+    path = _DATA_DIR / subdir / filename if subdir else _DATA_DIR / filename
+    settings = get_settings()
+
+    # Prefer bundled preprocessed CSVs on serverless/Vercel to avoid
+    # repeated Supabase round-trips. Set USE_LOCAL_DATA_FALLBACK=false
+    # to force loading from Supabase instead.
+    if settings.use_local_data_fallback and path.exists():
+        return pd.read_csv(path)
+
     df = _load_csv_from_supabase(dataset_name)
     if df is not None:
         return df
 
-    if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true":
-        path = _DATA_DIR / subdir / filename if subdir else _DATA_DIR / filename
-        if path.exists():
-            return pd.read_csv(path)
+    if settings.use_local_data_fallback and path.exists():
+        return pd.read_csv(path)
     return None
 
 
@@ -124,7 +131,16 @@ class EnergyHubML:
     def get_latest_statistics(self) -> dict[str, Any]:
         """Return the most recent year’s national energy snapshot."""
         if self._historical is None or self._historical.empty:
-            return {}
+            return {
+                "year": 0,
+                "total_consumption_gwh": 0.0,
+                "total_peak_demand_mw": 0.0,
+                "total_generation_gwh": 0.0,
+                "renewable_generation_gwh": 0.0,
+                "renewable_share_pct": 0.0,
+                "capacity_margin_mw": None,
+                "capacity_margin_pct": None,
+            }
         df = self._historical
         latest = df.iloc[-1]
         latest_year = int(latest["year"])
@@ -179,7 +195,15 @@ class EnergyHubML:
             target_col = "total_consumption_gwh"
 
         if df is None or df.empty:
-            return {"forecast_years": [], "forecast_values": [], "ci_lower": [], "ci_upper": []}
+            return {
+                "forecast_years": [],
+                "forecast_values": [],
+                "ci_lower": [],
+                "ci_upper": [],
+                "model": "ARIMA(1,1,1)",
+                "training_period": "2003-2020",
+                "test_period": "2021-2024",
+            }
 
         years = df["year"].astype(int).tolist()
         values = df[target_col].round(2).tolist()
@@ -209,7 +233,12 @@ class EnergyHubML:
     def get_source_breakdown(self, year: int | None = None) -> dict[str, Any]:
         """Return generation by plant type for a given year (latest if None)."""
         if self._historical is None or self._historical.empty:
-            return {}
+            return {
+                "year": 0,
+                "total_generation_gwh": 0.0,
+                "generation_gwh": {},
+                "share_pct": {},
+            }
         df = self._historical
         if year is None:
             row = df.iloc[-1]
@@ -217,7 +246,12 @@ class EnergyHubML:
         else:
             match = df[df["year"] == year]
             if match.empty:
-                return {}
+                return {
+                    "year": year,
+                    "total_generation_gwh": 0.0,
+                    "generation_gwh": {},
+                    "share_pct": {},
+                }
             row = match.iloc[0]
 
         sources = {
@@ -242,7 +276,12 @@ class EnergyHubML:
     def get_grid_breakdown(self, year: int | None = None) -> dict[str, Any]:
         """Return generation by grid (Luzon, Visayas, Mindanao)."""
         if self._historical is None or self._historical.empty:
-            return {}
+            return {
+                "year": 0,
+                "total_generation_gwh": 0.0,
+                "generation_gwh": {},
+                "share_pct": {},
+            }
         df = self._historical
         if year is None:
             row = df.iloc[-1]
@@ -250,7 +289,12 @@ class EnergyHubML:
         else:
             match = df[df["year"] == year]
             if match.empty:
-                return {}
+                return {
+                    "year": year,
+                    "total_generation_gwh": 0.0,
+                    "generation_gwh": {},
+                    "share_pct": {},
+                }
             row = match.iloc[0]
 
         grids = {
@@ -275,7 +319,7 @@ class EnergyHubML:
         cost while still providing useful narrative context.
         """
         if self._historical is None or self._historical.empty:
-            return {"insight": "No data available.", "recommendation": ""}
+            return {"insight": "No data available.", "recommendation": "", "data_year": 0}
 
         df = self._historical.sort_values("year")
         latest = df.iloc[-1]

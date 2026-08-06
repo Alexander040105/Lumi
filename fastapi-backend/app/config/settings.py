@@ -97,7 +97,7 @@ class Settings(BaseSettings):
     enable_rag: bool = True
     enable_forecast: bool = True
     use_local_data_fallback: bool = Field(
-        default=False,
+        default=True,
         validation_alias=AliasChoices("USE_LOCAL_DATA_FALLBACK", "use_local_data_fallback"),
     )
 

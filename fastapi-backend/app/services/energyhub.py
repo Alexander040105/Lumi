@@ -786,6 +786,11 @@ class EnergyHubService:
         forecast = self._ml.get_forecast("consumption")
         source = self._ml.get_source_breakdown()
 
+        forecast_values = forecast.get("forecast_values") or []
+        f_2030 = forecast_values[-1] if forecast_values else 0
+        consumption = latest.get("total_consumption_gwh", 0) or 0
+        forecast_growth = ((f_2030 / consumption) - 1) * 100 if consumption else 0.0
+
         prompt = (
             "You are LUMI, an Environmental Intelligence assistant for Philippine energy data.\n"
             "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
@@ -794,8 +799,8 @@ class EnergyHubService:
             f"Total Peak Demand: {latest.get('total_peak_demand_mw', 0):,.0f} MW\n"
             f"Renewable Share: {latest.get('renewable_share_pct', 0)}%\n"
             f"Capacity Margin: {latest.get('capacity_margin_pct', 0)}%\n\n"
-            f"ARIMA Forecast 2030: {forecast.get('forecast_values', [0])[-1]:,.0f} GWh\n"
-            f"Forecast Growth: {(((forecast.get('forecast_values', [0])[-1] / latest.get('total_consumption_gwh', 1)) - 1) * 100):.1f}%\n\n"
+            f"ARIMA Forecast 2030: {f_2030:,.0f} GWh\n"
+            f"Forecast Growth: {forecast_growth:.1f}%\n\n"
             "Generation Mix (2024):\n"
         )
         for src, pct in source.get("share_pct", {}).items():
