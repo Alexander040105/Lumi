@@ -11,6 +11,7 @@
 !/DOE_Data_Extracted/data_v2_preprocessed/**
 /philippine_geojson/
 /fastapi-backend/app/services/local_data/
+/fastapi-backend/scripts/
 /windsurf_data_extraction/
 /lumi_tests/
 /python_scripts/
