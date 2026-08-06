@@ -104,7 +104,11 @@ export function AuthProvider({ children }) {
       effectivePlan,
       isPremium,
       emailConfirmed,
-      signInWithProvider: (provider) => supabase.auth.signInWithOAuth({ provider }),
+      signInWithProvider: (provider) =>
+        supabase.auth.signInWithOAuth({
+          provider,
+          options: { redirectTo: `${window.location.origin}/login` },
+        }),
       signInWithPassword: (email, password) =>
         supabase.auth.signInWithPassword({ email, password }),
       signUp: async (email, password, options = {}) => {

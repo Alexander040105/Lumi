@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     app_name: str = "Lumi API"
     api_v1_prefix: str = "/api/v1"
     cors_origins: List[str] = ["http://localhost:5173"]
+    cors_origin_regex: str | None = None
     environment: str = "development"
     debug: bool = False
     log_level: str = "INFO"
