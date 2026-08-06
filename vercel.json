@@ -4,13 +4,13 @@
   "buildCommand": null,
   "installCommand": "pip install -r api/requirements.txt",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
+    { "source": "/api/v1/(.*)", "destination": "/api" }
   ],
   "functions": {
     "api/index.py": {
       "maxDuration": 10,
       "memory": 1024,
-      "excludeFiles": "{.venv/**,node_modules/**,__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**}",
+      "excludeFiles": "{.venv/**,node_modules/**,__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**,windsurf_data_extraction/**,lumi_tests/**,GeothermalDatasets/**,regionalData/**,lumi-details/**,docs/**,supabase/**,expo-mobile/**}",
       "includeFiles": "{fastapi-backend/**,api/**}"
     }
   }
