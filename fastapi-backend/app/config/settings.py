@@ -14,6 +14,8 @@ ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 logger.info("Loading settings from: %s", ENV_FILE)
 load_dotenv(ENV_FILE, override=True)
 
+_DEFAULT_CORS_ORIGIN_REGEX = r"https://.*-xi\.vercel\.app"
+
 
 class Settings(BaseSettings):
     # App / network
@@ -23,7 +25,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "https://lumi-frontend-xi.vercel.app",
     ]
-    cors_origin_regex: str | None = r"https://.*-xi\.vercel\.app"
+    cors_origin_regex: str | None = _DEFAULT_CORS_ORIGIN_REGEX
     environment: str = "development"
     debug: bool = False
     log_level: str = "INFO"
@@ -109,6 +111,15 @@ class Settings(BaseSettings):
         if isinstance(value, str) and value.strip():
             return json.loads(value)
         return ["http://localhost:5173"]
+
+    @field_validator("cors_origin_regex", mode="before")
+    @classmethod
+    def parse_cors_origin_regex(cls, value):
+        if isinstance(value, str):
+            value = value.strip()
+            if value:
+                return value
+        return _DEFAULT_CORS_ORIGIN_REGEX
 
 
 @lru_cache
