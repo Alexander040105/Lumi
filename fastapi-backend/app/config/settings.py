@@ -19,8 +19,11 @@ class Settings(BaseSettings):
     # App / network
     app_name: str = "Lumi API"
     api_v1_prefix: str = "/api/v1"
-    cors_origins: List[str] = ["http://localhost:5173"]
-    cors_origin_regex: str | None = None
+    cors_origins: List[str] = [
+        "http://localhost:5173",
+        "https://lumi-frontend-xi.vercel.app",
+    ]
+    cors_origin_regex: str | None = r"https://.*-xi\.vercel\.app"
     environment: str = "development"
     debug: bool = False
     log_level: str = "INFO"
