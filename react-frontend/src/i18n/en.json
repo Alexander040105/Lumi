@@ -34,6 +34,12 @@
       "limited": "Limited"
     }
   },
+  "citationSources": {
+    "title": "Sources & References",
+    "description": "LUMI uses published research and trusted climate and energy data sources.",
+    "basedOn": "Based on Philippine and international research",
+    "viewSources": "View Sources & References"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
@@ -299,17 +305,17 @@
   "home": {
     "hero": {
       "badge": "Environmental Intelligence for the Philippines",
-      "title": "Data-Driven Insights for a",
-      "titleHighlight": "Sustainable Future",
-      "subtitle": "LUMI transforms complex climate and energy data into accessible, actionable insights. Evaluate renewable energy options, understand regional climate patterns, and make informed decisions backed by predictive analytics and AI-powered recommendations.",
-      "tryEnergyHub": "Try EnergyHub",
-      "learnMore": "Learn More"
+      "title": "Find the Best Renewable Energy Option for",
+      "titleHighlight": "your Area",
+      "subtitle": "LUMI helps you compare solar, wind, and hydro energy using weather and energy data from different parts of the Philippines. See which options may work in your area, their estimated costs, and their possible benefits.",
+      "tryEnergyHub": "Explore Energy in my Area",
+      "learnMore": "How LUMI Works"
     },
     "stats": {
-      "regionsCovered": { "label": "Regions Covered", "value": "17+", "sub": "Luzon, Visayas, Mindanao" },
-      "energySources": { "label": "Energy Sources", "value": "3", "sub": "Solar, Wind, Hydro" },
-      "dataPoints": { "label": "Data Points", "value": "10K+", "sub": "Climate & energy records" },
-      "aiInsights": { "label": "AI Insights", "value": "Real-time", "sub": "Gemini-powered analysis" }
+      "regionsCovered": { "label": "Philippine Regions Covered", "value": "17+", "sub": "Explore climate and energy information across the country" },
+      "energySources": { "label": "Solar, Wind & Hydro", "value": "3", "sub": "Compare three renewable energy options" },
+      "dataPoints": { "label": "Reliable Data Sources", "value": "10K+", "sub": "Information from recognized weather and energy sources" },
+      "aiInsights": { "label": "Easy-to-Understand Results", "value": "Real-time", "sub": "Get simple explanations and recommendations" }
     },
     "features": {
       "badge": "Platform Modules",
@@ -317,18 +323,19 @@
       "subtitle": "LUMI combines interactive dashboards, predictive forecasting, and AI-driven recommendations to bridge the gap between technical climate data and public understanding.",
       "energyHub": {
         "title": "EnergyHub",
-        "description": "Interactive climate and energy dashboard displaying temperature trends, rainfall patterns, energy consumption, and electricity demand across Philippine regions with AI-generated interpretations.",
-        "tags": ["Regional Filtering", "KPIs & Charts", "AI Insights", "NGCP & OpenWeather"]
+        "description": "Explore energy and weather information in your area. See temperature, rainfall, electricity use, and other trends through easy-to-read charts and explanations.",
+        "tags": ["Regional Filtering", "Charts & Key Information", "AI Insights"]
       },
       "ecosim": {
         "title": "Ecosim",
-        "description": "A rule-based recommendation and simulation engine that evaluates solar, wind, and hydro feasibility per region. Input your monthly bill and consumption to see estimated costs, savings, and environmental impact.",
-        "tags": ["What-If Scenarios", "Cost Analysis", "ROI Estimation", "Source Comparison"]
+        "description": "Compare renewable energy options. Choose a location and compare solar, wind, and hydro based on estimated cost, savings, and local conditions.",
+        "tags": ["What-If Scenarios", "Cost Analysis", "Estimated Savings", "Source Comparison"]
       },
       "ai": {
-        "title": "AI Intelligence",
-        "description": "Powered by Gemini API, LUMI delivers contextual explanations for every chart, forecast, and recommendation. Natural language insights make complex environmental data understandable for everyone.",
-        "tags": ["Natural Language", "Chart Explanations", "Recommendations", "Comparative Summaries"]
+        "title": "Get simple explanations",
+        "badge": "Powered by AI",
+        "description": "LUMI can explain charts, forecasts, and recommendations using everyday language.",
+        "tags": ["Simple Explanations", "Chart Explanations", "Recommendations", "Comparative Summaries"]
       }
     },
     "howItWorks": {
@@ -337,155 +344,165 @@
       "subtitle": "LUMI simplifies the journey from scattered climate and energy information to confident renewable energy choices.",
       "step": "Step",
       "steps": [
-        { "title": "Data Collection", "description": "Aggregates public climate and energy datasets from NGCP, OpenWeather, and regional statistics into a unified, queryable foundation." },
-        { "title": "Climate & Energy Analysis", "description": "Visualizes temperature trends, rainfall patterns, energy consumption, and demand across Luzon, Visayas, and Mindanao." },
-        { "title": "AI Processing", "description": "Applies rule-based logic and Gemini-powered AI to interpret patterns, generate forecasts, and produce contextual recommendations." },
-        { "title": "Decision Support", "description": "Presents actionable insights, what-if simulations, and costed recommendations so users can choose the best renewable path forward." }
+        { "title": "Choose your Location", "description": "Select your province, city, or region." },
+        { "title": "Explore Local Conditions", "description": "See rainfall, sunlight, wind, electricity use, and other information." },
+        { "title": "Compare your Options", "description": "Compare solar, wind, and hydro based on your area's conditions." },
+        { "title": "See your Recommendation", "description": "Get an easy-to-understand explanation of which options may suit your area." }
       ]
     },
     "renewable": {
       "badge": "Renewable Energy Evaluation",
       "title": "Solar, Wind & Hydro Analysis",
-      "subtitle": "LUMI evaluates the feasibility of three core renewable energy sources tailored to Philippine regional conditions, helping users understand suitability, costs, and environmental benefits.",
+      "subtitle": "LUMI evaluates solar, wind, and hydropower using local conditions to help you understand which option may work best in your area.",
       "solar": {
         "title": "Solar Energy",
-        "description": "Evaluates solar irradiance, peak sun hours, and rooftop potential per region. Research shows Filipinos in Metro Manila demonstrate a strong preference for solar over biomass, wind, and small-scale hydropower, and community-based solar initiatives have provided positive impacts in island communities.",
-        "stat": "Palanca-Tan et al., 2024; Franco & Taeihagh, 2024"
+        "header": "Best where there is strong sunlight",
+        "description": "LUMI examines sunlight and local weather conditions to help estimate whether solar energy may work well in your area.",
+        "citations": [16, 12]
       },
       "wind": {
         "title": "Wind Energy",
-        "description": "Analyzes wind speed patterns and turbine viability for coastal and elevated areas. Studies in the Philippines confirm that combining multi-criteria decision methods with machine learning yields accurate site selection for wind power, providing policymakers and investors with objective feasibility data.",
-        "stat": "Cerna et al., 2023; Abdullah et al., 2025"
+        "header": "Best in locations with reliable wind",
+        "description": "LUMI examines wind conditions to help determine whether wind energy may be suitable for your location.",
+        "citations": [8, 1]
       },
       "hydro": {
         "title": "Hydro Energy",
-        "description": "Assesses rainfall trends, river flow data, and micro-hydro opportunities. Research on hybrid renewable systems in Southern Philippines identifies hydropower as a viable component alongside solar and wind, with socio-environmental and techno-economic factors determining site suitability.",
-        "stat": "Tarife et al., 2023"
+        "header": "Best near suitable water resources",
+        "description": "LUMI examines rainfall and water-related conditions to help determine the potential for small-scale hydropower.",
+        "citations": [20]
       },
       "insight": {
-        "title": "Why the Philippines Needs Renewable Intelligence",
-        "description": "The Philippine grid relies on fossil fuels for approximately 70.5% of energy production{{c1}}. In developing countries like the Philippines, financial limitations, governance challenges, and societal resistance remain significant barriers{{c2}}. Public perception and education also significantly shape adoption intentions{{c3}}. LUMI closes this gap by transforming fragmented technical data into accessible, cost-inclusive insights.",
-        "readResearch": "Read the Research"
+        "title": "Why the Philippines Needs Renewable Energy",
+        "description": "Much of the country's electricity still comes from fossil fuels. Renewable sources such as solar, wind, and hydro can provide cleaner alternatives, but choosing the right option can be difficult. LUMI brings weather, energy, and cost information together so people can compare their options more easily.",
+        "citations": [13, 24, 2, 10],
+        "readResearch": "See Our Data Sources"
       }
     },
     "cta": {
-      "title": "Start Analyzing Your Energy Future",
-      "subtitle": "Whether you are a student, homeowner, policymaker, or researcher, LUMI gives you the clarity to evaluate renewable energy with confidence backed by real data.",
-      "tryEcosim": "Try Ecosim",
-      "tryEnergyHub": "Try EnergyHub"
+      "title": "Find the Right Renewable Energy Option for You",
+      "subtitle": "Choose your location to explore climate information or compare solar, wind, and hydro options.",
+      "tryEcosim": "Compare Energy Options",
+      "tryEnergyHub": "Explore Climate Data"
     },
-    "references": "References",
+    "references": {
+      "title": "Our Data & Research",
+      "intro": "LUMI uses published research and trusted climate and energy data sources.",
+      "viewSources": "View Sources & References"
+    },
     "footer": {
       "title": "Ready to Explore LUMI?",
-      "subtitle": "Dive into regional climate data, run renewable energy simulations, and discover actionable insights tailored to the Philippines.",
-      "tryEnergyHub": "Try EnergyHub",
-      "launchEcosim": "Launch Ecosim"
+      "subtitle": "Check energy and weather information for your area or compare solar, wind, and hydro options.",
+      "tryEnergyHub": "Explore my Area",
+      "launchEcosim": "Compare Energy Options"
     }
   },
   "about": {
     "hero": {
-      "badge": "About the System",
-      "title": "Understanding",
-      "titleHighlight": "LUMI",
-      "subtitle": "A research-driven environmental intelligence system built to bridge the divide between complex climate data and the communities who need it most.",
-      "tryEnergyHub": "Try EnergyHub",
-      "tryEcosim": "Try Ecosim"
+      "badge": "About LUMI",
+      "title": "Making Renewable Energy Information",
+      "titleHighlight": "Easier to Understand",
+      "subtitle": "LUMI is a Philippine-based platform that helps people understand climate and energy information, compare renewable energy options, and make more informed decisions.",
+      "exploreEnergyData": "Explore Energy Data",
+      "compareEnergyOptions": "Compare Energy Options"
     },
     "problem": {
-      "badge": "The Problem We Address",
-      "title": "Why LUMI Was Developed",
-      "paragraph1": "The Philippine electrical grid has a capacity of approximately 27.0 GW and is heavily dependent on fossil fuels, which make up around 70.5% of the country's energy production, with coal alone accounting for 43.1%, while only 29.5% comes from renewables{{c1}}. In developing countries such as the Philippines, financial limitations, governance challenges, and societal resistance have been identified as persistent barriers to renewable energy adoption{{c2}}. Despite growing awareness, renewable energy remains poorly understood and is often perceived as an expensive investment{{c3}}.",
-      "paragraph2": "Furthermore, fragmented climate and energy-related data are often presented in complex formats, hindering public understanding and utilization{{c1}}. Public perception and education significantly shape adoption intentions, and increasing climate awareness can shift sentiment in favor of renewables{{c2}}. LUMI was developed to close this gap by transforming overwhelming technical datasets into clear, visual, and actionable insights with cost-inclusive transparency.",
-      "paragraph3": "Unlike generic information websites, LUMI is an interactive decision-support platform grounded in research on multi-criteria decision analysis and intelligent decision support systems{{c1}}, allowing users to simulate scenarios, compare energy sources, and understand regional climate patterns in the context of real energy demand.",
+      "badge": "Why LUMI Was Created",
+      "title": "Why LUMI Was Created",
+      "paragraph1": "Choosing renewable energy can be difficult. Information about costs, weather conditions, energy use, and available technologies is often spread across different sources and can be hard to understand. LUMI brings this information together in one place and explains it in a simpler way.",
+      "citations": [13, 24, 18, 23],
       "stats": {
-        "fossilShare": { "value": "70.5%", "label": "Fossil Fuel Share", "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%{{c1}}" },
-        "renewableShare": { "value": "29.5%", "label": "Renewable Share", "description": "Only about 29.5% of the country's energy is generated from renewable sources{{c1}}" },
-        "barriers": { "value": "3 Barriers", "label": "To Adoption", "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries{{c1}}" }
-      }
+        "fossilShare": { "value": "70.5%", "label": "Fossil Fuel Share", "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%" },
+        "renewableShare": { "value": "29.5%", "label": "Renewable Share", "description": "Only about 29.5% of the country's energy is generated from renewable sources" },
+        "barriers": { "value": "3 Barriers", "label": "To Adoption", "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries" }
+      },
+      "viewSourcesPrompt": "Want to see the evidence?",
+      "viewSources": "View Research & Sources"
     },
     "mission": {
       "badge": "Guiding Principles",
       "title": "Mission & Vision",
-      "subtitle": "LUMI is guided by a commitment to environmental literacy and democratized access to energy intelligence.",
+      "subtitle": "LUMI helps people make sense of energy information.",
       "mission": {
         "title": "Mission",
-        "description": "To democratize environmental intelligence by transforming complex climate and energy data into accessible, actionable insights that empower every Filipino to understand, evaluate, and transition toward renewable energy solutions with confidence and transparency."
+        "description": "To make climate and renewable energy information easier for Filipinos to understand and use when making energy decisions."
       },
       "vision": {
         "title": "Vision",
-        "description": "A future where data-driven sustainability is within reach of every community. We envision a Philippines where students, households, and policymakers alike make informed energy decisions rooted in clear analytics, reducing fossil fuel dependence and accelerating national climate resilience."
+        "description": "A Philippines where students, households, communities, and decision-makers can easily access reliable information and make better choices about renewable energy."
       }
     },
-    "research": {
-      "badge": "Research Foundation",
-      "title": "The Need for Environmental Intelligence",
-      "subtitle": "LUMI is built on a recognized research gap: the absence of user-friendly, data-driven tools for renewable energy evaluation in the Philippines.",
-      "educational": {
-        "title": "Educational Resource",
-        "description": "Research shows that education significantly affects people's perception of energy sources and their willingness to transition{{c1}}. LUMI serves as a living case study that makes abstract climate concepts tangible through interactive visualizations, directly supporting classroom and community learning."
+    "beneficiaries": {
+      "badge": "Who can use LUMI?",
+      "title": "Who can use LUMI?",
+      "subtitle": "LUMI is built for anyone who wants to understand renewable energy options in the Philippines.",
+      "citations": [2, 11, 22, 5, 16, 12, 17],
+      "students": {
+        "title": "Students & Learners",
+        "description": "LUMI can be used as a learning tool to explore climate and energy data, making abstract concepts easier to understand."
       },
-      "decisionSupport": {
-        "title": "Decision Support",
-        "description": "Studies confirm that multi-criteria decision analysis improves social impact and policy comprehension in renewable energy planning{{c1}}. Government agencies can use LUMI to identify high-potential zones and craft strategies backed by structured evaluation rather than assumptions."
+      "households": {
+        "title": "Households",
+        "description": "LUMI helps families compare renewable energy options and understand possible savings based on their location and electricity use."
       },
-      "researchGroundwork": {
-        "title": "Research Groundwork",
-        "description": "Environmental intelligence, defined as the use of machine learning and AI to simulate predicted environment models{{c1}}, is a growing field. LUMI demonstrates the practical application of rule-based AI and predictive analytics in tackling real-world environmental challenges, creating a foundation for future systems."
-      },
-      "problemStatement": {
-        "title": "Research Problem Statement",
-        "description": "Despite growing public awareness of renewable energy, it remains poorly understood and perceived as costly{{c1}}. With approximately 70.5% of the Philippines' energy production coming from fossil fuels{{c2}}, the lack of a system that educates the public and allows them to evaluate renewable energy options results in continued dependence on unsustainable sources. In developing countries, barriers such as financial limitations, governance challenges, and societal resistance significantly affect adoption intentions{{c3}}. LUMI directly addresses this gap by providing an intuitive platform for data-driven evaluation and informed decision-making grounded in multi-criteria and predictive methods{{c4}}."
+      "communities": {
+        "title": "Communities & Decision-Makers",
+        "description": "LUMI can help local planners, educators, and organizations identify renewable energy opportunities in their area."
       }
     },
     "system": {
-      "badge": "System Architecture",
-      "title": "How LUMI Is Structured",
-      "subtitle": "LUMI integrates four interconnected modules that guide users from raw environmental data to confident renewable energy decisions.",
-      "modules": {
-        "energyHub": {
-          "title": "EnergyHub",
-          "description": "Interactive dashboard for climate patterns, energy consumption, and demand trends. Dashboards that use graphical visualizations improve comprehension of complex data{{c1}}, while meteorological data is a critical input for predicting renewable energy output{{c2}}."
-        },
-        "ecosim": {
-          "title": "Ecosim",
-          "description": "Rule-based recommendation and what-if simulation engine comparing solar, wind, and hydro with real costing and savings estimates. Studies confirm that technical criteria hold the most weight (53.6%) in renewable energy decision-making, followed by environmental impact (29.0%){{c1}}."
-        },
-        "ai": {
-          "title": "AI Analysis",
-          "description": "AI-powered natural language explanations for charts, forecasts, and recommendations. Explainable artificial intelligence ensures insights are tailored to user needs and unambiguous{{c1}}, while AI can effectively optimize renewable energy by predicting supply and demand{{c2}}."
-        },
-        "dataViz": {
-          "title": "Data Visualization",
-          "description": "Unified visual analytics including KPIs, trend charts, comparative graphs, and regional overview panels. Data visualization is defined as the representation of data using graphics to make patterns accessible{{c1}}, and classical forecasting models are sufficient when seasonal patterns are predictable{{c2}}."
-        }
+      "badge": "How LUMI is Structured",
+      "title": "How LUMI is Structured",
+      "subtitle": "LUMI brings together four tools to help users move from raw data to clearer energy decisions.",
+      "energyHub": {
+        "title": "EnergyHub",
+        "description": "View easy-to-read charts showing weather, electricity use, and energy trends across different Philippine regions."
+      },
+      "ecosim": {
+        "title": "EcoSim",
+        "description": "Compare solar, wind, and hydro using local conditions, estimated costs, and possible savings."
+      },
+      "ai": {
+        "title": "AI Explanations",
+        "description": "Get simple explanations of charts, forecasts, and recommendations."
+      },
+      "dataViz": {
+        "title": "Data & Charts",
+        "description": "Turn complex information into maps, graphs, and comparisons that are easier to understand."
       }
     },
     "technology": {
       "badge": "Built With Modern Tools",
       "title": "Technology Stack",
-      "subtitle": "LUMI uses a modern, scalable architecture designed for performance, accessibility, and seamless integration of AI and environmental data services.",
+      "subtitle": "LUMI uses a modern, scalable architecture designed for performance, accessibility, and integration of AI and environmental data.",
+      "viewTechnical": "View Technical Architecture",
       "frontend": { "title": "Frontend", "items": ["React 18 + Vite", "Tailwind CSS", "shadcn/ui Components", "React Router", "Lucide Icons"] },
       "backend": { "title": "Backend", "items": ["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"] },
       "database": { "title": "Database", "items": ["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"] },
       "ai": { "title": "AI & ML", "items": ["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"] },
       "impact": {
-        "title": "Designed for Real-World Impact",
-        "description": "Every technology choice in LUMI serves the goal of making environmental intelligence fast, accessible, and understandable. From responsive mobile layouts to AI-generated explanations, the architecture supports users across all backgrounds and devices.",
-        "tags": ["Responsive Design", "Dark Mode Support", "Accessibility First", "Performance Optimized"]
+        "title": "Made for Everyone",
+        "description": "Every technology choice in LUMI serves the goal of making energy information fast, accessible, and easy to understand.",
+        "features": [
+          { "title": "Works on Phones & Computers", "description": "Use LUMI on different screen sizes." },
+          { "title": "English & Filipino", "description": "Choose the language you're more comfortable with." },
+          { "title": "Easy-to-Read Design", "description": "Clear text, icons, and explanations." },
+          { "title": "Light & Dark Modes", "description": "Choose the display that's comfortable for you." }
+        ]
       }
     },
-    "references": "References",
     "footer": {
       "title": "Ready to Explore LUMI?",
-      "subtitle": "Dive into regional climate data, run renewable energy simulations, and discover actionable insights tailored to the Philippines.",
-      "tryEnergyHub": "Try EnergyHub",
-      "launchEcosim": "Launch Ecosim"
+      "subtitle": "Check energy and weather information for your area or compare solar, wind, and hydro options.",
+      "exploreMyArea": "Explore my Area",
+      "compareEnergyOptions": "Compare Energy Options"
     }
   },
   "energyHub": {
     "title": "EnergyHub",
-    "description": "Explore Philippine national energy statistics, ARIMA-based demand forecasts, and renewable potential across regions. Data sourced from the Department of Energy (DOE) and NASA POWER climate archives.",
-    "disclaimer": "Disclaimer: This module provides educational insights and is not a substitute for professional energy planning.",
+    "description": "Explore electricity use, renewable energy, and climate information across the Philippines. See past trends, future estimates, and renewable energy potential for different locations.",
+    "citations": [25, 26, 27],
+    "disclaimer": "For educational use: EnergyHub helps you understand energy information but should not replace professional advice for energy projects or investments.",
     "sections": {
       "nationalOverview": "National Overview",
       "irena": {
@@ -505,30 +522,34 @@
     },
     "overview": {
       "consumption": {
-        "label": "Total Consumption",
+        "label": "Total electricity used",
+        "tooltip": "What is GWh?",
+        "tooltipText": "GWh stands for gigawatt-hour. One GWh equals one million kilowatt-hours (kWh), enough to power thousands of homes for a month.",
         "value": "{{value}} GWh",
         "sub": "Year {{year}}",
-        "interpretation": "The Philippines used {{value}} billion kWh of electricity in {{year}}. That's enough to power millions of homes."
+        "interpretation": "The whole country used {{value}} billion kWh of electricity in {{year}}. That's enough to power millions of homes."
       },
       "peakDemand": {
-        "label": "Peak Demand",
+        "label": "Highest electricity demand",
+        "tooltip": "What is MW?",
+        "tooltipText": "MW stands for megawatt. One MW is one million watts. Higher peak demand means the grid needs more capacity at once.",
         "value": "{{value}} MW",
         "sub": "Year {{year}}",
-        "interpretation": "The highest electricity demand ever recorded. When demand is high, prices can spike and brownouts become more likely."
+        "interpretation": "The highest amount of electricity the country needed at one time in {{year}}. When demand is high, prices can rise and brownouts become more likely."
       },
       "renewableShare": {
-        "label": "Renewable Share",
+        "label": "Share from renewable energy",
         "value": "{{share}}%",
         "sub": "{{generated}} GWh generated",
-        "interpretation": "{{share}}% of electricity comes from clean sources like solar, wind, and hydro. The Philippines aims to reach 35% by 2030."
+        "interpretation": "{{share}}% of the country's electricity came from clean sources like solar, wind, and hydro in {{year}}."
       },
       "forecastGrowth": {
-        "label": "Forecast Growth (2030)",
+        "label": "Estimated growth by 2030",
         "value": "{{value}}",
         "sub": "{{value}} GWh projected",
         "subEmpty": "",
-        "interpretation": "By 2030, electricity use is expected to grow {{pct}}%. More clean energy is needed to meet this demand.",
-        "interpretationFallback": "Future electricity demand projections help plan for new power plants and renewable energy investments.",
+        "interpretation": "By 2030, the country may need {{pct}}% more electricity than in {{year}}. More clean energy can help meet this growing demand.",
+        "interpretationFallback": "Future electricity demand estimates help plan for new power plants and renewable energy investments.",
         "na": "N/A"
       }
     },
@@ -588,11 +609,11 @@
       },
       "renewable": {
         "title": "Clean Energy Generation",
-        "subtitle": "How much electricity comes from solar, wind, hydro, and geothermal sources",
+        "subtitle": "How much electricity comes from solar, wind, hydro, and other clean sources",
         "explanation": {
-          "what": "This chart shows total renewable energy generation (solar, wind, hydro, geothermal, biomass) per year.",
-          "why": "A rising share means the country is successfully replacing coal and gas with clean energy. This helps reduce electricity costs and pollution over time.",
-          "action": "Advocate for local RE adoption if your province lags the national renewable growth trend."
+          "what": "This chart shows total electricity generation from clean sources like solar, wind, hydro, and biomass each year.",
+          "why": "A rising share means the country is successfully replacing coal and gas with cleaner energy. This helps reduce electricity costs and pollution over time.",
+          "action": "You can explore solar, wind, or hydro options for your area if your province lags the national clean-energy growth trend."
         }
       },
       "aiExplain": "AI Explain",
@@ -614,18 +635,18 @@
         "biomass": "Biomass"
       },
       "explanation": {
-        "what": "This donut chart shows what share of total electricity generation comes from each source: coal, natural gas, oil-based, geothermal, hydro, solar, wind, and biomass.",
-        "why": "Understanding the mix reveals how dependent the grid is on fossil fuels versus renewables. A high fossil share means higher carbon emissions and exposure to fuel price volatility.",
-        "action": "If fossil sources dominate, push for local solar or wind adoption to reduce household carbon footprint and buffer against fuel price hikes."
+        "what": "This donut chart shows what share of the country's electricity comes from each source: coal, natural gas, oil-based, hydro, solar, wind, and biomass.",
+        "why": "This helps you see how much of the country's electricity still comes from fossil fuels. A high fossil share usually means higher carbon emissions and prices that are affected by global fuel markets.",
+        "action": "At home, you can reduce your own carbon footprint by using less electricity during peak hours or by considering rooftop solar where allowed."
       }
     },
     "aiInsight": {
-      "title": "AI Insight",
-      "loading": "Generating LLM analysis...",
-      "llmMode": "LLM Mode",
-      "staticMode": "Static Mode",
-      "poweredByLlm": "Powered by Gemini/Groq LLM — analyzing energy data dynamically.",
-      "poweredByStatic": "Data-driven observation based on {{year}} statistics and ARIMA forecast",
+      "title": "Smart Summary",
+      "loading": "Thinking through the numbers...",
+      "llmMode": "Live AI summary",
+      "staticMode": "Static summary",
+      "poweredByLlm": "This summary is generated using a large language model (Gemini/Groq) based on the chart data.",
+      "poweredByStatic": "Based on {{year}} data and the ARIMA forecast",
       "tabs": {
         "overview": "Overview",
         "trends": "Trends",
@@ -682,8 +703,8 @@
     }
   },
   "ecosim": {
-    "title": "Renewable Energy Simulation",
-    "subtitle": "Ecosim evaluates solar, wind, and hydropower options for your location based on consumption patterns and environmental data.",
+    "title": "Find the Best Renewable Energy Options for your Area",
+    "subtitle": "EcoSim looks at your location, electricity use, and local environmental conditions to help estimate which renewable energy option may fit you best.",
     "errorCardTitle": "Simulation error",
     "defaults": {
       "simulation": "Simulation",
@@ -713,51 +734,76 @@
     "wizard": {
       "step": "Step {{current}} of {{total}}",
       "steps": {
+        "step1": "Location",
+        "step2": "Electricity Use",
+        "step3": "Savings Goal",
+        "step4": "Review"
+      },
+      "stepDescriptions": {
         "step1": "Select your city or municipality so we can analyze your local climate and resources.",
-        "step2": "Tell us how much electricity you use each month so we can estimate your savings.",
-        "step3": "How much of your bill would you like to eliminate with renewable energy?",
+        "step2": "Enter the numbers from your Meralco bill so we can estimate your savings.",
+        "step3": "How much would you like to reduce your monthly electricity bill?",
         "step4": "Review your inputs and run the analysis."
       },
-      "searchMode": "Search mode",
-      "municipality": "Municipality",
+      "searchMode": "Select area type",
+      "municipality": "City/Municipality",
       "province": "Province",
-      "municipalityHint": "Choose municipality for the most accurate local climate data.",
+      "municipalityHint": "We use your location to estimate local solar, wind, and water conditions.",
       "provinceHint": "Choose province for a broader regional overview.",
-      "searchMunicipality": "Search municipality",
+      "searchMunicipality": "Search city/municipality",
       "searchProvince": "Search province",
       "placeholderMunicipality": "e.g., Calamba, Santa Rosa",
       "placeholderProvince": "e.g., Laguna, Cavite",
       "noResults": "No results found",
       "selected": "Selected: {{name}}",
       "notSelected": "Not selected",
-      "consumptionLabel": "Monthly consumption (kWh)",
+      "consumptionLabel": "Electricity used this billing period (kWh)",
       "consumptionPlaceholder": "e.g. 300",
-      "consumptionHint": "Find this on your electric bill. It is usually the biggest number in the Usage section.",
-      "billLabel": "Monthly bill (PHP)",
+      "consumptionHint": "Look for 'Actual Consumption' on your Meralco bill.",
+      "billLabel": "Monthly bill (₱)",
       "billPlaceholder": "e.g. 5000",
-      "billHint": "The total amount you pay each month, before any subsidies or discounts.",
-      "rateText": "Your effective rate is about PHP {{rate}} per kWh. This helps us estimate your savings accurately.",
-      "savingsLabel": "Desired savings",
-      "savingsLevels": {
-        "exploring": "Just exploring",
-        "little": "Save a little",
-        "half": "Cut my bill in half",
-        "offGrid": "Go almost off-grid"
+      "billHint": "The total amount you pay for this billing period, before any subsidies or discounts.",
+      "rateLabel": "Rate per kWh (₱/kWh)",
+      "ratePlaceholder": "e.g. 13.66",
+      "rateHint": "Enter the exact rate shown on your Meralco bill, or use the computed value below.",
+      "rateText": "Based on your inputs, you currently pay about **₱{{rate}} per kWh**. We use this to estimate your possible savings.",
+      "rateComputedHint": "Based on your bill, your rate is approximately **₱{{rate}} per kWh**.",
+      "useComputedRate": "Use this rate",
+      "billHelp": {
+        "consumptionTitle": "Finding your actual consumption",
+        "consumptionDescription": "Look for the 'Actual Consumption' line on your Meralco bill. It shows how many kWh you used this billing period, usually near the usage or metering section.",
+        "billTitle": "Finding your total bill",
+        "billDescription": "Look for the 'Total Amount Due' or 'Total Bill' before any subsidies or discounts. This is the amount you actually pay.",
+        "rateTitle": "Finding your rate per kWh",
+        "rateDescription": "Look for the 'Generation Charge' or 'Effective Rate' line. If it isn't shown, divide your total bill by your actual consumption."
       },
-      "savingsSliderStart": "Just exploring",
-      "savingsSliderEnd": "Go off-grid",
-      "aiAnalysis": "Include AI analysis",
-      "aiAnalysisHint": "Adds a detailed plain-English explanation of why this renewable source is recommended for your area, along with next steps.",
+      "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
+      "savingsLevels": {
+        "exploring": "Reduce a little",
+        "little": "Reduce more",
+        "half": "Reduce most of your electricity cost",
+        "offGrid": "Reduce as much as possible"
+      },
+      "savingsSliderStart": "Reduce a little",
+      "savingsSliderEnd": "Reduce as much as possible",
+      "quickSelect": ["25%", "50%", "75%", "100%"],
+      "aiAnalysis": "Include simple explanation",
+      "aiAnalysisHint": "Adds a simple explanation of why a renewable option is recommended for your area.",
       "summaryTitle": "Your Inputs",
       "summary": {
         "location": "Location",
         "consumption": "Consumption",
         "bill": "Bill",
+        "rate": "Rate per kWh",
         "savingsGoal": "Savings goal",
         "aiAnalysis": "AI analysis"
       },
       "reviewTitle": "Review your inputs",
-      "compareText": "We will compare solar, wind, hydro, and geothermal for your location and recommend the best match.",
+      "compareText": "Compare solar, wind, and hydro based on your location.",
+      "edit": "Edit",
+      "billHelpTrigger": "Where can I find this on my bill?",
+      "billImageAlt": "Sample Meralco bill showing the rate, consumption, and total bill boxes",
+      "billImageCaption": "Find the values in the colored boxes on your Meralco bill: green = rate per kWh, red = consumption, yellow = total bill.",
       "yes": "Yes",
       "no": "No",
       "back": "Back",
@@ -768,8 +814,11 @@
     },
     "results": {
       "bestMatch": "{{match}} Match",
-      "isBestFor": "{{source}} Energy is Best for Your Location",
+      "isBestFor": "Best match: {{source}}",
+      "geothermalNote": "Geothermal has high potential here, but it is a large-scale utility resource. The best home-scale option for you is {{source}}.",
+      "geothermalReference": "Geothermal is shown for reference only, not as a home installation.",
       "suitabilityScore": "Suitability Score",
+      "referenceOnly": "Reference only",
       "sources": {
         "Solar": "Solar",
         "Wind": "Wind",
@@ -947,7 +996,7 @@
     },
     "lcoe": {
       "title": "LCOE Comparison",
-      "description": "Levelized Cost of Energy (PHP/kWh) — lower is more cost-effective.",
+      "description": "Levelized Cost of Energy (₱/kWh) — lower is more cost-effective.",
       "rateText": "Your electricity rate: ~₱{{rate}}/kWh",
       "bestLcoe": "Best LCOE",
       "gridTariff": "Grid tariff: ₱{{rate}}/kWh",

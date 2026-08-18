@@ -53,6 +53,7 @@ export default function Ecosim() {
   const [provinceOpen, setProvinceOpen] = useState(false);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
+  const [electricityRate, setElectricityRate] = useState(0);
   const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -134,6 +135,9 @@ export default function Ecosim() {
         if (inputs.monthly_bill_php) {
           setMonthlyBill(inputs.monthly_bill_php);
         }
+        if (inputs.electricity_rate !== undefined) {
+          setElectricityRate(inputs.electricity_rate);
+        }
         if (inputs.desired_savings_pct !== undefined) {
           setDesiredSavings(inputs.desired_savings_pct);
         }
@@ -200,6 +204,7 @@ export default function Ecosim() {
         municipalityId: String(activeId).trim(),
         monthlyConsumption: Number(monthlyConsumption),
         monthlyBill: Number(monthlyBill),
+        electricityRate: Number(electricityRate),
         desiredSavings: Number(desiredSavings) / 100,
         includeAi,
         mode,
@@ -256,6 +261,7 @@ export default function Ecosim() {
             inputs: {
               monthly_consumption_kwh: Number(monthlyConsumption),
               monthly_bill_php: Number(monthlyBill),
+              electricity_rate: Number(electricityRate),
               desired_savings_pct: Number(desiredSavings),
               include_ai: includeAi,
             },
@@ -316,6 +322,8 @@ export default function Ecosim() {
         setMonthlyConsumption={setMonthlyConsumption}
         monthlyBill={monthlyBill}
         setMonthlyBill={setMonthlyBill}
+        electricityRate={electricityRate}
+        setElectricityRate={setElectricityRate}
         desiredSavings={desiredSavings}
         setDesiredSavings={setDesiredSavings}
         includeAi={includeAi}

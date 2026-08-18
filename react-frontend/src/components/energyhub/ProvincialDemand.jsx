@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProvincialDemand } from "@/services/energyhub";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Lightbulb, Info } from "lucide-react";
 import { useI18n } from "@/i18n";
+import ExpandableBlock from "@/components/shared/ExpandableBlock";
 
 const SECTORS = ["Residential", "Commercial", "Industrial", "Others"];
 const VALID_REGIONS = new Set([
@@ -154,22 +154,14 @@ export default function ProvincialDemand({ region = null }) {
             </BarChart>
           </ResponsiveContainer>
         </div>
-        <div className="rounded-md bg-sky-50 border border-sky-100 p-3 space-y-2">
-          <div className="flex items-center gap-1.5 text-sky-800">
-            <Lightbulb className="h-3.5 w-3.5" />
-            <span className="text-xs font-semibold">{t("energyHub.provincialDemand.insight.title")}</span>
-          </div>
-          <p className="text-xs text-sky-700 leading-relaxed">
-            {t("energyHub.provincialDemand.insight.description")}
-          </p>
-          <div className="flex items-center gap-1.5 text-sky-800 pt-1">
-            <Info className="h-3.5 w-3.5" />
-            <span className="text-xs font-semibold">{t("energyHub.provincialDemand.insight.whyTitle")}</span>
-          </div>
-          <p className="text-xs text-sky-700 leading-relaxed">
-            {t("energyHub.provincialDemand.insight.whyDescription")}
-          </p>
-        </div>
+        <ExpandableBlock
+          title={t("energyHub.provincialDemand.insight.title")}
+          content={t("energyHub.provincialDemand.insight.description")}
+        />
+        <ExpandableBlock
+          title={t("energyHub.provincialDemand.insight.whyTitle")}
+          content={t("energyHub.provincialDemand.insight.whyDescription")}
+        />
         <p className="text-xs text-muted-foreground">{data?.note || ""}</p>
       </CardContent>
     </Card>

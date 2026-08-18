@@ -14,7 +14,7 @@ ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 logger.info("Loading settings from: %s", ENV_FILE)
 load_dotenv(ENV_FILE, override=True)
 
-_DEFAULT_CORS_ORIGIN_REGEX = r"https://.*-xi\.vercel\.app"
+_DEFAULT_CORS_ORIGIN_REGEX = r"https://lumi-frontend-.*\.vercel\.app"
 
 
 class Settings(BaseSettings):

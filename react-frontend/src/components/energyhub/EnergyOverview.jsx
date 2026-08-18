@@ -1,5 +1,6 @@
 import { Zap, TrendingUp, Sun, Activity } from "lucide-react";
 import { useI18n } from "@/i18n";
+import InfoTooltip from "@/components/shared/InfoTooltip";
 
 export default function EnergyOverview({ data }) {
   const { t } = useI18n();
@@ -18,6 +19,8 @@ export default function EnergyOverview({ data }) {
   const cards = [
     {
       label: t("energyHub.overview.consumption.label"),
+      tooltip: t("energyHub.overview.consumption.tooltip"),
+      tooltipText: t("energyHub.overview.consumption.tooltipText"),
       value: t("energyHub.overview.consumption.value", { value: latest.total_consumption_gwh.toLocaleString() }),
       sub: t("energyHub.overview.consumption.sub", { year: latest.year }),
       interpretation: t("energyHub.overview.consumption.interpretation", { value: latest.total_consumption_gwh.toLocaleString(), year: latest.year }),
@@ -27,6 +30,8 @@ export default function EnergyOverview({ data }) {
     },
     {
       label: t("energyHub.overview.peakDemand.label"),
+      tooltip: t("energyHub.overview.peakDemand.tooltip"),
+      tooltipText: t("energyHub.overview.peakDemand.tooltipText"),
       value: t("energyHub.overview.peakDemand.value", { value: latest.total_peak_demand_mw.toLocaleString() }),
       sub: t("energyHub.overview.peakDemand.sub", { year: latest.year }),
       interpretation: t("energyHub.overview.peakDemand.interpretation"),
@@ -71,7 +76,12 @@ export default function EnergyOverview({ data }) {
         >
           <div className="flex items-start justify-between">
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
+              <p className="text-sm font-medium text-muted-foreground flex items-center gap-1">
+                {card.label}
+                {card.tooltip && card.tooltipText && (
+                  <InfoTooltip label={card.tooltip} content={card.tooltipText} />
+                )}
+              </p>
               <p className="mt-1 text-2xl font-bold tracking-tight">{card.value}</p>
               <p className="mt-0.5 text-xs text-muted-foreground">{card.sub}</p>
               {card.interpretation && (

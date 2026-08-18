@@ -22,7 +22,7 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini").lower().strip()
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower().strip()
 
 
 def generate_response(

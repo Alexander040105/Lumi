@@ -12,6 +12,7 @@ router = APIRouter()
 _start_time = time.time()
 
 
+@router.get("")
 @router.get("/")
 async def health_check() -> dict[str, Any]:
     """Basic liveness probe."""

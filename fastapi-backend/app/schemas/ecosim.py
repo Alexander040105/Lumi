@@ -1,15 +1,6 @@
 from pydantic import BaseModel, Field
 
 
-class GetHouse(BaseModel):
-    municipality : str
-    # pesos per kilowhuttttttttt-hour
-    electricity_rate : float = 14.35
-    current_electricity_bill : float = 0.0
-    # default is 50% savings but users may change it blah blah blah
-    desired_savings : float = Field(0.50, ge=0.0, le=1.0)
-
-
 class PostHouse(BaseModel):
     # NOTE: We'll get the house name to label the current house the user puts so that in case some of them got more than one house, they can easily identify which one is which
     house_name: str
@@ -114,6 +105,7 @@ class EcosimQueryParams(BaseModel):
     municipality_id: int = Field(..., gt=0)
     monthly_consumption: float = Field(..., gt=0)
     monthly_bill: float = Field(..., gt=0)
+    electricity_rate: float | None = None
     desired_savings: float = Field(0.50, ge=0.0, le=1.0)
     mode: str = Field(default="municipality", pattern="^(municipality|province|barangay)$")
 
