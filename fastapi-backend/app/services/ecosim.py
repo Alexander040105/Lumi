@@ -1049,6 +1049,7 @@ def build_ecosim_dashboard_response(
     municipality_id: int,
     monthly_consumption: float,
     monthly_bill: float,
+    electricity_rate: float | None = None,
     desired_savings: float = 0.5,
     include_ai: bool = False,
     use_rag: bool = False,
@@ -1061,7 +1062,8 @@ def build_ecosim_dashboard_response(
             detail="monthly_consumption and monthly_bill must be greater than zero",
         )
 
-    electricity_rate = monthly_bill / monthly_consumption
+    if electricity_rate is None or electricity_rate <= 0:
+        electricity_rate = monthly_bill / monthly_consumption
     if mode == "province":
         municipality_name = get_province_name_by_id(municipality_id)
     else:

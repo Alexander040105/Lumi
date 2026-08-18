@@ -231,6 +231,9 @@ export default function EnergyHub() {
             {t("energyHub.description")}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
+            {t("energyHub.dataSources")}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
             {t("energyHub.disclaimer")}
           </p>
         </div>

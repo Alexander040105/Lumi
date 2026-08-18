@@ -114,6 +114,7 @@ class EcosimQueryParams(BaseModel):
     municipality_id: int = Field(..., gt=0)
     monthly_consumption: float = Field(..., gt=0)
     monthly_bill: float = Field(..., gt=0)
+    electricity_rate: float | None = None
     desired_savings: float = Field(0.50, ge=0.0, le=1.0)
     mode: str = Field(default="municipality", pattern="^(municipality|province|barangay)$")
 

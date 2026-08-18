@@ -32,6 +32,7 @@ async def get_ecosim_results(
         municipality_id=params.municipality_id,
         monthly_consumption=params.monthly_consumption,
         monthly_bill=params.monthly_bill,
+        electricity_rate=params.electricity_rate,
         desired_savings=params.desired_savings,
         include_ai=include_ai,
         use_rag=use_rag,

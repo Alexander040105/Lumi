@@ -399,108 +399,110 @@
   },
   "about": {
     "hero": {
-      "badge": "Tungkol sa Sistema",
-      "title": "Pag-unawa sa",
-      "titleHighlight": "LUMI",
-      "subtitle": "Isang research-driven na system ng kaalamang pangkapaligiran na binuo upang tulayin ang pagitan ng komplikadong datos ng klima at ng mga komunidad na pinakangangailangan nito.",
-      "tryEnergyHub": "Subukan ang EnergyHub",
-      "tryEcosim": "Subukan ang Ecosim"
+      "badge": "Tungkol sa LUMI",
+      "title": "Gawing Mas Madaling Unawain ang Impormasyon sa",
+      "titleHighlight": "Renewable Energy",
+      "subtitle": "Ang LUMI ay isang platform mula sa Pilipinas na tumutulong sa mga tao na maunawaan ang impormasyon sa klima at enerhiya, ikumpara ang mga opsyon sa renewable energy, at gumawa ng mas impormadong desisyon.",
+      "exploreEnergyData": "Tuklasin ang Datos ng Enerhiya",
+      "compareEnergyOptions": "Ikumpara ang mga Opsyon sa Enerhiya"
     },
     "problem": {
-      "badge": "Ang Problema na Ating Tinitugunan",
-      "title": "Bakit Binuo ang LUMI",
-      "paragraph1": "Ang grid ng Pilipinas ay may kapasidad na humigit-kumulang 27.0 GW at labis na umaasa sa fossil fuel, na bumubuo sa humigit-kumulang 70.5% ng produksyon ng enerhiya ng bansa, kung saan 43.1% ay mula sa coal, samantalang 29.5% lamang ang mula sa renewables{{c1}}. Sa mga umuunlad na bansa tulad ng Pilipinas, ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay nakilala bilang mga patuloy na hadlang sa pag-aampon ng renewable energy{{c2}}. Sa kabila ng lumalaking kamalayan, mababa pa rin ang pang-unawa sa renewable energy at kadalasang itinuturing itong isang mahal na pamumuhunan{{c3}}.",
-      "paragraph2": "Bukod pa rito, ang mga pira-pirasong datos tungkol sa klima at enerhiya ay kadalasang ipinapakita sa mga komplikadong format, na nagpapahirap sa pampublikong pag-unawa at paggamit{{c1}}. Ang pampublikong persepsyon at edukasyon ay malaki ang naiimpluwensya sa intensyon ng pag-ampon, at ang pagtaas ng kamalayan sa klima ay maaaring magbalik ng sentimyento pabor sa renewables{{c2}}. Binuo ang LUMI upang punan ang pagkakabigong ito sa pamamagitan ng pagbabago ng mga nagmumungkahing teknikal na dataset sa malinaw, visual, at actionable na mga insight na may kasamang transparency sa gastos.",
-      "paragraph3": "Hindi tulad ng mga generic na impormasyong website, ang LUMI ay isang interactive na decision-support platform na nakabase sa pananaliksik tungkol sa multi-criteria decision analysis at intelligent decision support systems{{c1}}, na nagbibigay-daan sa mga user na magsimula ng mga senaryo, ikumpara ang mga mapagkukunan ng enerhiya, at maunawaan ang mga pattern ng klima sa rehiyon sa konteksto ng tunay na demand sa enerhiya.",
+      "badge": "Bakit Ginawa ang LUMI",
+      "title": "Bakit Ginawa ang LUMI",
+      "paragraph1": "Mahirap pumili ng renewable energy. Ang impormasyon tungkol sa gastos, kondisyon ng panahon, paggamit ng enerhiya, at mga available na teknolohiya ay kadalasang nakakalat sa iba't ibang mapagkukunan at mahirap unawain. Inilalapit ng LUMI ang impormasyong ito sa isang lugar at ipinaliliwanag sa mas simpleng paraan.",
+      "citations": [13, 24, 18, 23],
       "stats": {
-        "fossilShare": { "value": "70.5%", "label": "Bahaging Fossil Fuel", "description": "Ang produksyon ng enerhiya ng Pilipinas ay nagmula sa fossil fuel, kung saan 43.1% ay mula sa coal{{c1}}" },
-        "renewableShare": { "value": "29.5%", "label": "Bahaging Renewable", "description": "Humigit-kumulang 29.5% lamang ng enerhiya ng bansa ang ginawa mula sa mga renewable source{{c1}}" },
-        "barriers": { "value": "3 Hadlang", "label": "sa Pag-ampon", "description": "Ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay humahadlang sa paglipat sa renewable energy sa mga umuunlad na bansa{{c1}}" }
-      }
+        "fossilShare": { "value": "70.5%", "label": "Bahaging Fossil Fuel", "description": "Ng produksyon ng enerhiya ng Pilipinas ay mula sa fossil fuel, kung saan 43.1% ay mula sa coal" },
+        "renewableShare": { "value": "29.5%", "label": "Bahaging Renewable", "description": "Humigit-kumulang 29.5% lamang ng enerhiya ng bansa ang ginawa mula sa mga renewable source" },
+        "barriers": { "value": "3 Hadlang", "label": "sa Pag-ampon", "description": "Ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay humahadlang sa paglipat sa renewable energy sa mga umuunlad na bansa" }
+      },
+      "viewSourcesPrompt": "Gusto mong makita ang ebidensya?",
+      "viewSources": "Tingnan ang Pananaliksik at mga Sanggunian"
     },
     "mission": {
       "badge": "Mga Gabay na Prinsipyo",
       "title": "Misyon at Bisyon",
-      "subtitle": "Ang LUMI ay ginabayan ng pangako sa environmental literacy at democratized access sa energy intelligence.",
+      "subtitle": "Tinutulungan ng LUMI ang mga tao na maunawaan ang impormasyon sa enerhiya.",
       "mission": {
         "title": "Misyon",
-        "description": "Idemokratisa ang kaalaman sa kapaligiran sa pamamagitan ng pagbabago ng komplikadong datos ng klima at enerhiya sa naaabot at magagamit na mga insight na nagbibigay-lakas sa bawat Pilipino na maunawaan, suriin, at lumipat tungo sa mga renewable energy solution nang may kumpiyansa at transparency."
+        "description": "Gawing mas madaling unawain at gamitin ng mga Pilipino ang impormasyon sa klima at renewable energy sa paggawa ng desisyon tungkol sa enerhiya."
       },
       "vision": {
         "title": "Bisyon",
-        "description": "Isang kinabukasan kung saan ang data-driven sustainability ay abot-kamay ng bawat komunidad. Iniisip namin ang isang Pilipinas kung saan ang mga estudyante, kabahayan, at policymaker ay gumagawa ng mga impormadong desisyon sa enerhiya na nakaugat sa malinaw na analytics, na binabawasan ang pagdepende sa fossil fuel at binibilis ang pambansang climate resilience."
+        "description": "Isang Pilipinas kung saan ang mga estudyante, kabahayan, komunidad, at mga gumagawa ng desisyon ay madaling nakakakuha ng maaasahang impormasyon at gumagawa ng mas mahuhusay na pagpipilian tungkol sa renewable energy."
       }
     },
-    "research": {
-      "badge": "Susing Pananaliksik",
-      "title": "Ang Pangangailangan para sa Kaalamang Pangkapaligiran",
-      "subtitle": "Ang LUMI ay binuo batay sa kinikilalang gap sa pananaliksik: ang kawalan ng user-friendly, data-driven na mga kasangkapan para sa pagtatasa ng renewable energy sa Pilipinas.",
-      "educational": {
-        "title": "Sanggunian sa Edukasyon",
-        "description": "Ipinapakita ng pananaliksik na malaki ang epekto ng edukasyon sa persepsyon ng mga tao sa mga mapagkukunan ng enerhiya at sa kanilang kagustuhang lumipat{{c1}}. Nagsisilbi ang LUMI bilang isang living case study na nagpapakita ng abstrak na konsepto ng klima sa paraang tangible sa pamamagitan ng mga interactive visualization, na direktang sumusuporta sa pag-aaral sa classroom at komunidad."
+    "beneficiaries": {
+      "badge": "Sino ang makakagamit ng LUMI?",
+      "title": "Sino ang makakagamit ng LUMI?",
+      "subtitle": "Ang LUMI ay ginawa para sa sinumang nais maunawaan ang mga opsyon sa renewable energy sa Pilipinas.",
+      "citations": [2, 11, 22, 5, 16, 12, 17],
+      "students": {
+        "title": "Mga Estudyante at Mag-aaral",
+        "description": "Maaaring gamitin ang LUMI bilang kagamitan sa pag-aaral upang tuklasin ang datos ng klima at enerhiya, at gawing mas madaling unawain ang mga abstrak na konsepto."
       },
-      "decisionSupport": {
-        "title": "Suporta sa Desisyon",
-        "description": "Kinukumpirma ng mga pag-aaral na ang multi-criteria decision analysis ay nagpapabuti ng social impact at pag-unawa sa patakaran sa pagpaplano ng renewable energy{{c1}}. Maaaring gamitin ng mga ahensya ng gobyerno ang LUMI upang matukoy ang mga high-potential zone at bumuo ng mga estratehiya na sinusuportahan ng structured evaluation sa halip na mga palagay."
+      "households": {
+        "title": "Mga Kabahayan",
+        "description": "Tinutulungan ng LUMI ang mga pamilya na ikumpara ang mga opsyon sa renewable energy at maunawaan ang posibleng pagtitipid batay sa kanilang lokasyon at paggamit ng enerhiya."
       },
-      "researchGroundwork": {
-        "title": "Pundasyon ng Pananaliksik",
-        "description": "Ang environmental intelligence, na tinukoy bilang paggamit ng machine learning at AI upang i-simulate ang mga inaasahang model ng kapaligiran{{c1}}, ay isang lumalaking larangan. Ipinapakita ng LUMI ang praktikal na aplikasyon ng rule-based AI at predictive analytics sa pagharap sa mga totoong hamong pangkapaligiran, na lumilikha ng pundasyon para sa mga hinaharap na sistema."
-      },
-      "problemStatement": {
-        "title": "Pahayag ng Problema sa Pananaliksik",
-        "description": "Sa kabila ng lumalaking pampublikong kamalayan sa renewable energy, mababa pa rin ang pang-unawa dito at itinuturing itong mahal{{c1}}. Sa humigit-kumulang 70.5% ng produksyon ng enerhiya ng Pilipinas na nagmula sa fossil fuel{{c2}}, ang kawalan ng isang sistemang nag-e-educate sa publiko at nagbibigay-daan sa kanilang pagtatasa ng mga opsyon sa renewable energy ay nagdudulot ng patuloy na pagdepende sa mga hindi sustenableng mapagkukunan. Sa mga umuunlad na bansa, ang mga hadlang tulad ng limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay malaki ang epekto sa intensyon ng pag-ampon{{c3}}. Direktang tinutugunan ng LUMI ang pagkakabigong ito sa pamamagitan ng pagbibigay ng isang intuitive na platform para sa data-driven na pagtatasa at impormadong pagpapasya na nakaugat sa multi-criteria at predictive na mga pamamaraan{{c4}}."
+      "communities": {
+        "title": "Mga Komunidad at Gumagawa ng Desisyon",
+        "description": "Maaaring tulungan ng LUMI ang mga lokal na planner, guro, at organisasyon na matukoy ang mga oportunidad sa renewable energy sa kanilang lugar."
       }
     },
     "system": {
-      "badge": "Arkitektura ng Sistema",
+      "badge": "Paano Inorganisa ang LUMI",
       "title": "Paano Inorganisa ang LUMI",
-      "subtitle": "Pinagsama-sama ng LUMI ang apat na magkakaugnay na modyul na naghahatid sa mga user mula sa simpleng datos ng kapaligiran hanggang sa mga matatag na desisyon sa renewable energy.",
-      "modules": {
-        "energyHub": {
-          "title": "EnergyHub",
-          "description": "Interactive na dashboard para sa mga pattern ng klima, konsumo ng enerhiya, at trend ng demand. Ang mga dashboard na gumagamit ng graphical visualization ay nagpapabuti ng pang-unawa sa komplikadong datos{{c1}}, habang ang meteorological data ay kritikal na input sa pag-predict ng output ng renewable energy{{c2}}."
-        },
-        "ecosim": {
-          "title": "Ecosim",
-          "description": "Rule-based na makina ng rekomendasyon at what-if simulation na nagkukumpara sa solar, wind, at hydro na may totoong costing at tinatayang savings. Kinukumpirma ng mga pag-aaral na ang teknikal na pamantayan ang may pinakamalaking bigat (53.6%) sa pagpapasya sa renewable energy, sinundan ng environmental impact (29.0%){{c1}}."
-        },
-        "ai": {
-          "title": "AI Analysis",
-          "description": "Mga paliwanag sa natural na wika na pinapagana ng AI para sa mga tsart, forecast, at rekomendasyon. Tinitiyak ng explainable artificial intelligence na ang mga insight ay akma sa pangangailangan ng user at malinaw{{c1}}, habang maaaring i-optimize ng AI ang renewable energy sa pamamagitan ng pag-predict ng supply at demand{{c2}}."
-        },
-        "dataViz": {
-          "title": "Data Visualization",
-          "description": "Pinag-isang visual analytics kabilang ang KPIs, trend charts, comparative graphs, at regional overview panels. Ang data visualization ay tinukoy bilang paglalarawan ng datos gamit ang graphics upang gawing naaabot ang mga pattern{{c1}}, at ang mga classical forecasting model ay sapat kapag ang mga seasonal pattern ay predictable{{c2}}."
-        }
+      "subtitle": "Pinagsama-sama ng LUMI ang apat na kagamitan upang tulungan ang mga user na gawing mas malinaw ang datos ng enerhiya.",
+      "energyHub": {
+        "title": "EnergyHub",
+        "description": "Tingnan ang mga madaling basahing tsart ng panahon, paggamit ng enerhiya, at trend ng enerhiya sa iba't ibang rehiyon ng Pilipinas."
+      },
+      "ecosim": {
+        "title": "EcoSim",
+        "description": "Ikumpara ang solar, wind, at hydro gamit ang lokal na kondisyon, tinatayang gastos, at posibleng pagtitipid."
+      },
+      "ai": {
+        "title": "Mga Paliwanag ng AI",
+        "description": "Kumuha ng simpleng paliwanag tungkol sa mga tsart, forecast, at rekomendasyon."
+      },
+      "dataViz": {
+        "title": "Datos at mga Tsart",
+        "description": "Gawing mapa, graph, at comparison ang komplikadong impormasyon para mas madaling unawain."
       }
     },
     "technology": {
       "badge": "Binuo gamit ang mga Makabagong Kagamitan",
       "title": "Technology Stack",
-      "subtitle": "Gumagamit ang LUMI ng moderno at scalable na arkitektura na idinisenyo para sa performance, accessibility, at seamless integration ng AI at mga serbisyo sa datos ng kapaligiran.",
+      "subtitle": "Gumagamit ang LUMI ng moderno at scalable na arkitektura na idinisenyo para sa performance, accessibility, at integration ng AI at datos ng kapaligiran.",
+      "viewTechnical": "Tingnan ang Technical Architecture",
       "frontend": { "title": "Frontend", "items": ["React 18 + Vite", "Tailwind CSS", "Mga Komponenteng shadcn/ui", "React Router", "Lucide Icons"] },
       "backend": { "title": "Backend", "items": ["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"] },
       "database": { "title": "Database", "items": ["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"] },
       "ai": { "title": "AI & ML", "items": ["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"] },
       "impact": {
-        "title": "Idinisenyo para sa Real-World Impact",
-        "description": "Ang bawat pagpipilian sa teknolohiya ng LUMI ay naglilingkod sa layunin na gawing mabilis, naaabot, at naiintindihan ang kaalaman sa kapaligiran. Mula sa responsive na mobile layout hanggang sa mga AI-generated na paliwanag, sinusuportahan ng arkitektura ang mga user sa lahat ng background at device.",
-        "tags": ["Responsive na Disenyo", "Suporta sa Dark Mode", "Unahin ang Accessibility", "Na-optimize ang Performance"]
+        "title": "Para sa Lahat",
+        "description": "Ang bawat pagpipilian sa teknolohiya ng LUMI ay naglilingkod sa layunin na gawing mabilis, naaabot, at madaling unawain ang impormasyon sa enerhiya.",
+        "features": [
+          { "title": "Gumagana sa Telepono at Computer", "description": "Gamitin ang LUMI sa iba't ibang laki ng screen." },
+          { "title": "Ingles at Filipino", "description": "Piliin ang wikang mas komportable para sa iyo." },
+          { "title": "Madaling Basahing Disenyo", "description": "Malinaw na teksto, icon, at paliwanag." },
+          { "title": "Light at Dark Modes", "description": "Piliin ang display na komportable sa iyo." }
+        ]
       }
     },
-    "references": "Mga Sanggunian",
     "footer": {
       "title": "Handa nang Tuklasin ang LUMI?",
-      "subtitle": "Sumisid sa datos ng klima sa rehiyon, magpatakbo ng mga simulasyon sa renewable energy, at tuklasin ang mga insight na akma sa Pilipinas.",
-      "tryEnergyHub": "Subukan ang EnergyHub",
-      "launchEcosim": "Ilunsad ang Ecosim"
+      "subtitle": "Tingnan ang impormasyon sa enerhiya at panahon sa iyong lugar o ikumpara ang mga opsyon sa solar, wind, at hydro.",
+      "exploreMyArea": "Tuklasin ang Aking Lugar",
+      "compareEnergyOptions": "Ikumpara ang mga Opsyon sa Enerhiya"
     }
   },
   "energyHub": {
     "title": "EnergyHub",
-    "description": "Tuklasin ang pambansang istatistika ng enerhiya sa Pilipinas, ARIMA-based na mga demand forecast, at potential ng renewable energy sa bawat rehiyon. Ang datos ay mula sa Department of Energy (DOE) at NASA POWER climate archives.",
-    "disclaimer": "Disclaimer: Nagbibigay lang ang modyul na ito ng edukasyonal na insight at hindi pamalit sa propesyonal na energy planning.",
+    "description": "Tuklasin ang paggamit ng kuryente, renewable energy, at impormasyon sa klima sa buong Pilipinas. Tingnan ang mga trend sa nakaraan, mga tantiya sa hinaharap, at potential ng renewable energy sa iba't ibang lugar.",
+    "dataSources": "Mga pinagkunan ng datos: Department of Energy (DOE), IRENA, at NASA POWER.",
+    "disclaimer": "Para sa edukasyon: Tinutulungan ka ng EnergyHub na maunawaan ang impormasyon sa enerhiya, ngunit hindi ito dapat ipalit sa propesyonal na payo para sa proyekto o pamumuhunan sa enerhiya.",
     "sections": {
       "nationalOverview": "Pambansang Overview",
       "irena": {
@@ -520,30 +522,34 @@
     },
     "overview": {
       "consumption": {
-        "label": "Kabuuang Consumption",
+        "label": "Kabuuang kuryenteng nagamit",
+        "tooltip": "Ano ang GWh?",
+        "tooltipText": "Ang GWh ay gigawatt-hour. Isa GWh ay katumbas ng isang milyong kilowatt-hour (kWh), sapat para sa libo-libong tahanan sa isang buwan.",
         "value": "{{value}} GWh",
         "sub": "Taon {{year}}",
-        "interpretation": "Gumamit ang Pilipinas ng {{value}} billion kWh ng kuryente noong {{year}}. Sapat na iyon para patakbuhin ang milyun-milyong tahanan."
+        "interpretation": "Gumamit ang buong bansa ng {{value}} billion kWh ng kuryente noong {{year}}. Sapat na iyon para patakbuhin ang milyun-milyong tahanan."
       },
       "peakDemand": {
-        "label": "Peak Demand",
+        "label": "Pinakamataas na pangangailangan sa kuryente",
+        "tooltip": "Ano ang MW?",
+        "tooltipText": "Ang MW ay megawatt. Isa MW ay isang milyong watts. Kapag mataas ang peak demand, mas maraming kuryente ang kailangan ng grid sa isang sandali.",
         "value": "{{value}} MW",
         "sub": "Taon {{year}}",
-        "interpretation": "Ang pinakamataas na demand sa kuryente na naitala. Kapag mataas ang demand, maaaring tumaas ang presyo at mas malamang ang brownout."
+        "interpretation": "Ang pinakamataas na dami ng kuryenteng kailangan ng bansa sa isang sandali noong {{year}}. Kapag mataas ang demand, maaaring tumaas ang presyo at mas malamang ang brownout."
       },
       "renewableShare": {
-        "label": "Renewable Share",
+        "label": "Bahagi mula sa renewable energy",
         "value": "{{share}}%",
         "sub": "{{generated}} GWh ang na-generate",
-        "interpretation": "{{share}}% ng kuryente ay mula sa malinis na pinagkukunan tulad ng solar, wind, at hydro. Nila-aim ng Pilipinas na maabot ang 35% pagdating ng 2030."
+        "interpretation": "{{share}}% ng kuryente ng bansa ang mula sa malinis na pinagkukunan tulad ng solar, wind, at hydro noong {{year}}."
       },
       "forecastGrowth": {
-        "label": "Forecast Growth (2030)",
+        "label": "Tinatayang paglago pagdating ng 2030",
         "value": "{{value}}",
         "sub": "{{value}} GWh ang inaasahan",
         "subEmpty": "",
-        "interpretation": "Pagdating ng 2030, inaasahang tataas ng {{pct}}% ang paggamit ng kuryente. Kailangan ng mas maraming malinis na enerhiya para matugunan ang demand na ito.",
-        "interpretationFallback": "Ang mga proyeksyon sa hinaharap na demand sa kuryente ay tumutulong sa pagpaplano ng bagong mga planta ng kuryente at pamumuhunan sa renewable energy.",
+        "interpretation": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas maraming kuryente kaysa noong {{year}}. Mas maraming malinis na enerhiya ang makakatulong sa tumataas na demand.",
+        "interpretationFallback": "Ang mga tantiya sa hinaharap na demand sa kuryente ay tumutulong sa pagpaplano ng bagong mga planta at pamumuhunan sa renewable energy.",
         "na": "N/A"
       }
     },
@@ -603,11 +609,11 @@
       },
       "renewable": {
         "title": "Clean Energy Generation",
-        "subtitle": "Gaano karaming kuryente ang mula sa solar, wind, hydro, at geothermal",
+        "subtitle": "Gaano karaming kuryente ang mula sa solar, wind, hydro, at iba pang malinis na pinagkukunan",
         "explanation": {
-          "what": "Ipinapakita ng chart na ito ang kabuuang renewable energy generation (solar, wind, hydro, geothermal, biomass) bawat taon.",
-          "why": "Kapag tumataas ang share, ibig sabihin matagumpay na pinalitan ng bansa ang coal at gas ng malinis na enerhiya. Nakakatulong ito na bawasan ang gastos sa kuryente at polusyon sa paglipas ng panahon.",
-          "action": "Makiusap para sa lokal na RE adoption kung ang iyong probinsya ay nahuhuli sa national renewable growth trend."
+          "what": "Ipinapakita ng chart na ito ang kabuuang kuryenteng na-generate mula sa malinis na pinagkukunan tulad ng solar, wind, hydro, at biomass bawat taon.",
+          "why": "Kapag tumataas ang share, ibig sabihin matagumpay na pinalitan ng bansa ang coal at gas ng mas malinis na enerhiya. Nakakatulong ito na bawasan ang gastos sa kuryente at polusyon sa paglipas ng panahon.",
+          "action": "Maaari mong tuklasin ang mga opsyon sa solar, wind, o hydro para sa iyong lugar kung ang iyong probinsya ay nahuhuli sa paglago ng malinis na enerhiya sa bansa."
         }
       },
       "aiExplain": "Ipaliwanag ng AI",
@@ -629,18 +635,18 @@
         "biomass": "Biomass"
       },
       "explanation": {
-        "what": "Ipinapakita ng donut chart na ito kung ano ang share ng bawat pinagkukunan sa kabuuang electricity generation: coal, natural gas, oil-based, geothermal, hydro, solar, wind, at biomass.",
-        "why": "Sa pag-unawa sa mix, makikita kung gaano ka-depende ang grid sa fossil fuels kumpara sa renewables. Kapag mataas ang fossil share, mas mataas ang carbon emissions at exposure sa pagbabago ng presyo ng fuel.",
-        "action": "Kung dominate ng fossil sources, itulak ang lokal na solar o wind adoption para bawasan ang carbon footprint ng bahay at maging protektado sa pagtaas ng presyo ng fuel."
+        "what": "Ipinapakita ng donut chart na ito kung ano ang share ng bawat pinagkukunan sa kabuuang kuryente ng bansa: coal, natural gas, oil-based, hydro, solar, wind, at biomass.",
+        "why": "Tumutulong itong makita kung gaano karami sa kuryente ng bansa ang nanggagaling pa rin sa fossil fuels. Kapag mataas ang fossil share, kadalasang mas mataas ang carbon emissions at presyong apektado ng pandaigdigang merkado ng fuel.",
+        "action": "Sa bahay, maaari mong bawasan ang iyong carbon footprint sa pamamagitan ng mas kaunting paggamit ng kuryente sa peak hours o pagsasaalang-alang ng rooftop solar kung pinapayagan."
       }
     },
     "aiInsight": {
-      "title": "AI Insight",
-      "loading": "Gumagawa ng LLM analysis...",
-      "llmMode": "LLM Mode",
-      "staticMode": "Static Mode",
-      "poweredByLlm": "Powered by Gemini/Groq LLM — dynamic na nag-aanalyze ng energy data.",
-      "poweredByStatic": "Data-driven na obserbasyon batay sa {{year}} na istatistika at ARIMA forecast",
+      "title": "Smart Summary",
+      "loading": "Pinag-iisipan ang mga numero...",
+      "llmMode": "Live na AI summary",
+      "staticMode": "Static na summary",
+      "poweredByLlm": "Ang summary na ito ay ginawa gamit ang large language model (Gemini/Groq) batay sa datos ng chart.",
+      "poweredByStatic": "Batay sa datos ng {{year}} at ARIMA forecast",
       "tabs": {
         "overview": "Overview",
         "trends": "Trends",
@@ -697,8 +703,8 @@
     }
   },
   "ecosim": {
-    "title": "Renewable Energy Simulation",
-    "subtitle": "Sinusuri ng Ecosim ang mga opsyon sa solar, wind, at hydropower para sa iyong lokasyon batay sa consumption patterns at datos ng kapaligiran.",
+    "title": "Hanapin ang Pinakamahusay na Opsyon sa Renewable Energy para sa Iyong Lugar",
+    "subtitle": "Tinitingnan ng EcoSim ang iyong lokasyon, paggamit ng kuryente, at lokal na kondisyon ng kapaligiran para tulungan kang tantiyahin kung aling opsyon sa renewable energy ang maaaring angkop sa iyo.",
     "errorCardTitle": "Simulation error",
     "defaults": {
       "simulation": "Simulation",
@@ -728,51 +734,66 @@
     "wizard": {
       "step": "Step {{current}} ng {{total}}",
       "steps": {
+        "step1": "Lokasyon",
+        "step2": "Paggamit ng Kuryente",
+        "step3": "Savings Goal",
+        "step4": "Suriin"
+      },
+      "stepDescriptions": {
         "step1": "Piliin ang iyong lungsod o munisipalidad para ma-analyze namin ang lokal na klima at resources.",
-        "step2": "Sabihin sa amin kung gaano karaming kuryente ang ginagamit mo bawat buwan para ma-estimate namin ang iyong savings.",
-        "step3": "Gaano karami sa iyong bill ang gusto mong mawala gamit ang renewable energy?",
+        "step2": "Ilagay ang mga numero mula sa iyong Meralco bill para ma-estimate namin ang iyong savings.",
+        "step3": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
         "step4": "Suriin ang iyong inputs at patakbuhin ang analysis."
       },
-      "searchMode": "Mode ng paghahanap",
-      "municipality": "Munisipalidad",
+      "searchMode": "Piliin ang uri ng lugar",
+      "municipality": "Lungsod/Munisipalidad",
       "province": "Probinsya",
-      "municipalityHint": "Piliin ang munisipalidad para sa pinaka-accurate na lokal na datos ng klima.",
+      "municipalityHint": "Gumagamit kami ng iyong lokasyon para i-estimate ang lokal na kondisyon para sa solar, wind, at tubig.",
       "provinceHint": "Piliin ang probinsya para sa mas malawak na regional overview.",
-      "searchMunicipality": "Hanapin ang munisipalidad",
+      "searchMunicipality": "Hanapin ang lungsod/munisipalidad",
       "searchProvince": "Hanapin ang probinsya",
       "placeholderMunicipality": "e.g., Calamba, Santa Rosa",
       "placeholderProvince": "e.g., Laguna, Cavite",
       "noResults": "Walang resulta",
       "selected": "Napili: {{name}}",
       "notSelected": "Hindi pa napili",
-      "consumptionLabel": "Buwanang consumption (kWh)",
+      "consumptionLabel": "Kuryenteng nagamit sa billing period (kWh)",
       "consumptionPlaceholder": "e.g. 300",
-      "consumptionHint": "Hanapin ito sa iyong electric bill. Kadalasan ito ang pinakamalaking numero sa Usage section.",
-      "billLabel": "Buwanang bill (PHP)",
+      "consumptionHint": "Hanapin ang 'Actual Consumption' sa iyong Meralco bill.",
+      "billLabel": "Buwanang bill (₱)",
       "billPlaceholder": "e.g. 5000",
-      "billHint": "Ang kabuuang binabayaran mo bawat buwan, bago pa man ang anumang subsidyo o diskwento.",
-      "rateText": "Ang iyong effective rate ay humigit-kumulang PHP {{rate}} bawat kWh. Nakakatulong ito sa tumpak na estimate ng iyong savings.",
-      "savingsLabel": "Nais na savings",
+      "billHint": "Ang kabuuang binabayaran mo para sa billing period, bago pa man ang anumang subsidyo o diskwento.",
+      "rateLabel": "Rate bawat kWh (₱/kWh)",
+      "ratePlaceholder": "e.g. 13.66",
+      "rateHint": "Hanapin ang generation o energy charge rate sa iyong Meralco bill.",
+      "rateText": "Batay sa iyong inputs, humigit-kumulang **₱{{rate}} bawat kWh** ang iyong binabayaran. Ginagamit namin ito para i-estimate ang posibleng savings.",
+      "savingsLabel": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
       "savingsLevels": {
-        "exploring": "Nag-eexplore lang",
-        "little": "Makakatipid nang kaunti",
-        "half": "Gupitin ng kalahati ang bill ko",
-        "offGrid": "Halos maging off-grid"
+        "exploring": "Mabawasan nang kaunti",
+        "little": "Mabawasan nang mas marami",
+        "half": "Mabawasan ang halos kalahati ng bill",
+        "offGrid": "Mabawasan nang hangga't maaari"
       },
-      "savingsSliderStart": "Nag-eexplore lang",
-      "savingsSliderEnd": "Maging off-grid",
-      "aiAnalysis": "Isama ang AI analysis",
-      "aiAnalysisHint": "Nagdadagdag ng detalyadong plain-English na paliwanag kung bakit inirerekomenda ang renewable source na ito para sa iyong lugar, kasama ang mga next steps.",
+      "savingsSliderStart": "Mabawasan nang kaunti",
+      "savingsSliderEnd": "Mabawasan nang hangga't maaari",
+      "quickSelect": ["25%", "50%", "75%", "100%"],
+      "aiAnalysis": "Isama ang simpleng paliwanag",
+      "aiAnalysisHint": "Nagdadagdag ng simpleng paliwanag kung bakit inirerekomenda ang renewable option para sa iyong lugar.",
       "summaryTitle": "Ang Iyong Inputs",
       "summary": {
         "location": "Lokasyon",
         "consumption": "Consumption",
         "bill": "Bill",
+        "rate": "Rate bawat kWh",
         "savingsGoal": "Savings goal",
         "aiAnalysis": "AI analysis"
       },
       "reviewTitle": "Suriin ang iyong inputs",
-      "compareText": "Ikukumpara namin ang solar, wind, hydro, at geothermal para sa iyong lokasyon at irekomenda ang pinakaangkop.",
+      "compareText": "Ikumpara ang solar, wind, at hydro batay sa iyong lokasyon.",
+      "edit": "I-edit",
+      "billHelpTrigger": "Nasaan ito sa aking bill?",
+      "billImageAlt": "Halimbawang Meralco bill na nagpapakita ng rate, consumption, at total bill",
+      "billImageCaption": "Hanapin ang mga halaga sa mga may kulay na box sa iyong Meralco bill: berde = rate bawat kWh, pula = consumption, dilaw = total bill.",
       "yes": "Oo",
       "no": "Hindi",
       "back": "Bumalik",
@@ -782,9 +803,12 @@
       "save": "I-save"
     },
     "results": {
-      "bestMatch": "Match na {{match}}",
-      "isBestFor": "Ang {{source}} Energy ang Pinakamagandang Pagpipilian sa Iyong Lokasyon",
+      "bestMatch": "{{match}} Match",
+      "isBestFor": "Pinakamahusay na match: {{source}}",
+      "geothermalNote": "Mataas ang geothermal potential dito, ngunit ito ay large-scale utility resource. Ang pinakamahusay na opsyon para sa bahay ay {{source}}.",
+      "geothermalReference": "Ang geothermal ay ipinapakita bilang reference lamang, hindi para sa home installation.",
       "suitabilityScore": "Suitability Score",
+      "referenceOnly": "Reference lamang",
       "sources": {
         "Solar": "Solar",
         "Wind": "Wind",
@@ -962,7 +986,7 @@
     },
     "lcoe": {
       "title": "LCOE Comparison",
-      "description": "Levelized Cost of Energy (PHP/kWh) — mas mababa ay mas cost-effective.",
+      "description": "Levelized Cost of Energy (₱/kWh) — mas mababa ay mas cost-effective.",
       "rateText": "Iyong electricity rate: ~₱{{rate}}/kWh",
       "bestLcoe": "Best LCOE",
       "gridTariff": "Grid tariff: ₱{{rate}}/kWh",

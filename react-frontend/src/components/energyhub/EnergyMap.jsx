@@ -26,14 +26,14 @@ function isSuitabilityMetric(metric) {
 
 function getColorForValue(value) {
   if (value === null || value === undefined) {
-    return "var(--map-no-data)";
+    return "hsl(var(--map-no-data))";
   }
   // 5-tier classification for all suitability metrics
-  if (value >= 81) return "var(--map-very-high)";
-  if (value >= 61) return "var(--map-high)";
-  if (value >= 41) return "var(--map-moderate)";
-  if (value >= 21) return "var(--map-low)";
-  return "var(--map-very-low)";
+  if (value >= 81) return "hsl(var(--map-very-high))";
+  if (value >= 61) return "hsl(var(--map-high))";
+  if (value >= 41) return "hsl(var(--map-moderate))";
+  if (value >= 21) return "hsl(var(--map-low))";
+  return "hsl(var(--map-very-low))";
 }
 
 function getClassificationLabel(value, t) {
@@ -345,11 +345,11 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
     const val = item?.value ?? null;
     return {
       fillColor: getColorForValue(val),
-      weight: level === "municipality" ? 0.6 : 1.5,
+      weight: level === "municipality" ? 0.8 : 1.5,
       opacity: 1,
-      color: "var(--border)",
+      color: "hsl(var(--border))",
       dashArray: "",
-      fillOpacity: level === "municipality" ? 0.6 : 0.65,
+      fillOpacity: level === "municipality" ? 0.8 : 0.85,
     };
   };
 
@@ -392,8 +392,8 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
   const volcanoPointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, {
       radius: 6,
-      color: "var(--chart-geothermal)",
-      fillColor: "var(--chart-geothermal)",
+      color: "hsl(var(--chart-geothermal))",
+      fillColor: "hsl(var(--chart-geothermal))",
       fillOpacity: 0.8,
       weight: 2,
     });
@@ -429,7 +429,7 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
         {showPlantMarkers && L && RL && operatingPlants.map((p) => {
           const icon = L.divIcon({
             className: "",
-            html: `<div style="width:14px;height:14px;border-radius:50%;background:var(--chart-geothermal);border:2px solid var(--map-marker-stroke);box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+            html: `<div style="width:14px;height:14px;border-radius:50%;background:hsl(var(--chart-geothermal));border:2px solid hsl(var(--map-marker-stroke));box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
             iconSize: [14, 14],
             iconAnchor: [7, 7],
           });
