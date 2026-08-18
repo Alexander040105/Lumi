@@ -23,26 +23,38 @@
 ## docs/
 
 ### Core Documentation
+
 | File | Description |
 |---|---|
-| [docs/THESIS_RESEARCH_INTEGRATION.md](docs/THESIS_RESEARCH_INTEGRATION.md) | Thesis research integration notes |
-| [docs/SYSTEM_FUNCTION_INVENTORY_SIMPLIFIED.md](docs/SYSTEM_FUNCTION_INVENTORY_SIMPLIFIED.md) | Simplified system function inventory |
-| [docs/SYSTEM_FUNCTION_INVENTORY.md](docs/SYSTEM_FUNCTION_INVENTORY.md) | Full system function inventory |
-| [docs/shortened_section_9_8.md](docs/shortened_section_9_8.md) | Shortened Section 9.8 |
-| [docs/REVISIONS_INTEGRATION_SUMMARY.md](docs/REVISIONS_INTEGRATION_SUMMARY.md) | Summary of revisions integration |
-| [docs/PRICING_FORMULA_SUMMARY.md](docs/PRICING_FORMULA_SUMMARY.md) | Pricing formula summary |
-| [docs/PANEL_FORMULA_SUMMARY_SIMPLE.md](docs/PANEL_FORMULA_SUMMARY_SIMPLE.md) | Simplified panel formula summary |
-| [docs/PANEL_FORMULA_SUMMARY.md](docs/PANEL_FORMULA_SUMMARY.md) | Full panel formula summary |
-| [docs/municipal_demand_granularity_study.md](docs/municipal_demand_granularity_study.md) | Municipal demand granularity study |
-| [docs/ML_MODEL_EVALUATION_SUMMARY.md](docs/ML_MODEL_EVALUATION_SUMMARY.md) | ML model evaluation summary |
-| [docs/MCDA_BREAKDOWN_SIMPLE.md](docs/MCDA_BREAKDOWN_SIMPLE.md) | Simplified MCDA breakdown |
-| [docs/MCDA_BREAKDOWN.md](docs/MCDA_BREAKDOWN.md) | Full MCDA (Multi-Criteria Decision Analysis) breakdown |
-| [docs/LUMI_THESIS_REVISIONS_MASTER.md](docs/LUMI_THESIS_REVISIONS_MASTER.md) | Master thesis revisions document |
-| [docs/LUMI_COMPLETE_SYSTEM_DOCUMENTATION.md](docs/LUMI_COMPLETE_SYSTEM_DOCUMENTATION.md) | Complete system documentation |
-| [docs/GEOTHERMAL_FORMULAS_SIMPLE.md](docs/GEOTHERMAL_FORMULAS_SIMPLE.md) | Simplified geothermal formulas |
-| [docs/GEOTHERMAL_FORMULAS.md](docs/GEOTHERMAL_FORMULAS.md) | Full geothermal formulas |
-| [docs/FREE_ALTERNATIVE_DATA.md](docs/FREE_ALTERNATIVE_DATA.md) | Free/alternative data sources |
 | [docs/COMPLETE_FORMULA_SUMMARY_WITH_RRL.md](docs/COMPLETE_FORMULA_SUMMARY_WITH_RRL.md) | Complete formula summary with RRL |
+| [docs/FREE_ALTERNATIVE_DATA.md](docs/FREE_ALTERNATIVE_DATA.md) | Free/alternative data sources |
+| [docs/GEOTHERMAL_FORMULAS.md](docs/GEOTHERMAL_FORMULAS.md) | Full geothermal formulas |
+| [docs/GEOTHERMAL_FORMULAS_SIMPLE.md](docs/GEOTHERMAL_FORMULAS_SIMPLE.md) | Simplified geothermal formulas |
+| [docs/LUMI_COMPLETE_SYSTEM_DOCUMENTATION.md](docs/LUMI_COMPLETE_SYSTEM_DOCUMENTATION.md) | Complete system documentation |
+| [docs/LUMI_THESIS_REVISIONS_MASTER.md](docs/LUMI_THESIS_REVISIONS_MASTER.md) | Master thesis revisions document |
+| [docs/MCDA_BREAKDOWN.md](docs/MCDA_BREAKDOWN.md) | Full MCDA (Multi-Criteria Decision Analysis) breakdown |
+| [docs/MCDA_BREAKDOWN_SIMPLE.md](docs/MCDA_BREAKDOWN_SIMPLE.md) | Simplified MCDA breakdown |
+| [docs/ML_MODEL_EVALUATION_SUMMARY.md](docs/ML_MODEL_EVALUATION_SUMMARY.md) | ML model evaluation summary |
+| [docs/municipal_demand_granularity_study.md](docs/municipal_demand_granularity_study.md) | Municipal demand granularity study |
+| [docs/PANEL_FORMULA_SUMMARY.md](docs/PANEL_FORMULA_SUMMARY.md) | Full panel formula summary |
+| [docs/PANEL_FORMULA_SUMMARY_SIMPLE.md](docs/PANEL_FORMULA_SUMMARY_SIMPLE.md) | Simplified panel formula summary |
+| [docs/PRICING_FORMULA_SUMMARY.md](docs/PRICING_FORMULA_SUMMARY.md) | Pricing formula summary |
+| [docs/REVISIONS_INTEGRATION_SUMMARY.md](docs/REVISIONS_INTEGRATION_SUMMARY.md) | Summary of revisions integration |
+| [docs/shortened_section_9_8.md](docs/shortened_section_9_8.md) | Shortened Section 9.8 |
+| [docs/SYSTEM_FUNCTION_INVENTORY.md](docs/SYSTEM_FUNCTION_INVENTORY.md) | Full system function inventory |
+| [docs/SYSTEM_FUNCTION_INVENTORY_SIMPLIFIED.md](docs/SYSTEM_FUNCTION_INVENTORY_SIMPLIFIED.md) | Simplified system function inventory |
+| [docs/THESIS_RESEARCH_INTEGRATION.md](docs/THESIS_RESEARCH_INTEGRATION.md) | Thesis research integration notes |
+
+### function-reference
+
+| File | Description |
+|---|---|
+| [docs/function-reference/BACKEND.md](docs/function-reference/BACKEND.md) | FastAPI backend function reference |
+| [docs/function-reference/FRONTEND.md](docs/function-reference/FRONTEND.md) | React frontend function/component reference |
+| [docs/function-reference/GEOLOCATION.md](docs/function-reference/GEOLOCATION.md) | Geospatial and location reference data |
+| [docs/function-reference/MISC.md](docs/function-reference/MISC.md) | Supporting scripts, ETL, and deployment files |
+| [docs/function-reference/README.md](docs/function-reference/README.md) | Index of the function reference folder |
+| [docs/function-reference/UPDATE_PROMPT.md](docs/function-reference/UPDATE_PROMPT.md) | Update prompt for the function reference |
 
 ### 08-Requirements
 | File | Description |

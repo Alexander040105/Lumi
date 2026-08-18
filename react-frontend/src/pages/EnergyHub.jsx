@@ -19,6 +19,7 @@ import EnergyTrends from "@/components/energyhub/EnergyTrends";
 import EnergySources from "@/components/energyhub/EnergySources";
 import AiInsightPanel from "@/components/energyhub/AiInsightPanel";
 import ProvincialDemand from "@/components/energyhub/ProvincialDemand";
+import CitationSources from "@/components/shared/CitationSources";
 
 const SUITABILITY_METRICS = [
   "renewable_potential",
@@ -230,9 +231,12 @@ export default function EnergyHub() {
           <p className="mt-2 max-w-2xl text-muted-foreground">
             {t("energyHub.description")}
           </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {t("energyHub.disclaimer")}
-          </p>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <CitationSources ids={t("energyHub.citations")} />
+            <p className="text-xs text-muted-foreground">
+              {t("energyHub.disclaimer")}
+            </p>
+          </div>
         </div>
       </div>
 

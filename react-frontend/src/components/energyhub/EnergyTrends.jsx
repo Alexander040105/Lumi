@@ -1,6 +1,7 @@
-import { useMemo } from "react";
-import { Sparkles, Loader2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Sparkles, Loader2, Maximize2 } from "lucide-react";
 import { useI18n } from "@/i18n";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -81,6 +82,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
 
 export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnalyzeChart }) {
   const { t } = useI18n();
+  const [modal, setModal] = useState(null);
   const years = trends?.years || [];
   const series = trends?.series || {};
   const forecast = trends?.forecast || {};
@@ -246,6 +248,21 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           action={t("energyHub.trends.consumption.explanation.action")}
         />
         <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
+          <button
+            type="button"
+            onClick={() =>
+              setModal({
+                title: t("energyHub.trends.consumption.title"),
+                subtitle: t("energyHub.trends.consumption.subtitle"),
+                data: consumptionTraces,
+                layout: consumptionLayout,
+              })
+            }
+            className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+            aria-label="Enlarge chart"
+          >
+            <Maximize2 className="h-3.5 w-3.5" />
+          </button>
           <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
         </div>
         {onAnalyzeChart && (
@@ -269,7 +286,22 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             why={t("energyHub.trends.peakDemand.explanation.why")}
             action={t("energyHub.trends.peakDemand.explanation.action")}
           />
-          <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
+          <div className="relative rounded-lg border bg-white p-3 h-52 overflow-hidden">
+            <button
+              type="button"
+              onClick={() =>
+                setModal({
+                  title: t("energyHub.trends.peakDemand.title"),
+                  subtitle: t("energyHub.trends.peakDemand.subtitle"),
+                  data: peakDemandTrace,
+                  layout: peakDemandLayout,
+                })
+              }
+              className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              aria-label="Enlarge chart"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+            </button>
             <PlotlyChart data={peakDemandTrace} layout={peakDemandLayout} />
           </div>
           {onAnalyzeChart && (
@@ -290,7 +322,22 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             why={t("energyHub.trends.renewable.explanation.why")}
             action={t("energyHub.trends.renewable.explanation.action")}
           />
-          <div className="rounded-lg border bg-white p-3 h-52 overflow-hidden">
+          <div className="relative rounded-lg border bg-white p-3 h-52 overflow-hidden">
+            <button
+              type="button"
+              onClick={() =>
+                setModal({
+                  title: t("energyHub.trends.renewable.title"),
+                  subtitle: t("energyHub.trends.renewable.subtitle"),
+                  data: renewableGenTrace,
+                  layout: renewableGenLayout,
+                })
+              }
+              className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              aria-label="Enlarge chart"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+            </button>
             <PlotlyChart data={renewableGenTrace} layout={renewableGenLayout} />
           </div>
           {onAnalyzeChart && (
@@ -304,6 +351,18 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           )}
         </div>
       </div>
+
+      <Dialog open={!!modal} onOpenChange={() => setModal(null)}>
+        <DialogContent className="max-w-4xl h-[80vh] p-4 flex flex-col">
+          <DialogHeader>
+            <DialogTitle>{modal?.title}</DialogTitle>
+            <DialogDescription>{modal?.subtitle}</DialogDescription>
+          </DialogHeader>
+          <div className="flex-1 min-h-0">
+            {modal && <PlotlyChart data={modal.data} layout={modal.layout} />}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

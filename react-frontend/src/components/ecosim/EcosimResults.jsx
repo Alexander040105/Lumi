@@ -53,10 +53,21 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
   const [showDetails, setShowDetails] = useState(false);
   if (!result) return null;
 
-  const rec = result.options?.find((o) => o.source === result.recommended_source) || {};
+  const HOME_SOURCES = ["Solar", "Wind", "Hydro"];
+  const rawRecommended = result.recommended_source || "";
+  const isGeothermalRec = rawRecommended === "Geothermal";
+  const fallbackRec = isGeothermalRec
+    ? (result.options || [])
+        .filter((o) => HOME_SOURCES.includes(o.source))
+        .sort((a, b) => (b.suitability_score || 0) - (a.suitability_score || 0))[0] ||
+      (result.options || [])[0] ||
+      {}
+    : null;
+  const rec = fallbackRec || result.options?.find((o) => o.source === rawRecommended) || {};
+  const recSource = rec.source || rawRecommended;
   const recScore = rec.suitability_score || 0;
   const recLabel = getRating(recScore, 100);
-  const RecIcon = sourceMeta[result.recommended_source]?.icon || Zap;
+  const RecIcon = sourceMeta[recSource]?.icon || Zap;
 
   const climate = result.climate || {};
   const sInfo = solarInfo(climate.avg_allsky_sfc_sw_dwn, t);
@@ -87,10 +98,19 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               <span className="inline-flex items-center gap-2">
                 <RecIcon className="h-8 w-8" />
-                {t("ecosim.results.isBestFor", { source: t("ecosim.results.sources." + result.recommended_source) })}
+                {t("ecosim.results.isBestFor", { source: t("ecosim.results.sources." + recSource) })}
               </span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">{result.explanation}</p>
+            <p className="text-muted-foreground max-w-2xl leading-relaxed">
+              {isGeothermalRec
+                ? t("ecosim.results.geothermalNote", { source: t("ecosim.results.sources." + recSource) })
+                : result.explanation}
+            </p>
+            {isGeothermalRec && (
+              <p className="mt-2 text-xs text-muted-foreground bg-muted/50 border rounded-md p-2 inline-block">
+                {t("ecosim.results.geothermalReference")}
+              </p>
+            )}
           </div>
           <div className="shrink-0 text-center md:text-right">
             <p className="text-sm text-muted-foreground">{t("ecosim.results.suitabilityScore")}</p>
@@ -150,7 +170,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-primary" />
-            {t("ecosim.results.whyRecommended.title", { source: t("ecosim.results.sources." + result.recommended_source) })}
+            {t("ecosim.results.whyRecommended.title", { source: t("ecosim.results.sources." + recSource) })}
           </CardTitle>
           <CardDescription>{t("ecosim.results.whyRecommended.description")}</CardDescription>
         </CardHeader>
@@ -166,11 +186,11 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
             <div className="rounded-lg border bg-muted/30 p-4">
               <p className="font-semibold mb-1">{t("ecosim.results.whyRecommended.climateAdvantage")}</p>
               <p className="text-sm text-muted-foreground">
-                {t("ecosim.results.climateTemplates." + result.recommended_source, {
-                  value: result.recommended_source === "Hydro"
+                {t("ecosim.results.climateTemplates." + recSource, {
+                  value: recSource === "Hydro"
                     ? result.renewable_energy_results?.hydro_output?.hydro_score?.toFixed(0)
-                    : (result.recommended_source === "Solar" ? climate.avg_allsky_sfc_sw_dwn?.toFixed(2) : climate.avg_ws10m?.toFixed(2)),
-                  desc: { Solar: sInfo.desc, Wind: wInfo.desc, Hydro: hInfo.desc, Geothermal: gInfo.desc }[result.recommended_source]
+                    : (recSource === "Solar" ? climate.avg_allsky_sfc_sw_dwn?.toFixed(2) : climate.avg_ws10m?.toFixed(2)),
+                  desc: { Solar: sInfo.desc, Wind: wInfo.desc, Hydro: hInfo.desc, Geothermal: gInfo.desc }[recSource]
                 })}
               </p>
             </div>
@@ -189,9 +209,9 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
             { source: "Solar", info: sInfo, score: climate.avg_allsky_sfc_sw_dwn, max: 6, unit: "kWh/m²/day", output: result.renewable_energy_results?.solar_output },
             { source: "Wind", info: wInfo, score: climate.avg_ws10m, max: 6, unit: "m/s", output: result.renewable_energy_results?.wind_output },
             { source: "Hydro", info: hInfo, score: result.renewable_energy_results?.hydro_output?.hydro_score, max: 100, unit: "score", output: result.renewable_energy_results?.hydro_output },
-            { source: "Geothermal", info: gInfo, score: result.renewable_energy_results?.geothermal_output?.suitability_score, max: 100, unit: "score", output: result.renewable_energy_results?.geothermal_output },
+            { source: "Geothermal", info: gInfo, score: result.renewable_energy_results?.geothermal_output?.suitability_score, max: 100, unit: "score", output: result.renewable_energy_results?.geothermal_output, referenceOnly: true },
           ].map((item) => {
-            const isRec = item.source === result.recommended_source;
+            const isRec = item.source === recSource;
             const meta = sourceMeta[item.source];
             const scoreVal = parseFloat(item.score) || 0;
             const rating = getRating(scoreVal, item.max);
@@ -206,6 +226,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold">{t("ecosim.results.sources." + item.source)}</span>
                     {isRec && <Badge className="bg-primary text-primary-foreground text-xs">{t("ecosim.results.recommended")}</Badge>}
+                    {item.referenceOnly && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.referenceOnly")}</Badge>}
                     <Badge className={`${rating.color} text-xs`}>{item.info.label}</Badge>
                     <span className="tracking-widest text-sm">{stars}</span>
                   </div>
@@ -243,7 +264,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
             <div className="rounded-xl border bg-secondary p-5 text-center">
               <p className="text-sm text-primary font-medium">{t("ecosim.results.financial.newBill")}</p>
               <p className="text-3xl font-bold text-primary mt-1">{formatCurrency(netBill)}</p>
-              <p className="text-xs text-primary mt-1">{t("ecosim.results.financial.afterOffset", { source: t("ecosim.results.sources." + result.recommended_source).toLowerCase() })}</p>
+              <p className="text-xs text-primary mt-1">{t("ecosim.results.financial.afterOffset", { source: t("ecosim.results.sources." + recSource).toLowerCase() })}</p>
             </div>
             <div className="rounded-xl border bg-warning/10 p-5 text-center">
               <p className="text-sm text-foreground font-medium">{t("ecosim.results.financial.monthlySavings")}</p>
@@ -303,7 +324,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <Zap className="h-5 w-5 text-warning" />
-              {t("ecosim.results.productRecs.title", { source: t("ecosim.results.sources." + result.recommended_source) })}
+              {t("ecosim.results.productRecs.title", { source: t("ecosim.results.sources." + recSource) })}
             </CardTitle>
             <CardDescription>{t("ecosim.results.productRecs.description")}</CardDescription>
           </CardHeader>
@@ -324,7 +345,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
             {!productLoading && productRecs && (!productRecs.items || productRecs.items.length === 0) && (
               <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
                 <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" />
-                {t("ecosim.results.productRecs.none", { source: result.recommended_source.toLowerCase() })}
+                {t("ecosim.results.productRecs.none", { source: recSource.toLowerCase() })}
               </div>
             )}
             {productRecs?.note && <p className="mt-2 text-xs text-muted-foreground">{t("ecosim.results.productRecs.note", { note: productRecs.note })}</p>}
@@ -345,7 +366,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
           <CardDescription>{t("ecosim.results.nextSteps.description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <NextStepList steps={t("ecosim.results.nextStepsList." + result.recommended_source)} />
+          <NextStepList steps={t("ecosim.results.nextStepsList." + recSource)} />
         </CardContent>
       </Card>
 
@@ -428,7 +449,7 @@ export default function EcosimResults({ result, productRecs, productLoading }) {
                   <p className="text-xs text-foreground">{formatNumber(result.comparison.current_monthly_consumption_kwh)} kWh</p>
                 </div>
                 <div className="rounded-lg border bg-secondary p-4">
-                  <p className="text-sm font-medium text-primary">{t("ecosim.results.technical.withSource", { source: t("ecosim.results.sources." + result.recommended_source) })}</p>
+                  <p className="text-sm font-medium text-primary">{t("ecosim.results.technical.withSource", { source: t("ecosim.results.sources." + recSource) })}</p>
                   <p className="text-xl font-bold text-primary">{formatCurrency(result.comparison.renewable_monthly_bill)}</p>
                   <p className="text-xs text-primary">{formatNumber(result.comparison.renewable_monthly_consumption_kwh)} kWh</p>
                 </div>

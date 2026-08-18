@@ -256,7 +256,7 @@ export default function EcosimInputForm({
                     </div>
                     <div className="rounded-lg border bg-muted/30 p-3">
                       <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.bill")}</p>
-                      <p className="text-sm font-medium">PHP {monthlyBill?.toLocaleString() || 0}</p>
+                      <p className="text-sm font-medium">₱{monthlyBill?.toLocaleString() || 0}</p>
                     </div>
                     <div className="rounded-lg border bg-muted/30 p-3">
                       <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.savingsGoal")}</p>
@@ -322,7 +322,7 @@ export default function EcosimInputForm({
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.bill")}</p>
-                <p className="font-medium">PHP {monthlyBill?.toLocaleString() || 0}</p>
+                <p className="font-medium">₱{monthlyBill?.toLocaleString() || 0}</p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.savingsGoal")}</p>
