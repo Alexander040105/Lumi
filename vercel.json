@@ -4,7 +4,8 @@
   "buildCommand": null,
   "installCommand": "pip install -r api/requirements.txt",
   "rewrites": [
-    { "source": "/api/v1/(.*)", "destination": "/api" }
+    { "source": "/api/v1/(.*)", "destination": "/api" },
+    { "source": "/(.*)", "destination": "/api" }
   ],
   "functions": {
     "api/index.py": {

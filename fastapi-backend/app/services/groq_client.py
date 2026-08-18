@@ -25,15 +25,15 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "qwen/qwen3-32b")
+DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound-mini")
 DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
 DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "4000"))
 
-# Free-tier Groq models — updated July 2026 after llama-3.3-70b-versatile deprecation
+# Valid chat models for this Groq account (as of 2026-08-18).
+# compound-mini is fastest; compound is a stronger fallback.
 FALLBACK_GROQ_MODELS = [
-    "meta-llama/llama-4-scout-17b-16e-instruct",
-    "llama-3.1-8b-instant",
-    "openai/gpt-oss-120b",
+    "groq/compound",
+    "qwen/qwen3.6-27b",
 ]
 
 _groq_client: Any | None = None
@@ -106,7 +106,6 @@ def generate_groq_response(
                     ],
                     temperature=temp_value,
                     max_tokens=token_limit,
-                    response_format={"type": "json_object"},
                 )
                 text = response.choices[0].message.content or ""
                 if text:

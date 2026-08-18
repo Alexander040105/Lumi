@@ -14,6 +14,7 @@ from app.schemas.ecosim import PostHouse
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
 from app.services.redis_client import (
+    _ECOSIM_TTL,
     get_ecosim_cache_sync,
     set_ecosim_cache_sync,
 )
@@ -36,34 +37,85 @@ _CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
 _climate_df: pd.DataFrame | None = None
 
 
-def _get_climate_df() -> pd.DataFrame:
-    """Load municipality climate averages from Supabase/cache or local CSV fallback."""
+def _load_climate_csv() -> pd.DataFrame | None:
+    """Load the bundled climate CSV as an emergency fallback."""
     global _climate_df
     if _climate_df is not None:
         return _climate_df
+    if not _CLIMATE_CSV.exists():
+        return None
+    _climate_df = pd.read_csv(str(_CLIMATE_CSV))
+    return _climate_df
 
-    cache_key = "climate:all_averages"
+
+def _get_climate_for_municipality(municipality_id: int) -> list[dict[str, Any]]:
+    """Load climate averages for a single municipality from Supabase or local CSV."""
+    cache_key = f"climate:municipality:{municipality_id}"
     cached = cache_get_sync(cache_key)
     if cached is not None:
-        _climate_df = pd.DataFrame(cached)
-        return _climate_df
+        return cached
 
+    client = get_supabase_client()
     try:
-        client = get_supabase_client()
-        resp = client.table("municipality_climate_averages").select("*").execute()
+        resp = (
+            client.table("municipality_climate_averages")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .execute()
+        )
         rows = resp.data or []
         if rows:
             cache_set_sync(cache_key, rows, ttl=86400)
-            _climate_df = pd.DataFrame(rows)
-            return _climate_df
+            return rows
     except Exception as exc:
-        logger.warning("Failed to load climate averages from Supabase: %s", exc)
+        logger.warning(
+            "Failed to load climate for municipality %s from Supabase: %s",
+            municipality_id,
+            exc,
+        )
 
-    if os.getenv("USE_LOCAL_DATA_FALLBACK", "").lower() == "true" and _CLIMATE_CSV.exists():
-        _climate_df = pd.read_csv(str(_CLIMATE_CSV))
-        return _climate_df
+    df = _load_climate_csv()
+    if df is not None:
+        rows = df[df["municipality_id"] == municipality_id].to_dict(orient="records")
+        if rows:
+            cache_set_sync(cache_key, rows, ttl=86400)
+            return rows
 
-    raise RuntimeError("Climate data unavailable from Supabase and local fallback disabled")
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="No climate average data found for this municipality.",
+    )
+
+
+def _get_climate_for_municipality_ids(municipality_ids: list[int]) -> list[dict[str, Any]]:
+    """Load climate averages for a list of municipality IDs from Supabase or local CSV."""
+    if not municipality_ids:
+        return []
+
+    client = get_supabase_client()
+    try:
+        rows: list[dict] = []
+        for i in range(0, len(municipality_ids), 500):
+            chunk = municipality_ids[i : i + 500]
+            resp = (
+                client.table("municipality_climate_averages")
+                .select("*")
+                .in_("municipality_id", chunk)
+                .execute()
+            )
+            rows.extend(resp.data or [])
+        if rows:
+            return rows
+    except Exception as exc:
+        logger.warning(
+            "Failed to load climate for municipality ids from Supabase: %s", exc
+        )
+
+    df = _load_climate_csv()
+    if df is not None:
+        return df[df["municipality_id"].isin(municipality_ids)].to_dict(orient="records")
+
+    return []
 
 COST_PER_KW_SOLAR = 60000.0
 COST_PER_KW_WIND = 80000.0
@@ -85,7 +137,9 @@ COST_PER_KW_GEOTHERMAL = 100000.0
 CO2_KG_PER_KWH = 0.6835
 
 
-def get_municipality_terrain_data(municipality: str) -> dict | None:
+def get_municipality_terrain_data(
+    municipality: str, municipality_id: int | None = None
+) -> dict | None:
     """
     Fetches pre-computed terrain metrics for a municipality.
     Returns None if unavailable so callers can degrade gracefully.
@@ -98,61 +152,67 @@ def get_municipality_terrain_data(municipality: str) -> dict | None:
     """
     client = get_supabase_client()
     try:
-        result = (
-            client
-            .table("hydropower_suitability")
-            .select()
-            .eq("municipality_name", municipality.upper())
-            .single()
-            .execute()
-        )
+        query = client.table("hydropower_suitability").select()
+        if municipality_id is not None:
+            query = query.eq("municipality_id", municipality_id)
+        else:
+            query = query.eq("municipality_name", municipality.upper())
+        result = query.single().execute()
         return result.data or None
     except APIError:
         return None  # terrain data is optional; degrade gracefully
 
-def get_municipality_data(municipality: str):
+def get_municipality_data(
+    municipality: str, municipality_id: int | None = None
+):
+    """Return climate data for a municipality.
+
+    If municipality_id is provided, the municipalities table is skipped and the
+    climate data is fetched directly. This avoids a redundant name-lookup query.
+    """
     client = get_supabase_client()
-    try:
-        municipality_result = (
-            client
-            .table("municipalities")
-            .select()
-            .eq("name", municipality.upper())
-            .limit(1)
-            .single()
-            .execute()
-        )
-    except APIError as exc:
-        error = getattr(exc, "args", [{}])[0]
-        if isinstance(error, dict) and error.get("code") == "PGRST116":
+
+    if municipality_id is None:
+        try:
+            municipality_result = (
+                client
+                .table("municipalities")
+                .select("municipality_id,name,lat,lon")
+                .eq("name", municipality.upper())
+                .limit(1)
+                .single()
+                .execute()
+            )
+        except APIError as exc:
+            error = getattr(exc, "args", [{}])[0]
+            if isinstance(error, dict) and error.get("code") == "PGRST116":
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Municipality not found",
+                )
+            raise
+
+        if not municipality_result.data:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Municipality not found",
             )
-        raise
 
-    if not municipality_result.data:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Municipality not found",
-        )
+        municipality_id = municipality_result.data["municipality_id"]
+        municipality_name = municipality_result.data.get("name", municipality).upper()
+    else:
+        municipality_name = municipality.upper()
 
-    municipality_id = (
-        municipality_result.data["municipality_id"]
-    )
-
-    climate_df = _get_climate_df()
-    municipality_data = (
-        climate_df[climate_df["municipality_id"] == municipality_id]
-        .to_dict(orient="records")
-    )
+    municipality_data = _get_climate_for_municipality(municipality_id)
 
     if not municipality_data:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No climate average data found for this municipality.",
         )
-        
+
+    municipality_data[0]["municipality_id"] = municipality_id
+    municipality_data[0]["name"] = municipality_name
     return municipality_data
 
 
@@ -319,18 +379,18 @@ def get_province_data(province_name: str) -> dict:
         )
 
     # Aggregate climate data
-    climate_df = _get_climate_df()
-    province_df = climate_df[climate_df["municipality_id"].isin(municipality_ids)]
-    if province_df.empty:
+    climate_rows = _get_climate_for_municipality_ids(municipality_ids)
+    if not climate_rows:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No climate average data found for this province.",
         )
 
+    province_df = pd.DataFrame(climate_rows)
     numeric_cols = [
         "avg_t2m", "avg_t2m_max", "avg_t2m_min", "avg_rh2m",
         "avg_prectotcorr", "avg_ws10m", "avg_allsky_sfc_sw_dwn",
-        "avg_cloud_amt", "avg_surface_pressure", "avg_rhoa", "avg_elevation",
+        "avg_cloud_amt", "avg_surface_pressure", "avg_rhoa", "elevation",
     ]
 
     aggregated = {"municipality_id": province_id, "name": province_name.upper()}
@@ -544,6 +604,7 @@ def renewable_energy_calculator(
     rag_query: str | None = None,
     nearby_geo_plants: list[dict[str, Any]] | None = None,
     mode: str = "municipality",
+    municipality_id: int | None = None,
 ) -> dict:
     # NOTE: Data fetching
     if mode == "province":
@@ -551,9 +612,13 @@ def renewable_energy_calculator(
         municipality_results = [municipality_data]
         terrain_data = municipality_data.get("terrain")
     else:
-        municipality_results = get_municipality_data(municipality)
+        municipality_results = get_municipality_data(
+            municipality, municipality_id=municipality_id
+        )
         municipality_data = municipality_results[0]
-        terrain_data = get_municipality_terrain_data(municipality)
+        terrain_data = get_municipality_terrain_data(
+            municipality, municipality_id=municipality_id
+        )
 
     # Try Redis cache for the full EcoSim result
     geo_id = municipality_data.get("municipality_id")
@@ -591,7 +656,7 @@ def renewable_energy_calculator(
     humidity = municipality_data.get("avg_rh2m")
     surface_pressure = municipality_data.get("avg_surface_pressure")
     air_density = municipality_data.get("avg_rhoa")
-    elevation = municipality_data.get("avg_elevation")
+    elevation = municipality_data.get("elevation") or municipality_data.get("avg_elevation")
     today = dt.datetime.now()
     days_in_month = calendar.monthrange(today.year, today.month)[1]
 
@@ -718,9 +783,9 @@ def renewable_energy_calculator(
 
                 ai_analysis = analyze_renewable_results(analysis_payload)
         except Exception:
-            logger.exception("Gemini analysis failed in Ecosim")
+            logger.exception("AI analysis failed in Ecosim")
             ai_analysis = {
-                "summary": "Gemini analysis failed.",
+                "summary": "AI analysis failed.",
                 "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
                 "recommendation": {"best_option": "", "reason": ""},
                 "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
@@ -741,10 +806,19 @@ def renewable_energy_calculator(
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
+        "terrain_data": terrain_data,
     }
 
     if geo_id and params_hash:
-        set_ecosim_cache_sync("municipality", geo_id, params_hash, result)
+        # Don't persist a fallback AI summary for the full 30-minute window;
+        # once the worker thread completes and writes the AI cache, a fresh
+        # request should be able to pick up the real analysis.
+        cache_ttl = (
+            60
+            if include_ai and (ai_analysis or {}).get("error")
+            else _ECOSIM_TTL
+        )
+        set_ecosim_cache_sync("municipality", geo_id, params_hash, result, ttl=cache_ttl)
 
     return result
 
@@ -1062,41 +1136,45 @@ def build_ecosim_dashboard_response(
         )
 
     electricity_rate = monthly_bill / monthly_consumption
-    if mode == "province":
-        municipality_name = get_province_name_by_id(municipality_id)
-    else:
-        municipality_name = get_municipality_name_by_id(municipality_id)
 
-    # Fetch municipality lat/lon for proximity boost
+    # Fetch name and lat/lon in a single query to avoid an extra round-trip.
     muni_lat: float | None = None
     muni_lon: float | None = None
+    municipality_name: str | None = None
     try:
         client = get_supabase_client()
         if mode == "province":
-            # For province mode, lat/lon come from the provinces table
             prov_resp = (
                 client.table("provinces")
-                .select("lat,lon")
+                .select("name,lat,lon")
                 .eq("province_id", municipality_id)
                 .single()
                 .execute()
             )
             if prov_resp.data:
+                municipality_name = prov_resp.data.get("name")
                 muni_lat = prov_resp.data.get("lat")
                 muni_lon = prov_resp.data.get("lon")
         else:
             muni_resp = (
                 client.table("municipalities")
-                .select("lat,lon")
+                .select("name,lat,lon")
                 .eq("municipality_id", municipality_id)
                 .single()
                 .execute()
             )
             if muni_resp.data:
+                municipality_name = muni_resp.data.get("name")
                 muni_lat = muni_resp.data.get("lat")
                 muni_lon = muni_resp.data.get("lon")
     except Exception as exc:
-        logger.warning("Municipality lat/lon fetch failed: %s", exc)
+        logger.warning("Municipality name/lat/lon fetch failed: %s", exc)
+
+    if municipality_name is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Municipality/province not found",
+        )
 
     nearby_geo_plants: list[dict[str, Any]] = []
     base_results = renewable_energy_calculator(
@@ -1110,6 +1188,7 @@ def build_ecosim_dashboard_response(
         rag_query=rag_query,
         nearby_geo_plants=nearby_geo_plants,
         mode=mode,
+        municipality_id=municipality_id,
     )
 
     renewable_results = base_results["renewable_energy_results"]
@@ -1213,7 +1292,7 @@ def build_ecosim_dashboard_response(
             has_climate_data=climate_vars_available > 0,
             climate_variables_count=climate_vars_available,
             climate_data_year=2024,
-            has_terrain_data=terrain_data is not None if mode != "province" else True,
+            has_terrain_data=base_results.get("terrain_data") is not None,
             has_population_data=False,
             has_tariff_data=electricity_rate > 0,
             user_provided_inputs=monthly_consumption > 0,
@@ -1248,48 +1327,6 @@ def build_ecosim_dashboard_response(
         f"covering roughly {rec_pct:.0f}% of your electricity needs and saving you about PHP {rec_savings:,.0f} per month.{payback_text}"
     )
 
-    # Meralco franchise area check
-    meralco_franchise_provinces = {
-        "metro manila", "ncr", "bulacan", "cavite", "laguna", "rizal"
-    }
-    # Known Meralco-served municipalities (subset; extend as needed)
-    meralco_franchise_municipalities: set[str] = {
-        "calamba", "cabuyao", "santa rosa", "biñan", "san pedro",
-        "general trias", "imus", "dasmariñas", "bacoor", "kawit",
-        "norzagaray", "malolos", "meycauayan", "marilao", "bocaue",
-        "cainta", "taytay", "angono", "binangonan", "antipolo",
-    }
-    meralco_info = None
-    try:
-        client = get_supabase_client()
-        if mode == "province":
-            prov_name = municipality_name.lower()
-            muni_name = ""
-        else:
-            # Fetch municipality and province name
-            muni_resp = (
-                client.table("municipalities")
-                .select("name,provinces(name)")
-                .eq("municipality_id", municipality_id)
-                .single()
-                .execute()
-            )
-            muni_data = muni_resp.data or {}
-            muni_name = str(muni_data.get("name", "")).lower().strip()
-            prov_name = (
-                str(muni_data.get("provinces", {}).get("name", "")).lower().strip()
-                if isinstance(muni_data.get("provinces"), dict) else ""
-            )
-        # Municipality-level whitelist first, then province fallback
-        if muni_name in meralco_franchise_municipalities or any(
-            p in prov_name for p in meralco_franchise_provinces
-        ):
-            from app.ml.predictor import get_energyhub_ml
-            ml = get_energyhub_ml()
-            meralco_info = ml.get_meralco_rate()
-    except Exception as exc:
-        logger.warning("Meralco franchise lookup failed: %s", exc)
-
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
@@ -1316,5 +1353,4 @@ def build_ecosim_dashboard_response(
         "municipality_data": base_results.get("municipality_data"),
         "ai_analysis": base_results.get("ai_analysis"),
         "nearby_geothermal_plants": nearby_geo_plants,
-        "meralco_rate": meralco_info,
     }
