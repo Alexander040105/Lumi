@@ -443,4 +443,19 @@ All 29 targeted code-quality checks passed:
 - `/api/v1/ecosim/?include_ai=true` now completes in ~7.8s locally (under the 10s Vercel limit) and the AI result is cached with `model_version` `groq:groq/compound-mini`.
 - Cache hits for the same municipality return in ~3s with the full real AI summary.
 
+### 5.5 Development branch and production deployment guard
+
+**Branching**
+- Renamed the active local branch from `lumi-fastapi-react-v3.2` to `development`.
+- `development` is now the integration branch; `main` remains the only production branch.
+
+**CI/CD (`.github/workflows`)**
+- `ci.yml` now triggers on `main` and `development` (previously `main` and `develop`).
+- `vercel-deploy.yml` no longer auto-deploys on `push` to `main`; it is `workflow_dispatch` only and gated by `environment: production`.
+- `deploy.yml` (DigitalOcean) is also `workflow_dispatch` only, with `environment: production` and a `main` branch guard.
+- Added `vercel-preview.yml` to deploy a Vercel preview on every push to `development` (or `develop`).
+
+**Documentation**
+- Added `docs/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
+
 *End of changelog.*
