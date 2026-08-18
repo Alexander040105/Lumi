@@ -6,7 +6,6 @@ from app.schemas.ecosim import (
     EcosimDashboardResponse,
     EcosimQueryParams,
     EcosimResponse,
-    GetHouse,
     MunicipalityListResponse,
     PostHouse,
     ProvinceListResponse,

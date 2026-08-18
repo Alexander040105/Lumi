@@ -765,8 +765,18 @@
       "billHint": "The total amount you pay for this billing period, before any subsidies or discounts.",
       "rateLabel": "Rate per kWh (₱/kWh)",
       "ratePlaceholder": "e.g. 13.66",
-      "rateHint": "Look for the generation or energy charge rate on your Meralco bill.",
+      "rateHint": "Enter the exact rate shown on your Meralco bill, or use the computed value below.",
       "rateText": "Based on your inputs, you currently pay about **₱{{rate}} per kWh**. We use this to estimate your possible savings.",
+      "rateComputedHint": "Based on your bill, your rate is approximately **₱{{rate}} per kWh**.",
+      "useComputedRate": "Use this rate",
+      "billHelp": {
+        "consumptionTitle": "Finding your actual consumption",
+        "consumptionDescription": "Look for the 'Actual Consumption' line on your Meralco bill. It shows how many kWh you used this billing period, usually near the usage or metering section.",
+        "billTitle": "Finding your total bill",
+        "billDescription": "Look for the 'Total Amount Due' or 'Total Bill' before any subsidies or discounts. This is the amount you actually pay.",
+        "rateTitle": "Finding your rate per kWh",
+        "rateDescription": "Look for the 'Generation Charge' or 'Effective Rate' line. If it isn't shown, divide your total bill by your actual consumption."
+      },
       "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
       "savingsLevels": {
         "exploring": "Reduce a little",

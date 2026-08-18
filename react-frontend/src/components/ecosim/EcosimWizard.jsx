@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Search, Check } from "lucide-react";
 import HelpTooltip from "@/components/shared/HelpTooltip";
+import BillHelpModal from "@/components/shared/BillHelpModal";
 import { useI18n } from "@/i18n";
 
 export default function EcosimWizard({
@@ -40,6 +41,13 @@ export default function EcosimWizard({
     if (s <= 75) return t("ecosim.wizard.savingsLevels.half");
     return t("ecosim.wizard.savingsLevels.offGrid");
   }, [desiredSavings, t]);
+
+  const computedRate = useMemo(() => {
+    if (monthlyConsumption > 0 && monthlyBill > 0) {
+      return monthlyBill / monthlyConsumption;
+    }
+    return 0;
+  }, [monthlyConsumption, monthlyBill]);
 
   return (
     <div className="space-y-4">
@@ -138,26 +146,54 @@ export default function EcosimWizard({
                   </div>
                   <div className="grid gap-4 md:grid-cols-3">
                     <div>
-                      <label className="text-sm font-medium block mb-1"><HelpTooltip term="kWh">{t("ecosim.wizard.consumptionLabel")}</HelpTooltip></label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-sm font-medium"><HelpTooltip term="kWh">{t("ecosim.wizard.consumptionLabel")}</HelpTooltip></label>
+                        <BillHelpModal
+                          triggerText={t("ecosim.wizard.billHelpTrigger")}
+                          title={t("ecosim.wizard.billHelp.consumptionTitle")}
+                          description={t("ecosim.wizard.billHelp.consumptionDescription")}
+                        />
+                      </div>
                       <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.consumptionPlaceholder")} value={monthlyConsumption || ""} onChange={(e) => setMonthlyConsumption(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.consumptionHint")}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium block mb-1">{t("ecosim.wizard.rateLabel")}</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-sm font-medium">{t("ecosim.wizard.rateLabel")}</label>
+                        <BillHelpModal
+                          triggerText={t("ecosim.wizard.billHelpTrigger")}
+                          title={t("ecosim.wizard.billHelp.rateTitle")}
+                          description={t("ecosim.wizard.billHelp.rateDescription")}
+                        />
+                      </div>
                       <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.ratePlaceholder")} value={electricityRate || ""} onChange={(e) => setElectricityRate(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.rateHint")}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium block mb-1">{t("ecosim.wizard.billLabel")}</label>
+                      <div className="flex items-center justify-between mb-1">
+                        <label className="text-sm font-medium">{t("ecosim.wizard.billLabel")}</label>
+                        <BillHelpModal
+                          triggerText={t("ecosim.wizard.billHelpTrigger")}
+                          title={t("ecosim.wizard.billHelp.billTitle")}
+                          description={t("ecosim.wizard.billHelp.billDescription")}
+                        />
+                      </div>
                       <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.billPlaceholder")} value={monthlyBill || ""} onChange={(e) => setMonthlyBill(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.billHint")}</p>
                     </div>
                   </div>
-                  {electricityRate > 0 && (
+                  {electricityRate > 0 ? (
                     <div className="rounded-lg border bg-muted/30 p-3 text-sm">
                       <p className="text-muted-foreground">{t("ecosim.wizard.rateText", { rate: electricityRate.toFixed(2) })}</p>
                     </div>
-                  )}
+                  ) : computedRate > 0 ? (
+                    <div className="rounded-lg border bg-muted/30 p-3 text-sm flex items-center justify-between gap-3">
+                      <p className="text-muted-foreground">{t("ecosim.wizard.rateComputedHint", { rate: computedRate.toFixed(2) })}</p>
+                      <Button type="button" variant="outline" size="sm" onClick={() => setElectricityRate(Number(computedRate.toFixed(2)))}>
+                        {t("ecosim.wizard.useComputedRate")}
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               )}
 

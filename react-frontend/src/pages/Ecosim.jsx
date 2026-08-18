@@ -53,7 +53,7 @@ export default function Ecosim() {
   const [provinceOpen, setProvinceOpen] = useState(false);
   const [monthlyConsumption, setMonthlyConsumption] = useState(350);
   const [monthlyBill, setMonthlyBill] = useState(5000);
-  const [electricityRate, setElectricityRate] = useState(13.66);
+  const [electricityRate, setElectricityRate] = useState(0);
   const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(true);
   const [loading, setLoading] = useState(false);

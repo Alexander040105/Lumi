@@ -32,27 +32,12 @@ export default function BillHelpModal({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="mt-2 aspect-video w-full rounded-lg border bg-muted p-4 flex items-center justify-center relative overflow-hidden">
-          <div className="w-full max-w-sm rounded-md border border-border bg-card p-3 shadow-sm">
-            <div className="space-y-2">
-              <div className="h-2 w-1/2 rounded bg-muted-foreground/20" />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Account Details</span>
-                <span>Billing Period</span>
-              </div>
-              <div className="h-px bg-border" />
-              <div className="rounded border border-dashed border-primary/50 bg-primary/5 p-2">
-                <div className="text-[10px] uppercase tracking-wide text-muted-foreground">Actual Consumption</div>
-                <div className="text-lg font-semibold text-foreground">300 kWh</div>
-              </div>
-              <div className="h-2 w-3/4 rounded bg-muted-foreground/20" />
-            </div>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-            <svg width="120" height="80" viewBox="0 0 120 80" fill="none" className="opacity-80">
-              <circle cx="60" cy="40" r="32" stroke="hsl(var(--primary))" strokeWidth="2" fill="none" strokeDasharray="4 4" />
-            </svg>
-          </div>
+        <div className="mt-2 w-full rounded-lg border bg-muted p-4">
+          <img
+            src="/MeralcoBillWithBoxes.png"
+            alt={title}
+            className="w-full h-auto rounded-lg"
+          />
         </div>
       </DialogContent>
     </Dialog>

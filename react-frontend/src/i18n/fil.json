@@ -765,8 +765,18 @@
       "billHint": "Ang kabuuang binabayaran mo para sa billing period, bago pa man ang anumang subsidyo o diskwento.",
       "rateLabel": "Rate bawat kWh (₱/kWh)",
       "ratePlaceholder": "e.g. 13.66",
-      "rateHint": "Hanapin ang generation o energy charge rate sa iyong Meralco bill.",
+      "rateHint": "Ilagay ang eksaktong rate sa iyong Meralco bill, o gamitin ang computed value sa ibaba.",
       "rateText": "Batay sa iyong inputs, humigit-kumulang **₱{{rate}} bawat kWh** ang iyong binabayaran. Ginagamit namin ito para i-estimate ang posibleng savings.",
+      "rateComputedHint": "Batay sa iyong bill, ang iyong rate ay humigit-kumulang **₱{{rate}} bawat kWh**.",
+      "useComputedRate": "Gamitin ang rate na ito",
+      "billHelp": {
+        "consumptionTitle": "Paghanap ng actual consumption",
+        "consumptionDescription": "Hanapin ang 'Actual Consumption' sa iyong Meralco bill. Ipinapakita nito kung gaano karaming kWh ang nagamit mo sa billing period, karaniwan malapit sa usage o metering section.",
+        "billTitle": "Paghanap ng kabuuang bill",
+        "billDescription": "Hanapin ang 'Total Amount Due' o 'Total Bill' bago pa man ang anumang subsidyo o diskwento. Ito ang aktwal na binabayaran mo.",
+        "rateTitle": "Paghanap ng rate bawat kWh",
+        "rateDescription": "Hanapin ang 'Generation Charge' o 'Effective Rate'. Kung hindi ito nakalagay, hatiin ang total bill sa actual consumption."
+      },
       "savingsLabel": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
       "savingsLevels": {
         "exploring": "Mabawasan nang kaunti",
