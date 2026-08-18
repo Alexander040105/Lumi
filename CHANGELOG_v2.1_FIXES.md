@@ -380,4 +380,82 @@ All 29 targeted code-quality checks passed:
 
 ---
 
+## 5. EcoSim CORS / Vercel Timeout Fix
+
+> Session: 2026-08-18
+> Branch: any branch containing these changes
+> Scope: `fastapi-backend`, `scripts`, `supabase/migrations`, `vercel.json`
+
+### 5.1 Problem
+- `/api/v1/ecosim/` and `/api/v1/energyhub/ai-insight` were timing out on Vercel's 10-second function limit.
+- The perceived CORS error was actually the browser timing out on a 504 response.
+
+### 5.2 Changes
+
+**Supabase schema (`supabase/migrations/0010_ecosim_climate_and_ai_cache.sql`)**
+- Added/confirmed `public.municipality_climate_averages` table with foreign key to `municipalities`, indexes, RLS, and `elevation` as `double precision`.
+- Added `public.ecosim_ai_cache` table to store cached Gemini analyses (`cache_key`, `municipality_id`, `inputs_hash`, `ai_result`, `model_version`, `expires_at`).
+
+**Data ingestion (`scripts/ingest_municipality_climate_averages.py`)**
+- Ingests `fastapi-backend/app/services/local_data/municipality_climate_averages.csv` into `municipality_climate_averages` in 500-row batches.
+- Filters rows against the `municipalities` table to satisfy the foreign key.
+- Prefers `SUPABASE_JWT_SERVICE_ROLE_KEY`; casts `elevation` to an integer so it works before the migration above is applied.
+
+**EcoSim service (`fastapi-backend/app/services/ecosim.py`)**
+- Replaced full-table climate load with targeted Supabase queries (`_get_climate_for_municipality`, `_get_climate_for_municipality_ids`), falling back to a local CSV per ID.
+- Added `elevation` / `avg_elevation` fallback for province aggregates.
+- Fixed `NameError: 'terrain_data' is not defined` in `build_ecosim_dashboard_response` by passing `terrain_data` through the calculator result.
+- Reduced redundant Supabase round-trips: `build_ecosim_dashboard_response` now fetches `name`, `lat`, and `lon` in a single query, and `renewable_energy_calculator` / `get_municipality_data` / `get_municipality_terrain_data` accept `municipality_id` to skip a second name lookup.
+- Removed the Meralco franchise lookup from the EcoSim response path because it was not part of the API schema and added an extra Supabase round-trip.
+- Shortened the full EcoSim Redis cache TTL to 60 seconds when `ai_analysis` is a timeout fallback, so the real AI cache can take over once the worker finishes.
+
+**Gemini AI cache / timeout (`fastapi-backend/app/services/gemini_funcs.py`)**
+- Added Supabase-backed `ecosim_ai_cache` read/write helpers (`_get_cached_ai_analysis`, `_set_cached_ai_analysis`).
+- Added Redis as an L1 in-memory cache in front of the Supabase AI cache: `_get_cached_ai_analysis` checks Redis first, then Supabase, and `_set_cached_ai_analysis` writes to Redis immediately and Supabase in the background worker.
+- AI analysis now runs in a background thread capped at `ECOSIM_AI_CALL_TIMEOUT` (default `5.0s`).
+- If the LLM call takes too long, the endpoint returns a safe fallback immediately; the worker continues and writes the AI cache for the next request.
+- Reduced `max_output_tokens` to 1200 and `max_retries` to 1 to speed up calls.
+- The full EcoSim Redis cache TTL is shortened to 60 seconds when the AI response is a fallback, so a real AI result can replace it once the worker finishes.
+
+**Vercel routing (`vercel.json`)**
+- Added catch-all rewrite `{ "source": "/(.*)", "destination": "/api" }` so the root `/` health endpoint returns `200` instead of `404`.
+
+### 5.3 Deployment / runtime notes
+- `SUPABASE_SERVICE_ROLE_KEY` in Vercel should be a JWT (the `SUPABASE_JWT_SERVICE_ROLE_KEY` value). A non-JWT `sb_secret_...` key would fall back to the limited REST client and break `.in_()`/`.upsert()`.
+- Migration `0010_ecosim_climate_and_ai_cache.sql` must be run in the Supabase SQL Editor to create the AI cache table and widen the `elevation` column.
+
+### 5.4 Groq as the default EcoSim LLM
+
+**Provider routing (`fastapi-backend/app/services/llm_client.py`, `fastapi-backend/app/services/gemini_funcs.py`)**
+- Changed the default `LLM_PROVIDER` from `gemini` to `groq` in both the unified client and EcoSim AI helpers.
+- Added a `_default_llm_model()` helper in `gemini_funcs.py` so cache keys and `model_version` always reflect the real provider/model being called (e.g. `groq:groq/compound-mini`).
+- Updated EcoSim AI cache key and `ecosim_ai_cache.model_version` to use the actual Groq/Gemini model instead of hardcoded `gemini-2.5-flash`.
+- Updated user-facing and log messages from "Gemini" to "AI" so they are provider-agnostic.
+
+**Groq client (`fastapi-backend/app/services/groq_client.py`)**
+- Removed `response_format={"type": "json_object"}` because the EcoSim prompt asks for markdown, not JSON.
+- Updated the model default/fallback list to valid models for the current account: `groq/compound-mini` (default), `groq/compound`, `qwen/qwen3.6-27b`.
+
+**Startup (`fastapi-backend/main.py`)**
+- Pre-initializes the Supabase and Redis sync clients during startup so the first EcoSim request does not pay SSL/TLS setup time.
+
+**Verification**
+- `/api/v1/ecosim/?include_ai=true` now completes in ~7.8s locally (under the 10s Vercel limit) and the AI result is cached with `model_version` `groq:groq/compound-mini`.
+- Cache hits for the same municipality return in ~3s with the full real AI summary.
+
+### 5.5 Development branch and production deployment guard
+
+**Branching**
+- Renamed the active local branch from `lumi-fastapi-react-v3.2` to `development`.
+- `development` is now the integration branch; `main` remains the only production branch.
+
+**CI/CD (`.github/workflows`)**
+- `ci.yml` now triggers on `main` and `development` (previously `main` and `develop`).
+- `vercel-deploy.yml` no longer auto-deploys on `push` to `main`; it is `workflow_dispatch` only and gated by `environment: production`.
+- `deploy.yml` (DigitalOcean) is also `workflow_dispatch` only, with `environment: production` and a `main` branch guard.
+- Added `vercel-preview.yml` to deploy a Vercel preview on every push to `development` (or `develop`).
+
+**Documentation**
+- Added `docs/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
+
 *End of changelog.*

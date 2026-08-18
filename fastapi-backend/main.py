@@ -41,7 +41,16 @@ async def startup_event():
     the application.
     """
     from app.services.rag_pipeline import ensure_index_built
+    from app.services.supabase_service import get_supabase_client
+    from app.services.redis_client import get_redis_sync
     logger = logging.getLogger(__name__)
+
+    try:
+        await asyncio.to_thread(get_supabase_client)
+        await asyncio.to_thread(get_redis_sync)
+        logger.info("Supabase and Redis sync clients pre-initialized on startup.")
+    except Exception as exc:
+        logger.warning("Cache client pre-init failed on startup: %s", exc)
 
     if not settings.enable_rag:
         logger.info("RAG is disabled via settings.")

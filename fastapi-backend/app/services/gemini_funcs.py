@@ -1,11 +1,15 @@
 import asyncio
+import hashlib
 import json
 import logging
 import os
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from google import genai
 from google.genai import errors as genai_errors
 
@@ -27,7 +31,167 @@ FALLBACK_GEMINI_MODELS = [
     "gemini-2.0-flash",
 ]
 
+# EcoSim AI analysis cache settings.
+# Cache successful analyses for 7 days and cap the LLM call at 5 seconds
+# so Vercel's 10-second function limit is never breached.
+_AI_CACHE_TTL = int(os.getenv("ECOSIM_AI_CACHE_TTL", "604800"))  # 7 days
+_AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v1")
+_AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "5.0"))
+_AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "1200"))
+_AI_MAX_RETRIES = int(os.getenv("ECOSIM_AI_MAX_RETRIES", "1"))
+
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower().strip()
+DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound-mini")
+
+
+def _default_llm_model() -> str:
+    """Return the default model for the configured LLM provider."""
+    if LLM_PROVIDER == "groq":
+        return DEFAULT_GROQ_MODEL
+    return DEFAULT_GEMINI_MODEL
+
+
 _client: genai.Client | None = None
+
+
+def _municipality_id_from_payload(analysis_payload: dict[str, Any]) -> int | None:
+    try:
+        municipality_data = analysis_payload.get("municipality_data")
+        if isinstance(municipality_data, list) and municipality_data:
+            return municipality_data[0].get("municipality_id")
+        if isinstance(municipality_data, dict):
+            return municipality_data.get("municipality_id")
+    except Exception:
+        pass
+    return None
+
+
+def _compute_ai_cache_key(analysis_payload: dict[str, Any]) -> str:
+    """Deterministic cache key for an EcoSim AI analysis request."""
+    model = _default_llm_model()
+    version = f"{_AI_CACHE_VERSION}:{LLM_PROVIDER}:{model}"
+    payload = {
+        "analysis_payload": analysis_payload,
+        "provider": LLM_PROVIDER,
+        "model": model,
+        "version": _AI_CACHE_VERSION,
+    }
+    h = hashlib.sha256(
+        json.dumps(payload, sort_keys=True, default=str, ensure_ascii=False).encode("utf-8")
+    ).hexdigest()
+    return f"ecosim_ai:{version}:{h}"
+
+
+def _get_cached_ai_analysis(cache_key: str) -> dict[str, Any] | None:
+    """Return a cached AI analysis if it has not expired.
+
+    Redis is checked first (fast, in-memory L1); Supabase is the durable L2.
+    """
+    redis_cached = cache_get_sync(cache_key)
+    if redis_cached is not None:
+        if isinstance(redis_cached, dict):
+            return redis_cached
+
+    from app.services.supabase_service import get_supabase_client
+
+    client = get_supabase_client()
+    if client is None:
+        return None
+    try:
+        # Select without .gt() so the REST fallback client can also read it.
+        resp = (
+            client.table("ecosim_ai_cache")
+            .select("ai_result,expires_at")
+            .eq("cache_key", cache_key)
+            .limit(1)
+            .execute()
+        )
+        rows = resp.data
+        if isinstance(rows, dict):
+            rows = [rows]
+        if not rows:
+            return None
+        row = rows[0]
+        expires_at = row.get("expires_at")
+        if not expires_at:
+            ai_result = row.get("ai_result")
+            if ai_result:
+                cache_set_sync(cache_key, ai_result, ttl=_AI_CACHE_TTL)
+            return ai_result
+        ts = expires_at.replace("Z", "+00:00") if isinstance(expires_at, str) else expires_at
+        if datetime.fromisoformat(ts) > datetime.now(timezone.utc):
+            ai_result = row.get("ai_result")
+            if ai_result:
+                cache_set_sync(cache_key, ai_result, ttl=_AI_CACHE_TTL)
+            return ai_result
+    except Exception as exc:
+        logger.debug("Failed to read EcoSim AI cache for %s: %s", cache_key[:32], exc)
+    return None
+
+
+def _set_cached_ai_analysis(
+    cache_key: str,
+    municipality_id: int | None,
+    result: dict[str, Any],
+    ttl: int = _AI_CACHE_TTL,
+) -> None:
+    """Persist a successful AI analysis in Redis (L1) and Supabase (L2)."""
+    cache_set_sync(cache_key, result, ttl=ttl)
+
+    from app.services.supabase_service import get_supabase_client
+
+    client = get_supabase_client()
+    if client is None or not hasattr(client.table("ecosim_ai_cache"), "upsert"):
+        return
+    try:
+        expires_at = (datetime.now(timezone.utc) + timedelta(seconds=ttl)).isoformat()
+        record = {
+            "cache_key": cache_key,
+            "municipality_id": municipality_id,
+            "inputs_hash": cache_key.split(":")[-1],
+            "ai_result": result,
+            "model_version": f"{LLM_PROVIDER}:{_default_llm_model()}",
+            "expires_at": expires_at,
+        }
+        client.table("ecosim_ai_cache").upsert(record).execute()
+    except Exception as exc:
+        logger.warning("Failed to write EcoSim AI cache for %s: %s", cache_key[:32], exc)
+
+
+def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[str, Any]:
+    """Run the LLM prompt and return a normalized analysis dict."""
+    prompt = _build_renewable_analysis_prompt(analysis_payload)
+    from app.services.llm_client import generate_response
+    from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
+
+    response_text = generate_response(
+        prompt,
+        max_output_tokens=_AI_MAX_OUTPUT_TOKENS,
+        max_retries=_AI_MAX_RETRIES,
+    )
+    if GEMINI_DEBUG:
+        snippet = response_text[:500] if response_text else ""
+        logger.info("LLM prompt chars=%s response chars=%s", len(prompt), len(response_text))
+        logger.info("LLM response snippet=%s", snippet)
+
+    cleaned = sanitize_llm_output(response_text)
+    if not cleaned:
+        logger.warning("LLM returned empty response after sanitization")
+        return _normalize_analysis_output({})
+
+    prescriptive = extract_prescriptive_recommendation(cleaned)
+
+    return {
+        "summary": cleaned,
+        "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+        "recommendation": {
+            "best_option": prescriptive.get("recommendation", ""),
+            "reason": prescriptive.get("reason", ""),
+        },
+        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+        "environmental_impact": "",
+        "prescriptive_recommendation": prescriptive,
+    }
 
 
 def _get_gemini_client() -> genai.Client:
@@ -335,46 +499,52 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
 
 
 def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any]:
+    """Analyze renewable results with a persistent Supabase cache and a hard timeout."""
+    cache_key = _compute_ai_cache_key(analysis_payload)
+    cached = _get_cached_ai_analysis(cache_key)
+    if cached is not None:
+        logger.info("EcoSim AI cache hit for key=%s", cache_key[:32])
+        return cached
+
+    municipality_id = _municipality_id_from_payload(analysis_payload)
+
+    # If the LLM call completes quickly, we return its result and it is cached.
+    # If it takes longer than _AI_CALL_TIMEOUT, we return a fallback and the
+    # worker thread continues so the next identical request can hit the cache.
+    def _worker() -> dict[str, Any]:
+        try:
+            result = _build_renewable_analysis_result(analysis_payload)
+            _set_cached_ai_analysis(cache_key, municipality_id, result)
+            return result
+        except Exception:
+            logger.exception("EcoSim AI worker failed for key=%s", cache_key[:32])
+            raise
+
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(_worker)
     try:
-        prompt = _build_renewable_analysis_prompt(analysis_payload)
-        # Use unified client so Groq fallback works when Gemini is rate-limited
-        from app.services.llm_client import generate_response
-        from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
+        result = future.result(timeout=_AI_CALL_TIMEOUT)
+        executor.shutdown(wait=False)
+        return result
+    except FutureTimeoutError:
+        logger.warning(
+            "EcoSim AI call timed out after %ss for key=%s; returning fallback",
+            _AI_CALL_TIMEOUT,
+            cache_key[:32],
+        )
+        executor.shutdown(wait=False)
+    except Exception:
+        logger.exception("EcoSim AI call failed for key=%s", cache_key[:32])
+        executor.shutdown(wait=False)
 
-        response_text = generate_response(prompt)
-        if GEMINI_DEBUG:
-            snippet = response_text[:500] if response_text else ""
-            logger.info("Gemini prompt chars=%s response chars=%s", len(prompt), len(response_text))
-            logger.info("Gemini response snippet=%s", snippet)
-
-        cleaned = sanitize_llm_output(response_text)
-        if not cleaned:
-            logger.warning("LLM returned empty response after sanitization")
-            return _normalize_analysis_output({})
-
-        prescriptive = extract_prescriptive_recommendation(cleaned)
-
-        return {
-            "summary": cleaned,
-            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
-            "recommendation": {
-                "best_option": prescriptive.get("recommendation", ""),
-                "reason": prescriptive.get("reason", ""),
-            },
-            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
-            "environmental_impact": "",
-            "prescriptive_recommendation": prescriptive,
-        }
-    except Exception as exc:
-        logger.exception("LLM analysis failed")
-        return {
-            "summary": "LLM analysis failed.",
-            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
-            "recommendation": {"best_option": "", "reason": ""},
-            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
-            "environmental_impact": "",
-            "error": str(exc),
-        }
+    return {
+        "summary": "AI analysis is taking longer than expected. A simplified summary is shown instead.",
+        "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+        "recommendation": {"best_option": "", "reason": ""},
+        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+        "environmental_impact": "",
+        "error": "AI analysis timed out",
+    }
 
 
 async def analyze_renewable_results_async(
