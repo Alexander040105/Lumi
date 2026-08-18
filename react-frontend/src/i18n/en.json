@@ -38,7 +38,7 @@
     "title": "Sources & References",
     "description": "LUMI uses published research and trusted climate and energy data sources.",
     "basedOn": "Based on Philippine and international research",
-    "viewSources": "View Sources"
+    "viewSources": "View Sources & References"
   },
   "nav": {
     "home": "Home",
@@ -501,7 +501,7 @@
   "energyHub": {
     "title": "EnergyHub",
     "description": "Explore electricity use, renewable energy, and climate information across the Philippines. See past trends, future estimates, and renewable energy potential for different locations.",
-    "dataSources": "Data sources: Department of Energy (DOE), IRENA, and NASA POWER.",
+    "citations": [25, 26, 27],
     "disclaimer": "For educational use: EnergyHub helps you understand energy information but should not replace professional advice for energy projects or investments.",
     "sections": {
       "nationalOverview": "National Overview",

@@ -38,7 +38,7 @@
     "title": "Mga Sanggunian",
     "description": "Gumagamit ang LUMI ng published research at trusted climate and energy data sources.",
     "basedOn": "Batay sa pananaliksik ng Pilipinas at internasyonal",
-    "viewSources": "Tingnan ang mga Sanggunian"
+    "viewSources": "Tingnan ang mga Sanggunian at Pinagkukunan"
   },
   "nav": {
     "home": "Bahay",
@@ -501,7 +501,7 @@
   "energyHub": {
     "title": "EnergyHub",
     "description": "Tuklasin ang paggamit ng kuryente, renewable energy, at impormasyon sa klima sa buong Pilipinas. Tingnan ang mga trend sa nakaraan, mga tantiya sa hinaharap, at potential ng renewable energy sa iba't ibang lugar.",
-    "dataSources": "Mga pinagkunan ng datos: Department of Energy (DOE), IRENA, at NASA POWER.",
+    "citations": [25, 26, 27],
     "disclaimer": "Para sa edukasyon: Tinutulungan ka ng EnergyHub na maunawaan ang impormasyon sa enerhiya, ngunit hindi ito dapat ipalit sa propesyonal na payo para sa proyekto o pamumuhunan sa enerhiya.",
     "sections": {
       "nationalOverview": "Pambansang Overview",

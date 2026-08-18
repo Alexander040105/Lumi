@@ -136,7 +136,7 @@ export default function About() {
             <p className="text-muted-foreground leading-relaxed">
               {t("about.problem.paragraph1")}
             </p>
-            <CitationSources ids={t("about.problem.citations")} mode="inline" className="mt-2" />
+            <CitationSources ids={t("about.problem.citations")} className="mt-2" />
           </div>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -233,7 +233,7 @@ export default function About() {
         </div>
 
         <div className="flex justify-center">
-          <CitationSources ids={t("about.beneficiaries.citations")} mode="inline" />
+          <CitationSources ids={t("about.beneficiaries.citations")} />
         </div>
       </section>
 

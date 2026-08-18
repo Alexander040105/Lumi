@@ -62,7 +62,6 @@ const navLinks = [
   { to: "/about", key: "nav.about" },
   { to: "/ecosim", key: "nav.ecosim" },
   { to: "/energyhub", key: "nav.energyHub" },
-  { to: "/map", key: "nav.map" },
 ];
 
 function LumLogo() {

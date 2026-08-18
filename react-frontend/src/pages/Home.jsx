@@ -114,7 +114,7 @@ function EnergyTypeCard({ icon: Icon, title, header, description, citationIds, c
         </p>
         {citationIds?.length > 0 && (
           <div className="pt-2">
-            <CitationSources ids={citationIds} mode="inline" />
+            <CitationSources ids={citationIds} />
           </div>
         )}
       </div>
@@ -305,11 +305,7 @@ export default function Home() {
               <p className="text-sm text-muted-foreground max-w-xl">
                 {t("home.renewable.insight.description")}
               </p>
-              <CitationSources
-                ids={t("home.renewable.insight.citations")}
-                mode="inline"
-                inlineLabel={t("home.renewable.insight.readResearch")}
-              />
+              <CitationSources ids={t("home.renewable.insight.citations")} />
             </div>
           </div>
         </div>
@@ -361,8 +357,6 @@ export default function Home() {
             </div>
             <CitationSources
               ids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
-              mode="dialog"
-              dialogLabel={t("home.references.viewSources")}
             />
           </div>
         </div>
