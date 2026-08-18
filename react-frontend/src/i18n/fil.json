@@ -34,6 +34,12 @@
       "limited": "Limitado"
     }
   },
+  "citationSources": {
+    "title": "Mga Sanggunian",
+    "description": "Gumagamit ang LUMI ng published research at trusted climate and energy data sources.",
+    "basedOn": "Batay sa pananaliksik ng Pilipinas at internasyonal",
+    "viewSources": "Tingnan ang mga Sanggunian"
+  },
   "nav": {
     "home": "Bahay",
     "about": "Tungkol",
@@ -299,17 +305,17 @@
   "home": {
     "hero": {
       "badge": "Kaalamang Pangkapaligiran para sa Pilipinas",
-      "title": "Mga Natuklasang Batay sa Data para sa",
-      "titleHighlight": "Likás-kayang Kinabukasan",
-      "subtitle": "Inilalabas ng LUMI ang komplikadong datos ng klima at enerhiya sa paraang naiintindihan at magagamit. Suriin ang mga opsyon sa renewable energy, unawain ang mga pattern ng klima sa rehiyon, at gumawa ng mga impormadong desisyon na sinusuportahan ng predictive analytics at mga rekomendasyong pinapagana ng AI.",
-      "tryEnergyHub": "Subukan ang EnergyHub",
-      "learnMore": "Matuto Pa"
+      "title": "Hanapin ang Pinakamahusay na Renewable Energy Option para sa",
+      "titleHighlight": "iyong Lugar",
+      "subtitle": "Tinutulungan ka ng LUMI na ikumpara ang solar, wind, at hydro gamit ang datos ng panahon at enerhiya mula sa iba't ibang lugar sa Pilipinas. Tingnan kung aling opsyon ang maaaring gumana sa iyong lugar, ang tinatayang gastos, at posibleng benepisyo.",
+      "tryEnergyHub": "Tuklasin ang Enerhiya sa Aking Lugar",
+      "learnMore": "Paano Gumagana ang LUMI"
     },
     "stats": {
-      "regionsCovered": { "label": "Naaabot na Rehiyon", "value": "17+", "sub": "Luzon, Visayas, Mindanao" },
-      "energySources": { "label": "Mga Mapagkukunan ng Enerhiya", "value": "3", "sub": "Solar, Wind, Hydro" },
-      "dataPoints": { "label": "Mga Puntos ng Datos", "value": "10K+", "sub": "Mga rekord ng klima at enerhiya" },
-      "aiInsights": { "label": "Mga Insight ng AI", "value": "Real-time", "sub": "Pagsusuring pinapagana ng Gemini" }
+      "regionsCovered": { "label": "Mga Rehiyon ng Pilipinas na Saklaw", "value": "17+", "sub": "Tuklasin ang impormasyon sa klima at enerhiya sa buong bansa" },
+      "energySources": { "label": "Solar, Wind & Hydro", "value": "3", "sub": "Ikumpara ang tatlong opsyon sa renewable energy" },
+      "dataPoints": { "label": "Maaasahang Pinagkukunan ng Datos", "value": "10K+", "sub": "Impormasyon mula sa kinikilalang pinagkukunan ng panahon at enerhiya" },
+      "aiInsights": { "label": "Madaling Unawain na Resulta", "value": "Real-time", "sub": "Kumuha ng simpleng paliwanag at rekomendasyon" }
     },
     "features": {
       "badge": "Mga Modyul ng Platforma",
@@ -317,18 +323,19 @@
       "subtitle": "Pinagsama-sama ng LUMI ang mga interactive dashboard, predictive forecasting, at mga rekomendasyong pinapagana ng AI upang tulayin ang pagitan ng teknikal na datos ng klima at pang-unawa ng publiko.",
       "energyHub": {
         "title": "EnergyHub",
-        "description": "Interactive na dashboard ng klima at enerhiya na nagpapakita ng mga trend sa temperatura, rainfall, konsumo ng enerhiya, at demand sa kuryente sa mga rehiyon ng Pilipinas, kasama ang mga interpretasyong ginawa ng AI.",
-        "tags": ["Pagsala ayon sa Rehiyon", "KPI at mga Tsart", "Mga Insight ng AI", "NGCP & OpenWeather"]
+        "description": "Tuklasin ang impormasyon sa enerhiya at panahon sa iyong lugar. Tingnan ang temperatura, rainfall, paggamit ng kuryente, at iba pang trend sa pamamagitan ng madaling basahing mga tsart at paliwanag.",
+        "tags": ["Pagsala ayon sa Rehiyon", "Mga Tsart at Pangunahing Impormasyon", "Mga Insight ng AI"]
       },
       "ecosim": {
         "title": "Ecosim",
-        "description": "Isang rule-based na makina ng rekomendasyon at simulasyon na sumusuri sa feasibility ng solar, wind, at hydro sa bawat rehiyon. Ilagay ang iyong buwanang bill at konsumo para makita ang tinatayang gastos, savings, at epekto sa kapaligiran.",
-        "tags": ["Mga Senaryong What-If", "Pagsusuri ng Gastos", "Pagtatantiya ng ROI", "Pagkumpara ng Mapagkukunan"]
+        "description": "Ikumpara ang mga opsyon sa renewable energy. Pumili ng lugar at ikumpara ang solar, wind, at hydro batay sa tinatayang gastos, savings, at lokal na kondisyon.",
+        "tags": ["Mga Senaryong What-If", "Pagsusuri ng Gastos", "Tinatayang Savings", "Pagkumpara ng Mapagkukunan"]
       },
       "ai": {
-        "title": "AI Intelligence",
-        "description": "Pinapagana ng Gemini API, naghahatid ang LUMI ng mga kontekstwal na paliwanag para sa bawat tsart, forecast, at rekomendasyon. Ang mga insight sa natural na wika ay nagpapadali ng pag-unawa sa komplikadong datos ng kapaligiran para sa lahat.",
-        "tags": ["Natural na Wika", "Mga Paliwanag sa Tsart", "Mga Rekomendasyon", "Mga Pangingib na Pangkumpara"]
+        "title": "Kumuha ng simpleng paliwanag",
+        "badge": "Pinapagana ng AI",
+        "description": "Kayang ipaliwanag ng LUMI ang mga tsart, forecast, at rekomendasyon gamit ang pang-araw-araw na wika.",
+        "tags": ["Simpleng Paliwanag", "Mga Paliwanag sa Tsart", "Mga Rekomendasyon", "Mga Pangingib na Pangkumpara"]
       }
     },
     "howItWorks": {
@@ -337,49 +344,57 @@
       "subtitle": "Pinapasimple ng LUMI ang paglalakbay mula sa kumalat na impormasyon tungkol sa klima at enerhiya patungo sa mga matatag na desisyon sa renewable energy.",
       "step": "Hakbang",
       "steps": [
-        { "title": "Pagtipon ng Datos", "description": "Pinagsama-sama ang mga pampublikong dataset ng klima at enerhiya mula sa NGCP, OpenWeather, at mga estadistika sa rehiyon sa isang pinag-isang pundasyon na maaaring i-query." },
-        { "title": "Pagsusuri ng Klima at Enerhiya", "description": "Nagbibisualisa ng mga trend sa temperatura, rainfall, konsumo ng enerhiya, at demand sa Luzon, Visayas, at Mindanao." },
-        { "title": "Paggamit ng AI", "description": "Gumagamit ng rule-based logic at AI na pinapagana ng Gemini para interpretahin ang mga pattern, gumawa ng forecast, at magbigay ng kontekstwal na rekomendasyon." },
-        { "title": "Suporta sa Desisyon", "description": "Nagbibigay ng mga actionable insight, what-if simulation, at mga rekomendasyong may gastos para makapili ka ng pinakamahusay na landas sa renewable energy." }
+        { "title": "Pumili ng Lokasyon", "description": "Piliin ang iyong probinsya, lungsod, o rehiyon." },
+        { "title": "Tuklasin ang Lokal na Kondisyon", "description": "Tingnan ang rainfall, sikat ng araw, hangin, paggamit ng kuryente, at iba pang impormasyon." },
+        { "title": "Ikumpara ang iyong Opsyon", "description": "Ikumpara ang solar, wind, at hydro batay sa kondisyon ng iyong lugar." },
+        { "title": "Tingnan ang Rekomendasyon", "description": "Kumuha ng madaling unawain na paliwanag kung aling mga opsyon ang maaaring angkop sa iyong lugar." }
       ]
     },
     "renewable": {
       "badge": "Pagtatasa ng Renewable Energy",
       "title": "Pagsusuri sa Solar, Wind, at Hydro",
-      "subtitle": "Sinusuri ng LUMI ang feasibility ng tatlong pangunahing mapagkukunan ng renewable energy na akma sa mga kondisyon ng rehiyon sa Pilipinas, upang tulungan ang mga user na maunawaan ang suitability, gastos, at benepisyo sa kapaligiran.",
+      "subtitle": "Sinusuri ng LUMI ang solar, wind, at hydropower gamit ang lokal na kondisyon para tulungan kang maunawaan kung aling opsyon ang maaaring pinakamahusay sa iyong lugar.",
       "solar": {
         "title": "Enerhiyang Solar",
-        "description": "Sinusuri ang solar irradiance, peak sun hours, at potensyal ng rooftop sa bawat rehiyon. Ayon sa pananaliksik, may malakas na pagkiling ang mga Pilipino sa Metro Manila sa solar kaysa sa biomass, wind, at maliit na hydropower, at nagbibigay ng positibong epekto ang mga community-based solar initiative sa mga islang komunidad.",
-        "stat": "Palanca-Tan et al., 2024; Franco & Taeihagh, 2024"
+        "header": "Pinakamahusay kung may masidhing sikat ng araw",
+        "description": "Sinusuri ng LUMI ang sikat ng araw at lokal na kondisyon ng panahon para tulungan na tantyahin kung maaaring gumana nang maayos ang solar energy sa iyong lugar.",
+        "citations": [16, 12]
       },
       "wind": {
-        "title": "Enerhiyang Wind",
-        "description": "Sinusuri ang mga pattern ng bilis ng hangin at viability ng turbine para sa mga baybayin at mataas na lugar. Kinukumpirma ng mga pag-aaral sa Pilipinas na ang pagsasama ng multi-criteria decision methods at machine learning ay nagbibigay ng tumpak na site selection para sa wind power, na nagbibigay sa mga policymaker at investor ng objetibong feasibility data.",
-        "stat": "Cerna et al., 2023; Abdullah et al., 2025"
+        "title": "Enerhiyang Hangin",
+        "header": "Pinakamahusay sa mga lugar na may maaasahang hangin",
+        "description": "Sinusuri ng LUMI ang kondisyon ng hangin para matulungan na malaman kung angkop ang wind energy sa iyong lokasyon.",
+        "citations": [8, 1]
       },
       "hydro": {
-        "title": "Enerhiyang Hydro",
-        "description": "Sinusuri ang mga trend ng rainfall, datos ng daloy ng ilog, at mga oportunidad sa micro-hydro. Kinikilala ng pananaliksik sa hybrid renewable systems sa Southern Philippines ang hydropower bilang isang viable na bahagi kasabay ng solar at wind, kung saan ang socio-environmental at techno-economic factors ang tumutukoy sa suitability ng site.",
-        "stat": "Tarife et al., 2023"
+        "title": "Enerhiyang Tubig",
+        "header": "Pinakamahusay malapit sa angkop na mapagkukunan ng tubig",
+        "description": "Sinusuri ng LUMI ang rainfall at mga kondisyon na may kaugnayan sa tubig para matulungan na matantiya ang potensyal ng maliit na hydropower.",
+        "citations": [20]
       },
       "insight": {
-        "title": "Bakit Kailangan ng Pilipinas ang Renewable Intelligence",
-        "description": "Umaasa ang grid ng Pilipinas sa fossil fuel sa humigit-kumulang 70.5% ng produksyon ng enerhiya{{c1}}. Sa mga umuunlad na bansa tulad ng Pilipinas, nananatiling malalaking hadlang ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan{{c2}}. Malaki rin ang papel ng pampublikong persepsyon at edukasyon sa paghubog ng intensyon na mag-adopt{{c3}}. Inaalis ng LUMI ang pagkakabigong ito sa pamamagitan ng pagbabago ng mga pira-piraso at teknikal na datos sa naaabot at may-kasamang-gastos na mga insight.",
-        "readResearch": "Basahin ang Pananaliksik"
+        "title": "Bakit Kailangan ng Pilipinas ng Renewable Energy",
+        "description": "Malaki pa rin ng bahagi ng kuryente ng bansa ang mula sa fossil fuel. Ang mga renewable source tulad ng solar, wind, at hydro ay maaaring magbigay ng mas malinis na alternatibo, ngunit mahirap piliin ang tamang opsyon. Pinagsama-sama ng LUMI ang impormasyon sa panahon, enerhiya, at gastos upang mas madaling maikumpara ng mga tao ang kanilang mga opsyon.",
+        "citations": [13, 24, 2, 10],
+        "readResearch": "Tingnan ang mga Pinagkukunan ng Datos"
       }
     },
     "cta": {
-      "title": "Simulan ang Pagsusuri sa Kinabukasan ng Iyong Enerhiya",
-      "subtitle": "Kahit student, may-ari ng bahay, policymaker, o mananaliksik ka, binibigyan ka ng LUMI ng klaridad para suriin ang renewable energy nang may kumpiyansa na sinusuportahan ng tunay na datos.",
-      "tryEcosim": "Subukan ang Ecosim",
-      "tryEnergyHub": "Subukan ang EnergyHub"
+      "title": "Hanapin ang Angkop na Renewable Energy Option para sa Iyo",
+      "subtitle": "Piliin ang iyong lugar para tuklasin ang impormasyon sa klima o ikumpara ang mga opsyon sa solar, wind, at hydro.",
+      "tryEcosim": "Ikumpara ang mga Opsyon sa Enerhiya",
+      "tryEnergyHub": "Tuklasin ang Datos ng Klima"
     },
-    "references": "Mga Sanggunian",
+    "references": {
+      "title": "Ang aming Datos at Pananaliksik",
+      "intro": "Gumagamit ang LUMI ng published research at mga mapagkakatiwalaang pinagkukunan ng datos sa klima at enerhiya.",
+      "viewSources": "Tingnan ang mga Sanggunian"
+    },
     "footer": {
       "title": "Handa nang Tuklasin ang LUMI?",
-      "subtitle": "Sumisid sa datos ng klima sa rehiyon, magpatakbo ng mga simulasyon sa renewable energy, at tuklasin ang mga insight na akma sa Pilipinas.",
-      "tryEnergyHub": "Subukan ang EnergyHub",
-      "launchEcosim": "Ilunsad ang Ecosim"
+      "subtitle": "Tingnan ang impormasyon sa enerhiya at panahon para sa iyong lugar o ikumpara ang mga opsyon sa solar, wind, at hydro.",
+      "tryEnergyHub": "Tuklasin ang Aking Lugar",
+      "launchEcosim": "Ikumpara ang mga Opsyon sa Enerhiya"
     }
   },
   "about": {

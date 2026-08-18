@@ -2,22 +2,26 @@
 @config "../../tailwind.config.cjs";
 
 @layer base {
+  html {
+    font-size: 17px;
+  }
+
   :root {
     /* Lumi Green Palette — Light Mode */
     --background: 120 30% 97%;          /* #f4fbf4 */
-    --foreground: 120 50% 15%;          /* #122f10 */
+    --foreground: 120 50% 10%;          /* #0f260d */
 
     --card: 0 0% 100%;                  /* #ffffff */
-    --card-foreground: 120 50% 15%;     /* #122f10 */
+    --card-foreground: 120 50% 10%;     /* #0f260d */
 
     --popover: 0 0% 100%;               /* #ffffff */
-    --popover-foreground: 120 50% 15%; /* #122f10 */
+    --popover-foreground: 120 50% 10%; /* #0f260d */
 
     --primary: 122 35% 30%;             /* #2e5f2b */
     --primary-foreground: 0 0% 100%;     /* #ffffff */
 
     --secondary: 120 45% 90%;          /* #dff6df */
-    --secondary-foreground: 120 50% 15%; /* #122f10 */
+    --secondary-foreground: 120 50% 10%; /* #0f260d */
 
     --muted: 120 35% 93%;              /* #ebf6eb */
     --muted-foreground: 120 30% 28%;    /* #3a5c3b */

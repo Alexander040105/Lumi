@@ -15,18 +15,11 @@ import {
   ChevronRight
 } from "lucide-react";
 
-import { useI18n, Trans } from "@/i18n";
+import { useI18n } from "@/i18n";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-function Cite({ children }) {
-  return (
-    <span className="text-sm font-medium text-primary/80">
-      {" "}({children})
-    </span>
-  );
-}
+import CitationSources from "@/components/shared/CitationSources";
 
 function SectionHeading({ badge, title, subtitle }) {
   return (
@@ -48,7 +41,7 @@ function SectionHeading({ badge, title, subtitle }) {
   );
 }
 
-function FeatureCard({ icon: Icon, title, description, tags }) {
+function FeatureCard({ icon: Icon, title, description, tags, badge }) {
   return (
     <Card className="group relative overflow-hidden border-border/60 bg-card/80 backdrop-blur-sm transition-all hover:border-primary/40 hover:shadow-lg">
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-brand-success opacity-0 transition-opacity group-hover:opacity-100" />
@@ -56,6 +49,11 @@ function FeatureCard({ icon: Icon, title, description, tags }) {
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
           <Icon className="h-6 w-6" />
         </div>
+        {badge && (
+          <Badge variant="outline" className="w-fit text-[10px] uppercase tracking-wide">
+            {badge}
+          </Badge>
+        )}
         <CardTitle className="text-xl">{title}</CardTitle>
         <CardDescription className="text-sm leading-relaxed">
           {description}
@@ -97,7 +95,7 @@ function StepCard({ number, icon: Icon, title, description }) {
   );
 }
 
-function EnergyTypeCard({ icon: Icon, title, description, stat, colorClass }) {
+function EnergyTypeCard({ icon: Icon, title, header, description, citationIds, colorClass }) {
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-6 transition-all hover:shadow-lg hover:border-primary/30">
       <div className={`absolute -right-4 -top-4 h-24 w-24 rounded-full opacity-10 ${colorClass}`} />
@@ -106,14 +104,19 @@ function EnergyTypeCard({ icon: Icon, title, description, stat, colorClass }) {
           <Icon className="h-6 w-6" />
         </div>
         <h3 className="text-xl font-semibold text-foreground">{title}</h3>
+        {header && (
+          <p className="text-xs font-medium uppercase tracking-wider text-primary/80">
+            {header}
+          </p>
+        )}
         <p className="text-sm leading-relaxed text-muted-foreground">
           {description}
         </p>
-        <div className="pt-2">
-          <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            {stat}
-          </span>
-        </div>
+        {citationIds?.length > 0 && (
+          <div className="pt-2">
+            <CitationSources ids={citationIds} mode="inline" />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -223,6 +226,7 @@ export default function Home() {
               title={t("home.features.ai.title")}
               description={t("home.features.ai.description")}
               tags={t("home.features.ai.tags")}
+              badge={t("home.features.ai.badge")}
             />
           </div>
         </div>
@@ -283,8 +287,9 @@ export default function Home() {
               key={key}
               icon={Icon}
               title={t(`home.renewable.${key}.title`)}
+              header={t(`home.renewable.${key}.header`)}
               description={t(`home.renewable.${key}.description`)}
-              stat={t(`home.renewable.${key}.stat`)}
+              citationIds={t(`home.renewable.${key}.citations`)}
               colorClass={colorClass}
             />
           ))}
@@ -292,28 +297,20 @@ export default function Home() {
 
         {/* Insight banner */}
         <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-card to-muted/30 p-6 sm:p-8">
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="space-y-2">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-3">
               <h3 className="text-lg font-semibold text-foreground">
                 {t("home.renewable.insight.title")}
               </h3>
               <p className="text-sm text-muted-foreground max-w-xl">
-                <Trans
-                  k="home.renewable.insight.description"
-                  components={{
-                    c1: <Cite>Gonocruz et al., 2024</Cite>,
-                    c2: <Cite>Zhindon-Almeida &amp; Ruiz-Carrillo, 2025</Cite>,
-                    c3: <Cite>Esiri et al., 2024; Aguilera et al., 2024</Cite>
-                  }}
-                />
+                {t("home.renewable.insight.description")}
               </p>
+              <CitationSources
+                ids={t("home.renewable.insight.citations")}
+                mode="inline"
+                inlineLabel={t("home.renewable.insight.readResearch")}
+              />
             </div>
-            <Link to="/about">
-              <Button variant="outline" className="shrink-0 gap-2">
-                {t("home.renewable.insight.readResearch")}
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -354,58 +351,19 @@ export default function Home() {
       <section className="border-t border-border/40 bg-muted/20">
         <div className="page-container py-12">
           <div className="mx-auto max-w-4xl space-y-6">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-              {t("home.references")}
-            </h3>
-            <ol className="space-y-3 text-xs text-muted-foreground list-decimal list-inside">
-              <li>
-                Abdullah, A. G., Utami, H. P., Gunawan, B., Ratmono, B. M., & Pasaribu, N. T. (2025).
-                Multi-criteria decision-making for wind power project feasibility: Trends, techniques, and future directions.
-                <em> Cleaner Engineering and Technology</em>, 27, 100987.
-              </li>
-              <li>
-                Aguilera, F., Reyes, R., Schueftan, A., Zerriffi, H., & Sanhueza, R. (2024).
-                Understanding the role of people&apos;s preferences and perceptions in the analysis of residential energy transition: A meta-analysis.
-                <em> Energy for Sustainable Development</em>, 82, 101534.
-              </li>
-              <li>
-                Cerna, P. D., Evangelista, R. S., Castillo, C. M., Muallam-Darkis, J. A., Velasco, M. a. C.,
-                Legaspi, J. P., Darkis, A. T., & Gatdula, M. M. (2023).
-                Wind Power Plant Site Selection using Integrated Machine Learning and Multiple-Criteria Decision Making Technique.
-                <em> E3S Web of Conferences</em>, 405, 02030.
-              </li>
-              <li>
-                Esiri, A. E., Kwakye, J. M., Ekechukwu, D. E., Ogundipe, O. B., & Ikevuje, A. H. (2024).
-                Public perception and policy development in the transition to renewable energy.
-                <em> Magna Scientia Advanced Research and Reviews</em>, 8(2), 228–237.
-              </li>
-              <li>
-                Franco, M. Q., & Taeihagh, A. (2024).
-                Sustainable energy adoption in poor rural areas: A comparative case perspective from the Philippines.
-                <em> Energy for Sustainable Development</em>, 79, 101389.
-              </li>
-              <li>
-                Gonocruz, R. a. T., Yoshida, Y., Silava, N. E., Aguirre, R. A., Maguindayao, E. J. H., Ozawa, A., & Santiago, J. V. (2024).
-                A multi-scenario evaluation of the energy transition mechanism in the Philippines towards decarbonization.
-                <em> Journal of Cleaner Production</em>, 438, 140819.
-              </li>
-              <li>
-                Palanca-Tan, R., Del Barrio Alvarez, D., Palanca, R. S., Tan, N. M. P., Castillo, G. B.,
-                Saplala, D. C. A., & Wang, N. (2024).
-                Households&apos; Preferences for Alternative Renewable Energy Technologies: An Attribute-Based Choice Experiment survey in Metro Manila, Philippines.
-                <em> International Journal of Sustainable Development and Planning</em>, 19(1), 1–10.
-              </li>
-              <li>
-                Tarife, R., Nakanishi, Y., Zhou, Y., Estoperez, N., & Tahud, A. (2023).
-                Integrated GIS and Fuzzy-AHP Framework for Suitability Analysis of hybrid Renewable Energy Systems: a case in Southern Philippines.
-                <em> Sustainability</em>, 15(3), 2372.
-              </li>
-              <li>
-                Zhindon-Almeida, R. G., & Ruiz-Carrillo, J. A. (2025).
-                Factors Influencing the Adoption of Renewable Energies in Developing Countries.
-                <em> Sustainable Development</em>, 33(5), 7222–7244.
-              </li>
-            </ol>
+            <div className="space-y-2">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+                {t("home.references.title")}
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-2xl">
+                {t("home.references.intro")}
+              </p>
+            </div>
+            <CitationSources
+              ids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
+              mode="dialog"
+              dialogLabel={t("home.references.viewSources")}
+            />
           </div>
         </div>
       </section>

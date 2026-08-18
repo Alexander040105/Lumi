@@ -34,6 +34,12 @@
       "limited": "Limited"
     }
   },
+  "citationSources": {
+    "title": "Sources & References",
+    "description": "LUMI uses published research and trusted climate and energy data sources.",
+    "basedOn": "Based on Philippine and international research",
+    "viewSources": "View Sources"
+  },
   "nav": {
     "home": "Home",
     "about": "About",
@@ -299,17 +305,17 @@
   "home": {
     "hero": {
       "badge": "Environmental Intelligence for the Philippines",
-      "title": "Data-Driven Insights for a",
-      "titleHighlight": "Sustainable Future",
-      "subtitle": "LUMI transforms complex climate and energy data into accessible, actionable insights. Evaluate renewable energy options, understand regional climate patterns, and make informed decisions backed by predictive analytics and AI-powered recommendations.",
-      "tryEnergyHub": "Try EnergyHub",
-      "learnMore": "Learn More"
+      "title": "Find the Best Renewable Energy Option for",
+      "titleHighlight": "your Area",
+      "subtitle": "LUMI helps you compare solar, wind, and hydro energy using weather and energy data from different parts of the Philippines. See which options may work in your area, their estimated costs, and their possible benefits.",
+      "tryEnergyHub": "Explore Energy in my Area",
+      "learnMore": "How LUMI Works"
     },
     "stats": {
-      "regionsCovered": { "label": "Regions Covered", "value": "17+", "sub": "Luzon, Visayas, Mindanao" },
-      "energySources": { "label": "Energy Sources", "value": "3", "sub": "Solar, Wind, Hydro" },
-      "dataPoints": { "label": "Data Points", "value": "10K+", "sub": "Climate & energy records" },
-      "aiInsights": { "label": "AI Insights", "value": "Real-time", "sub": "Gemini-powered analysis" }
+      "regionsCovered": { "label": "Philippine Regions Covered", "value": "17+", "sub": "Explore climate and energy information across the country" },
+      "energySources": { "label": "Solar, Wind & Hydro", "value": "3", "sub": "Compare three renewable energy options" },
+      "dataPoints": { "label": "Reliable Data Sources", "value": "10K+", "sub": "Information from recognized weather and energy sources" },
+      "aiInsights": { "label": "Easy-to-Understand Results", "value": "Real-time", "sub": "Get simple explanations and recommendations" }
     },
     "features": {
       "badge": "Platform Modules",
@@ -317,18 +323,19 @@
       "subtitle": "LUMI combines interactive dashboards, predictive forecasting, and AI-driven recommendations to bridge the gap between technical climate data and public understanding.",
       "energyHub": {
         "title": "EnergyHub",
-        "description": "Interactive climate and energy dashboard displaying temperature trends, rainfall patterns, energy consumption, and electricity demand across Philippine regions with AI-generated interpretations.",
-        "tags": ["Regional Filtering", "KPIs & Charts", "AI Insights", "NGCP & OpenWeather"]
+        "description": "Explore energy and weather information in your area. See temperature, rainfall, electricity use, and other trends through easy-to-read charts and explanations.",
+        "tags": ["Regional Filtering", "Charts & Key Information", "AI Insights"]
       },
       "ecosim": {
         "title": "Ecosim",
-        "description": "A rule-based recommendation and simulation engine that evaluates solar, wind, and hydro feasibility per region. Input your monthly bill and consumption to see estimated costs, savings, and environmental impact.",
-        "tags": ["What-If Scenarios", "Cost Analysis", "ROI Estimation", "Source Comparison"]
+        "description": "Compare renewable energy options. Choose a location and compare solar, wind, and hydro based on estimated cost, savings, and local conditions.",
+        "tags": ["What-If Scenarios", "Cost Analysis", "Estimated Savings", "Source Comparison"]
       },
       "ai": {
-        "title": "AI Intelligence",
-        "description": "Powered by Gemini API, LUMI delivers contextual explanations for every chart, forecast, and recommendation. Natural language insights make complex environmental data understandable for everyone.",
-        "tags": ["Natural Language", "Chart Explanations", "Recommendations", "Comparative Summaries"]
+        "title": "Get simple explanations",
+        "badge": "Powered by AI",
+        "description": "LUMI can explain charts, forecasts, and recommendations using everyday language.",
+        "tags": ["Simple Explanations", "Chart Explanations", "Recommendations", "Comparative Summaries"]
       }
     },
     "howItWorks": {
@@ -337,49 +344,57 @@
       "subtitle": "LUMI simplifies the journey from scattered climate and energy information to confident renewable energy choices.",
       "step": "Step",
       "steps": [
-        { "title": "Data Collection", "description": "Aggregates public climate and energy datasets from NGCP, OpenWeather, and regional statistics into a unified, queryable foundation." },
-        { "title": "Climate & Energy Analysis", "description": "Visualizes temperature trends, rainfall patterns, energy consumption, and demand across Luzon, Visayas, and Mindanao." },
-        { "title": "AI Processing", "description": "Applies rule-based logic and Gemini-powered AI to interpret patterns, generate forecasts, and produce contextual recommendations." },
-        { "title": "Decision Support", "description": "Presents actionable insights, what-if simulations, and costed recommendations so users can choose the best renewable path forward." }
+        { "title": "Choose your Location", "description": "Select your province, city, or region." },
+        { "title": "Explore Local Conditions", "description": "See rainfall, sunlight, wind, electricity use, and other information." },
+        { "title": "Compare your Options", "description": "Compare solar, wind, and hydro based on your area's conditions." },
+        { "title": "See your Recommendation", "description": "Get an easy-to-understand explanation of which options may suit your area." }
       ]
     },
     "renewable": {
       "badge": "Renewable Energy Evaluation",
       "title": "Solar, Wind & Hydro Analysis",
-      "subtitle": "LUMI evaluates the feasibility of three core renewable energy sources tailored to Philippine regional conditions, helping users understand suitability, costs, and environmental benefits.",
+      "subtitle": "LUMI evaluates solar, wind, and hydropower using local conditions to help you understand which option may work best in your area.",
       "solar": {
         "title": "Solar Energy",
-        "description": "Evaluates solar irradiance, peak sun hours, and rooftop potential per region. Research shows Filipinos in Metro Manila demonstrate a strong preference for solar over biomass, wind, and small-scale hydropower, and community-based solar initiatives have provided positive impacts in island communities.",
-        "stat": "Palanca-Tan et al., 2024; Franco & Taeihagh, 2024"
+        "header": "Best where there is strong sunlight",
+        "description": "LUMI examines sunlight and local weather conditions to help estimate whether solar energy may work well in your area.",
+        "citations": [16, 12]
       },
       "wind": {
         "title": "Wind Energy",
-        "description": "Analyzes wind speed patterns and turbine viability for coastal and elevated areas. Studies in the Philippines confirm that combining multi-criteria decision methods with machine learning yields accurate site selection for wind power, providing policymakers and investors with objective feasibility data.",
-        "stat": "Cerna et al., 2023; Abdullah et al., 2025"
+        "header": "Best in locations with reliable wind",
+        "description": "LUMI examines wind conditions to help determine whether wind energy may be suitable for your location.",
+        "citations": [8, 1]
       },
       "hydro": {
         "title": "Hydro Energy",
-        "description": "Assesses rainfall trends, river flow data, and micro-hydro opportunities. Research on hybrid renewable systems in Southern Philippines identifies hydropower as a viable component alongside solar and wind, with socio-environmental and techno-economic factors determining site suitability.",
-        "stat": "Tarife et al., 2023"
+        "header": "Best near suitable water resources",
+        "description": "LUMI examines rainfall and water-related conditions to help determine the potential for small-scale hydropower.",
+        "citations": [20]
       },
       "insight": {
-        "title": "Why the Philippines Needs Renewable Intelligence",
-        "description": "The Philippine grid relies on fossil fuels for approximately 70.5% of energy production{{c1}}. In developing countries like the Philippines, financial limitations, governance challenges, and societal resistance remain significant barriers{{c2}}. Public perception and education also significantly shape adoption intentions{{c3}}. LUMI closes this gap by transforming fragmented technical data into accessible, cost-inclusive insights.",
-        "readResearch": "Read the Research"
+        "title": "Why the Philippines Needs Renewable Energy",
+        "description": "Much of the country's electricity still comes from fossil fuels. Renewable sources such as solar, wind, and hydro can provide cleaner alternatives, but choosing the right option can be difficult. LUMI brings weather, energy, and cost information together so people can compare their options more easily.",
+        "citations": [13, 24, 2, 10],
+        "readResearch": "See Our Data Sources"
       }
     },
     "cta": {
-      "title": "Start Analyzing Your Energy Future",
-      "subtitle": "Whether you are a student, homeowner, policymaker, or researcher, LUMI gives you the clarity to evaluate renewable energy with confidence backed by real data.",
-      "tryEcosim": "Try Ecosim",
-      "tryEnergyHub": "Try EnergyHub"
+      "title": "Find the Right Renewable Energy Option for You",
+      "subtitle": "Choose your location to explore climate information or compare solar, wind, and hydro options.",
+      "tryEcosim": "Compare Energy Options",
+      "tryEnergyHub": "Explore Climate Data"
     },
-    "references": "References",
+    "references": {
+      "title": "Our Data & Research",
+      "intro": "LUMI uses published research and trusted climate and energy data sources.",
+      "viewSources": "View Sources & References"
+    },
     "footer": {
       "title": "Ready to Explore LUMI?",
-      "subtitle": "Dive into regional climate data, run renewable energy simulations, and discover actionable insights tailored to the Philippines.",
-      "tryEnergyHub": "Try EnergyHub",
-      "launchEcosim": "Launch Ecosim"
+      "subtitle": "Check energy and weather information for your area or compare solar, wind, and hydro options.",
+      "tryEnergyHub": "Explore my Area",
+      "launchEcosim": "Compare Energy Options"
     }
   },
   "about": {

@@ -6,6 +6,12 @@ import ThemeToggle from "@/components/shared/ThemeToggle";
 import LanguageToggle from "@/components/shared/LanguageToggle";
 import { Button } from "@/components/ui/button";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -181,9 +187,18 @@ export default function Navbar() {
               </DropdownMenu>
             </div>
           ) : (
-            <Link to="/login">
-              <Button size="sm">{t("nav.login")}</Button>
-            </Link>
+            <TooltipProvider delayDuration={150}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link to="/login" aria-label={t("login.signIn")}>
+                    <Button size="sm">{t("nav.login")}</Button>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>{t("login.signIn")}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )}
 
           <div className="hidden md:flex items-center gap-2 ml-2">
