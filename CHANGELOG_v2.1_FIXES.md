@@ -1,5 +1,7 @@
 # LUMI v2.1 Bug Fixes & Security Improvements
 
+> For the newer **v3.2.0** release, see [CHANGELOG_v3.2.md](CHANGELOG_v3.2.md).
+
 > Session: 2026-07-08
 > Branch: `lumi-fastapi-react-v2.1-defenseRevisions`
 > Scope: Backend (FastAPI), Frontend (React), Data Preprocessing, SQL Schema
