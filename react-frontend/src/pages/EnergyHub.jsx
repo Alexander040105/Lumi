@@ -39,7 +39,7 @@ export default function EnergyHub() {
   const [mapMetric, setMapMetric] = useState("renewable_potential");
   const [mapLevel, setMapLevel] = useState("province");
   const [loading, setLoading] = useState(true);
-  const [useLlm, setUseLlm] = useState(true);
+  const [useLlm, setUseLlm] = useState(false);
   const [llmLoading, setLlmLoading] = useState({});
   const [chartAnalyses, setChartAnalyses] = useState({});
   const [mapLoading, setMapLoading] = useState(false);
@@ -118,10 +118,10 @@ export default function EnergyHub() {
 
       // Load LLM insight in background
       try {
-        const ai = await getEnergyHubAiInsight(true);
+        const ai = await getEnergyHubAiInsight(useLlm);
         if (!cancelled) setInsight(ai);
       } catch (err) {
-        if (!cancelled) {
+        if (!cancelled && useLlm) {
           toast.error(t("energyHub.toast.llmError"), { description: err.message });
           try {
             const staticAi = await getEnergyHubAiInsight(false);
