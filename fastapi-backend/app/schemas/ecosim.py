@@ -166,6 +166,11 @@ class EcosimDashboardResponse(BaseModel):
     remaining_anonymous_requests: int | None = None
 
 
+class EcosimAIResponse(BaseModel):
+    ai_analysis: dict | None = None
+    remaining_anonymous_requests: int | None = None
+
+
 class MunicipalityOption(BaseModel):
     municipality_id: int
     name: str

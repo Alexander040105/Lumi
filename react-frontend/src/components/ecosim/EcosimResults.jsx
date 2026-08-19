@@ -49,7 +49,7 @@ function geoInfo(score, t) {
   return { level: "limited", label: t("common.ratings.limited"), desc: t("ecosim.results.info.Geothermal.limited") };
 }
 
-export default function EcosimResults({ result }) {
+export default function EcosimResults({ result, aiLoading = false }) {
   const { t } = useI18n();
   const [showDetails, setShowDetails] = useState(false);
   if (!result) return null;
@@ -195,6 +195,44 @@ export default function EcosimResults({ result }) {
           </div>
         </CardContent>
       </Card>
+
+      {/* AI Analysis */}
+      {(aiLoading || result.ai_analysis) && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">AI Analysis</CardTitle>
+            <CardDescription>
+              {aiLoading
+                ? "Analyzing your results with AI..."
+                : "AI-generated insight for this location."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm text-muted-foreground">
+            {aiLoading && !result.ai_analysis && (
+              <div className="h-2 w-24 rounded bg-muted animate-pulse" />
+            )}
+            {result.ai_analysis && (
+              <>
+                {typeof result.ai_analysis.summary === "string" && (
+                  <p>{result.ai_analysis.summary}</p>
+                )}
+                {typeof result.ai_analysis.recommendation?.reason === "string" && (
+                  <p>
+                    <span className="font-medium text-foreground">Recommendation:</span>{" "}
+                    {result.ai_analysis.recommendation.reason}
+                  </p>
+                )}
+                {typeof result.ai_analysis.environmental_impact === "string" && (
+                  <p>
+                    <span className="font-medium text-foreground">Environmental impact:</span>{" "}
+                    {result.ai_analysis.environmental_impact}
+                  </p>
+                )}
+              </>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Renewable Potential Comparison */}
       <Card>
