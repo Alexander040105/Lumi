@@ -18,10 +18,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
 
-# Middleware order: outermost first (body size → security headers → rate limit → CORS → request ID)
-app.add_middleware(BodySizeLimitMiddleware)
-app.add_middleware(SecurityHeadersMiddleware)
-app.add_middleware(RateLimitMiddleware, requests_per_minute=60)
+# Middleware order: CORS outermost so preflight OPTIONS are answered first,
+# then body size, security headers, rate limit, and request ID.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
@@ -30,6 +28,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Content-Type", "Authorization", "X-Requested-With", "X-Request-ID"],
 )
+app.add_middleware(BodySizeLimitMiddleware)
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(RateLimitMiddleware, requests_per_minute=60)
 app.add_middleware(RequestIDMiddleware)
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
