@@ -225,7 +225,7 @@ def get_municipality_data(
         )
 
     # Avoid mutating the cached climate row.
-    municipality_data[0] = municipality_data[0].copy()
+    municipality_data = [municipality_data[0].copy()]
 
     municipality_data[0]["municipality_id"] = municipality_id
     municipality_data[0]["name"] = municipality_name
@@ -247,10 +247,12 @@ def get_municipality_data(
         # ERA5 only has 10m wind in this file; use it when explicitly requested or as an auto fallback.
         era5 = get_era5_for_municipality(municipality_id)
         if era5:
+            # Capture the pre-existing source and strip the generic one from the ERA5 row.
+            previous_source = municipality_data[0].get("data_source", "NASA POWER")
+            era5.pop("data_source", None)
             municipality_data[0].update(era5)
             # Only re-label the source when ERA5 is explicitly requested.
             if source == "era5":
-                previous_source = municipality_data[0].get("data_source", "NASA POWER")
                 municipality_data[0]["data_source"] = (
                     f"ERA5 (wind, 10m) + {previous_source}"
                     if "era5_wind_speed_10m_ms" in municipality_data[0]
@@ -490,9 +492,10 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
     if source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in aggregated):
         province_era5 = get_era5_for_province(province_id)
         if province_era5:
+            previous_source = aggregated.get("data_source", "NASA POWER")
+            province_era5.pop("data_source", None)
             aggregated.update(province_era5)
             if source == "era5":
-                previous_source = aggregated.get("data_source", "NASA POWER")
                 aggregated["data_source"] = (
                     f"ERA5 (wind, 10m) + {previous_source}"
                     if "era5_wind_speed_10m_ms" in aggregated
