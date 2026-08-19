@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import InterpretationBadge, { getRating, getStars } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
+import ProviderRecommendations from "./ProviderRecommendations";
 
 const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
@@ -275,6 +276,9 @@ export default function EcosimResults({ result }) {
           <p className="px-6 pb-4 text-xs text-muted-foreground">{result.meralco_rate.note}</p>
         </Card>
       )}
+
+      {/* Provider Recommendations */}
+      <ProviderRecommendations municipalityName={result.municipality} provinceName={result.province || result.municipality} />
 
       {/* Next Steps */}
       <Card>
