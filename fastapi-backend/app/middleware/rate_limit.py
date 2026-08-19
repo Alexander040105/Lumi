@@ -73,8 +73,8 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             return await self._is_allowed_memory(client_ip)
 
     async def dispatch(self, request: Request, call_next: Any) -> Any:
-        # Skip rate limiting for health checks
-        if request.url.path.startswith("/api/v1/health"):
+        # Skip rate limiting for health checks and CORS preflight requests
+        if request.method == "OPTIONS" or request.url.path.startswith("/api/v1/health"):
             return await call_next(request)
 
         client_ip = self._client_ip(request)

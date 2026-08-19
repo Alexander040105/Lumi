@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { supabase } from "../services/supabaseClient";
 import { getApiBaseUrl } from "../utils/env";
@@ -33,19 +33,31 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  // Fetch user role and profile whenever the session changes
+  // Fetch user role and profile once per user, ignoring token refreshes
+  const lastFetchedUserId = useRef(null);
   useEffect(() => {
-    if (!session?.user) {
+    const userId = session?.user?.id;
+    if (!userId) {
       setRole(null);
       setProfile(null);
+      lastFetchedUserId.current = null;
       return;
     }
+
+    if (lastFetchedUserId.current === userId) {
+      return;
+    }
+    lastFetchedUserId.current = userId;
+
+    const controller = new AbortController();
+    const signal = controller.signal;
 
     const fetchRoleAndProfile = async () => {
       try {
         // Fetch role + profile from backend (bypasses RLS, authoritative source)
         const res = await fetch(`${getApiBaseUrl()}/protected/me`, {
           headers: { Authorization: `Bearer ${session.access_token}` },
+          signal,
         });
         if (res.ok) {
           const data = await res.json();
@@ -64,6 +76,7 @@ export function AuthProvider({ children }) {
         // Fetch profile from backend (bypasses RLS infinite recursion)
         const profileRes = await fetch(`${getApiBaseUrl()}/protected/profile`, {
           headers: { Authorization: `Bearer ${session.access_token}` },
+          signal,
         });
         if (profileRes.ok) {
           const profileJson = await profileRes.json();
@@ -74,6 +87,7 @@ export function AuthProvider({ children }) {
           console.error("[AuthContext] /protected/profile failed:", profileRes.status);
         }
       } catch (err) {
+        if (err.name === "AbortError") return;
         console.error("[AuthContext] Unexpected error fetching role/profile:", err);
         setRole("user");
       }
@@ -81,12 +95,15 @@ export function AuthProvider({ children }) {
 
     fetchRoleAndProfile();
 
-    // Sync OAuth avatar from auth metadata to profiles
+    // Sync OAuth avatar from auth metadata to profiles once per user
     fetch(`${getApiBaseUrl()}/protected/sync-avatar`, {
       method: "POST",
       headers: { Authorization: `Bearer ${session.access_token}` },
+      signal,
     }).catch(() => {});
-  }, [session]);
+
+    return () => controller.abort();
+  }, [session?.user?.id]);
 
   const isAdmin = role === "admin" || role === "dev";
   const effectivePlan = isAdmin ? "premium" : "free";

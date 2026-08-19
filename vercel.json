@@ -9,7 +9,7 @@
   ],
   "functions": {
     "api/index.py": {
-      "maxDuration": 10,
+      "maxDuration": 60,
       "memory": 1024,
       "excludeFiles": "{__pycache__/**,.pytest_cache/**,fastapi-backend/app/services/local_data/**,fastapi-backend/scripts/**}",
       "includeFiles": "{fastapi-backend/**,api/**,DOE_Data_Extracted/data_v2_preprocessed/**}"
