@@ -120,6 +120,8 @@ def process_geojson(
         name = props.get(name_property, "")
         if not name:
             continue
+        if not feat.get("geometry"):
+            continue
 
         lat, lon, area = compute_centroid_and_area(feat)
         psgc = props.get(f"{name_property.split('_')[0]}_psgc")

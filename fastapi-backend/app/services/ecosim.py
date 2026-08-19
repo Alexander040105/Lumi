@@ -18,9 +18,14 @@ from app.services.redis_client import (
     get_ecosim_cache_sync,
     set_ecosim_cache_sync,
 )
-from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, calculate_dust_loss_from_wind, calculate_degradation_from_humidity    
+from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, solar_calc_pvout, calculate_dust_loss_from_wind, calculate_degradation_from_humidity
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
 from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
+from app.services.atlas_data import (
+    get_atlas_for_municipality,
+    get_atlas_for_municipality_ids,
+    get_atlas_for_province,
+)
 from app.services.geothermal.features import (
     compute_geothermal_suitability,
     compute_geothermal_output,
@@ -168,9 +173,9 @@ def get_municipality_terrain_data(
         return None  # terrain data is optional; degrade gracefully
 
 def get_municipality_data(
-    municipality: str, municipality_id: int | None = None
+    municipality: str, municipality_id: int | None = None, source: str = "auto"
 ):
-    """Return climate data for a municipality.
+    """Return climate data for a municipality, optionally enriched with atlas data.
 
     If municipality_id is provided, only the province lookup uses the
     municipalities table; climate data is still fetched directly.
@@ -219,6 +224,20 @@ def get_municipality_data(
 
     municipality_data[0]["municipality_id"] = municipality_id
     municipality_data[0]["name"] = municipality_name
+
+    # Merge Global Solar Atlas / Global Wind Atlas values unless NASA-only is requested.
+    source = source.lower()
+    if source in ("auto", "atlas"):
+        atlas = get_atlas_for_municipality(municipality_id)
+        if atlas:
+            municipality_data[0].update(atlas)
+            municipality_data[0]["data_source"] = atlas.get("data_source", "Global Solar Atlas / Global Wind Atlas")
+        elif source == "atlas":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Atlas data not available for this municipality.",
+            )
+
     return municipality_data
 
 
@@ -333,11 +352,12 @@ def list_barangays(municipality_id: int | None = None) -> list[dict]:
     )
 
 
-def get_province_data(province_name: str) -> dict:
+def get_province_data(province_name: str, source: str = "auto") -> dict:
     """Aggregate municipality climate data for a province.
 
     Returns a dict with the same structure as a single municipality record
     so it can be used interchangeably in renewable_energy_calculator.
+    When source is 'atlas' or 'auto', Global Solar/Wind Atlas values are used.
     """
     client = get_supabase_client()
     try:
@@ -429,6 +449,19 @@ def get_province_data(province_name: str) -> dict:
             aggregated["terrain"] = terrain
     except Exception:
         aggregated["terrain"] = None
+
+    # Prefer Global Solar Atlas / Global Wind Atlas for province aggregation when available.
+    source = source.lower()
+    if source in ("auto", "atlas"):
+        province_atlas = get_atlas_for_province(province_id)
+        if province_atlas:
+            aggregated.update(province_atlas)
+            aggregated["data_source"] = province_atlas.get("data_source", "Global Solar Atlas / Global Wind Atlas")
+        elif source == "atlas":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Atlas data not available for this province.",
+            )
 
     return aggregated
 
@@ -624,15 +657,16 @@ def renewable_energy_calculator(
     nearby_geo_plants: list[dict[str, Any]] | None = None,
     mode: str = "municipality",
     municipality_id: int | None = None,
+    data_source: str = "auto",
 ) -> dict:
     # NOTE: Data fetching
     if mode == "province":
-        municipality_data = get_province_data(municipality)
+        municipality_data = get_province_data(municipality, source=data_source)
         municipality_results = [municipality_data]
         terrain_data = municipality_data.get("terrain")
     else:
         municipality_results = get_municipality_data(
-            municipality, municipality_id=municipality_id
+            municipality, municipality_id=municipality_id, source=data_source
         )
         municipality_data = municipality_results[0]
         terrain_data = get_municipality_terrain_data(
@@ -653,6 +687,7 @@ def renewable_energy_calculator(
             "include_ai": include_ai,
             "use_rag": use_rag,
             "rag_query": rag_query,
+            "data_source": data_source,
         }
         params_hash = hashlib.md5(
             json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
@@ -667,15 +702,17 @@ def renewable_energy_calculator(
         electricity_rate,
         desired_savings,
     )
-    solar_irradiance = municipality_data.get("avg_allsky_sfc_sw_dwn") or 0.0
-    avg_temp = municipality_data.get("avg_t2m")
+    # Prefer atlas values when they were merged into municipality_data; otherwise use NASA POWER.
+    solar_irradiance = municipality_data.get("solar_ghi_kwh_m2_day") or municipality_data.get("avg_allsky_sfc_sw_dwn") or 0.0
+    avg_temp = municipality_data.get("solar_temp_c") or municipality_data.get("avg_t2m")
     cloud_amt = municipality_data.get("avg_cloud_amt")
     rainfall = municipality_data.get("avg_prectotcorr")
-    wind_speed = municipality_data.get("avg_ws10m")
+    wind_speed = municipality_data.get("wind_speed_100m_ms") or municipality_data.get("avg_ws10m")
     humidity = municipality_data.get("avg_rh2m")
     surface_pressure = municipality_data.get("avg_surface_pressure")
     air_density = municipality_data.get("avg_rhoa")
     elevation = municipality_data.get("elevation") or municipality_data.get("avg_elevation")
+    pvout_annual = municipality_data.get("solar_pvout_annual_kwh_kwp")
     today = dt.datetime.now()
     days_in_month = calendar.monthrange(today.year, today.month)[1]
 
@@ -705,14 +742,23 @@ def renewable_energy_calculator(
         wiring_loss=solar_panel_default_config["wiring_loss"],
         degradation_loss=calculate_degradation_from_humidity(rh2m=humidity, base_degradation=solar_panel_default_config["degradation_loss"]),
     )
-    solar_output = solar_calc(
-        panel_wattage=solar_panel_default_config["panel_wattage"],
-        number_of_panels=solar_panel_default_config["number_of_panels"],
-        solar_irradiance=solar_irradiance,
-        performance_ratio=performance_ratio,
-        days_in_month=days_in_month,
-    )
-    solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
+    if pvout_annual:
+        # Global Solar Atlas PVOUT already includes all system losses.
+        solar_output = solar_calc_pvout(
+            panel_wattage=solar_panel_default_config["panel_wattage"],
+            number_of_panels=solar_panel_default_config["number_of_panels"],
+            pvout_annual_kwh_kwp=pvout_annual,
+            days_in_month=days_in_month,
+        )
+    else:
+        solar_output = solar_calc(
+            panel_wattage=solar_panel_default_config["panel_wattage"],
+            number_of_panels=solar_panel_default_config["number_of_panels"],
+            solar_irradiance=solar_irradiance,
+            performance_ratio=performance_ratio,
+            days_in_month=days_in_month,
+        )
+        solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
 
     # NOTE: HYDRO CALCULATIONS
     hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
@@ -751,11 +797,15 @@ def renewable_energy_calculator(
 
     province = municipality_data.get("province")
 
+    active_source = municipality_data.get("data_source", "NASA POWER")
+    province = municipality_data.get("province")
+
     renewable_energy_results = {
         "municipality": municipality.upper(),
         "municipality_id": municipality_data.get("municipality_id"),
         "province": province,
-        #json climate data coming from the NASA Power
+        "data_source": active_source,
+        #json climate data coming from the NASA Power or the Global Solar/Wind Atlas
         "climate": {
             "avg_t2m": avg_temp,
             "avg_t2m_max": municipality_data.get("avg_t2m_max"),
@@ -763,14 +813,17 @@ def renewable_energy_calculator(
             "avg_rh2m": humidity,
             "avg_rhoa": air_density,
             "avg_prectotcorr": rainfall,
-            "avg_ws10m": wind_speed,
+            "avg_ws10m": municipality_data.get("avg_ws10m") if active_source == "NASA POWER" else municipality_data.get("wind_speed_10m_ms"),
             "avg_allsky_sfc_sw_dwn": solar_irradiance,
             "avg_cloud_amt": cloud_amt,
             "avg_surface_pressure": surface_pressure,
             "elevation": elevation,
+            "solar_pvout_annual_kwh_kwp": pvout_annual,
+            "wind_speed_100m_ms": municipality_data.get("wind_speed_100m_ms"),
         },
         #json estimates and assumptions for the renewable energy calculations, which can be used for transparency and future adjustments
         "assumptions": {
+            "data_source": active_source,
             "temperature_factor": temperature_factor,
             "performance_ratio": performance_ratio,
             "days_in_month": days_in_month,
@@ -1164,6 +1217,7 @@ def build_ecosim_dashboard_response(
     use_rag: bool = False,
     rag_query: str | None = None,
     mode: str = "municipality",
+    data_source: str = "auto",
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
@@ -1241,6 +1295,7 @@ def build_ecosim_dashboard_response(
         nearby_geo_plants=nearby_geo_plants,
         mode=mode,
         municipality_id=municipality_id,
+        data_source=data_source,
     )
 
     renewable_results = base_results["renewable_energy_results"]

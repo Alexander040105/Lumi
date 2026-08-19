@@ -208,8 +208,14 @@ See `docs/04-ML-Data-Science/` for full methodology, data sources, and model ana
 | --- | --- | --- |
 | **DOE Philippines** | National power statistics (2003–2024) | Historical trends, ARIMA training, generation mix |
 | **NASA POWER API** | Municipal climate (irradiance, wind, rainfall, temp) | EcoSim solar, wind, and hydro calculations |
+| **Global Solar Atlas 2.0 (Solargis / World Bank)** | GHI, DNI, DIF, GTI, PVOUT, TEMP | High-resolution municipal solar output and irradiance |
+| **Global Wind Atlas (DTU / World Bank)** | Wind speed at 10/50/100 m | Hub-height municipal wind resource estimates |
 | **USGS SRTM / HydroSHEDS** | DEM, elevation, river networks | Hydropower hydraulic head and terrain analysis |
 | **E-commerce scrapers** | Equipment pricing (solar, wind, hydro) | RAG knowledge base for AI cost estimates |
+
+Solar and wind atlas data are licensed under CC BY 4.0.
+- Solar: © 2019 Solargis, published by the World Bank in the Global Solar Atlas 2.0.
+- Wind: © DTU / World Bank, Global Wind Atlas.
 
 ---
 
