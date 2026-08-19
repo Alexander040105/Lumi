@@ -18,7 +18,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
-import { getEcosim, getMunicipalities, getProvinces } from "@/services/apiClient";
+import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
@@ -46,6 +46,7 @@ export default function Ecosim() {
   const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
 
@@ -185,6 +186,7 @@ export default function Ecosim() {
     event.preventDefault();
     setError(null);
     setLoading(true);
+    setAiLoading(false);
 
     try {
       const data = await getEcosim({
@@ -193,10 +195,33 @@ export default function Ecosim() {
         monthlyBill: Number(monthlyBill),
         electricityRate: Number(electricityRate),
         desiredSavings: Number(desiredSavings) / 100,
-        includeAi,
+        includeAi: false,
         mode,
       });
       setResult(data);
+
+      if (includeAi) {
+        setAiLoading(true);
+        getEcosimAI({
+          municipalityId: String(activeId).trim(),
+          monthlyConsumption: Number(monthlyConsumption),
+          monthlyBill: Number(monthlyBill),
+          electricityRate: Number(electricityRate),
+          desiredSavings: Number(desiredSavings) / 100,
+          mode,
+        })
+          .then((aiData) => {
+            setResult((prev) =>
+              prev ? { ...prev, ai_analysis: aiData.ai_analysis } : prev
+            );
+          })
+          .catch((err) => {
+            console.error("AI analysis failed:", err);
+          })
+          .finally(() => {
+            setAiLoading(false);
+          });
+      }
     } catch (err) {
       setError(err?.message || t("ecosim.toasts.ecosimError"));
     } finally {
@@ -324,7 +349,7 @@ export default function Ecosim() {
       {loading && <LoadingSkeleton />}
 
       {result && !loading && (
-        <EcosimResults result={result} />
+        <EcosimResults result={result} aiLoading={aiLoading} />
       )}
 
       {/* Save Simulation Dialog */}

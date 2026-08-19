@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { MapPin, Layers, Map as MapIcon } from "lucide-react";
+import { MapPin, Layers, Map as MapIcon, Info } from "lucide-react";
 import { useI18n } from "@/i18n";
 
 const METRIC_KEYS = [
@@ -375,6 +375,9 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
         <strong style="font-size:14px;color:${color}">${item.value.toLocaleString()}${unit}</strong>
       </div>`;
       tooltipHtml += `<div style="margin-top:2px;font-size:12px;color:${color};font-weight:500">${getClassificationLabel(item.value, t)}</div>`;
+      if (metric === "geothermal_potential") {
+        tooltipHtml += `<div style="margin-top:4px;font-size:11px;color:var(--muted-foreground)">${t("energyHub.map.geothermalTooltip")}</div>`;
+      }
       const factorsHtml = formatFactors(item.factors);
       if (factorsHtml) {
         tooltipHtml += `<div style="margin-top:6px;padding-top:4px;border-top:1px solid var(--border);color:var(--muted-foreground);font-size:11px;line-height:1.5">${factorsHtml}</div>`;
@@ -438,6 +441,7 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
               key={p.project_name + (p.unit_name || "")}
               position={[p.latitude, p.longitude]}
               icon={icon}
+              title={t("energyHub.map.plantMarkerTooltip")}
             >
               <RL.Popup>
                 <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 160 }}>
@@ -562,6 +566,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <MapIcon className="h-3.5 w-3.5 text-muted-foreground" />
             <select
               className="bg-transparent text-sm focus:outline-none"
+              title={t("energyHub.map.levelTooltip")}
               value={level}
               onChange={(e) => onLevelChange(e.target.value)}
             >
@@ -578,6 +583,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <Layers className="h-3.5 w-3.5 text-muted-foreground" />
             <select
               className="bg-transparent text-sm focus:outline-none"
+              title={t("energyHub.map.metricTooltip")}
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
             >
@@ -623,6 +629,23 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
         </div>
       </div>
 
+      {isGeothermal && (
+        <div className="mb-4 rounded-lg border bg-muted/30 p-4">
+          <div className="flex items-start gap-2">
+            <Info className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+            <div className="space-y-2 text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">{t("energyHub.map.explanationTitle")}</p>
+              <ul className="list-disc pl-4 space-y-1">
+                <li>{t("energyHub.map.explanationGeothermal")}</li>
+                <li>{t("energyHub.map.explanationPlants")}</li>
+                <li>{t("energyHub.map.explanationVolcanoes")}</li>
+                <li>{t("energyHub.map.explanationFaults")}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
       {mapLoading && (
         <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground" style={{ height: 480 }}>
           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
@@ -655,6 +678,12 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
               {t(`energyHub.map.legend.${item.key}`)}
             </span>
           ))}
+          {isGeothermal && (
+            <span className="inline-flex items-center gap-1" title={t("energyHub.map.plantMarkerTooltip")}>
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-chart-geothermal border border-foreground" />
+              {t("energyHub.map.operatingPlants")}
+            </span>
+          )}
         </div>
       )}
     </div>

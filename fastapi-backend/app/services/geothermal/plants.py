@@ -46,18 +46,27 @@ def _load_plants() -> list[dict[str, Any]]:
     if _plants is not None:
         return _plants
 
+    # Vercel deploys from fastapi-backend/, so the repo-root shortcut is
+    # unreliable. Try package-local first, then the repo root, then an env var.
+    package_root = Path(__file__).resolve().parents[2]  # app/services/
     repo_root = Path(__file__).resolve().parents[4]
-    json_path = (
-        repo_root
-        / "fastapi-backend"
-        / "app"
-        / "services"
-        / "local_data"
-        / "ph_geothermal_plants.json"
-    )
+    candidates = [
+        package_root / "local_data" / "ph_geothermal_plants.json",
+        repo_root / "fastapi-backend" / "app" / "services" / "local_data" / "ph_geothermal_plants.json",
+        repo_root / "app" / "services" / "local_data" / "ph_geothermal_plants.json",
+    ]
+    env_path = os.getenv("PH_GEOTHERMAL_PLANTS_PATH")
+    if env_path:
+        candidates.insert(0, Path(env_path))
 
-    if not json_path.exists():
-        logger.warning("Geothermal plant data not found at %s", json_path)
+    json_path = None
+    for candidate in candidates:
+        if candidate.exists():
+            json_path = candidate
+            break
+
+    if not json_path:
+        logger.warning("Geothermal plant data not found at any of %s", [str(c) for c in candidates])
         _plants = []
         return _plants
 

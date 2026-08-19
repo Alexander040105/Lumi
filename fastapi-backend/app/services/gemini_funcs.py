@@ -36,7 +36,7 @@ FALLBACK_GEMINI_MODELS = [
 # so Vercel's 10-second function limit is never breached.
 _AI_CACHE_TTL = int(os.getenv("ECOSIM_AI_CACHE_TTL", "604800"))  # 7 days
 _AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v1")
-_AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "5.0"))
+_AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "4.0"))
 _AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "1200"))
 _AI_MAX_RETRIES = int(os.getenv("ECOSIM_AI_MAX_RETRIES", "1"))
 

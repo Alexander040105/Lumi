@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query, status
 from app.dependencies.quota import get_optional_user_or_quota
 from app.schemas.ecosim import (
     BarangayListResponse,
+    EcosimAIResponse,
     EcosimDashboardResponse,
     EcosimQueryParams,
     EcosimResponse,
@@ -41,6 +42,30 @@ async def get_ecosim_results(
     )
     result["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return result
+
+
+@router.get("/ai", response_model=EcosimAIResponse)
+async def get_ecosim_ai(
+    params: EcosimQueryParams = Depends(),
+    use_rag: bool = False,
+    rag_query: str | None = None,
+    auth: dict = Depends(get_optional_user_or_quota),
+):
+    result = build_ecosim_dashboard_response(
+        municipality_id=params.municipality_id,
+        monthly_consumption=params.monthly_consumption,
+        monthly_bill=params.monthly_bill,
+        electricity_rate=params.electricity_rate,
+        desired_savings=params.desired_savings,
+        include_ai=True,
+        use_rag=use_rag,
+        rag_query=rag_query,
+        mode=params.mode,
+    )
+    return {
+        "ai_analysis": result.get("ai_analysis"),
+        "remaining_anonymous_requests": auth["remaining_anonymous_requests"],
+    }
 
 
 @router.get("/municipalities", response_model=MunicipalityListResponse)

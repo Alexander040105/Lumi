@@ -207,24 +207,7 @@ def get_municipality_data(
         municipality_name = municipality_result.data.get("name", municipality).upper()
         province_id = municipality_result.data.get("province_id")
     else:
-        try:
-            muni_result = (
-                client
-                .table("municipalities")
-                .select("name,province_id")
-                .eq("municipality_id", municipality_id)
-                .single()
-                .execute()
-            )
-        except APIError:
-            muni_result = None
-
-        if muni_result and muni_result.data:
-            municipality_name = muni_result.data.get("name", municipality).upper()
-            province_id = muni_result.data.get("province_id")
-        else:
-            municipality_name = municipality.upper()
-            province_id = None
+        municipality_name = municipality.upper()
 
     municipality_data = _get_climate_for_municipality(municipality_id)
 
@@ -236,10 +219,6 @@ def get_municipality_data(
 
     municipality_data[0]["municipality_id"] = municipality_id
     municipality_data[0]["name"] = municipality_name
-    municipality_data[0]["province_id"] = province_id
-    municipality_data[0]["province"] = (
-        get_province_name_by_id(province_id) if province_id else None
-    )
     return municipality_data
 
 
@@ -1204,15 +1183,11 @@ def build_ecosim_dashboard_response(
             input_warning = True
             monthly_consumption = effective_consumption_kwh
 
-    if mode == "province":
-        municipality_name = get_province_name_by_id(municipality_id)
-    else:
-        municipality_name = get_municipality_name_by_id(municipality_id)
-
-    # Fetch name and lat/lon in a single query to avoid an extra round-trip.
+    # Fetch name, lat/lon, and province in a single query to avoid extra round-trips.
     muni_lat: float | None = None
     muni_lon: float | None = None
     municipality_name: str | None = None
+    province: str | None = None
     try:
         client = get_supabase_client()
         if mode == "province":
@@ -1225,12 +1200,13 @@ def build_ecosim_dashboard_response(
             )
             if prov_resp.data:
                 municipality_name = prov_resp.data.get("name")
+                province = municipality_name
                 muni_lat = prov_resp.data.get("lat")
                 muni_lon = prov_resp.data.get("lon")
         else:
             muni_resp = (
                 client.table("municipalities")
-                .select("name,lat,lon")
+                .select("name,lat,lon,province_id")
                 .eq("municipality_id", municipality_id)
                 .single()
                 .execute()
@@ -1239,8 +1215,12 @@ def build_ecosim_dashboard_response(
                 municipality_name = muni_resp.data.get("name")
                 muni_lat = muni_resp.data.get("lat")
                 muni_lon = muni_resp.data.get("lon")
+                province_id = muni_resp.data.get("province_id")
+                province = (
+                    get_province_name_by_id(province_id) if province_id else None
+                )
     except Exception as exc:
-        logger.warning("Municipality name/lat/lon fetch failed: %s", exc)
+        logger.warning("Municipality name/lat/lon/province fetch failed: %s", exc)
 
     if municipality_name is None:
         raise HTTPException(
@@ -1479,7 +1459,7 @@ def build_ecosim_dashboard_response(
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
-        "province": base_results.get("province"),
+        "province": province,
         "monthly_consumption_kwh": monthly_consumption,
         "user_consumption_kwh": user_consumption_kwh,
         "effective_consumption_kwh": effective_consumption_kwh,

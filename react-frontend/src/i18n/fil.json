@@ -699,7 +699,17 @@
         "low": "Mababa (21-40)",
         "veryLow": "Napakababa (0-20)",
         "noData": "Walang data"
-      }
+      },
+      "explanationTitle": "Tungkol sa mapang ito",
+      "explanationGeothermal": "Ipinapakita ng mga kulay ang angkop na geothermal. Ang dark green ay napakataas; ang pula ay napakababa.",
+      "explanationPlants": "Ang mga marker ng planta ay nagpapakita ng mga operating geothermal plant. Mas malamang na posible ang geothermal sa mga malapit na lugar.",
+      "explanationVolcanoes": "Ang mga bulkan ay maaaring magpakita ng geothermal heat sa ilalim ng lupa.",
+      "explanationFaults": "Ang mga fault line ay maaaring magbigay-daan sa mainit na tubig at singaw na umakyat sa ibabaw.",
+      "metricTooltip": "Piliin kung anong renewable energy potential ang kinakatawan ng mga kulay.",
+      "levelTooltip": "Lumipat sa pagitan ng probinsya at munisipalidad.",
+      "plantMarkerTooltip": "Operating geothermal power plant",
+      "geothermalTooltip": "Ang mataas na iskor ay kadalasang nangangahulugan ng heat flow, malapit na fault o bulkan, o operating plant.",
+      "operatingPlants": "Operating geothermal plants"
     }
   },
   "ecosim": {

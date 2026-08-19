@@ -136,6 +136,29 @@ export function getEcosim(params) {
   return request(`/ecosim/?${search.toString()}`);
 }
 
+export function getEcosimAI(params) {
+  const search = new URLSearchParams({
+    municipality_id: params.municipalityId,
+    monthly_consumption: params.monthlyConsumption,
+    monthly_bill: params.monthlyBill,
+  });
+  if (params.electricityRate !== undefined && params.electricityRate !== null) {
+    search.append("electricity_rate", String(params.electricityRate));
+  }
+  if (params.desiredSavings !== undefined && params.desiredSavings !== null) {
+    search.append("desired_savings", String(params.desiredSavings));
+  }
+  if (params.useRag && params.ragQuery) {
+    search.append("use_rag", "true");
+    search.append("rag_query", params.ragQuery);
+  }
+  if (params.mode) {
+    search.append("mode", params.mode);
+  }
+
+  return request(`/ecosim/ai?${search.toString()}`);
+}
+
 export function getMunicipalities() {
   return request("/ecosim/municipalities");
 }

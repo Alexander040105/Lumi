@@ -699,7 +699,17 @@
         "low": "Low (21-40)",
         "veryLow": "Very Low (0-20)",
         "noData": "No data"
-      }
+      },
+      "explanationTitle": "About this map",
+      "explanationGeothermal": "Colors show geothermal suitability. Dark green means very high potential; red means very low.",
+      "explanationPlants": "Power plant markers show operating geothermal plants. Areas nearby are more likely to be feasible for geothermal projects.",
+      "explanationVolcanoes": "Volcanic areas can indicate underground geothermal heat sources.",
+      "explanationFaults": "Fault lines can allow hot water and steam to rise toward the surface, making geothermal resources more accessible.",
+      "metricTooltip": "Choose which renewable energy potential the colors represent.",
+      "levelTooltip": "Switch between province and municipality detail.",
+      "plantMarkerTooltip": "Operating geothermal power plant",
+      "geothermalTooltip": "A high score usually means heat flow, nearby faults or volcanoes, or proximity to an operating plant.",
+      "operatingPlants": "Operating geothermal plants"
     }
   },
   "ecosim": {
