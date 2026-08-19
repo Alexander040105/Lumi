@@ -12,6 +12,7 @@ class AnalyzeChartResponse(BaseModel):
     recommendation: str = ""
     data_year: int
     chart_type: str = ""
+    remaining_anonymous_requests: int | None = None
 
 
 class LatestStatisticsResponse(BaseModel):
@@ -69,6 +70,7 @@ class AiInsightResponse(BaseModel):
     insight: str
     recommendation: str
     data_year: int
+    remaining_anonymous_requests: int | None = None
 
 
 class OverviewResponse(BaseModel):

@@ -1,4 +1,5 @@
 import { getApiBaseUrl } from "../utils/env";
+import { supabase } from "./supabaseClient";
 
 const BASE_URL = getApiBaseUrl();
 const DEFAULT_TIMEOUT_MS = 30000;
@@ -28,8 +29,13 @@ async function fetchWithTimeout(url, options, timeoutMs = DEFAULT_TIMEOUT_MS) {
 
 export async function request(path, { token, timeoutMs, ...options } = {}) {
   const headers = new Headers(options.headers || {});
-  if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
+  let accessToken = token;
+  if (!accessToken) {
+    const { data } = await supabase.auth.getSession();
+    accessToken = data?.session?.access_token;
+  }
+  if (accessToken) {
+    headers.set("Authorization", `Bearer ${accessToken}`);
   }
   if (!headers.has("Content-Type") && options.body) {
     headers.set("Content-Type", "application/json");

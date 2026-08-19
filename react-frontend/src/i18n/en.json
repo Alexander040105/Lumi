@@ -818,6 +818,12 @@
       "geothermalNote": "Geothermal has high potential here, but it is a large-scale utility resource. The best home-scale option for you is {{source}}.",
       "geothermalReference": "Geothermal is shown for reference only, not as a home installation.",
       "suitabilityScore": "Suitability Score",
+      "generationScore": "Energy Coverage Score",
+      "anonymousQuota": "{{remaining}} free anonymous analysis left. Log in for unlimited access.",
+      "inputWarning": {
+        "title": "Your bill and consumption don't match",
+        "body": "You entered {{entered}} kWh, but your bill and rate suggest about {{effective}} kWh. We're using the effective value for this analysis."
+      },
       "referenceOnly": "Reference only",
       "sources": {
         "Solar": "Solar",

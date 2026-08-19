@@ -47,6 +47,7 @@ class SolarOutput(BaseModel):
     monthly_solar_output: float
     annual_solar_output: float
     solar_score: float | None = None
+    generation_score: float | None = None
 
 
 class HydroOutput(BaseModel):
@@ -55,6 +56,7 @@ class HydroOutput(BaseModel):
     monthly_hydro_output: float
     annual_hydro_output: float
     hydro_score: float
+    generation_score: float | None = None
 
 
 class GeothermalOutput(BaseModel):
@@ -71,6 +73,7 @@ class GeothermalOutput(BaseModel):
     confidence: float | None = None
     source: str | None = None
     assumption: str | None = None
+    citation: str | None = None
 
 
 class WindOutput(BaseModel):
@@ -80,6 +83,7 @@ class WindOutput(BaseModel):
     daily_energy_kwh: float
     monthly_energy_kwh: float
     annual_wind_output_kwh: float
+    generation_score: float | None = None
 
 
 class RenewableEnergyResults(BaseModel):
@@ -99,6 +103,7 @@ class EcosimResponse(BaseModel):
     consumption_results: ConsumptionResults
     renewable_energy_results: RenewableEnergyResults
     ai_analysis: dict | None = None
+    remaining_anonymous_requests: int | None = None
 
 
 class EcosimQueryParams(BaseModel):
@@ -114,8 +119,11 @@ class EcosimOption(BaseModel):
     source: str
     suitability_score: float
     estimated_generation_kwh: float
-    monthly_savings: float
-    installation_cost: float
+    monthly_output: float | None = None
+    generation_score: float | None = None
+    source_type: str | None = None
+    monthly_savings: float | None = None
+    installation_cost: float | None = None
     payback_years: float | None = None
     carbon_reduction: float
     explanation: str
@@ -132,22 +140,28 @@ class EcosimDashboardResponse(BaseModel):
     municipality: str
     municipality_id: int
     monthly_consumption_kwh: float
+    user_consumption_kwh: float | None = None
+    effective_consumption_kwh: float | None = None
     monthly_bill: float
+    input_warning: bool = False
     recommended_source: str
     suitability_score: float
+    generation_score: float | None = None
+    source_type: str | None = None
     estimated_generation_kwh: float
-    monthly_savings: float
-    installation_cost: float
+    monthly_savings: float | None = None
+    installation_cost: float | None = None
     payback_years: float | None = None
     carbon_reduction: float
     explanation: str
     options: list[EcosimOption]
-    comparison: EcosimComparison
+    comparison: EcosimComparison | None = None
     climate: dict | None = None
     renewable_energy_results: RenewableEnergyResults | None = None
     consumption_results: ConsumptionResults | None = None
     municipality_data: list[MunicipalityClimate] | None = None
     ai_analysis: dict | None = None
+    remaining_anonymous_requests: int | None = None
 
 
 class MunicipalityOption(BaseModel):

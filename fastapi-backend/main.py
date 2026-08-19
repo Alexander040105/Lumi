@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,6 +13,8 @@ from app.routes.api import api_router
 
 settings = get_settings()
 setup_logging(level=settings.log_level.upper())
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
 
@@ -43,7 +46,13 @@ async def startup_event():
     from app.services.rag_pipeline import ensure_index_built
     from app.services.supabase_service import get_supabase_client
     from app.services.redis_client import get_redis_sync
-    logger = logging.getLogger(__name__)
+
+    logger.info("CORS allow_origins: %s", settings.cors_origins)
+    logger.info("CORS allow_origin_regex: %s", settings.cors_origin_regex)
+    logger.info("LLM provider: %s", os.environ.get("LLM_PROVIDER", "not set"))
+    logger.info("GROQ_API_KEY configured: %s", bool(settings.groq_api_key))
+    logger.info("GEMINI_API_KEY configured: %s", bool(settings.gemini_api_key))
+    logger.info("Anonymous EcoSim quota: %s requests per %s seconds", settings.anonymous_ecosim_quota, settings.anonymous_ecosim_window_seconds)
 
     try:
         await asyncio.to_thread(get_supabase_client)
