@@ -104,6 +104,7 @@ class EcosimResponse(BaseModel):
     renewable_energy_results: RenewableEnergyResults
     ai_analysis: dict | None = None
     remaining_anonymous_requests: int | None = None
+    province: str | None = None
 
 
 class EcosimQueryParams(BaseModel):
@@ -139,6 +140,7 @@ class EcosimComparison(BaseModel):
 class EcosimDashboardResponse(BaseModel):
     municipality: str
     municipality_id: int
+    province: str | None = None
     monthly_consumption_kwh: float
     user_consumption_kwh: float | None = None
     effective_consumption_kwh: float | None = None

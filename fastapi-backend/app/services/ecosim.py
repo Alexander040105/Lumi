@@ -172,8 +172,8 @@ def get_municipality_data(
 ):
     """Return climate data for a municipality.
 
-    If municipality_id is provided, the municipalities table is skipped and the
-    climate data is fetched directly. This avoids a redundant name-lookup query.
+    If municipality_id is provided, only the province lookup uses the
+    municipalities table; climate data is still fetched directly.
     """
     client = get_supabase_client()
 
@@ -182,7 +182,7 @@ def get_municipality_data(
             municipality_result = (
                 client
                 .table("municipalities")
-                .select("municipality_id,name,lat,lon")
+                .select("municipality_id,name,lat,lon,province_id")
                 .eq("name", municipality.upper())
                 .limit(1)
                 .single()
@@ -205,8 +205,26 @@ def get_municipality_data(
 
         municipality_id = municipality_result.data["municipality_id"]
         municipality_name = municipality_result.data.get("name", municipality).upper()
+        province_id = municipality_result.data.get("province_id")
     else:
-        municipality_name = municipality.upper()
+        try:
+            muni_result = (
+                client
+                .table("municipalities")
+                .select("name,province_id")
+                .eq("municipality_id", municipality_id)
+                .single()
+                .execute()
+            )
+        except APIError:
+            muni_result = None
+
+        if muni_result and muni_result.data:
+            municipality_name = muni_result.data.get("name", municipality).upper()
+            province_id = muni_result.data.get("province_id")
+        else:
+            municipality_name = municipality.upper()
+            province_id = None
 
     municipality_data = _get_climate_for_municipality(municipality_id)
 
@@ -218,6 +236,10 @@ def get_municipality_data(
 
     municipality_data[0]["municipality_id"] = municipality_id
     municipality_data[0]["name"] = municipality_name
+    municipality_data[0]["province_id"] = province_id
+    municipality_data[0]["province"] = (
+        get_province_name_by_id(province_id) if province_id else None
+    )
     return municipality_data
 
 
@@ -363,6 +385,7 @@ def get_province_data(province_name: str) -> dict:
         )
 
     province_id = prov_resp.data["province_id"]
+    province_name = prov_resp.data.get("name", province_name).upper()
     province_lat = prov_resp.data.get("lat")
     province_lon = prov_resp.data.get("lon")
 
@@ -398,7 +421,12 @@ def get_province_data(province_name: str) -> dict:
         "avg_cloud_amt", "avg_surface_pressure", "avg_rhoa", "elevation",
     ]
 
-    aggregated = {"municipality_id": province_id, "name": province_name.upper()}
+    aggregated = {
+        "municipality_id": province_id,
+        "name": province_name.upper(),
+        "province_id": province_id,
+        "province": province_name.upper(),
+    }
     for col in numeric_cols:
         if col in province_df.columns:
             aggregated[col] = round(float(province_df[col].mean()), 2)
@@ -742,9 +770,12 @@ def renewable_energy_calculator(
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
     wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
 
+    province = municipality_data.get("province")
+
     renewable_energy_results = {
         "municipality": municipality.upper(),
         "municipality_id": municipality_data.get("municipality_id"),
+        "province": province,
         #json climate data coming from the NASA Power
         "climate": {
             "avg_t2m": avg_temp,
@@ -819,6 +850,7 @@ def renewable_energy_calculator(
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
         "terrain_data": terrain_data,
+        "province": province,
     }
 
     if geo_id and params_hash:
@@ -1447,6 +1479,7 @@ def build_ecosim_dashboard_response(
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
+        "province": base_results.get("province"),
         "monthly_consumption_kwh": monthly_consumption,
         "user_consumption_kwh": user_consumption_kwh,
         "effective_consumption_kwh": effective_consumption_kwh,
