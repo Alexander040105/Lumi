@@ -18,6 +18,7 @@ from app.services.supabase_service import get_supabase_client
 logger = logging.getLogger(__name__)
 
 LOCAL_ATLAS_CSV = Path(__file__).resolve().parent / "local_data" / "municipality_atlas_averages.csv"
+LOCAL_PROVINCE_ATLAS_CSV = Path(__file__).resolve().parent / "local_data" / "province_atlas_averages.csv"
 
 
 def _load_csv() -> pd.DataFrame:
@@ -78,9 +79,49 @@ def get_atlas_for_municipality_ids(municipality_ids: list[int]) -> dict[int, dic
     return {int(idx): _df_row_to_dict(row) for idx, row in common.iterrows()}
 
 
-def get_atlas_for_province(province_id: int) -> dict[str, Any]:
-    """Return simple mean atlas values for all municipalities in a province."""
+def _load_province_csv() -> pd.DataFrame:
+    if not LOCAL_PROVINCE_ATLAS_CSV.exists():
+        raise FileNotFoundError(f"Province atlas CSV not found at {LOCAL_PROVINCE_ATLAS_CSV}")
+    df = pd.read_csv(LOCAL_PROVINCE_ATLAS_CSV)
+    df.set_index("province_id", inplace=True)
+    return df
+
+
+def get_province_atlas(province_id: int) -> dict[str, Any] | None:
+    """Return pre-computed province atlas values, or None if unavailable."""
     # Supabase fast path
+    try:
+        client = get_supabase_client()
+        resp = (
+            client.table("province_atlas_averages")
+            .select("*")
+            .eq("province_id", province_id)
+            .maybe_single()
+            .execute()
+        )
+        if resp.data:
+            return resp.data
+    except Exception as exc:
+        logger.warning("Could not fetch province atlas data from Supabase: %s", exc)
+
+    # CSV fallback
+    df = _load_province_csv()
+    if province_id in df.index:
+        return _df_row_to_dict(df.loc[province_id])
+    return None
+
+
+def get_atlas_for_province(province_id: int) -> dict[str, Any]:
+    """Return atlas values for a province.
+
+    Tries the pre-computed province_atlas_averages first; if not available,
+    falls back to a simple mean of municipalities in that province.
+    """
+    province_atlas = get_province_atlas(province_id)
+    if province_atlas:
+        return province_atlas
+
+    # Fallback: average municipalities
     try:
         client = get_supabase_client()
         resp = (

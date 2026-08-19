@@ -31,6 +31,8 @@ LUMI now uses high-resolution **Global Solar Atlas (Solargis / World Bank)** and
 2. Run `python scripts/extract_atlas_values.py` to sample the rasters and produce `scripts/gap_output/municipality_atlas_averages.csv`.
 3. (Optional) Run `python scripts/ingest_atlas_averages.py` after creating the `municipality_atlas_averages` table via `supabase_tables_scripts/municipality_atlas_schema.sql`.
 4. Run `python scripts/update_municipality_suitability_from_atlas.py` to update the live map scores in the `municipalities` table.
+5. For provinces, create the `province_atlas_averages` table with `supabase_tables_scripts/province_atlas_schema.sql`, then run `python scripts/build_province_atlas_averages.py` and `python scripts/ingest_province_atlas_averages.py`.
+6. The local CSV fallbacks at `fastapi-backend/app/services/local_data/` keep EcoSim working before the tables are created.
 
 ## Solar calculation
 
@@ -51,6 +53,14 @@ Atlas 100 m wind speed is used in the existing `P = 0.5 * ρ * A * V³ * Cp * η
 
 - Solar data © 2019 Solargis, published by the World Bank in the Global Solar Atlas 2.0, CC BY 4.0.
 - Wind data © DTU / World Bank, Global Wind Atlas, CC BY 4.0.
+
+## Province atlas
+
+Province values are computed in two ways and reconciled:
+1. **Area-weighted municipal average** — municipalities are weighted by `area_km2` from the verified centroid CSV.
+2. **Direct centroid sample** — the GSA/GWA rasters are sampled at the province polygon centroid.
+
+The final values default to the area-weighted municipal average because it represents the whole province better than a single point. The `reconciliation_note` column records any variable where the two methods differ by more than 5%. See `docs/PROVINCE_ATLAS_VALIDATION.md` for the full validation report.
 
 ## Validation notes
 
