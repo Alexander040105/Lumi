@@ -210,6 +210,7 @@ See `docs/04-ML-Data-Science/` for full methodology, data sources, and model ana
 | **NASA POWER API** | Municipal climate (irradiance, wind, rainfall, temp) | EcoSim solar, wind, and hydro calculations |
 | **Global Solar Atlas 2.0 (Solargis / World Bank)** | GHI, DNI, DIF, GTI, PVOUT, TEMP | High-resolution municipal solar output and irradiance |
 | **Global Wind Atlas (DTU / World Bank)** | Wind speed at 10/50/100 m | Hub-height municipal wind resource estimates |
+| **ERA5 (Copernicus / ECMWF)** | 10 m u/v wind components, 0.25° reanalysis | High-temporal-resolution 10 m wind reference and validation |
 | **USGS SRTM / HydroSHEDS** | DEM, elevation, river networks | Hydropower hydraulic head and terrain analysis |
 | **E-commerce scrapers** | Equipment pricing (solar, wind, hydro) | RAG knowledge base for AI cost estimates |
 

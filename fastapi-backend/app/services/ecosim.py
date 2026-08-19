@@ -25,6 +25,8 @@ from app.services.atlas_data import (
     get_atlas_for_municipality,
     get_atlas_for_municipality_ids,
     get_atlas_for_province,
+    get_era5_for_municipality,
+    get_era5_for_province,
 )
 from app.services.geothermal.features import (
     compute_geothermal_suitability,
@@ -222,6 +224,9 @@ def get_municipality_data(
             detail="No climate average data found for this municipality.",
         )
 
+    # Avoid mutating the cached climate row.
+    municipality_data[0] = municipality_data[0].copy()
+
     municipality_data[0]["municipality_id"] = municipality_id
     municipality_data[0]["name"] = municipality_name
 
@@ -236,6 +241,25 @@ def get_municipality_data(
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Atlas data not available for this municipality.",
+            )
+
+    if source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in municipality_data[0]):
+        # ERA5 only has 10m wind in this file; use it when explicitly requested or as an auto fallback.
+        era5 = get_era5_for_municipality(municipality_id)
+        if era5:
+            municipality_data[0].update(era5)
+            # Only re-label the source when ERA5 is explicitly requested.
+            if source == "era5":
+                previous_source = municipality_data[0].get("data_source", "NASA POWER")
+                municipality_data[0]["data_source"] = (
+                    f"ERA5 (wind, 10m) + {previous_source}"
+                    if "era5_wind_speed_10m_ms" in municipality_data[0]
+                    else previous_source
+                )
+        elif source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in municipality_data[0]):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="ERA5 data not available for this municipality.",
             )
 
     return municipality_data
@@ -461,6 +485,23 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Atlas data not available for this province.",
+            )
+
+    if source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in aggregated):
+        province_era5 = get_era5_for_province(province_id)
+        if province_era5:
+            aggregated.update(province_era5)
+            if source == "era5":
+                previous_source = aggregated.get("data_source", "NASA POWER")
+                aggregated["data_source"] = (
+                    f"ERA5 (wind, 10m) + {previous_source}"
+                    if "era5_wind_speed_10m_ms" in aggregated
+                    else previous_source
+                )
+        elif source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in aggregated):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="ERA5 data not available for this province.",
             )
 
     return aggregated
@@ -707,7 +748,16 @@ def renewable_energy_calculator(
     avg_temp = municipality_data.get("solar_temp_c") or municipality_data.get("avg_t2m")
     cloud_amt = municipality_data.get("avg_cloud_amt")
     rainfall = municipality_data.get("avg_prectotcorr")
-    wind_speed = municipality_data.get("wind_speed_100m_ms") or municipality_data.get("avg_ws10m")
+    # Pick wind speed by source priority: atlas 100m (bankable utility estimate),
+    # then ERA5 10m (higher-temporal-resolution reanalysis), then NASA POWER 10m.
+    if data_source == "era5":
+        wind_speed = municipality_data.get("era5_wind_speed_10m_ms") or municipality_data.get("avg_ws10m")
+    else:
+        wind_speed = (
+            municipality_data.get("wind_speed_100m_ms")
+            or municipality_data.get("era5_wind_speed_10m_ms")
+            or municipality_data.get("avg_ws10m")
+        )
     humidity = municipality_data.get("avg_rh2m")
     surface_pressure = municipality_data.get("avg_surface_pressure")
     air_density = municipality_data.get("avg_rhoa")
@@ -813,13 +863,18 @@ def renewable_energy_calculator(
             "avg_rh2m": humidity,
             "avg_rhoa": air_density,
             "avg_prectotcorr": rainfall,
-            "avg_ws10m": municipality_data.get("avg_ws10m") if active_source == "NASA POWER" else municipality_data.get("wind_speed_10m_ms"),
+            "avg_ws10m": (
+                municipality_data.get("era5_wind_speed_10m_ms")
+                or municipality_data.get("wind_speed_10m_ms")
+                or municipality_data.get("avg_ws10m")
+            ),
             "avg_allsky_sfc_sw_dwn": solar_irradiance,
             "avg_cloud_amt": cloud_amt,
             "avg_surface_pressure": surface_pressure,
             "elevation": elevation,
             "solar_pvout_annual_kwh_kwp": pvout_annual,
             "wind_speed_100m_ms": municipality_data.get("wind_speed_100m_ms"),
+            "era5_wind_speed_10m_ms": municipality_data.get("era5_wind_speed_10m_ms"),
         },
         #json estimates and assumptions for the renewable energy calculations, which can be used for transparency and future adjustments
         "assumptions": {

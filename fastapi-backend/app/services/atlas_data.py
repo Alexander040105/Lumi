@@ -156,3 +156,67 @@ def _mean_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
         else:
             result[col] = None
     return result
+
+
+LOCAL_MUNI_ERA5_CSV = Path(__file__).resolve().parent / "local_data" / "municipality_era5_averages.csv"
+LOCAL_PROVINCE_ERA5_CSV = Path(__file__).resolve().parent / "local_data" / "province_era5_averages.csv"
+
+
+def _load_muni_era5_csv() -> pd.DataFrame:
+    if not LOCAL_MUNI_ERA5_CSV.exists():
+        raise FileNotFoundError(f"ERA5 municipality CSV not found at {LOCAL_MUNI_ERA5_CSV}")
+    df = pd.read_csv(LOCAL_MUNI_ERA5_CSV)
+    df.set_index("municipality_id", inplace=True)
+    return df
+
+
+def _load_province_era5_csv() -> pd.DataFrame:
+    if not LOCAL_PROVINCE_ERA5_CSV.exists():
+        raise FileNotFoundError(f"ERA5 province CSV not found at {LOCAL_PROVINCE_ERA5_CSV}")
+    df = pd.read_csv(LOCAL_PROVINCE_ERA5_CSV)
+    df.set_index("province_id", inplace=True)
+    return df
+
+
+def get_era5_for_municipality(municipality_id: int) -> dict[str, Any] | None:
+    """Return ERA5 10m wind for a single municipality, or None if unavailable."""
+    try:
+        client = get_supabase_client()
+        resp = (
+            client.table("municipality_era5_averages")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .maybe_single()
+            .execute()
+        )
+        if resp.data:
+            return resp.data
+    except Exception as exc:
+        logger.warning("Could not fetch ERA5 data from Supabase: %s", exc)
+
+    df = _load_muni_era5_csv()
+    if municipality_id in df.index:
+        return _df_row_to_dict(df.loc[municipality_id])
+    return None
+
+
+def get_era5_for_province(province_id: int) -> dict[str, Any] | None:
+    """Return ERA5 10m wind for a single province, or None if unavailable."""
+    try:
+        client = get_supabase_client()
+        resp = (
+            client.table("province_era5_averages")
+            .select("*")
+            .eq("province_id", province_id)
+            .maybe_single()
+            .execute()
+        )
+        if resp.data:
+            return resp.data
+    except Exception as exc:
+        logger.warning("Could not fetch ERA5 data from Supabase: %s", exc)
+
+    df = _load_province_era5_csv()
+    if province_id in df.index:
+        return _df_row_to_dict(df.loc[province_id])
+    return None

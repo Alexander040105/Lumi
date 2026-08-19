@@ -93,6 +93,15 @@ def main() -> int:
     muni = pd.read_csv(muni_csv)
     muni_cent = pd.read_csv(muni_centroid_csv)
     prov_cent = pd.read_csv(prov_centroid_csv)
+    # Some GeoJSON features can map to the same province_id (e.g., Isabela province + Isabela City).
+    # Keep the largest-area match as the true province.
+    prov_cent["area_km2"] = pd.to_numeric(prov_cent["area_km2"], errors="coerce")
+    prov_cent = (
+        prov_cent.sort_values("area_km2", ascending=False)
+        .drop_duplicates(subset="province_id", keep="first")
+        .sort_values("province_id")
+        .reset_index(drop=True)
+    )
 
     # Merge area_km2 into muni
     muni = muni.merge(
