@@ -1,7 +1,7 @@
 # LUMI Backend — multi-stage Dockerfile
 # Python 3.11 slim image with ML/GIS dependencies
 
-FROM python:3.11-slim AS builder
+FROM python:3.11-slim-bookworm AS builder
 
 WORKDIR /build
 
@@ -15,13 +15,13 @@ COPY fastapi-backend/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir --user -r requirements.txt
 
 # ---------- runtime stage ----------
-FROM python:3.11-slim
+FROM python:3.11-slim-bookworm
 
 WORKDIR /app
 
 # Runtime libs for GIS packages + libgomp1 (FAISS) + curl (healthcheck)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgeos3.12.1 libproj25 libgdal36 libgomp1 curl \
+    libgeos-dev libproj-dev libgdal-dev libgomp1 curl \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd -r lumi && useradd -r -g lumi -d /app lumi \
     && mkdir -p /app/.cache /app/app/services/local_data \

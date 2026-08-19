@@ -17,6 +17,17 @@ def get_bearer_token(request: Request) -> str:
     return parts[1]
 
 
+def get_optional_bearer_token(request: Request) -> str | None:
+    """Extract bearer token if present; return None if missing/invalid."""
+    header = request.headers.get("Authorization")
+    if not header:
+        return None
+    parts = header.split()
+    if len(parts) != 2 or parts[0].lower() != "bearer":
+        return None
+    return parts[1]
+
+
 def _extract_user_data(user_response):
     """Extract user dict from Supabase auth.get_user response."""
     user_data = getattr(user_response, "user", None)
@@ -78,6 +89,31 @@ def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Email address not verified"
         )
+
+    return _build_user_claims(user_data)
+
+
+def get_verified_user_optional(token: str | None = Depends(get_optional_bearer_token)) -> dict | None:
+    """Return verified user if a valid token is provided, otherwise None."""
+    if not token:
+        return None
+    client = get_supabase_public_client()
+    try:
+        user_response = client.auth.get_user(token)
+    except Exception:
+        return None
+
+    user_data = _extract_user_data(user_response)
+    if not user_data:
+        return None
+
+    confirmed_at = (
+        getattr(user_data, "email_confirmed_at", None)
+        or getattr(user_data, "confirmed_at", None)
+        or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
+    )
+    if not confirmed_at:
+        return None
 
     return _build_user_claims(user_data)
 

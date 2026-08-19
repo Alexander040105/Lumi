@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 
-from app.dependencies.auth import get_verified_user
+from app.dependencies.auth import get_verified_user_optional
+from app.dependencies.quota import check_anonymous_quota, get_client_id, get_optional_user_or_quota
 from app.schemas.energyhub import (
     AiInsightResponse,
     AnalyzeChartRequest,
@@ -106,7 +107,9 @@ async def get_model_comparison():
 
 @router.get("/ai-insight", response_model=AiInsightResponse)
 async def get_ai_insight(
+    request: Request,
     use_llm: bool = Query(default=False, description="Use LLM (Gemini/Groq) for dynamic analysis instead of static text"),
+    user: dict | None = Depends(get_verified_user_optional),
 ):
     """Return a data-backed narrative insight and recommendation.
 
@@ -114,14 +117,25 @@ async def get_ai_insight(
     the configured LLM (Gemini or Groq) based on the latest energy
     statistics, generation mix, and ARIMA forecast.
     """
+    remaining = None
+    if use_llm and not user:
+        allowed, remaining = await check_anonymous_quota(get_client_id(request))
+        if not allowed:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Please log in to continue using EcoSim.",
+            )
+
     svc = get_energyhub_service()
-    return svc.get_ai_insight(use_llm=use_llm)
+    response = svc.get_ai_insight(use_llm=use_llm)
+    response["remaining_anonymous_requests"] = remaining
+    return response
 
 
 @router.post("/analyze-chart", response_model=AnalyzeChartResponse)
 async def analyze_chart(
     payload: AnalyzeChartRequest,
-    user: dict = Depends(get_verified_user),
+    auth: dict = Depends(get_optional_user_or_quota),
     force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
 ):
     """Send chart data to the LLM and receive a narrative explanation.
@@ -133,7 +147,9 @@ async def analyze_chart(
     brand-new explanation (useful for rotating responses).
     """
     svc = get_energyhub_service()
-    return svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)
+    response = svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)
+    response["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
+    return response
 
 
 @router.get("/provincial-demand", response_model=ProvincialDemandResponse)

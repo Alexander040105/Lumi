@@ -15,6 +15,10 @@ logger.info("Loading settings from: %s", ENV_FILE)
 load_dotenv(ENV_FILE, override=True)
 
 _DEFAULT_CORS_ORIGIN_REGEX = r"https://lumi-frontend-.*\.vercel\.app"
+_DEFAULT_CORS_ORIGINS = [
+    "http://localhost:5173",
+    "https://lumi-frontend-xi.vercel.app",
+]
 
 
 class Settings(BaseSettings):
@@ -55,6 +59,10 @@ class Settings(BaseSettings):
     upstash_redis_url: str | None = None
     redis_ttl_seconds: int = 300
     use_redis_cache: bool = True
+
+    # Anonymous EcoSim / EnergyHub AI quota
+    anonymous_ecosim_quota: int = 1
+    anonymous_ecosim_window_seconds: int = 86400
 
     # AI / LLM
     gemini_api_key: str | None = None
@@ -107,17 +115,24 @@ class Settings(BaseSettings):
     @classmethod
     def parse_cors_origins(cls, value):
         if isinstance(value, list):
-            return value
+            if value:
+                return value
+            return _DEFAULT_CORS_ORIGINS
         if isinstance(value, str) and value.strip():
-            return json.loads(value)
-        return ["http://localhost:5173"]
+            try:
+                parsed = json.loads(value)
+                if isinstance(parsed, list) and parsed:
+                    return parsed
+            except Exception:
+                pass
+        return _DEFAULT_CORS_ORIGINS
 
     @field_validator("cors_origin_regex", mode="before")
     @classmethod
     def parse_cors_origin_regex(cls, value):
         if isinstance(value, str):
             value = value.strip()
-            if value:
+            if value and value.lower() != "none":
                 return value
         return _DEFAULT_CORS_ORIGIN_REGEX
 

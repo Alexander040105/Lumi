@@ -135,6 +135,11 @@ COST_PER_KW_GEOTHERMAL = 100000.0
 # Official Operating Margin EF = 0.6835 kg CO2 / kWh (DOE, 2022).
 # See: ecosim_economic_formula_references.md
 CO2_KG_PER_KWH = 0.6835
+GEOTHERMAL_CITATION = (
+    "Based on IHFC heat-flow measurements, Zenodo aquifer properties, "
+    "the Global Energy Monitor (GEM) Philippines geothermal tracker, "
+    "and NASA POWER temperature."
+)
 
 
 def get_municipality_terrain_data(
@@ -456,6 +461,7 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
                     classification = suit_result.data.get("classification", "Unknown")
             except APIError:
                 pass
+            assumption = data.get("assumption", "") or GEOTHERMAL_CITATION
             return {
                 "energy_type": "geothermal",
                 "suitability_score": round(geo_score * 100, 2),
@@ -466,7 +472,9 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
                 "annual_energy_gwh": data.get("annual_energy_gwh"),
                 "confidence": data.get("confidence_score"),
                 "source": data.get("source", "Supabase pre-computed"),
-                "assumption": data.get("assumption", ""),
+                "assumption": assumption,
+                "citation": GEOTHERMAL_CITATION,
+                "source_type": "utility",
             }
     except APIError:
         pass
@@ -486,6 +494,8 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
             "confidence": 0.0,
             "source": "Fallback on-the-fly estimation",
             "assumption": "Pre-computed data unavailable; using measured NASA POWER temperature and inferred aquifer/heatflow.",
+            "citation": GEOTHERMAL_CITATION,
+            "source_type": "utility",
         }
 
     suitability = compute_geothermal_suitability(lat, lon, surface_temp, municipality_id=mid)
@@ -506,7 +516,9 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
         "annual_energy_gwh": output.get("annual_energy_gwh"),
         "confidence": output.get("confidence_score"),
         "source": output.get("source"),
-        "assumption": output.get("assumption"),
+        "assumption": output.get("assumption") or GEOTHERMAL_CITATION,
+        "citation": GEOTHERMAL_CITATION,
+        "source_type": "utility",
     }
 
 
@@ -1084,6 +1096,15 @@ def _calculate_option_summary(
     # This prevents poor-quality sources from winning just because they generate more energy.
     source_score = float(source_score or 0.0)
     suitability_score = round(source_score * (0.4 + 0.6 * energy_ratio) * 100, 1)
+
+    # Output-based generation score (what % of consumption this source can offset).
+    # This is the unbiased, user-facing score for household options; geothermal stays reference only.
+    source_type = "household" if scale != "utility" else "utility"
+    if source_type == "household" and consumption_kwh > 0:
+        generation_score = round(min(generation_kwh / consumption_kwh * 100, 100.0), 1)
+    else:
+        generation_score = None
+
     carbon_reduction = usable_kwh * CO2_KG_PER_KWH
 
     # Financial analysis (NPV, IRR, LCOE, discounted payback)
@@ -1105,6 +1126,9 @@ def _calculate_option_summary(
         "source": source,
         "suitability_score": suitability_score,
         "estimated_generation_kwh": generation_kwh,
+        "monthly_output": generation_kwh,
+        "generation_score": generation_score,
+        "source_type": source_type,
         "monthly_savings": monthly_savings,
         "installation_cost": installation_cost,
         "payback_years": payback_years,
@@ -1138,6 +1162,16 @@ def build_ecosim_dashboard_response(
 
     if electricity_rate is None or electricity_rate <= 0:
         electricity_rate = monthly_bill / monthly_consumption
+
+    effective_consumption_kwh = monthly_bill / electricity_rate
+    user_consumption_kwh = monthly_consumption
+    input_warning = False
+    if monthly_consumption > 0:
+        consumption_mismatch = abs(monthly_consumption - effective_consumption_kwh) / effective_consumption_kwh
+        if consumption_mismatch > 0.20:
+            input_warning = True
+            monthly_consumption = effective_consumption_kwh
+
     if mode == "province":
         municipality_name = get_province_name_by_id(municipality_id)
     else:
@@ -1202,6 +1236,8 @@ def build_ecosim_dashboard_response(
     wind_output = renewable_results.get("wind_output", {})
     hydro_output = renewable_results.get("hydro_output", {})
     geothermal_output = renewable_results.get("geothermal_output", {})
+    geothermal_output["citation"] = geothermal_output.get("citation") or GEOTHERMAL_CITATION
+    geothermal_output["source_type"] = geothermal_output.get("source_type") or "utility"
 
     solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
     hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
@@ -1268,25 +1304,46 @@ def build_ecosim_dashboard_response(
     ]
 
     for option in options:
-        score = option["suitability_score"]
         gen = option["estimated_generation_kwh"]
         pct = (gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
-        if score >= 80:
-            rating = "Excellent"
-            why = "This location has ideal conditions for this type of energy."
-        elif score >= 60:
-            rating = "Good"
-            why = "This location has favorable conditions, but may need some planning."
-        elif score >= 40:
-            rating = "Moderate"
-            why = "This location can work, but it may not be the most cost-effective option."
+        if option.get("source_type") == "utility":
+            score = option["suitability_score"]
+            if score >= 80:
+                rating = "Excellent"
+                why = "This location has ideal conditions for this type of energy."
+            elif score >= 60:
+                rating = "Good"
+                why = "This location has favorable conditions, but may need some planning."
+            elif score >= 40:
+                rating = "Moderate"
+                why = "This location can work, but it may not be the most cost-effective option."
+            else:
+                rating = "Fair"
+                why = "Conditions at this location are not ideal for this type of energy."
+            option["explanation"] = (
+                f"{rating} reference-only match — {why} With a typical {option['source'].lower()} "
+                f"system, this could generate about {gen:.0f} kWh per month at utility scale."
+            )
         else:
-            rating = "Fair"
-            why = "Conditions at this location are not ideal for this type of energy."
-        option["explanation"] = (
-            f"{rating} match — {why} With your current usage, this system could generate about "
-            f"{gen:.0f} kWh per month, covering roughly {pct:.0f}% of your electricity needs."
-        )
+            score = option["generation_score"]
+            if score is None:
+                rating, why = "Reference", "No household-scale estimate available."
+            elif score >= 80:
+                rating = "Excellent"
+                why = "This source can offset most of your monthly electricity use."
+            elif score >= 50:
+                rating = "Good"
+                why = "This source can offset a meaningful share of your monthly electricity use."
+            elif score >= 25:
+                rating = "Moderate"
+                why = "This source can offset some of your monthly electricity use."
+            else:
+                rating = "Fair"
+                why = "This source offsets a small share of your monthly electricity use."
+            option["explanation"] = (
+                f"{rating} match — {why} With your effective usage, this system could generate about "
+                f"{gen:.0f} kWh per month, covering roughly {pct:.0f}% of your electricity needs."
+            )
 
     # Confidence scoring per energy type
     climate_data = renewable_results.get("climate", {})
@@ -1307,56 +1364,111 @@ def build_ecosim_dashboard_response(
         option["confidence"] = calculate_confidence(conf_factors)
 
     # Recommend only household-scale sources (exclude utility-scale geothermal)
-    household_options = [o for o in options if o.get("scale") != "utility"]
-    recommended = max(
-        household_options,
-        key=lambda item: (item["suitability_score"], item["estimated_generation_kwh"]),
-    )
+    household_options = [o for o in options if o.get("source_type") != "utility"]
+    if household_options:
+        recommended = max(
+            household_options,
+            key=lambda item: (item["monthly_output"], item["generation_score"]),
+        )
+    else:
+        recommended = {
+            "source": "None",
+            "suitability_score": 0.0,
+            "generation_score": None,
+            "source_type": None,
+            "estimated_generation_kwh": 0.0,
+            "monthly_output": 0.0,
+            "monthly_savings": None,
+            "installation_cost": None,
+            "payback_years": None,
+            "carbon_reduction": 0.0,
+        }
 
-    net_consumption = max(monthly_consumption - recommended["estimated_generation_kwh"], 0.0)
-    net_bill = net_consumption * electricity_rate
+    # Optional AI override only when a reason is provided
+    ai_analysis = base_results.get("ai_analysis") or {}
+    if include_ai and ai_analysis:
+        ai_rec = (ai_analysis.get("recommendation") or {}).get("best_option")
+        ai_reason = (ai_analysis.get("recommendation") or {}).get("reason")
+        ai_source_map = {
+            "solar": "Solar",
+            "wind": "Wind",
+            "hydro": "Hydropower",
+            "hydropower": "Hydropower",
+        }
+        if ai_rec and ai_reason:
+            normalized = str(ai_rec).strip().lower()
+            if normalized in ai_source_map:
+                ai_match = next((o for o in household_options if o["source"].lower() == normalized), None)
+                if ai_match:
+                    recommended = ai_match
+                    recommended["ai_reason"] = ai_reason
 
     rec_gen = recommended["estimated_generation_kwh"]
-    rec_savings = recommended["monthly_savings"]
-    rec_payback = recommended.get("payback_years")
     rec_pct = (rec_gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
 
-    payback_text = (
-        f" The system would pay for itself in about {rec_payback:.1f} years through savings on your bill."
-        if rec_payback is not None and rec_payback > 0 and rec_payback < 100
-        else ""
-    )
+    if recommended["source"] == "None":
+        explanation = (
+            "No household-scale renewable source has a meaningful output for this location. "
+            "Please check the detailed estimates below or try a different municipality."
+        )
+    else:
+        ai_note = recommended.get("ai_reason")
+        ai_text = f" AI note: {ai_note}" if ai_note else ""
+        explanation = (
+            f"Based on the calculated monthly output, {recommended['source']} energy is the best home-scale match. "
+            f"A typical {recommended['source'].lower()} system here could generate about {rec_gen:.0f} kWh per month, "
+            f"covering roughly {rec_pct:.0f}% of your effective electricity usage.{ai_text}"
+        )
 
-    explanation = (
-        f"Based on your location's climate and your monthly electricity use, {recommended['source']} energy is the best match for your home. "
-        f"A typical {recommended['source'].lower()} system here could generate about {rec_gen:.0f} kWh per month, "
-        f"covering roughly {rec_pct:.0f}% of your electricity needs and saving you about PHP {rec_savings:,.0f} per month.{payback_text}"
-    )
+    # Hide financial/LCOE fields until cost data is reliable
+    for option in options:
+        option["monthly_savings"] = None
+        option["installation_cost"] = None
+        option["payback_years"] = None
+        option["discounted_payback_years"] = None
+        option["npv_php"] = None
+        option["irr"] = None
+        option["lcoe_php_kwh"] = None
+        option["benefit_cost_ratio"] = None
+        option["system_kw"] = None
+        # Populate generation_score on the raw output dicts used by technical cards
+        if option["source"] == "Solar":
+            solar_output["generation_score"] = option["generation_score"]
+        elif option["source"] == "Wind":
+            wind_output["generation_score"] = option["generation_score"]
+        elif option["source"] == "Hydropower":
+            hydro_output["generation_score"] = option["generation_score"]
+
+    renewable_results["solar_output"] = solar_output
+    renewable_results["wind_output"] = wind_output
+    renewable_results["hydro_output"] = hydro_output
+    renewable_results["geothermal_output"] = geothermal_output
 
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
         "monthly_consumption_kwh": monthly_consumption,
+        "user_consumption_kwh": user_consumption_kwh,
+        "effective_consumption_kwh": effective_consumption_kwh,
         "monthly_bill": monthly_bill,
+        "input_warning": input_warning,
         "recommended_source": recommended["source"],
         "suitability_score": recommended["suitability_score"],
+        "generation_score": recommended["generation_score"],
+        "source_type": recommended["source_type"],
         "estimated_generation_kwh": recommended["estimated_generation_kwh"],
-        "monthly_savings": recommended["monthly_savings"],
-        "installation_cost": recommended["installation_cost"],
-        "payback_years": recommended["payback_years"],
+        "monthly_savings": None,
+        "installation_cost": None,
+        "payback_years": None,
         "carbon_reduction": recommended["carbon_reduction"],
         "explanation": explanation,
         "options": options,
-        "comparison": {
-            "current_monthly_consumption_kwh": monthly_consumption,
-            "current_monthly_bill": monthly_bill,
-            "renewable_monthly_consumption_kwh": net_consumption,
-            "renewable_monthly_bill": net_bill,
-        },
+        "comparison": None,
         "climate": renewable_results.get("climate"),
         "renewable_energy_results": renewable_results,
         "consumption_results": base_results.get("consumption_results"),
         "municipality_data": base_results.get("municipality_data"),
-        "ai_analysis": base_results.get("ai_analysis"),
+        "ai_analysis": ai_analysis if include_ai else None,
         "nearby_geothermal_plants": nearby_geo_plants,
+        "remaining_anonymous_requests": None,
     }

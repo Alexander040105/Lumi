@@ -818,6 +818,12 @@
       "geothermalNote": "Mataas ang geothermal potential dito, ngunit ito ay large-scale utility resource. Ang pinakamahusay na opsyon para sa bahay ay {{source}}.",
       "geothermalReference": "Ang geothermal ay ipinapakita bilang reference lamang, hindi para sa home installation.",
       "suitabilityScore": "Suitability Score",
+      "generationScore": "Energy Coverage Score",
+      "anonymousQuota": "{{remaining}} libreng anonymous analysis ang natitira. Mag-login para sa unlimited access.",
+      "inputWarning": {
+        "title": "Hindi magkatugma ang bill at consumption mo",
+        "body": "Naglagay ka ng {{entered}} kWh, ngunit sa bill at rate mo humihigit sa {{effective}} kWh. Ginagamit namin ang effective value para sa analysis na ito."
+      },
       "referenceOnly": "Reference lamang",
       "sources": {
         "Solar": "Solar",

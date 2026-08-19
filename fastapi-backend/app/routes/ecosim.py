@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query, status
 
-from app.dependencies.auth import get_verified_user
+from app.dependencies.quota import get_optional_user_or_quota
 from app.schemas.ecosim import (
     BarangayListResponse,
     EcosimDashboardResponse,
@@ -26,8 +26,9 @@ async def get_ecosim_results(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
+    auth: dict = Depends(get_optional_user_or_quota),
 ):
-    return build_ecosim_dashboard_response(
+    result = build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
         monthly_consumption=params.monthly_consumption,
         monthly_bill=params.monthly_bill,
@@ -38,6 +39,8 @@ async def get_ecosim_results(
         rag_query=rag_query,
         mode=params.mode,
     )
+    result["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
+    return result
 
 
 @router.get("/municipalities", response_model=MunicipalityListResponse)
@@ -60,7 +63,7 @@ async def get_barangays(
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
 async def post_item(
     body: PostHouse,
-    user: dict = Depends(get_verified_user),
+    auth: dict = Depends(get_optional_user_or_quota),
     include_ai: bool = True,
     use_rag: bool = True,
     rag_query: str | None = None,
@@ -76,4 +79,5 @@ async def post_item(
         rag_query=rag_query,
         mode=body.mode,
     )
+    response_data["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return response_data

@@ -18,22 +18,11 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
-import LcoePanel from "../components/LcoePanel";
-import { getEcosim, getMunicipalities, getProvinces, getProductRecommendations } from "@/services/apiClient";
+import { getEcosim, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
 import { useI18n } from "@/i18n";
-
-const formatNumber = (value, digits = 0) =>
-  new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
-
-const formatCurrency = (value) =>
-  new Intl.NumberFormat("en-PH", {
-    style: "currency",
-    currency: "PHP",
-    maximumFractionDigits: 0
-  }).format(value ?? 0);
 
 export default function Ecosim() {
   const { t } = useI18n();
@@ -59,8 +48,6 @@ export default function Ecosim() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
-  const [productRecs, setProductRecs] = useState(null);
-  const [productLoading, setProductLoading] = useState(false);
 
   // Save simulation dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -210,21 +197,6 @@ export default function Ecosim() {
         mode,
       });
       setResult(data);
-      // Fetch product recommendations for the recommended source
-      const source = data?.recommended_source?.toLowerCase();
-      if (source && source !== "geothermal") {
-        setProductLoading(true);
-        try {
-          const recs = await getProductRecommendations(source, null, 4);
-          setProductRecs(recs);
-        } catch {
-          setProductRecs(null);
-        } finally {
-          setProductLoading(false);
-        }
-      } else {
-        setProductRecs(null);
-      }
     } catch (err) {
       setError(err?.message || t("ecosim.toasts.ecosimError"));
     } finally {
@@ -352,17 +324,7 @@ export default function Ecosim() {
       {loading && <LoadingSkeleton />}
 
       {result && !loading && (
-        <EcosimResults
-          result={result}
-          productRecs={productRecs}
-          productLoading={productLoading}
-        />
-      )}
-
-      {result?.options && !loading && (
-        <div className="mt-4">
-          <LcoePanel options={result.options} />
-        </div>
+        <EcosimResults result={result} />
       )}
 
       {/* Save Simulation Dialog */}
