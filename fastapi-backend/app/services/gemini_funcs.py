@@ -10,8 +10,28 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from app.services.data_cache import cache_get_sync, cache_set_sync
-from google import genai
-from google.genai import errors as genai_errors
+
+
+def _import_genai():
+    """Lazy import google-genai so Vercel can omit it when not in use."""
+    try:
+        from google import genai
+    except ImportError as exc:
+        raise ImportError(
+            "google-genai is not installed. Set LLM_PROVIDER=groq or install google-genai."
+        ) from exc
+    return genai
+
+
+def _import_genai_errors():
+    """Lazy import google-genai error classes."""
+    try:
+        from google.genai import errors
+    except ImportError as exc:
+        raise ImportError(
+            "google-genai is not installed. Set LLM_PROVIDER=groq or install google-genai."
+        ) from exc
+    return errors
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +71,7 @@ def _default_llm_model() -> str:
     return DEFAULT_GEMINI_MODEL
 
 
-_client: genai.Client | None = None
+_client: Any | None = None
 
 
 def _municipality_id_from_payload(analysis_payload: dict[str, Any]) -> int | None:
@@ -194,19 +214,20 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
     }
 
 
-def _get_gemini_client() -> genai.Client:
+def _get_gemini_client() -> Any:
     global _client
     if _client is None:
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             logger.error("GEMINI_API_KEY is not set")
             raise ValueError("GEMINI_API_KEY is not set")
+        genai = _import_genai()
         _client = genai.Client(api_key=api_key)
     return _client
 
 
 def _generate_once(
-    client: genai.Client,
+    client: Any,
     model_name: str,
     content: str,
     config: Any,
@@ -287,6 +308,9 @@ def generate_gemini_response(
     model_name = model or DEFAULT_GEMINI_MODEL
     temp_value = DEFAULT_TEMPERATURE if temperature is None else temperature
     token_limit = DEFAULT_MAX_OUTPUT_TOKENS if max_output_tokens is None else max_output_tokens
+
+    genai = _import_genai()
+    genai_errors = _import_genai_errors()
 
     # Prepend simple-vocabulary instruction to all content
     full_content = SIMPLE_VOCABULARY_INSTRUCTION + content
