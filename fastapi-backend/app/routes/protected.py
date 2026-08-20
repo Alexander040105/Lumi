@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
+from app.services.data_cache import cache_delete, cache_get, cache_set
 from app.services.redis_client import get_redis
 from app.services.supabase_service import get_supabase_client
 
@@ -23,16 +24,24 @@ async def read_me(user=Depends(get_current_user_with_role_and_plan)):
 @router.get("/profile")
 async def get_profile(user: dict = Depends(get_verified_user)) -> dict:
     """Return the authenticated user's extended profile."""
+    user_id = user.get("sub")
+    cache_key = f"lumi:profile:{user_id}"
+    cached = await cache_get(cache_key)
+    if cached is not None:
+        logger.debug("get_profile: cache hit for user_id=%s", user_id)
+        return {"profile": cached}
+
     client = get_supabase_client()
     resp = (
         client.table("profiles")
         .select("*")
-        .eq("id", user.get("sub"))
+        .eq("id", user_id)
         .single()
         .execute()
     )
     if not resp.data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Profile not found")
+    await cache_set(cache_key, resp.data, ttl=300)
     return {"profile": resp.data}
 
 
@@ -51,6 +60,7 @@ async def update_profile(payload: dict, user: dict = Depends(get_verified_user))
         .eq("id", user.get("sub"))
         .execute()
     )
+    await cache_delete(f"lumi:profile:{user.get('sub')}")
     return {"profile": resp.data[0] if resp.data else None}
 
 
@@ -86,6 +96,7 @@ async def sync_avatar(user: dict = Depends(get_verified_user)) -> dict:
             "is_active": True,
         }).execute()
 
+    await cache_delete(f"lumi:profile:{user_id}")
     return {"avatar_url": avatar_url, "full_name": full_name}
 
 

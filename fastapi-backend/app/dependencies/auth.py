@@ -2,6 +2,7 @@ from fastapi import Depends, HTTPException, Request, status
 
 import logging
 
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client, get_supabase_public_client
 
 logger = logging.getLogger(__name__)
@@ -123,7 +124,17 @@ def get_verified_user_optional(token: str | None = Depends(get_optional_bearer_t
 # ---------------------------------------------------------------------------
 
 def _get_user_role(user_id: str) -> str:
-    """Fetch the user's role from the user_roles table using service_role (bypasses RLS)."""
+    """Fetch the user's role from the user_roles table using service_role (bypasses RLS).
+
+    The result is cached in Redis with a short TTL to avoid hitting Supabase on every
+    protected request.
+    """
+    cache_key = f"lumi:auth:{user_id}:role"
+    cached = cache_get_sync(cache_key)
+    if isinstance(cached, str):
+        logger.debug("_get_user_role: cache hit for user_id=%s", user_id)
+        return cached
+
     client = get_supabase_client()
     try:
         res = client.table("user_roles").select("role").eq("user_id", user_id).single().execute()
@@ -131,6 +142,7 @@ def _get_user_role(user_id: str) -> str:
         if isinstance(data, dict):
             role = data.get("role", "user")
             logger.debug("_get_user_role: user_id=%s role=%s", user_id, role)
+            cache_set_sync(cache_key, role, ttl=300)
             return role
         logger.warning("_get_user_role: no data returned for user_id=%s", user_id)
         return "user"
@@ -147,28 +159,40 @@ def get_current_user_with_role(user: dict = Depends(get_verified_user)) -> dict:
     return user
 
 
-def _get_effective_plan(user_id: str) -> str:
-    """Return the user's effective plan. Admins/devs are always premium."""
-    role = _get_user_role(user_id)
+def _get_effective_plan(user_id: str, role: str | None = None) -> str:
+    """Return the user's effective plan. Admins/devs are always premium.
+
+    Cached in Redis with a short TTL to match role caching.
+    """
+    cache_key = f"lumi:auth:{user_id}:plan"
+    cached = cache_get_sync(cache_key)
+    if isinstance(cached, str):
+        logger.debug("_get_effective_plan: cache hit for user_id=%s", user_id)
+        return cached
+
+    if role is None:
+        role = _get_user_role(user_id)
     if role in ("admin", "dev"):
-        return "premium"
-    # For normal users, fetch from profiles using service_role
-    client = get_supabase_client()
-    try:
-        res = client.table("profiles").select("plan").eq("id", user_id).single().execute()
-        data = getattr(res, "data", None)
-        if isinstance(data, dict):
-            return data.get("plan", "free")
-        return "free"
-    except Exception as exc:
-        logger.error("_get_effective_plan failed for user_id=%s: %s", user_id, exc)
-        return "free"
+        plan = "premium"
+    else:
+        # For normal users, fetch from profiles using service_role
+        client = get_supabase_client()
+        try:
+            res = client.table("profiles").select("plan").eq("id", user_id).single().execute()
+            data = getattr(res, "data", None)
+            plan = data.get("plan", "free") if isinstance(data, dict) else "free"
+        except Exception as exc:
+            logger.error("_get_effective_plan failed for user_id=%s: %s", user_id, exc)
+            plan = "free"
+    cache_set_sync(cache_key, plan, ttl=300)
+    return plan
 
 
 def get_current_user_with_role_and_plan(user: dict = Depends(get_verified_user)) -> dict:
     """Return the verified user dict enriched with their role and effective plan."""
-    user["role"] = _get_user_role(user.get("sub"))
-    user["plan"] = _get_effective_plan(user.get("sub"))
+    role = _get_user_role(user.get("sub"))
+    user["role"] = role
+    user["plan"] = _get_effective_plan(user.get("sub"), role=role)
     return user
 
 
