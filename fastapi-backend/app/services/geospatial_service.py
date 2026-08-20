@@ -9,6 +9,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.redis_client import (
     get_centroid_cache_sync,
     set_centroid_cache_sync,
@@ -43,6 +44,12 @@ def get_geospatial_metadata(
         logger.warning("Unknown geospatial level: %s", level)
         return None
 
+    cache_key = f"lumi:geospatial:{level}:{geo_id}"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        logger.debug("Geospatial metadata cache hit: %s/%s", level, geo_id)
+        return cached
+
     fk_col = _GEO_COL_MAP[level]
     client = get_supabase_client()
 
@@ -55,7 +62,9 @@ def get_geospatial_metadata(
             .execute()
         )
         if resp.data:
-            return resp.data[0]
+            result = resp.data[0]
+            cache_set_sync(cache_key, result, ttl=86400)
+            return result
     except Exception as exc:
         logger.warning("Geospatial metadata query failed for %s/%s: %s", level, geo_id, exc)
 

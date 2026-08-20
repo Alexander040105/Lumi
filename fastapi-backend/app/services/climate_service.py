@@ -194,11 +194,28 @@ def get_or_compute_province_climate(
         if not muni_ids:
             return []
 
-        # Fetch all municipality climate data for the year
+        # Fetch all municipality climate data for the province and year in batches.
+        # This avoids the N+1 query pattern of calling get_climate_data per municipality.
         all_rows = []
-        for mid in muni_ids:
-            rows = get_climate_data("municipality", mid, year)
-            all_rows.extend(rows)
+        chunk_size = 200
+        for i in range(0, len(muni_ids), chunk_size):
+            chunk = [str(mid) for mid in muni_ids[i : i + chunk_size]]
+            try:
+                resp = (
+                    client.table("municipality_climate_monthly")
+                    .select("*")
+                    .in_("municipality_id", chunk)
+                    .eq("year", str(year))
+                    .execute()
+                )
+                all_rows.extend(resp.data or [])
+            except Exception as exc:
+                logger.warning(
+                    "Batch climate query failed for province %s chunk %s: %s",
+                    province_id,
+                    i,
+                    exc,
+                )
 
         if not all_rows:
             return []
@@ -235,6 +252,9 @@ def get_or_compute_province_climate(
                     agg[col] = None
             aggregated.append(agg)
 
+        if aggregated:
+            # Cache the aggregated result so the next call for this province/year is fast.
+            set_climate_cache_sync("province", province_id, year, aggregated)
         return aggregated
 
     except Exception as exc:
