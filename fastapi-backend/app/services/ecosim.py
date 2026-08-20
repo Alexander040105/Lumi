@@ -268,6 +268,11 @@ def get_municipality_data(
 
 
 def list_municipalities() -> list[dict]:
+    cache_key = "lumi:ecosim:municipalities"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
     client = get_supabase_client()
     try:
         result = (
@@ -290,7 +295,7 @@ def list_municipalities() -> list[dict]:
         )
 
     items = result.data or []
-    return sorted(
+    output = sorted(
         (
             {
                 "municipality_id": item.get("municipality_id"),
@@ -301,9 +306,16 @@ def list_municipalities() -> list[dict]:
         ),
         key=lambda item: item["name"].upper(),
     )
+    cache_set_sync(cache_key, output, ttl=86400)
+    return output
 
 
 def list_provinces() -> list[dict]:
+    cache_key = "lumi:ecosim:provinces"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
     client = get_supabase_client()
     try:
         result = (
@@ -326,7 +338,7 @@ def list_provinces() -> list[dict]:
         )
 
     items = result.data or []
-    return sorted(
+    output = sorted(
         (
             {
                 "province_id": item.get("province_id"),
@@ -337,10 +349,17 @@ def list_provinces() -> list[dict]:
         ),
         key=lambda item: item["name"].upper(),
     )
+    cache_set_sync(cache_key, output, ttl=86400)
+    return output
 
 
 def list_barangays(municipality_id: int | None = None) -> list[dict]:
     """List barangays, optionally filtered by municipality_id."""
+    cache_key = f"lumi:ecosim:barangays:{municipality_id or 'all'}"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
     client = get_supabase_client()
     try:
         query = (
@@ -364,7 +383,7 @@ def list_barangays(municipality_id: int | None = None) -> list[dict]:
         )
 
     items = result.data or []
-    return sorted(
+    output = sorted(
         (
             {
                 "barangay_id": item.get("barangay_id"),
@@ -376,6 +395,8 @@ def list_barangays(municipality_id: int | None = None) -> list[dict]:
         ),
         key=lambda item: item["name"].upper(),
     )
+    cache_set_sync(cache_key, output, ttl=86400)
+    return output
 
 
 def get_province_data(province_name: str, source: str = "auto") -> dict:
