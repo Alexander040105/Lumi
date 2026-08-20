@@ -12,6 +12,7 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.redis_client import (
     get_suitability_cache_sync,
     set_suitability_cache_sync,
@@ -439,6 +440,12 @@ def get_psgc_hierarchy(
     Returns:
         Dict with hierarchy levels and metadata
     """
+    target = municipality_id if municipality_id is not None else province_id
+    cache_key = f"lumi:psgc:{target}"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
     client = get_supabase_client()
     hierarchy: dict[str, Any] = {}
 
@@ -518,6 +525,8 @@ def get_psgc_hierarchy(
     except Exception as exc:
         logger.warning("PSGC hierarchy fetch failed: %s", exc)
 
+    if hierarchy:
+        cache_set_sync(cache_key, hierarchy, ttl=86400)
     return hierarchy
 
 
@@ -534,6 +543,11 @@ def get_coverage_summary(level: str = "municipality") -> dict[str, Any]:
     if normalized_level not in {"municipality", "province"}:
         normalized_level = "municipality"
 
+    cache_key = f"lumi:coverage:{normalized_level}"
+    cached = cache_get_sync(cache_key)
+    if cached is not None:
+        return cached
+
     client = get_supabase_client()
 
     # Try a pre-computed coverage_summary table first
@@ -546,7 +560,9 @@ def get_coverage_summary(level: str = "municipality") -> dict[str, Any]:
         )
         rows = resp.data or []
         if rows:
-            return {"level": normalized_level, "items": rows}
+            result = {"level": normalized_level, "items": rows}
+            cache_set_sync(cache_key, result, ttl=3600)
+            return result
     except Exception as exc:
         logger.warning("Pre-computed coverage_summary not available: %s", exc)
 
@@ -562,13 +578,17 @@ def get_coverage_summary(level: str = "municipality") -> dict[str, Any]:
             ).execute()
             with_climate = getattr(climate_resp, "count", None) or len(climate_resp.data or [])
 
-            return {
+            result = {
                 "level": normalized_level,
                 "total_units": total,
                 "with_climate_data": with_climate,
                 "coverage_pct": round(with_climate / total * 100, 1) if total else 0,
             }
+            cache_set_sync(cache_key, result, ttl=3600)
+            return result
         except Exception as exc:
             logger.warning("Coverage on-the-fly count failed: %s", exc)
 
-    return {"level": normalized_level, "items": []}
+    result = {"level": normalized_level, "items": []}
+    cache_set_sync(cache_key, result, ttl=3600)
+    return result

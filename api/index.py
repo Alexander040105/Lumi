@@ -7,11 +7,13 @@ _BACKEND = Path(__file__).resolve().parents[1] / "fastapi-backend"
 sys.path.insert(0, str(_BACKEND))
 
 # Vercel injects env vars; the local .env file is not present.
-# Use the serverless pgvector RAG backend by default.
+# Use the serverless pgvector RAG backend and Groq LLM by default to keep the
+# function bundle small (google-genai is only loaded when LLM_PROVIDER=gemini).
 os.environ.setdefault("RAG_BACKEND", "pgvector")
 os.environ.setdefault("ENABLE_RAG", "true")
 os.environ.setdefault("EMBEDDING_PROVIDER", "huggingface-inference")
 os.environ.setdefault("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+os.environ.setdefault("LLM_PROVIDER", "groq")
 
 # Import the FastAPI application from the backend package.
 from main import app  # noqa: F401

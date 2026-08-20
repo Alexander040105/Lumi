@@ -27,6 +27,7 @@ async def get_ecosim_results(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
+    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
     auth: dict = Depends(get_optional_user_or_quota),
 ):
     result = build_ecosim_dashboard_response(
@@ -39,6 +40,7 @@ async def get_ecosim_results(
         use_rag=use_rag,
         rag_query=rag_query,
         mode=params.mode,
+        data_source=data_source,
     )
     result["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return result
@@ -49,6 +51,7 @@ async def get_ecosim_ai(
     params: EcosimQueryParams = Depends(),
     use_rag: bool = False,
     rag_query: str | None = None,
+    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
     auth: dict = Depends(get_optional_user_or_quota),
 ):
     result = build_ecosim_dashboard_response(
@@ -61,6 +64,7 @@ async def get_ecosim_ai(
         use_rag=use_rag,
         rag_query=rag_query,
         mode=params.mode,
+        data_source=data_source,
     )
     return {
         "ai_analysis": result.get("ai_analysis"),
@@ -92,6 +96,7 @@ async def post_item(
     include_ai: bool = True,
     use_rag: bool = True,
     rag_query: str | None = None,
+    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
 ):
     response_data = renewable_energy_calculator(
         body.house_name,
@@ -103,6 +108,7 @@ async def post_item(
         use_rag=use_rag,
         rag_query=rag_query,
         mode=body.mode,
+        data_source=data_source,
     )
     response_data["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return response_data

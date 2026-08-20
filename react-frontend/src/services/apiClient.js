@@ -52,8 +52,9 @@ export async function request(path, { token, timeoutMs, ...options } = {}) {
       const response = await fetchWithTimeout(url, fetchOptions, effectiveTimeout);
 
       if (!response.ok) {
-        // Retry on rate limit or server overload with backoff
-        if ((response.status === 429 || response.status >= 500) && attempt < MAX_RETRIES - 1) {
+        // Retry on server overload, but do not retry rate limits — the user
+        // should see the 429 immediately rather than waiting a full window.
+        if (response.status >= 500 && attempt < MAX_RETRIES - 1) {
           const retryAfter = response.headers.get("Retry-After");
           const delay = retryAfter ? Number(retryAfter) * 1000 : INITIAL_RETRY_DELAY_MS * 2 ** attempt;
           await sleep(delay);

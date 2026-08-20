@@ -307,3 +307,43 @@ def solar_calc_advanced(
         },
         "cell_temp_c": round(calculate_noct_cell_temp(avg_temp_c or 25, poa_w_m2, noct_c, ws10m or 1.0), 2) if avg_temp_c else None,
     }
+
+
+def solar_calc_pvout(
+    panel_wattage: float,
+    number_of_panels: int,
+    pvout_annual_kwh_kwp: float,
+    days_in_month: int = 30,
+) -> dict[str, Any]:
+    """Solar output using Global Solar Atlas PVOUT (kWh/kWp/year).
+
+    PVOUT already includes temperature, soiling, and system losses, so we do
+    not double-apply a performance ratio.
+
+    Args:
+        panel_wattage: Watts per panel.
+        number_of_panels: Number of panels.
+        pvout_annual_kwh_kwp: Annual PV specific yield from GSA.
+        days_in_month: Days in the calculation month.
+
+    Returns:
+        Dict with daily, monthly, and annual solar output and score.
+    """
+    system_kwp = (panel_wattage * number_of_panels) / 1000.0
+    daily_kwh = system_kwp * (pvout_annual_kwh_kwp / 365.0)
+    monthly_kwh = daily_kwh * days_in_month
+    annual_kwh = system_kwp * pvout_annual_kwh_kwp
+    # Suitability score based on annual specific yield; 1800 kWh/kWp/year is excellent for the PH.
+    solar_score = min((pvout_annual_kwh_kwp / 1800.0) * 100, 100.0)
+    return {
+        "system_kwp": round(system_kwp, 4),
+        "pvout_annual_kwh_kwp": round(pvout_annual_kwh_kwp, 4),
+        "daily_solar_output": round(daily_kwh, 4),
+        "monthly_solar_output": round(monthly_kwh, 4),
+        "annual_solar_output": round(annual_kwh, 4),
+        "solar_score": round(solar_score, 2),
+        "performance_ratio": 1.0,
+        "loss_breakdown": {
+            "note": "PVOUT from Global Solar Atlas includes temperature, soiling, and system losses.",
+        },
+    }

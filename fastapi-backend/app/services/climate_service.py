@@ -11,6 +11,8 @@ Fallback: If barangay data is missing, use parent municipality.
 from __future__ import annotations
 
 import logging
+import statistics
+from collections import defaultdict
 from typing import Any
 
 from app.services.redis_client import (
@@ -162,6 +164,50 @@ def get_climate_with_fallback(
 # ---------------------------------------------------------------------------
 
 
+def _aggregate_municipality_climate(
+    rows: list[dict[str, Any]],
+    province_id: int,
+    year: int,
+) -> list[dict[str, Any]]:
+    """Aggregate municipality climate rows into province-level monthly means.
+
+    This is a pure function so its accuracy can be regression-tested against a
+    known baseline. The output columns match the climate table schema.
+    """
+    if not rows:
+        return []
+
+    monthly: dict[int, list[dict]] = defaultdict(list)
+    for r in rows:
+        month = r.get("month")
+        if month is not None:
+            monthly[month].append(r)
+
+    aggregated = []
+    climate_cols = [
+        "t2m", "t2m_max", "t2m_min", "rh2m", "prectotcorr",
+        "ws10m", "allsky_sfc_sw_dwn", "cloud_amt", "surface_pressure",
+        "elevation", "rhoa",
+    ]
+    for month in sorted(monthly.keys()):
+        records = monthly[month]
+        agg = {
+            "province_id": province_id,
+            "year": year,
+            "month": month,
+            "source": "aggregated_from_municipalities",
+        }
+        for col in climate_cols:
+            values = [r.get(col) for r in records if r.get(col) is not None]
+            if values:
+                agg[col] = round(statistics.mean(values), 4)
+            else:
+                agg[col] = None
+        aggregated.append(agg)
+
+    return aggregated
+
+
 def get_or_compute_province_climate(
     province_id: int,
     year: int,
@@ -194,47 +240,37 @@ def get_or_compute_province_climate(
         if not muni_ids:
             return []
 
-        # Fetch all municipality climate data for the year
+        # Fetch all municipality climate data for the province and year in batches.
+        # This avoids the N+1 query pattern of calling get_climate_data per municipality.
         all_rows = []
-        for mid in muni_ids:
-            rows = get_climate_data("municipality", mid, year)
-            all_rows.extend(rows)
+        chunk_size = 200
+        for i in range(0, len(muni_ids), chunk_size):
+            chunk = [str(mid) for mid in muni_ids[i : i + chunk_size]]
+            try:
+                resp = (
+                    client.table("municipality_climate_monthly")
+                    .select("*")
+                    .in_("municipality_id", chunk)
+                    .eq("year", str(year))
+                    .execute()
+                )
+                all_rows.extend(resp.data or [])
+            except Exception as exc:
+                logger.warning(
+                    "Batch climate query failed for province %s chunk %s: %s",
+                    province_id,
+                    i,
+                    exc,
+                )
 
         if not all_rows:
             return []
 
-        # Aggregate by month
-        from collections import defaultdict
-        import statistics
+        aggregated = _aggregate_municipality_climate(all_rows, province_id, year)
 
-        monthly: dict[int, list[dict]] = defaultdict(list)
-        for r in all_rows:
-            month = r.get("month")
-            if month is not None:
-                monthly[month].append(r)
-
-        aggregated = []
-        climate_cols = [
-            "t2m", "t2m_max", "t2m_min", "rh2m", "prectotcorr",
-            "ws10m", "allsky_sfc_sw_dwn", "cloud_amt", "surface_pressure",
-            "elevation", "rhoa",
-        ]
-        for month in sorted(monthly.keys()):
-            records = monthly[month]
-            agg = {
-                "province_id": province_id,
-                "year": year,
-                "month": month,
-                "source": "aggregated_from_municipalities",
-            }
-            for col in climate_cols:
-                values = [r.get(col) for r in records if r.get(col) is not None]
-                if values:
-                    agg[col] = round(statistics.mean(values), 4)
-                else:
-                    agg[col] = None
-            aggregated.append(agg)
-
+        if aggregated:
+            # Cache the aggregated result so the next call for this province/year is fast.
+            set_climate_cache_sync("province", province_id, year, aggregated)
         return aggregated
 
     except Exception as exc:
