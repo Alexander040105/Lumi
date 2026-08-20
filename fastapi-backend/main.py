@@ -9,6 +9,7 @@ from app.config.settings import get_settings
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.request_id import RequestIDMiddleware, setup_logging
 from app.middleware.security import BodySizeLimitMiddleware, SecurityHeadersMiddleware
+from app.middleware.timing import TimingMiddleware
 from app.routes.api import api_router
 
 settings = get_settings()
@@ -34,6 +35,9 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Timing is outermost so it can measure all inner middleware, including CORS.
+app.add_middleware(TimingMiddleware)
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
 
