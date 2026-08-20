@@ -511,8 +511,10 @@
         "latestReCapacity": "Pinakabagong RE Capacity",
         "latestReGeneration": "Pinakabagong RE Generation",
         "reShareLatest": "RE Share (pinakabago)",
+        "reShareTooltip": "Ang RE Share ay porsiyento ng kabuuang kuryente sa Pilipinas na nanggaling sa renewable energy tulad ng solar, hangin, hydropower, at geothermal sa pinakabagong taon ng IRENA. Mas mataas na halaga ay mas malaking bahagi ng malinis na enerhiya sa grid.",
         "unitMW": "MW",
-        "unitGWh": "GWh"
+        "unitGWh": "GWh",
+        "dataUnavailable": "Kasalukuyang hindi magamit ang data"
       }
     },
     "toast": {
@@ -544,11 +546,16 @@
         "interpretation": "{{share}}% ng kuryente ng bansa ang mula sa malinis na pinagkukunan tulad ng solar, wind, at hydro noong {{year}}."
       },
       "forecastGrowth": {
-        "label": "Tinatayang paglago pagdating ng 2030",
+        "label": "Tinatayang demand pagdating ng 2030",
         "value": "{{value}}",
         "sub": "{{value}} GWh ang inaasahan",
         "subEmpty": "",
-        "interpretation": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas maraming kuryente kaysa noong {{year}}. Mas maraming malinis na enerhiya ang makakatulong sa tumataas na demand.",
+        "directionIncrease": "pagtaas",
+        "directionDecrease": "pagbaba",
+        "directionNeutral": "walang pagbabago",
+        "interpretationGrowth": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas maraming kuryente kaysa noong {{year}}. Mas maraming malinis na enerhiya ang makakatulong sa tumataas na demand.",
+        "interpretationDecline": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas kaunting kuryente kaysa noong {{year}}. Makakatulong pa rin ang malinis na enerhiya upang mabawasan ang paggamit ng fossil fuels.",
+        "interpretationNeutral": "Pagdating ng 2030, ang demand sa kuryente ng bansa ay inaasahang halos kapareho ng noong {{year}}.",
         "interpretationFallback": "Ang mga tantiya sa hinaharap na demand sa kuryente ay tumutulong sa pagpaplano ng bagong mga planta at pamumuhunan sa renewable energy.",
         "na": "N/A"
       }

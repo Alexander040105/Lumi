@@ -20,6 +20,7 @@ import EnergySources from "@/components/energyhub/EnergySources";
 import AiInsightPanel from "@/components/energyhub/AiInsightPanel";
 import ProvincialDemand from "@/components/energyhub/ProvincialDemand";
 import CitationSources from "@/components/shared/CitationSources";
+import InfoTooltip from "@/components/shared/InfoTooltip";
 
 const SUITABILITY_METRICS = [
   "renewable_potential",
@@ -263,7 +264,15 @@ export default function EnergyHub() {
               <div className="rounded-lg border bg-muted/30 p-3">
                 <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.latestReCapacity")}</p>
                 <p className="text-lg font-semibold">
-                  {irena.capacity.filter(c => c.technology === "Total renewable energy" && c.grid_connection === "On-grid").pop()?.capacity_mw?.toLocaleString?.() ?? "—"} {t("energyHub.sections.irena.unitMW")}
+                  {(() => {
+                    const cap = irena.capacity
+                      .filter(c => c.technology === "Total renewable energy" && c.grid_connection === "OnGrid")
+                      .pop();
+                    const value = cap?.capacity_mw;
+                    return Number.isFinite(value)
+                      ? `${value.toLocaleString()} ${t("energyHub.sections.irena.unitMW")}`
+                      : t("energyHub.sections.irena.dataUnavailable");
+                  })()}
                 </p>
               </div>
               <div className="rounded-lg border bg-muted/30 p-3">
@@ -273,9 +282,18 @@ export default function EnergyHub() {
                 </p>
               </div>
               <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.reShareLatest")}</p>
+                <div className="text-xs text-muted-foreground flex items-center gap-1">
+                  <InfoTooltip
+                    label={t("energyHub.sections.irena.reShareLatest")}
+                    content={t("energyHub.sections.irena.reShareTooltip")}
+                  />
+                </div>
                 <p className="text-lg font-semibold">
-                  {irena.renewable_share?.pop()?.renewable_share_pct ?? "—"}%
+                  {(() => {
+                    const latestShare = irena.renewable_share?.[irena.renewable_share.length - 1];
+                    const value = latestShare?.renewable_share_pct;
+                    return Number.isFinite(value) ? `${value.toLocaleString()}%` : "—%";
+                  })()}
                 </p>
               </div>
             </div>

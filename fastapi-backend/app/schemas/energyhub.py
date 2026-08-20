@@ -15,6 +15,14 @@ class AnalyzeChartResponse(BaseModel):
     remaining_anonymous_requests: int | None = None
 
 
+class MapExplanationResponse(BaseModel):
+    insight: str
+    recommendation: str = ""
+    data_year: int
+    chart_type: str = ""
+    remaining_anonymous_requests: int | None = None
+
+
 class LatestStatisticsResponse(BaseModel):
     year: int
     total_consumption_gwh: float

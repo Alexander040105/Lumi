@@ -1,0 +1,12 @@
+distinct 11
+map_solar_potential 3d43910b12569d47 2
+map_geothermal_potential 44bf8664d9601f9c 1
+map_hydro_potential e7dfdd3eed2eeb5e 1
+map_solar_potential 6872e5bce931da9a 1
+map_renewable_potential 81235076c781f591 1
+map_wind_potential 68620afd64328d46 1
+map_wind_potential a9556f32de4124ad 1
+map_hydro_potential 26ece8ecf074be43 1
+map_renewable_potential 8a672034cf5c8ad9 1
+map_hydro_potential 4e9bb76590df7b25 1
+map_geothermal_potential c5df50cdc5cb20c9 1

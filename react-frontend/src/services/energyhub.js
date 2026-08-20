@@ -86,3 +86,12 @@ export function analyzeChart(chartType, chartData, forceRefresh = false) {
     body: JSON.stringify({ chart_type: chartType, chart_data: chartData }),
   });
 }
+
+export function getEnergyHubMapExplanation(metric, level = "province", forceRefresh = false) {
+  const params = new URLSearchParams({
+    metric,
+    level,
+    force_refresh: forceRefresh ? "true" : "false",
+  });
+  return request(`${ENERGYHUB_BASE}/map-explanation?${params.toString()}`);
+}

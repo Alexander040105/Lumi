@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 export default function ExpandableBlock({
   title,
   children,
+  content,
   defaultOpen = false,
   className = "",
   contentClassName = "",
@@ -31,7 +32,7 @@ export default function ExpandableBlock({
       </Button>
       {open && (
         <div className={cn("px-4 pb-4 text-sm text-muted-foreground", contentClassName)}>
-          {children}
+          {children ?? content}
         </div>
       )}
     </div>

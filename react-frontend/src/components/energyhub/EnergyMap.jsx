@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { MapPin, Layers, Map as MapIcon, Info } from "lucide-react";
+import { MapPin, Layers, Map as MapIcon } from "lucide-react";
 import { useI18n } from "@/i18n";
+import MapExplanationCard from "./MapExplanationCard";
 
 const METRIC_KEYS = [
   "renewable_potential",
@@ -230,7 +231,7 @@ function FallbackMapGrid({ data, metric, level }) {
   );
 }
 
-function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} }) {
+function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {}, showVolcanoMarkers = false }) {
   const { t } = useI18n();
   const [L, setL] = useState(null);
   const [RL, setRL] = useState(null);
@@ -390,30 +391,8 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
     layer.bindTooltip(tooltipHtml, { sticky: true, className: "lumi-tooltip" });
   };
 
-  const showVolcanoes = overlays.volcanoes?.visible;
-
-  const volcanoPointToLayer = (feature, latlng) => {
-    return L.circleMarker(latlng, {
-      radius: 6,
-      color: "hsl(var(--chart-geothermal))",
-      fillColor: "hsl(var(--chart-geothermal))",
-      fillOpacity: 0.8,
-      weight: 2,
-    });
-  };
-
-  const onEachVolcano = (feature, layer) => {
-    const name = feature.properties?.name || t("energyHub.map.volcano");
-    const province = feature.properties?.province || "";
-    const tooltipHtml = `<div style="font-family:sans-serif;font-size:13px;line-height:1.4;min-width:140px">
-      <div style="font-size:14px;font-weight:600;color:var(--foreground)">${name}</div>
-      ${province ? `<div style="color:var(--muted-foreground);font-size:12px">${province}</div>` : ""}
-    </div>`;
-    layer.bindTooltip(tooltipHtml, { sticky: true, className: "lumi-tooltip" });
-  };
-
-  // Filter operating plants for markers
-  const showPlantMarkers = metric === "geothermal_potential";
+  // Show operating plants and volcanoes for geothermal and composite renewable views
+  const showPlantMarkers = metric === "geothermal_potential" || metric === "renewable_potential";
   const operatingPlants = geothermalPlants.filter((p) => p.status === "operating");
 
   return (
@@ -472,17 +451,7 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
             </RL.Marker>
           );
         })}
-        {/* Geothermal raster overlays (volcanoes, faults) */}
-        {overlays.volcanoes?.visible && overlays.volcanoes?.bounds && (
-          <ImageOverlay
-            url={overlays.volcanoes.url}
-            bounds={[
-              [overlays.volcanoes.bounds.south, overlays.volcanoes.bounds.west],
-              [overlays.volcanoes.bounds.north, overlays.volcanoes.bounds.east],
-            ]}
-            opacity={0.5}
-          />
-        )}
+        {/* Geothermal fault overlay */}
         {overlays.faults?.visible && overlays.faults?.bounds && (
           <ImageOverlay
             url={overlays.faults.url}
@@ -493,13 +462,40 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {} 
             opacity={0.5}
           />
         )}
-        {showVolcanoes && volcanoGeojson && (
-          <GeoJSON
-            data={volcanoGeojson}
-            pointToLayer={volcanoPointToLayer}
-            onEachFeature={onEachVolcano}
-          />
-        )}
+        {showVolcanoMarkers && volcanoGeojson && volcanoGeojson.features?.map((feature) => {
+          const coords = feature.geometry?.coordinates;
+          if (!Array.isArray(coords) || coords.length < 2) return null;
+          const [lon, lat] = coords;
+          const name = feature.properties?.name || t("energyHub.map.volcano");
+          const province = feature.properties?.province || "";
+          const volcanoIcon = L.divIcon({
+            className: "",
+            html: `<div style="width:14px;height:14px;border-radius:50%;background:hsl(var(--destructive));border:2px solid hsl(var(--map-marker-stroke));box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+            iconSize: [14, 14],
+            iconAnchor: [7, 7],
+          });
+          return (
+            <RL.Marker
+              key={name + (province || "")}
+              position={[lat, lon]}
+              icon={volcanoIcon}
+              title={name}
+            >
+              <RL.Popup>
+                <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 140 }}>
+                  <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 4 }}>
+                    {name}
+                  </div>
+                  {province && (
+                    <div style={{ color: "var(--muted-foreground)", fontSize: 12 }}>
+                      {province}
+                    </div>
+                  )}
+                </div>
+              </RL.Popup>
+            </RL.Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
@@ -512,11 +508,23 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
   const [showVolcanoes, setShowVolcanoes] = useState(false);
   const [showFaults, setShowFaults] = useState(false);
 
+  const data = mapData?.items || [];
+
+  const showSuitabilityLegend = isSuitabilityMetric(metric);
+  const isGeothermal = metric === "geothermal_potential";
+  const isRenewable = metric === "renewable_potential";
+  const showGeoMarkers = isGeothermal || isRenewable;
+
   useEffect(() => {
     import("leaflet")
       .then(() => setLeafletReady(true))
       .catch(() => setLeafletReady(false));
   }, []);
+
+  // Show volcano markers by default for geothermal/renewable; hide otherwise
+  useEffect(() => {
+    setShowVolcanoes(showGeoMarkers);
+  }, [showGeoMarkers]);
 
   // Fetch overlay manifest once
   useEffect(() => {
@@ -526,19 +534,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       .catch(() => setOverlayManifest(null));
   }, []);
 
-  const data = mapData?.items || [];
-
-  const showSuitabilityLegend = isSuitabilityMetric(metric);
-  const isGeothermal = metric === "geothermal_potential";
-
   const overlays = {
-    volcanoes: overlayManifest?.volcanoes
-      ? {
-          url: `/${overlayManifest.volcanoes.png_filename}`,
-          bounds: overlayManifest.volcanoes.bounds,
-          visible: showVolcanoes,
-        }
-      : null,
     faults: overlayManifest?.faults
       ? {
           url: `/${overlayManifest.faults.png_filename}`,
@@ -595,8 +591,8 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             </select>
           </div>
 
-          {/* Overlay toggles (only when geothermal metric selected) */}
-          {isGeothermal && overlayManifest && (
+          {/* Overlay toggles for geothermal and composite renewable views */}
+          {showGeoMarkers && overlayManifest && (
             <>
               <button
                 type="button"
@@ -611,40 +607,30 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
                 <span className="inline-block h-2 w-2 rounded-full bg-destructive" />
                 {t("energyHub.map.volcanoes")}
               </button>
-              <button
-                type="button"
-                onClick={() => setShowFaults((v) => !v)}
-                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
-                  showFaults
-                    ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"
-                    : "bg-background border-muted text-muted-foreground hover:bg-muted"
-                }`}
-                title={t("energyHub.map.toggleFaults")}
-              >
-                <span className="inline-block h-2 w-2 rounded-full bg-chart-geothermal" />
-                {t("energyHub.map.faults")}
-              </button>
+              {isGeothermal && (
+                <button
+                  type="button"
+                  onClick={() => setShowFaults((v) => !v)}
+                  className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                    showFaults
+                      ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"
+                      : "bg-background border-muted text-muted-foreground hover:bg-muted"
+                  }`}
+                  title={t("energyHub.map.toggleFaults")}
+                >
+                  <span className="inline-block h-2 w-2 rounded-full bg-chart-geothermal" />
+                  {t("energyHub.map.faults")}
+                </button>
+              )}
             </>
           )}
         </div>
       </div>
 
-      {isGeothermal && (
-        <div className="mb-4 rounded-lg border bg-muted/30 p-4">
-          <div className="flex items-start gap-2">
-            <Info className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <p className="font-medium text-foreground">{t("energyHub.map.explanationTitle")}</p>
-              <ul className="list-disc pl-4 space-y-1">
-                <li>{t("energyHub.map.explanationGeothermal")}</li>
-                <li>{t("energyHub.map.explanationPlants")}</li>
-                <li>{t("energyHub.map.explanationVolcanoes")}</li>
-                <li>{t("energyHub.map.explanationFaults")}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      )}
+      <MapExplanationCard
+        metric={metric}
+        level={level}
+      />
 
       {mapLoading && (
         <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground" style={{ height: 480 }}>
@@ -656,7 +642,14 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       {!mapLoading && (
         <div className="mt-4">
           {leafletReady ? (
-            <LeafletMap data={data} metric={metric} level={level} geothermalPlants={geothermalPlants} overlays={overlays} />
+            <LeafletMap
+              data={data}
+              metric={metric}
+              level={level}
+              geothermalPlants={geothermalPlants}
+              overlays={overlays}
+              showVolcanoMarkers={showGeoMarkers && showVolcanoes}
+            />
           ) : (
             <FallbackMapGrid data={data} metric={metric} level={level} />
           )}
@@ -678,11 +671,19 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
               {t(`energyHub.map.legend.${item.key}`)}
             </span>
           ))}
-          {isGeothermal && (
-            <span className="inline-flex items-center gap-1" title={t("energyHub.map.plantMarkerTooltip")}>
-              <span className="inline-block h-2.5 w-2.5 rounded-full bg-chart-geothermal border border-foreground" />
-              {t("energyHub.map.operatingPlants")}
-            </span>
+          {showGeoMarkers && (
+            <>
+              <span className="inline-flex items-center gap-1" title={t("energyHub.map.plantMarkerTooltip")}>
+                <span className="inline-block h-2.5 w-2.5 rounded-full bg-chart-geothermal border border-foreground" />
+                {t("energyHub.map.operatingPlants")}
+              </span>
+              {showVolcanoes && (
+                <span className="inline-flex items-center gap-1" title={t("energyHub.map.volcanoMarkerTooltip")}>
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-destructive border border-foreground" />
+                  {t("energyHub.map.volcanoes")}
+                </span>
+              )}
+            </>
           )}
         </div>
       )}
