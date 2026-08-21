@@ -592,9 +592,9 @@
         "mw": "MW"
       },
       "hover": {
-        "consumption": "%{year}<br>%{value} GWh<extra>{{extra}}</extra>",
-        "peakDemand": "%{year}<br>%{value} MW<extra></extra>",
-        "renewable": "%{year}<br>%{value} GWh<extra></extra>"
+        "consumption": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>",
+        "peakDemand": "{{year}}<br>{{value}} MW<extra></extra>",
+        "renewable": "{{year}}<br>{{value}} GWh<extra></extra>"
       },
       "consumption": {
         "title": "Total Electricity Use Over Time",
@@ -856,6 +856,7 @@
         "body": "You entered {{entered}} kWh, but your bill and rate suggest about {{effective}} kWh. We're using the effective value for this analysis."
       },
       "referenceOnly": "Reference only",
+      "utilityScaleNote": "utility-scale, not a home option",
       "sources": {
         "Solar": "Solar",
         "Wind": "Wind",
@@ -878,7 +879,13 @@
         "yourLocation": "Your Location",
         "locationText": "{{municipality}} — ID {{id}}",
         "usageText": "Based on {{consumption}} kWh/month usage and {{bill}} monthly bill (effective rate: {{rate}}/kWh).",
-        "climateAdvantage": "Climate Advantage"
+        "climateAdvantage": "Climate Advantage",
+        "climateAdvantageText": "This is the best home-scale match based on estimated monthly output. {{source}} conditions are {{level}} ({{value}}).",
+        "climateAdvantageTextPoor": "This is the best home-scale match based on estimated monthly output. Although {{source}} conditions are {{level}} ({{value}}), this system is still estimated to produce the most kWh among the home-scale options."
+      },
+      "aiAnalysis": {
+        "recommendationFallback": "Based on estimated monthly output, {{source}} is the best home-scale match. It could generate about {{gen}} kWh per month, covering roughly {{pct}}% of your effective electricity usage.",
+        "environmentalImpactFallback": "Using a {{source}} system could reduce CO₂ emissions by about {{carbon}} kg per month compared to fossil-fuel generation."
       },
       "climateTemplates": {
         "Solar": "{{value}} kWh/m²/day — {{desc}}",
