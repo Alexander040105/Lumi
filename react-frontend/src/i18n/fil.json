@@ -593,8 +593,8 @@
       },
       "hover": {
         "consumption": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>",
-        "peakDemand": "{{year}}<br>{{value}} MW<extra></extra>",
-        "renewable": "{{year}}<br>{{value}} GWh<extra></extra>"
+        "peakDemand": "{{year}}<br>{{value}} MW<extra>{{extra}}</extra>",
+        "renewable": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>"
       },
       "consumption": {
         "title": "Kabuuang Paggamit ng Kuryente sa Paglipas ng Panahon",

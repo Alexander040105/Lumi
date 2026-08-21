@@ -96,7 +96,11 @@ class EnergyHubML:
         self._historical: pd.DataFrame | None = None
         self._forecast_consumption: pd.DataFrame | None = None
         self._forecast_peak: pd.DataFrame | None = None
+        self._forecast_renewable: pd.DataFrame | None = None
         self._model_comparison: pd.DataFrame | None = None
+        self._model_comparison_consumption: pd.DataFrame | None = None
+        self._model_comparison_peak: pd.DataFrame | None = None
+        self._model_comparison_renewable: pd.DataFrame | None = None
         self._tabula_raw: pd.DataFrame | None = None
         self._provincial_consumption: pd.DataFrame | None = None
         self._regional_sales: pd.DataFrame | None = None
@@ -116,7 +120,11 @@ class EnergyHubML:
         self._historical = _prefer_v2("master_preprocessed.csv")
         self._forecast_consumption = _prefer_v2("forecast_consumption_2025_2030.csv")
         self._forecast_peak = _prefer_v2("forecast_peak_demand_2025_2030.csv")
+        self._forecast_renewable = _prefer_v2("forecast_renewable_generation_2025_2030.csv")
         self._model_comparison = _prefer_v2("model_comparison_results.csv")
+        self._model_comparison_consumption = _prefer_v2("model_comparison_consumption.csv")
+        self._model_comparison_peak = _prefer_v2("model_comparison_peak_demand.csv")
+        self._model_comparison_renewable = _prefer_v2("model_comparison_renewable_generation.csv")
         self._tabula_raw = _load_csv("Tabula_DOE_Data.csv", "data_v1")
         self._provincial_consumption = _load_csv("provincial_consumption_2003_2025.csv", "data_v2_preprocessed")
         self._regional_sales = _load_csv("regional_sales_2025.csv", "data_v2_preprocessed")
@@ -186,13 +194,16 @@ class EnergyHubML:
         return _sanitize_nan({"years": years, "series": series})
 
     def get_forecast(self, metric: str = "consumption") -> dict[str, Any]:
-        """Return the 2025-2030 ML forecast with confidence intervals."""
-        if metric == "peak_demand":
-            df = self._forecast_peak
-            target_col = "total_peak_demand_mw"
-        else:
-            df = self._forecast_consumption
-            target_col = "total_consumption_gwh"
+        """Return the 2025-2030 ML forecast with confidence intervals.
+
+        Supported metrics: consumption, peak_demand, renewable_generation.
+        """
+        metric_map = {
+            "consumption": (self._forecast_consumption, "total_consumption_gwh"),
+            "peak_demand": (self._forecast_peak, "total_peak_demand_mw"),
+            "renewable_generation": (self._forecast_renewable, "renewable_generation_gwh"),
+        }
+        df, target_col = metric_map.get(metric, (self._forecast_consumption, "total_consumption_gwh"))
 
         if df is None or df.empty:
             return {
@@ -220,11 +231,23 @@ class EnergyHubML:
             "test_period": "2021-2024",
         })
 
-    def get_model_comparison(self) -> list[dict[str, Any]]:
-        """Return test-set performance across all trained models."""
-        if self._model_comparison is None or self._model_comparison.empty:
+    def get_model_comparison(self, metric: str = "consumption") -> list[dict[str, Any]]:
+        """Return test-set performance across all trained models for the requested metric."""
+        def _df_or_fallback(df, fallback):
+            if df is not None and not df.empty:
+                return df
+            return fallback
+
+        metric_map = {
+            "consumption": _df_or_fallback(self._model_comparison_consumption, self._model_comparison),
+            "peak_demand": _df_or_fallback(self._model_comparison_peak, None),
+            "renewable_generation": _df_or_fallback(self._model_comparison_renewable, None),
+        }
+        df = metric_map.get(metric, self._model_comparison)
+
+        if df is None or df.empty:
             return []
-        df = self._model_comparison.copy()
+        df = df[["model", "mae", "rmse", "mape"]].copy()
         df["mae"] = df["mae"].round(2)
         df["rmse"] = df["rmse"].round(2)
         df["mape"] = df["mape"].round(2)

@@ -239,12 +239,16 @@ class EnergyHubService:
     def build_trends(self) -> dict[str, Any]:
         historical = self._ml.get_historical_trends()
         forecast = self._ml.get_forecast("consumption")
+        forecast_peak = self._ml.get_forecast("peak_demand")
+        forecast_renewable = self._ml.get_forecast("renewable_generation")
         source_breakdown = self._ml.get_source_breakdown()
         grid_breakdown = self._ml.get_grid_breakdown()
         return _sanitize_nan({
             "years": historical["years"],
             "series": historical["series"],
             "forecast": forecast,
+            "forecast_peak": forecast_peak,
+            "forecast_renewable": forecast_renewable,
             "source_breakdown": source_breakdown,
             "grid_breakdown": grid_breakdown,
         })

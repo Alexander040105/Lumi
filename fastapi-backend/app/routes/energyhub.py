@@ -35,7 +35,7 @@ async def get_overview():
 
 @router.get("/forecast", response_model=ForecastResponse)
 async def get_forecast(
-    metric: str = Query(default="consumption", description="Metric to forecast: consumption or peak_demand"),
+    metric: str = Query(default="consumption", description="Metric to forecast: consumption, peak_demand, or renewable_generation"),
 ):
     """Return the ML forecast (2025-2030) with confidence intervals.
 
@@ -100,10 +100,12 @@ async def get_grid_breakdown(
 
 
 @router.get("/model-comparison", response_model=ModelComparisonResponse)
-async def get_model_comparison():
+async def get_model_comparison(
+    metric: str = Query(default="consumption", description="Metric for model comparison: consumption, peak_demand, or renewable_generation"),
+):
     """Return test-set performance metrics for all trained models."""
     svc = get_energyhub_service()
-    return {"items": svc._ml.get_model_comparison()}
+    return {"items": svc._ml.get_model_comparison(metric)}
 
 
 @router.get("/ai-insight", response_model=AiInsightResponse)
