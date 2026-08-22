@@ -1,4 +1,4 @@
-import { Zap, TrendingUp, Sun, Activity } from "lucide-react";
+import { Zap, Sun, Activity } from "lucide-react";
 import { useI18n } from "@/i18n";
 import InfoTooltip from "@/components/shared/InfoTooltip";
 
@@ -15,6 +15,21 @@ export default function EnergyOverview({ data }) {
   }
 
   const { latest, forecast_summary } = data;
+
+  const forecastGrowth = forecast_summary?.forecast_growth_pct;
+  const hasForecast = Number.isFinite(forecastGrowth);
+  const forecastGrowthValue = (() => {
+    if (!hasForecast) return t("energyHub.overview.forecastGrowth.na");
+    if (forecastGrowth > 0) return `${forecastGrowth.toFixed(2)}% ${t("energyHub.overview.forecastGrowth.directionIncrease")}`;
+    if (forecastGrowth < 0) return `${Math.abs(forecastGrowth).toFixed(2)}% ${t("energyHub.overview.forecastGrowth.directionDecrease")}`;
+    return `0% ${t("energyHub.overview.forecastGrowth.directionNeutral")}`;
+  })();
+  const forecastInterpretation = (() => {
+    if (!hasForecast) return t("energyHub.overview.forecastGrowth.interpretationFallback");
+    if (forecastGrowth > 0) return t("energyHub.overview.forecastGrowth.interpretationGrowth", { pct: forecastGrowth, year: latest.year });
+    if (forecastGrowth < 0) return t("energyHub.overview.forecastGrowth.interpretationDecline", { pct: Math.abs(forecastGrowth), year: latest.year });
+    return t("energyHub.overview.forecastGrowth.interpretationNeutral", { year: latest.year });
+  })();
 
   const cards = [
     {
@@ -34,7 +49,7 @@ export default function EnergyOverview({ data }) {
       tooltipText: t("energyHub.overview.peakDemand.tooltipText"),
       value: t("energyHub.overview.peakDemand.value", { value: latest.total_peak_demand_mw.toLocaleString() }),
       sub: t("energyHub.overview.peakDemand.sub", { year: latest.year }),
-      interpretation: t("energyHub.overview.peakDemand.interpretation"),
+      interpretation: t("energyHub.overview.peakDemand.interpretation", { year: latest.year }),
       icon: Activity,
       color: "text-rose-500",
       bg: "bg-rose-50",
@@ -43,7 +58,7 @@ export default function EnergyOverview({ data }) {
       label: t("energyHub.overview.renewableShare.label"),
       value: t("energyHub.overview.renewableShare.value", { share: latest.renewable_share_pct }),
       sub: t("energyHub.overview.renewableShare.sub", { generated: latest.renewable_generation_gwh.toLocaleString() }),
-      interpretation: t("energyHub.overview.renewableShare.interpretation", { share: latest.renewable_share_pct }),
+      interpretation: t("energyHub.overview.renewableShare.interpretation", { share: latest.renewable_share_pct, year: latest.year }),
       icon: Sun,
       color: "text-emerald-500",
       bg: "bg-emerald-50",
@@ -51,19 +66,13 @@ export default function EnergyOverview({ data }) {
     {
       label: t("energyHub.overview.forecastGrowth.label"),
       value: t("energyHub.overview.forecastGrowth.value", {
-        value: forecast_summary?.forecast_growth_pct
-          ? `+${forecast_summary.forecast_growth_pct}%`
-          : t("energyHub.overview.forecastGrowth.na")
+        value: forecastGrowthValue,
       }),
       sub: forecast_summary?.forecast_2030_gwh
         ? t("energyHub.overview.forecastGrowth.sub", { value: forecast_summary.forecast_2030_gwh.toLocaleString() })
         : t("energyHub.overview.forecastGrowth.subEmpty"),
-      interpretation: forecast_summary?.forecast_growth_pct
-        ? t("energyHub.overview.forecastGrowth.interpretation", { pct: forecast_summary.forecast_growth_pct })
-        : t("energyHub.overview.forecastGrowth.interpretationFallback"),
-      icon: TrendingUp,
-      color: "text-sky-500",
-      bg: "bg-sky-50",
+      interpretation: forecastInterpretation,
+      icon: null,
     },
   ];
 
@@ -90,9 +99,11 @@ export default function EnergyOverview({ data }) {
                 </p>
               )}
             </div>
-            <div className={`rounded-lg p-2.5 ${card.bg} shrink-0 ml-3`}>
-              <card.icon className={`h-5 w-5 ${card.color}`} />
-            </div>
+            {card.icon && (
+              <div className={`rounded-lg p-2.5 ${card.bg} shrink-0 ml-3`}>
+                <card.icon className={`h-5 w-5 ${card.color}`} />
+              </div>
+            )}
           </div>
         </div>
       ))}

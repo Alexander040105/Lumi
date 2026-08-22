@@ -21,6 +21,110 @@ logger = logging.getLogger(__name__)
 
 _DATA_DIR = Path(__file__).resolve().parents[3] / "DOE_Data_Extracted"
 _GEOJSON_DIR = Path(__file__).resolve().parents[3] / "philippine_geojson"
+_LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
+
+_VOLCANOES: list[dict[str, Any]] | None = None
+
+
+# Canned fallbacks if Groq is unavailable (must match the style constraints)
+_MAP_EXPLANATION_FALLBACKS = {
+    "renewable_potential": (
+        "The map shows a province-level composite renewable potential score. "
+        "It averages the solar, wind, hydropower, and geothermal suitability values that are stored in the database. "
+        "A province can look moderate even if it has volcanoes or rivers nearby because the composite is pulled down by any lower-scoring source; for example, strong geothermal potential can be offset by average solar or limited hydropower head. "
+        "Scores are derived from municipality_climate_monthly (solar/wind), hydropower_suitability and geothermal_suitability tables."
+    ),
+    "solar_potential": (
+        "The map colors provinces by solar suitability, calculated from NASA POWER all-sky surface shortwave downward radiation and normalized so that 5.0 kWh/m²/day equals the top score. "
+        "Mountainous or cloudy regions, even those near volcanoes or water, can score moderate because terrain and cloud cover reduce usable irradiance. "
+        "Data source: fastapi-backend/app/services/local_data/ and municipality_climate_monthly."
+    ),
+    "wind_potential": (
+        "The map colors provinces by wind suitability, using 10 m wind speed from municipality_climate_monthly and normalized to 7.0 m/s as the upper benchmark. "
+        "Coastal or elevated areas may still show moderate values if average wind speeds or terrain exposure are not consistently high. "
+        "Data source: municipality_climate_monthly."
+    ),
+    "hydro_potential": (
+        "The map shows hydropower suitability based on terrain slope, hydraulic head, runoff potential, and gravity-flow feasibility from the pre-computed hydropower_suitability table. "
+        "A place can have abundant surface water yet a low or medium score if the land is flat, because low hydraulic head and gentle watershed gradients produce very little extractable power. "
+        "Data source: regionalData/output/terrain_metrics/hydropower_suitability.csv and app/services/hydro_output_calc.py."
+    ),
+    "geothermal_potential": (
+        "The map shows geothermal suitability boosted by proximity to operating geothermal plants. "
+        "Areas near volcanoes or plants can still be moderate because surface heat is not enough: a viable geothermal site also needs permeable rock, reservoir temperature, water availability, and accessible terrain. "
+        "Data source: geothermal_suitability table, fastapi-backend/app/services/geothermal/plants.py, and fastapi-backend/app/services/local_data/geothermal_volcanoes.json."
+    ),
+}
+
+
+def _classify_score(value: float | None) -> str:
+    if value is None:
+        return "noData"
+    if value >= 81:
+        return "veryHigh"
+    if value >= 61:
+        return "high"
+    if value >= 41:
+        return "moderate"
+    if value >= 21:
+        return "low"
+    return "veryLow"
+
+
+def _load_volcanoes() -> list[dict[str, Any]]:
+    """Load the Philippine volcano list used for map prompts and markers."""
+    global _VOLCANOES
+    if _VOLCANOES is not None:
+        return _VOLCANOES
+    candidates = [
+        _LOCAL_DATA_DIR / "geothermal_volcanoes.json",
+        Path(__file__).resolve().parents[3] / "react-frontend" / "public" / "geothermal_volcanoes.json",
+        Path(__file__).resolve().parents[3] / "GeothermalDatasets" / "philippine_volcanoes.csv",
+    ]
+    _VOLCANOES = []
+    for candidate in candidates:
+        if not candidate.exists():
+            continue
+        try:
+            if candidate.suffix == ".csv":
+                import csv
+                with open(candidate, "r", encoding="utf-8") as f:
+                    reader = csv.DictReader(f)
+                    for row in reader:
+                        name = row.get("Name of Volcano") or row.get("Name")
+                        lat = row.get("Latitude")
+                        lon = row.get("Longitude")
+                        if name and lat and lon:
+                            _VOLCANOES.append({
+                                "name": name,
+                                "lat": float(lat),
+                                "lon": float(lon),
+                                "province": row.get("Province", ""),
+                            })
+            else:
+                with open(candidate, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, list):
+                    _VOLCANOES = data
+                elif isinstance(data, dict) and data.get("type") == "FeatureCollection":
+                    _VOLCANOES = []
+                    for feat in data.get("features", []):
+                        props = feat.get("properties", {})
+                        geom = feat.get("geometry", {})
+                        coords = geom.get("coordinates") if geom.get("type") == "Point" else None
+                        if coords:
+                            _VOLCANOES.append({
+                                "name": props.get("name", ""),
+                                "lat": coords[1],
+                                "lon": coords[0],
+                                "province": props.get("province", ""),
+                            })
+            if _VOLCANOES:
+                break
+        except Exception as exc:
+            logger.warning("Failed to load volcano data from %s: %s", candidate, exc)
+    return _VOLCANOES
+
 
 # Province name normalization: API/DB name → GeoJSON adm2_en name
 _PROVINCE_NAME_MAP = {
@@ -135,12 +239,16 @@ class EnergyHubService:
     def build_trends(self) -> dict[str, Any]:
         historical = self._ml.get_historical_trends()
         forecast = self._ml.get_forecast("consumption")
+        forecast_peak = self._ml.get_forecast("peak_demand")
+        forecast_renewable = self._ml.get_forecast("renewable_generation")
         source_breakdown = self._ml.get_source_breakdown()
         grid_breakdown = self._ml.get_grid_breakdown()
         return _sanitize_nan({
             "years": historical["years"],
             "series": historical["series"],
             "forecast": forecast,
+            "forecast_peak": forecast_peak,
+            "forecast_renewable": forecast_renewable,
             "source_breakdown": source_breakdown,
             "grid_breakdown": grid_breakdown,
         })
@@ -205,6 +313,10 @@ class EnergyHubService:
 
         elif metric == "geothermal_potential":
             items = self._build_geothermal_potential_map()
+
+        elif metric in ("solar_potential", "wind_potential", "hydro_potential"):
+            column_prefix = municipality_metrics[metric]
+            items = self._build_province_metric_map(column_prefix, metric)
 
         return {"items": items, "metric": metric, "level": level}
 
@@ -522,6 +634,172 @@ class EnergyHubService:
 
         return items
 
+    def _build_province_metric_map(
+        self,
+        column_prefix: str,
+        metric_name: str,
+    ) -> list[dict[str, Any]]:
+        """Aggregate municipality suitability scores up to province level.
+
+        Uses the pre-computed municipality scores from Supabase and Redis,
+        averages them per province, and matches the result to GeoJSON province
+        names. Aggregated factor values are also returned so map explanations
+        can cite representative terrain/climate numbers.
+        """
+        muni_items = self._build_municipality_potential_map(column_prefix)
+
+        client = get_supabase_client()
+        try:
+            prov_resp = client.table("provinces").select(
+                "province_id,name,geojson_name,lat,lon"
+            ).limit(10000).execute()
+            prov_rows = (prov_resp.data or [])
+        except Exception as exc:
+            logger.warning("Supabase query failed for province metric map: %s", exc)
+            prov_rows = []
+
+        province_by_id: dict[int, dict[str, Any]] = {
+            p["province_id"]: p for p in prov_rows if p.get("province_id")
+        }
+
+        # Group municipality data by province_id
+        prov_scores: dict[int, list[float]] = {}
+        prov_lats: dict[int, list[float]] = {}
+        prov_lons: dict[int, list[float]] = {}
+        prov_factors: dict[int, list[Any]] = {}
+        prov_names: dict[int, str] = {}
+
+        for item in muni_items:
+            pid = item.get("province_id")
+            if pid is None:
+                continue
+            value = item.get("value")
+            if value is None:
+                continue
+            prov_names[pid] = item.get("province") or province_by_id.get(pid, {}).get("name", "")
+            prov_scores.setdefault(pid, []).append(float(value))
+            lat = item.get("lat")
+            lon = item.get("lon")
+            if lat is not None and lon is not None:
+                prov_lats.setdefault(pid, []).append(float(lat))
+                prov_lons.setdefault(pid, []).append(float(lon))
+            factors = item.get("factors")
+            if factors:
+                prov_factors.setdefault(pid, []).append(factors)
+
+        # Build province data keyed by normalized name
+        province_data: dict[str, dict[str, Any]] = {}
+        for pid, scores in prov_scores.items():
+            avg = round(sum(scores) / len(scores), 2) if scores else None
+            province = prov_names.get(pid, province_by_id.get(pid, {}).get("name", "")).strip()
+            if not province:
+                continue
+
+            lats = prov_lats.get(pid, [])
+            lons = prov_lons.get(pid, [])
+            lat = round(sum(lats) / len(lats), 6) if lats else province_by_id.get(pid, {}).get("lat")
+            lon = round(sum(lons) / len(lons), 6) if lons else province_by_id.get(pid, {}).get("lon")
+
+            facts = self._aggregate_factors(prov_factors.get(pid, []))
+            classification = _classify_score(avg)
+
+            province_data[province.lower()] = {
+                "region": "",
+                "province": province,
+                "municipality": None,
+                "municipality_id": None,
+                "value": avg,
+                "classification": classification,
+                "factors": facts,
+                "metric": metric_name,
+                "lat": lat,
+                "lon": lon,
+                "nearby_plants": [],
+            }
+
+            # Also index by geojson_name if different
+            geojson_name = province_by_id.get(pid, {}).get("geojson_name", "").strip()
+            if geojson_name and geojson_name.lower() != province.lower():
+                province_data[geojson_name.lower()] = province_data[province.lower()]
+
+        # Match to GeoJSON province names
+        geojson_provinces: list[dict[str, Any]] = _get_geojson_province_names()
+        items: list[dict[str, Any]] = []
+        seen = set()
+        for gp in geojson_provinces:
+            gname = gp["name_lower"]
+            if gname in seen:
+                continue
+            seen.add(gname)
+
+            data = province_data.get(gname)
+            if not data:
+                for api_name, geo_name in _PROVINCE_NAME_MAP.items():
+                    if geo_name.lower() == gname and api_name in province_data:
+                        data = province_data[api_name]
+                        break
+
+            if data:
+                items.append({
+                    "region": data["region"],
+                    "province": gp["name"],
+                    "municipality": None,
+                    "municipality_id": None,
+                    "value": data["value"],
+                    "classification": data["classification"],
+                    "factors": data["factors"],
+                    "metric": data["metric"],
+                    "lat": data["lat"],
+                    "lon": data["lon"],
+                    "nearby_plants": data["nearby_plants"],
+                })
+            else:
+                items.append({
+                    "region": "",
+                    "province": gp["name"],
+                    "municipality": None,
+                    "municipality_id": None,
+                    "value": None,
+                    "classification": None,
+                    "factors": None,
+                    "metric": metric_name,
+                    "lat": None,
+                    "lon": None,
+                    "nearby_plants": [],
+                })
+
+        return items
+
+    def _aggregate_factors(self, factors_list: list[Any]) -> dict[str, Any]:
+        """Average numeric values across a list of factor JSON objects."""
+        if not factors_list:
+            return {}
+
+        numeric_sums: dict[str, list[float]] = {}
+        for raw in factors_list:
+            parsed = raw
+            if isinstance(raw, str):
+                try:
+                    parsed = json.loads(raw)
+                except Exception:
+                    continue
+            if not isinstance(parsed, dict):
+                continue
+            for key, value in parsed.items():
+                if isinstance(value, (int, float)) and not isinstance(value, bool):
+                    numeric_sums.setdefault(key, []).append(float(value))
+
+        if not numeric_sums:
+            return {"_aggregation": "province-level average"}
+
+        return {
+            **{
+                key: round(sum(vals) / len(vals), 4)
+                for key, vals in numeric_sums.items()
+            },
+            "_aggregation": "province-level average",
+        }
+
     def _apply_geothermal_boost(self, items: list[dict[str, Any]]) -> list[dict[str, Any]]:
         """Apply proximity boost and nearby_plants to municipality items."""
         for item in items:
@@ -572,7 +850,7 @@ class EnergyHubService:
         has_factors_col = column_prefix != "composite"
         select_cols = (
             f"municipality_id, name, province_id, lat, lon, "
-            f"provinces(name), {score_col}, {class_col}"
+            f"provinces(province_id, name), {score_col}, {class_col}"
         )
         if has_factors_col:
             select_cols += f", {factors_col}"
@@ -586,13 +864,15 @@ class EnergyHubService:
             )
             rows = resp.data or []
             for r in rows:
-                province_obj = r.get("provinces")
-                province_name = province_obj.get("name", "") if province_obj else ""
+                province_obj = r.get("provinces") or {}
+                province_name = province_obj.get("name") or r.get("province_name", "")
+                province_id = province_obj.get("province_id") or r.get("province_id")
                 items.append({
                     "region": "",
                     "province": province_name,
                     "municipality": r.get("name"),
                     "municipality_id": r.get("municipality_id"),
+                    "province_id": province_id,
                     "value": float(r.get(score_col) or 0),
                     "classification": r.get(class_col),
                     "factors": r.get(factors_col) if has_factors_col else None,
@@ -685,6 +965,259 @@ class EnergyHubService:
         if use_llm:
             return self._generate_llm_insight()
         return self._ml.get_ai_insight()
+
+    # --- Map Explanations ---
+
+    VALID_MAP_METRICS = frozenset({
+        "renewable_potential",
+        "solar_potential",
+        "wind_potential",
+        "hydro_potential",
+        "geothermal_potential",
+    })
+
+    def get_map_explanation(
+        self,
+        metric: str,
+        level: str = "province",
+        force_refresh: bool = False,
+    ) -> dict[str, Any]:
+        """Generate a Groq-powered, data-grounded explanation for the current map."""
+        if metric not in self.VALID_MAP_METRICS:
+            return self._static_map_explanation(metric, error=f"Unknown metric: {metric}")
+
+        map_data = self.build_map_data(metric, level)
+        summary = self._summarize_map_data(map_data, metric, level)
+        chart_type = f"map_{metric}"
+        chart_hash = self._hash_chart_data(summary)
+
+        if not force_refresh:
+            cached = self._get_cached_insight(chart_type, chart_hash)
+            if cached:
+                logger.info("Cache hit for map %s (hash=%s)", metric, chart_hash[:8])
+                return _sanitize_nan({
+                    "insight": cached,
+                    "recommendation": "",
+                    "data_year": 2024,
+                    "chart_type": chart_type,
+                })
+
+        try:
+            from app.services.llm_client import generate_response
+        except Exception:
+            logger.warning("LLM client not available; falling back to static map explanation.")
+            return self._static_map_explanation(metric)
+
+        prompt = self._build_chart_prompt(chart_type, summary)
+        try:
+            text = generate_response(
+                prompt,
+                temperature=0.5,
+                max_output_tokens=1200,
+            )
+        except Exception as exc:
+            logger.warning("LLM call failed for map explanation: %s", exc)
+            return self._static_map_explanation(metric)
+
+        cleaned = self._clean_llm_text(text)
+        self._cache_insight(chart_type, chart_hash, cleaned)
+
+        return _sanitize_nan({
+            "insight": cleaned,
+            "recommendation": "",
+            "data_year": 2024,
+            "chart_type": chart_type,
+        })
+
+    def _static_map_explanation(
+        self,
+        metric: str,
+        error: str | None = None,
+    ) -> dict[str, Any]:
+        base = _MAP_EXPLANATION_FALLBACKS.get(metric, "")
+        if error:
+            base = f"{error}. {base}" if base else error
+        return _sanitize_nan({
+            "insight": base,
+            "recommendation": "",
+            "data_year": 2024,
+            "chart_type": f"map_{metric}",
+        })
+
+    def _summarize_map_data(
+        self,
+        map_data: dict[str, Any],
+        metric: str,
+        level: str,
+    ) -> dict[str, Any]:
+        """Build a compact, deterministic summary of map data for the LLM prompt.
+
+        The summary is also the cache key, so changing values, factors, or nearby
+        plants/volcanoes automatically invalidates the cached explanation.
+        """
+        items: list[dict[str, Any]] = map_data.get("items") or []
+
+        distribution: dict[str, int] = {}
+        values: list[float] = []
+        for item in items:
+            value = item.get("value")
+            if value is None:
+                continue
+            values.append(float(value))
+            cls = _classify_score(float(value))
+            distribution[cls] = distribution.get(cls, 0) + 1
+
+        avg = round(sum(values) / len(values), 2) if values else None
+        min_val = round(min(values), 2) if values else None
+        max_val = round(max(values), 2) if values else None
+
+        # Pick deterministic examples by value tiers.
+        sorted_items = sorted(
+            [i for i in items if i.get("value") is not None],
+            key=lambda x: float(x["value"]),
+            reverse=True,
+        )
+        high_examples = sorted_items[:3]
+        low_examples = sorted_items[-3:][::-1]
+        moderate_examples = [i for i in sorted_items if 41 <= float(i.get("value", 0)) <= 60][:3]
+
+        def _example(item: dict[str, Any]) -> dict[str, Any]:
+            ex: dict[str, Any] = {
+                "name": item.get("municipality") or item.get("province") or "Unknown",
+                "province": item.get("province"),
+                "value": float(item["value"]),
+                "classification": _classify_score(float(item["value"])),
+            }
+            factors = item.get("factors")
+            if factors:
+                if isinstance(factors, str):
+                    try:
+                        factors = json.loads(factors)
+                    except Exception:
+                        factors = {"details": factors}
+                if isinstance(factors, dict):
+                    # Limit each factors object to keep prompts small.
+                    ex["factors"] = {k: v for k, v in factors.items() if v is not None}
+            nearby_plants = item.get("nearby_plants")
+            if nearby_plants:
+                ex["nearby_plants"] = [
+                    {
+                        "project_name": p.get("project_name", ""),
+                        "capacity_mw": p.get("capacity_mw"),
+                        "technology": p.get("technology"),
+                        "status": p.get("status"),
+                        "distance_km": p.get("distance_km"),
+                    }
+                    for p in nearby_plants[:2]
+                ]
+            return _sanitize_nan(ex)
+
+        summary = _sanitize_nan({
+            "metric": metric,
+            "level": level,
+            "count": len(items),
+            "with_data": len(values),
+            "score_avg": avg,
+            "score_min": min_val,
+            "score_max": max_val,
+            "distribution": distribution,
+            "high_examples": [_example(i) for i in high_examples],
+            "moderate_examples": [_example(i) for i in moderate_examples],
+            "low_examples": [_example(i) for i in low_examples],
+            "volcano_count": len(_load_volcanoes()) if metric in ("geothermal_potential", "renewable_potential") else 0,
+            "plant_count": len(get_all_ph_geothermal_plants()) if metric in ("geothermal_potential", "renewable_potential") else 0,
+            "sources": self._map_data_sources(metric),
+        })
+
+        # Add nearest volcano and plant for each moderate/low example when relevant.
+        if metric in ("geothermal_potential", "renewable_potential"):
+            volcanoes = _load_volcanoes()
+            for ex in summary.get("moderate_examples", []) + summary.get("low_examples", []) + summary.get("high_examples", []):
+                lat = self._lookup_item_lat_lon(items, ex["name"])
+                if lat is not None:
+                    nearest = self._nearest_geo_feature(lat[0], lat[1], volcanoes)
+                    if nearest:
+                        ex["nearest_volcano"] = nearest
+
+        return summary
+
+    def _map_data_sources(self, metric: str) -> list[str]:
+        """Citations for the prompt; these must match actual repo resources."""
+        base = ["municipalities table", "provinces table"]
+        if metric == "geothermal_potential":
+            base.extend([
+                "geothermal_suitability table",
+                "fastapi-backend/app/services/geothermal/plants.py",
+                "fastapi-backend/app/services/local_data/geothermal_volcanoes.json",
+                "GeothermalDatasets/philippine_volcanoes.csv",
+            ])
+        elif metric == "hydro_potential":
+            base.extend([
+                "hydropower_suitability table",
+                "municipalities.hydro_factors",
+                "regionalData/output/terrain_metrics/hydropower_suitability.csv",
+                "fastapi-backend/app/services/hydro_output_calc.py",
+            ])
+        elif metric == "solar_potential":
+            base.extend([
+                "municipality_climate_monthly table",
+                "fastapi-backend/app/services/local_data/",
+            ])
+        elif metric == "wind_potential":
+            base.extend([
+                "municipality_climate_monthly table",
+            ])
+        elif metric == "renewable_potential":
+            base.extend([
+                "municipality_climate_monthly table",
+                "hydropower_suitability table",
+                "geothermal_suitability table",
+                "municipalities.solar_suitability_score",
+                "municipalities.wind_suitability_score",
+                "municipalities.hydro_suitability_score",
+                "municipalities.geothermal_suitability_score",
+            ])
+        return base
+
+    def _lookup_item_lat_lon(
+        self,
+        items: list[dict[str, Any]],
+        name: str,
+    ) -> tuple[float, float] | None:
+        for item in items:
+            if (item.get("municipality") or item.get("province")) == name:
+                lat = item.get("lat")
+                lon = item.get("lon")
+                if lat is not None and lon is not None:
+                    return float(lat), float(lon)
+        return None
+
+    def _nearest_geo_feature(
+        self,
+        lat: float,
+        lon: float,
+        features: list[dict[str, Any]],
+    ) -> dict[str, Any] | None:
+        import math
+        nearest = None
+        nearest_dist = float("inf")
+        for f in features:
+            flat = f.get("lat")
+            flon = f.get("lon")
+            if flat is None or flon is None:
+                continue
+            dlat = math.radians(flat - lat)
+            dlon = math.radians(flon - lon)
+            a = (
+                math.sin(dlat / 2) ** 2
+                + math.cos(math.radians(lat)) * math.cos(math.radians(flat)) * math.sin(dlon / 2) ** 2
+            )
+            c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+            dist = 6371.0 * c
+            if dist < nearest_dist:
+                nearest_dist = dist
+                nearest = {**f, "distance_km": round(dist, 1)}
+        return nearest
 
     def analyze_chart(self, chart_type: str, chart_data: dict[str, Any], force_refresh: bool = False) -> dict[str, str]:
         """Generate an LLM-powered explanation for a specific chart with DB caching and rotation."""
@@ -955,6 +1488,10 @@ class EnergyHubService:
                 "4) Identify decarbonization barriers and prescribe stranded asset mitigation strategies, flexible baseload contracts, and smart grid investments.\n"
                 "5) Provide a decade-by-decade action roadmap with specific 2030, 2035, and 2040 milestones for reaching 50% renewables."
             )
+        if chart_type.startswith("map_"):
+            return self._build_map_explanation_prompt(chart_data)
+
+        # Generic legacy map prompt (kept for backward compatibility)
         if chart_type == "map":
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
@@ -970,6 +1507,62 @@ class EnergyHubService:
                 "5) Prescribe how to integrate these scores into the Philippine Energy Plan with concrete capacity targets per region."
             )
         return "Provide a brief energy insight based on the available data."
+
+    def _build_map_explanation_prompt(self, chart_data: dict[str, Any]) -> str:
+        """Build a data-grounded prompt for map_* chart types."""
+        metric = chart_data.get("metric", "unknown")
+        summary_json = json.dumps(chart_data, indent=2, default=str)[:4000]
+
+        if metric == "geothermal_potential":
+            focus = (
+                "Focus on why some areas that are close to volcanoes or operating geothermal plants still show only moderate suitability. "
+                "Explain that surface volcanism is only one requirement; a viable geothermal resource also needs a hot, permeable reservoir and accessible terrain, which is why not every nearby location is high. "
+                "Use the specific nearby plants and nearest volcano for the moderate/low examples."
+            )
+        elif metric == "hydro_potential":
+            focus = (
+                "Focus on why some areas with a lot of surface water or gentle, wet terrain can still show low or medium suitability. "
+                "Explain that hydropower output depends on hydraulic head and watershed gradient, not just water presence, so flat or low-lying areas with water can have low scores. "
+                "Use the hydraulic_head, watershed_gradient, and slope fields in the examples."
+            )
+        elif metric == "solar_potential":
+            focus = (
+                "Explain that the score is driven by solar irradiance and clear-sky conditions, not by proximity to volcanoes or water. "
+                "Why can some volcanic or coastal regions still be moderate? Because terrain shading, cloud cover, or lower irradiance can lower the score."
+            )
+        elif metric == "wind_potential":
+            focus = (
+                "Explain that the score is driven by sustained wind speed and exposure. "
+                "Areas near volcanoes or water can still be moderate if wind speeds or terrain exposure are not consistently high."
+            )
+        elif metric == "renewable_potential":
+            focus = (
+                "Explain that this is a composite of solar, wind, hydropower, and geothermal suitability. "
+                "A region near volcanoes or water can still be moderate because the composite is pulled down by any lower-scoring source; for example, good geothermal proximity may be offset by average solar, limited hydro head, or modest wind."
+            )
+        else:
+            focus = "Explain the score distribution and why some locations may be moderate or low."
+
+        return (
+            "You are LUMI, an Environmental Intelligence assistant for Philippine renewable energy data.\n"
+            "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
+            "Write a concise, plain-language explanation (150–250 words) for the map shown. "
+            "Your explanation must be descriptive and interpretive, not prescriptive. "
+            "Do not use litotes (e.g., do not write 'not uncommon', 'not impossible', or 'not far'). "
+            "Do not invent data that is not in the provided context. Cite the listed data sources by name or file path.\n\n"
+            f"Metric: {metric}\n"
+            f"Geographic level: {chart_data.get('level')}\n"
+            f"Total locations: {chart_data.get('count')}\n"
+            f"Locations with data: {chart_data.get('with_data')}\n"
+            f"Average score (observed in this view): {chart_data.get('score_avg')}\n"
+            f"Observed score range in this view: {chart_data.get('score_min')} to {chart_data.get('score_max')}\n"
+            "Important: all scores are on a 0–100 scale. The observed score range is the minimum and maximum in the current data, not the maximum possible score.\n\n"
+            f"Score distribution by class:\n{json.dumps(chart_data.get('distribution', {}), indent=2)}\n\n"
+            f"Representative examples:\n{summary_json}\n\n"
+            f"Focus for this explanation:\n{focus}\n\n"
+            "Cite the data sources listed in the examples. If you mention a specific place, use only the names and values shown above. "
+            "End with a short 'Sources' line naming the files or tables you used."
+        )
 
     # --- Provincial & Municipal Demand ---
 

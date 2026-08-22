@@ -5,9 +5,13 @@ Reads raw DOE Annex files (data_v2) and generates:
 1. master_preprocessed.csv          — same schema as data_v1 for predictor.py compatibility
 2. forecast_consumption_2025_2030.csv
 3. forecast_peak_demand_2025_2030.csv
-4. model_comparison_results.csv
-5. provincial_consumption_2003_2025.csv
-6. regional_sales_2025.csv
+4. forecast_renewable_generation_2025_2030.csv
+5. model_comparison_consumption.csv
+6. model_comparison_peak_demand.csv
+7. model_comparison_renewable_generation.csv
+8. model_comparison_results.csv      — backward-compatible consumption comparison copy
+9. provincial_consumption_2003_2025.csv
+10. regional_sales_2025.csv
 
 Run from project root with the root .venv activated:
     python DOE_Data_Extracted/data_v2_preprocessing.py
@@ -274,48 +278,37 @@ def build_master_preprocessed(annex1):
 # 2. Train ARIMA & generate forecasts
 # ---------------------------------------------------------------------------
 
-def train_and_forecast(df):
+def train_and_forecast_series(df, target_col):
+    """Train ARIMA and baseline models for one target series, return forecast and comparison DataFrames."""
     try:
         from statsmodels.tsa.arima.model import ARIMA
         from statsmodels.tsa.holtwinters import Holt
+        from sklearn.linear_model import LinearRegression
     except ImportError as exc:
-        raise ImportError("statsmodels is required. Install it: pip install statsmodels") from exc
+        raise ImportError("statsmodels and scikit-learn are required. Install: pip install statsmodels scikit-learn") from exc
 
-    # Consumption forecast (ARIMA 1,1,1)
-    train = df[df["year"] <= 2020]["total_consumption_gwh"].dropna()
-    test = df[(df["year"] >= 2021) & (df["year"] <= 2024)]["total_consumption_gwh"].dropna()
-
-    model_c = ARIMA(train, order=(1, 1, 1)).fit()
+    train = df[df["year"] <= 2020][target_col].dropna()
+    test = df[(df["year"] >= 2021) & (df["year"] <= 2024)][target_col].dropna()
     forecast_years = list(range(2025, 2031))
-    fcast_c = model_c.get_forecast(steps=6)
-    fc_mean_c = fcast_c.predicted_mean
-    ci_c = fcast_c.conf_int()
 
-    df_fc_c = pd.DataFrame({
+    if len(train) < 3 or len(test) < 1:
+        raise ValueError(f"Insufficient data for {target_col}: train={len(train)}, test={len(test)}")
+
+    model = ARIMA(train, order=(1, 1, 1)).fit()
+    fcast = model.get_forecast(steps=6)
+    fc_mean = fcast.predicted_mean
+    ci = fcast.conf_int()
+
+    forecast_df = pd.DataFrame({
         "year": forecast_years,
-        "total_consumption_gwh": fc_mean_c.values,
-        "ci_lower": ci_c.iloc[:, 0].values,
-        "ci_upper": ci_c.iloc[:, 1].values,
+        target_col: fc_mean.values,
+        "ci_lower": ci.iloc[:, 0].values,
+        "ci_upper": ci.iloc[:, 1].values,
     })
 
-    # Peak demand forecast (ARIMA 1,1,1)
-    train_p = df[df["year"] <= 2020]["total_peak_demand_mw"].dropna()
-    test_p = df[(df["year"] >= 2021) & (df["year"] <= 2024)]["total_peak_demand_mw"].dropna()
-
-    model_p = ARIMA(train_p, order=(1, 1, 1)).fit()
-    fcast_p = model_p.get_forecast(steps=6)
-    fc_mean_p = fcast_p.predicted_mean
-
-    df_fc_p = pd.DataFrame({
-        "year": forecast_years,
-        "total_peak_demand_mw": fc_mean_p.values,
-    })
-
-    # Model comparison (same models as v1)
     results = []
 
     # Linear Trend Regression
-    from sklearn.linear_model import LinearRegression
     X_train = np.arange(len(train)).reshape(-1, 1)
     X_test = np.arange(len(train), len(train) + len(test)).reshape(-1, 1)
     lr = LinearRegression().fit(X_train, train.values)
@@ -342,13 +335,13 @@ def train_and_forecast(df):
     results.append({"model": "Naive with Drift", "mae": mae_n, "rmse": rmse_n, "mape": mape_n})
 
     # ARIMA(1,1,1)
-    pred_arima = model_c.forecast(steps=len(test))
+    pred_arima = model.forecast(steps=len(test))
     mae_a = np.mean(np.abs(test.values - pred_arima))
     rmse_a = np.sqrt(np.mean((test.values - pred_arima) ** 2))
     mape_a = np.mean(np.abs((test.values - pred_arima) / test.values)) * 100
     results.append({"model": "ARIMA(1,1,1)", "mae": mae_a, "rmse": rmse_a, "mape": mape_a})
 
-    # SARIMAX placeholder (no exog available in v2 raw)
+    # SARIMAX and Random Forest placeholders (not executed, scaled off ARIMA for documentation)
     placeholder_models = [
         {"model": "SARIMAX(1,1,1) + Exog", "mae": mae_a * 1.45, "rmse": rmse_a * 1.39, "mape": mape_a * 1.46},
         {"model": "Random Forest Regression", "mae": mae_a * 2.33, "rmse": rmse_a * 2.15, "mape": mape_a * 2.36},
@@ -357,8 +350,8 @@ def train_and_forecast(df):
         p["note"] = "placeholder — model not executed"
     results.extend(placeholder_models)
 
-    df_comp = pd.DataFrame(results)
-    return df_fc_c, df_fc_p, df_comp
+    comp_df = pd.DataFrame(results)
+    return forecast_df, comp_df
 
 
 # ---------------------------------------------------------------------------
@@ -401,33 +394,41 @@ def build_provincial_consumption():
 # ---------------------------------------------------------------------------
 
 def main():
-    print("[1/5] Parsing Annex 1...")
+    print("[1/6] Parsing Annex 1...")
     annex1 = read_annex1(
         DATA_V2 / "tabula-Annex 1_Summary (Electric Consumption, System Demand, Gross Generation, Installed and Dependable Capacity), 2003-2025.csv"
     )
 
-    print("[2/5] Building master_preprocessed.csv...")
+    print("[2/6] Building master_preprocessed.csv...")
     master = build_master_preprocessed(annex1)
     master_path = OUTPUT_DIR / "master_preprocessed.csv"
     master.to_csv(master_path, index=False)
 
-    print("[3/5] Training ARIMA & model comparison...")
+    print("[3/6] Training ARIMA & model comparison for all target series...")
+    metric_map = {
+        "total_consumption_gwh": "consumption",
+        "total_peak_demand_mw": "peak_demand",
+        "renewable_generation_gwh": "renewable_generation",
+    }
     try:
-        fc_c, fc_p, comp = train_and_forecast(master)
-        fc_c.to_csv(OUTPUT_DIR / "forecast_consumption_2025_2030.csv", index=False)
-        fc_p.to_csv(OUTPUT_DIR / "forecast_peak_demand_2025_2030.csv", index=False)
-        comp.to_csv(OUTPUT_DIR / "model_comparison_results.csv", index=False)
-        print(f"    Consumption 2030 forecast: {fc_c['total_consumption_gwh'].iloc[-1]:,.0f} GWh")
-        print(f"    Peak demand 2030 forecast: {fc_p['total_peak_demand_mw'].iloc[-1]:,.0f} MW")
+        for target_col, metric in metric_map.items():
+            fc, comp = train_and_forecast_series(master, target_col)
+            fc.to_csv(OUTPUT_DIR / f"forecast_{metric}_2025_2030.csv", index=False)
+            comp.to_csv(OUTPUT_DIR / f"model_comparison_{metric}.csv", index=False)
+            unit = "GWh" if "gwh" in target_col else "MW"
+            print(f"    {metric} 2030 forecast: {fc[target_col].iloc[-1]:,.0f} {unit}")
+        # Preserve the legacy consumption comparison under the old filename
+        comp_consumption = pd.read_csv(OUTPUT_DIR / "model_comparison_consumption.csv")
+        comp_consumption.to_csv(OUTPUT_DIR / "model_comparison_results.csv", index=False)
     except Exception as exc:
         print(f"    WARNING: ARIMA training failed: {exc}")
         print("    Placeholder forecasts will NOT be written.")
 
-    print("[4/5] Building provincial_consumption_2003_2025.csv...")
+    print("[4/6] Building provincial_consumption_2003_2025.csv...")
     prov = build_provincial_consumption()
     prov.to_csv(OUTPUT_DIR / "provincial_consumption_2003_2025.csv", index=False)
 
-    print("[5/5] Building regional_sales_2025.csv...")
+    print("[5/6] Building regional_sales_2025.csv...")
     sales = prov[prov["sector"] == "Total Sales"].copy()
     sales.to_csv(OUTPUT_DIR / "regional_sales_2025.csv", index=False)
 

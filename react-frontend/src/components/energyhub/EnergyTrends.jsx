@@ -159,21 +159,57 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
     [t]
   );
 
-  const peakDemandTrace = useMemo(() => {
-    const vals = series.total_peak_demand_mw || [];
+  const peakDemandTraces = useMemo(() => {
+    const hist = series.total_peak_demand_mw || [];
+    const fYears = trends?.forecast_peak?.forecast_years || [];
+    const fValues = trends?.forecast_peak?.forecast_values || [];
+    const allYears = [...years, ...fYears];
+    const allValues = [...hist, ...fValues];
+    const isF = [...Array(hist.length).fill(false), ...Array(fValues.length).fill(true)];
+    const histX = [];
+    const histY = [];
+    const forecastX = [];
+    const forecastY = [];
+
+    for (let i = 0; i < allYears.length; i++) {
+      if (isF[i]) {
+        forecastX.push(allYears[i]);
+        forecastY.push(allValues[i]);
+      } else {
+        histX.push(allYears[i]);
+        histY.push(allValues[i]);
+      }
+    }
+
+    // Junction point for continuity
+    if (histX.length > 0 && forecastX.length > 0) {
+      forecastX.unshift(histX[histX.length - 1]);
+      forecastY.unshift(histY[histY.length - 1]);
+    }
+
     return [
       {
-        x: years,
-        y: vals,
+        x: histX,
+        y: histY,
         type: "scatter",
         mode: "lines+markers",
-        name: t("energyHub.trends.peakDemand.title"),
+        name: t("energyHub.trends.legend.historical"),
         line: { color: "#f43f5e", width: 2 },
         marker: { size: 5 },
-        hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}" }),
+        hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
+      },
+      {
+        x: forecastX,
+        y: forecastY,
+        type: "scatter",
+        mode: "lines+markers",
+        name: t("energyHub.trends.legend.forecast"),
+        line: { color: "#f87171", width: 2, dash: "dash" },
+        marker: { size: 5 },
+        hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
     ];
-  }, [years, series, t]);
+  }, [years, series, trends, t]);
 
   const peakDemandLayout = useMemo(
     () => ({
@@ -185,19 +221,44 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
     [t]
   );
 
-  const renewableGenTrace = useMemo(() => {
-    const vals = series.renewable_generation_gwh || [];
+  const renewableGenTraces = useMemo(() => {
+    const hist = series.renewable_generation_gwh || [];
+    const fYears = trends?.forecast_renewable?.forecast_years || [];
+    const fValues = trends?.forecast_renewable?.forecast_values || [];
+    const histX = [...years];
+    const histY = [...hist];
+    const forecastX = [...fYears];
+    const forecastY = [...fValues];
+
+    // Junction point for continuity
+    if (histX.length > 0 && forecastX.length > 0) {
+      forecastX.unshift(histX[histX.length - 1]);
+      forecastY.unshift(histY[histY.length - 1]);
+    }
+
     return [
       {
-        x: years,
-        y: vals,
-        type: "bar",
-        name: t("energyHub.trends.renewable.title"),
-        marker: { color: "#10b981" },
-        hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}" }),
+        x: histX,
+        y: histY,
+        type: "scatter",
+        mode: "lines+markers",
+        name: t("energyHub.trends.legend.historical"),
+        line: { color: "#10b981", width: 2 },
+        marker: { size: 5, color: "#10b981" },
+        hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
+      },
+      {
+        x: forecastX,
+        y: forecastY,
+        type: "scatter",
+        mode: "lines+markers",
+        name: t("energyHub.trends.legend.forecast"),
+        line: { color: "#f87171", width: 2, dash: "dash" },
+        marker: { size: 5 },
+        hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
     ];
-  }, [years, series, t]);
+  }, [years, series, trends, t]);
 
   const renewableGenLayout = useMemo(
     () => ({
@@ -293,7 +354,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 setModal({
                   title: t("energyHub.trends.peakDemand.title"),
                   subtitle: t("energyHub.trends.peakDemand.subtitle"),
-                  data: peakDemandTrace,
+                  data: peakDemandTraces,
                   layout: peakDemandLayout,
                 })
               }
@@ -302,7 +363,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
-            <PlotlyChart data={peakDemandTrace} layout={peakDemandLayout} />
+            <PlotlyChart data={peakDemandTraces} layout={peakDemandLayout} />
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel
@@ -329,7 +390,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 setModal({
                   title: t("energyHub.trends.renewable.title"),
                   subtitle: t("energyHub.trends.renewable.subtitle"),
-                  data: renewableGenTrace,
+                  data: renewableGenTraces,
                   layout: renewableGenLayout,
                 })
               }
@@ -338,7 +399,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
-            <PlotlyChart data={renewableGenTrace} layout={renewableGenLayout} />
+            <PlotlyChart data={renewableGenTraces} layout={renewableGenLayout} />
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel

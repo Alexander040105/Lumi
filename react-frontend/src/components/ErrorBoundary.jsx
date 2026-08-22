@@ -16,7 +16,10 @@ export default class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     this.setState({ errorInfo });
-    console.error("ErrorBoundary caught:", error, errorInfo);
+    const message = error?.message ? `${error.name || "Error"}: ${error.message}` : String(error);
+    console.error("ErrorBoundary caught:", message);
+    console.error("Error object:", error);
+    console.error("Component stack:", errorInfo?.componentStack);
   }
 
   handleRetry = () => {

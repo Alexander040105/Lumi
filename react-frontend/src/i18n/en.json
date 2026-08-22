@@ -511,8 +511,10 @@
         "latestReCapacity": "Latest RE Capacity",
         "latestReGeneration": "Latest RE Generation",
         "reShareLatest": "RE Share (latest)",
+        "reShareTooltip": "RE Share is the percentage of the Philippines' total electricity that came from renewable sources like solar, wind, hydro, and geothermal in the most recent IRENA year. A higher value means a larger share of clean energy.",
         "unitMW": "MW",
-        "unitGWh": "GWh"
+        "unitGWh": "GWh",
+        "dataUnavailable": "Data currently unavailable"
       }
     },
     "toast": {
@@ -544,11 +546,16 @@
         "interpretation": "{{share}}% of the country's electricity came from clean sources like solar, wind, and hydro in {{year}}."
       },
       "forecastGrowth": {
-        "label": "Estimated growth by 2030",
+        "label": "2030 demand outlook",
         "value": "{{value}}",
         "sub": "{{value}} GWh projected",
         "subEmpty": "",
-        "interpretation": "By 2030, the country may need {{pct}}% more electricity than in {{year}}. More clean energy can help meet this growing demand.",
+        "directionIncrease": "increase",
+        "directionDecrease": "decrease",
+        "directionNeutral": "no change",
+        "interpretationGrowth": "By 2030, the country may need {{pct}}% more electricity than in {{year}}. More clean energy can help meet this growing demand.",
+        "interpretationDecline": "By 2030, the country may need {{pct}}% less electricity than in {{year}}. Clean energy can still help reduce reliance on fossil fuels.",
+        "interpretationNeutral": "By 2030, the country's electricity demand is projected to be about the same as in {{year}}.",
         "interpretationFallback": "Future electricity demand estimates help plan for new power plants and renewable energy investments.",
         "na": "N/A"
       }
@@ -585,9 +592,9 @@
         "mw": "MW"
       },
       "hover": {
-        "consumption": "%{year}<br>%{value} GWh<extra>{{extra}}</extra>",
-        "peakDemand": "%{year}<br>%{value} MW<extra></extra>",
-        "renewable": "%{year}<br>%{value} GWh<extra></extra>"
+        "consumption": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>",
+        "peakDemand": "{{year}}<br>{{value}} MW<extra>{{extra}}</extra>",
+        "renewable": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>"
       },
       "consumption": {
         "title": "Total Electricity Use Over Time",
@@ -671,8 +678,23 @@
       "volcano": "Volcano",
       "volcanoes": "Volcanoes",
       "faults": "Faults",
-      "toggleVolcanoes": "Toggle volcano raster overlay",
+      "toggleVolcanoes": "Toggle volcano markers",
       "toggleFaults": "Toggle fault raster overlay",
+      "volcanoMarkerTooltip": "Philippine volcano",
+      "explanationHidden": "Map explanation hidden.",
+      "showExplanation": "Show explanation",
+      "hideExplanation": "Hide explanation",
+      "refreshExplanation": "Refresh explanation",
+      "explanationLoading": "Generating map explanation...",
+      "explanationError": "Unable to load the map explanation.",
+      "explanationTitleDefault": "About this map",
+      "explanationTitle": {
+        "renewable_potential": "About renewable potential",
+        "solar_potential": "About solar potential",
+        "wind_potential": "About wind potential",
+        "hydro_potential": "About hydropower potential",
+        "geothermal_potential": "About geothermal potential"
+      },
       "metrics": {
         "renewable_potential": "Renewable Potential",
         "solar_potential": "Solar Potential",
@@ -700,7 +722,6 @@
         "veryLow": "Very Low (0-20)",
         "noData": "No data"
       },
-      "explanationTitle": "About this map",
       "explanationGeothermal": "Colors show geothermal suitability. Dark green means very high potential; red means very low.",
       "explanationPlants": "Power plant markers show operating geothermal plants. Areas nearby are more likely to be feasible for geothermal projects.",
       "explanationVolcanoes": "Volcanic areas can indicate underground geothermal heat sources.",
@@ -835,6 +856,7 @@
         "body": "You entered {{entered}} kWh, but your bill and rate suggest about {{effective}} kWh. We're using the effective value for this analysis."
       },
       "referenceOnly": "Reference only",
+      "utilityScaleNote": "utility-scale, not a home option",
       "sources": {
         "Solar": "Solar",
         "Wind": "Wind",
@@ -857,7 +879,13 @@
         "yourLocation": "Your Location",
         "locationText": "{{municipality}} — ID {{id}}",
         "usageText": "Based on {{consumption}} kWh/month usage and {{bill}} monthly bill (effective rate: {{rate}}/kWh).",
-        "climateAdvantage": "Climate Advantage"
+        "climateAdvantage": "Climate Advantage",
+        "climateAdvantageText": "This is the best home-scale match based on estimated monthly output. {{source}} conditions are {{level}} ({{value}}).",
+        "climateAdvantageTextPoor": "This is the best home-scale match based on estimated monthly output. Although {{source}} conditions are {{level}} ({{value}}), this system is still estimated to produce the most kWh among the home-scale options."
+      },
+      "aiAnalysis": {
+        "recommendationFallback": "Based on estimated monthly output, {{source}} is the best home-scale match. It could generate about {{gen}} kWh per month, covering roughly {{pct}}% of your effective electricity usage.",
+        "environmentalImpactFallback": "Using a {{source}} system could reduce CO₂ emissions by about {{carbon}} kg per month compared to fossil-fuel generation."
       },
       "climateTemplates": {
         "Solar": "{{value}} kWh/m²/day — {{desc}}",

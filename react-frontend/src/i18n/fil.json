@@ -511,8 +511,10 @@
         "latestReCapacity": "Pinakabagong RE Capacity",
         "latestReGeneration": "Pinakabagong RE Generation",
         "reShareLatest": "RE Share (pinakabago)",
+        "reShareTooltip": "Ang RE Share ay porsiyento ng kabuuang kuryente sa Pilipinas na nanggaling sa renewable energy tulad ng solar, hangin, hydropower, at geothermal sa pinakabagong taon ng IRENA. Mas mataas na halaga ay mas malaking bahagi ng malinis na enerhiya sa grid.",
         "unitMW": "MW",
-        "unitGWh": "GWh"
+        "unitGWh": "GWh",
+        "dataUnavailable": "Kasalukuyang hindi magamit ang data"
       }
     },
     "toast": {
@@ -544,11 +546,16 @@
         "interpretation": "{{share}}% ng kuryente ng bansa ang mula sa malinis na pinagkukunan tulad ng solar, wind, at hydro noong {{year}}."
       },
       "forecastGrowth": {
-        "label": "Tinatayang paglago pagdating ng 2030",
+        "label": "Tinatayang demand pagdating ng 2030",
         "value": "{{value}}",
         "sub": "{{value}} GWh ang inaasahan",
         "subEmpty": "",
-        "interpretation": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas maraming kuryente kaysa noong {{year}}. Mas maraming malinis na enerhiya ang makakatulong sa tumataas na demand.",
+        "directionIncrease": "pagtaas",
+        "directionDecrease": "pagbaba",
+        "directionNeutral": "walang pagbabago",
+        "interpretationGrowth": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas maraming kuryente kaysa noong {{year}}. Mas maraming malinis na enerhiya ang makakatulong sa tumataas na demand.",
+        "interpretationDecline": "Pagdating ng 2030, maaaring kailanganin ng bansa ang {{pct}}% na mas kaunting kuryente kaysa noong {{year}}. Makakatulong pa rin ang malinis na enerhiya upang mabawasan ang paggamit ng fossil fuels.",
+        "interpretationNeutral": "Pagdating ng 2030, ang demand sa kuryente ng bansa ay inaasahang halos kapareho ng noong {{year}}.",
         "interpretationFallback": "Ang mga tantiya sa hinaharap na demand sa kuryente ay tumutulong sa pagpaplano ng bagong mga planta at pamumuhunan sa renewable energy.",
         "na": "N/A"
       }
@@ -585,9 +592,9 @@
         "mw": "MW"
       },
       "hover": {
-        "consumption": "%{year}<br>%{value} GWh<extra>{{extra}}</extra>",
-        "peakDemand": "%{year}<br>%{value} MW<extra></extra>",
-        "renewable": "%{year}<br>%{value} GWh<extra></extra>"
+        "consumption": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>",
+        "peakDemand": "{{year}}<br>{{value}} MW<extra>{{extra}}</extra>",
+        "renewable": "{{year}}<br>{{value}} GWh<extra>{{extra}}</extra>"
       },
       "consumption": {
         "title": "Kabuuang Paggamit ng Kuryente sa Paglipas ng Panahon",
@@ -835,6 +842,7 @@
         "body": "Naglagay ka ng {{entered}} kWh, ngunit sa bill at rate mo humihigit sa {{effective}} kWh. Ginagamit namin ang effective value para sa analysis na ito."
       },
       "referenceOnly": "Reference lamang",
+      "utilityScaleNote": "utility-scale, hindi home option",
       "sources": {
         "Solar": "Solar",
         "Wind": "Wind",
@@ -857,7 +865,13 @@
         "yourLocation": "Iyong Lokasyon",
         "locationText": "{{municipality}} — ID {{id}}",
         "usageText": "Batay sa {{consumption}} kWh/buwan na usage at {{bill}} na buwanang bill (effective rate: {{rate}}/kWh).",
-        "climateAdvantage": "Advantage ng Klima"
+        "climateAdvantage": "Advantage ng Klima",
+        "climateAdvantageText": "Ito ang pinakamahusay na home-scale match batay sa tinantiyang buwanang output. Ang kondisyon para sa {{source}} ay {{level}} ({{value}}).",
+        "climateAdvantageTextPoor": "Ito ang pinakamahusay na home-scale match batay sa tinantiyang buwanang output. Bagama't mahina ang kondisyon para sa {{source}} ({{value}}), tinantiyang ito pa rin ang pinakamaraming kWh na malilikha sa mga home-scale options."
+      },
+      "aiAnalysis": {
+        "recommendationFallback": "Batay sa tinantiyang buwanang output, ang {{source}} ang pinakamahusay na home-scale match. Maaari itong mag-generate ng humigit-kumulang {{gen}} kWh bawat buwan, na sakop ang humigit-kumulang {{pct}}% ng iyong effective electricity usage.",
+        "environmentalImpactFallback": "Ang paggamit ng {{source}} system ay maaaring makabawas ng humigit-kumulang {{carbon}} kg ng CO₂ bawat buwan kumpara sa fossil-fuel generation."
       },
       "climateTemplates": {
         "Solar": "{{value}} kWh/m²/araw — {{desc}}",

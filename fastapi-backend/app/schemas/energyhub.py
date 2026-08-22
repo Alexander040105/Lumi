@@ -15,6 +15,14 @@ class AnalyzeChartResponse(BaseModel):
     remaining_anonymous_requests: int | None = None
 
 
+class MapExplanationResponse(BaseModel):
+    insight: str
+    recommendation: str = ""
+    data_year: int
+    chart_type: str = ""
+    remaining_anonymous_requests: int | None = None
+
+
 class LatestStatisticsResponse(BaseModel):
     year: int
     total_consumption_gwh: float
@@ -103,6 +111,8 @@ class TrendsResponse(BaseModel):
     years: list[int]
     series: dict[str, list[float | None]]
     forecast: ForecastResponse | None = None
+    forecast_peak: ForecastResponse | None = None
+    forecast_renewable: ForecastResponse | None = None
     source_breakdown: SourceBreakdownResponse | None = None
     grid_breakdown: GridBreakdownResponse | None = None
 

@@ -8,6 +8,7 @@ from app.schemas.energyhub import (
     AnalyzeChartResponse,
     ForecastResponse,
     GridBreakdownResponse,
+    MapExplanationResponse,
     IrenaOverviewResponse,
     MapDataResponse,
     MeralcoRateResponse,
@@ -34,7 +35,7 @@ async def get_overview():
 
 @router.get("/forecast", response_model=ForecastResponse)
 async def get_forecast(
-    metric: str = Query(default="consumption", description="Metric to forecast: consumption or peak_demand"),
+    metric: str = Query(default="consumption", description="Metric to forecast: consumption, peak_demand, or renewable_generation"),
 ):
     """Return the ML forecast (2025-2030) with confidence intervals.
 
@@ -99,10 +100,12 @@ async def get_grid_breakdown(
 
 
 @router.get("/model-comparison", response_model=ModelComparisonResponse)
-async def get_model_comparison():
+async def get_model_comparison(
+    metric: str = Query(default="consumption", description="Metric for model comparison: consumption, peak_demand, or renewable_generation"),
+):
     """Return test-set performance metrics for all trained models."""
     svc = get_energyhub_service()
-    return {"items": svc._ml.get_model_comparison()}
+    return {"items": svc._ml.get_model_comparison(metric)}
 
 
 @router.get("/ai-insight", response_model=AiInsightResponse)
@@ -148,6 +151,24 @@ async def analyze_chart(
     """
     svc = get_energyhub_service()
     response = svc.analyze_chart(payload.chart_type, payload.chart_data, force_refresh=force_refresh)
+    response["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
+    return response
+
+
+@router.get("/map-explanation", response_model=MapExplanationResponse)
+async def get_map_explanation(
+    metric: str = Query(..., description="Map metric: renewable_potential, solar_potential, wind_potential, hydro_potential, or geothermal_potential"),
+    level: str = Query(default="province", description="Geographic level: province or municipality"),
+    force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
+    auth: dict = Depends(get_optional_user_or_quota),
+):
+    """Return a Groq-generated, data-grounded explanation for the current map.
+
+    The explanation is cached in chart_ai_insights and rotated up to 3
+    variants per map data hash; force_refresh generates a new variant.
+    """
+    svc = get_energyhub_service()
+    response = svc.get_map_explanation(metric, level, force_refresh=force_refresh)
     response["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return response
 
