@@ -26,23 +26,33 @@ export default function SavedSimulations() {
     const load = async () => {
       setLoading(true);
       try {
+        // Municipality name lookup in case the join cannot be resolved
+        const { data: munis } = await supabase
+          .from("municipalities")
+          .select("municipality_id, name");
+        const muniMap = new Map((munis || []).map((m) => [m.municipality_id, m.name]));
+
         // Try joined query first; fall back to plain select if FK/RLS blocks it
-        let simsQuery = supabase
+        let { data: sims } = await supabase
           .from("saved_simulations")
           .select("*, municipalities(name)")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false });
-        let { data: sims, error: simsError } = await simsQuery;
 
-        if (simsError || !sims) {
-          ({ data: sims, error: simsError } = await supabase
+        if (!sims) {
+          ({ data: sims } = await supabase
             .from("saved_simulations")
             .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false }));
         }
 
-        setSavedSimulations(sims || []);
+        setSavedSimulations(
+          (sims || []).map((sim) => ({
+            ...sim,
+            municipality_name: sim.municipalities?.name || muniMap.get(sim.municipality_id) || "",
+          }))
+        );
       } catch {
         toast.error(t("savedSimulations.loadError"));
       } finally {
@@ -102,7 +112,7 @@ export default function SavedSimulations() {
               {savedSimulations.map((sim) => {
                 const res = sim.results || {};
                 const recSource = res.recommended_source || "—";
-                const municipality = res.municipality || sim.municipalities?.name || "—";
+                const municipality = res.municipality || sim.municipality_name || "—";
                 const gen = res.estimated_generation_kwh;
                 const created = sim.created_at
                   ? new Date(sim.created_at).toLocaleDateString()

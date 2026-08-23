@@ -75,7 +75,8 @@
     "resend": "Didn't receive it? Resend",
     "accountCreated": "Account created!",
     "noEmailConfirmation": "No email confirmation required for this domain.",
-    "error": "Authentication failed"
+    "error": "Authentication failed",
+    "signupServerError": "Signup is temporarily unavailable. Please try again later or use another sign-in method."
   },
   "admin": {
     "portal": "Admin Portal",

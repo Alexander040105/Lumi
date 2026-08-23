@@ -137,6 +137,7 @@ export function AuthProvider({ children }) {
             emailRedirectTo: options.emailRedirectTo || `${window.location.origin}/login`,
           },
         });
+        if (error) console.error("[AuthContext] signup error:", error);
         return {
           user: data?.user ?? null,
           session: data?.session ?? null,
