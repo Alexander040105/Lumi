@@ -8,7 +8,7 @@ import {
   CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
   TrendingUp,
 } from "lucide-react";
-import InterpretationBadge, { getRating, getStars } from "@/components/shared/InterpretationBadge";
+import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
 import ProviderRecommendations from "./ProviderRecommendations";
 
@@ -16,6 +16,28 @@ const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
 const formatCurrency = (value) =>
   new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", maximumFractionDigits: 0 }).format(value ?? 0);
+
+function Summary({ text }) {
+  if (!text) return null;
+  const sections = text.split(/^## /m).filter(Boolean);
+  if (sections.length <= 1) {
+    return <p className="whitespace-pre-line text-sm text-muted-foreground leading-relaxed">{text}</p>;
+  }
+  return (
+    <div className="space-y-4">
+      {sections.map((section, i) => {
+        const [title, ...bodyLines] = section.split("\n");
+        const body = bodyLines.join("\n").trim();
+        return (
+          <div key={i}>
+            <h3 className="text-sm font-semibold text-foreground mb-1">{title.trim()}</h3>
+            {body && <p className="whitespace-pre-line text-sm text-muted-foreground leading-relaxed">{body}</p>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 const sourceMeta = {
   Solar: { icon: Sun, iconColor: "text-foreground", bg: "bg-warning/10", bar: "bg-warning", name: "Solar" },
@@ -102,27 +124,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
   const rate = cons > 0 ? bill / cons : 0;
   const coverage = cons > 0 ? (rec.estimated_generation_kwh / cons) * 100 : 0;
 
-  const aiRecommendation =
-    result.ai_analysis?.recommendation?.reason ||
-    t("ecosim.results.aiAnalysis.recommendationFallback", {
-      source: t("ecosim.results.sources." + recDisplay),
-      gen: formatNumber(rec.estimated_generation_kwh, 0),
-      pct: formatNumber(coverage, 0),
-    });
 
-  const aiEnvironmental =
-    result.ai_analysis?.environmental_impact ||
-    t("ecosim.results.aiAnalysis.environmentalImpactFallback", {
-      source: t("ecosim.results.sources." + recDisplay),
-      carbon: formatNumber(result.carbon_reduction, 0),
-    });
-
-  const maxGen = Math.max(
-    ...(result.options || [])
-      .filter((o) => o.source !== "Geothermal")
-      .map((o) => o.estimated_generation_kwh || 0),
-    1
-  );
 
   return (
     <div className="space-y-6">
@@ -144,7 +146,6 @@ export default function EcosimResults({ result, aiLoading = false }) {
           <div className="space-y-3">
             <div className="flex items-center gap-2 flex-wrap">
               <Badge className={recLabel.color || "bg-primary text-primary-foreground"}>{t("ecosim.results.bestMatch", { match: t("common.ratings." + (recLabel.label || "excellent").toLowerCase()) })}</Badge>
-              <span className="text-2xl tracking-widest">{getStars(recScore, 100)}</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               <span className="inline-flex items-center gap-2">
@@ -164,9 +165,8 @@ export default function EcosimResults({ result, aiLoading = false }) {
             )}
           </div>
           <div className="shrink-0 text-center md:text-right">
-            <p className="text-sm text-muted-foreground">{t("ecosim.results.generationScore")}</p>
-            <p className="text-4xl font-bold">
-              {formatNumber(recScore, 0)}<span className="text-lg text-muted-foreground">/100</span>
+            <p className="text-2xl font-bold">
+              {formatNumber(rec.estimated_generation_kwh, 0)} <span className="text-base font-normal text-muted-foreground">kWh/month</span>
             </p>
             {result.remaining_anonymous_requests !== undefined && result.remaining_anonymous_requests !== null && (
               <p className="text-xs text-muted-foreground mt-1">
@@ -244,7 +244,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
           <CardHeader>
             <CardTitle className="text-lg">AI Analysis</CardTitle>
             <CardDescription>
-              {aiLoading
+              {aiLoading && !result.ai_analysis
                 ? "Analyzing your results with AI..."
                 : "AI-generated insight for this location."}
             </CardDescription>
@@ -253,24 +253,11 @@ export default function EcosimResults({ result, aiLoading = false }) {
             {aiLoading && !result.ai_analysis && (
               <div className="h-2 w-24 rounded bg-muted animate-pulse" />
             )}
-            {result.ai_analysis && (
-              <>
-                {typeof result.ai_analysis.summary === "string" && (
-                  <p>{result.ai_analysis.summary}</p>
-                )}
-                {aiRecommendation && (
-                  <p>
-                    <span className="font-medium text-foreground">Recommendation:</span>{" "}
-                    {aiRecommendation}
-                  </p>
-                )}
-                {aiEnvironmental && (
-                  <p>
-                    <span className="font-medium text-foreground">Environmental impact:</span>{" "}
-                    {aiEnvironmental}
-                  </p>
-                )}
-              </>
+            {result.ai_analysis?.summary && (
+              <Summary text={result.ai_analysis.summary} />
+            )}
+            {aiLoading && result.ai_analysis?.error && (
+              <p className="text-xs text-muted-foreground">Full analysis is still being generated and will appear here shortly.</p>
             )}
           </CardContent>
         </Card>
@@ -300,12 +287,10 @@ export default function EcosimResults({ result, aiLoading = false }) {
             const outputKwh = isUtility
               ? (item.output?.annual_energy_gwh ? (item.output.annual_energy_gwh * 1_000_000) / 12 : 0)
               : (option.monthly_output || 0);
-            const pct = maxGen > 0 ? (outputKwh / maxGen) * 100 : 0;
             const rating = getRating(scoreVal, 100);
-            const stars = getStars(scoreVal, 100);
-            const displayScore = `${formatNumber(scoreVal, isUtility ? 0 : 1)}%`;
+            const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[item.source.toLowerCase()] || item.info.desc;
             return (
-              <div key={item.source} className={`flex items-center gap-4 p-3 rounded-lg border ${isRec ? "border-primary/30 bg-secondary/50" : ""}`}>
+              <div key={item.source} className={`flex items-start gap-4 p-3 rounded-lg border ${isRec ? "border-primary/30 bg-secondary/50" : ""}`}>
                 <div className={`shrink-0 w-10 h-10 rounded-full ${meta.bg} flex items-center justify-center`}>
                   <meta.icon className={`h-5 w-5 ${meta.iconColor}`} />
                 </div>
@@ -315,17 +300,22 @@ export default function EcosimResults({ result, aiLoading = false }) {
                     {isRec && <Badge className="bg-primary text-primary-foreground text-xs">{t("ecosim.results.recommended")}</Badge>}
                     {item.referenceOnly && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.referenceOnly")}</Badge>}
                     {!isRec && <Badge className={`${rating.color} text-xs`}>{item.info.label}</Badge>}
-                    <span className="tracking-widest text-sm">{stars}</span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-0.5">
                     {isUtility
-                      ? `${formatNumber(outputKwh, 0)} kWh/month (${t("ecosim.results.utilityScaleNote")}) — ${item.info.desc}`
-                      : `${formatNumber(outputKwh, 0)} kWh/month (${displayScore} coverage) — ${item.info.desc}`}
+                      ? `${formatNumber(outputKwh, 0)} kWh/month (${t("ecosim.results.utilityScaleNote")})`
+                      : `${formatNumber(outputKwh, 0)} kWh/month`}
                   </p>
-                  {!isUtility && pct > 0 && (
-                    <div className="mt-2 h-2 rounded-full bg-muted overflow-hidden">
-                      <div className={`h-2 rounded-full ${meta.bar} transition-all`} style={{ width: `${Math.min(pct, 100)}%` }} />
-                    </div>
+                  {sourceAnalysis && (
+                    <details className="mt-2 group">
+                      <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
+                        <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
+                        <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
+                      </summary>
+                      <p className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
+                        {sourceAnalysis}
+                      </p>
+                    </details>
                   )}
                 </div>
               </div>
@@ -422,7 +412,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
                 const title = key === "geothermal" ? "Geothermal" : key.charAt(0).toUpperCase() + key.slice(1);
                 const meta = sourceMeta[title] || sourceMeta.Solar;
                 const isUtility = key === "geothermal";
-                const score = isUtility ? data.suitability_score : data.generation_score;
+                const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[key];
                 return (
                   <Card key={key} className={`border-t-4 border-t-${meta.bar.replace("bg-", "")}`}>
                     <CardHeader>
@@ -435,7 +425,17 @@ export default function EcosimResults({ result, aiLoading = false }) {
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.daily")}</span><span className="font-medium">{formatNumber(data.daily_solar_output || data.daily_energy_kwh || data.daily_hydro_output, 2)} kWh</span></div>
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.monthly")}</span><span className="font-medium">{formatNumber(data.monthly_solar_output || data.monthly_energy_kwh || data.monthly_hydro_output, 1)} kWh</span></div>
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.annual")}</span><span className="font-medium">{formatNumber(data.annual_solar_output || data.annual_wind_output_kwh || data.annual_hydro_output || data.annual_energy_kwh, 0)} kWh</span></div>
-                      <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.score")}</span><span className="font-medium">{formatNumber(score, 0)} / 100</span></div>
+                      {sourceAnalysis && (
+                        <details className="mt-2 group">
+                          <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
+                            <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
+                            <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
+                          </summary>
+                          <p className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
+                            {sourceAnalysis}
+                          </p>
+                        </details>
+                      )}
                       {isUtility && data.citation && (
                         <p className="text-xs text-muted-foreground mt-2 leading-snug">{data.citation}</p>
                       )}
