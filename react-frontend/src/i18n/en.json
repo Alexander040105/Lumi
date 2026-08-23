@@ -207,9 +207,34 @@
       "municipality": "Municipality",
       "totalSimulations": "Total Simulations",
       "chatSessions": "Chat Sessions",
+      "simulationsThisMonth": "Simulations This Month",
+      "chatSessionsThisMonth": "Chats This Month",
       "peakMunicipality": "Peak Municipality",
       "lastActive": "Last Active",
       "recentSimulations": "Recent Simulations"
+    },
+    "usagePage": {
+      "title": "User Usage",
+      "description": "Monitor simulation and chat usage across all users.",
+      "searchPlaceholder": "Search by name...",
+      "loading": "Loading usage...",
+      "noResults": "No users match your search.",
+      "totalSims": "Total Sims",
+      "thisMonthSims": "Sims This Month",
+      "totalChats": "Total Chats",
+      "thisMonthChats": "Chats This Month"
+    },
+    "logsPage": {
+      "title": "Admin Audit Logs",
+      "description": "Track admin actions and changes.",
+      "loading": "Loading logs...",
+      "noResults": "No logs found.",
+      "allActions": "All actions",
+      "time": "Time",
+      "admin": "Admin",
+      "action": "Action",
+      "target": "Target",
+      "details": "Details"
     }
   },
   "dashboard": {
@@ -895,6 +920,7 @@
       },
       "potentialTitle": "Renewable Energy Potential at Your Location",
       "potentialDescription": "How suitable your area is for each type of renewable energy",
+      "aiExplanation": "Why this estimate looks this way",
       "recommended": "Recommended",
       "financial": {
         "title": "Your Financial Impact",

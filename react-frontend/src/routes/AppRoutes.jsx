@@ -15,7 +15,8 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminAnalytics from "../pages/admin/AdminAnalytics";
 import AdminConfig from "../pages/admin/AdminConfig";
-import AdminModeration from "../pages/admin/AdminModeration";
+import AdminUsage from "../pages/admin/AdminUsage";
+import AdminLogs from "../pages/admin/AdminLogs";
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
 import AdminRoute from "../components/shared/AdminRoute";
@@ -107,10 +108,18 @@ export default function AppRoutes() {
             }
           />
           <Route
-            path="admin/moderate"
+            path="admin/usage"
             element={
               <AdminRoute>
-                <AdminModeration />
+                <AdminUsage />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="admin/logs"
+            element={
+              <AdminRoute>
+                <AdminLogs />
               </AdminRoute>
             }
           />

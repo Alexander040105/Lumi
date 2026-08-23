@@ -370,9 +370,6 @@ export default function Dashboard() {
             <Link to="/ecosim" className="block">
               <Button className="w-full">{t("dashboard.runEcosim")}</Button>
             </Link>
-            <Link to="/chat" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.askLumiAi")}</Button>
-            </Link>
             <Link to="/energyhub" className="block">
               <Button variant="outline" className="w-full">{t("dashboard.viewEnergyHub")}</Button>
             </Link>
@@ -431,30 +428,6 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* AI Center */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("dashboard.aiCenter")}</CardTitle>
-            <CardDescription>{t("dashboard.aiCenterDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              {t("dashboard.askAi")}
-            </p>
-            <div className="flex gap-2 flex-wrap">
-              <Link to="/chat">
-                <Button size="sm" variant="secondary">
-                  {t("dashboard.exampleQuery1")}
-                </Button>
-              </Link>
-              <Link to="/chat">
-                <Button size="sm" variant="secondary">
-                  {t("dashboard.exampleQuery2")}
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Forecasting & Coverage */}

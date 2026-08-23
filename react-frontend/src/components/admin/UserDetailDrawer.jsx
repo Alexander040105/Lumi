@@ -188,6 +188,14 @@ export default function UserDetailDrawer({ user, open, onClose }) {
                 <p className="text-xs text-muted-foreground">{t("admin.userDetail.chatSessions")}</p>
                 <p className="text-xl font-bold">{report.total_chat_sessions}</p>
               </div>
+              <div className="border rounded-lg p-3">
+                <p className="text-xs text-muted-foreground">{t("admin.userDetail.simulationsThisMonth")}</p>
+                <p className="text-xl font-bold">{report.simulations_this_month}</p>
+              </div>
+              <div className="border rounded-lg p-3">
+                <p className="text-xs text-muted-foreground">{t("admin.userDetail.chatSessionsThisMonth")}</p>
+                <p className="text-xl font-bold">{report.chat_sessions_this_month}</p>
+              </div>
             </div>
             <div className="text-sm space-y-2">
               <div className="flex justify-between">

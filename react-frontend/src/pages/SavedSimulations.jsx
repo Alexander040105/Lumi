@@ -20,8 +20,6 @@ export default function SavedSimulations() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [savedSimulations, setSavedSimulations] = useState([]);
-  const [chatSessions, setChatSessions] = useState([]);
-  const [expandedSession, setExpandedSession] = useState(null);
 
   useEffect(() => {
     if (!user) return;
@@ -44,16 +42,7 @@ export default function SavedSimulations() {
             .order("created_at", { ascending: false }));
         }
 
-        const [{ data: sessions }] = await Promise.all([
-          supabase
-            .from("chat_sessions")
-            .select("*")
-            .eq("user_id", user.id)
-            .order("created_at", { ascending: false }),
-        ]);
-
         setSavedSimulations(sims || []);
-        setChatSessions(sessions || []);
       } catch {
         toast.error(t("savedSimulations.loadError"));
       } finally {
@@ -62,22 +51,6 @@ export default function SavedSimulations() {
     };
     load();
   }, [user]);
-
-  const fetchSessionMessages = async (sessionId) => {
-    if (expandedSession === sessionId) {
-      setExpandedSession(null);
-      return;
-    }
-    const { data } = await supabase
-      .from("chat_messages")
-      .select("role, content, created_at")
-      .eq("session_id", sessionId)
-      .order("created_at", { ascending: true });
-    setChatSessions((prev) =>
-      prev.map((s) => (s.id === sessionId ? { ...s, messages: data || [] } : s))
-    );
-    setExpandedSession(sessionId);
-  };
 
   const deleteSimulation = async (id) => {
     if (!window.confirm(t("savedSimulations.deleteSimConfirm"))) return;
@@ -92,23 +65,6 @@ export default function SavedSimulations() {
       toast.success(t("savedSimulations.simDeleted"));
     } catch {
       toast.error(t("savedSimulations.simDeleteFailed"));
-    }
-  };
-
-  const deleteChatSession = async (id) => {
-    if (!window.confirm(t("savedSimulations.deleteChatConfirm"))) return;
-    try {
-      const { error } = await supabase
-        .from("chat_sessions")
-        .delete()
-        .eq("id", id)
-        .eq("user_id", user.id);
-      if (error) throw error;
-      setChatSessions((prev) => prev.filter((s) => s.id !== id));
-      if (expandedSession === id) setExpandedSession(null);
-      toast.success(t("savedSimulations.chatDeleted"));
-    } catch {
-      toast.error(t("savedSimulations.chatDeleteFailed"));
     }
   };
 
@@ -199,88 +155,6 @@ export default function SavedSimulations() {
         </CardContent>
       </Card>
 
-      {/* Chat History */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("savedSimulations.chatHistoryTitle")}</CardTitle>
-          <CardDescription>{t("savedSimulations.chatHistoryDescription")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {chatSessions.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("savedSimulations.noChatHistory")}{" "}
-              <Link to="/chat" className="underline text-primary">
-                {t("savedSimulations.startChat")}
-              </Link>
-              .
-            </p>
-          ) : (
-            <div className="space-y-2">
-              {chatSessions.map((session) => {
-                const isOpen = expandedSession === session.id;
-                const created = session.created_at
-                  ? new Date(session.created_at).toLocaleDateString()
-                  : "";
-                return (
-                  <div key={session.id} className="rounded-lg border bg-card">
-                    <button
-                      onClick={() => fetchSessionMessages(session.id)}
-                      className="w-full flex items-center justify-between p-3 text-left hover:bg-muted/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <span className="text-sm font-medium truncate">
-                          {session.title || t("savedSimulations.newChat")}
-                        </span>
-                        {session.is_flagged && (
-                          <span className="text-xs bg-destructive/10 text-destructive px-1.5 py-0.5 rounded">
-                            {t("savedSimulations.flagged")}
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-xs text-muted-foreground shrink-0">
-                        {created} {isOpen ? "▲" : "▼"}
-                      </span>
-                    </button>
-                    {isOpen && session.messages && (
-                      <div className="px-3 pb-3 space-y-2 border-t bg-muted/30">
-                        {session.messages.map((msg, i) => (
-                          <div key={i} className="py-1">
-                            <span
-                              className={`text-xs font-bold uppercase ${
-                                msg.role === "user"
-                                  ? "text-primary"
-                                  : "text-muted-foreground"
-                              }`}
-                            >
-                              {msg.role}
-                            </span>
-                            <p className="text-sm text-muted-foreground">{msg.content}</p>
-                          </div>
-                        ))}
-                        <div className="flex items-center gap-2 mt-1">
-                          <Link to={`/chat?session=${session.id}`}>
-                            <Button size="sm" variant="outline">
-                              {t("savedSimulations.continueChat")}
-                            </Button>
-                          </Link>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            onClick={() => deleteChatSession(session.id)}
-                            className="text-destructive hover:text-destructive"
-                          >
-                            {t("savedSimulations.delete")}
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </CardContent>
-      </Card>
     </section>
   );
 }
