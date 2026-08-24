@@ -129,7 +129,15 @@ export function AuthProvider({ children }) {
       signInWithPassword: (email, password) =>
         supabase.auth.signInWithPassword({ email, password }),
       signUp: async (email, password, options = {}) => {
-        const { data, error } = await supabase.auth.signUp({ email, password, options });
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            ...options,
+            emailRedirectTo: options.emailRedirectTo || `${window.location.origin}/login`,
+          },
+        });
+        if (error) console.error("[AuthContext] signup error:", error);
         return {
           user: data?.user ?? null,
           session: data?.session ?? null,

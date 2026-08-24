@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Users, BarChart3, Settings, Shield, LayoutDashboard } from "lucide-react";
+import { Users, BarChart3, Settings, Activity, ScrollText, LayoutDashboard } from "lucide-react";
 
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/services/supabaseClient";
@@ -53,10 +53,16 @@ export default function AdminDashboard() {
       desc: t("admin.configDesc"),
     },
     {
-      to: "/admin/moderate",
-      icon: Shield,
-      title: t("admin.moderation"),
-      desc: t("admin.moderationDesc"),
+      to: "/admin/usage",
+      icon: Activity,
+      title: t("admin.usagePage.title"),
+      desc: t("admin.usagePage.description"),
+    },
+    {
+      to: "/admin/logs",
+      icon: ScrollText,
+      title: t("admin.logsPage.title"),
+      desc: t("admin.logsPage.description"),
     },
   ];
 

@@ -395,11 +395,30 @@ async def get_user_report(
     valid_dates = [d for d in all_dates if d]
     last_active = max(valid_dates) if valid_dates else None
 
+    # Monthly counts (since the first of the current UTC month)
+    month_start = datetime.now(timezone.utc).replace(
+        day=1, hour=0, minute=0, second=0, microsecond=0
+    )
+
+    def _is_this_month(iso: str | None) -> bool:
+        if not iso:
+            return False
+        try:
+            dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+            return dt >= month_start
+        except (ValueError, TypeError):
+            return False
+
+    simulations_this_month = sum(1 for s in sims if _is_this_month(s.get("created_at")))
+    chat_sessions_this_month = sum(1 for c in chats if _is_this_month(c.get("created_at")))
+
     _log_admin_action(admin_user.get("sub"), "view_user_report", target_user_id=user_id)
     return {
         "user_id": user_id,
         "total_simulations": total_simulations,
+        "simulations_this_month": simulations_this_month,
         "total_chat_sessions": total_chat_sessions,
+        "chat_sessions_this_month": chat_sessions_this_month,
         "peak_municipality_id": peak_municipality_id,
         "last_active": last_active,
         "recent_simulations": sims[:5],
@@ -545,3 +564,58 @@ async def flag_chat_session(
     client.table("chat_sessions").update({"is_flagged": is_flagged}).eq("id", session_id).execute()
     _log_admin_action(user.get("sub"), "flag_chat_session", details={"session_id": session_id, "is_flagged": is_flagged})
     return {"session_id": session_id, "is_flagged": is_flagged}
+
+
+# ---------------------------------------------------------------------------
+# Admin Usage
+# ---------------------------------------------------------------------------
+
+@router.get("/usage")
+async def list_user_usage(
+    limit: int = 50,
+    offset: int = 0,
+    search: str | None = None,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Return a paginated, searchable summary of user usage.
+
+    Uses a single PostgreSQL function to stay within Vercel's 10s limit.
+    """
+    client = get_supabase_client()
+    resp = client.rpc(
+        "get_admin_usage_summary",
+        {
+            "p_limit": limit,
+            "p_offset": offset,
+            "p_search": search,
+        },
+    ).execute()
+    _log_admin_action(admin_user.get("sub"), "view_usage")
+    return {"users": resp.data or [], "limit": limit, "offset": offset}
+
+
+# ---------------------------------------------------------------------------
+# Admin Audit Logs
+# ---------------------------------------------------------------------------
+
+@router.get("/logs")
+async def list_admin_logs(
+    limit: int = 50,
+    offset: int = 0,
+    action: str | None = None,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Return recent admin audit log entries."""
+    client = get_supabase_client()
+    query = (
+        client.table("admin_audit_log")
+        .select("*")
+        .order("created_at", desc=True)
+        .limit(limit)
+        .offset(offset)
+    )
+    if action:
+        query = query.eq("action", action)
+    resp = query.execute()
+    _log_admin_action(admin_user.get("sub"), "view_audit_logs")
+    return {"logs": resp.data or [], "limit": limit, "offset": offset}

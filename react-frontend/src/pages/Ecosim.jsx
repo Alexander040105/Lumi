@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
 import { useSearchParams } from "react-router-dom";
 
@@ -49,6 +49,15 @@ export default function Ecosim() {
   const [aiLoading, setAiLoading] = useState(false);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  const aiPollTimerRef = useRef(null);
+  const clearAiPoll = () => {
+    if (aiPollTimerRef.current) {
+      clearTimeout(aiPollTimerRef.current);
+      aiPollTimerRef.current = null;
+    }
+  };
+  useEffect(() => clearAiPoll, []);
 
   // Save simulation dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
@@ -187,6 +196,7 @@ export default function Ecosim() {
     setError(null);
     setLoading(true);
     setAiLoading(false);
+    clearAiPoll();
 
     try {
       const data = await getEcosim({
@@ -201,26 +211,38 @@ export default function Ecosim() {
       setResult(data);
 
       if (includeAi) {
-        setAiLoading(true);
-        getEcosimAI({
+        const aiParams = {
           municipalityId: String(activeId).trim(),
           monthlyConsumption: Number(monthlyConsumption),
           monthlyBill: Number(monthlyBill),
           electricityRate: Number(electricityRate),
           desiredSavings: Number(desiredSavings) / 100,
           mode,
-        })
-          .then((aiData) => {
-            setResult((prev) =>
-              prev ? { ...prev, ai_analysis: aiData.ai_analysis } : prev
-            );
-          })
-          .catch((err) => {
-            console.error("AI analysis failed:", err);
-          })
-          .finally(() => {
-            setAiLoading(false);
-          });
+        };
+
+        const loadAi = (attempt = 1) => {
+          setAiLoading(true);
+          getEcosimAI(aiParams)
+            .then((aiData) => {
+              const analysis = aiData?.ai_analysis;
+              if (analysis?.error?.includes("timed out") && attempt < 10) {
+                aiPollTimerRef.current = setTimeout(() => {
+                  loadAi(attempt + 1);
+                }, 15000);
+              } else {
+                setResult((prev) =>
+                  prev ? { ...prev, ai_analysis: analysis } : prev
+                );
+                setAiLoading(false);
+              }
+            })
+            .catch((err) => {
+              console.error("AI analysis failed:", err);
+              setAiLoading(false);
+            });
+        };
+
+        loadAi();
       }
     } catch (err) {
       setError(err?.message || t("ecosim.toasts.ecosimError"));

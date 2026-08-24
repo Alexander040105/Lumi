@@ -56,30 +56,58 @@ export default function Dashboard() {
             location: prof?.location || "",
           });
 
-          // Saved locations
-          const { data: locs } = await supabase
-            .from("saved_locations")
-            .select("*, municipalities(name)")
-            .eq("user_id", user.id)
-            .order("created_at", { ascending: false });
-          setSavedLocations(locs || []);
-
-          // Saved simulations
-          const { data: sims } = await supabase
-            .from("saved_simulations")
-            .select("*, municipalities(name)")
-            .eq("user_id", user.id)
-            .order("created_at", { ascending: false });
-          setSavedSimulations(sims || []);
         }
 
-        // Municipalities for dropdown
+        // Municipalities for dropdown and name lookup
         const { data: munis } = await supabase
           .from("municipalities")
           .select("municipality_id, name")
           .order("name", { ascending: true })
           .limit(500);
+        const muniMap = new Map((munis || []).map((m) => [m.municipality_id, m.name]));
         setMunicipalities(munis || []);
+
+        if (isLoggedIn) {
+          // Saved locations: try joined query, fall back to plain select with client-side name lookup
+          let { data: locs } = await supabase
+            .from("saved_locations")
+            .select("*, municipalities(name)")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+          if (!locs) {
+            ({ data: locs } = await supabase
+              .from("saved_locations")
+              .select("*")
+              .eq("user_id", user.id)
+              .order("created_at", { ascending: false }));
+          }
+          setSavedLocations(
+            (locs || []).map((loc) => ({
+              ...loc,
+              municipality_name: loc.municipalities?.name || muniMap.get(loc.municipality_id) || "",
+            }))
+          );
+
+          // Saved simulations: same pattern
+          let { data: sims } = await supabase
+            .from("saved_simulations")
+            .select("*, municipalities(name)")
+            .eq("user_id", user.id)
+            .order("created_at", { ascending: false });
+          if (!sims) {
+            ({ data: sims } = await supabase
+              .from("saved_simulations")
+              .select("*")
+              .eq("user_id", user.id)
+              .order("created_at", { ascending: false }));
+          }
+          setSavedSimulations(
+            (sims || []).map((sim) => ({
+              ...sim,
+              municipality_name: sim.municipalities?.name || muniMap.get(sim.municipality_id) || "",
+            }))
+          );
+        }
       } catch (err) {
         toast.error(t("dashboard.loadError"));
       } finally {
@@ -370,9 +398,6 @@ export default function Dashboard() {
             <Link to="/ecosim" className="block">
               <Button className="w-full">{t("dashboard.runEcosim")}</Button>
             </Link>
-            <Link to="/chat" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.askLumiAi")}</Button>
-            </Link>
             <Link to="/energyhub" className="block">
               <Button variant="outline" className="w-full">{t("dashboard.viewEnergyHub")}</Button>
             </Link>
@@ -399,7 +424,7 @@ export default function Dashboard() {
               <ul className="space-y-2">
                 {savedLocations.map((loc) => (
                   <li key={loc.id} className="flex items-center justify-between text-sm">
-                    <span>{loc.label || loc.municipalities?.name || t("dashboard.municipality")}</span>
+                    <span>{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
                     <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
                       <Button variant="ghost" size="sm">{t("common.open")}</Button>
                     </Link>
@@ -431,35 +456,11 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* AI Center */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("dashboard.aiCenter")}</CardTitle>
-            <CardDescription>{t("dashboard.aiCenterDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              {t("dashboard.askAi")}
-            </p>
-            <div className="flex gap-2 flex-wrap">
-              <Link to="/chat">
-                <Button size="sm" variant="secondary">
-                  {t("dashboard.exampleQuery1")}
-                </Button>
-              </Link>
-              <Link to="/chat">
-                <Button size="sm" variant="secondary">
-                  {t("dashboard.exampleQuery2")}
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Forecasting & Coverage */}
       <div className="grid gap-4 md:grid-cols-2 mt-4">
-        <ForecastPanel />
+        {isAdmin && <ForecastPanel />}
         <CoverageDashboard />
       </div>
     </section>

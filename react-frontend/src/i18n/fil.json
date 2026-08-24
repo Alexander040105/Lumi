@@ -75,7 +75,8 @@
     "resend": "Hindi natanggap? Ipadala ulit",
     "accountCreated": "Account ay nagawa!",
     "noEmailConfirmation": "Walang email confirmation na kailangan para sa domain na ito.",
-    "error": "Nabigo ang authentication"
+    "error": "Nabigo ang authentication",
+    "signupServerError": "Hindi available ngayon ang pag-sign up. Subukang muli mamaya o gumamit ng ibang paraan."
   },
   "admin": {
     "portal": "Admin Portal",
@@ -881,6 +882,7 @@
       },
       "potentialTitle": "Renewable Energy Potential sa Iyong Lokasyon",
       "potentialDescription": "Gaano kaangkop ang iyong lugar para sa bawat uri ng renewable energy",
+      "aiExplanation": "Bakit ganito ang estimate na ito",
       "recommended": "Inirerekomenda",
       "financial": {
         "title": "Epekto sa Iyong Pinansyal",

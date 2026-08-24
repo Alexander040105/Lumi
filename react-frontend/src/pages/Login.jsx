@@ -104,7 +104,10 @@ export default function Login() {
         toast.success(t("mfa.resetSent"));
       }
     } catch (error) {
-      toast.error(error?.message || t("login.error"));
+      const isSignupServerError =
+        mode === "signup" &&
+        (/500/i.test(error?.message || "") || /internal server error/i.test(error?.message || ""));
+      toast.error(isSignupServerError ? t("login.signupServerError") : error?.message || t("login.error"));
     } finally {
       setBusy(false);
     }
