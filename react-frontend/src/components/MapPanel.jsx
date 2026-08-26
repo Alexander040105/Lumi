@@ -39,9 +39,9 @@ export default function MapPanel() {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-bold text-gray-900">Suitability Map</h3>
+        <h3 className="text-lg font-bold text-foreground">Suitability Map</h3>
         <div className="flex gap-2">
           <select
             value={renewableType}
@@ -63,9 +63,9 @@ export default function MapPanel() {
         </div>
       </div>
 
-      {loading && <div className="text-gray-400 text-sm py-8 text-center">Loading map data...</div>}
+      {loading && <div className="text-muted-foreground text-sm py-8 text-center">Loading map data...</div>}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 mb-4">
+        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-sm text-destructive mb-4">
           {error}
         </div>
       )}
@@ -73,7 +73,7 @@ export default function MapPanel() {
       {!loading && !error && (
         <>
           {/* Legend */}
-          <div className="flex items-center gap-4 mb-3 text-xs text-gray-600">
+          <div className="flex items-center gap-4 mb-3 text-xs text-muted-foreground">
             <span>Score:</span>
             <div className="flex items-center gap-1">
               <div className="w-4 h-4 rounded" style={{ background: "#f87171" }} />
@@ -87,14 +87,14 @@ export default function MapPanel() {
               <div className="w-4 h-4 rounded" style={{ background: "#16a34a" }} />
               <span>High</span>
             </div>
-            <span className="ml-auto text-gray-400">{data.length} {level}s</span>
+            <span className="ml-auto text-muted-foreground">{data.length} {level}s</span>
           </div>
 
           {/* Data table (fallback for when no map renderer is available) */}
           <div className="overflow-x-auto max-h-96 overflow-y-auto">
             <table className="min-w-full text-sm">
-              <thead className="sticky top-0 bg-white">
-                <tr className="border-b border-gray-200">
+              <thead className="sticky top-0 bg-card">
+                <tr className="border-b border-border">
                   <th className="text-left py-2 px-3">Name</th>
                   <th className="text-left py-2 px-3">Score</th>
                   <th className="text-left py-2 px-3">Lat</th>
@@ -106,17 +106,17 @@ export default function MapPanel() {
                   <tr
                     key={i}
                     onClick={() => setSelectedItem(item)}
-                    className="border-b border-gray-100 hover:bg-gray-50 cursor-pointer"
+                    className="border-b border-border hover:bg-muted cursor-pointer"
                   >
-                    <td className="py-2 px-3 font-medium text-gray-900">{item.name}</td>
+                    <td className="py-2 px-3 font-medium text-foreground">{item.name}</td>
                     <td className="py-2 px-3">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded" style={{ background: getScoreColor(item.score) }} />
                         <span>{item.score?.toFixed(1) ?? "—"}</span>
                       </div>
                     </td>
-                    <td className="py-2 px-3 text-gray-500">{item.lat?.toFixed(4) ?? "—"}</td>
-                    <td className="py-2 px-3 text-gray-500">{item.lon?.toFixed(4) ?? "—"}</td>
+                    <td className="py-2 px-3 text-muted-foreground">{item.lat?.toFixed(4) ?? "—"}</td>
+                    <td className="py-2 px-3 text-muted-foreground">{item.lon?.toFixed(4) ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -125,9 +125,9 @@ export default function MapPanel() {
 
           {/* Selected item detail */}
           {selectedItem && (
-            <div className="mt-3 bg-gray-50 rounded-lg p-3 text-sm">
-              <div className="font-medium text-gray-900">{selectedItem.name}</div>
-              <div className="text-gray-500 mt-1">
+            <div className="mt-3 bg-muted rounded-lg p-3 text-sm">
+              <div className="font-medium text-foreground">{selectedItem.name}</div>
+              <div className="text-muted-foreground mt-1">
                 Score: {selectedItem.score?.toFixed(2)} |
                 Location: {selectedItem.lat?.toFixed(4)}, {selectedItem.lon?.toFixed(4)}
               </div>

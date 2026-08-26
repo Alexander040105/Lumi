@@ -1,7 +1,10 @@
 import json
+import logging
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
+
+logger = logging.getLogger(__name__)
 from pydantic import BaseModel, Field
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user

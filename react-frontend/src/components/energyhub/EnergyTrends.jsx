@@ -44,7 +44,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
     return (
       <button
         onClick={onAnalyze}
-        className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 border border-amber-200 hover:bg-amber-100 transition-colors"
+        className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-warning/10 px-3 py-1.5 text-xs font-medium text-warning border border-warning/20 hover:bg-warning/10 transition-colors"
       >
         <Sparkles className="h-3 w-3" />
         {t("energyHub.trends.aiExplain")}
@@ -54,7 +54,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
 
   if (loading) {
     return (
-      <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-700 border border-amber-200">
+      <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-warning/10 px-3 py-2 text-xs text-warning border border-warning/20">
         <Loader2 className="h-3 w-3 animate-spin" />
         {t("energyHub.trends.generating")}
       </div>
@@ -62,14 +62,14 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   }
 
   return (
-    <div className="mt-2 rounded-lg bg-amber-50 border border-amber-100 p-3">
+    <div className="mt-2 rounded-lg bg-warning/10 border border-warning/20 p-3">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-xs leading-relaxed text-amber-900 whitespace-pre-line flex-1">{sanitizeLLMOutput(analysis?.insight)}</p>
+        <p className="text-xs leading-relaxed text-warning whitespace-pre-line flex-1">{sanitizeLLMOutput(analysis?.insight)}</p>
         {onRefresh && (
           <button
             onClick={onRefresh}
             title={t("energyHub.trends.getDifferent")}
-            className="shrink-0 inline-flex items-center gap-1 rounded-md bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700 border border-amber-200 hover:bg-amber-200 transition-colors"
+            className="shrink-0 inline-flex items-center gap-1 rounded-md bg-warning/10 px-2 py-1 text-[10px] font-medium text-warning border border-warning/20 hover:bg-warning/20 transition-colors"
           >
             <Sparkles className="h-3 w-3" />
             {t("energyHub.trends.refresh")}
@@ -308,7 +308,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
           why={t("energyHub.trends.consumption.explanation.why")}
           action={t("energyHub.trends.consumption.explanation.action")}
         />
-        <div className="relative rounded-lg border bg-white p-3 h-64 overflow-hidden">
+        <div className="relative rounded-lg border bg-card p-3 h-64 overflow-hidden">
           <button
             type="button"
             onClick={() =>
@@ -319,7 +319,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 layout: consumptionLayout,
               })
             }
-            className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+            className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
             aria-label="Enlarge chart"
           >
             <Maximize2 className="h-3.5 w-3.5" />
@@ -347,7 +347,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             why={t("energyHub.trends.peakDemand.explanation.why")}
             action={t("energyHub.trends.peakDemand.explanation.action")}
           />
-          <div className="relative rounded-lg border bg-white p-3 h-52 overflow-hidden">
+          <div className="relative rounded-lg border bg-card p-3 h-52 overflow-hidden">
             <button
               type="button"
               onClick={() =>
@@ -358,7 +358,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                   layout: peakDemandLayout,
                 })
               }
-              className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
               aria-label="Enlarge chart"
             >
               <Maximize2 className="h-3.5 w-3.5" />
@@ -383,7 +383,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             why={t("energyHub.trends.renewable.explanation.why")}
             action={t("energyHub.trends.renewable.explanation.action")}
           />
-          <div className="relative rounded-lg border bg-white p-3 h-52 overflow-hidden">
+          <div className="relative rounded-lg border bg-card p-3 h-52 overflow-hidden">
             <button
               type="button"
               onClick={() =>
@@ -394,7 +394,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                   layout: renewableGenLayout,
                 })
               }
-              className="absolute top-2 right-2 z-10 rounded-md border bg-white p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
               aria-label="Enlarge chart"
             >
               <Maximize2 className="h-3.5 w-3.5" />

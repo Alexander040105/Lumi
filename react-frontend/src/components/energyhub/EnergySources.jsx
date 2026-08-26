@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import { useI18n } from "@/i18n";
+import { useTheme } from "@/hooks/useTheme";
+import cssVarToHsl from "@/utils/cssVarToHsl";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -16,6 +18,7 @@ const SOURCE_META = {
 
 export default function EnergySources({ breakdown }) {
   const { t } = useI18n();
+  const { theme } = useTheme();
   const chartData = useMemo(() => {
     if (!breakdown || !breakdown.share_pct) return [];
     const entries = Object.entries(breakdown.share_pct)
@@ -58,13 +61,13 @@ export default function EnergySources({ breakdown }) {
       margin: { t: 12, r: 12, b: 12, l: 12 },
       annotations: [
         {
-          text: `<b>${breakdown?.year || ""}</b><br><span style="font-size:11px;color:#64748b">GWh</span>`,
+          text: `<b>${breakdown?.year || ""}</b><br><span style="font-size:11px;color:${cssVarToHsl("--muted-foreground", "#64748b")}">GWh</span>`,
           showarrow: false,
-          font: { size: 20, color: "#1e293b", family: "Inter, sans-serif" },
+          font: { size: 20, color: cssVarToHsl("--foreground", "#1e293b"), family: "Inter, sans-serif" },
         },
       ],
     }),
-    [breakdown]
+    [breakdown, theme]
   );
 
   if (!breakdown || chartData.length === 0) {

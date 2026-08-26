@@ -78,7 +78,7 @@ export default function CreateUserModal({ open, onClose, onCreated }) {
 
         {result ? (
           <div className="space-y-4">
-            <div className="rounded-lg bg-green-50 p-4 text-sm text-green-700">
+            <div className="rounded-lg bg-primary/10 p-4 text-sm text-primary">
               <p className="font-semibold">{t("admin.createUserModal.userCreated")}</p>
               <p className="mt-1">{t("admin.createUserModal.email")}: {result.email}</p>
               <p className="mt-1">{t("admin.createUserModal.role")}: {result.role}</p>
