@@ -21,7 +21,7 @@ export default function AiInsightPanel({
     return (
       <div className="rounded-xl border bg-card p-6 shadow-sm">
         <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Lightbulb className="h-5 w-5 text-amber-500" />
+          <Lightbulb className="h-5 w-5 text-warning" />
           {t("energyHub.aiInsight.title")}
         </h3>
         <div className="mt-4 h-24 bg-muted rounded-lg animate-pulse" />
@@ -35,7 +35,7 @@ export default function AiInsightPanel({
     <div className="rounded-xl border bg-card p-6 shadow-sm">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <h3 className="text-lg font-semibold flex items-center gap-2">
-          <Lightbulb className="h-5 w-5 text-amber-500" />
+          <Lightbulb className="h-5 w-5 text-warning" />
           {t("energyHub.aiInsight.title")}
         </h3>
         <Button
@@ -86,14 +86,14 @@ export default function AiInsightPanel({
         </div>
       )}
 
-      <div className="mt-4 rounded-lg bg-amber-50 border border-amber-100 p-4">
+      <div className="mt-4 rounded-lg bg-warning/10 border border-amber-100 p-4">
         {tabLoading && !activeAnalysis?.insight ? (
-          <div className="flex items-center gap-2 text-sm text-amber-800">
+          <div className="flex items-center gap-2 text-sm text-warning">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("energyHub.aiInsight.loading")}
           </div>
         ) : (
-          <p className="text-sm leading-relaxed text-amber-900 whitespace-pre-line">
+          <p className="text-sm leading-relaxed text-warning whitespace-pre-line">
             {activeAnalysis?.insight || insight?.insight || ""}
           </p>
         )}

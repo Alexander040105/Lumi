@@ -17,7 +17,7 @@ export default function NextStepList({ steps, className = "" }) {
           key={i}
           className="flex items-start gap-3 p-3 rounded-lg border bg-muted/20 hover:bg-muted/30 transition-colors"
         >
-          <CheckCircle className="h-5 w-5 text-emerald-500 shrink-0 mt-0.5" />
+          <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
           <div>
             <p className="font-medium text-sm">{step.title}</p>
             <p className="text-xs text-muted-foreground mt-0.5">{step.description}</p>

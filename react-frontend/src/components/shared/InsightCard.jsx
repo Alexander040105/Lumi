@@ -10,9 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function InsightCard({
   icon: Icon,
-  iconColor = "text-slate-600",
-  iconBg = "bg-slate-100",
-  borderColor = "border-l-4 border-l-slate-400",
+  iconColor = "text-muted-foreground",
+  iconBg = "bg-muted",
+  borderColor = "border-l-4 border-border",
   title,
   value,
   subtitle,
@@ -34,13 +34,13 @@ export default function InsightCard({
             <p className="mt-1 text-2xl font-bold tracking-tight">{value}</p>
             {subtitle && <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>}
             {interpretation && (
-              <p className="mt-2 text-sm text-slate-700 leading-relaxed">{interpretation}</p>
+              <p className="mt-2 text-sm text-foreground leading-relaxed">{interpretation}</p>
             )}
             {recommendation && (
-              <p className="mt-1.5 text-sm font-medium text-emerald-700">{recommendation}</p>
+              <p className="mt-1.5 text-sm font-medium text-primary">{recommendation}</p>
             )}
             {nextStep && (
-              <p className="mt-1 text-xs text-slate-500">{nextStep}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{nextStep}</p>
             )}
           </div>
         </div>

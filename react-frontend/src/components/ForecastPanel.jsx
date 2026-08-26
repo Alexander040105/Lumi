@@ -41,14 +41,14 @@ export default function ForecastPanel() {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-bold text-gray-900 mb-4">Energy Forecasting</h2>
+    <div className="bg-card rounded-xl shadow-sm border border-border p-6">
+      <h2 className="text-xl font-bold text-foreground mb-4">Energy Forecasting</h2>
 
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setActiveTab("forecast")}
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
-            activeTab === "forecast" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+            activeTab === "forecast" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
           }`}
         >
           Forecast
@@ -56,7 +56,7 @@ export default function ForecastPanel() {
         <button
           onClick={() => setActiveTab("backtest")}
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
-            activeTab === "backtest" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+            activeTab === "backtest" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
           }`}
         >
           Backtest
@@ -64,7 +64,7 @@ export default function ForecastPanel() {
         <button
           onClick={() => setActiveTab("models")}
           className={`px-4 py-2 rounded-lg text-sm font-medium ${
-            activeTab === "models" ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700"
+            activeTab === "models" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
           }`}
         >
           Model Registry
@@ -83,14 +83,14 @@ export default function ForecastPanel() {
         <button
           onClick={activeTab === "backtest" ? handleRunBacktest : handleRunForecast}
           disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50"
+          className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 disabled:opacity-50"
         >
           {loading ? "Running..." : activeTab === "backtest" ? "Run Backtest" : "Run Forecast"}
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700 mb-4">
+        <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-sm text-destructive mb-4">
           {error}
         </div>
       )}
@@ -99,20 +99,20 @@ export default function ForecastPanel() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {forecast.forecast_years?.map((year, i) => (
-              <div key={year} className="bg-gray-50 rounded-lg p-3">
-                <div className="text-xs text-gray-500">{year}</div>
-                <div className="text-lg font-bold text-gray-900">
+              <div key={year} className="bg-muted rounded-lg p-3">
+                <div className="text-xs text-muted-foreground">{year}</div>
+                <div className="text-lg font-bold text-foreground">
                   {forecast.forecast_values?.[i]?.toLocaleString() ?? "—"}
                 </div>
-                <div className="text-xs text-gray-400">
+                <div className="text-xs text-muted-foreground">
                   CI: {forecast.ci_lower?.[i]?.toLocaleString() ?? "—"} – {forecast.ci_upper?.[i]?.toLocaleString() ?? "—"}
                 </div>
               </div>
             ))}
           </div>
           {forecast.metrics && (
-            <div className="bg-blue-50 rounded-lg p-3">
-              <div className="text-sm font-medium text-blue-900 mb-1">Backtest Metrics</div>
+            <div className="bg-muted rounded-lg p-3">
+              <div className="text-sm font-medium text-foreground mb-1">Backtest Metrics</div>
               <div className="grid grid-cols-4 gap-2 text-xs">
                 <div>MAE: {forecast.metrics.mae}</div>
                 <div>RMSE: {forecast.metrics.rmse}</div>
@@ -121,7 +121,7 @@ export default function ForecastPanel() {
               </div>
             </div>
           )}
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-muted-foreground">
             Model: {forecast.model} | Training: {forecast.training_period} | Test: {forecast.test_period}
           </div>
         </div>
@@ -129,21 +129,21 @@ export default function ForecastPanel() {
 
       {activeTab === "backtest" && backtest && (
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="text-sm font-medium text-gray-900 mb-2">
+          <div className="bg-muted rounded-lg p-4">
+            <div className="text-sm font-medium text-foreground mb-2">
               {backtest.model_name} — {backtest.train_period} → {backtest.test_period}
             </div>
             <div className="grid grid-cols-4 gap-2 text-sm">
-              <div><span className="text-gray-500">MAE:</span> {backtest.metrics?.mae}</div>
-              <div><span className="text-gray-500">RMSE:</span> {backtest.metrics?.rmse}</div>
-              <div><span className="text-gray-500">MAPE:</span> {backtest.metrics?.mape}%</div>
-              <div><span className="text-gray-500">sMAPE:</span> {backtest.metrics?.smape}%</div>
+              <div><span className="text-muted-foreground">MAE:</span> {backtest.metrics?.mae}</div>
+              <div><span className="text-muted-foreground">RMSE:</span> {backtest.metrics?.rmse}</div>
+              <div><span className="text-muted-foreground">MAPE:</span> {backtest.metrics?.mape}%</div>
+              <div><span className="text-muted-foreground">sMAPE:</span> {backtest.metrics?.smape}%</div>
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-border">
                   <th className="text-left py-2 px-3">Actual</th>
                   <th className="text-left py-2 px-3">Predicted</th>
                   <th className="text-left py-2 px-3">Residual</th>
@@ -151,7 +151,7 @@ export default function ForecastPanel() {
               </thead>
               <tbody>
                 {backtest.actual_values?.map((actual, i) => (
-                  <tr key={i} className="border-b border-gray-100">
+                  <tr key={i} className="border-b border-border">
                     <td className="py-2 px-3">{actual.toLocaleString()}</td>
                     <td className="py-2 px-3">{backtest.predicted_values?.[i]?.toLocaleString()}</td>
                     <td className="py-2 px-3">{backtest.residuals?.[i]?.toLocaleString()}</td>
@@ -167,7 +167,7 @@ export default function ForecastPanel() {
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-200">
+              <tr className="border-b border-border">
                 <th className="text-left py-2 px-3">Type</th>
                 <th className="text-left py-2 px-3">Target</th>
                 <th className="text-left py-2 px-3">Status</th>
@@ -177,12 +177,12 @@ export default function ForecastPanel() {
             </thead>
             <tbody>
               {modelRuns.map((run) => (
-                <tr key={run.id} className="border-b border-gray-100">
+                <tr key={run.id} className="border-b border-border">
                   <td className="py-2 px-3">{run.run_type}</td>
                   <td className="py-2 px-3">{run.target_variable}</td>
                   <td className="py-2 px-3">
                     <span className={`inline-block px-2 py-0.5 rounded text-xs ${
-                      run.status === "success" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                      run.status === "success" ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"
                     }`}>
                       {run.status}
                     </span>
@@ -190,14 +190,14 @@ export default function ForecastPanel() {
                   <td className="py-2 px-3">
                     {run.metrics ? JSON.parse(run.metrics).mape : "—"}
                   </td>
-                  <td className="py-2 px-3 text-gray-500">
+                  <td className="py-2 px-3 text-muted-foreground">
                     {new Date(run.created_at).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
               {modelRuns.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="py-4 text-center text-gray-400">No model runs yet</td>
+                  <td colSpan={5} className="py-4 text-center text-muted-foreground">No model runs yet</td>
                 </tr>
               )}
             </tbody>

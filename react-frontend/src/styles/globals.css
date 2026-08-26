@@ -67,54 +67,54 @@
   }
 
   .dark {
-    /* Lumi Green Palette — Dark Mode */
-    --background: 120 30% 8%;           /* #0f1f0f */
-    --foreground: 118 80% 85%;         /* #cdfbb9 */
+    /* User-supplied green palette — Dark Mode */
+    --background: 120 40% 2%;           /* #030703 */
+    --foreground: 116 37% 92%;          /* #e4f2e3 */
 
-    --card: 120 28% 13%;                /* #162815 */
-    --card-foreground: 118 80% 85%;    /* #cdfbb9 */
+    --card: 120 30% 8%;                 /* raised surface */
+    --card-foreground: 116 37% 92%;     /* #e4f2e3 */
 
-    --popover: 120 28% 13%;             /* #162815 */
-    --popover-foreground: 118 80% 85%; /* #cdfbb9 */
+    --popover: 120 30% 8%;
+    --popover-foreground: 116 37% 92%;
 
-    --primary: 117 45% 55%;             /* #68bb64 */
-    --primary-foreground: 120 30% 8%;   /* #0f1f0f */
+    --primary: 119 38% 27%;             /* #2c5f2b */
+    --primary-foreground: 0 0% 100%;    /* white on dark primary */
 
-    --secondary: 120 28% 17%;           /* #1a3a1a */
-    --secondary-foreground: 118 70% 80%; /* #b4f0a0 */
+    --secondary: 117 57% 35%;           /* #2b8c26 */
+    --secondary-foreground: 120 40% 2%; /* background color for contrast */
 
-    --muted: 120 28% 17%;               /* #1a3a1a */
-    --muted-foreground: 108 40% 70%;     /* #a4d68b */
+    --muted: 120 25% 10%;               /* subtle panel/surface */
+    --muted-foreground: 116 20% 70%;    /* desaturated, lower-contrast text */
 
-    --accent: 47 100% 73%;              /* #ffe476 */
-    --accent-foreground: 120 30% 8%;    /* #0f1f0f */
+    --accent: 117 62% 54%;              /* #48d241 */
+    --accent-foreground: 120 40% 2%;    /* dark on bright accent */
 
-    --destructive: 0 63% 31%;           /* #7f1d1d */
-    --destructive-foreground: 0 0% 100%; /* #ffffff */
+    --destructive: 0 60% 45%;           /* visible red on dark bg */
+    --destructive-foreground: 0 0% 100%;
 
-    --warning: 24 90% 60%;              /* #f26a36 */
-    --warning-foreground: 120 30% 8%;    /* #0f1f0f */
+    --warning: 24 90% 60%;
+    --warning-foreground: 120 40% 2%;
 
-    --border: 120 25% 23%;              /* #253d25 */
-    --input: 120 25% 23%;               /* #253d25 */
-    --ring: 117 45% 55%;                /* #68bb64 */
+    --border: 120 25% 18%;
+    --input: 120 25% 18%;
+    --ring: 117 62% 54%;                /* accent for focus rings */
 
     /* Brand tokens */
-    --brand: 117 45% 55%;
-    --brand-dark: 118 80% 85%;
-    --brand-light: 122 35% 30%;
-    --brand-lighter: 120 28% 17%;
-    --brand-pale: 120 28% 17%;
-    --brand-success: 117 45% 55%;
+    --brand: 119 38% 27%;
+    --brand-dark: 120 40% 2%;
+    --brand-light: 117 57% 35%;
+    --brand-lighter: 117 62% 54%;
+    --brand-pale: 120 25% 10%;
+    --brand-success: 117 62% 54%;
 
-    /* Chart / data colors */
+    /* Chart / data colors - keep current dark variants, adjust if contrast fails */
     --chart-solar: 47 100% 73%;
     --chart-wind: 117 45% 55%;
     --chart-hydro: 118 80% 85%;
     --chart-geothermal: 30 90% 50%;
     --chart-accent: 47 100% 73%;
 
-    /* Map classification colors */
+    /* Map classification colors - keep current dark variants */
     --map-very-high: 142 70% 45%;
     --map-high: 142 65% 55%;
     --map-moderate: 48 100% 60%;

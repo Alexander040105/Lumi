@@ -156,7 +156,7 @@ export default function MFASetup() {
               <img
                 src={enrollment.totp?.qr_code}
                 alt="TOTP QR code"
-                className="rounded-lg border bg-white p-2"
+                className="rounded-lg border bg-card p-2"
               />
             </div>
             <div className="rounded bg-muted p-3 text-sm font-mono break-all">

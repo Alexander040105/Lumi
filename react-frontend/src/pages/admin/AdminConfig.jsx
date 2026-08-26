@@ -77,7 +77,7 @@ export default function AdminConfig() {
           />
         </div>
         {message && (
-          <p className={`text-sm ${message.includes("Failed") ? "text-destructive" : "text-green-600"}`}>
+          <p className={`text-sm ${message.includes("Failed") ? "text-destructive" : "text-primary"}`}>
             {message}
           </p>
         )}

@@ -151,11 +151,11 @@ export default function ProfilePage() {
       <div className="flex items-center gap-2 mb-6 text-sm text-muted-foreground">
         <span>{user?.email}</span>
         {emailConfirmed ? (
-          <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+          <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
             ✓ {t("profile.verified")}
           </span>
         ) : (
-          <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+          <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-xs font-medium text-warning">
             ⚠ {t("profile.unverified")}
           </span>
         )}
@@ -236,7 +236,7 @@ export default function ProfilePage() {
         </div>
 
         {message && (
-          <p className={`text-sm ${message.includes("Failed") ? "text-destructive" : "text-green-600"}`}>
+          <p className={`text-sm ${message.includes("Failed") ? "text-destructive" : "text-primary"}`}>
             {message}
           </p>
         )}

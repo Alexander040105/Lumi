@@ -58,10 +58,10 @@ export default function EcosimWizard({
           const done = n < step;
           return (
             <div key={n} className="flex items-center gap-2">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-emerald-500 text-white" : active ? "bg-sky-500 text-white" : "bg-muted text-muted-foreground"}`}>
+              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-primary text-primary-foreground" : active ? "bg-sky-500 text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
                 {done ? <Check className="h-4 w-4" /> : n}
               </div>
-              {n < totalSteps && <div className={`h-0.5 w-6 ${done ? "bg-emerald-500" : "bg-muted"}`} />}
+              {n < totalSteps && <div className={`h-0.5 w-6 ${done ? "bg-primary" : "bg-muted"}`} />}
             </div>
           );
         })}
@@ -73,9 +73,9 @@ export default function EcosimWizard({
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 {step === 1 && <MapPin className="h-5 w-5 text-sky-500" />}
-                {step === 2 && <Zap className="h-5 w-5 text-amber-500" />}
-                {step === 3 && <Target className="h-5 w-5 text-emerald-500" />}
-                {step === 4 && <ArrowRight className="h-5 w-5 text-rose-500" />}
+                {step === 2 && <Zap className="h-5 w-5 text-warning" />}
+                {step === 3 && <Target className="h-5 w-5 text-primary" />}
+                {step === 4 && <ArrowRight className="h-5 w-5 text-destructive" />}
                 {t("ecosim.wizard.step", { current: step, total: totalSteps })}
               </CardTitle>
               <CardDescription>
@@ -126,7 +126,7 @@ export default function EcosimWizard({
                     {mode === "municipality" && municipalitiesError && <p className="text-xs text-destructive mt-1">{municipalitiesError}</p>}
                     {mode === "province" && provincesError && <p className="text-xs text-destructive mt-1">{provincesError}</p>}
                     {activeId && (
-                      <div className="mt-2 rounded-lg border bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+                      <div className="mt-2 rounded-lg border bg-primary/10 px-3 py-2 text-sm text-primary">
                         {t("ecosim.wizard.selected", { name: selectedName })}
                       </div>
                     )}

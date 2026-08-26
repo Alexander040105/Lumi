@@ -40,8 +40,8 @@ export default function EnergyOverview({ data }) {
       sub: t("energyHub.overview.consumption.sub", { year: latest.year }),
       interpretation: t("energyHub.overview.consumption.interpretation", { value: latest.total_consumption_gwh.toLocaleString(), year: latest.year }),
       icon: Zap,
-      color: "text-amber-500",
-      bg: "bg-amber-50",
+      color: "text-warning",
+      bg: "bg-warning/10",
     },
     {
       label: t("energyHub.overview.peakDemand.label"),
@@ -51,8 +51,8 @@ export default function EnergyOverview({ data }) {
       sub: t("energyHub.overview.peakDemand.sub", { year: latest.year }),
       interpretation: t("energyHub.overview.peakDemand.interpretation", { year: latest.year }),
       icon: Activity,
-      color: "text-rose-500",
-      bg: "bg-rose-50",
+      color: "text-destructive",
+      bg: "bg-destructive/10",
     },
     {
       label: t("energyHub.overview.renewableShare.label"),
@@ -60,8 +60,8 @@ export default function EnergyOverview({ data }) {
       sub: t("energyHub.overview.renewableShare.sub", { generated: latest.renewable_generation_gwh.toLocaleString() }),
       interpretation: t("energyHub.overview.renewableShare.interpretation", { share: latest.renewable_share_pct, year: latest.year }),
       icon: Sun,
-      color: "text-emerald-500",
-      bg: "bg-emerald-50",
+      color: "text-primary",
+      bg: "bg-primary/10",
     },
     {
       label: t("energyHub.overview.forecastGrowth.label"),
@@ -94,7 +94,7 @@ export default function EnergyOverview({ data }) {
               <p className="mt-1 text-2xl font-bold tracking-tight">{card.value}</p>
               <p className="mt-0.5 text-xs text-muted-foreground">{card.sub}</p>
               {card.interpretation && (
-                <p className="mt-2 text-xs text-slate-600 leading-relaxed border-t pt-2 border-slate-100">
+                <p className="mt-2 text-xs text-foreground leading-relaxed border-t pt-2 border-border">
                   {card.interpretation}
                 </p>
               )}
