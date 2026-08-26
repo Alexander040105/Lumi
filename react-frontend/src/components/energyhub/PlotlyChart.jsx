@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import Plot from "react-plotly.js";
 
 import { useTheme } from "@/hooks/useTheme";
+import cssVarToHsl from "@/utils/cssVarToHsl";
 
 const DEFAULT_LAYOUT = {
   paper_bgcolor: "transparent",
@@ -16,18 +17,12 @@ const DEFAULT_CONFIG = {
   responsive: true,
 };
 
-function hslValue(name) {
-  const root = getComputedStyle(document.documentElement);
-  const value = root.getPropertyValue(name).trim();
-  return value ? `hsl(${value})` : "#334155";
-}
-
 export default function PlotlyChart({ data, layout = {}, config = {}, className = "" }) {
   const { theme } = useTheme();
 
   const themeLayout = useMemo(() => {
-    const foreground = hslValue("--foreground");
-    const border = hslValue("--border");
+    const foreground = cssVarToHsl("--foreground", "#334155");
+    const border = cssVarToHsl("--border", "#cbd5e1");
     return {
       font: { color: foreground, family: "Inter, sans-serif", size: 12 },
       xaxis: {
