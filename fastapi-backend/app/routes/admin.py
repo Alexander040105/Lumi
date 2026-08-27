@@ -13,6 +13,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.dependencies.auth import require_admin
+from app.services.data_cache import cache_delete_sync
 from app.services.supabase_service import get_supabase_client
 
 logger = logging.getLogger(__name__)
@@ -266,6 +267,7 @@ async def toggle_user_ban(
     new_state = not current
 
     client.table("profiles").update({"is_active": new_state}).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:active")
 
     action = "unban_user" if new_state else "ban_user"
     _log_admin_action(admin_user.get("sub"), action, target_user_id=user_id, details={"is_active": new_state})
@@ -288,7 +290,36 @@ async def update_user_role(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid role")
 
     client = get_supabase_client()
+
+    # Prevent removing the last privileged (admin or dev) account. If the target is
+    # currently privileged and the new role is not, there must be at least one other
+    # privileged user left after the change.
+    if new_role not in ("admin", "dev"):
+        try:
+            priv_resp = (
+                client.table("user_roles")
+                .select("user_id")
+                .in_("role", ["admin", "dev"])
+                .execute()
+            )
+            privileged = [r["user_id"] for r in (priv_resp.data or [])]
+            if user_id in privileged and len(privileged) <= 1:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Cannot remove the last admin/dev account",
+                )
+        except HTTPException:
+            raise
+        except Exception as exc:
+            logger.error("Role-change privilege check failed for user_id=%s: %s", user_id, exc)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Could not verify role constraints",
+            ) from exc
+
     client.table("user_roles").update({"role": new_role}).eq("user_id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:role")
+    cache_delete_sync(f"lumi:auth:{user_id}:plan")
 
     # Auto-sync plan: admin/dev → premium, user → free
     new_plan = "premium" if new_role in ("admin", "dev") else "free"
@@ -320,6 +351,7 @@ async def update_user_plan(
 
     client = get_supabase_client()
     client.table("profiles").update({"plan": new_plan}).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:plan")
 
     _log_admin_action(
         admin_user.get("sub"),
@@ -448,6 +480,9 @@ async def soft_delete_user(
         "organization": None,
         "location": None,
     }).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:active")
+    cache_delete_sync(f"lumi:auth:{user_id}:plan")
+    cache_delete_sync(f"lumi:profile:{user_id}")
 
     _log_admin_action(admin_user.get("sub"), "soft_delete_user", target_user_id=user_id)
     return {"id": user_id, "status": "soft_deleted", "message": "User banned and anonymised. Data retained for audit."}
