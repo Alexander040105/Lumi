@@ -91,7 +91,14 @@ def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
             detail="Email address not verified"
         )
 
-    return _build_user_claims(user_data)
+    user = _build_user_claims(user_data)
+    if not _get_user_status(user.get("sub")):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Account suspended"
+        )
+    user["is_active"] = True
+    return user
 
 
 def get_verified_user_optional(token: str | None = Depends(get_optional_bearer_token)) -> dict | None:
@@ -116,7 +123,11 @@ def get_verified_user_optional(token: str | None = Depends(get_optional_bearer_t
     if not confirmed_at:
         return None
 
-    return _build_user_claims(user_data)
+    user = _build_user_claims(user_data)
+    if not _get_user_status(user.get("sub")):
+        return None
+    user["is_active"] = True
+    return user
 
 
 # ---------------------------------------------------------------------------
@@ -151,6 +162,33 @@ def _get_user_role(user_id: str) -> str:
         # but legitimate admins will be denied access during outages.
         logger.error("_get_user_role DB failure for user_id=%s: %s", user_id, exc)
         return "user"
+
+
+def _get_user_status(user_id: str) -> bool:
+    """Fetch the user's is_active flag from profiles using service_role (bypasses RLS).
+
+    Cached in Redis with a short TTL to avoid hitting Supabase on every request.
+    """
+    cache_key = f"lumi:auth:{user_id}:active"
+    cached = cache_get_sync(cache_key)
+    if isinstance(cached, bool):
+        logger.debug("_get_user_status: cache hit for user_id=%s", user_id)
+        return cached
+
+    client = get_supabase_client()
+    try:
+        res = client.table("profiles").select("is_active").eq("id", user_id).single().execute()
+        data = getattr(res, "data", None)
+        is_active = bool(data.get("is_active")) if isinstance(data, dict) else True
+        logger.debug("_get_user_status: user_id=%s is_active=%s", user_id, is_active)
+        cache_set_sync(cache_key, is_active, ttl=60)
+        return is_active
+    except Exception as exc:
+        # If the profile lookup fails, fail safely and allow the request. A missing
+        # profile is treated as active (the user exists in auth.users and the normal
+        # profile trigger should have created it).
+        logger.error("_get_user_status DB failure for user_id=%s: %s", user_id, exc)
+        return True
 
 
 def get_current_user_with_role(user: dict = Depends(get_verified_user)) -> dict:
