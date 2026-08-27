@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -20,6 +21,13 @@ export default function UserDetailDrawer({ user, open, onClose }) {
   const [sims, setSims] = useState([]);
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    full_name: "",
+    organization: "",
+    location: "",
+    preferred_municipality_id: "",
+  });
 
   useEffect(() => {
     if (!user || !open) return;
@@ -27,8 +35,20 @@ export default function UserDetailDrawer({ user, open, onClose }) {
     setDetail(null);
     setSims([]);
     setReport(null);
+    setIsEditing(false);
     fetchDetail();
   }, [user, open]);
+
+  useEffect(() => {
+    if (detail?.profile) {
+      setEditForm({
+        full_name: detail.profile.full_name || "",
+        organization: detail.profile.organization || "",
+        location: detail.profile.location || "",
+        preferred_municipality_id: detail.profile.preferred_municipality_id || "",
+      });
+    }
+  }, [detail]);
 
   const fetchDetail = async () => {
     setLoading(true);
@@ -83,6 +103,30 @@ export default function UserDetailDrawer({ user, open, onClose }) {
     if (tab === "reports" && !report) fetchReport();
   };
 
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(
+        `${getApiBaseUrl()}/admin/users/${user.id}/profile`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(editForm),
+        }
+      );
+      if (!res.ok) throw new Error("Update failed");
+      await fetchDetail();
+      setIsEditing(false);
+    } catch {
+      // ignore
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const formatDate = (d) => (d ? new Date(d).toLocaleString() : "—");
 
   if (!user) return null;
@@ -112,7 +156,7 @@ export default function UserDetailDrawer({ user, open, onClose }) {
 
         {loading && <p className="text-sm text-muted-foreground py-4">{t("admin.userDetail.loading")}</p>}
 
-        {activeTab === "overview" && detail && (
+        {activeTab === "overview" && detail && !isEditing && (
           <div className="mt-4 space-y-3 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">{t("admin.userDetail.email")}</span>
@@ -121,6 +165,18 @@ export default function UserDetailDrawer({ user, open, onClose }) {
             <div className="flex justify-between">
               <span className="text-muted-foreground">{t("admin.userDetail.name")}</span>
               <span className="font-medium">{detail.profile?.full_name || t("common.notAvailable")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{t("admin.userDetail.organization")}</span>
+              <span className="font-medium">{detail.profile?.organization || t("common.notAvailable")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{t("admin.userDetail.location")}</span>
+              <span className="font-medium">{detail.profile?.location || t("common.notAvailable")}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">{t("admin.userDetail.municipality")}</span>
+              <span className="font-medium">{detail.profile?.preferred_municipality_id || t("common.notAvailable")}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">{t("admin.userDetail.role")}</span>
@@ -155,6 +211,81 @@ export default function UserDetailDrawer({ user, open, onClose }) {
             <div className="flex justify-between">
               <span className="text-muted-foreground">{t("admin.userDetail.emailConfirmed")}</span>
               <span>{detail.email_confirmed ? t("admin.userDetail.yes") : t("admin.userDetail.no")}</span>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => setIsEditing(true)}
+              disabled={loading}
+            >
+              {t("common.edit")}
+            </Button>
+          </div>
+        )}
+
+        {activeTab === "overview" && detail && isEditing && (
+          <div className="mt-4 space-y-3 text-sm">
+            <div>
+              <label className="text-xs text-muted-foreground block mb-1">
+                {t("admin.userDetail.name")}
+              </label>
+              <Input
+                value={editForm.full_name}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, full_name: e.target.value }))
+                }
+                placeholder={t("admin.userDetail.name")}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground block mb-1">
+                {t("admin.userDetail.organization")}
+              </label>
+              <Input
+                value={editForm.organization}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, organization: e.target.value }))
+                }
+                placeholder={t("admin.userDetail.organization")}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground block mb-1">
+                {t("admin.userDetail.location")}
+              </label>
+              <Input
+                value={editForm.location}
+                onChange={(e) =>
+                  setEditForm((f) => ({ ...f, location: e.target.value }))
+                }
+                placeholder={t("admin.userDetail.location")}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground block mb-1">
+                {t("admin.userDetail.municipality")}
+              </label>
+              <Input
+                value={editForm.preferred_municipality_id}
+                onChange={(e) =>
+                  setEditForm((f) => ({
+                    ...f,
+                    preferred_municipality_id: e.target.value,
+                  }))
+                }
+                placeholder={t("admin.userDetail.municipality")}
+              />
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button onClick={handleSave} disabled={loading}>
+                {loading ? t("common.saving") : t("common.save")}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsEditing(false)}
+                disabled={loading}
+              >
+                {t("common.cancel")}
+              </Button>
             </div>
           </div>
         )}

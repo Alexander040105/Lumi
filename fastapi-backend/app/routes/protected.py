@@ -33,18 +33,12 @@ class ProfileUpdatePayload(BaseModel):
 
     model_config = {"extra": "forbid"}
 
-    @field_validator("full_name", "organization", "location")
+    @field_validator("full_name", "organization", "location", "preferred_municipality_id", "avatar_url")
     @classmethod
-    def strip_whitespace(cls, v: str | None) -> str | None:
+    def strip_or_none(cls, v: str | None) -> str | None:
         if isinstance(v, str):
-            return v.strip()
-        return v
-
-    @field_validator("avatar_url")
-    @classmethod
-    def avatar_url_length(cls, v: str | None) -> str | None:
-        if v is not None and len(v) > 500:
-            raise ValueError("avatar_url too long")
+            v = v.strip()
+            return v if v else None
         return v
 
 

@@ -13,6 +13,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.dependencies.auth import require_admin
+from app.routes.protected import ProfileUpdatePayload
 from app.services.data_cache import cache_delete_sync
 from app.services.supabase_service import get_supabase_client
 
@@ -355,6 +356,34 @@ async def update_user_plan(
         details={"new_plan": new_plan},
     )
     return {"id": user_id, "plan": new_plan}
+
+
+# ---------------------------------------------------------------------------
+# User Management — Edit User Profile
+# ---------------------------------------------------------------------------
+
+@router.put("/users/{user_id}/profile")
+async def update_user_profile(
+    user_id: str,
+    payload: ProfileUpdatePayload,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Admin edits a user's public profile fields."""
+    updates = payload.model_dump(exclude_unset=True, exclude_none=True)
+    if not updates:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No valid fields to update")
+
+    client = get_supabase_client()
+    resp = client.table("profiles").update(updates).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:profile:{user_id}")
+
+    _log_admin_action(
+        admin_user.get("sub"),
+        "update_user_profile",
+        target_user_id=user_id,
+        details=updates,
+    )
+    return {"id": user_id, "updated": True, "profile": resp.data[0] if resp.data else None}
 
 
 # ---------------------------------------------------------------------------
