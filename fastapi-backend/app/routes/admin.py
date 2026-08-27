@@ -73,58 +73,53 @@ def _auth_user_to_dict(u: Any) -> dict:
 # ---------------------------------------------------------------------------
 
 @router.get("/users")
-async def list_users(user: dict = Depends(require_admin)) -> dict[str, Any]:
-    """Return a paginated list of users with roles, profiles and real emails.
+async def list_users(
+    limit: int = 50,
+    offset: int = 0,
+    search: str | None = None,
+    role: str | None = None,
+    plan: str | None = None,
+    status: str | None = None,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Return a paginated, searchable, filterable list of users.
 
-    Uses Supabase Auth as the primary source so every auth user is visible,
-    even if they don't have a profile or role row yet.
+    Uses a single Supabase RPC so the Vercel serverless function stays within
+    the 10 s limit and does not have to enumerate all auth.users rows.
     """
+    if search and not search.strip():
+        search = None
+    if role == "all":
+        role = None
+    if plan == "all":
+        plan = None
+
+    is_active = None
+    if status == "active":
+        is_active = True
+    elif status == "banned":
+        is_active = False
+
     client = get_supabase_client()
+    query_limit = limit + 1  # fetch one extra to determine has_more
+    resp = client.rpc(
+        "get_admin_users_list",
+        {
+            "p_limit": query_limit,
+            "p_offset": offset,
+            "p_search": search.strip() if search else None,
+            "p_role": role,
+            "p_plan": plan,
+            "p_is_active": is_active,
+        },
+    ).execute()
 
-    profiles_resp = client.table("profiles").select("*").execute()
-    profiles = {p["id"]: p for p in (profiles_resp.data or [])}
+    rows = resp.data or []
+    has_more = len(rows) > limit
+    users = rows[:limit]
 
-    roles_resp = client.table("user_roles").select("user_id, role").execute()
-    roles = {r["user_id"]: r["role"] for r in (roles_resp.data or [])}
-
-    users: list[dict] = []
-    if _has_auth_admin_api(client):
-        try:
-            auth_resp = client.auth.admin.list_users()
-            auth_users = auth_resp.users if hasattr(auth_resp, "users") else (auth_resp.data or {}).get("users", [])
-            for u in auth_users:
-                ud = _auth_user_to_dict(u)
-                uid = ud["id"]
-                prof = profiles.get(uid, {})
-                users.append({
-                    "id": uid,
-                    "full_name": prof.get("full_name") or ud.get("full_name"),
-                    "email": ud.get("email") or uid,
-                    "avatar_url": prof.get("avatar_url") or ud.get("avatar_url"),
-                    "role": roles.get(uid, "user"),
-                    "plan": prof.get("plan", "free"),
-                    "is_active": prof.get("is_active", True),
-                    "created_at": ud.get("created_at") or prof.get("created_at"),
-                })
-        except Exception as exc:
-            logger.warning("Admin user list enrichment failed for a user: %s", exc)
-
-    # Fallback: if auth admin API is unavailable, return whatever profiles we have
-    if not users:
-        for uid, prof in profiles.items():
-            users.append({
-                "id": uid,
-                "full_name": prof.get("full_name"),
-                "email": prof.get("email") or uid,
-                "avatar_url": prof.get("avatar_url"),
-                "role": roles.get(uid, "user"),
-                "plan": prof.get("plan", "free"),
-                "is_active": prof.get("is_active", True),
-                "created_at": prof.get("created_at"),
-            })
-
-    _log_admin_action(user.get("sub"), "list_users")
-    return {"users": users}
+    _log_admin_action(admin_user.get("sub"), "list_users")
+    return {"users": users, "limit": limit, "offset": offset, "has_more": has_more}
 
 
 # ---------------------------------------------------------------------------

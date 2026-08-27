@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,27 +9,41 @@ import { useAuth } from "@/hooks/useAuth";
 import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
 
+const LIMIT = 50;
+
 export default function AdminUsers() {
   const { t } = useI18n();
   const { accessToken } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState("all");
   const [filterPlan, setFilterPlan] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [offset, setOffset] = useState(0);
   const [createOpen, setCreateOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (targetOffset = offset) => {
     setLoading(true);
     try {
-      const res = await fetch(`${getApiBaseUrl()}/admin/users`, {
+      const params = new URLSearchParams({
+        limit: String(LIMIT),
+        offset: String(targetOffset),
+      });
+      if (search.trim()) params.set("search", search.trim());
+      if (filterRole !== "all") params.set("role", filterRole);
+      if (filterPlan !== "all") params.set("plan", filterPlan);
+      if (filterStatus !== "all") params.set("status", filterStatus);
+
+      const res = await fetch(`${getApiBaseUrl()}/admin/users?${params}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const data = await res.json();
       setUsers(data.users || []);
+      setHasMore(Boolean(data.has_more));
     } catch {
       // ignore
     } finally {
@@ -38,25 +52,13 @@ export default function AdminUsers() {
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, [accessToken]);
+    setOffset(0);
+    if (offset === 0 && accessToken) fetchUsers(0);
+  }, [search, filterRole, filterPlan, filterStatus, accessToken]);
 
-  const filtered = useMemo(() => {
-    return users.filter((u) => {
-      const matchesSearch =
-        (u.email || "").toLowerCase().includes(search.toLowerCase()) ||
-        (u.full_name || "").toLowerCase().includes(search.toLowerCase());
-      const matchesRole = filterRole === "all" || u.role === filterRole;
-      const matchesPlan = filterPlan === "all" || u.plan === filterPlan;
-      const matchesStatus =
-        filterStatus === "all"
-          ? true
-          : filterStatus === "active"
-          ? u.is_active
-          : !u.is_active;
-      return matchesSearch && matchesRole && matchesPlan && matchesStatus;
-    });
-  }, [users, search, filterRole, filterPlan, filterStatus]);
+  useEffect(() => {
+    if (accessToken) fetchUsers();
+  }, [accessToken, offset]);
 
   const handleAction = async (url, method = "POST", body = null) => {
     try {
@@ -143,7 +145,7 @@ export default function AdminUsers() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((u) => {
+              {users.map((u) => {
                 const initials = (u.full_name || u.email || "U")
                   .split(" ")
                   .map((n) => n[0])
@@ -256,7 +258,7 @@ export default function AdminUsers() {
                 </tr>
                 );
               })}
-              {filtered.length === 0 && (
+              {users.length === 0 && (
                 <tr>
                   <td colSpan={7} className="p-6 text-center text-muted-foreground">
                     {t("admin.usersPage.noResults")}
@@ -267,6 +269,23 @@ export default function AdminUsers() {
           </table>
         </div>
       )}
+
+      <div className="flex items-center justify-between mt-4">
+        <Button
+          variant="outline"
+          onClick={() => setOffset((o) => Math.max(0, o - LIMIT))}
+          disabled={offset === 0 || loading}
+        >
+          {t("common.back")}
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => setOffset((o) => o + LIMIT)}
+          disabled={!hasMore || loading}
+        >
+          {t("common.next")}
+        </Button>
+      </div>
 
       <CreateUserModal
         open={createOpen}
