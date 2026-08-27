@@ -164,3 +164,28 @@ def extract_prescriptive_recommendation(text: str) -> dict[str, str]:
         result["recommendation"] = text
 
     return result
+
+
+def _truncate_to_complete_sentence(text: str) -> str:
+    """Remove a trailing incomplete fragment so the UI never ends with '...'."""
+    if not text:
+        return text
+    text = text.rstrip()
+    if text.endswith("..."):
+        text = text[:-3].rstrip()
+    for delim in (".", "!", "?"):
+        last = text.rfind(delim)
+        if last != -1 and (last + 1 == len(text) or text[last + 1] in {" ", "\n", "\r"}):
+            return text[: last + 1].rstrip()
+    return text
+
+
+def clean_ai_output(text: str) -> str:
+    """Full cleanup for UI-facing LLM output: JSON, fences, formatting, then safe truncation."""
+    if not text:
+        return text
+    text = strip_markdown_fences(text)
+    text = strip_json_wrappers(text)
+    text = strip_key_value_formatting(text)
+    text = normalize_whitespace(text)
+    return _truncate_to_complete_sentence(text)

@@ -926,6 +926,7 @@ def renewable_energy_calculator(
                 "consumption_results": consumption_results,
                 "renewable_energy_results": renewable_energy_results,
                 "nearby_geothermal_plants": nearby_geo_plants or [],
+                "mode": mode,
             }
 
             if use_rag and rag_query:
@@ -946,20 +947,31 @@ def renewable_energy_calculator(
                 "environmental_impact": "",
             }
 
-    # Merge static fallback explanations so every renewable type always has text
+    # Build/persist deterministic per-source explanations for the UI fallback.
+    explanations = _get_or_build_explanations(municipality_id, renewable_energy_results)
+
+    # Merge fallback explanations so every renewable type always has text.
     if ai_analysis:
-        static_explanations = _build_static_renewable_explanations(renewable_energy_results)
         ra = ai_analysis.get("renewable_analysis") or {}
-        for key, text in static_explanations.items():
+        for key, text in explanations.items():
             if not ra.get(key):
                 ra[key] = text
         ai_analysis["renewable_analysis"] = ra
+    else:
+        ai_analysis = {
+            "summary": "",
+            "renewable_analysis": explanations,
+            "recommendation": {"best_option": "", "reason": ""},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+        }
 
     result = {
         "municipality_data": municipality_results,
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
+        "explanations": explanations,
         "terrain_data": terrain_data,
         "province": province,
     }
@@ -1126,6 +1138,47 @@ def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
         explanations["geothermal"] = " ".join(parts)
 
     return explanations
+
+
+def _get_or_build_explanations(
+    municipality_id: int | None,
+    results: dict,
+) -> dict[str, str]:
+    """Return cached per-source explanations, generating and persisting them when missing."""
+    generated = _build_static_renewable_explanations(results)
+    if not municipality_id:
+        return generated
+
+    client = get_supabase_client()
+    try:
+        resp = (
+            client.table("municipality_renewable_explanations")
+            .select("*")
+            .eq("municipality_id", str(municipality_id))
+            .single()
+            .execute()
+        )
+        row = resp.data
+        if row and all(row.get(k) for k in ("solar", "wind", "hydro", "geothermal")):
+            return {
+                k: row.get(k) or generated.get(k, "")
+                for k in ("solar", "wind", "hydro", "geothermal")
+            }
+    except Exception as exc:
+        logger.warning("Failed to load cached explanations for municipality %s: %s", municipality_id, exc)
+
+    try:
+        client.table("municipality_renewable_explanations").upsert({
+            "municipality_id": municipality_id,
+            "solar": generated.get("solar"),
+            "wind": generated.get("wind"),
+            "hydro": generated.get("hydro"),
+            "geothermal": generated.get("geothermal"),
+        }).execute()
+    except Exception as exc:
+        logger.warning("Failed to cache explanations for municipality %s: %s", municipality_id, exc)
+
+    return generated
 
 
 def _calculate_option_summary(
@@ -1301,7 +1354,7 @@ def build_ecosim_dashboard_response(
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="monthly_consumption and monthly_bill must be greater than zero",
+            detail="Monthly consumption and monthly bill must be greater than zero.",
         )
 
     if electricity_rate is None or electricity_rate <= 0:
@@ -1356,9 +1409,10 @@ def build_ecosim_dashboard_response(
         logger.warning("Municipality name/lat/lon/province fetch failed: %s", exc)
 
     if municipality_name is None:
+        entity = "province" if mode == "province" else "municipality"
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Municipality/province not found",
+            detail=f"The selected {entity} was not found.",
         )
 
     nearby_geo_plants: list[dict[str, Any]] = []
@@ -1590,10 +1644,15 @@ def build_ecosim_dashboard_response(
     renewable_results["hydro_output"] = hydro_output
     renewable_results["geothermal_output"] = geothermal_output
 
+    # For province mode, geothermal household data is not meaningful; null it.
+    if mode == "province":
+        renewable_results["geothermal_output"] = None
+
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
         "province": province,
+        "mode": mode,
         "monthly_consumption_kwh": monthly_consumption,
         "user_consumption_kwh": user_consumption_kwh,
         "effective_consumption_kwh": effective_consumption_kwh,
@@ -1615,6 +1674,7 @@ def build_ecosim_dashboard_response(
         "renewable_energy_results": renewable_results,
         "consumption_results": base_results.get("consumption_results"),
         "municipality_data": base_results.get("municipality_data"),
+        "explanations": base_results.get("explanations"),
         "ai_analysis": ai_analysis if include_ai else None,
         "nearby_geothermal_plants": nearby_geo_plants,
         "remaining_anonymous_requests": None,

@@ -542,7 +542,9 @@
         "reShareTooltip": "RE Share is the percentage of the Philippines' total electricity that came from renewable sources like solar, wind, hydro, and geothermal in the most recent IRENA year. A higher value means a larger share of clean energy.",
         "unitMW": "MW",
         "unitGWh": "GWh",
-        "dataUnavailable": "Data currently unavailable"
+        "dataUnavailable": "Data currently unavailable",
+        "whyItMattersTitle": "Why this benchmark matters",
+        "whyItMattersContent": "IRENA tracks the Philippines' national renewable energy progress across all technologies. Comparing capacity, generation, and share against DOE data helps show whether the country is on track to meet its clean-energy targets. For a household, this context explains why rooftop solar, small wind, or micro-hydro can contribute to a national shift toward more affordable and reliable power."
       }
     },
     "toast": {

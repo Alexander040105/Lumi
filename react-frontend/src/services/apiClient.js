@@ -6,6 +6,14 @@ const DEFAULT_TIMEOUT_MS = 30000;
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY_MS = 500;
 
+export class ApiError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+    this.name = "ApiError";
+  }
+}
+
 function generateRequestId() {
   if (typeof crypto !== "undefined" && crypto.randomUUID) {
     return crypto.randomUUID();
@@ -77,7 +85,7 @@ export async function request(path, { token, timeoutMs, ...options } = {}) {
         } catch {
           if (text) message = text;
         }
-        throw new Error(message);
+        throw new ApiError(response.status, message);
       }
 
       return response.json();

@@ -14,7 +14,9 @@ router = APIRouter()
 
 class SimulationCreate(BaseModel):
     label: str = Field(..., min_length=1, max_length=200)
-    municipality_id: int
+    municipality_id: int | None = None
+    province_id: int | None = None
+    mode: str = Field(default="municipality", pattern="^(municipality|province|barangay)$")
     inputs: dict = Field(default_factory=dict)
     results: dict = Field(default_factory=dict)
 
@@ -39,6 +41,8 @@ async def create_simulation(
                 "user_id": user_id,
                 "label": payload.label,
                 "municipality_id": payload.municipality_id,
+                "province_id": payload.province_id,
+                "mode": payload.mode,
                 "inputs": payload.inputs,
                 "results": payload.results,
                 "created_at": datetime.now(timezone.utc).isoformat(),

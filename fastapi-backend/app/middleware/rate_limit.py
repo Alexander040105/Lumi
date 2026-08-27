@@ -19,6 +19,11 @@ from app.services.redis_client import NullRedis, get_redis
 logger = logging.getLogger(__name__)
 
 
+def _is_localhost(client_ip: str) -> bool:
+    """Return True for loopback addresses used in local dev only."""
+    return client_ip in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+
+
 class RateLimitMiddleware(BaseHTTPMiddleware):
     """Sliding window rate limiter per client IP, Redis-backed when available."""
 
@@ -87,6 +92,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         client_ip = self._client_ip(request)
+
+        # Skip rate limiting for local development requests
+        if _is_localhost(client_ip):
+            return await call_next(request)
 
         # Admin and protected write endpoints are higher-sensitivity auth actions
         # and get a much tighter per-minute budget.

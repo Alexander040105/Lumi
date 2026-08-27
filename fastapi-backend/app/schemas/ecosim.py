@@ -94,7 +94,7 @@ class RenewableEnergyResults(BaseModel):
     solar_output: SolarOutput
     hydro_output: HydroOutput
     wind_output: WindOutput
-    geothermal_output: GeothermalOutput
+    geothermal_output: GeothermalOutput | None = None
     consumption_results: ConsumptionResults
 
 
@@ -141,6 +141,7 @@ class EcosimDashboardResponse(BaseModel):
     municipality: str
     municipality_id: int
     province: str | None = None
+    mode: str = "municipality"
     monthly_consumption_kwh: float
     user_consumption_kwh: float | None = None
     effective_consumption_kwh: float | None = None

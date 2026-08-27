@@ -530,7 +530,9 @@
         "reShareTooltip": "Ang RE Share ay porsiyento ng kabuuang kuryente sa Pilipinas na nanggaling sa renewable energy tulad ng solar, hangin, hydropower, at geothermal sa pinakabagong taon ng IRENA. Mas mataas na halaga ay mas malaking bahagi ng malinis na enerhiya sa grid.",
         "unitMW": "MW",
         "unitGWh": "GWh",
-        "dataUnavailable": "Kasalukuyang hindi magamit ang data"
+        "dataUnavailable": "Kasalukuyang hindi magamit ang data",
+        "whyItMattersTitle": "Bakit mahalaga ang benchmark na ito",
+        "whyItMattersContent": "Tinitingnan ng IRENA ang pambansang pag-unlad ng renewable energy sa Pilipinas sa lahat ng teknolohiya. Sa paghahambing ng kapasidad, generasyon, at share laban sa DOE data, makikita kung nasa tamang landas ang bansa para maabot ang mga target na malinis na enerhiya. Para sa isang kabahayan, binibigyang-kahulugan nito kung bakit ang rooftop solar, maliit na wind turbine, o micro-hydro ay maaaring makatulong sa pambansang pagbabago patungo sa mas abot-kaya at maaasahang kuryente."
       }
     },
     "toast": {

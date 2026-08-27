@@ -21,6 +21,7 @@ import AiInsightPanel from "@/components/energyhub/AiInsightPanel";
 import ProvincialDemand from "@/components/energyhub/ProvincialDemand";
 import CitationSources from "@/components/shared/CitationSources";
 import InfoTooltip from "@/components/shared/InfoTooltip";
+import ExpandableBlock from "@/components/shared/ExpandableBlock";
 
 const SUITABILITY_METRICS = [
   "renewable_potential",
@@ -298,6 +299,13 @@ export default function EnergyHub() {
               </div>
             </div>
             <p className="mt-2 text-xs text-muted-foreground">{irena.note}</p>
+            <div className="mt-4">
+              <ExpandableBlock
+                title={t("energyHub.sections.irena.whyItMattersTitle")}
+                content={t("energyHub.sections.irena.whyItMattersContent")}
+                defaultOpen={false}
+              />
+            </div>
           </section>
         )}
 

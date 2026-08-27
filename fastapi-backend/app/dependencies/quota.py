@@ -17,6 +17,11 @@ _in_memory_last: dict[str, float] = {}
 _in_memory_counts: dict[str, int] = {}
 
 
+def _is_localhost(client_id: str) -> bool:
+    """Return True for loopback addresses used in local dev only."""
+    return client_id in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+
+
 def get_client_id(request: Request) -> str:
     """Extract a stable client identifier from the request."""
     forwarded = request.headers.get("x-forwarded-for")
@@ -177,6 +182,13 @@ async def get_optional_user_or_quota(
         }
 
     client_id = get_client_id(request)
+    if _is_localhost(client_id):
+        return {
+            "user": None,
+            "remaining_anonymous_requests": 9999,
+            "remaining_usage": None,
+        }
+
     allowed, remaining = await check_anonymous_quota(client_id)
     if not allowed:
         raise HTTPException(
