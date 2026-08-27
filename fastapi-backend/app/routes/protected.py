@@ -22,6 +22,32 @@ class SessionPayload(BaseModel):
     data: dict = Field(default_factory=dict, max_length=50)
 
 
+class ProfileUpdatePayload(BaseModel):
+    """Validated profile update payload."""
+
+    full_name: str | None = Field(None, max_length=120)
+    organization: str | None = Field(None, max_length=120)
+    location: str | None = Field(None, max_length=120)
+    preferred_municipality_id: str | None = Field(None, max_length=40)
+    avatar_url: str | None = Field(None, max_length=500)
+
+    model_config = {"extra": "forbid"}
+
+    @field_validator("full_name", "organization", "location")
+    @classmethod
+    def strip_whitespace(cls, v: str | None) -> str | None:
+        if isinstance(v, str):
+            return v.strip()
+        return v
+
+    @field_validator("avatar_url")
+    @classmethod
+    def avatar_url_length(cls, v: str | None) -> str | None:
+        if v is not None and len(v) > 500:
+            raise ValueError("avatar_url too long")
+        return v
+
+
 @router.get("/me")
 async def read_me(user=Depends(get_current_user_with_role_and_plan)):
     return {"user": user}
@@ -52,10 +78,9 @@ async def get_profile(user: dict = Depends(get_verified_user)) -> dict:
 
 
 @router.put("/profile")
-async def update_profile(payload: dict, user: dict = Depends(get_verified_user)) -> dict:
+async def update_profile(payload: ProfileUpdatePayload, user: dict = Depends(get_verified_user)) -> dict:
     """Update the authenticated user's profile fields."""
-    allowed_fields = {"full_name", "organization", "location", "preferred_municipality_id", "avatar_url"}
-    updates = {k: v for k, v in payload.items() if k in allowed_fields}
+    updates = payload.model_dump(exclude_unset=True, exclude_none=True)
     if not updates:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No valid fields to update")
 
