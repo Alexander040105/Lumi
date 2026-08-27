@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, status
+import logging
 
 from app.dependencies.quota import get_optional_user_or_quota
 from app.schemas.ecosim import (
@@ -18,7 +19,25 @@ from app.services.ecosim import (
     list_provinces,
     renewable_energy_calculator,
 )
+from app.services.supabase_service import get_supabase_client
+
+logger = logging.getLogger(__name__)
 router = APIRouter()
+
+
+def _log_ecosim_request(user: dict, municipality_id: int | None) -> None:
+    """Persist a lightweight usage log for authenticated EcoSim requests."""
+    if not user:
+        return
+    client = get_supabase_client()
+    try:
+        client.table("user_ecosim_logs").insert({
+            "user_id": user.get("sub"),
+            "municipality_id": municipality_id,
+        }).execute()
+        logger.info("EcoSim request logged for user=%s municipality=%s", user.get("sub"), municipality_id)
+    except Exception as exc:
+        logger.warning("Failed to log ecosim request for user=%s: %s", user.get("sub"), exc)
 
 
 @router.get("/", response_model=EcosimDashboardResponse)
@@ -42,7 +61,9 @@ async def get_ecosim_results(
         mode=params.mode,
         data_source=data_source,
     )
+    _log_ecosim_request(auth.get("user"), params.municipality_id)
     result["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
+    result["remaining_usage"] = auth.get("remaining_usage")
     return result
 
 
@@ -66,9 +87,11 @@ async def get_ecosim_ai(
         mode=params.mode,
         data_source=data_source,
     )
+    _log_ecosim_request(auth.get("user"), params.municipality_id)
     return {
         "ai_analysis": result.get("ai_analysis"),
         "remaining_anonymous_requests": auth["remaining_anonymous_requests"],
+        "remaining_usage": auth.get("remaining_usage"),
     }
 
 
@@ -110,5 +133,6 @@ async def post_item(
         mode=body.mode,
         data_source=data_source,
     )
+    _log_ecosim_request(auth.get("user"), None)
     response_data["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
     return response_data

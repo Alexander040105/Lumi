@@ -120,16 +120,28 @@
       "view": "Tingnan",
       "ban": "Ban",
       "unban": "Unban",
+      "actionFailed": "Nabigo ang aksyon. Subukang muli.",
       "deleteConfirm": "I-soft-delete ang user na ito? Ma-bban at ma-anonymise sila.",
       "delete": "Burahin",
       "noResults": "Walang user na tumutugma sa filters."
     },
+    "usagePage": {
+      "title": "User Usage",
+      "description": "Subaybayan ang paggamit ng simulation at EcoSim sa lahat ng user.",
+      "searchPlaceholder": "Maghanap ayon sa pangalan...",
+      "loading": "Naglo-load ng usage...",
+      "noResults": "Walang user na tumutugma sa iyong search.",
+      "totalSims": "Total Sims",
+      "thisMonthSims": "Sims This Month",
+      "totalEcosim": "Total EcoSim",
+      "thisMonthEcosim": "EcoSim This Month"
+    },
     "analyticsPage": {
       "title": "System Analytics",
       "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
       "simulations": "Simulations",
-      "chatSessions": "Chat Sessions",
-      "freePremium": "Free / Premium"
+      "ecosimRequests": "EcoSim Requests"
     },
     "configPage": {
       "title": "System Configuration",
@@ -207,8 +219,11 @@
       "untitled": "Walang Pamagat",
       "municipality": "Municipality",
       "totalSimulations": "Total Simulations",
-      "chatSessions": "Chat Sessions",
+      "totalEcosim": "Total EcoSim",
+      "simulationsThisMonth": "Simulations This Month",
+      "ecosimThisMonth": "EcoSim This Month",
       "peakMunicipality": "Peak Municipality",
+      "monthlyBreakdown": "12-Buwan na Breakdown",
       "lastActive": "Huling Active",
       "recentSimulations": "Mga Recent Simulation"
     }

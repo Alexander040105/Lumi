@@ -1,8 +1,3 @@
--- Migration 0014: Paginated, searchable admin user list
---
--- Returns a single RPC result so the Vercel serverless function stays within
--- the 10 s limit and does not have to enumerate all auth.users rows.
-
 CREATE OR REPLACE FUNCTION public.get_admin_users_list(
     p_limit integer DEFAULT 50,
     p_offset integer DEFAULT 0,
@@ -29,7 +24,7 @@ AS $$
     p.id,
     p.full_name,
     au.email,
-    r.role,
+    COALESCE(r.role::text, 'user') AS role,
     p.plan,
     p.is_active,
     p.avatar_url,
@@ -39,7 +34,7 @@ AS $$
   LEFT JOIN auth.users au ON au.id = p.id
   WHERE
     (p_search IS NULL OR p.full_name ILIKE '%' || p_search || '%' OR au.email ILIKE '%' || p_search || '%')
-    AND (p_role IS NULL OR r.role = p_role)
+    AND (p_role IS NULL OR r.role::text = p_role)
     AND (p_plan IS NULL OR p.plan = p_plan)
     AND (p_is_active IS NULL OR p.is_active = p_is_active)
   ORDER BY p.created_at DESC
@@ -48,6 +43,3 @@ $$;
 
 GRANT EXECUTE ON FUNCTION public.get_admin_users_list(integer, integer, text, text, text, boolean) TO postgres;
 GRANT EXECUTE ON FUNCTION public.get_admin_users_list(integer, integer, text, text, text, boolean) TO service_role;
-
--- Helpers for the most common filter and sort cases.
-CREATE INDEX IF NOT EXISTS idx_profiles_created_at ON public.profiles (created_at DESC);

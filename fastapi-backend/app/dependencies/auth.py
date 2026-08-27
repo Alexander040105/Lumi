@@ -2,6 +2,8 @@ from fastapi import Depends, HTTPException, Request, status
 
 import logging
 
+from app.auth.jwt import verify_jwt
+from app.config.settings import get_settings
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client, get_supabase_public_client
 
@@ -57,6 +59,32 @@ def _build_user_claims(user_data) -> dict:
     }
 
 
+def _build_user_claims_from_jwt(payload: dict) -> dict:
+    """Build a claims dict from a locally verified Supabase JWT."""
+    return {
+        "sub": payload.get("sub"),
+        "email": payload.get("email"),
+        "email_confirmed_at": payload.get("email_confirmed_at") or payload.get("confirmed_at"),
+        "user_metadata": payload.get("user_metadata", {}),
+    }
+
+
+def _get_local_user(token: str) -> dict | None:
+    """Verify the token locally and return claims if valid.
+
+    Falls back to None if no JWT secret is configured so the Supabase API
+    remains the source of truth.
+    """
+    settings = get_settings()
+    if not settings.supabase_jwt_secret:
+        return None
+    try:
+        payload = verify_jwt(token)
+    except Exception:
+        return None
+    return _build_user_claims_from_jwt(payload)
+
+
 def get_current_user(token: str = Depends(get_bearer_token)) -> dict:
     client = get_supabase_public_client()
     try:
@@ -102,28 +130,37 @@ def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
 
 
 def get_verified_user_optional(token: str | None = Depends(get_optional_bearer_token)) -> dict | None:
-    """Return verified user if a valid token is provided, otherwise None."""
+    """Return verified user if a valid token is provided, otherwise None.
+
+    Uses local JWT verification for read-only paths to avoid a round-trip to
+    Supabase Auth on every request. Falls back to Supabase if no JWT secret is
+    configured or the token is not a valid JWT.
+    """
     if not token:
         return None
-    client = get_supabase_public_client()
-    try:
-        user_response = client.auth.get_user(token)
-    except Exception:
-        return None
 
-    user_data = _extract_user_data(user_response)
-    if not user_data:
-        return None
+    user = _get_local_user(token)
+    if user is None:
+        client = get_supabase_public_client()
+        try:
+            user_response = client.auth.get_user(token)
+        except Exception:
+            return None
 
-    confirmed_at = (
-        getattr(user_data, "email_confirmed_at", None)
-        or getattr(user_data, "confirmed_at", None)
-        or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
-    )
-    if not confirmed_at:
-        return None
+        user_data = _extract_user_data(user_response)
+        if not user_data:
+            return None
 
-    user = _build_user_claims(user_data)
+        confirmed_at = (
+            getattr(user_data, "email_confirmed_at", None)
+            or getattr(user_data, "confirmed_at", None)
+            or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
+        )
+        if not confirmed_at:
+            return None
+
+        user = _build_user_claims(user_data)
+
     if not _get_user_status(user.get("sub")):
         return None
     user["is_active"] = True

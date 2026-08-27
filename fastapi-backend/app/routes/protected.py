@@ -5,7 +5,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 
 logger = logging.getLogger(__name__)
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
 from app.services.data_cache import cache_delete, cache_get, cache_set
@@ -139,3 +139,19 @@ async def store_session(payload: SessionPayload, ttl_seconds: int = 3600, user=D
         raise HTTPException(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Session payload too large")
     await redis.set(key, serialized, ex=ttl_seconds)
     return {"stored": True, "key": key, "ttl_seconds": ttl_seconds}
+
+
+@router.delete("/me")
+async def delete_account(user: dict = Depends(get_verified_user)) -> dict:
+    """Delete the authenticated user's auth record (cascading to profile data)."""
+    user_id = user.get("sub")
+    client = get_supabase_client()
+    try:
+        client.auth.admin.delete_user(user_id)
+    except Exception as exc:
+        logger.warning("Delete user failed for %s: %s", user_id, exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Could not delete account",
+        ) from exc
+    return {"deleted": True}

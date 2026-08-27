@@ -14,7 +14,8 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.dependencies.auth import get_verified_user
+from app.dependencies.auth import get_current_user_with_role_and_plan
+from app.dependencies.quota import check_authenticated_usage
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -105,7 +106,7 @@ def _generate_response(prompt: str) -> str:
 @router.post("/")
 async def chat_message(
     payload: dict,
-    user: dict = Depends(get_verified_user),
+    user: dict = Depends(get_current_user_with_role_and_plan),
 ) -> dict[str, Any]:
     """Receive a chat message, run hybrid RAG retrieval, generate AI response.
 
@@ -116,6 +117,7 @@ async def chat_message(
         message: str (required)
         session_id: str | None (optional; creates new session if omitted)
     """
+    await check_authenticated_usage(user, action="chat_message")
     from app.services.rag_hybrid import (
         validate_input,
         sanitize_output,

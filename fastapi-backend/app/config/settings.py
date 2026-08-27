@@ -64,6 +64,15 @@ class Settings(BaseSettings):
     anonymous_ecosim_quota: int = 1
     anonymous_ecosim_window_seconds: int = 86400
 
+    # Authenticated monthly usage limits (free vs premium)
+    free_simulation_limit: int = 5
+    premium_simulation_limit: int = 1000
+    free_chat_message_limit: int = 20
+    premium_chat_message_limit: int = 5000
+
+    # Whether to enforce usage limits for non-admin users
+    enforce_usage_limits: bool = False
+
     # AI / LLM
     gemini_api_key: str | None = None
     gemini_debug: bool = False

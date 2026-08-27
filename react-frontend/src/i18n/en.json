@@ -120,6 +120,7 @@
       "view": "View",
       "ban": "Ban",
       "unban": "Unban",
+      "actionFailed": "Action failed. Please try again.",
       "deleteConfirm": "Soft-delete this user? They will be banned and anonymised.",
       "delete": "Delete",
       "noResults": "No users match your filters."
@@ -127,9 +128,9 @@
     "analyticsPage": {
       "title": "System Analytics",
       "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
       "simulations": "Simulations",
-      "chatSessions": "Chat Sessions",
-      "freePremium": "Free / Premium"
+      "ecosimRequests": "EcoSim Requests"
     },
     "configPage": {
       "title": "System Configuration",
@@ -207,10 +208,11 @@
       "untitled": "Untitled",
       "municipality": "Municipality",
       "totalSimulations": "Total Simulations",
-      "chatSessions": "Chat Sessions",
+      "totalEcosim": "Total EcoSim",
       "simulationsThisMonth": "Simulations This Month",
-      "chatSessionsThisMonth": "Chats This Month",
+      "ecosimThisMonth": "EcoSim This Month",
       "peakMunicipality": "Peak Municipality",
+      "monthlyBreakdown": "12-Month Breakdown",
       "lastActive": "Last Active",
       "recentSimulations": "Recent Simulations"
     },
@@ -222,8 +224,8 @@
       "noResults": "No users match your search.",
       "totalSims": "Total Sims",
       "thisMonthSims": "Sims This Month",
-      "totalChats": "Total Chats",
-      "thisMonthChats": "Chats This Month"
+      "totalEcosim": "Total EcoSim",
+      "thisMonthEcosim": "EcoSim This Month"
     },
     "logsPage": {
       "title": "Admin Audit Logs",

@@ -23,35 +23,6 @@ class SimulationUpdate(BaseModel):
     label: str = Field(..., min_length=1, max_length=200)
 
 
-def _get_free_sim_limit() -> int | None:
-    """Fetch the current free simulation limit from system_config."""
-    client = get_supabase_client()
-    try:
-        resp = client.table("system_config").select("value").eq("key", "global").single().execute()
-        if resp.data:
-            value = resp.data.get("value", {})
-            limit = value.get("free_sim_limit")
-            return int(limit) if limit is not None else None
-    except Exception as exc:
-        logger.warning("Free sim limit fetch failed, using default: %s", exc)
-    return 3  # default fallback
-
-
-def _count_user_simulations(user_id: str) -> int:
-    """Count existing saved simulations for a user."""
-    client = get_supabase_client()
-    try:
-        resp = (
-            client.table("saved_simulations")
-            .select("id", count="exact")
-            .eq("user_id", user_id)
-            .execute()
-        )
-        return resp.count or 0
-    except Exception:
-        return 0
-
-
 @router.post("", status_code=status.HTTP_201_CREATED)
 async def create_simulation(
     payload: SimulationCreate,
@@ -59,23 +30,6 @@ async def create_simulation(
 ) -> dict[str, Any]:
     """Save a new simulation for the authenticated user."""
     user_id = user.get("sub")
-    plan = user.get("plan", "free")
-
-    # Usage limit check for free users
-    if plan not in ("premium", "admin", "dev"):
-        free_limit = _get_free_sim_limit()
-        if free_limit is not None:
-            current_count = _count_user_simulations(user_id)
-            if current_count >= free_limit:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail={
-                        "message": "Simulation save limit reached for your plan.",
-                        "limit": free_limit,
-                        "current": current_count,
-                        "upgrade": True,
-                    },
-                )
 
     client = get_supabase_client()
     try:

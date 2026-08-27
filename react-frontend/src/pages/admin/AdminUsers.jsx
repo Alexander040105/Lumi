@@ -8,6 +8,7 @@ import UserDetailDrawer from "@/components/admin/UserDetailDrawer";
 import { useAuth } from "@/hooks/useAuth";
 import { useI18n } from "@/i18n";
 import { getApiBaseUrl } from "@/utils/env";
+import { toast } from "sonner";
 
 const LIMIT = 50;
 
@@ -19,7 +20,6 @@ export default function AdminUsers() {
   const [hasMore, setHasMore] = useState(false);
   const [search, setSearch] = useState("");
   const [filterRole, setFilterRole] = useState("all");
-  const [filterPlan, setFilterPlan] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
   const [offset, setOffset] = useState(0);
   const [createOpen, setCreateOpen] = useState(false);
@@ -35,7 +35,6 @@ export default function AdminUsers() {
       });
       if (search.trim()) params.set("search", search.trim());
       if (filterRole !== "all") params.set("role", filterRole);
-      if (filterPlan !== "all") params.set("plan", filterPlan);
       if (filterStatus !== "all") params.set("status", filterStatus);
 
       const res = await fetch(`${getApiBaseUrl()}/admin/users?${params}`, {
@@ -54,7 +53,7 @@ export default function AdminUsers() {
   useEffect(() => {
     setOffset(0);
     if (offset === 0 && accessToken) fetchUsers(0);
-  }, [search, filterRole, filterPlan, filterStatus, accessToken]);
+  }, [search, filterRole, filterStatus, accessToken]);
 
   useEffect(() => {
     if (accessToken) fetchUsers();
@@ -62,7 +61,7 @@ export default function AdminUsers() {
 
   const handleAction = async (url, method = "POST", body = null) => {
     try {
-      await fetch(url, {
+      const res = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
@@ -70,9 +69,10 @@ export default function AdminUsers() {
         },
         body: body ? JSON.stringify(body) : undefined,
       });
-      fetchUsers();
-    } catch {
-      // ignore
+      if (!res.ok) throw new Error("Action failed");
+      await fetchUsers();
+    } catch (err) {
+      toast.error(err.message || t("admin.usersPage.actionFailed"));
     }
   };
 
@@ -109,15 +109,6 @@ export default function AdminUsers() {
           <option value="dev">{t("admin.usersPage.roleDev")}</option>
         </select>
         <select
-          value={filterPlan}
-          onChange={(e) => setFilterPlan(e.target.value)}
-          className="rounded-md border px-3 py-2 text-sm"
-        >
-          <option value="all">{t("admin.usersPage.allPlans")}</option>
-          <option value="free">{t("admin.usersPage.planFree")}</option>
-          <option value="premium">{t("admin.usersPage.planPremium")}</option>
-        </select>
-        <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           className="rounded-md border px-3 py-2 text-sm"
@@ -138,7 +129,6 @@ export default function AdminUsers() {
                 <th className="text-left p-3">{t("admin.usersPage.columns.user")}</th>
                 <th className="text-left p-3">{t("admin.usersPage.columns.email")}</th>
                 <th className="text-left p-3">{t("admin.usersPage.columns.role")}</th>
-                <th className="text-left p-3">{t("admin.usersPage.columns.plan")}</th>
                 <th className="text-left p-3">{t("admin.usersPage.columns.status")}</th>
                 <th className="text-left p-3">{t("admin.usersPage.columns.joined")}</th>
                 <th className="text-left p-3">{t("admin.usersPage.columns.actions")}</th>
@@ -177,11 +167,6 @@ export default function AdminUsers() {
                   <td className="p-3">
                     <Badge variant="outline" className="capitalize">
                       {u.role === "admin" ? t("admin.usersPage.roleAdmin") : u.role === "dev" ? t("admin.usersPage.roleDev") : t("admin.usersPage.roleUser")}
-                    </Badge>
-                  </td>
-                  <td className="p-3">
-                    <Badge variant="secondary" className="capitalize">
-                      {u.role === "admin" || u.role === "dev" ? t("admin.usersPage.planPremium") : (u.plan === "premium" ? t("admin.usersPage.planPremium") : t("admin.usersPage.planFree"))}
                     </Badge>
                   </td>
                   <td className="p-3">
@@ -224,20 +209,6 @@ export default function AdminUsers() {
                         <option value="admin">{t("admin.usersPage.roleAdmin")}</option>
                         <option value="dev">{t("admin.usersPage.roleDev")}</option>
                       </select>
-                      <select
-                        value={u.plan}
-                        onChange={(e) =>
-                          handleAction(
-                            `${getApiBaseUrl()}/admin/users/${u.id}/plan`,
-                            "PUT",
-                            { plan: e.target.value }
-                          )
-                        }
-                        className="rounded-md border px-2 py-1 text-xs"
-                      >
-                        <option value="free">{t("admin.usersPage.planFree")}</option>
-                        <option value="premium">{t("admin.usersPage.planPremium")}</option>
-                      </select>
                       <Button
                         size="sm"
                         variant="ghost"
@@ -260,7 +231,7 @@ export default function AdminUsers() {
               })}
               {users.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="p-6 text-center text-muted-foreground">
+                  <td colSpan={6} className="p-6 text-center text-muted-foreground">
                     {t("admin.usersPage.noResults")}
                   </td>
                 </tr>
@@ -297,6 +268,7 @@ export default function AdminUsers() {
         user={selectedUser}
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        onUserChange={fetchUsers}
       />
     </div>
   );
