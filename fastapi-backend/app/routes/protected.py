@@ -14,6 +14,9 @@ from app.services.supabase_service import get_supabase_client
 
 router = APIRouter()
 
+_SESSION_MAX_TTL_SECONDS = 86_400  # 1 day
+_SESSION_MAX_PAYLOAD_BYTES = 10_000
+
 
 class SessionPayload(BaseModel):
     data: dict = Field(default_factory=dict, max_length=50)
@@ -105,11 +108,15 @@ async def sync_avatar(user: dict = Depends(get_verified_user)) -> dict:
 
 @router.post("/session")
 async def store_session(payload: SessionPayload, ttl_seconds: int = 3600, user=Depends(get_verified_user)):
+    if ttl_seconds <= 0:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="TTL must be positive")
+    ttl_seconds = min(ttl_seconds, _SESSION_MAX_TTL_SECONDS)
+
     redis = get_redis()
     user_id = user.get("sub")
     key = f"user:{user_id}:session"
     serialized = json.dumps(payload.data)
-    if len(serialized) > 10_000:
+    if len(serialized) > _SESSION_MAX_PAYLOAD_BYTES:
         raise HTTPException(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail="Session payload too large")
     await redis.set(key, serialized, ex=ttl_seconds)
-    return {"stored": True, "key": key}
+    return {"stored": True, "key": key, "ttl_seconds": ttl_seconds}
