@@ -18,7 +18,16 @@ from app.services.redis_client import (
     get_ecosim_cache_sync,
     set_ecosim_cache_sync,
 )
-from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, solar_calc_pvout, calculate_dust_loss_from_wind, calculate_degradation_from_humidity
+from app.config.settings import get_settings
+from app.services.solar_output_calc import (
+    calculate_temperature_factor,
+    calculate_performance_ratio,
+    solar_calc,
+    solar_calc_pvout,
+    solar_calc_advanced,
+    calculate_dust_loss_from_wind,
+    calculate_degradation_from_humidity,
+)
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
 from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
 from app.services.atlas_data import (
@@ -772,13 +781,14 @@ def renewable_energy_calculator(
     avg_temp = municipality_data.get("solar_temp_c") or municipality_data.get("avg_t2m")
     cloud_amt = municipality_data.get("avg_cloud_amt")
     rainfall = municipality_data.get("avg_prectotcorr")
-    # Pick wind speed by source priority: atlas 100m (bankable utility estimate),
-    # then ERA5 10m (higher-temporal-resolution reanalysis), then NASA POWER 10m.
+    # Pick wind speed by source priority: Global Wind Atlas 10 m (residential hub),
+    # then ERA5 10 m, then NASA POWER 10 m. 100 m is intentionally excluded for
+    # household calculations because it is a utility-scale, not home-scale, value.
     if data_source == "era5":
         wind_speed = municipality_data.get("era5_wind_speed_10m_ms") or municipality_data.get("avg_ws10m")
     else:
         wind_speed = (
-            municipality_data.get("wind_speed_100m_ms")
+            municipality_data.get("wind_speed_10m_ms")
             or municipality_data.get("era5_wind_speed_10m_ms")
             or municipality_data.get("avg_ws10m")
         )
@@ -791,10 +801,11 @@ def renewable_energy_calculator(
     days_in_month = calendar.monthrange(today.year, today.month)[1]
 
     # NOTE: SOLAR CALCULATIONS:
-    # NOTE: this default config is estimated based on typical residential solar panel setups and can be adjusted in the future for more customization or to reflect different market conditions. It is currently hardcoded for simplicity and to provide a baseline for calculations.   
+    # NOTE: this default config is estimated based on typical residential solar panel setups and can be adjusted in the future for more customization or to reflect different market conditions. It is currently hardcoded for simplicity and to provide a baseline for calculations.
+    settings = get_settings()
+    household_solar_size_kwp = float(settings.household_solar_size_kwp)
     solar_panel_default_config = {
         "panel_wattage": 400,
-        "number_of_panels": 2,
         "system_efficiency": 0.80,
         "temp_coeff_per_c": -0.004,
         "dust_loss": 0.97,
@@ -803,6 +814,11 @@ def renewable_energy_calculator(
         "wiring_loss": 0.98,
         "degradation_loss": 0.99,
     }
+    number_of_panels = max(
+        round((household_solar_size_kwp * 1000.0) / solar_panel_default_config["panel_wattage"]),
+        1,
+    )
+    solar_panel_default_config["number_of_panels"] = number_of_panels
     temperature_factor = calculate_temperature_factor(
         avg_temp_c=avg_temp,
         temp_coeff_per_c=solar_panel_default_config["temp_coeff_per_c"],
@@ -816,23 +832,44 @@ def renewable_energy_calculator(
         wiring_loss=solar_panel_default_config["wiring_loss"],
         degradation_loss=calculate_degradation_from_humidity(rh2m=humidity, base_degradation=solar_panel_default_config["degradation_loss"]),
     )
+    latitude = municipality_data.get("centroid_lat") or municipality_data.get("lat") or 14.0
+    panel_tilt_deg = municipality_data.get("solar_optimal_tilt_deg") or 15.0
+    panel_azimuth_deg = 180.0
+
     if pvout_annual:
         # Global Solar Atlas PVOUT already includes all system losses.
         solar_output = solar_calc_pvout(
             panel_wattage=solar_panel_default_config["panel_wattage"],
-            number_of_panels=solar_panel_default_config["number_of_panels"],
+            number_of_panels=number_of_panels,
             pvout_annual_kwh_kwp=pvout_annual,
+            days_in_month=days_in_month,
+        )
+    elif municipality_data.get("solar_dni_kwh_m2_day") and municipality_data.get("solar_dif_kwh_m2_day"):
+        solar_output = solar_calc_advanced(
+            panel_wattage=solar_panel_default_config["panel_wattage"],
+            number_of_panels=number_of_panels,
+            ghi_kwh_m2_day=solar_irradiance,
+            dni_kwh_m2_day=municipality_data.get("solar_dni_kwh_m2_day"),
+            dhi_kwh_m2_day=municipality_data.get("solar_dif_kwh_m2_day"),
+            avg_temp_c=avg_temp,
+            rh2m=humidity,
+            ws10m=wind_speed,
+            prectotcorr_mm=rainfall,
+            surface_pressure_pa=surface_pressure,
+            panel_tilt_deg=panel_tilt_deg,
+            panel_azimuth_deg=panel_azimuth_deg,
+            latitude_deg=latitude,
             days_in_month=days_in_month,
         )
     else:
         solar_output = solar_calc(
             panel_wattage=solar_panel_default_config["panel_wattage"],
-            number_of_panels=solar_panel_default_config["number_of_panels"],
+            number_of_panels=number_of_panels,
             solar_irradiance=solar_irradiance,
             performance_ratio=performance_ratio,
             days_in_month=days_in_month,
         )
-        solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
+    solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
 
     # NOTE: HYDRO CALCULATIONS
     hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
@@ -866,6 +903,7 @@ def renewable_energy_calculator(
     geothermal_output["daily_energy_kwh"] = round(geo_annual_kwh / 365.0, 2) if geo_annual_kwh > 0 else None
 
     #NOTE: WIND CALCULATIONS
+    wind_speed = float(wind_speed or 0.0)
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
     wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
 
@@ -887,11 +925,7 @@ def renewable_energy_calculator(
             "avg_rh2m": humidity,
             "avg_rhoa": air_density,
             "avg_prectotcorr": rainfall,
-            "avg_ws10m": (
-                municipality_data.get("era5_wind_speed_10m_ms")
-                or municipality_data.get("wind_speed_10m_ms")
-                or municipality_data.get("avg_ws10m")
-            ),
+            "avg_ws10m": wind_speed,
             "avg_allsky_sfc_sw_dwn": solar_irradiance,
             "avg_cloud_amt": cloud_amt,
             "avg_surface_pressure": surface_pressure,
@@ -908,6 +942,8 @@ def renewable_energy_calculator(
             "days_in_month": days_in_month,
             "panel_wattage": solar_panel_default_config["panel_wattage"],
             "number_of_panels": solar_panel_default_config["number_of_panels"],
+            "wind_speed_height_m": 10,
+            "wind_speed_mps": wind_speed,
         },
         # json for the solar outputs
         "solar_output": solar_output,
