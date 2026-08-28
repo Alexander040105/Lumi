@@ -68,43 +68,27 @@ export default function Dashboard() {
         setMunicipalities(munis || []);
 
         if (isLoggedIn) {
-          // Saved locations: try joined query, fall back to plain select with client-side name lookup
-          let { data: locs } = await supabase
+          const { data: locs } = await supabase
             .from("saved_locations")
-            .select("*, municipalities(name)")
+            .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
-          if (!locs) {
-            ({ data: locs } = await supabase
-              .from("saved_locations")
-              .select("*")
-              .eq("user_id", user.id)
-              .order("created_at", { ascending: false }));
-          }
           setSavedLocations(
             (locs || []).map((loc) => ({
               ...loc,
-              municipality_name: loc.municipalities?.name || muniMap.get(loc.municipality_id) || "",
+              municipality_name: muniMap.get(loc.municipality_id) || "",
             }))
           );
 
-          // Saved simulations: same pattern
-          let { data: sims } = await supabase
+          const { data: sims } = await supabase
             .from("saved_simulations")
-            .select("*, municipalities(name)")
+            .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
-          if (!sims) {
-            ({ data: sims } = await supabase
-              .from("saved_simulations")
-              .select("*")
-              .eq("user_id", user.id)
-              .order("created_at", { ascending: false }));
-          }
           setSavedSimulations(
             (sims || []).map((sim) => ({
               ...sim,
-              municipality_name: sim.municipalities?.name || muniMap.get(sim.municipality_id) || "",
+              municipality_name: muniMap.get(sim.municipality_id) || "",
             }))
           );
         }

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/services/supabaseClient";
+import { getApiBaseUrl } from "@/utils/env";
 
 export default function SecuritySettings() {
   const { user, accessToken, signOut } = useAuth();
