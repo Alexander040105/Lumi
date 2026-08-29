@@ -284,15 +284,24 @@ def list_municipalities() -> list[dict]:
         return cached
 
     client = get_supabase_client()
+    items = []
+    batch_size = 1000
+    offset = 0
     try:
-        result = (
-            client
-            .table("municipalities")
-            .select("municipality_id,name")
-            .order("name")
-            .limit(20000)
-            .execute()
-        )
+        while True:
+            result = (
+                client
+                .table("municipalities")
+                .select("municipality_id,name")
+                .order("name")
+                .range(offset, offset + batch_size - 1)
+                .execute()
+            )
+            batch = result.data or []
+            items.extend(batch)
+            if len(batch) < batch_size:
+                break
+            offset += batch_size
     except APIError as exc:
         error = getattr(exc, "args", [{}])[0]
         if isinstance(error, dict):
@@ -303,8 +312,6 @@ def list_municipalities() -> list[dict]:
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=message,
         )
-
-    items = result.data or []
     output = sorted(
         (
             {
