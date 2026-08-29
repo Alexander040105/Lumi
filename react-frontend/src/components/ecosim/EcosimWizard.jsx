@@ -28,7 +28,8 @@ export default function EcosimWizard({
   const selectedName = useMemo(() => {
     if (mode === "municipality") {
       const found = filteredMunicipalities.find((m) => String(m.municipality_id) === municipalityId);
-      return found ? found.name : muniQuery;
+      if (!found) return muniQuery;
+      return found.province_name ? `${found.name}, ${found.province_name}` : found.name;
     }
     const found = filteredProvinces.find((p) => String(p.province_id) === provinceId);
     return found ? found.name : provinceQuery;
@@ -110,8 +111,8 @@ export default function EcosimWizard({
                         {filteredMunicipalities.length ? (
                           <>
                             {filteredMunicipalities.slice(0, 50).map((item) => (
-                              <button key={item.municipality_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.municipality_id) === municipalityId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(item.name); setMuniOpen(false); }}>
-                                {item.name}
+                              <button key={item.municipality_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.municipality_id) === municipalityId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(item.province_name ? `${item.name}, ${item.province_name}` : item.name); setMuniOpen(false); }}>
+                                {item.province_name ? `${item.name}, ${item.province_name}` : item.name}
                               </button>
                             ))}
                             {filteredMunicipalities.length > 50 && (

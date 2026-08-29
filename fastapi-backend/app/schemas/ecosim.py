@@ -179,6 +179,7 @@ class EcosimAIResponse(BaseModel):
 class MunicipalityOption(BaseModel):
     municipality_id: int
     name: str
+    province_name: str | None = None
 
 
 class MunicipalityListResponse(BaseModel):

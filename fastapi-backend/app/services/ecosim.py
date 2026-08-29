@@ -292,7 +292,7 @@ def list_municipalities() -> list[dict]:
             result = (
                 client
                 .table("municipalities")
-                .select("municipality_id,name")
+                .select("municipality_id,name,province_id")
                 .order("name")
                 .range(offset, offset + batch_size - 1)
                 .execute()
@@ -312,11 +312,16 @@ def list_municipalities() -> list[dict]:
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail=message,
         )
+
+    # Build province_id → province_name map from cached province list
+    province_map = {p["province_id"]: p["name"] for p in list_provinces()}
+
     output = sorted(
         (
             {
                 "municipality_id": item.get("municipality_id"),
                 "name": item.get("name"),
+                "province_name": province_map.get(item.get("province_id")),
             }
             for item in items
             if item.get("municipality_id") and item.get("name")
