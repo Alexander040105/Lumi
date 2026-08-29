@@ -51,6 +51,7 @@ export default function Ecosim() {
   const [result, setResult] = useState(null);
 
   const aiPollTimerRef = useRef(null);
+  const runningRef = useRef(false);
   const clearAiPoll = () => {
     if (aiPollTimerRef.current) {
       clearTimeout(aiPollTimerRef.current);
@@ -193,6 +194,8 @@ export default function Ecosim() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (runningRef.current) return;
+    runningRef.current = true;
     setError(null);
     setLoading(true);
     setAiLoading(false);
@@ -247,6 +250,7 @@ export default function Ecosim() {
     } catch (err) {
       setError(err?.message || t("ecosim.toasts.ecosimError"));
     } finally {
+      runningRef.current = false;
       setLoading(false);
     }
   };
@@ -256,7 +260,7 @@ export default function Ecosim() {
       toast.error(t("ecosim.toasts.loginRequired"));
       return;
     }
-    if (!result || !municipalityId) {
+    if (!result || !activeId) {
       toast.error(t("ecosim.toasts.runFirst"));
       return;
     }
@@ -276,13 +280,16 @@ export default function Ecosim() {
           },
           body: JSON.stringify({
             label,
-            municipality_id: Number(municipalityId),
+            municipality_id: mode === "province" ? null : Number(activeId),
+            province_id: mode === "province" ? Number(activeId) : null,
+            mode,
             inputs: {
               monthly_consumption_kwh: Number(monthlyConsumption),
               monthly_bill_php: Number(monthlyBill),
               electricity_rate: Number(electricityRate),
               desired_savings_pct: Number(desiredSavings),
               include_ai: includeAi,
+              mode,
             },
             results: result,
           }),

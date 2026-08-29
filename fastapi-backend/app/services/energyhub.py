@@ -198,6 +198,8 @@ class EnergyHubService:
     geographic/climate data, and the REST API.
     """
 
+    PROMPT_VERSION = "2"
+
     def __init__(self) -> None:
         self._ml = get_energyhub_ml()
 
@@ -1013,7 +1015,7 @@ class EnergyHubService:
             text = generate_response(
                 prompt,
                 temperature=0.5,
-                max_output_tokens=1200,
+                max_output_tokens=2000,
             )
         except Exception as exc:
             logger.warning("LLM call failed for map explanation: %s", exc)
@@ -1244,7 +1246,7 @@ class EnergyHubService:
 
         prompt = self._build_chart_prompt(chart_type, chart_data)
         try:
-            text = generate_response(prompt, temperature=0.5, max_output_tokens=2500)
+            text = generate_response(prompt, temperature=0.5, max_output_tokens=2000)
         except Exception as exc:
             logger.warning("LLM call failed for chart analysis: %s", exc)
             return self._ml.get_ai_insight()
@@ -1261,11 +1263,17 @@ class EnergyHubService:
             "chart_type": chart_type,
         }
 
-    @staticmethod
-    def _hash_chart_data(chart_data: dict[str, Any]) -> str:
-        """Stable hash for chart data so identical inputs share cache."""
+    def _hash_chart_data(self, chart_data: dict[str, Any]) -> str:
+        """Stable hash for chart data so identical inputs share cache.
+
+        Includes a prompt version so changes to tokens/prompts invalidate old cache.
+        """
         import hashlib, json
-        canonical = json.dumps(chart_data, sort_keys=True, default=str)
+        canonical = json.dumps(
+            {"data": chart_data, "prompt_version": self.PROMPT_VERSION},
+            sort_keys=True,
+            default=str,
+        )
         return hashlib.md5(canonical.encode()).hexdigest()
 
     def _get_cached_insight(self, chart_type: str, chart_hash: str) -> str | None:
@@ -1357,18 +1365,15 @@ class EnergyHubService:
             prompt += f"  - {src}: {pct}%\n"
 
         prompt += (
-            "\nProvide a comprehensive 5-paragraph response that is PRESCRIPTIVE and ACTION-ORIENTED, not just descriptive.\n"
-            "Each paragraph must end with concrete, specific recommendations (what should be done, by whom, and by when).\n\n"
-            "1. Diagnose the current energy situation (consumption, peak demand, capacity margin) and prescribe immediate actions for the DOE and NGCP.\n"
-            "2. Evaluate the renewable energy share and generation mix, then recommend specific policy changes, feed-in tariffs, or regulatory reforms to accelerate RE adoption.\n"
-            "3. Interpret the ARIMA 2030 forecast and prescribe infrastructure investments, transmission upgrades, and capacity additions with timelines.\n"
-            "4. Identify barriers to decarbonization and prescribe risk-mitigation strategies for stranded assets, baseload transitions, and grid integration.\n"
-            "5. Give a forward-looking action plan with specific, measurable steps for the DOE, NGCP, local government units, and private investors.\n"
-            "Aim for 400–600 words. Use plain language suitable for students and communities, but include specific data points and actionable steps."
+            "\nProvide a SHORT, PRESCRIPTIVE analysis in 2-3 short paragraphs.\n"
+            "Each paragraph must end with 1-2 concrete, specific recommendations (what should be done, by whom, and by when).\n"
+            "Do NOT invent numbers that are not in the data above. Do NOT return JSON or code blocks.\n"
+            "Finish with a complete sentence. Do not end with an ellipsis or partial thought.\n"
+            "Use plain language suitable for students and communities."
         )
 
         try:
-            text = generate_response(prompt, temperature=0.3, max_output_tokens=2500)
+            text = generate_response(prompt, temperature=0.3, max_output_tokens=3000)
         except Exception as exc:
             logger.warning("LLM call failed: %s", exc)
             return self._ml.get_ai_insight()
@@ -1386,8 +1391,8 @@ class EnergyHubService:
 
         Delegates to the unified llm_sanitizer module.
         """
-        from app.services.llm_sanitizer import sanitize_llm_output
-        return sanitize_llm_output(text)
+        from app.services.llm_sanitizer import clean_ai_output
+        return clean_ai_output(text)
 
     def _build_chart_prompt(self, chart_type: str, chart_data: dict[str, Any]) -> str:
         if chart_type == "trends":
@@ -1398,7 +1403,7 @@ class EnergyHubService:
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
                 "Provide a PRESCRIPTIVE analysis of this Philippine energy consumption trend in 2-3 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 f"Historical years: {years[:5]}...{years[-3:]}\n"
                 f"Consumption (GWh): {consumption[:5]}...{consumption[-3:]}\n"
                 f"Forecast: {forecast}\n\n"
@@ -1418,8 +1423,8 @@ class EnergyHubService:
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-                "Provide a PRESCRIPTIVE analysis of this Philippine total energy consumption chart in 4-5 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine total energy consumption chart in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 f"Historical consumption (GWh): {consumption[:3]} ... {consumption[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Forecast: {forecast_values[0] if forecast_values else 'N/A'} GWh in {forecast_years[0] if forecast_years else 'N/A'} "
                 f"to {forecast_values[-1] if forecast_values else 'N/A'} GWh in {forecast_years[-1] if forecast_years else 'N/A'}\n"
@@ -1440,8 +1445,8 @@ class EnergyHubService:
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-                "Provide a PRESCRIPTIVE analysis of this Philippine peak electricity demand chart in 4-5 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine peak electricity demand chart in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 f"Peak demand (MW): {peak_demand[:3]} ... {peak_demand[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Overall growth from {first:.0f} to {latest:.0f} MW = {growth:.1f}%\n\n"
                 "Cover these points with actionable recommendations:\n"
@@ -1461,8 +1466,8 @@ class EnergyHubService:
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-                "Provide a PRESCRIPTIVE analysis of this Philippine renewable energy generation chart in 4-5 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine renewable energy generation chart in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 f"Renewable generation (GWh): {renewable[:3]} ... {renewable[-3:]} across years {years[0]}–{years[-1]}\n"
                 f"Total generation (GWh): {total[:3]} ... {total[-3:]}\n"
                 f"Latest renewable share: {share:.1f}%\n\n"
@@ -1478,8 +1483,8 @@ class EnergyHubService:
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-                "Provide a PRESCRIPTIVE analysis of the Philippine energy generation mix in 4-5 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Provide a PRESCRIPTIVE analysis of the Philippine energy generation mix in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 + "\n".join([f"  - {k}: {v}%" for k, v in shares.items()])
                 + "\n\nCover these points with actionable recommendations:\n"
                 "1) Diagnose fossil fuel dominance and prescribe concrete coal phase-out milestones, natural gas transition plans, and replacement targets.\n"
@@ -1496,8 +1501,8 @@ class EnergyHubService:
             return (
                 "You are LUMI, an Environmental Intelligence assistant.\n"
                 "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
-                "Provide a PRESCRIPTIVE analysis of this Philippine province-level renewable potential map in 4-5 short paragraphs.\n"
-                "Each paragraph must end with 1-2 specific, actionable recommendations.\n\n"
+                "Provide a PRESCRIPTIVE analysis of this Philippine province-level renewable potential map in 2-3 short paragraphs.\n"
+                "Each paragraph must end with 1-2 specific, actionable recommendations. Do NOT return JSON, code blocks, or raw data dumps. Finish with a complete sentence; do not end with an ellipsis or partial thought.\n\n"
                 "Scores are based on solar irradiance (40%), wind speed (30%), and hydropower suitability (30%).\n\n"
                 "Cover these points with actionable recommendations:\n"
                 "1) Explain regional score variations and prescribe priority zones for solar parks, wind farms, and micro-hydro installations.\n"

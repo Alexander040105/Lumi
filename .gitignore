@@ -234,6 +234,7 @@ scraped_data/runtime/
 
 # Raw geospatial data and generated outputs (kept in Supabase / external storage)
 newDataPointsToExtract/
+newCatchmentsData/
 scripts/gap_output/
 GeothermalDatasets/
 ThesisResearchStudies/

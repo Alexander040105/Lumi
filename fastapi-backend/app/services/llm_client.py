@@ -20,6 +20,8 @@ import logging
 import os
 from typing import Any
 
+from app.services.llm_sanitizer import clean_ai_output
+
 logger = logging.getLogger(__name__)
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower().strip()
@@ -32,6 +34,7 @@ def generate_response(
     temperature: float | None = None,
     max_output_tokens: int | None = None,
     max_retries: int = 3,
+    clean: bool = True,
 ) -> str:
     """
     Generate a response from the configured LLM provider.
@@ -41,26 +44,29 @@ def generate_response(
     If the configured provider is Gemini and *all* Gemini models fail,
     we automatically fall back to Groq when GROQ_API_KEY is present.
     """
+    response = ""
     if LLM_PROVIDER == "groq":
         from app.services.groq_client import generate_groq_response
-        return generate_groq_response(
+        response = generate_groq_response(
             content,
             model=model,
             temperature=temperature,
             max_tokens=max_output_tokens,
             max_retries=max_retries,
         )
+        return clean_ai_output(response) if clean and response else response or ""
 
     # Default: Gemini (with built-in retry + model fallback)
     from app.services.gemini_funcs import generate_gemini_response
     try:
-        return generate_gemini_response(
+        response = generate_gemini_response(
             content,
             model=model,
             temperature=temperature,
             max_output_tokens=max_output_tokens,
             max_retries=max_retries,
         )
+        return clean_ai_output(response) if clean and response else response or ""
     except Exception:
         # All Gemini models failed — try Groq as emergency fallback
         groq_key = os.getenv("GROQ_API_KEY")
@@ -69,13 +75,14 @@ def generate_response(
                 "All Gemini models failed; falling back to Groq emergency path."
             )
             from app.services.groq_client import generate_groq_response
-            return generate_groq_response(
+            response = generate_groq_response(
                 content,
                 model=None,
                 temperature=temperature,
                 max_tokens=max_output_tokens,
                 max_retries=max_retries,
             )
+            return clean_ai_output(response) if clean and response else response or ""
         raise
 
 

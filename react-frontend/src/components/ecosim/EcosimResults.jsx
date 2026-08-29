@@ -10,34 +10,13 @@ import {
 } from "lucide-react";
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
+import Markdown from "@/components/shared/Markdown";
 import ProviderRecommendations from "./ProviderRecommendations";
 
 const formatNumber = (value, digits = 0) =>
   new Intl.NumberFormat("en-US", { maximumFractionDigits: digits }).format(value ?? 0);
 const formatCurrency = (value) =>
   new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", maximumFractionDigits: 0 }).format(value ?? 0);
-
-function Summary({ text }) {
-  if (!text) return null;
-  const sections = text.split(/^## /m).filter(Boolean);
-  if (sections.length <= 1) {
-    return <p className="whitespace-pre-line text-sm text-muted-foreground leading-relaxed">{text}</p>;
-  }
-  return (
-    <div className="space-y-4">
-      {sections.map((section, i) => {
-        const [title, ...bodyLines] = section.split("\n");
-        const body = bodyLines.join("\n").trim();
-        return (
-          <div key={i}>
-            <h3 className="text-sm font-semibold text-foreground mb-1">{title.trim()}</h3>
-            {body && <p className="whitespace-pre-line text-sm text-muted-foreground leading-relaxed">{body}</p>}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
 
 const sourceMeta = {
   Solar: { icon: Sun, iconColor: "text-foreground", bg: "bg-warning/10", bar: "bg-warning", name: "Solar" },
@@ -254,7 +233,9 @@ export default function EcosimResults({ result, aiLoading = false }) {
               <div className="h-2 w-24 rounded bg-muted animate-pulse" />
             )}
             {result.ai_analysis?.summary && (
-              <Summary text={result.ai_analysis.summary} />
+              <Markdown className="text-sm text-muted-foreground leading-relaxed">
+                {result.ai_analysis.summary}
+              </Markdown>
             )}
             {aiLoading && result.ai_analysis?.error && (
               <p className="text-xs text-muted-foreground">Full analysis is still being generated and will appear here shortly.</p>
@@ -276,6 +257,9 @@ export default function EcosimResults({ result, aiLoading = false }) {
             { source: "Hydro", info: hInfo, output: result.renewable_energy_results?.hydro_output },
             { source: "Geothermal", info: gInfo, output: result.renewable_energy_results?.geothermal_output, referenceOnly: true },
           ].map((item) => {
+            if (result.mode === "province" && item.source === "Geothermal") {
+              return null;
+            }
             const isRec = item.source === recDisplay;
             const meta = sourceMeta[item.source];
             const optionSource = item.source === "Hydro" ? "Hydropower" : item.source;
@@ -312,9 +296,9 @@ export default function EcosimResults({ result, aiLoading = false }) {
                         <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
                         <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
                       </summary>
-                      <p className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
-                        {sourceAnalysis}
-                      </p>
+                      <div className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
+                        <Markdown>{sourceAnalysis}</Markdown>
+                      </div>
                     </details>
                   )}
                 </div>

@@ -55,9 +55,9 @@ FALLBACK_GEMINI_MODELS = [
 # Cache successful analyses for 7 days and cap the LLM call at 5 seconds
 # so Vercel's 10-second function limit is never breached.
 _AI_CACHE_TTL = int(os.getenv("ECOSIM_AI_CACHE_TTL", "604800"))  # 7 days
-_AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v1")
+_AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v2")
 _AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "4.0"))
-_AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "1200"))
+_AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "2500"))
 _AI_MAX_RETRIES = int(os.getenv("ECOSIM_AI_MAX_RETRIES", "1"))
 
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").lower().strip()
@@ -84,6 +84,27 @@ def _municipality_id_from_payload(analysis_payload: dict[str, Any]) -> int | Non
     except Exception:
         pass
     return None
+
+
+def _backend_recommendation_from_payload(analysis_payload: dict[str, Any]) -> tuple[str, float]:
+    """Return the backend's household-scale recommendation and its generation."""
+    renewable = analysis_payload.get("renewable_energy_results") or {}
+    household_sources = [
+        ("solar", renewable.get("solar_output") or {}, "monthly_solar_output"),
+        ("wind", renewable.get("wind_output") or {}, "monthly_energy_kwh"),
+        ("hydro", renewable.get("hydro_output") or {}, "monthly_hydro_output"),
+    ]
+    best_source = "none"
+    best_value = 0.0
+    for key, output, value_key in household_sources:
+        try:
+            value = float(output.get(value_key, 0.0) or 0.0)
+        except (TypeError, ValueError):
+            value = 0.0
+        if value > best_value:
+            best_value = value
+            best_source = key
+    return best_source, best_value
 
 
 def _compute_ai_cache_key(analysis_payload: dict[str, Any]) -> str:
@@ -178,6 +199,17 @@ def _set_cached_ai_analysis(
         logger.warning("Failed to write EcoSim AI cache for %s: %s", cache_key[:32], exc)
 
 
+def _strip_geothermal_for_province(text: str) -> str:
+    """Remove any geothermal section or bullet that the model might still emit."""
+    # Drop a `## Geothermal` section through the next `## ` header or end of text.
+    text = re.sub(r"##\s*Geothermal\b.*?(?=##\s|\Z)", "", text, flags=re.IGNORECASE | re.DOTALL)
+    # Drop bullet lines that start with `- **Geothermal**`.
+    text = re.sub(r"^-?\s*\*\*Geothermal\*\*.*$", "", text, flags=re.IGNORECASE | re.MULTILINE)
+    # Remove any standalone sentence that starts with and mentions geothermal.
+    text = re.sub(r"\b[Gg]eothermal\b[^.!?]*[.!?]", "", text)
+    return text.strip()
+
+
 def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[str, Any]:
     """Run the LLM prompt and return a normalized analysis dict."""
     prompt = _build_renewable_analysis_prompt(analysis_payload)
@@ -199,14 +231,19 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
         logger.warning("LLM returned empty response after sanitization")
         return _normalize_analysis_output({})
 
+    if analysis_payload.get("mode") == "province":
+        cleaned = _strip_geothermal_for_province(cleaned)
+
     prescriptive = extract_prescriptive_recommendation(cleaned)
+    backend_best, _ = _backend_recommendation_from_payload(analysis_payload)
+    backend_best = backend_best if backend_best != "none" else ""
 
     return {
         "summary": cleaned,
         "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
         "recommendation": {
-            "best_option": prescriptive.get("recommendation", ""),
-            "reason": prescriptive.get("reason", ""),
+            "best_option": backend_best,
+            "reason": prescriptive.get("reason") or prescriptive.get("recommendation", ""),
         },
         "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
         "environmental_impact": "",
@@ -470,12 +507,20 @@ def _normalize_analysis_output(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
-    # Extract nearby plants so they appear at the top of the prompt
-    nearby_plants = analysis_payload.pop("nearby_geothermal_plants", None)
-    payload = json.dumps(analysis_payload, ensure_ascii=True, indent=2)
+    mode = analysis_payload.get("mode", "municipality")
+    is_province = mode == "province"
+
+    # Work on a deep copy so we can drop geothermal fields for province mode
+    # without mutating the payload used elsewhere (cache key, etc.).
+    prompt_payload = json.loads(json.dumps(analysis_payload, default=str))
+    nearby_plants = prompt_payload.pop("nearby_geothermal_plants", None)
+    if is_province:
+        prompt_payload.get("renewable_energy_results", {}).pop("geothermal_output", None)
+
+    payload = json.dumps(prompt_payload, ensure_ascii=True, indent=2)
 
     plant_context = ""
-    if nearby_plants:
+    if nearby_plants and not is_province:
         lines = []
         for p in nearby_plants[:5]:
             lines.append(
@@ -489,35 +534,66 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
             + "\n\n"
         )
 
+    recommended_source, recommended_kwh = _backend_recommendation_from_payload(analysis_payload)
+    recommended_source = recommended_source.title() if recommended_source != "none" else "None"
+
+    if is_province:
+        source_rule = "- Cover ONLY the following renewable types: solar, wind, hydro. Do NOT mention geothermal.\n"
+        interpretation_header = (
+            "For each of solar, wind, and hydro, write ONE short paragraph (2-3 sentences max). "
+            "Mention whether it is viable and cite the numbers from SIMULATION DATA:\n"
+        )
+        interpretation_bullets = (
+            "- **Solar**: irradiance, cloud cover, estimated output.\n"
+            "- **Wind**: wind speed, capacity factor, estimated output.\n"
+            "- **Hydro**: rainfall, elevation, estimated output.\n\n"
+        )
+        reason_header = (
+            "In 2-3 sentences, compare the top 2-3 options among solar, wind, and hydro using the actual numbers, "
+            "explain why the backend recommendation wins, and why the others are less suitable.\n\n"
+        )
+    else:
+        source_rule = "- NEVER skip any renewable type (solar, wind, hydro, geothermal).\n"
+        interpretation_header = (
+            "For EACH renewable source, write ONE short paragraph (2-3 sentences max). "
+            "Mention whether it is viable and cite the numbers from SIMULATION DATA:\n"
+        )
+        interpretation_bullets = (
+            "- **Solar**: irradiance, cloud cover, estimated output.\n"
+            "- **Wind**: wind speed, capacity factor, estimated output.\n"
+            "- **Hydro**: rainfall, elevation, estimated output.\n"
+            "- **Geothermal**: subsurface heat indicators, estimated output.\n\n"
+        )
+        reason_header = (
+            "In 2-3 sentences, compare the top 2-3 options using the actual numbers, "
+            "explain why the backend recommendation wins, and why the others are less suitable.\n\n"
+        )
+
     return (
         "You are LUMI, an environmental intelligence assistant helping Filipino households choose renewable energy. "
         "IMPORTANT: Respond entirely in English only. Do not use Filipino, Tagalog, or any other language.\n\n"
         + plant_context
         + "CRITICAL RULES:\n"
         "- Use ONLY markdown headers (## Section Name) to separate sections.\n"
-        "- Write in short, clear paragraphs suitable for non-technical users.\n"
-        "- Use bullet points (dash + space) for lists, not long walls of text.\n"
-        "- NEVER skip any renewable type (solar, wind, hydro, geothermal).\n"
-        "- Do NOT use JSON, code blocks, or raw data dumps.\n\n"
-        "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS (use ## headers):\n\n"
+        "- Keep each section to 1-2 short paragraphs. Avoid long walls of text.\n"
+        "- Use bullet points (dash + space) for lists only when helpful.\n"
+        + source_rule
+        + "- Do NOT use JSON, code blocks, or raw data dumps.\n"
+        "- Do NOT invent numbers. Use ONLY values that appear in SIMULATION DATA. If a value is missing, say it is unavailable.\n"
+        "- The BEST option has already been calculated by the backend. You MUST NOT recommend a different source.\n\n"
+        f"BACKEND RECOMMENDATION: {recommended_source}"
+        + (f" (about {recommended_kwh:,.0f} kWh/month).\n\n" if recommended_kwh > 0 else ".\n\n")
+        + "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS (use ## headers):\n\n"
         "## Observation\n"
         "2-3 sentences describing the municipality's climate: temperature, humidity, solar irradiance, wind speed, rainfall, elevation.\n\n"
         "## Interpretation\n"
-        "For EACH renewable source, write ONE short paragraph (2-3 sentences max):\n"
-        "- **Solar**: Explain if the irradiance and cloud cover make solar viable.\n"
-        "- **Wind**: Explain if the wind speed is strong enough for turbines.\n"
-        "- **Hydro**: Explain if rainfall and elevation support micro-hydro.\n"
-        "- **Geothermal**: Explain if subsurface heat indicators are present.\n\n"
-        "## Recommendation\n"
-        "State the BEST renewable option for this household. Then give 3-4 BULLET POINTS of SPECIFIC, ACTIONABLE advice:\n"
-        "- What size or type of system to install (e.g., '4-panel 400W rooftop solar')\n"
-        "- Estimated monthly generation and what % of their bill it covers\n"
-        "- Rough installation cost range in PHP\n"
-        "- First step they should take (e.g., 'Contact a DOE-accredited solar installer for site assessment')\n"
-        "- Any permit or net-metering application they should file\n\n"
+        + interpretation_header
+        + interpretation_bullets
+        + "## Recommendation\n"
+        f"Confirm that the backend recommendation is {recommended_source}. Then give 2-3 short, actionable bullets (system size if known, next step, permit/net-metering). Do NOT invent cost or generation numbers.\n\n"
         "## Reason\n"
-        "Briefly compare the top 2-3 options. Explain why the recommended one wins and why the others are less suitable, using the actual numbers.\n\n"
-        "SIMULATION DATA:\n"
+        + reason_header
+        + "SIMULATION DATA:\n"
         f"{payload}\n"
     )
 

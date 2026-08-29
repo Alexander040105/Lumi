@@ -120,6 +120,7 @@
       "view": "View",
       "ban": "Ban",
       "unban": "Unban",
+      "actionFailed": "Action failed. Please try again.",
       "deleteConfirm": "Soft-delete this user? They will be banned and anonymised.",
       "delete": "Delete",
       "noResults": "No users match your filters."
@@ -127,9 +128,9 @@
     "analyticsPage": {
       "title": "System Analytics",
       "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
       "simulations": "Simulations",
-      "chatSessions": "Chat Sessions",
-      "freePremium": "Free / Premium"
+      "ecosimRequests": "EcoSim Requests"
     },
     "configPage": {
       "title": "System Configuration",
@@ -207,10 +208,11 @@
       "untitled": "Untitled",
       "municipality": "Municipality",
       "totalSimulations": "Total Simulations",
-      "chatSessions": "Chat Sessions",
+      "totalEcosim": "Total EcoSim",
       "simulationsThisMonth": "Simulations This Month",
-      "chatSessionsThisMonth": "Chats This Month",
+      "ecosimThisMonth": "EcoSim This Month",
       "peakMunicipality": "Peak Municipality",
+      "monthlyBreakdown": "12-Month Breakdown",
       "lastActive": "Last Active",
       "recentSimulations": "Recent Simulations"
     },
@@ -222,8 +224,8 @@
       "noResults": "No users match your search.",
       "totalSims": "Total Sims",
       "thisMonthSims": "Sims This Month",
-      "totalChats": "Total Chats",
-      "thisMonthChats": "Chats This Month"
+      "totalEcosim": "Total EcoSim",
+      "thisMonthEcosim": "EcoSim This Month"
     },
     "logsPage": {
       "title": "Admin Audit Logs",
@@ -540,7 +542,9 @@
         "reShareTooltip": "RE Share is the percentage of the Philippines' total electricity that came from renewable sources like solar, wind, hydro, and geothermal in the most recent IRENA year. A higher value means a larger share of clean energy.",
         "unitMW": "MW",
         "unitGWh": "GWh",
-        "dataUnavailable": "Data currently unavailable"
+        "dataUnavailable": "Data currently unavailable",
+        "whyItMattersTitle": "Why this benchmark matters",
+        "whyItMattersContent": "IRENA tracks the Philippines' national renewable energy progress across all technologies. Comparing capacity, generation, and share against DOE data helps show whether the country is on track to meet its clean-energy targets. For a household, this context explains why rooftop solar, small wind, or micro-hydro can contribute to a national shift toward more affordable and reliable power."
       }
     },
     "toast": {

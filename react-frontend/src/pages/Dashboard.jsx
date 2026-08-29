@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAuth } from "../hooks/useAuth";
 import { useI18n } from "../i18n";
 import { supabase } from "../services/supabaseClient";
+import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,11 +16,10 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
-import CoverageDashboard from "../components/CoverageDashboard";
 import ForecastPanel from "../components/ForecastPanel";
 
 export default function Dashboard() {
-  const { user, refreshProfile, isAdmin } = useAuth();
+  const { user, accessToken, refreshProfile, isAdmin } = useAuth();
   const { t } = useI18n();
   const isLoggedIn = !!user;
 
@@ -68,43 +68,27 @@ export default function Dashboard() {
         setMunicipalities(munis || []);
 
         if (isLoggedIn) {
-          // Saved locations: try joined query, fall back to plain select with client-side name lookup
-          let { data: locs } = await supabase
+          const { data: locs } = await supabase
             .from("saved_locations")
-            .select("*, municipalities(name)")
+            .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
-          if (!locs) {
-            ({ data: locs } = await supabase
-              .from("saved_locations")
-              .select("*")
-              .eq("user_id", user.id)
-              .order("created_at", { ascending: false }));
-          }
           setSavedLocations(
             (locs || []).map((loc) => ({
               ...loc,
-              municipality_name: loc.municipalities?.name || muniMap.get(loc.municipality_id) || "",
+              municipality_name: muniMap.get(loc.municipality_id) || "",
             }))
           );
 
-          // Saved simulations: same pattern
-          let { data: sims } = await supabase
+          const { data: sims } = await supabase
             .from("saved_simulations")
-            .select("*, municipalities(name)")
+            .select("*")
             .eq("user_id", user.id)
             .order("created_at", { ascending: false });
-          if (!sims) {
-            ({ data: sims } = await supabase
-              .from("saved_simulations")
-              .select("*")
-              .eq("user_id", user.id)
-              .order("created_at", { ascending: false }));
-          }
           setSavedSimulations(
             (sims || []).map((sim) => ({
               ...sim,
-              municipality_name: sim.municipalities?.name || muniMap.get(sim.municipality_id) || "",
+              municipality_name: muniMap.get(sim.municipality_id) || "",
             }))
           );
         }
@@ -152,17 +136,19 @@ export default function Dashboard() {
     }
     setSavingProfile(true);
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
+      const res = await fetch(`${getApiBaseUrl()}/protected/profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
           full_name: editForm.full_name,
           organization: editForm.organization,
           location: editForm.location,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", user.id);
-
-      if (error) throw error;
+        }),
+      });
+      if (!res.ok) throw new Error("Update failed");
 
       setProfile((prev) => ({
         ...prev,
@@ -203,12 +189,15 @@ export default function Dashboard() {
       const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(path);
       const avatarUrl = urlData.publicUrl;
 
-      const { error: updateError } = await supabase
-        .from("profiles")
-        .update({ avatar_url: avatarUrl })
-        .eq("id", user.id);
-
-      if (updateError) throw updateError;
+      const res = await fetch(`${getApiBaseUrl()}/protected/profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ avatar_url: avatarUrl }),
+      });
+      if (!res.ok) throw new Error("Could not save avatar");
 
       setProfile((prev) => ({ ...prev, avatar_url: avatarUrl }));
       if (refreshProfile) await refreshProfile();
@@ -458,11 +447,8 @@ export default function Dashboard() {
 
       </div>
 
-      {/* Forecasting & Coverage */}
-      <div className="grid gap-4 md:grid-cols-2 mt-4">
-        {isAdmin && <ForecastPanel />}
-        <CoverageDashboard />
-      </div>
+      {/* Forecasting */}
+      {isAdmin && <ForecastPanel />}
     </section>
   );
 }
