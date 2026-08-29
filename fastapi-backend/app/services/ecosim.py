@@ -777,6 +777,7 @@ def renewable_energy_calculator(
     mode: str = "municipality",
     municipality_id: int | None = None,
     data_source: str = "auto",
+    use_cache: bool = True,
 ) -> dict:
     # NOTE: Data fetching
     if mode == "province":
@@ -795,7 +796,7 @@ def renewable_energy_calculator(
     # Try Redis cache for the full EcoSim result
     geo_id = municipality_data.get("municipality_id")
     params_hash: str | None = None
-    if geo_id:
+    if use_cache and geo_id:
         _s = get_settings()
         cache_payload = {
             "house": house,
@@ -1191,7 +1192,7 @@ def renewable_energy_calculator(
         "province": province,
     }
 
-    if geo_id and params_hash:
+    if use_cache and geo_id and params_hash:
         # Don't persist a fallback AI summary for the full 30-minute window;
         # once the worker thread completes and writes the AI cache, a fresh
         # request should be able to pick up the real analysis.
@@ -1359,7 +1360,7 @@ def _get_or_build_explanations(
     municipality_id: int | None,
     results: dict,
 ) -> dict[str, str]:
-    """Return cached per-source explanations, generating and persisting them when missing."""
+    """Return cached per-source explanations, regenerating and persisting them if stale."""
     generated = _build_static_renewable_explanations(results)
     if not municipality_id:
         return generated
@@ -1374,11 +1375,19 @@ def _get_or_build_explanations(
             .execute()
         )
         row = resp.data
-        if row and all(row.get(k) for k in ("solar", "wind", "hydro", "geothermal")):
-            return {
-                k: row.get(k) or generated.get(k, "")
+        if row:
+            # Cached text is stale if any source differs from the freshly
+            # generated explanation. This prevents outdated rows from being
+            # served after calculation/settings changes.
+            stale = any(
+                row.get(k) != generated.get(k, "")
                 for k in ("solar", "wind", "hydro", "geothermal")
-            }
+            )
+            if not stale:
+                return {
+                    k: row.get(k) or generated.get(k, "")
+                    for k in ("solar", "wind", "hydro", "geothermal")
+                }
     except Exception as exc:
         logger.warning("Failed to load cached explanations for municipality %s: %s", municipality_id, exc)
 
