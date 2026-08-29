@@ -38,7 +38,9 @@ def estimated_flow_rate(
     watershed_gradient: float,
     mean_slope_deg: float,
     gravity_flow_potential: float,
-    catchment_area_km2: float = 0.5,
+    catchment_area_km2: float = 1.0,
+    runoff_coefficient_override: float | None = None,
+    apply_flow_floor: bool = True,
 ) -> float:
     """
     Small-catchment runoff estimation for household micro-hydro.
@@ -62,6 +64,12 @@ def estimated_flow_rate(
         mean_slope_deg: Mean terrain slope in degrees
         gravity_flow_potential: Gravity flow feasibility (0–1)
         catchment_area_km2: Small local catchment in km² (default 0.5)
+        runoff_coefficient_override: If provided, use this C instead of
+            computing from slope. Used when catchment enrichment data
+            (drainage density, hypsometric integral) is available.
+        apply_flow_floor: If True (default), apply the 0.001 m³/s floor.
+            Set to False when enrichment data is used so genuinely dry
+            areas show 0 hydro instead of a fake floor.
 
     Returns:
         Design flow rate in m³/s suitable for a micro-hydro intake.
@@ -73,12 +81,19 @@ def estimated_flow_rate(
     # Monthly precipitation depth (m)
     monthly_precip_m = rainfall_mm_monthly / 1000.0
 
-    # Base runoff coefficient from slope (Javadinejad et al., 2022)
-    c_base = estimate_runoff_coefficient(mean_slope_deg)
-
-    # Adjust by terrain suitability factors.
-    # Runoff potential and watershed gradient moderate the coefficient.
-    c_effective = c_base * (0.5 + 0.5 * runoff_potential) * (0.7 + 0.3 * watershed_gradient)
+    # Base runoff coefficient: use override if provided (enrichment data),
+    # otherwise compute from slope (Javadinejad et al., 2022)
+    if runoff_coefficient_override is not None:
+        # Enriched RC already incorporates terrain morphology (drainage density,
+        # hypsometric integral, catchment slope from Boothroyd et al. 2023).
+        # Applying municipal terrain modifiers on top would double-count
+        # terrain effects, artificially suppressing the coefficient.
+        c_effective = runoff_coefficient_override
+    else:
+        c_base = estimate_runoff_coefficient(mean_slope_deg)
+        # Adjust by terrain suitability factors for non-enriched path.
+        # Runoff potential and watershed gradient moderate the coefficient.
+        c_effective = c_base * (0.5 + 0.5 * runoff_potential) * (0.7 + 0.3 * watershed_gradient)
 
     # Total monthly runoff volume (m³)
     monthly_runoff_m3 = c_effective * monthly_precip_m * catchment_area_m2
@@ -94,7 +109,11 @@ def estimated_flow_rate(
 
     # Realistic bounds for household micro-hydro intake.
     # Typical small streams: 0.001 – 0.5 m³/s (Butchers et al., 2021)
-    return round(max(min(design_flow_cms, 0.5), 0.001), 6)
+    # When enrichment data is used (apply_flow_floor=False), allow 0 so
+    # genuinely dry areas show 0 hydro instead of a fake floor.
+    if apply_flow_floor:
+        return round(max(min(design_flow_cms, 0.5), 0.001), 6)
+    return round(max(min(design_flow_cms, 0.5), 0.0), 6)
 
 
 def estimate_discharge(
@@ -131,6 +150,9 @@ def calculate_hydropower(
     gravity: float = 9.81,
     turbine_efficiency: float = 0.75,
     generator_efficiency: float = 0.90,
+    head_factor: float = 0.20,
+    feasibility_penalty: float | None = None,
+    head_already_realistic: bool = False,
 ):
     """
     Micro-hydropower output calculation.
@@ -143,11 +165,17 @@ def calculate_hydropower(
     Args:
         days_in_month: Days in current month
         flow_rate_cms: Design flow rate (m³/s)
-        head_m: Hydraulic head (m) — DEM-derived municipal elevation drop
+        head_m: Hydraulic head (m) — DEM-derived municipal elevation drop,
+            or stream-gradient-derived head if head_already_realistic=True
         water_density: 1000 kg/m³
         gravity: 9.81 m/s²
         turbine_efficiency: 0.70–0.85 for micro-hydro turbines
         generator_efficiency: 0.85–0.95
+        feasibility_penalty: 0.1–1.0 multiplier from stream distance.
+            If provided, multiplies final energy output.
+        head_already_realistic: If True, head_m is already a realistic
+            household-scale head (from stream gradient × penstock length)
+            and should not be scaled by head_factor.
 
     Returns:
         Dict with available_power_kw, daily_energy_kwh, monthly_energy_kwh,
@@ -159,11 +187,16 @@ def calculate_hydropower(
     flow_rate_cms = min(max(flow_rate_cms, 0.0), 0.5)
 
     # Realistic household-accessible head.
-    # DEM-derived municipal head is scaled to a local intake-to-turbine drop.
-    # Typical micro-hydro head: 2–25 m (Feyissa et al., 2024).
-    # We assume only ~12 % of maximum municipal elevation drop is usable
-    # for a single household run-of-river scheme.
-    realistic_head_m = min(max(head_m * 0.12, 2.0), 25.0)
+    if head_already_realistic:
+        # Head was computed from stream gradient × penstock length —
+        # already at household scale. Just clamp to physical bounds.
+        realistic_head_m = min(max(head_m, 0.0), 50.0)
+    else:
+        # DEM-derived municipal head is scaled to a local intake-to-turbine drop.
+        # Typical micro-hydro head: 2–25 m (Feyissa et al., 2024).
+        # We assume only ~20 % of maximum municipal elevation drop is usable
+        # for a single household run-of-river scheme (configurable via settings).
+        realistic_head_m = min(max(head_m * head_factor, 2.0), 25.0)
 
     # Hydraulic power (kW) = ρ × g × Q × H / 1000
     hydraulic_power_kw = (
@@ -182,11 +215,20 @@ def calculate_hydropower(
     daily_energy = electrical_power_kw * 24.0
     monthly_energy = daily_energy * days_in_month
 
+    # Apply stream feasibility penalty (from catchment enrichment).
+    # Reflects that a household far from the nearest stream cannot
+    # economically build a penstock to reach it.
+    if feasibility_penalty is not None and 0.0 <= feasibility_penalty <= 1.0:
+        daily_energy *= feasibility_penalty
+        monthly_energy *= feasibility_penalty
+
     # Hydro suitability score (0–100).
-    # Normalise against a realistic "excellent" micro-hydro output
-    # of ~1 000 kWh/month for a household system.
-    # (Feyissa et al., 2024 report 500–2 000 kWh/month for rural homes)
-    hydro_score = normalize(monthly_energy, 0, 1000) * 100
+    # Normalise against 100 kWh/month — a realistic "good" household micro-hydro
+    # output in the Philippines. Most sites produce 0–5 kWh/month with catchment
+    # enrichment; 100 kWh represents an excellent site with good head and flow.
+    # (Feyissa et al. 2024 report 500–2000 kWh/month for ideal sites; we use a
+    # conservative PH-specific baseline since most catchments have very low gradient.)
+    hydro_score = normalize(monthly_energy, 0, 100) * 100
 
     return {
         "available_power_kw": round(electrical_power_kw, 3),

@@ -74,7 +74,7 @@ def _score_model_maturity(energy_type: str) -> float:
     maturity = {
         "solar": 0.85,      # Well-established irradiance → output models
         "wind": 0.70,       # Good but wind is inherently more variable
-        "hydro": 0.50,      # Rational method is a simplification
+        "hydro": 0.65,      # Improved with catchment enrichment (Boothroyd et al. 2023)
         "geothermal": 0.40, # Sparse data, IDW interpolation
     }
     return maturity.get(energy_type, 0.5)

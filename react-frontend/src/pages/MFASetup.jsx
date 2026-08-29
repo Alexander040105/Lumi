@@ -20,6 +20,8 @@ export default function MFASetup() {
   const [verifying, setVerifying] = useState(false);
   const [enrollment, setEnrollment] = useState(null); // { id, qr_code, secret }
   const [code, setCode] = useState("");
+  const [unenroll, setUnenroll] = useState({ factorId: null, code: "" });
+  const [unenrolling, setUnenrolling] = useState(false);
 
   const fetchFactors = async () => {
     try {
@@ -79,8 +81,6 @@ export default function MFASetup() {
       setCode("");
       await fetchFactors();
       if (data.session) {
-        // The session is already refreshed by the MFA verify event in most cases,
-        // but we can help the AuthContext along.
         supabase.auth.getSession().catch(() => {});
       }
     } catch (err) {
@@ -90,15 +90,43 @@ export default function MFASetup() {
     }
   };
 
-  const handleUnenroll = async (factorId) => {
-    if (!window.confirm(t("mfa.disableConfirm"))) return;
+  const startUnenroll = (factorId) => {
+    setUnenroll({ factorId, code: "" });
+  };
+
+  const cancelUnenroll = () => {
+    setUnenroll({ factorId: null, code: "" });
+  };
+
+  const handleUnenrollConfirm = async (e) => {
+    e.preventDefault();
+    if (!unenroll.factorId || !unenroll.code) return;
+    setUnenrolling(true);
     try {
-      const { error } = await supabase.auth.mfa.unenroll({ factorId });
+      // Require the user to prove possession of the TOTP factor (AAL2) before
+      // removing it. This prevents a session thief from disabling MFA.
+      const { data: challenge, error: challengeError } = await supabase.auth.mfa.challenge({
+        factorId: unenroll.factorId,
+      });
+      if (challengeError) throw challengeError;
+
+      const { error: verifyError } = await supabase.auth.mfa.verify({
+        factorId: unenroll.factorId,
+        challengeId: challenge.id,
+        code: unenroll.code.replace(/\s/g, ""),
+      });
+      if (verifyError) throw verifyError;
+
+      const { error } = await supabase.auth.mfa.unenroll({ factorId: unenroll.factorId });
       if (error) throw error;
+
       toast.success(t("mfa.disabled"));
+      setUnenroll({ factorId: null, code: "" });
       await fetchFactors();
     } catch (err) {
       toast.error(t("mfa.unenrollError") + ": " + (err.message || err));
+    } finally {
+      setUnenrolling(false);
     }
   };
 
@@ -125,14 +153,38 @@ export default function MFASetup() {
                 <ShieldCheck className="h-5 w-5 text-primary" />
                 <span className="font-medium">{t("mfa.enabledStatus")}</span>
               </div>
-              <Button
-                type="button"
-                variant="destructive"
-                onClick={() => handleUnenroll(verifiedFactor.id)}
-              >
-                <ShieldOff className="h-4 w-4 mr-2" />
-                {t("mfa.disable")}
-              </Button>
+              {unenroll.factorId ? (
+                <form onSubmit={handleUnenrollConfirm} className="space-y-2">
+                  <p className="text-sm text-muted-foreground">
+                    Enter the current 6-digit TOTP code to disable MFA.
+                  </p>
+                  <Input
+                    value={unenroll.code}
+                    onChange={(e) => setUnenroll((u) => ({ ...u, code: e.target.value }))}
+                    placeholder="123456"
+                    maxLength={10}
+                    autoComplete="one-time-code"
+                    disabled={unenrolling}
+                  />
+                  <div className="flex gap-2">
+                    <Button type="submit" variant="destructive" disabled={unenrolling || !unenroll.code}>
+                      {unenrolling ? t("common.loading") : t("mfa.disable")}
+                    </Button>
+                    <Button type="button" variant="outline" onClick={cancelUnenroll} disabled={unenrolling}>
+                      {t("common.cancel")}
+                    </Button>
+                  </div>
+                </form>
+              ) : (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => startUnenroll(verifiedFactor.id)}
+                >
+                  <ShieldOff className="h-4 w-4 mr-2" />
+                  {t("mfa.disable")}
+                </Button>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
@@ -161,6 +213,11 @@ export default function MFASetup() {
             </div>
             <div className="rounded bg-muted p-3 text-sm font-mono break-all">
               {enrollment.totp?.secret}
+            </div>
+            <div className="text-sm text-amber-700 bg-amber-50 p-3 rounded">
+              <strong>Important:</strong> Supabase does not generate recovery/backup codes for
+              this project. Save the TOTP secret above in a safe place. If you lose your
+              authenticator, you will need this secret or an admin to reset your account.
             </div>
             <form onSubmit={handleVerify} className="space-y-2">
               <Input

@@ -16,22 +16,14 @@ import { getApiBaseUrl } from "@/utils/env";
 
 const ACTION_OPTIONS = [
   "all",
-  "list_users",
-  "view_user",
-  "view_user_simulations",
-  "view_user_report",
-  "view_usage",
-  "view_audit_logs",
-  "view_analytics",
-  "view_chat_sessions",
-  "update_config",
   "create_user",
   "ban_user",
   "unban_user",
   "change_role",
-  "change_plan",
   "soft_delete_user",
-  "flag_chat_session",
+  "update_user_profile",
+  "force_password_reset",
+  "update_config",
 ];
 
 export default function AdminLogs() {
@@ -70,11 +62,15 @@ export default function AdminLogs() {
   const formatDate = (d) => (d ? new Date(d).toLocaleString() : "—");
 
   const formatDetails = (details) => {
-    if (!details || typeof details !== "object") return "—";
-    const entries = Object.entries(details)
-      .filter(([, v]) => v !== undefined && v !== null)
-      .map(([k, v]) => `${k}: ${JSON.stringify(v)}`);
-    return entries.length ? entries.join("; ") : "—";
+    if (details == null) return "—";
+    if (typeof details === "string") return details;
+    if (typeof details === "object") {
+      const entries = Object.entries(details)
+        .filter(([, v]) => v !== undefined && v !== null)
+        .map(([k, v]) => `${k}: ${typeof v === "object" ? JSON.stringify(v) : v}`);
+      return entries.length ? entries.join("; ") : "—";
+    }
+    return String(details);
   };
 
   return (

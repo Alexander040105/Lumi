@@ -26,31 +26,21 @@ export default function SavedSimulations() {
     const load = async () => {
       setLoading(true);
       try {
-        // Municipality name lookup in case the join cannot be resolved
         const { data: munis } = await supabase
           .from("municipalities")
           .select("municipality_id, name");
         const muniMap = new Map((munis || []).map((m) => [m.municipality_id, m.name]));
 
-        // Try joined query first; fall back to plain select if FK/RLS blocks it
-        let { data: sims } = await supabase
+        const { data: sims } = await supabase
           .from("saved_simulations")
-          .select("*, municipalities(name)")
+          .select("*")
           .eq("user_id", user.id)
           .order("created_at", { ascending: false });
-
-        if (!sims) {
-          ({ data: sims } = await supabase
-            .from("saved_simulations")
-            .select("*")
-            .eq("user_id", user.id)
-            .order("created_at", { ascending: false }));
-        }
 
         setSavedSimulations(
           (sims || []).map((sim) => ({
             ...sim,
-            municipality_name: sim.municipalities?.name || muniMap.get(sim.municipality_id) || "",
+            municipality_name: muniMap.get(sim.municipality_id) || "",
           }))
         );
       } catch {

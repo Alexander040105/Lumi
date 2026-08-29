@@ -18,9 +18,18 @@ from app.services.redis_client import (
     get_ecosim_cache_sync,
     set_ecosim_cache_sync,
 )
-from app.services.solar_output_calc import calculate_temperature_factor, calculate_performance_ratio, solar_calc, solar_calc_pvout, calculate_dust_loss_from_wind, calculate_degradation_from_humidity
+from app.config.settings import get_settings
+from app.services.solar_output_calc import (
+    calculate_temperature_factor,
+    calculate_performance_ratio,
+    solar_calc,
+    solar_calc_pvout,
+    solar_calc_advanced,
+    calculate_dust_loss_from_wind,
+    calculate_degradation_from_humidity,
+)
 from app.services.hydro_output_calc import calculate_hydropower, estimated_flow_rate
-from app.services.wind_output_calc import load_wind_averages, calculate_wind_output
+from app.services.wind_output_calc import load_wind_averages, calculate_wind_output, extrapolate_wind_speed
 from app.services.atlas_data import (
     get_atlas_for_municipality,
     get_atlas_for_municipality_ids,
@@ -28,6 +37,7 @@ from app.services.atlas_data import (
     get_era5_for_municipality,
     get_era5_for_province,
 )
+from app.services.catchment_data import get_catchment_for_municipality
 from app.services.geothermal.features import (
     compute_geothermal_suitability,
     compute_geothermal_output,
@@ -497,6 +507,50 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
     except Exception:
         aggregated["terrain"] = None
 
+    # Catchment enrichment aggregation (Boothroyd et al. 2023)
+    # Aggregate enrichment data across all municipalities in the province.
+    try:
+        from app.services.catchment_data import get_catchment_for_municipality_ids
+        enrichment_map = get_catchment_for_municipality_ids(municipality_ids)
+        if enrichment_map:
+            enrichment_rows = list(enrichment_map.values())
+            numeric_fields = [
+                "effective_catchment_area_km2",
+                "stream_head_m",
+                "stream_feasibility_penalty",
+                "enriched_runoff_coefficient",
+                "catchment_area_km2",
+                "catchment_mean_slope_deg",
+                "distance_to_nearest_stream_m",
+                "nearest_stream_gradient_m_m",
+            ]
+            agg_enrichment = {}
+            for field in numeric_fields:
+                vals = [float(r[field]) for r in enrichment_rows if r.get(field) is not None]
+                if vals:
+                    agg_enrichment[field] = round(sum(vals) / len(vals), 4)
+
+            # Use the most common catchment name
+            catchment_names = [r.get("catchment_name") for r in enrichment_rows if r.get("catchment_name")]
+            if catchment_names:
+                from collections import Counter
+                agg_enrichment["catchment_name"] = Counter(catchment_names).most_common(1)[0][0]
+
+            # Aggregate stream feasibility as the median (not mean) to avoid
+            # a few far-away municipalities dragging down the whole province
+            penalties = [float(r["stream_feasibility_penalty"]) for r in enrichment_rows if r.get("stream_feasibility_penalty") is not None]
+            if penalties:
+                penalties.sort()
+                mid = len(penalties) // 2
+                agg_enrichment["stream_feasibility_penalty"] = penalties[mid]
+
+            if agg_enrichment:
+                aggregated["catchment_enrichment"] = agg_enrichment
+        else:
+            logger.debug("Catchment enrichment: no entries found for province %s", province_id)
+    except Exception as exc:
+        logger.debug("Catchment enrichment aggregation failed: %s", exc)
+
     # Prefer Global Solar Atlas / Global Wind Atlas for province aggregation when available.
     source = source.lower()
     if source in ("auto", "atlas"):
@@ -742,6 +796,7 @@ def renewable_energy_calculator(
     geo_id = municipality_data.get("municipality_id")
     params_hash: str | None = None
     if geo_id:
+        _s = get_settings()
         cache_payload = {
             "house": house,
             "municipality": municipality,
@@ -753,6 +808,14 @@ def renewable_energy_calculator(
             "use_rag": use_rag,
             "rag_query": rag_query,
             "data_source": data_source,
+            "household_solar_size_kwp": _s.household_solar_size_kwp,
+            "household_wind_hub_height_m": _s.household_wind_hub_height_m,
+            "wind_shear_exponent": _s.wind_shear_exponent,
+            "household_hydro_head_factor": _s.household_hydro_head_factor,
+            "household_hydro_catchment_km2": _s.household_hydro_catchment_km2,
+            "catchment_enrichment_enabled": _s.catchment_enrichment_enabled,
+            "catchment_enrichment_version": _s.catchment_enrichment_version,
+            "scoring_version": "v2",  # v2: output-based wind score, 100 kWh hydro baseline
         }
         params_hash = hashlib.md5(
             json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
@@ -772,16 +835,34 @@ def renewable_energy_calculator(
     avg_temp = municipality_data.get("solar_temp_c") or municipality_data.get("avg_t2m")
     cloud_amt = municipality_data.get("avg_cloud_amt")
     rainfall = municipality_data.get("avg_prectotcorr")
-    # Pick wind speed by source priority: atlas 100m (bankable utility estimate),
-    # then ERA5 10m (higher-temporal-resolution reanalysis), then NASA POWER 10m.
-    if data_source == "era5":
-        wind_speed = municipality_data.get("era5_wind_speed_10m_ms") or municipality_data.get("avg_ws10m")
+    # Load settings early — needed for wind hub height and hydro parameters.
+    settings = get_settings()
+    # Wind speed: use Global Wind Atlas 50m data, extrapolate to household hub
+    # height via the 1/7 power law (NREL Philippines Wind Atlas methodology).
+    # Fallback chain: atlas 50m → atlas 10m → ERA5 10m → NASA POWER 10m.
+    hub_height = float(settings.household_wind_hub_height_m)
+    alpha = float(settings.wind_shear_exponent)
+    wind_speed_50m = (
+        municipality_data.get("wind_speed_50m_ms")
+        or municipality_data.get("muni_avg_wind_speed_50m_ms")
+    )
+    wind_speed_source_height_m = 50
+    if wind_speed_50m and float(wind_speed_50m) > 0:
+        wind_speed = extrapolate_wind_speed(
+            float(wind_speed_50m), 50.0, hub_height, alpha
+        )
     else:
-        wind_speed = (
-            municipality_data.get("wind_speed_100m_ms")
+        # Fallback: extrapolate from 10m wind speed
+        wind_speed_10m = (
+            municipality_data.get("wind_speed_10m_ms")
             or municipality_data.get("era5_wind_speed_10m_ms")
             or municipality_data.get("avg_ws10m")
+            or 0.0
         )
+        wind_speed = extrapolate_wind_speed(
+            float(wind_speed_10m), 10.0, hub_height, alpha
+        )
+        wind_speed_source_height_m = 10
     humidity = municipality_data.get("avg_rh2m")
     surface_pressure = municipality_data.get("avg_surface_pressure")
     air_density = municipality_data.get("avg_rhoa")
@@ -791,10 +872,10 @@ def renewable_energy_calculator(
     days_in_month = calendar.monthrange(today.year, today.month)[1]
 
     # NOTE: SOLAR CALCULATIONS:
-    # NOTE: this default config is estimated based on typical residential solar panel setups and can be adjusted in the future for more customization or to reflect different market conditions. It is currently hardcoded for simplicity and to provide a baseline for calculations.   
+    # NOTE: this default config is estimated based on typical residential solar panel setups and can be adjusted in the future for more customization or to reflect different market conditions. It is currently hardcoded for simplicity and to provide a baseline for calculations.
+    household_solar_size_kwp = float(settings.household_solar_size_kwp)
     solar_panel_default_config = {
         "panel_wattage": 400,
-        "number_of_panels": 2,
         "system_efficiency": 0.80,
         "temp_coeff_per_c": -0.004,
         "dust_loss": 0.97,
@@ -803,6 +884,11 @@ def renewable_energy_calculator(
         "wiring_loss": 0.98,
         "degradation_loss": 0.99,
     }
+    number_of_panels = max(
+        round((household_solar_size_kwp * 1000.0) / solar_panel_default_config["panel_wattage"]),
+        1,
+    )
+    solar_panel_default_config["number_of_panels"] = number_of_panels
     temperature_factor = calculate_temperature_factor(
         avg_temp_c=avg_temp,
         temp_coeff_per_c=solar_panel_default_config["temp_coeff_per_c"],
@@ -816,38 +902,156 @@ def renewable_energy_calculator(
         wiring_loss=solar_panel_default_config["wiring_loss"],
         degradation_loss=calculate_degradation_from_humidity(rh2m=humidity, base_degradation=solar_panel_default_config["degradation_loss"]),
     )
+    latitude = municipality_data.get("centroid_lat") or municipality_data.get("lat") or 14.0
+    panel_tilt_deg = municipality_data.get("solar_optimal_tilt_deg") or 15.0
+    panel_azimuth_deg = 180.0
+
     if pvout_annual:
         # Global Solar Atlas PVOUT already includes all system losses.
         solar_output = solar_calc_pvout(
             panel_wattage=solar_panel_default_config["panel_wattage"],
-            number_of_panels=solar_panel_default_config["number_of_panels"],
+            number_of_panels=number_of_panels,
             pvout_annual_kwh_kwp=pvout_annual,
+            days_in_month=days_in_month,
+        )
+    elif municipality_data.get("solar_dni_kwh_m2_day") and municipality_data.get("solar_dif_kwh_m2_day"):
+        solar_output = solar_calc_advanced(
+            panel_wattage=solar_panel_default_config["panel_wattage"],
+            number_of_panels=number_of_panels,
+            ghi_kwh_m2_day=solar_irradiance,
+            dni_kwh_m2_day=municipality_data.get("solar_dni_kwh_m2_day"),
+            dhi_kwh_m2_day=municipality_data.get("solar_dif_kwh_m2_day"),
+            avg_temp_c=avg_temp,
+            rh2m=humidity,
+            ws10m=wind_speed,
+            prectotcorr_mm=rainfall,
+            surface_pressure_pa=surface_pressure,
+            panel_tilt_deg=panel_tilt_deg,
+            panel_azimuth_deg=panel_azimuth_deg,
+            latitude_deg=latitude,
             days_in_month=days_in_month,
         )
     else:
         solar_output = solar_calc(
             panel_wattage=solar_panel_default_config["panel_wattage"],
-            number_of_panels=solar_panel_default_config["number_of_panels"],
+            number_of_panels=number_of_panels,
             solar_irradiance=solar_irradiance,
             performance_ratio=performance_ratio,
             days_in_month=days_in_month,
         )
-        solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
+    solar_output["annual_solar_output"] = (solar_output.get("monthly_solar_output") or 0.0) * 12.0
 
     # NOTE: HYDRO CALCULATIONS
-    hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
-    flow_rate_cms = estimated_flow_rate(
-        rainfall_mm_monthly=rainfall,
-        runoff_potential=terrain_data.get("runoff_potential") if terrain_data else 0.0,
-        watershed_gradient=terrain_data.get("watershed_gradient") if terrain_data else 0.0,
-        mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
-        gravity_flow_potential=terrain_data.get("gravity_flow_potential") if terrain_data else 0.0,
-    )
-    hydro_output_raw = calculate_hydropower(
-        flow_rate_cms=flow_rate_cms,
-        head_m=hydraulic_head_m,
-        days_in_month=days_in_month
-    )
+    # Catchment enrichment overlay (Boothroyd et al. 2023, PMC9994713).
+    # When enrichment data is available, replace fixed assumptions with
+    # real catchment morphology and nearest-stream data.
+    catchment_enrichment = None
+    if settings.catchment_enrichment_enabled:
+        # In province mode, use pre-aggregated enrichment from municipality_data.
+        # In municipality mode, look up by municipality_id.
+        if mode == "province" and municipality_data.get("catchment_enrichment"):
+            catchment_enrichment = municipality_data["catchment_enrichment"]
+        elif geo_id:
+            try:
+                catchment_enrichment = get_catchment_for_municipality(int(geo_id))
+            except Exception as exc:
+                logger.debug("Catchment enrichment lookup failed for %s: %s", geo_id, exc)
+
+    if catchment_enrichment:
+        # Use real catchment area (household fraction) instead of fixed 1.0 km²
+        eff_area = catchment_enrichment.get("effective_catchment_area_km2")
+        catchment_area_km2 = float(eff_area) if eff_area else float(settings.household_hydro_catchment_km2)
+
+        # Use stream-gradient-derived head instead of DEM-derived municipal head
+        stream_head = catchment_enrichment.get("stream_head_m")
+        if stream_head is not None and float(stream_head) > 0:
+            hydraulic_head_m = float(stream_head)
+            head_already_realistic = True
+        else:
+            hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
+            head_already_realistic = False
+
+        # Compute gravity flow potential from stream gradient when available.
+        # The stream gradient (m/m) directly indicates whether gravity-fed
+        # hydropower is feasible — a steeper stream means more head per unit
+        # penstock length. This is more accurate than the municipal terrain
+        # average, which dilutes mountainous terrain with flat lowlands.
+        stream_penalty = catchment_enrichment.get("stream_feasibility_penalty")
+        stream_gradient = catchment_enrichment.get("nearest_stream_gradient_m_m")
+        if stream_gradient is not None and float(stream_gradient) > 0:
+            # Map stream gradient to a 0-1 gravity flow potential:
+            # 0.00 m/m (flat) → 0.0
+            # 0.02 m/m (2% grade) → 0.4
+            # 0.05 m/m (5% grade) → 0.7
+            # 0.10+ m/m (10% grade) → 1.0
+            # NOTE: The stream feasibility penalty is NOT applied here — it is
+            # applied once on the final energy output in calculate_hydropower.
+            # Applying it here AND there would double-count the penalty.
+            grad = float(stream_gradient)
+            gravity_flow_potential = min(grad / 0.10, 1.0)
+        elif stream_penalty is not None:
+            base_gravity = terrain_data.get("gravity_flow_potential") if terrain_data else 0.0
+            gravity_flow_potential = float(base_gravity)
+        else:
+            gravity_flow_potential = terrain_data.get("gravity_flow_potential") if terrain_data else 0.0
+
+        # Use enriched runoff coefficient (refined by drainage density + hypsometric)
+        enriched_rc = catchment_enrichment.get("enriched_runoff_coefficient")
+        runoff_coeff_override = float(enriched_rc) if enriched_rc is not None else None
+
+        flow_rate_cms = estimated_flow_rate(
+            rainfall_mm_monthly=rainfall,
+            runoff_potential=terrain_data.get("runoff_potential") if terrain_data else 0.0,
+            watershed_gradient=terrain_data.get("watershed_gradient") if terrain_data else 0.0,
+            mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
+            gravity_flow_potential=gravity_flow_potential,
+            catchment_area_km2=catchment_area_km2,
+            runoff_coefficient_override=runoff_coeff_override,
+            apply_flow_floor=False,  # no fake floor when enrichment is used
+        )
+        hydro_output_raw = calculate_hydropower(
+            flow_rate_cms=flow_rate_cms,
+            head_m=hydraulic_head_m,
+            days_in_month=days_in_month,
+            head_factor=float(settings.household_hydro_head_factor),
+            feasibility_penalty=float(stream_penalty) if stream_penalty is not None else None,
+            head_already_realistic=head_already_realistic,
+        )
+        hydro_data_source = "Boothroyd et al. 2023 catchment geodatabase"
+        hydro_catchment_name = catchment_enrichment.get("catchment_name")
+        hydro_stream_dist = catchment_enrichment.get("distance_to_nearest_stream_m")
+        if hydro_stream_dist is not None:
+            if float(hydro_stream_dist) <= 2000:
+                hydro_stream_feasibility = "high"
+            elif float(hydro_stream_dist) <= 5000:
+                hydro_stream_feasibility = "moderate"
+            elif float(hydro_stream_dist) <= 10000:
+                hydro_stream_feasibility = "low"
+            else:
+                hydro_stream_feasibility = "none"
+        else:
+            hydro_stream_feasibility = "unknown"
+    else:
+        # Fallback: original fixed-assumption model (no enrichment data)
+        hydraulic_head_m = terrain_data.get("hydraulic_head_m") if terrain_data else 0.0
+        flow_rate_cms = estimated_flow_rate(
+            rainfall_mm_monthly=rainfall,
+            runoff_potential=terrain_data.get("runoff_potential") if terrain_data else 0.0,
+            watershed_gradient=terrain_data.get("watershed_gradient") if terrain_data else 0.0,
+            mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
+            gravity_flow_potential=terrain_data.get("gravity_flow_potential") if terrain_data else 0.0,
+            catchment_area_km2=float(settings.household_hydro_catchment_km2),
+        )
+        hydro_output_raw = calculate_hydropower(
+            flow_rate_cms=flow_rate_cms,
+            head_m=hydraulic_head_m,
+            days_in_month=days_in_month,
+            head_factor=float(settings.household_hydro_head_factor),
+        )
+        hydro_data_source = "default terrain data"
+        hydro_catchment_name = None
+        hydro_stream_feasibility = None
+
     hydro_output = {
         "system_kwp": hydro_output_raw.get("available_power_kw", 0.0),
         "daily_hydro_output": hydro_output_raw.get("daily_energy_kwh", 0.0),
@@ -866,6 +1070,7 @@ def renewable_energy_calculator(
     geothermal_output["daily_energy_kwh"] = round(geo_annual_kwh / 365.0, 2) if geo_annual_kwh > 0 else None
 
     #NOTE: WIND CALCULATIONS
+    wind_speed = float(wind_speed or 0.0)
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
     wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
 
@@ -887,11 +1092,8 @@ def renewable_energy_calculator(
             "avg_rh2m": humidity,
             "avg_rhoa": air_density,
             "avg_prectotcorr": rainfall,
-            "avg_ws10m": (
-                municipality_data.get("era5_wind_speed_10m_ms")
-                or municipality_data.get("wind_speed_10m_ms")
-                or municipality_data.get("avg_ws10m")
-            ),
+            "avg_ws10m": wind_speed,
+            "avg_wind_hub_ms": round(wind_speed, 4),
             "avg_allsky_sfc_sw_dwn": solar_irradiance,
             "avg_cloud_amt": cloud_amt,
             "avg_surface_pressure": surface_pressure,
@@ -908,6 +1110,19 @@ def renewable_energy_calculator(
             "days_in_month": days_in_month,
             "panel_wattage": solar_panel_default_config["panel_wattage"],
             "number_of_panels": solar_panel_default_config["number_of_panels"],
+            "wind_speed_height_m": hub_height,
+            "wind_speed_mps": round(wind_speed, 4),
+            "wind_speed_source_height_m": wind_speed_source_height_m,
+            "wind_shear_exponent": alpha,
+            "solar_system_kwp": household_solar_size_kwp,
+            # Hydro enrichment (Boothroyd et al. 2023 catchment geodatabase)
+            "hydro_data_source": hydro_data_source,
+            "hydro_catchment_name": hydro_catchment_name,
+            "hydro_stream_feasibility": hydro_stream_feasibility,
+            # Scoring baselines (for transparency and calibration)
+            "solar_score_baseline_pvout": 1800.0,
+            "wind_score_baseline_kwh": 300.0,
+            "hydro_score_baseline_kwh": 100.0,
         },
         # json for the solar outputs
         "solar_output": solar_output,
@@ -926,6 +1141,7 @@ def renewable_energy_calculator(
                 "consumption_results": consumption_results,
                 "renewable_energy_results": renewable_energy_results,
                 "nearby_geothermal_plants": nearby_geo_plants or [],
+                "mode": mode,
             }
 
             if use_rag and rag_query:
@@ -946,20 +1162,31 @@ def renewable_energy_calculator(
                 "environmental_impact": "",
             }
 
-    # Merge static fallback explanations so every renewable type always has text
+    # Build/persist deterministic per-source explanations for the UI fallback.
+    explanations = _get_or_build_explanations(municipality_id, renewable_energy_results)
+
+    # Merge fallback explanations so every renewable type always has text.
     if ai_analysis:
-        static_explanations = _build_static_renewable_explanations(renewable_energy_results)
         ra = ai_analysis.get("renewable_analysis") or {}
-        for key, text in static_explanations.items():
+        for key, text in explanations.items():
             if not ra.get(key):
                 ra[key] = text
         ai_analysis["renewable_analysis"] = ra
+    else:
+        ai_analysis = {
+            "summary": "",
+            "renewable_analysis": explanations,
+            "recommendation": {"best_option": "", "reason": ""},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+        }
 
     result = {
         "municipality_data": municipality_results,
         "consumption_results": consumption_results,
         "renewable_energy_results": renewable_energy_results,
         "ai_analysis": ai_analysis,
+        "explanations": explanations,
         "terrain_data": terrain_data,
         "province": province,
     }
@@ -1126,6 +1353,47 @@ def _build_static_renewable_explanations(results: dict) -> dict[str, str]:
         explanations["geothermal"] = " ".join(parts)
 
     return explanations
+
+
+def _get_or_build_explanations(
+    municipality_id: int | None,
+    results: dict,
+) -> dict[str, str]:
+    """Return cached per-source explanations, generating and persisting them when missing."""
+    generated = _build_static_renewable_explanations(results)
+    if not municipality_id:
+        return generated
+
+    client = get_supabase_client()
+    try:
+        resp = (
+            client.table("municipality_renewable_explanations")
+            .select("*")
+            .eq("municipality_id", str(municipality_id))
+            .single()
+            .execute()
+        )
+        row = resp.data
+        if row and all(row.get(k) for k in ("solar", "wind", "hydro", "geothermal")):
+            return {
+                k: row.get(k) or generated.get(k, "")
+                for k in ("solar", "wind", "hydro", "geothermal")
+            }
+    except Exception as exc:
+        logger.warning("Failed to load cached explanations for municipality %s: %s", municipality_id, exc)
+
+    try:
+        client.table("municipality_renewable_explanations").upsert({
+            "municipality_id": municipality_id,
+            "solar": generated.get("solar"),
+            "wind": generated.get("wind"),
+            "hydro": generated.get("hydro"),
+            "geothermal": generated.get("geothermal"),
+        }).execute()
+    except Exception as exc:
+        logger.warning("Failed to cache explanations for municipality %s: %s", municipality_id, exc)
+
+    return generated
 
 
 def _calculate_option_summary(
@@ -1301,7 +1569,7 @@ def build_ecosim_dashboard_response(
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="monthly_consumption and monthly_bill must be greater than zero",
+            detail="Monthly consumption and monthly bill must be greater than zero.",
         )
 
     if electricity_rate is None or electricity_rate <= 0:
@@ -1356,9 +1624,10 @@ def build_ecosim_dashboard_response(
         logger.warning("Municipality name/lat/lon/province fetch failed: %s", exc)
 
     if municipality_name is None:
+        entity = "province" if mode == "province" else "municipality"
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Municipality/province not found",
+            detail=f"The selected {entity} was not found.",
         )
 
     nearby_geo_plants: list[dict[str, Any]] = []
@@ -1387,18 +1656,12 @@ def build_ecosim_dashboard_response(
 
     solar_score = float(solar_output.get("solar_score", 0.0)) / 100.0
     hydro_score = float(hydro_output.get("hydro_score", 0.0)) / 100.0
-    # Derive wind source quality from actual wind speed, not fixed capacity factor
-    wind_speed_mps = float(base_results.get("climate", {}).get("avg_ws10m", 0.0))
-    if wind_speed_mps >= 6.0:
-        wind_score = 0.85
-    elif wind_speed_mps >= 4.5:
-        wind_score = 0.60
-    elif wind_speed_mps >= 3.0:
-        wind_score = 0.35
-    elif wind_speed_mps > 0:
-        wind_score = 0.15
-    else:
-        wind_score = 0.0
+    # Wind score: output-based normalization (same approach as solar/hydro).
+    # A 1.5 kW household turbine at an excellent Philippine site (5 m/s @ 30m,
+    # CF ~25%) produces ~270 kWh/month. Use 300 kWh/month as the "excellent"
+    # baseline so wind is directly comparable to solar and hydro scores.
+    wind_monthly_kwh = float(wind_output.get("monthly_energy_kwh", 0.0))
+    wind_score = min(wind_monthly_kwh / 300.0, 1.0)
 
     # Apply proximity boost to geothermal score if municipality is near an operating plant
     raw_geo_score = float(geothermal_output.get("suitability_score", 0.0))
@@ -1509,13 +1772,23 @@ def build_ecosim_dashboard_response(
         )
         option["confidence"] = calculate_confidence(conf_factors)
 
-    # Recommend only household-scale sources (exclude utility-scale geothermal)
+    # Recommend only household-scale sources (exclude utility-scale geothermal).
+    # Cap the recommendation key at the user's consumption: a larger raw output does
+    # not provide more household value. Use suitability_score as the tie-breaker so
+    # the best natural resource wins when multiple sources can meet the need.
     household_options = [o for o in options if o.get("source_type") != "utility"]
     if household_options:
-        recommended = max(
-            household_options,
-            key=lambda item: (item["monthly_output"], item["generation_score"]),
-        )
+
+        def _recommendation_key(item: dict) -> tuple:
+            usable_output = min(item["monthly_output"], monthly_consumption)
+            return (usable_output, item["suitability_score"])
+
+        recommended = max(household_options, key=_recommendation_key)
+
+        # Hidden alternative: highest suitability score (for future reactivation).
+        # This picks the source with the best resource quality × energy coverage,
+        # regardless of raw kWh output. Stored but not shown to the user.
+        suitability_recommended = max(household_options, key=lambda o: o["suitability_score"])
     else:
         recommended = {
             "source": "None",
@@ -1529,6 +1802,7 @@ def build_ecosim_dashboard_response(
             "payback_years": None,
             "carbon_reduction": 0.0,
         }
+        suitability_recommended = None
 
     # Optional AI override only when a reason is provided
     ai_analysis = base_results.get("ai_analysis") or {}
@@ -1582,6 +1856,7 @@ def build_ecosim_dashboard_response(
             solar_output["generation_score"] = option["generation_score"]
         elif option["source"] == "Wind":
             wind_output["generation_score"] = option["generation_score"]
+            wind_output["wind_score"] = round(wind_score * 100, 2)
         elif option["source"] == "Hydropower":
             hydro_output["generation_score"] = option["generation_score"]
 
@@ -1590,10 +1865,15 @@ def build_ecosim_dashboard_response(
     renewable_results["hydro_output"] = hydro_output
     renewable_results["geothermal_output"] = geothermal_output
 
+    # For province mode, geothermal household data is not meaningful; null it.
+    if mode == "province":
+        renewable_results["geothermal_output"] = None
+
     return {
         "municipality": municipality_name.upper(),
         "municipality_id": municipality_id,
         "province": province,
+        "mode": mode,
         "monthly_consumption_kwh": monthly_consumption,
         "user_consumption_kwh": user_consumption_kwh,
         "effective_consumption_kwh": effective_consumption_kwh,
@@ -1604,6 +1884,11 @@ def build_ecosim_dashboard_response(
         "generation_score": recommended["generation_score"],
         "source_type": recommended["source_type"],
         "estimated_generation_kwh": recommended["estimated_generation_kwh"],
+        # Hidden: suitability-score-based recommendation (for future reactivation).
+        # This picks the source with the highest suitability_score (resource quality
+        # × energy coverage) rather than the highest raw generation output.
+        "suitability_recommended_source": suitability_recommended["source"] if suitability_recommended else None,
+        "suitability_recommended_score": suitability_recommended["suitability_score"] if suitability_recommended else None,
         "monthly_savings": None,
         "installation_cost": None,
         "payback_years": None,
@@ -1615,6 +1900,7 @@ def build_ecosim_dashboard_response(
         "renewable_energy_results": renewable_results,
         "consumption_results": base_results.get("consumption_results"),
         "municipality_data": base_results.get("municipality_data"),
+        "explanations": base_results.get("explanations"),
         "ai_analysis": ai_analysis if include_ai else None,
         "nearby_geothermal_plants": nearby_geo_plants,
         "remaining_anonymous_requests": None,

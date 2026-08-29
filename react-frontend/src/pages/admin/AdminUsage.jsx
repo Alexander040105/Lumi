@@ -92,12 +92,11 @@ export default function AdminUsage() {
                 <TableHead>{t("admin.usersPage.columns.user")}</TableHead>
                 <TableHead>{t("admin.usersPage.columns.email")}</TableHead>
                 <TableHead>{t("admin.usersPage.columns.role")}</TableHead>
-                <TableHead>{t("admin.usersPage.columns.plan")}</TableHead>
                 <TableHead>{t("admin.usersPage.columns.status")}</TableHead>
                 <TableHead className="text-right">{t("admin.usagePage.totalSims")}</TableHead>
                 <TableHead className="text-right">{t("admin.usagePage.thisMonthSims")}</TableHead>
-                <TableHead className="text-right">{t("admin.usagePage.totalChats")}</TableHead>
-                <TableHead className="text-right">{t("admin.usagePage.thisMonthChats")}</TableHead>
+                <TableHead className="text-right">{t("admin.usagePage.totalEcosim")}</TableHead>
+                <TableHead className="text-right">{t("admin.usagePage.thisMonthEcosim")}</TableHead>
                 <TableHead>{t("admin.userDetail.lastActive")}</TableHead>
                 <TableHead>{t("admin.usersPage.columns.actions")}</TableHead>
               </TableRow>
@@ -115,11 +114,6 @@ export default function AdminUsage() {
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="secondary" className="capitalize">
-                      {u.plan}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
                     <Badge
                       variant={u.is_active ? "default" : "destructive"}
                       className="text-xs"
@@ -129,8 +123,8 @@ export default function AdminUsage() {
                   </TableCell>
                   <TableCell className="text-right">{u.total_simulations}</TableCell>
                   <TableCell className="text-right">{u.simulations_this_month}</TableCell>
-                  <TableCell className="text-right">{u.total_chat_sessions}</TableCell>
-                  <TableCell className="text-right">{u.chat_sessions_this_month}</TableCell>
+                  <TableCell className="text-right">{u.total_ecosim}</TableCell>
+                  <TableCell className="text-right">{u.ecosim_this_month}</TableCell>
                   <TableCell className="text-xs">{formatDate(u.last_active)}</TableCell>
                   <TableCell>
                     <Button size="sm" variant="outline" onClick={() => openDetail(u)}>
@@ -141,7 +135,7 @@ export default function AdminUsage() {
               ))}
               {users.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={11} className="p-6 text-center text-muted-foreground">
+                  <TableCell colSpan={9} className="p-6 text-center text-muted-foreground">
                     {t("admin.usagePage.noResults")}
                   </TableCell>
                 </TableRow>

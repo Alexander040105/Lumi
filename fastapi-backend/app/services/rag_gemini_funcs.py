@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from app.services.llm_client import generate_response, parse_json_response
+from app.services.gemini_funcs import _backend_recommendation_from_payload
 from app.services import rag_pipeline
 
 logger = logging.getLogger(__name__)
@@ -17,9 +18,17 @@ def _build_rag_prompt(
     analysis_payload: dict[str, Any],
     user_query: str,
     retrieved_context: list[dict[str, Any]],
+    recommended_source: str = "",
+    recommended_kwh: float = 0.0,
 ) -> str:
     simulation_payload = json.dumps(analysis_payload, ensure_ascii=True, indent=2)
     context_payload = json.dumps(retrieved_context, ensure_ascii=True, indent=2)
+
+    rec_line = f"BACKEND RECOMMENDATION: {recommended_source.title() if recommended_source else 'None'}"
+    if recommended_kwh > 0:
+        rec_line += f" (about {recommended_kwh:,.0f} kWh/month).\n\n"
+    else:
+        rec_line += ".\n\n"
 
     return (
         "You are LUMI, an AI assistant for renewable energy decision support in the Philippines.\n\n"
@@ -35,15 +44,17 @@ def _build_rag_prompt(
         "9. Use HYDROPOWER SUITABILITY data when discussing stream flow, hydraulic head, and runoff potential.\n"
         "10. Do not use your internal parametric knowledge for Philippine-specific data—rely only on the retrieved knowledge.\n\n"
         "OUTPUT FORMAT: Return PLAIN TEXT only. Do NOT use JSON, markdown code blocks, bullet-point key-value formatting, or raw brackets.\n"
-        "Write in clear paragraphs suitable for students and community members.\n\n"
-        "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS:\n\n"
+        "Write 2-3 short paragraphs per section. Do not invent budget, cost, or payback numbers.\n"
+        "Finish each section with a complete sentence; do not end with an ellipsis.\n\n"
+        + rec_line
+        + "STRUCTURE YOUR RESPONSE IN THESE EXACT SECTIONS:\n\n"
         "1. OBSERVATION — What does the data show?\n"
         "   Summarise the municipality's climate, terrain, and energy conditions using the ECOSIM DATA.\n\n"
         "2. INTERPRETATION — What does this mean for energy generation?\n"
         "   Explain how these conditions affect solar, wind, hydro, and geothermal potential.\n\n"
         "3. RECOMMENDATION — What renewable energy option should the user consider?\n"
-        "   State clearly the best renewable source for this location and why. Include estimated generation, "
-        "   approximate budget ranges in PHP (labelled as estimates), and payback expectations.\n\n"
+        "   Confirm the backend recommendation. Then explain what a household should do next.\n"
+        "   Do NOT invent system size, cost, or payback unless the retrieved knowledge explicitly provides them.\n\n"
         "4. REASON — Why is this the best choice compared to alternatives?\n"
         "   Compare against other renewable options and cite limitations or caveats from the retrieved knowledge.\n\n"
         "SYSTEM CONTEXT: LUMI renewable energy decision support\n\n"
@@ -175,15 +186,16 @@ def analyze_with_rag(
         if not retrieved_context:
             logger.warning("RAG retrieved zero relevant chunks for query: %s", user_query)
 
-        prompt = _build_rag_prompt(analysis_payload, user_query, retrieved_context)
-        response_text = generate_response(prompt)
+        backend_best, backend_kwh = _backend_recommendation_from_payload(analysis_payload)
+        prompt = _build_rag_prompt(analysis_payload, user_query, retrieved_context, backend_best, backend_kwh)
+        response_text = generate_response(prompt, max_output_tokens=2000)
 
-        from app.services.llm_sanitizer import sanitize_llm_output, extract_prescriptive_recommendation
-        cleaned = sanitize_llm_output(response_text)
+        from app.services.llm_sanitizer import clean_ai_output, extract_prescriptive_recommendation
+        cleaned = clean_ai_output(response_text)
         prescriptive = extract_prescriptive_recommendation(cleaned)
 
         return {
-            "recommended_energy_source": prescriptive.get("recommendation", ""),
+            "recommended_energy_source": backend_best,
             "estimated_budget": {"equipment": [], "installation": "", "maintenance": ""},
             "cost_range": "",
             "explanation": cleaned,
@@ -191,8 +203,8 @@ def analyze_with_rag(
             "summary": cleaned,
             "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
             "recommendation": {
-                "best_option": prescriptive.get("recommendation", ""),
-                "reason": prescriptive.get("reason", ""),
+                "best_option": backend_best,
+                "reason": prescriptive.get("reason") or prescriptive.get("recommendation", ""),
             },
             "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
             "environmental_impact": "",

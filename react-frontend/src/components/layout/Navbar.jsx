@@ -171,6 +171,9 @@ export default function Navbar() {
                     <span className="text-base">📊</span>
                     <span>{t("nav.savedSims")}</span>
                   </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/settings/security")} className="flex items-center gap-2">
+                    <span>Settings</span>
+                  </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={() => {

@@ -8,6 +8,7 @@ import ResetPassword from "../pages/ResetPassword";
 import Dashboard from "../pages/Dashboard";
 import SavedSimulations from "../pages/SavedSimulations";
 import MFASetup from "../pages/MFASetup";
+import SecuritySettings from "../pages/SecuritySettings";
 import Ecosim from "../pages/Ecosim";
 import EnergyHub from "../pages/EnergyHub";
 import MapPage from "../pages/MapPage";
@@ -72,6 +73,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute>
                 <MFASetup />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="settings/security"
+            element={
+              <ProtectedRoute>
+                <SecuritySettings />
               </ProtectedRoute>
             }
           />

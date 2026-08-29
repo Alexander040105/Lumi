@@ -7,12 +7,19 @@ from __future__ import annotations
 
 import logging
 import secrets
-from datetime import datetime, timezone
+import re
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
+from app.config.settings import get_settings
+
+_settings = get_settings()
+
 from app.dependencies.auth import require_admin
+from app.routes.protected import ProfileUpdatePayload
+from app.services.data_cache import cache_delete_sync
 from app.services.supabase_service import get_supabase_client
 
 logger = logging.getLogger(__name__)
@@ -72,58 +79,52 @@ def _auth_user_to_dict(u: Any) -> dict:
 # ---------------------------------------------------------------------------
 
 @router.get("/users")
-async def list_users(user: dict = Depends(require_admin)) -> dict[str, Any]:
-    """Return a paginated list of users with roles, profiles and real emails.
+async def list_users(
+    limit: int = 50,
+    offset: int = 0,
+    search: str | None = None,
+    role: str | None = None,
+    plan: str | None = None,
+    status: str | None = None,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Return a paginated, searchable, filterable list of users.
 
-    Uses Supabase Auth as the primary source so every auth user is visible,
-    even if they don't have a profile or role row yet.
+    Uses a single Supabase RPC so the Vercel serverless function stays within
+    the 10 s limit and does not have to enumerate all auth.users rows.
     """
+    if search and not search.strip():
+        search = None
+    if role == "all":
+        role = None
+    if plan == "all":
+        plan = None
+
+    is_active = None
+    if status == "active":
+        is_active = True
+    elif status == "banned":
+        is_active = False
+
     client = get_supabase_client()
+    query_limit = limit + 1  # fetch one extra to determine has_more
+    resp = client.rpc(
+        "get_admin_users_list",
+        {
+            "p_limit": query_limit,
+            "p_offset": offset,
+            "p_search": search.strip() if search else None,
+            "p_role": role,
+            "p_plan": plan,
+            "p_is_active": is_active,
+        },
+    ).execute()
 
-    profiles_resp = client.table("profiles").select("*").execute()
-    profiles = {p["id"]: p for p in (profiles_resp.data or [])}
+    rows = resp.data or []
+    has_more = len(rows) > limit
+    users = rows[:limit]
 
-    roles_resp = client.table("user_roles").select("user_id, role").execute()
-    roles = {r["user_id"]: r["role"] for r in (roles_resp.data or [])}
-
-    users: list[dict] = []
-    if _has_auth_admin_api(client):
-        try:
-            auth_resp = client.auth.admin.list_users()
-            auth_users = auth_resp.users if hasattr(auth_resp, "users") else (auth_resp.data or {}).get("users", [])
-            for u in auth_users:
-                ud = _auth_user_to_dict(u)
-                uid = ud["id"]
-                prof = profiles.get(uid, {})
-                users.append({
-                    "id": uid,
-                    "full_name": prof.get("full_name") or ud.get("full_name"),
-                    "email": ud.get("email") or uid,
-                    "avatar_url": prof.get("avatar_url") or ud.get("avatar_url"),
-                    "role": roles.get(uid, "user"),
-                    "plan": prof.get("plan", "free"),
-                    "is_active": prof.get("is_active", True),
-                    "created_at": ud.get("created_at") or prof.get("created_at"),
-                })
-        except Exception as exc:
-            logger.warning("Admin user list enrichment failed for a user: %s", exc)
-
-    # Fallback: if auth admin API is unavailable, return whatever profiles we have
-    if not users:
-        for uid, prof in profiles.items():
-            users.append({
-                "id": uid,
-                "full_name": prof.get("full_name"),
-                "email": prof.get("email") or uid,
-                "avatar_url": prof.get("avatar_url"),
-                "role": roles.get(uid, "user"),
-                "plan": prof.get("plan", "free"),
-                "is_active": prof.get("is_active", True),
-                "created_at": prof.get("created_at"),
-            })
-
-    _log_admin_action(user.get("sub"), "list_users")
-    return {"users": users}
+    return {"users": users, "limit": limit, "offset": offset, "has_more": has_more}
 
 
 # ---------------------------------------------------------------------------
@@ -236,7 +237,6 @@ async def get_user_detail(
         except Exception as exc:
             logger.warning("Admin auth metadata fetch failed: %s", exc)
 
-    _log_admin_action(admin_user.get("sub"), "view_user", target_user_id=user_id)
     return {
         "id": user_id,
         "profile": profile,
@@ -266,6 +266,7 @@ async def toggle_user_ban(
     new_state = not current
 
     client.table("profiles").update({"is_active": new_state}).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:active")
 
     action = "unban_user" if new_state else "ban_user"
     _log_admin_action(admin_user.get("sub"), action, target_user_id=user_id, details={"is_active": new_state})
@@ -288,7 +289,36 @@ async def update_user_role(
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid role")
 
     client = get_supabase_client()
+
+    # Prevent removing the last privileged (admin or dev) account. If the target is
+    # currently privileged and the new role is not, there must be at least one other
+    # privileged user left after the change.
+    if new_role not in ("admin", "dev"):
+        try:
+            priv_resp = (
+                client.table("user_roles")
+                .select("user_id")
+                .in_("role", ["admin", "dev"])
+                .execute()
+            )
+            privileged = [r["user_id"] for r in (priv_resp.data or [])]
+            if user_id in privileged and len(privileged) <= 1:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail="Cannot remove the last admin/dev account",
+                )
+        except HTTPException:
+            raise
+        except Exception as exc:
+            logger.error("Role-change privilege check failed for user_id=%s: %s", user_id, exc)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Could not verify role constraints",
+            ) from exc
+
     client.table("user_roles").update({"role": new_role}).eq("user_id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:role")
+    cache_delete_sync(f"lumi:auth:{user_id}:plan")
 
     # Auto-sync plan: admin/dev → premium, user → free
     new_plan = "premium" if new_role in ("admin", "dev") else "free"
@@ -306,28 +336,81 @@ async def update_user_role(
 # ---------------------------------------------------------------------------
 # User Management — Change Plan
 # ---------------------------------------------------------------------------
+# User Management — Edit User Profile
+# ---------------------------------------------------------------------------
 
-@router.put("/users/{user_id}/plan")
-async def update_user_plan(
+@router.put("/users/{user_id}/profile")
+async def update_user_profile(
     user_id: str,
-    payload: dict,
+    payload: ProfileUpdatePayload,
     admin_user: dict = Depends(require_admin),
 ) -> dict[str, Any]:
-    """Change a user's plan (free / premium)."""
-    new_plan = payload.get("plan")
-    if not new_plan:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Plan is required")
+    """Admin edits a user's public profile fields."""
+    updates = payload.model_dump(exclude_unset=True, exclude_none=True)
+    if not updates:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No valid fields to update")
 
     client = get_supabase_client()
-    client.table("profiles").update({"plan": new_plan}).eq("id", user_id).execute()
+    resp = client.table("profiles").update(updates).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:profile:{user_id}")
 
     _log_admin_action(
         admin_user.get("sub"),
-        "change_plan",
+        "update_user_profile",
         target_user_id=user_id,
-        details={"new_plan": new_plan},
+        details=updates,
     )
-    return {"id": user_id, "plan": new_plan}
+    return {"id": user_id, "updated": True, "profile": resp.data[0] if resp.data else None}
+
+
+# ---------------------------------------------------------------------------
+# User Management — Force Password Reset
+# ---------------------------------------------------------------------------
+
+@router.post("/users/{user_id}/force-password-reset")
+async def force_password_reset(
+    user_id: str,
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Admin sends a password-reset email to a user."""
+    client = get_supabase_client()
+    try:
+        auth_resp = client.auth.admin.get_user_by_id(user_id)
+        auth_user = auth_resp.user if hasattr(auth_resp, "user") else auth_resp
+        if isinstance(auth_user, dict):
+            email = auth_user.get("email")
+        else:
+            email = getattr(auth_user, "email", None)
+        if not email:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User has no email")
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found") from exc
+
+    redirect_base = next(
+        (origin for origin in _settings.cors_origins
+         if origin.startswith("https://") and re.match(r"^https://[a-zA-Z0-9\.\-_]+/?$", origin)),
+        None,
+    )
+    redirect_to = f"{redirect_base.rstrip('/')}/reset-password" if redirect_base else None
+
+    try:
+        if redirect_to:
+            client.auth.reset_password_for_email(email, {"redirect_to": redirect_to})
+        else:
+            client.auth.reset_password_for_email(email)
+    except Exception as exc:
+        logger.warning("Force password reset failed for %s: %s", user_id, exc)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Could not send reset email") from exc
+
+    _log_admin_action(
+        admin_user.get("sub"),
+        "force_password_reset",
+        target_user_id=user_id,
+        details={"email": email, "redirect_to": redirect_to},
+    )
+    return {"id": user_id, "email": email, "reset_sent": True}
 
 
 # ---------------------------------------------------------------------------
@@ -343,12 +426,11 @@ async def get_user_simulations(
     client = get_supabase_client()
     resp = (
         client.table("saved_simulations")
-        .select("*")
+        .select("id, label, municipality_id, municipalities(name), created_at")
         .eq("user_id", user_id)
         .order("created_at", desc=True)
         .execute()
     )
-    _log_admin_action(admin_user.get("sub"), "view_user_simulations", target_user_id=user_id)
     return {"simulations": resp.data or []}
 
 
@@ -363,66 +445,10 @@ async def get_user_report(
 ) -> dict[str, Any]:
     """Return aggregated usage statistics for a single user."""
     client = get_supabase_client()
+    resp = client.rpc("get_user_usage_report", {"p_user_id": user_id}).execute()
+    report = resp.data[0] if resp.data else {}
 
-    sims_resp = (
-        client.table("saved_simulations")
-        .select("id, municipality_id, name, created_at", count="exact")
-        .eq("user_id", user_id)
-        .execute()
-    )
-    sims = sims_resp.data or []
-    total_simulations = sims_resp.count or len(sims)
-
-    chat_resp = (
-        client.table("chat_sessions")
-        .select("id, created_at", count="exact")
-        .eq("user_id", user_id)
-        .execute()
-    )
-    chats = chat_resp.data or []
-    total_chat_sessions = chat_resp.count or len(chats)
-
-    # Most-searched municipality
-    municipality_counts: dict[str, int] = {}
-    for s in sims:
-        mid = s.get("municipality_id")
-        if mid:
-            municipality_counts[str(mid)] = municipality_counts.get(str(mid), 0) + 1
-    peak_municipality_id = max(municipality_counts, key=municipality_counts.get) if municipality_counts else None
-
-    # Last activity
-    all_dates = [s.get("created_at") for s in sims] + [c.get("created_at") for c in chats]
-    valid_dates = [d for d in all_dates if d]
-    last_active = max(valid_dates) if valid_dates else None
-
-    # Monthly counts (since the first of the current UTC month)
-    month_start = datetime.now(timezone.utc).replace(
-        day=1, hour=0, minute=0, second=0, microsecond=0
-    )
-
-    def _is_this_month(iso: str | None) -> bool:
-        if not iso:
-            return False
-        try:
-            dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
-            return dt >= month_start
-        except (ValueError, TypeError):
-            return False
-
-    simulations_this_month = sum(1 for s in sims if _is_this_month(s.get("created_at")))
-    chat_sessions_this_month = sum(1 for c in chats if _is_this_month(c.get("created_at")))
-
-    _log_admin_action(admin_user.get("sub"), "view_user_report", target_user_id=user_id)
-    return {
-        "user_id": user_id,
-        "total_simulations": total_simulations,
-        "simulations_this_month": simulations_this_month,
-        "total_chat_sessions": total_chat_sessions,
-        "chat_sessions_this_month": chat_sessions_this_month,
-        "peak_municipality_id": peak_municipality_id,
-        "last_active": last_active,
-        "recent_simulations": sims[:5],
-    }
+    return {"user_id": user_id, **report}
 
 
 # ---------------------------------------------------------------------------
@@ -448,6 +474,9 @@ async def soft_delete_user(
         "organization": None,
         "location": None,
     }).eq("id", user_id).execute()
+    cache_delete_sync(f"lumi:auth:{user_id}:active")
+    cache_delete_sync(f"lumi:auth:{user_id}:plan")
+    cache_delete_sync(f"lumi:profile:{user_id}")
 
     _log_admin_action(admin_user.get("sub"), "soft_delete_user", target_user_id=user_id)
     return {"id": user_id, "status": "soft_deleted", "message": "User banned and anonymised. Data retained for audit."}
@@ -457,35 +486,58 @@ async def soft_delete_user(
 # Analytics
 # ---------------------------------------------------------------------------
 
+def _monthly_counts(rows: list[dict]) -> list[dict]:
+    """Build a 12-month count series from a list of {created_at} rows."""
+    now = datetime.now(timezone.utc)
+    months = []
+    for i in range(11, -1, -1):
+        month_start = (now.replace(day=1, hour=0, minute=0, second=0, microsecond=0) - timedelta(days=i * 31)).replace(day=1)
+        months.append((month_start.isoformat()[:7], month_start))
+
+    def _in_month(iso: str | None, month_start: datetime) -> bool:
+        if not iso:
+            return False
+        try:
+            dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+            return dt.year == month_start.year and dt.month == month_start.month
+        except (ValueError, TypeError):
+            return False
+
+    return [{"month": m[0], "count": sum(1 for r in rows if _in_month(r.get("created_at"), m[1]))} for m in months]
+
+
 @router.get("/analytics")
 async def get_analytics(user: dict = Depends(require_admin)) -> dict[str, Any]:
-    """Return system-level analytics."""
+    """Return system-level analytics with 12-month history."""
     client = get_supabase_client()
 
-    users_resp = client.table("profiles").select("id, plan, is_active", count="exact").execute()
-    all_profiles = users_resp.data or []
-    total_users = users_resp.count or len(all_profiles)
-    active_users = sum(1 for u in all_profiles if u.get("is_active", True))
+    users_resp = client.table("profiles").select("created_at, is_active", count="exact").execute()
+    users = users_resp.data or []
+    total_users = users_resp.count or len(users)
+    active_users = sum(1 for u in users if u.get("is_active", True))
     banned_users = total_users - active_users
 
-    sims_resp = client.table("saved_simulations").select("id", count="exact").execute()
+    sims_resp = client.table("saved_simulations").select("created_at", count="exact").execute()
+    sims = sims_resp.data or []
     total_simulations = sims_resp.count or 0
 
-    chat_resp = client.table("chat_sessions").select("id", count="exact").execute()
-    total_chat_sessions = chat_resp.count or 0
+    ecosim_resp = client.table("user_ecosim_logs").select("created_at", count="exact").execute()
+    ecosim = ecosim_resp.data or []
+    total_ecosim = ecosim_resp.count or 0
 
-    free_users = sum(1 for u in all_profiles if u.get("plan") == "free")
-    premium_users = sum(1 for u in all_profiles if u.get("plan") != "free")
-
-    _log_admin_action(user.get("sub"), "view_analytics")
     return {
         "total_users": total_users,
         "active_users": active_users,
         "banned_users": banned_users,
         "total_simulations": total_simulations,
-        "total_chat_sessions": total_chat_sessions,
-        "free_users": free_users,
-        "premium_users": premium_users,
+        "total_ecosim": total_ecosim,
+        "monthly_new_users": _monthly_counts(users),
+        "monthly_simulations": _monthly_counts(sims),
+        "monthly_ecosim": _monthly_counts(ecosim),
+        "active_banned_pie": [
+            {"name": "Active", "value": active_users},
+            {"name": "Banned", "value": banned_users},
+        ],
     }
 
 
@@ -548,7 +600,6 @@ async def list_chat_sessions(
         .limit(limit)
         .execute()
     )
-    _log_admin_action(user.get("sub"), "view_chat_sessions")
     return {"sessions": resp.data or []}
 
 
@@ -590,7 +641,6 @@ async def list_user_usage(
             "p_search": search,
         },
     ).execute()
-    _log_admin_action(admin_user.get("sub"), "view_usage")
     return {"users": resp.data or [], "limit": limit, "offset": offset}
 
 
@@ -617,5 +667,4 @@ async def list_admin_logs(
     if action:
         query = query.eq("action", action)
     resp = query.execute()
-    _log_admin_action(admin_user.get("sub"), "view_audit_logs")
     return {"logs": resp.data or [], "limit": limit, "offset": offset}

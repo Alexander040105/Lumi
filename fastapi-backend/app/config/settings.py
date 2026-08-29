@@ -64,6 +64,43 @@ class Settings(BaseSettings):
     anonymous_ecosim_quota: int = 1
     anonymous_ecosim_window_seconds: int = 86400
 
+    # Residential system sizing defaults
+    household_solar_size_kwp: float = 1.25
+
+    # Wind hub height for household-scale turbines (NREL Philippines Wind Atlas
+    # uses 30m as the reference height for small rural wind turbines)
+    household_wind_hub_height_m: float = 30.0
+    # Wind shear exponent (1/7 power law, per NREL Philippines Wind Atlas)
+    wind_shear_exponent: float = 0.143
+
+    # Hydro head factor (fraction of municipal elevation drop usable for
+    # a single household run-of-river scheme; was 0.12, now 0.20)
+    household_hydro_head_factor: float = 0.20
+    # Hydro catchment area in km² (typical household micro-hydro: 0.05–1.0 km²)
+    household_hydro_catchment_km2: float = 1.0
+
+    # Catchment enrichment (Boothroyd et al. 2023, PMC9994713)
+    # When enabled, EcoSim uses real Philippine catchment morphology and
+    # nearest-stream data instead of fixed assumptions for hydro calculations.
+    catchment_enrichment_enabled: bool = True
+    # Assumed penstock length for stream-gradient-derived head (meters)
+    household_hydro_penstock_length_m: float = 100.0
+    # Household draws from this fraction of the full basin area
+    household_hydro_catchment_fraction: float = 0.001
+    # Beyond this distance to nearest stream, feasibility penalty floors at 0.1
+    household_hydro_stream_max_distance_m: float = 10000.0
+    # Enrichment data version (bumped when enrichment data is regenerated)
+    catchment_enrichment_version: str = "v1"
+
+    # Authenticated monthly usage limits (free vs premium)
+    free_simulation_limit: int = 5
+    premium_simulation_limit: int = 1000
+    free_chat_message_limit: int = 20
+    premium_chat_message_limit: int = 5000
+
+    # Whether to enforce usage limits for non-admin users
+    enforce_usage_limits: bool = False
+
     # AI / LLM
     gemini_api_key: str | None = None
     gemini_debug: bool = False

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Lightbulb, Info, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/i18n";
+import Markdown from "@/components/shared/Markdown";
 
 export default function AiInsightPanel({
   insight,
@@ -93,18 +94,18 @@ export default function AiInsightPanel({
             {t("energyHub.aiInsight.loading")}
           </div>
         ) : (
-          <p className="text-sm leading-relaxed text-warning whitespace-pre-line">
-            {activeAnalysis?.insight || insight?.insight || ""}
-          </p>
+          <div className="text-sm leading-relaxed text-warning">
+            <Markdown>{activeAnalysis?.insight || insight?.insight || ""}</Markdown>
+          </div>
         )}
       </div>
 
       {(activeAnalysis?.recommendation || insight.recommendation) && (
         <div className="mt-3 rounded-lg bg-sky-50 border border-sky-100 p-4 flex gap-3">
           <Info className="h-4 w-4 text-sky-600 shrink-0 mt-0.5" />
-          <p className="text-sm leading-relaxed text-sky-900">
-            {activeAnalysis?.recommendation || insight.recommendation}
-          </p>
+          <div className="text-sm leading-relaxed text-sky-900">
+            <Markdown>{activeAnalysis?.recommendation || insight.recommendation}</Markdown>
+          </div>
         </div>
       )}
     </div>
