@@ -28,7 +28,8 @@ export default function EcosimWizard({
   const selectedName = useMemo(() => {
     if (mode === "municipality") {
       const found = filteredMunicipalities.find((m) => String(m.municipality_id) === municipalityId);
-      return found ? found.name : muniQuery;
+      if (!found) return muniQuery;
+      return found.province_name ? `${found.name}, ${found.province_name}` : found.name;
     }
     const found = filteredProvinces.find((p) => String(p.province_id) === provinceId);
     return found ? found.name : provinceQuery;
@@ -106,21 +107,39 @@ export default function EcosimWizard({
                       )}
                     </div>
                     {mode === "municipality" && muniOpen && (
-                      <div className="mt-1 max-h-48 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
-                        {filteredMunicipalities.length ? filteredMunicipalities.map((item) => (
-                          <button key={item.municipality_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.municipality_id) === municipalityId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(item.name); setMuniOpen(false); }}>
-                            {item.name}
-                          </button>
-                        )) : <div className="px-3 py-2 text-sm text-muted-foreground">{t("ecosim.wizard.noResults")}</div>}
+                      <div className="mt-1 max-h-64 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
+                        {filteredMunicipalities.length ? (
+                          <>
+                            {filteredMunicipalities.slice(0, 50).map((item) => (
+                              <button key={item.municipality_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.municipality_id) === municipalityId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(item.province_name ? `${item.name}, ${item.province_name}` : item.name); setMuniOpen(false); }}>
+                                {item.province_name ? `${item.name}, ${item.province_name}` : item.name}
+                              </button>
+                            ))}
+                            {filteredMunicipalities.length > 50 && (
+                              <div className="px-3 py-2 text-xs text-muted-foreground border-t">
+                                {t("ecosim.wizard.moreResults", { count: filteredMunicipalities.length - 50, total: filteredMunicipalities.length })}
+                              </div>
+                            )}
+                          </>
+                        ) : <div className="px-3 py-2 text-sm text-muted-foreground">{t("ecosim.wizard.noResults")}</div>}
                       </div>
                     )}
                     {mode === "province" && provinceOpen && (
-                      <div className="mt-1 max-h-48 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
-                        {filteredProvinces.length ? filteredProvinces.map((item) => (
-                          <button key={item.province_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.province_id) === provinceId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setProvinceId(String(item.province_id)); setProvinceQuery(item.name); setProvinceOpen(false); }}>
-                            {item.name}
-                          </button>
-                        )) : <div className="px-3 py-2 text-sm text-muted-foreground">{t("ecosim.wizard.noResults")}</div>}
+                      <div className="mt-1 max-h-64 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
+                        {filteredProvinces.length ? (
+                          <>
+                            {filteredProvinces.slice(0, 50).map((item) => (
+                              <button key={item.province_id} className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(item.province_id) === provinceId ? "bg-accent font-medium" : "")} onMouseDown={(e) => e.preventDefault()} onClick={() => { setProvinceId(String(item.province_id)); setProvinceQuery(item.name); setProvinceOpen(false); }}>
+                                {item.name}
+                              </button>
+                            ))}
+                            {filteredProvinces.length > 50 && (
+                              <div className="px-3 py-2 text-xs text-muted-foreground border-t">
+                                {t("ecosim.wizard.moreResults", { count: filteredProvinces.length - 50, total: filteredProvinces.length })}
+                              </div>
+                            )}
+                          </>
+                        ) : <div className="px-3 py-2 text-sm text-muted-foreground">{t("ecosim.wizard.noResults")}</div>}
                       </div>
                     )}
                     {mode === "municipality" && municipalitiesError && <p className="text-xs text-destructive mt-1">{municipalitiesError}</p>}

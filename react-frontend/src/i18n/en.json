@@ -816,6 +816,7 @@
       "placeholderMunicipality": "e.g., Calamba, Santa Rosa",
       "placeholderProvince": "e.g., Laguna, Cavite",
       "noResults": "No results found",
+      "moreResults": "Showing 50 of {{total}} results. {{count}} more — refine your search.",
       "selected": "Selected: {{name}}",
       "notSelected": "Not selected",
       "consumptionLabel": "Electricity used this billing period (kWh)",
