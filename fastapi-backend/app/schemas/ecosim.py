@@ -84,6 +84,7 @@ class WindOutput(BaseModel):
     monthly_energy_kwh: float
     annual_wind_output_kwh: float
     generation_score: float | None = None
+    wind_score: float | None = None
 
 
 class RenewableEnergyResults(BaseModel):
@@ -165,6 +166,9 @@ class EcosimDashboardResponse(BaseModel):
     municipality_data: list[MunicipalityClimate] | None = None
     ai_analysis: dict | None = None
     remaining_anonymous_requests: int | None = None
+    # Hidden: suitability-score-based recommendation (for future reactivation)
+    suitability_recommended_source: str | None = None
+    suitability_recommended_score: float | None = None
 
 
 class EcosimAIResponse(BaseModel):

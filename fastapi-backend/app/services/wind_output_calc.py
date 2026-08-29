@@ -95,6 +95,26 @@ avg_rotos_summary = None
 avg_cp_summary = None
 
 
+def extrapolate_wind_speed(
+    wind_speed_ref: float,
+    ref_height_m: float,
+    target_height_m: float,
+    shear_exponent: float = 0.143,
+) -> float:
+    """Extrapolate wind speed from reference height to target height using the power law.
+
+    V(h) = V_ref × (h / h_ref)^α
+
+    Uses the 1/7 power law (α=0.143) per the NREL Wind Energy Resource Atlas
+    of the Philippines, which chose 30m as the reference height for Philippine
+    wind resource classification — a compromise between utility-scale (30–60m)
+    and small rural wind turbines (15–30m).
+    """
+    if wind_speed_ref <= 0 or ref_height_m <= 0 or target_height_m <= 0:
+        return 0.0
+    return wind_speed_ref * (target_height_m / ref_height_m) ** shear_exponent
+
+
 def calculate_wind_output(
     wind_speed_mps: float,
     days_in_month: int,

@@ -1,17 +1,56 @@
 """LLM output sanitization utilities.
 
 Removes raw JSON wrappers, markdown fences, escaped characters,
-and normalises whitespace so downstream UI receives clean plain text.
+HTML tags, LLM chain-of-thought blocks, and normalises whitespace
+so downstream UI receives clean plain text.
 """
 
 from __future__ import annotations
 
+import html
 import json
 import logging
 import re
 from typing import Any
 
 logger = logging.getLogger(__name__)
+
+
+def strip_thinking_blocks(text: str) -> str:
+    """Remove <think>...</think> and <reasoning>...</reasoning> chain-of-thought blocks.
+
+    Handles both literal `` tags and HTML-escaped `` forms, and
+    discards everything from an unclosed opening tag to the end of the text
+    (there is no safe way to know where an unclosed thinking block ends).
+    """
+    if not text:
+        return ""
+    # Closed blocks (literal tags)
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"<reasoning>.*?</reasoning>", "", text, flags=re.DOTALL | re.IGNORECASE)
+    # Closed blocks (HTML-escaped tags)
+    text = re.sub(r"&lt;think&gt;.*?&lt;/think&gt;", "", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"&lt;reasoning&gt;.*?&lt;/reasoning&gt;", "", text, flags=re.DOTALL | re.IGNORECASE)
+    # Unclosed opening tag: drop from the tag to end of text
+    text = re.sub(r"<think>.*", "", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"<reasoning>.*", "", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"&lt;think&gt;.*", "", text, flags=re.DOTALL | re.IGNORECASE)
+    text = re.sub(r"&lt;reasoning&gt;.*", "", text, flags=re.DOTALL | re.IGNORECASE)
+    return text
+
+
+def decode_html_entities(text: str) -> str:
+    """Convert &lt;, &gt;, &amp; etc. to literal characters."""
+    if not text:
+        return ""
+    return html.unescape(text)
+
+
+def strip_html_tags(text: str) -> str:
+    """Remove remaining HTML tags (e.g. <ol>, <ul>, <p>, <em>, <strong>) while keeping text."""
+    if not text:
+        return ""
+    return re.sub(r"<[^>]+>", "", text)
 
 
 def strip_markdown_fences(text: str) -> str:
@@ -119,12 +158,15 @@ def _extract_text(obj: Any) -> str:
 
 
 def sanitize_llm_output(text: str) -> str:
-    """Full sanitization pipeline: fences → JSON wrappers → key-value → whitespace."""
+    """Full sanitization pipeline: thinking blocks → fences → JSON → HTML → whitespace."""
     if not text:
         return ""
+    text = strip_thinking_blocks(text)
     text = strip_markdown_fences(text)
     text = strip_json_wrappers(text)
     text = strip_key_value_formatting(text)
+    text = decode_html_entities(text)
+    text = strip_html_tags(text)
     text = normalize_whitespace(text)
     return text
 
@@ -181,11 +223,14 @@ def _truncate_to_complete_sentence(text: str) -> str:
 
 
 def clean_ai_output(text: str) -> str:
-    """Full cleanup for UI-facing LLM output: JSON, fences, formatting, then safe truncation."""
+    """Full cleanup for UI-facing LLM output: thinking blocks → JSON, fences, HTML, then safe truncation."""
     if not text:
         return text
+    text = strip_thinking_blocks(text)
     text = strip_markdown_fences(text)
     text = strip_json_wrappers(text)
     text = strip_key_value_formatting(text)
+    text = decode_html_entities(text)
+    text = strip_html_tags(text)
     text = normalize_whitespace(text)
     return _truncate_to_complete_sentence(text)
