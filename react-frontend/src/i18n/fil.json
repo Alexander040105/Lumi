@@ -790,6 +790,7 @@
       "placeholderMunicipality": "e.g., Calamba, Santa Rosa",
       "placeholderProvince": "e.g., Laguna, Cavite",
       "noResults": "Walang resulta",
+      "moreResults": "Nagpapakita ng 50 sa {{total}} resulta. {{count}} pa — pino- refine ang search.",
       "selected": "Napili: {{name}}",
       "notSelected": "Hindi pa napili",
       "consumptionLabel": "Kuryenteng nagamit sa billing period (kWh)",

@@ -68,13 +68,33 @@ export default function Ecosim() {
   const filteredMunicipalities = useMemo(() => {
     const q = muniQuery.trim().toLowerCase();
     if (!q) return municipalities;
-    return municipalities.filter((m) => m.name.toLowerCase().includes(q));
+    return municipalities
+      .map((m) => {
+        const name = m.name.toLowerCase();
+        const idx = name.indexOf(q);
+        return { ...m, _matchIdx: idx, _startsWith: idx === 0 };
+      })
+      .filter((m) => m._matchIdx >= 0)
+      .sort((a, b) => {
+        if (a._startsWith !== b._startsWith) return a._startsWith ? -1 : 1;
+        return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
+      });
   }, [municipalities, muniQuery]);
 
   const filteredProvinces = useMemo(() => {
     const q = provinceQuery.trim().toLowerCase();
     if (!q) return provinces;
-    return provinces.filter((p) => p.name.toLowerCase().includes(q));
+    return provinces
+      .map((p) => {
+        const name = p.name.toLowerCase();
+        const idx = name.indexOf(q);
+        return { ...p, _matchIdx: idx, _startsWith: idx === 0 };
+      })
+      .filter((p) => p._matchIdx >= 0)
+      .sort((a, b) => {
+        if (a._startsWith !== b._startsWith) return a._startsWith ? -1 : 1;
+        return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
+      });
   }, [provinces, provinceQuery]);
 
   const comparisonMax = useMemo(() => {
