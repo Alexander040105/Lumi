@@ -432,6 +432,8 @@ def _compute_municipality_wind_output_kwh(municipality_data: dict) -> float:
     settings = get_settings()
     hub_height = float(settings.household_wind_hub_height_m)
     alpha = float(settings.wind_shear_exponent)
+    wind_rotor_radius = settings.household_wind_rotor_radius_m
+    wind_cp = settings.household_wind_power_coefficient
 
     wind_speed_50m = (
         municipality_data.get("wind_speed_50m_ms")
@@ -465,6 +467,8 @@ def _compute_municipality_wind_output_kwh(municipality_data: dict) -> float:
             wind_speed_mps=wind_speed,
             days_in_month=days_in_month,
             air_density=air_density,
+            rotor_radius_m=wind_rotor_radius,
+            cp=wind_cp,
         )
         return float(output.get("monthly_energy_kwh") or 0.0)
     except Exception:
@@ -914,11 +918,18 @@ def renewable_energy_calculator(
             "household_solar_size_kwp": _s.household_solar_size_kwp,
             "household_wind_hub_height_m": _s.household_wind_hub_height_m,
             "wind_shear_exponent": _s.wind_shear_exponent,
+            "household_wind_rated_power_kw": _s.household_wind_rated_power_kw,
+            "household_wind_rotor_radius_m": _s.household_wind_rotor_radius_m,
+            "household_wind_capacity_factor": _s.household_wind_capacity_factor,
             "household_hydro_head_factor": _s.household_hydro_head_factor,
             "household_hydro_catchment_km2": _s.household_hydro_catchment_km2,
+            "household_hydro_design_flow_factor": _s.household_hydro_design_flow_factor,
+            "household_hydro_max_head_m": _s.household_hydro_max_head_m,
+            "household_hydro_turbine_efficiency": _s.household_hydro_turbine_efficiency,
+            "household_hydro_generator_efficiency": _s.household_hydro_generator_efficiency,
             "catchment_enrichment_enabled": _s.catchment_enrichment_enabled,
             "catchment_enrichment_version": _s.catchment_enrichment_version,
-            "scoring_version": "v2",  # v2: output-based wind score, 100 kWh hydro baseline
+            "scoring_version": "v3",  # v3: household wind power curve + hydro boost
         }
         params_hash = hashlib.md5(
             json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
@@ -1061,9 +1072,17 @@ def renewable_energy_calculator(
                 logger.debug("Catchment enrichment lookup failed for %s: %s", geo_id, exc)
 
     if catchment_enrichment:
-        # Use real catchment area (household fraction) instead of fixed 1.0 km²
-        eff_area = catchment_enrichment.get("effective_catchment_area_km2")
-        catchment_area_km2 = float(eff_area) if eff_area else float(settings.household_hydro_catchment_km2)
+        # Use real catchment area (household fraction) instead of fixed 1.0 km².
+        # Recompute at runtime so settings.household_hydro_catchment_fraction and
+        # household_hydro_catchment_km2 can be tuned without rebuilding the CSV.
+        catchment_area = catchment_enrichment.get("catchment_area_km2")
+        if catchment_area is not None:
+            catchment_area_km2 = min(
+                float(catchment_area) * float(settings.household_hydro_catchment_fraction),
+                float(settings.household_hydro_catchment_km2),
+            )
+        else:
+            catchment_area_km2 = float(settings.household_hydro_catchment_km2)
 
         # Use stream-gradient-derived head instead of DEM-derived municipal head
         stream_head = catchment_enrichment.get("stream_head_m")
@@ -1111,12 +1130,16 @@ def renewable_energy_calculator(
             catchment_area_km2=catchment_area_km2,
             runoff_coefficient_override=runoff_coeff_override,
             apply_flow_floor=False,  # no fake floor when enrichment is used
+            design_flow_factor=float(settings.household_hydro_design_flow_factor),
         )
         hydro_output_raw = calculate_hydropower(
             flow_rate_cms=flow_rate_cms,
             head_m=hydraulic_head_m,
             days_in_month=days_in_month,
             head_factor=float(settings.household_hydro_head_factor),
+            max_head_m=float(settings.household_hydro_max_head_m),
+            turbine_efficiency=float(settings.household_hydro_turbine_efficiency),
+            generator_efficiency=float(settings.household_hydro_generator_efficiency),
             feasibility_penalty=float(stream_penalty) if stream_penalty is not None else None,
             head_already_realistic=head_already_realistic,
         )
@@ -1144,12 +1167,16 @@ def renewable_energy_calculator(
             mean_slope_deg=terrain_data.get("mean_slope_deg") if terrain_data else 0.0,
             gravity_flow_potential=terrain_data.get("gravity_flow_potential") if terrain_data else 0.0,
             catchment_area_km2=float(settings.household_hydro_catchment_km2),
+            design_flow_factor=float(settings.household_hydro_design_flow_factor),
         )
         hydro_output_raw = calculate_hydropower(
             flow_rate_cms=flow_rate_cms,
             head_m=hydraulic_head_m,
             days_in_month=days_in_month,
             head_factor=float(settings.household_hydro_head_factor),
+            max_head_m=float(settings.household_hydro_max_head_m),
+            turbine_efficiency=float(settings.household_hydro_turbine_efficiency),
+            generator_efficiency=float(settings.household_hydro_generator_efficiency),
         )
         hydro_data_source = "default terrain data"
         hydro_catchment_name = None
@@ -1174,7 +1201,13 @@ def renewable_energy_calculator(
 
     #NOTE: WIND CALCULATIONS
     wind_speed = float(wind_speed or 0.0)
-    wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
+    wind_output = calculate_wind_output(
+        wind_speed_mps=wind_speed,
+        days_in_month=days_in_month,
+        air_density=air_density,
+        rotor_radius_m=settings.household_wind_rotor_radius_m,
+        cp=settings.household_wind_power_coefficient,
+    )
     wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
 
     # Province mode: use the median of municipality wind outputs instead of
@@ -1226,11 +1259,22 @@ def renewable_energy_calculator(
             "wind_speed_mps": round(wind_speed, 4),
             "wind_speed_source_height_m": wind_speed_source_height_m,
             "wind_shear_exponent": alpha,
+            "household_wind_rated_power_kw": settings.household_wind_rated_power_kw,
+            "household_wind_rotor_radius_m": settings.household_wind_rotor_radius_m,
+            "household_wind_cut_in_mps": settings.household_wind_cut_in_mps,
+            "household_wind_rated_mps": settings.household_wind_rated_mps,
+            "household_wind_cut_out_mps": settings.household_wind_cut_out_mps,
+            "household_wind_capacity_factor": settings.household_wind_capacity_factor,
             "solar_system_kwp": household_solar_size_kwp,
             # Hydro enrichment (Boothroyd et al. 2023 catchment geodatabase)
             "hydro_data_source": hydro_data_source,
             "hydro_catchment_name": hydro_catchment_name,
             "hydro_stream_feasibility": hydro_stream_feasibility,
+            "household_hydro_head_factor": settings.household_hydro_head_factor,
+            "household_hydro_design_flow_factor": settings.household_hydro_design_flow_factor,
+            "household_hydro_max_head_m": settings.household_hydro_max_head_m,
+            "household_hydro_turbine_efficiency": settings.household_hydro_turbine_efficiency,
+            "household_hydro_generator_efficiency": settings.household_hydro_generator_efficiency,
             # Scoring baselines (for transparency and calibration)
             "solar_score_baseline_pvout": 1800.0,
             "wind_score_baseline_kwh": 300.0,

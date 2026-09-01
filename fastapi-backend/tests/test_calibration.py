@@ -211,7 +211,7 @@ def test_cache_key_includes_scoring_version():
     import app.services.ecosim as ecosim_mod
     source = open(ecosim_mod.__file__, encoding="utf-8").read()
     assert "scoring_version" in source, "scoring_version not in cache payload"
-    assert '"v2"' in source, "scoring_version v2 not found in cache payload"
+    assert '"v3"' in source, "scoring_version v3 not found in cache payload"
 
 
 # ---------------------------------------------------------------------------
@@ -237,3 +237,115 @@ def test_wind_output_calculation_unchanged():
     # The output should be positive and reasonable
     assert result["monthly_energy_kwh"] > 0
     assert result["rated_power_kw"] > 0
+
+
+# ---------------------------------------------------------------------------
+# Household wind power-curve behaviour
+# ---------------------------------------------------------------------------
+
+
+def test_wind_power_curve_below_cut_in_is_zero():
+    """No output below the cut-in wind speed."""
+    result = calculate_wind_output(
+        wind_speed_mps=2.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=5.0,
+        cp=0.4,
+    )
+    assert result["monthly_energy_kwh"] == pytest.approx(0.0, abs=1e-6)
+
+
+def test_wind_power_curve_at_cut_out_is_zero():
+    """No output at or above the cut-out wind speed."""
+    result = calculate_wind_output(
+        wind_speed_mps=26.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=5.0,
+        cp=0.4,
+    )
+    assert result["monthly_energy_kwh"] == pytest.approx(0.0, abs=1e-6)
+
+
+def test_wind_power_curve_ramp_between_cut_in_and_rated():
+    """Output increases continuously between cut-in and rated speed."""
+    result_4 = calculate_wind_output(
+        wind_speed_mps=4.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=5.0,
+        cp=0.4,
+    )
+    result_7 = calculate_wind_output(
+        wind_speed_mps=7.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=5.0,
+        cp=0.4,
+    )
+    assert result_7["monthly_energy_kwh"] > result_4["monthly_energy_kwh"]
+    assert 0.0 < result_4["monthly_energy_kwh"] < result_7["monthly_energy_kwh"]
+
+
+def test_wind_power_curve_rated_is_capped():
+    """Output at rated speed equals the rated power ceiling."""
+    result_11 = calculate_wind_output(
+        wind_speed_mps=11.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=6.0,
+        cp=0.4,
+    )
+    result_15 = calculate_wind_output(
+        wind_speed_mps=15.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.2,
+        rotor_radius_m=6.0,
+        cp=0.4,
+    )
+    # Both should be at rated power ceiling
+    expected = 1.2 * 0.22 * 24 * 30
+    assert result_11["monthly_energy_kwh"] == pytest.approx(expected, rel=1e-3)
+    assert result_15["monthly_energy_kwh"] == pytest.approx(expected, rel=1e-3)
+
+
+def test_wind_output_never_exceeds_rated_power_monthly():
+    """Monthly output should never exceed rated_power × capacity_factor × hours."""
+    result = calculate_wind_output(
+        wind_speed_mps=20.0,
+        days_in_month=30,
+        air_density=1.225,
+        cut_in_speed_mps=3.0,
+        rated_speed_mps=11.0,
+        cut_out_speed_mps=25.0,
+        rated_power_kw=1.0,
+        rotor_radius_m=10.0,
+        cp=0.5,
+    )
+    max_monthly = 1.0 * 0.22 * 24 * 30
+    assert result["monthly_energy_kwh"] <= max_monthly * 1.001
