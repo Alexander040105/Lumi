@@ -421,6 +421,68 @@ def list_barangays(municipality_id: int | None = None) -> list[dict]:
     return output
 
 
+def _compute_municipality_wind_output_kwh(municipality_data: dict) -> float:
+    """Compute monthly wind output (kWh) for a single municipality record.
+
+    Mirrors the wind speed selection and output calculation used in
+    renewable_energy_calculator so province aggregation can collect
+    per-municipality outputs rather than computing output from an averaged
+    wind speed.
+    """
+    settings = get_settings()
+    hub_height = float(settings.household_wind_hub_height_m)
+    alpha = float(settings.wind_shear_exponent)
+
+    wind_speed_50m = (
+        municipality_data.get("wind_speed_50m_ms")
+        or municipality_data.get("muni_avg_wind_speed_50m_ms")
+    )
+    if wind_speed_50m and float(wind_speed_50m) > 0:
+        wind_speed = extrapolate_wind_speed(
+            float(wind_speed_50m), 50.0, hub_height, alpha
+        )
+    else:
+        wind_speed_10m = (
+            municipality_data.get("wind_speed_10m_ms")
+            or municipality_data.get("era5_wind_speed_10m_ms")
+            or municipality_data.get("avg_ws10m")
+            or 0.0
+        )
+        wind_speed = extrapolate_wind_speed(
+            float(wind_speed_10m), 10.0, hub_height, alpha
+        )
+
+    if wind_speed <= 0:
+        return 0.0
+
+    air_density = municipality_data.get("avg_rhoa")
+    if air_density is None:
+        air_density = 1.225
+
+    days_in_month = calendar.monthrange(dt.datetime.now().year, dt.datetime.now().month)[1]
+    try:
+        output = calculate_wind_output(
+            wind_speed_mps=wind_speed,
+            days_in_month=days_in_month,
+            air_density=air_density,
+        )
+        return float(output.get("monthly_energy_kwh") or 0.0)
+    except Exception:
+        return 0.0
+
+
+def _median(values: list[float]) -> float:
+    """Return the median of a list of floats."""
+    if not values:
+        return 0.0
+    sorted_vals = sorted(values)
+    n = len(sorted_vals)
+    mid = n // 2
+    if n % 2 == 0:
+        return (sorted_vals[mid - 1] + sorted_vals[mid]) / 2.0
+    return sorted_vals[mid]
+
+
 def get_province_data(province_name: str, source: str = "auto") -> dict:
     """Aggregate municipality climate data for a province.
 
@@ -593,6 +655,34 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="ERA5 data not available for this province.",
             )
+
+    # Province wind aggregation: compute wind output for each municipality
+    # and take the median. Wind power is cubic in speed, so a single
+    # averaged wind speed overestimates/underestimates the typical household
+    # output. Using the median of municipality outputs reduces outlier
+    # influence (e.g. one large, windy municipality dominating a province).
+    try:
+        muni_atlas_map = get_atlas_for_municipality_ids(municipality_ids)
+        climate_map = {row.get("municipality_id"): row for row in climate_rows if row.get("municipality_id")}
+        wind_outputs = []
+        for mid in municipality_ids:
+            muni_data = {}
+            if mid in climate_map:
+                muni_data.update(climate_map[mid])
+            if mid in muni_atlas_map:
+                muni_data.update(muni_atlas_map[mid])
+            if muni_data:
+                output = _compute_municipality_wind_output_kwh(muni_data)
+                if output > 0:
+                    wind_outputs.append(output)
+
+        if wind_outputs:
+            wind_outputs.sort()
+            aggregated["muni_mean_wind_output_kwh"] = round(sum(wind_outputs) / len(wind_outputs), 4)
+            aggregated["muni_median_wind_output_kwh"] = round(_median(wind_outputs), 4)
+            aggregated["muni_wind_output_count"] = len(wind_outputs)
+    except Exception as exc:
+        logger.debug("Could not aggregate municipality wind outputs for province %s: %s", province_id, exc)
 
     return aggregated
 
@@ -1086,6 +1176,15 @@ def renewable_energy_calculator(
     wind_speed = float(wind_speed or 0.0)
     wind_output = calculate_wind_output(wind_speed_mps=wind_speed, days_in_month=days_in_month, air_density=air_density)
     wind_output["annual_wind_output_kwh"] = (wind_output.get("monthly_energy_kwh") or 0.0) * 12.0
+
+    # Province mode: use the median of municipality wind outputs instead of
+    # the output from an area-weighted wind speed. This avoids one large,
+    # windy municipality dominating the entire province recommendation.
+    if mode == "province" and municipality_data.get("muni_median_wind_output_kwh"):
+        median_kwh = float(municipality_data["muni_median_wind_output_kwh"])
+        if median_kwh > 0:
+            wind_output["monthly_energy_kwh"] = round(median_kwh, 4)
+            wind_output["annual_wind_output_kwh"] = round(median_kwh * 12.0, 4)
 
     province = municipality_data.get("province")
 
