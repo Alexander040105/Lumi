@@ -169,6 +169,10 @@ class EcosimDashboardResponse(BaseModel):
     # Hidden: suitability-score-based recommendation (for future reactivation)
     suitability_recommended_source: str | None = None
     suitability_recommended_score: float | None = None
+    # Nearby power plants used for wind/hydro recalibration
+    nearby_wind_plants: list[dict] | None = None
+    nearby_hydro_plants: list[dict] | None = None
+    nearby_geothermal_plants: list[dict] | None = None
 
 
 class EcosimAIResponse(BaseModel):

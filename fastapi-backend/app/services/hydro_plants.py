@@ -203,3 +203,39 @@ def calculate_hydro_generation_scale(
     scale = 1.0 + scale_factor * math.log1p(total_capacity / 100.0)
     scale = min(scale, max_scale)
     return round(scale, 3), nearby
+
+
+def calculate_hydro_plant_floor(
+    lat: float | None,
+    lon: float | None,
+    province: str | None = None,
+    radius_km: float = DEFAULT_BOOST_RADIUS_KM,
+    floor_factor: float = 5.0,
+    max_floor_kwh: float = 60.0,
+) -> tuple[float, list[dict[str, Any]]]:
+    """Return a minimum plausible household hydro output based on nearby
+    operating hydro plants.
+
+    The floor is derived from the square root of total nearby capacity (MW) so
+    that provinces with large, proven hydro plants are not assigned
+    unrealistically low household micro-hydro output. It is capped at
+    *max_floor_kwh* so the floor does not itself become a large source of bias.
+
+    Returns:
+        (floor_kwh, nearby_plants)
+    """
+    nearby: list[dict[str, Any]] = []
+
+    if lat is not None and lon is not None:
+        nearby = get_hydro_plants_near(float(lat), float(lon), radius_km, only_operating=True)
+
+    if not nearby and province:
+        nearby = get_hydro_plants_in_province(province, only_operating=True)
+
+    if not nearby:
+        return 0.0, []
+
+    total_capacity = sum(float(p.get("capacity_mw") or 0.0) for p in nearby)
+    floor = floor_factor * math.sqrt(total_capacity)
+    floor = min(floor, max_floor_kwh)
+    return round(floor, 2), nearby

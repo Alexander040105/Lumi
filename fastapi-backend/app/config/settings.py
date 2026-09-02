@@ -99,6 +99,43 @@ class Settings(BaseSettings):
     household_hydro_turbine_efficiency: float = 0.85
     household_hydro_generator_efficiency: float = 0.95
 
+    # Wikipedia wind/hydro plant recalibration
+    # Boosts wind/hydro suitability for municipalities or provinces near
+    # operating wind or hydro power plants.
+    wind_plants_boost_enabled: bool = True
+    wind_plants_boost_radius_km: float = 25.0
+    wind_plants_max_bonus: float = 25.0
+    wind_plants_generation_scale_factor: float = 0.3
+    wind_plants_max_generation_scale: float = 1.5
+    hydro_plants_boost_enabled: bool = True
+    hydro_plants_boost_radius_km: float = 50.0
+    hydro_plants_max_bonus: float = 25.0
+    hydro_plants_generation_scale_factor: float = 0.6
+    hydro_plants_max_generation_scale: float = 2.5
+    # "suitability" = score boost; "generation" = scale household output.
+    wind_hydro_plant_boost_mode: str = "generation"
+    # Hydro plant output floor for proven hydro provinces (Approach C+).
+    # The floor uses sqrt(total operating capacity MW) to set a minimum
+    # plausible household micro-hydro output without a 1:1 MW-to-kWh conversion.
+    hydro_plant_floor_enabled: bool = True
+    hydro_plant_floor_factor: float = 15.0
+    hydro_plant_max_floor_kwh: float = 150.0
+    hydro_plant_absolute_cap_kwh: float = 250.0
+    hydro_plant_floor_provinces: list[str] = [
+        "Agusan del Norte",
+        "Benguet",
+        "Bukidnon",
+        "Bulacan",
+        "Catanduanes",
+        "Ilocos Norte",
+        "Isabela",
+        "La Union",
+        "Lanao del Sur",
+        "Mountain Province",
+        "Nueva Ecija",
+        "Oriental Mindoro",
+    ]
+
     # Catchment enrichment (Boothroyd et al. 2023, PMC9994713)
     # When enabled, EcoSim uses real Philippine catchment morphology and
     # nearest-stream data instead of fixed assumptions for hydro calculations.

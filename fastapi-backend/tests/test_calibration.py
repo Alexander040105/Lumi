@@ -211,7 +211,7 @@ def test_cache_key_includes_scoring_version():
     import app.services.ecosim as ecosim_mod
     source = open(ecosim_mod.__file__, encoding="utf-8").read()
     assert "scoring_version" in source, "scoring_version not in cache payload"
-    assert '"v3"' in source, "scoring_version v3 not found in cache payload"
+    assert '"v5"' in source, "scoring_version v5 not found in cache payload"
 
 
 # ---------------------------------------------------------------------------

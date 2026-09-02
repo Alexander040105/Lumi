@@ -46,6 +46,17 @@ from app.services.geothermal.plants import (
     calculate_proximity_boost,
     get_plants_near,
 )
+from app.services.wind_plants import (
+    calculate_wind_proximity_boost,
+    calculate_wind_generation_scale,
+    get_wind_plants_near,
+)
+from app.services.hydro_plants import (
+    calculate_hydro_proximity_boost,
+    calculate_hydro_generation_scale,
+    calculate_hydro_plant_floor,
+    get_hydro_plants_near,
+)
 from app.services.financials import FinancialInputs, analyze_financials, to_dict as financials_to_dict
 from app.services.confidence import ConfidenceFactors, calculate_confidence
 logger = logging.getLogger(__name__)
@@ -929,7 +940,25 @@ def renewable_energy_calculator(
             "household_hydro_generator_efficiency": _s.household_hydro_generator_efficiency,
             "catchment_enrichment_enabled": _s.catchment_enrichment_enabled,
             "catchment_enrichment_version": _s.catchment_enrichment_version,
-            "scoring_version": "v3",  # v3: household wind power curve + hydro boost
+            "wind_plants_boost_enabled": _s.wind_plants_boost_enabled,
+            "wind_plants_boost_radius_km": _s.wind_plants_boost_radius_km,
+            "wind_plants_max_bonus": _s.wind_plants_max_bonus,
+            "wind_plants_generation_scale_factor": _s.wind_plants_generation_scale_factor,
+            "wind_plants_max_generation_scale": _s.wind_plants_max_generation_scale,
+            "hydro_plants_boost_enabled": _s.hydro_plants_boost_enabled,
+            "hydro_plants_boost_radius_km": _s.hydro_plants_boost_radius_km,
+            "hydro_plants_max_bonus": _s.hydro_plants_max_bonus,
+            "hydro_plants_generation_scale_factor": _s.hydro_plants_generation_scale_factor,
+            "hydro_plants_max_generation_scale": _s.hydro_plants_max_generation_scale,
+            "wind_hydro_plant_boost_mode": _s.wind_hydro_plant_boost_mode,
+            "hydro_plant_floor_enabled": _s.hydro_plant_floor_enabled,
+            "hydro_plant_floor_factor": _s.hydro_plant_floor_factor,
+            "hydro_plant_max_floor_kwh": _s.hydro_plant_max_floor_kwh,
+            "hydro_plant_absolute_cap_kwh": _s.hydro_plant_absolute_cap_kwh,
+            "hydro_plant_floor_provinces_hash": hashlib.md5(
+                ",".join(sorted(p.lower() for p in _s.hydro_plant_floor_provinces)).encode("utf-8")
+            ).hexdigest()[:8],
+            "scoring_version": "v5",  # v5: hydro plant output floor
         }
         params_hash = hashlib.md5(
             json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
@@ -1279,6 +1308,22 @@ def renewable_energy_calculator(
             "solar_score_baseline_pvout": 1800.0,
             "wind_score_baseline_kwh": 300.0,
             "hydro_score_baseline_kwh": 100.0,
+            # Wikipedia power-plant recalibration settings
+            "wind_plants_boost_enabled": settings.wind_plants_boost_enabled,
+            "wind_plants_boost_radius_km": settings.wind_plants_boost_radius_km,
+            "wind_plants_max_bonus": settings.wind_plants_max_bonus,
+            "wind_plants_generation_scale_factor": settings.wind_plants_generation_scale_factor,
+            "wind_plants_max_generation_scale": settings.wind_plants_max_generation_scale,
+            "hydro_plants_boost_enabled": settings.hydro_plants_boost_enabled,
+            "hydro_plants_boost_radius_km": settings.hydro_plants_boost_radius_km,
+            "hydro_plants_max_bonus": settings.hydro_plants_max_bonus,
+            "hydro_plants_generation_scale_factor": settings.hydro_plants_generation_scale_factor,
+            "hydro_plants_max_generation_scale": settings.hydro_plants_max_generation_scale,
+            "wind_hydro_plant_boost_mode": settings.wind_hydro_plant_boost_mode,
+            "hydro_plant_floor_enabled": settings.hydro_plant_floor_enabled,
+            "hydro_plant_floor_factor": settings.hydro_plant_floor_factor,
+            "hydro_plant_max_floor_kwh": settings.hydro_plant_max_floor_kwh,
+            "hydro_plant_absolute_cap_kwh": settings.hydro_plant_absolute_cap_kwh,
         },
         # json for the solar outputs
         "solar_output": solar_output,
@@ -1825,7 +1870,98 @@ def build_ecosim_dashboard_response(
     # CF ~25%) produces ~270 kWh/month. Use 300 kWh/month as the "excellent"
     # baseline so wind is directly comparable to solar and hydro scores.
     wind_monthly_kwh = float(wind_output.get("monthly_energy_kwh", 0.0))
-    wind_score = min(wind_monthly_kwh / 300.0, 1.0)
+    raw_wind_score = min(wind_monthly_kwh / 300.0, 1.0)
+
+    _s = get_settings()
+
+    # Wikipedia wind-plant suitability recalibration.
+    nearby_wind_plants: list[dict[str, Any]] = []
+    wind_generation_scale = 1.0
+    if _s.wind_plants_boost_enabled:
+        if _s.wind_hydro_plant_boost_mode == "suitability":
+            boosted_wind_score, nearby_wind_plants = calculate_wind_proximity_boost(
+                muni_lat,
+                muni_lon,
+                raw_wind_score * 100.0,
+                province=province,
+                radius_km=_s.wind_plants_boost_radius_km,
+                max_bonus=_s.wind_plants_max_bonus,
+            )
+            wind_score = boosted_wind_score / 100.0
+        else:
+            # Approach C: scale household wind output by proven plant capacity.
+            wind_generation_scale, nearby_wind_plants = calculate_wind_generation_scale(
+                muni_lat,
+                muni_lon,
+                province=province,
+                radius_km=_s.wind_plants_boost_radius_km,
+                scale_factor=_s.wind_plants_generation_scale_factor,
+                max_scale=_s.wind_plants_max_generation_scale,
+            )
+            scaled_wind_kwh = wind_monthly_kwh * wind_generation_scale
+            wind_output["monthly_energy_kwh"] = round(scaled_wind_kwh, 4)
+            wind_output["annual_wind_output_kwh"] = round(scaled_wind_kwh * 12.0, 4)
+            wind_score = min(scaled_wind_kwh / 300.0, 1.0)
+    else:
+        wind_score = raw_wind_score
+
+    # Wikipedia hydro-plant suitability recalibration.
+    nearby_hydro_plants: list[dict[str, Any]] = []
+    hydro_generation_scale = 1.0
+    if _s.hydro_plants_boost_enabled:
+        if _s.wind_hydro_plant_boost_mode == "suitability":
+            boosted_hydro_score, nearby_hydro_plants = calculate_hydro_proximity_boost(
+                muni_lat,
+                muni_lon,
+                hydro_score * 100.0,
+                province=province,
+                radius_km=_s.hydro_plants_boost_radius_km,
+                max_bonus=_s.hydro_plants_max_bonus,
+            )
+            hydro_score = boosted_hydro_score / 100.0
+        else:
+            # Approach C: scale household hydro output by proven plant capacity.
+            hydro_generation_scale, nearby_hydro_plants = calculate_hydro_generation_scale(
+                muni_lat,
+                muni_lon,
+                province=province,
+                radius_km=_s.hydro_plants_boost_radius_km,
+                scale_factor=_s.hydro_plants_generation_scale_factor,
+                max_scale=_s.hydro_plants_max_generation_scale,
+            )
+            hydro_monthly_kwh = float(hydro_output.get("monthly_hydro_output", 0.0))
+            scaled_hydro_kwh = hydro_monthly_kwh * hydro_generation_scale
+
+            # Apply a capacity-linked output floor for proven hydro provinces so
+            # that large utility plants do not imply a negligible household
+            # resource. The floor is only active for the configured province list
+            # and is capped to avoid unphysical household output.
+            hydro_output_floor = 0.0
+            if (
+                _s.hydro_plant_floor_enabled
+                and province
+                and any(
+                    province.strip().lower() == p.strip().lower()
+                    for p in _s.hydro_plant_floor_provinces
+                )
+            ):
+                hydro_output_floor, _ = calculate_hydro_plant_floor(
+                    muni_lat,
+                    muni_lon,
+                    province=province,
+                    radius_km=_s.hydro_plants_boost_radius_km,
+                    floor_factor=_s.hydro_plant_floor_factor,
+                    max_floor_kwh=_s.hydro_plant_max_floor_kwh,
+                )
+            final_hydro_kwh = max(scaled_hydro_kwh, hydro_output_floor)
+            final_hydro_kwh = min(final_hydro_kwh, _s.hydro_plant_absolute_cap_kwh)
+
+            hydro_output["monthly_hydro_output"] = round(final_hydro_kwh, 4)
+            hydro_output["annual_hydro_output"] = round(final_hydro_kwh * 12.0, 4)
+            hydro_output["hydro_output_floor"] = round(hydro_output_floor, 2)
+            hydro_score = min(final_hydro_kwh / 100.0, 1.0)
+    else:
+        hydro_score = hydro_score
 
     # Apply proximity boost to geothermal score if municipality is near an operating plant
     raw_geo_score = float(geothermal_output.get("suitability_score", 0.0))
@@ -2023,11 +2159,18 @@ def build_ecosim_dashboard_response(
             wind_output["wind_score"] = round(wind_score * 100, 2)
         elif option["source"] == "Hydropower":
             hydro_output["generation_score"] = option["generation_score"]
+            hydro_output["hydro_score"] = round(hydro_score * 100, 2)
 
     renewable_results["solar_output"] = solar_output
     renewable_results["wind_output"] = wind_output
     renewable_results["hydro_output"] = hydro_output
     renewable_results["geothermal_output"] = geothermal_output
+
+    # Record the actual generation scales and floor used in the calculation.
+    if "assumptions" in renewable_results:
+        renewable_results["assumptions"]["wind_generation_scale"] = round(wind_generation_scale, 3)
+        renewable_results["assumptions"]["hydro_generation_scale"] = round(hydro_generation_scale, 3)
+        renewable_results["assumptions"]["hydro_output_floor"] = round(hydro_output.get("hydro_output_floor", 0.0), 2)
 
     # For province mode, geothermal household data is not meaningful; null it.
     if mode == "province":
@@ -2067,5 +2210,7 @@ def build_ecosim_dashboard_response(
         "explanations": base_results.get("explanations"),
         "ai_analysis": ai_analysis if include_ai else None,
         "nearby_geothermal_plants": nearby_geo_plants,
+        "nearby_wind_plants": nearby_wind_plants,
+        "nearby_hydro_plants": nearby_hydro_plants,
         "remaining_anonymous_requests": None,
     }

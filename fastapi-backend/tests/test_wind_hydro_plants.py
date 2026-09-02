@@ -13,6 +13,7 @@ from app.services.wind_plants import (
 from app.services.hydro_plants import (
     calculate_hydro_proximity_boost,
     calculate_hydro_generation_scale,
+    calculate_hydro_plant_floor,
     get_hydro_plants_in_province,
     get_hydro_plants_near,
 )
@@ -91,4 +92,24 @@ class TestHydroPlants:
             None, None, province="Bulacan"
         )
         assert scale >= 1.0
+        assert plants
+
+    def test_hydro_plant_floor_zero_without_plants(self):
+        floor, plants = calculate_hydro_plant_floor(
+            5.0, 125.0, radius_km=50.0
+        )
+        assert floor == 0.0
+        assert not plants
+
+    def test_hydro_plant_floor_respects_max(self):
+        floor, plants = calculate_hydro_plant_floor(
+            None, None, province="Bulacan", max_floor_kwh=30.0
+        )
+        assert 0.0 < floor <= 30.0
+
+    def test_hydro_plant_floor_in_named_province(self):
+        floor, plants = calculate_hydro_plant_floor(
+            None, None, province="Bulacan"
+        )
+        assert floor > 0.0
         assert plants
