@@ -1,100 +1,83 @@
-# Wikipedia Wind/Hydro Plant Recalibration Report
+# Wikipedia Wind/Hydro Plant Recalibration Report (v5)
 
-**Date:** 2026-09-02
+**Date:** 2026-09-03
 
 **Source:** Wikipedia: List of power plants in the Philippines
 
 **Warning:** Wikipedia explicitly states this list is incomplete; it is used as supplementary evidence, not a definitive national registry.
 
-## Plant Data Summary
+## v5 Change: Hydro Output Floor for Proven Plant Provinces
 
-### Wind Plants
+Approach C (generation scaling) is extended with a capacity-linked **output floor** for provinces that host operating hydropower plants. The floor is derived from the square root of total installed capacity (MW) and is capped so it does not become a 1:1 utility-to-household conversion.
 
+### Plant Data Summary
+
+**Wind plants**
 - **total:** 10
 - **operating:** 6
-- **under_construction:** 0
-- **proposed:** 1
 - **missing_coordinates:** 5
-- **with_province:** 10
 - **provinces_covered:** 5
 - **operating_capacity_mw:** 408.0
 - **provinces:** Aklan, Guimaras, Ilocos Norte, Oriental Mindoro, Rizal
 
-### Hydro Plants
-
+**Hydro plants**
 - **total:** 17
 - **operating:** 17
-- **under_construction:** 0
-- **proposed:** 0
 - **missing_coordinates:** 11
-- **with_province:** 15
 - **provinces_covered:** 13
 - **operating_capacity_mw:** 1235.92
 - **provinces:** Agusan del Norte, Benguet, Bukidnon, Bulacan, Catanduanes, Davao City, Ilocos Norte, Isabela, La Union, Lanao del Sur, Mountain Province, Nueva Ecija, Oriental Mindoro
 
 ## Settings
 
-- **wind_plants_boost_enabled:** True
-- **wind_plants_boost_radius_km:** 25.0
-- **wind_plants_max_bonus:** 25.0
-- **wind_plants_generation_scale_factor:** 0.3
-- **wind_plants_max_generation_scale:** 1.5
-- **hydro_plants_boost_enabled:** True
-- **hydro_plants_boost_radius_km:** 50.0
-- **hydro_plants_max_bonus:** 25.0
-- **hydro_plants_generation_scale_factor:** 0.4
-- **hydro_plants_max_generation_scale:** 2.0
 - **wind_hydro_plant_boost_mode:** generation
-- **scoring_version:** v4
+- **hydro_plants_generation_scale_factor:** 0.6
+- **hydro_plants_max_generation_scale:** 2.5
+- **hydro_plant_floor_enabled:** True
+- **hydro_plant_floor_factor:** 15.0 (kWh per sqrt(MW))
+- **hydro_plant_max_floor_kwh:** 150.0
+- **hydro_plant_absolute_cap_kwh:** 250.0
+- **hydro_plant_floor_provinces:** Agusan del Norte, Benguet, Bukidnon, Bulacan, Catanduanes, Ilocos Norte, Isabela, La Union, Lanao del Sur, Mountain Province, Nueva Ecija, Oriental Mindoro
+- **scoring_version:** v5
 
-## Approach B (Suitability Boost) — All 120 Provinces
+## All 120 Provinces — v5 Results
 
-Counts: {'Solar': 46, 'Hydropower': 3, 'Wind': 35, 'error': 36}
+Counts: {'Solar': 41, 'Hydropower': 8, 'Wind': 35, 'error': 36}
 
-Solar: {'min': 124.92, 'max': 154.55, 'mean': 137.99, 'median': 137.04}
+- Solar: {'min': 124.92, 'max': 154.55, 'mean': 137.99, 'median': 137.04}
+- Wind: {'min': 0.0, 'max': 260.28, 'mean': 133.53, 'median': 133.1}
+- Hydro: {'min': 0.01, 'max': 250.0, 'mean': 31.44, 'median': 6.08}
 
-Wind: {'min': 0.0, 'max': 190.08, 'mean': 132.05, 'median': 133.1}
+## Hydropower-Recommending Provinces (v5)
 
-Hydro: {'min': 0.01, 'max': 194.17, 'mean': 18.87, 'median': 4.85}
+| Province | Hydro kWh | Floor | Generation Scale |
+|---|---|---|---|
+| AGUSAN DEL NORTE | 227.3731 | 86.04 | 1.171 |
+| BENGUET | 237.4587 | 150.0 | 1.431 |
+| BULACAN | 150.0 | 150.0 | 1.694 |
+| IFUGAO | 244.177 | 0.0 | 1.916 |
+| ISABELA | 150.0 | 150.0 | 1.916 |
+| KALINGA | 186.821 | 0.0 | 1.0 |
+| LANAO DEL SUR | 134.16 | 134.16 | 1.353 |
+| MOUNTAIN PROVINCE | 250.0 | 150.0 | 1.916 |
 
-## Approach C (Generation Scaling) — All 120 Provinces
+## 9 Target Provinces
 
-Counts: {'Solar': 44, 'Hydropower': 5, 'Wind': 35, 'error': 36}
+| Province | Solar | Wind | Hydro | Recommendation |
+|---|---|---|---|---|
+| BULACAN | 135.4358 | 134.9691 | 150.0 | Hydropower |
+| CAMARINES SUR | 135.7569 | 190.08 | 25.899 | Wind |
+| LEYTE | 131.5114 | 150.9207 | 0.948 | Wind |
+| EASTERN SAMAR | 134.6249 | 103.8462 | 2.785 | Solar |
+| CAVITE | 142.709 | 190.08 | 4.519 | Wind |
+| LAGUNA | 136.779 | 137.5477 | 4.504 | Wind |
+| BATANGAS | 144.7388 | 141.5756 | 8.397 | Solar |
+| RIZAL | 139.713 | 126.9746 | 11.306 | Solar |
+| QUEZON | 137.924 | 118.7175 | 0.599 | Solar |
 
-Solar: {'min': 124.92, 'max': 154.55, 'mean': 137.99, 'median': 137.04}
+## Notes
 
-Wind: {'min': 0.0, 'max': 260.28, 'mean': 133.53, 'median': 133.1}
-
-Hydro: {'min': 0.01, 'max': 219.68, 'mean': 21.85, 'median': 5.41}
-
-## Provinces that Changed from B to C
-
-| Province | Approach B | Approach C | Solar kWh | Wind kWh | Hydro kWh | Wind Scale | Hydro Scale | Nearby Wind | Nearby Hydro |
-|---|---|---|---|---|---|---|---|---|---|
-| IFUGAO | Solar | Hydropower | 139.4252 | 0.0 | 205.18 | 1.0 | 1.61 | 0 | 1 |
-| MOUNTAIN PROVINCE | Solar | Hydropower | 141.8622 | 129.226 | 219.6781 | 1.0 | 1.61 | 0 | 1 |
-
-## 9 Target Provinces — Approach C
-
-| Province | Solar | Wind | Hydro | Recommendation | Nearby Wind | Nearby Hydro | Wind Scale | Hydro Scale |
-|---|---|---|---|---|---|---|---|---|
-| Bulacan | 135.4358 | 134.9691 | 0.7022 | Solar | 0 | 1 | 1.0 | 1.463 |
-| Camarines Sur | 135.7569 | 190.08 | 25.899 | Wind | 0 | 0 | 1.0 | 1.0 |
-| Leyte | 131.5114 | 150.9207 | 0.948 | Wind | 0 | 0 | 1.0 | 1.0 |
-| Eastern Samar | 134.6249 | 103.8462 | 2.785 | Solar | 0 | 0 | 1.0 | 1.0 |
-| Cavite | 142.709 | 190.08 | 4.519 | Wind | 0 | 0 | 1.0 | 1.0 |
-| Laguna | 136.779 | 137.5477 | 4.504 | Wind | 0 | 0 | 1.0 | 1.0 |
-| Batangas | 144.7388 | 141.5756 | 8.397 | Solar | 0 | 0 | 1.0 | 1.0 |
-| Rizal | 139.713 | 126.9746 | 11.306 | Solar | 1 | 0 | 1.13 | 1.0 |
-| Quezon | 137.924 | 118.7175 | 0.599 | Solar | 0 | 0 | 1.0 | 1.0 |
-
-## Chosen Default
-
-Approach C (generation scaling) because it translates existing plant capacity into bounded household-output multipliers and produced a more geographically balanced national distribution.
-
-## Limitations
-
-- Wikipedia list is incomplete and may omit small run-of-river hydro plants and newer wind farms.
-- Some hydro records have missing coordinates or province values; these are excluded from geographic proximity and matched by province where possible.
-- Province centroids are coarse; a plant in one corner of a province does not mean every household in that province has the same resource.
-- Generation scaling is bounded and log-scaled to prevent utility-scale capacity from directly becoming household output.
+- Davao City is excluded from the floor list because the Wikipedia records map to 'Davao City' rather than a province and lack coordinates.
+- The floor flips provinces with large operating hydro plants (e.g., Bulacan/Angat 218 MW, Isabela/Magat 360 MW, Lanao del Sur/Agus 1 80 MW) where the base household catchment model returned low output.
+- Provinces with strong wind resources (Ilocos Norte, Catanduanes) or small plants remain wind/solar.
+- Hydro remains the minority recommendation (~10% of successful provinces), preserving a mixed national distribution.
