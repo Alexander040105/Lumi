@@ -41,6 +41,7 @@ def estimated_flow_rate(
     catchment_area_km2: float = 1.0,
     runoff_coefficient_override: float | None = None,
     apply_flow_floor: bool = True,
+    design_flow_factor: float = 0.40,
 ) -> float:
     """
     Small-catchment runoff estimation for household micro-hydro.
@@ -102,10 +103,10 @@ def estimated_flow_rate(
     seconds_month = 30 * 24 * 3600  # ~30 days
     avg_flow_cms = monthly_runoff_m3 / seconds_month
 
-    # Design flow = 40 % of average flow × gravity-flow feasibility.
-    # 40–60 % environmental flow reserve is standard for run-of-river
-    # (Wang et al., 2025; Lillo et al., 2021)
-    design_flow_cms = avg_flow_cms * 0.40 * max(gravity_flow_potential, 0.1)
+    # Design flow = configurable fraction of average flow × gravity-flow feasibility.
+    # 40–70 % environmental flow reserve is standard for run-of-river
+    # (Wang et al., 2025; Lillo et al., 2021; Feyissa et al., 2024)
+    design_flow_cms = avg_flow_cms * design_flow_factor * max(gravity_flow_potential, 0.1)
 
     # Realistic bounds for household micro-hydro intake.
     # Typical small streams: 0.001 – 0.5 m³/s (Butchers et al., 2021)
@@ -151,6 +152,7 @@ def calculate_hydropower(
     turbine_efficiency: float = 0.75,
     generator_efficiency: float = 0.90,
     head_factor: float = 0.20,
+    max_head_m: float = 25.0,
     feasibility_penalty: float | None = None,
     head_already_realistic: bool = False,
 ):
@@ -190,13 +192,12 @@ def calculate_hydropower(
     if head_already_realistic:
         # Head was computed from stream gradient × penstock length —
         # already at household scale. Just clamp to physical bounds.
-        realistic_head_m = min(max(head_m, 0.0), 50.0)
+        realistic_head_m = min(max(head_m, 0.0), max_head_m)
     else:
         # DEM-derived municipal head is scaled to a local intake-to-turbine drop.
         # Typical micro-hydro head: 2–25 m (Feyissa et al., 2024).
-        # We assume only ~20 % of maximum municipal elevation drop is usable
-        # for a single household run-of-river scheme (configurable via settings).
-        realistic_head_m = min(max(head_m * head_factor, 2.0), 25.0)
+        # The head_factor and max_head_m are configurable via settings.
+        realistic_head_m = min(max(head_m * head_factor, 2.0), max_head_m)
 
     # Hydraulic power (kW) = ρ × g × Q × H / 1000
     hydraulic_power_kw = (

@@ -1,0 +1,822 @@
+{
+  "results": [
+    {
+      "province_id": 327,
+      "name": "ABRA",
+      "solar_kwh": 151.1148,
+      "wind_kwh": 117.9726,
+      "hydro_kwh": 45.973,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 317,
+      "name": "AGUSAN DEL NORTE",
+      "solar_kwh": 124.9204,
+      "wind_kwh": 141.3582,
+      "hydro_kwh": 194.17,
+      "rec": "Hydropower"
+    },
+    {
+      "province_id": 318,
+      "name": "AGUSAN DEL SUR",
+      "solar_kwh": 134.1797,
+      "wind_kwh": 136.495,
+      "hydro_kwh": 1.467,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 284,
+      "name": "AKLAN",
+      "solar_kwh": 130.8079,
+      "wind_kwh": 138.3165,
+      "hydro_kwh": 2.933,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 278,
+      "name": "ALBAY",
+      "solar_kwh": 137.7375,
+      "wind_kwh": 183.6157,
+      "hydro_kwh": 35.582,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 285,
+      "name": "ANTIQUE",
+      "solar_kwh": 132.9341,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 18.725,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 328,
+      "name": "APAYAO",
+      "solar_kwh": 127.5571,
+      "wind_kwh": 114.2347,
+      "hydro_kwh": 36.849,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 261,
+      "name": "AURORA",
+      "solar_kwh": 129.9458,
+      "wind_kwh": 76.4231,
+      "hydro_kwh": 21.405,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 322,
+      "name": "BASILAN",
+      "solar_kwh": 133.7808,
+      "wind_kwh": 137.1677,
+      "hydro_kwh": 0.559,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 262,
+      "name": "BATAAN",
+      "solar_kwh": 149.926,
+      "wind_kwh": 141.7194,
+      "hydro_kwh": 6.71,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 256,
+      "name": "BATANES",
+      "solar_kwh": 134.7732,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 2.84,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 268,
+      "name": "BATANGAS",
+      "solar_kwh": 144.7388,
+      "wind_kwh": 141.5756,
+      "hydro_kwh": 8.397,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 329,
+      "name": "BENGUET",
+      "solar_kwh": 142.6159,
+      "wind_kwh": 150.7506,
+      "hydro_kwh": 165.939,
+      "rec": "Hydropower"
+    },
+    {
+      "province_id": 294,
+      "name": "BILIRAN",
+      "solar_kwh": 135.4586,
+      "wind_kwh": 142.3119,
+      "hydro_kwh": 0.035,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 290,
+      "name": "BOHOL",
+      "solar_kwh": 135.3497,
+      "wind_kwh": 145.3973,
+      "hydro_kwh": 1.158,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 303,
+      "name": "BUKIDNON",
+      "solar_kwh": 133.3607,
+      "wind_kwh": 77.8698,
+      "hydro_kwh": 26.284,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 263,
+      "name": "BULACAN",
+      "solar_kwh": 135.4358,
+      "wind_kwh": 134.9691,
+      "hydro_kwh": 0.48,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 257,
+      "name": "CAGAYAN",
+      "solar_kwh": 141.7449,
+      "wind_kwh": 114.2347,
+      "hydro_kwh": 3.262,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 279,
+      "name": "CAMARINES NORTE",
+      "solar_kwh": 132.116,
+      "wind_kwh": 133.1937,
+      "hydro_kwh": 5.182,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 280,
+      "name": "CAMARINES SUR",
+      "solar_kwh": 135.7569,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 25.899,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 304,
+      "name": "CAMIGUIN",
+      "solar_kwh": 136.444,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.471,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 286,
+      "name": "CAPIZ",
+      "solar_kwh": 133.8865,
+      "wind_kwh": 102.7658,
+      "hydro_kwh": 0.799,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 281,
+      "name": "CATANDUANES",
+      "solar_kwh": 139.8376,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 25.753,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 269,
+      "name": "CAVITE",
+      "solar_kwh": 142.709,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 4.519,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 291,
+      "name": "CEBU",
+      "solar_kwh": 137.7934,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.161,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 308,
+      "name": "COMPOSTELA VALLEY",
+      "solar_kwh": 129.1664,
+      "wind_kwh": 118.0574,
+      "hydro_kwh": 38.547,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 309,
+      "name": "DAVAO (DAVAO DEL NORTE)",
+      "solar_kwh": 139.9468,
+      "wind_kwh": 90.0177,
+      "hydro_kwh": 2.024,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 310,
+      "name": "DAVAO DEL SUR",
+      "solar_kwh": 142.7604,
+      "wind_kwh": 133.3503,
+      "hydro_kwh": 6.349,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 311,
+      "name": "DAVAO OCCIDENTAL",
+      "solar_kwh": 131.1867,
+      "wind_kwh": 100.49,
+      "hydro_kwh": 20.046,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 312,
+      "name": "DAVAO ORIENTAL",
+      "solar_kwh": 132.0033,
+      "wind_kwh": 77.4972,
+      "hydro_kwh": 41.849,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 319,
+      "name": "DINAGAT ISLANDS",
+      "solar_kwh": 133.1763,
+      "wind_kwh": 181.9955,
+      "hydro_kwh": 7.427,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 295,
+      "name": "EASTERN SAMAR",
+      "solar_kwh": 134.6249,
+      "wind_kwh": 103.8462,
+      "hydro_kwh": 2.785,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 287,
+      "name": "GUIMARAS",
+      "solar_kwh": 146.7614,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.005,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 330,
+      "name": "IFUGAO",
+      "solar_kwh": 139.4252,
+      "wind_kwh": 0.0,
+      "hydro_kwh": 127.441,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 252,
+      "name": "ILOCOS NORTE",
+      "solar_kwh": 149.0391,
+      "wind_kwh": 187.5197,
+      "hydro_kwh": 9.964,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 253,
+      "name": "ILOCOS SUR",
+      "solar_kwh": 145.6164,
+      "wind_kwh": 117.9726,
+      "hydro_kwh": 27.363,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 288,
+      "name": "ILOILO",
+      "solar_kwh": 141.482,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 3.233,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 258,
+      "name": "ISABELA",
+      "solar_kwh": 136.0202,
+      "wind_kwh": 85.8316,
+      "hydro_kwh": 3.689,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 331,
+      "name": "KALINGA",
+      "solar_kwh": 137.3058,
+      "wind_kwh": 102.2228,
+      "hydro_kwh": 186.821,
+      "rec": "Hydropower"
+    },
+    {
+      "province_id": 254,
+      "name": "LA UNION",
+      "solar_kwh": 142.1391,
+      "wind_kwh": 78.4069,
+      "hydro_kwh": 15.013,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 270,
+      "name": "LAGUNA",
+      "solar_kwh": 136.779,
+      "wind_kwh": 137.5477,
+      "hydro_kwh": 4.504,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 305,
+      "name": "LANAO DEL NORTE",
+      "solar_kwh": 130.4194,
+      "wind_kwh": 64.6918,
+      "hydro_kwh": 5.806,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 323,
+      "name": "LANAO DEL SUR",
+      "solar_kwh": 128.9777,
+      "wind_kwh": 77.1522,
+      "hydro_kwh": 19.927,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 296,
+      "name": "LEYTE",
+      "solar_kwh": 131.5114,
+      "wind_kwh": 150.9207,
+      "hydro_kwh": 0.948,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 324,
+      "name": "MAGUINDANAO",
+      "solar_kwh": 147.2873,
+      "wind_kwh": 111.6645,
+      "hydro_kwh": 3.528,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 273,
+      "name": "MARINDUQUE",
+      "solar_kwh": 139.7975,
+      "wind_kwh": 170.5125,
+      "hydro_kwh": 1.677,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 282,
+      "name": "MASBATE",
+      "solar_kwh": 147.9226,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.013,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 306,
+      "name": "MISAMIS OCCIDENTAL",
+      "solar_kwh": 130.8938,
+      "wind_kwh": 133.6464,
+      "hydro_kwh": 5.64,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 307,
+      "name": "MISAMIS ORIENTAL",
+      "solar_kwh": 134.7548,
+      "wind_kwh": 133.0092,
+      "hydro_kwh": 3.999,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 338,
+      "name": "MOUNTAIN PROVINCE",
+      "solar_kwh": 141.8622,
+      "wind_kwh": 129.226,
+      "hydro_kwh": 136.446,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 340,
+      "name": "NCR - 1st DISTRICT (MANILA)",
+      "solar_kwh": 137.4341,
+      "wind_kwh": 83.997,
+      "hydro_kwh": 7.559,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 341,
+      "name": "NCR - 2nd DISTRICT",
+      "solar_kwh": 134.8282,
+      "wind_kwh": 83.997,
+      "hydro_kwh": 0.628,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 342,
+      "name": "NCR - 3rd DISTRICT",
+      "solar_kwh": 136.2272,
+      "wind_kwh": 87.7938,
+      "hydro_kwh": 0.401,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 339,
+      "name": "NCR - 4th DISTRICT",
+      "solar_kwh": 145.1639,
+      "wind_kwh": 127.4692,
+      "hydro_kwh": 0.218,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 289,
+      "name": "NEGROS OCCIDENTAL",
+      "solar_kwh": 133.15,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 8.914,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 292,
+      "name": "NEGROS ORIENTAL",
+      "solar_kwh": 138.6424,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 28.525,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 297,
+      "name": "NORTHERN SAMAR",
+      "solar_kwh": 141.4997,
+      "wind_kwh": 149.0483,
+      "hydro_kwh": 0.742,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 264,
+      "name": "NUEVA ECIJA",
+      "solar_kwh": 150.6827,
+      "wind_kwh": 151.5704,
+      "hydro_kwh": 0.452,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 259,
+      "name": "NUEVA VIZCAYA",
+      "solar_kwh": 132.1583,
+      "wind_kwh": 114.4831,
+      "hydro_kwh": 23.621,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 274,
+      "name": "OCCIDENTAL MINDORO",
+      "solar_kwh": 135.4675,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 43.49,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 275,
+      "name": "ORIENTAL MINDORO",
+      "solar_kwh": 136.4481,
+      "wind_kwh": 126.5744,
+      "hydro_kwh": 18.29,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 276,
+      "name": "PALAWAN",
+      "solar_kwh": 139.1854,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.297,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 265,
+      "name": "PAMPANGA",
+      "solar_kwh": 149.3954,
+      "wind_kwh": 137.1768,
+      "hydro_kwh": 0.31,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 255,
+      "name": "PANGASINAN",
+      "solar_kwh": 154.5464,
+      "wind_kwh": 122.6508,
+      "hydro_kwh": 1.573,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 271,
+      "name": "QUEZON",
+      "solar_kwh": 137.924,
+      "wind_kwh": 118.7175,
+      "hydro_kwh": 0.599,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 260,
+      "name": "QUIRINO",
+      "solar_kwh": 131.8711,
+      "wind_kwh": 90.4861,
+      "hydro_kwh": 26.123,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 272,
+      "name": "RIZAL",
+      "solar_kwh": 139.713,
+      "wind_kwh": 112.3669,
+      "hydro_kwh": 11.306,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 277,
+      "name": "ROMBLON",
+      "solar_kwh": 146.6292,
+      "wind_kwh": 190.08,
+      "hydro_kwh": 0.063,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 298,
+      "name": "SAMAR (WESTERN SAMAR)",
+      "solar_kwh": 135.6105,
+      "wind_kwh": 98.3953,
+      "hydro_kwh": 2.613,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 314,
+      "name": "SARANGANI",
+      "solar_kwh": 133.5319,
+      "wind_kwh": 107.9991,
+      "hydro_kwh": 14.595,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 293,
+      "name": "SIQUIJOR",
+      "solar_kwh": 146.9117,
+      "wind_kwh": 179.6927,
+      "hydro_kwh": 2.857,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 283,
+      "name": "SORSOGON",
+      "solar_kwh": 140.2572,
+      "wind_kwh": 126.0062,
+      "hydro_kwh": 0.384,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 315,
+      "name": "SOUTH COTABATO",
+      "solar_kwh": 128.9378,
+      "wind_kwh": 83.4842,
+      "hydro_kwh": 9.25,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 299,
+      "name": "SOUTHERN LEYTE",
+      "solar_kwh": 134.5523,
+      "wind_kwh": 151.6614,
+      "hydro_kwh": 1.587,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 316,
+      "name": "SULTAN KUDARAT",
+      "solar_kwh": 129.0875,
+      "wind_kwh": 122.4691,
+      "hydro_kwh": 12.617,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 325,
+      "name": "SULU",
+      "solar_kwh": 141.3371,
+      "wind_kwh": 89.5367,
+      "hydro_kwh": 0.557,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 320,
+      "name": "SURIGAO DEL NORTE",
+      "solar_kwh": 134.3757,
+      "wind_kwh": 155.4348,
+      "hydro_kwh": 1.889,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 321,
+      "name": "SURIGAO DEL SUR",
+      "solar_kwh": 137.3141,
+      "wind_kwh": 162.9043,
+      "hydro_kwh": 21.531,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 266,
+      "name": "TARLAC",
+      "solar_kwh": 152.1678,
+      "wind_kwh": 98.3869,
+      "hydro_kwh": 0.919,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 326,
+      "name": "TAWI-TAWI",
+      "solar_kwh": 140.7204,
+      "wind_kwh": 153.3306,
+      "hydro_kwh": 0.641,
+      "rec": "Wind"
+    },
+    {
+      "province_id": 267,
+      "name": "ZAMBALES",
+      "solar_kwh": 140.7267,
+      "wind_kwh": 120.9017,
+      "hydro_kwh": 11.676,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 300,
+      "name": "ZAMBOANGA DEL NORTE",
+      "solar_kwh": 131.8573,
+      "wind_kwh": 113.3608,
+      "hydro_kwh": 11.564,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 301,
+      "name": "ZAMBOANGA DEL SUR",
+      "solar_kwh": 137.8129,
+      "wind_kwh": 71.9586,
+      "hydro_kwh": 7.046,
+      "rec": "Solar"
+    },
+    {
+      "province_id": 302,
+      "name": "ZAMBOANGA SIBUGAY",
+      "solar_kwh": 138.8954,
+      "wind_kwh": 83.0027,
+      "hydro_kwh": 1.796,
+      "rec": "Solar"
+    }
+  ],
+  "errors": [
+    {
+      "name": "City of Angeles",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Bacolod",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Baguio",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Butuan",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Cagayan De Oro",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Caloocan",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of General Santos",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Iligan",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Lapu-Lapu",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Las Pi\u00c3\u00b1as",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Lucena",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Makati",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Malabon",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Mandaluyong",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Mandaue",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Manila",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Marikina",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Muntinlupa",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Navotas",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Olongapo",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Para\u00c3\u00b1aque",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Pasig",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Puerto Princesa",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of San Juan",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Tacloban",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Taguig",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Valenzuela",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "City of Zamboanga",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "COTABATO (NORTH COT.)",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Davao de Oro",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Davao del Norte",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Maguindanao del Sur",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Pasay City",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Quezon City",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Special Geographic Area",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "TAGUIG-PATEROS",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

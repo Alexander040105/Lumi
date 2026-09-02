@@ -1,0 +1,121 @@
+province_id,province,mode,recommended_source,solar_kwh,wind_kwh,hydro_kwh,nearby_wind_count,nearby_hydro_count,wind_generation_scale,hydro_generation_scale,error
+327,ABRA,generation,Solar,151.1148,117.9726,45.973,0,0,1.0,1.0,
+317,AGUSAN DEL NORTE,generation,Hydropower,124.9204,141.3582,216.3054,0,2,1.0,1.114,
+318,AGUSAN DEL SUR,generation,Wind,134.1797,136.495,1.467,0,0,1.0,1.0,
+284,AKLAN,generation,Wind,130.8079,151.0416,2.933,1,0,1.092,1.0,
+278,ALBAY,generation,Wind,137.7375,183.6157,35.582,0,0,1.0,1.0,
+285,ANTIQUE,generation,Wind,132.9341,190.08,18.725,0,0,1.0,1.0,
+328,APAYAO,generation,Solar,127.5571,114.2347,36.849,0,0,1.0,1.0,
+261,AURORA,generation,Solar,129.9458,76.4231,21.405,0,0,1.0,1.0,
+322,BASILAN,generation,Wind,133.7808,137.1677,0.559,0,0,1.0,1.0,
+262,BATAAN,generation,Solar,149.926,141.7194,9.8167,0,1,1.0,1.463,
+256,BATANES,generation,Wind,134.7732,190.08,2.84,0,0,1.0,1.0,
+268,BATANGAS,generation,Solar,144.7388,141.5756,8.397,0,0,1.0,1.0,
+329,BENGUET,generation,Hydropower,142.6159,150.7506,213.5635,0,1,1.0,1.287,
+294,BILIRAN,generation,Wind,135.4586,142.3119,0.035,0,0,1.0,1.0,
+290,BOHOL,generation,Wind,135.3497,145.3973,1.158,0,0,1.0,1.0,
+303,BUKIDNON,generation,Solar,133.3607,77.8698,26.4417,0,1,1.0,1.006,
+263,BULACAN,generation,Solar,135.4358,134.9691,0.7022,0,1,1.0,1.463,
+257,CAGAYAN,generation,Solar,141.7449,114.2347,3.262,0,0,1.0,1.0,
+279,CAMARINES NORTE,generation,Wind,132.116,133.1937,5.182,0,0,1.0,1.0,
+280,CAMARINES SUR,generation,Wind,135.7569,190.08,25.899,0,0,1.0,1.0,
+304,CAMIGUIN,generation,Wind,136.444,190.08,0.471,0,0,1.0,1.0,
+286,CAPIZ,generation,Solar,133.8865,102.7658,0.799,0,0,1.0,1.0,
+281,CATANDUANES,generation,Wind,139.8376,190.08,26.1135,0,1,1.0,1.014,
+269,CAVITE,generation,Wind,142.709,190.08,4.519,0,0,1.0,1.0,
+291,CEBU,generation,Wind,137.7934,190.08,0.161,0,0,1.0,1.0,
+344,City of Angeles,generation,,,,,,,,,404: No municipalities found for this province.
+375,City of Bacolod,generation,,,,,,,,,404: No municipalities found for this province.
+373,City of Baguio,generation,,,,,,,,,404: No municipalities found for this province.
+372,City of Butuan,generation,,,,,,,,,404: No municipalities found for this province.
+351,City of Cagayan De Oro,generation,,,,,,,,,404: No municipalities found for this province.
+356,City of Caloocan,generation,,,,,,,,,404: No municipalities found for this province.
+355,City of General Santos,generation,,,,,,,,,404: No municipalities found for this province.
+352,City of Iligan,generation,,,,,,,,,404: No municipalities found for this province.
+347,City of Lapu-Lapu,generation,,,,,,,,,404: No municipalities found for this province.
+357,City of Las PiÃ±as,generation,,,,,,,,,404: No municipalities found for this province.
+346,City of Lucena,generation,,,,,,,,,404: No municipalities found for this province.
+358,City of Makati,generation,,,,,,,,,404: No municipalities found for this province.
+359,City of Malabon,generation,,,,,,,,,404: No municipalities found for this province.
+360,City of Mandaluyong,generation,,,,,,,,,404: No municipalities found for this province.
+348,City of Mandaue,generation,,,,,,,,,404: No municipalities found for this province.
+361,City of Manila,generation,,,,,,,,,404: No municipalities found for this province.
+362,City of Marikina,generation,,,,,,,,,404: No municipalities found for this province.
+363,City of Muntinlupa,generation,,,,,,,,,404: No municipalities found for this province.
+364,City of Navotas,generation,,,,,,,,,404: No municipalities found for this province.
+345,City of Olongapo,generation,,,,,,,,,404: No municipalities found for this province.
+365,City of ParaÃ±aque,generation,,,,,,,,,404: No municipalities found for this province.
+367,City of Pasig,generation,,,,,,,,,404: No municipalities found for this province.
+374,City of Puerto Princesa,generation,,,,,,,,,404: No municipalities found for this province.
+369,City of San Juan,generation,,,,,,,,,404: No municipalities found for this province.
+349,City of Tacloban,generation,,,,,,,,,404: No municipalities found for this province.
+370,City of Taguig,generation,,,,,,,,,404: No municipalities found for this province.
+371,City of Valenzuela,generation,,,,,,,,,404: No municipalities found for this province.
+350,City of Zamboanga,generation,,,,,,,,,404: No municipalities found for this province.
+308,COMPOSTELA VALLEY,generation,Solar,129.1664,118.0574,38.547,0,0,1.0,1.0,
+313,COTABATO (NORTH COT.),generation,,,,,,,,,404: No climate average data found for this province.
+309,DAVAO (DAVAO DEL NORTE),generation,Solar,139.9468,90.0177,2.024,0,0,1.0,1.0,
+354,Davao de Oro,generation,,,,,,,,,404: No municipalities found for this province.
+353,Davao del Norte,generation,,,,,,,,,404: No municipalities found for this province.
+310,DAVAO DEL SUR,generation,Solar,142.7604,133.3503,6.349,0,0,1.0,1.0,
+311,DAVAO OCCIDENTAL,generation,Solar,131.1867,100.49,20.046,0,0,1.0,1.0,
+312,DAVAO ORIENTAL,generation,Solar,132.0033,77.4972,41.849,0,0,1.0,1.0,
+319,DINAGAT ISLANDS,generation,Wind,133.1763,181.9955,7.427,0,0,1.0,1.0,
+295,EASTERN SAMAR,generation,Solar,134.6249,103.8462,2.785,0,0,1.0,1.0,
+287,GUIMARAS,generation,Wind,146.7614,214.7904,0.005,1,0,1.13,1.0,
+330,IFUGAO,generation,Hydropower,139.4252,0.0,205.18,0,1,1.0,1.61,
+252,ILOCOS NORTE,generation,Wind,149.0391,260.2773,12.3055,3,1,1.388,1.235,
+253,ILOCOS SUR,generation,Solar,145.6164,117.9726,27.363,0,0,1.0,1.0,
+288,ILOILO,generation,Wind,141.482,190.08,3.233,0,0,1.0,1.0,
+258,ISABELA,generation,Solar,136.0202,85.8316,5.9393,0,1,1.0,1.61,
+331,KALINGA,generation,Hydropower,137.3058,102.2228,186.821,0,0,1.0,1.0,
+254,LA UNION,generation,Solar,142.1391,78.4069,15.2232,0,1,1.0,1.014,
+270,LAGUNA,generation,Wind,136.779,137.5477,4.504,0,0,1.0,1.0,
+305,LANAO DEL NORTE,generation,Solar,130.4194,64.6918,5.806,0,0,1.0,1.0,
+323,LANAO DEL SUR,generation,Solar,128.9777,77.1522,24.6098,0,1,1.0,1.235,
+296,LEYTE,generation,Wind,131.5114,150.9207,0.948,0,0,1.0,1.0,
+324,MAGUINDANAO,generation,Solar,147.2873,111.6645,3.528,0,0,1.0,1.0,
+376,Maguindanao del Sur,generation,,,,,,,,,404: No municipalities found for this province.
+273,MARINDUQUE,generation,Wind,139.7975,170.5125,1.677,0,0,1.0,1.0,
+282,MASBATE,generation,Wind,147.9226,190.08,0.013,0,0,1.0,1.0,
+306,MISAMIS OCCIDENTAL,generation,Wind,130.8938,133.6464,5.64,0,0,1.0,1.0,
+307,MISAMIS ORIENTAL,generation,Solar,134.7548,133.0092,4.023,0,1,1.0,1.006,
+338,MOUNTAIN PROVINCE,generation,Hydropower,141.8622,129.226,219.6781,0,1,1.0,1.61,
+340,NCR - 1st DISTRICT (MANILA),generation,Solar,137.4341,83.997,7.559,0,0,1.0,1.0,
+341,NCR - 2nd DISTRICT,generation,Solar,134.8282,83.997,0.628,0,0,1.0,1.0,
+342,NCR - 3rd DISTRICT,generation,Solar,136.2272,87.7938,0.401,0,0,1.0,1.0,
+339,NCR - 4th DISTRICT,generation,Solar,145.1639,127.4692,0.218,0,0,1.0,1.0,
+289,NEGROS OCCIDENTAL,generation,Wind,133.15,190.08,8.914,0,0,1.0,1.0,
+292,NEGROS ORIENTAL,generation,Wind,138.6424,190.08,28.525,0,0,1.0,1.0,
+297,NORTHERN SAMAR,generation,Wind,141.4997,149.0483,0.742,0,0,1.0,1.0,
+264,NUEVA ECIJA,generation,Wind,150.6827,151.5704,0.6043,0,1,1.0,1.337,
+259,NUEVA VIZCAYA,generation,Solar,132.1583,114.4831,23.621,0,0,1.0,1.0,
+274,OCCIDENTAL MINDORO,generation,Wind,135.4675,190.08,43.49,0,0,1.0,1.0,
+275,ORIENTAL MINDORO,generation,Solar,136.4481,126.5744,18.5095,0,1,1.0,1.012,
+276,PALAWAN,generation,Wind,139.1854,190.08,0.297,0,0,1.0,1.0,
+265,PAMPANGA,generation,Solar,149.3954,137.1768,0.31,0,0,1.0,1.0,
+255,PANGASINAN,generation,Solar,154.5464,122.6508,1.573,0,0,1.0,1.0,
+366,Pasay City,generation,,,,,,,,,404: No municipalities found for this province.
+271,QUEZON,generation,Solar,137.924,118.7175,0.599,0,0,1.0,1.0,
+368,Quezon City,generation,,,,,,,,,404: No municipalities found for this province.
+260,QUIRINO,generation,Solar,131.8711,90.4861,26.123,0,0,1.0,1.0,
+272,RIZAL,generation,Solar,139.713,126.9746,11.306,1,0,1.13,1.0,
+277,ROMBLON,generation,Wind,146.6292,190.08,0.063,0,0,1.0,1.0,
+298,SAMAR (WESTERN SAMAR),generation,Solar,135.6105,98.3953,2.613,0,0,1.0,1.0,
+314,SARANGANI,generation,Solar,133.5319,107.9991,14.595,0,0,1.0,1.0,
+293,SIQUIJOR,generation,Wind,146.9117,179.6927,2.857,0,0,1.0,1.0,
+283,SORSOGON,generation,Solar,140.2572,126.0062,0.384,0,0,1.0,1.0,
+315,SOUTH COTABATO,generation,Solar,128.9378,83.4842,9.25,0,0,1.0,1.0,
+299,SOUTHERN LEYTE,generation,Wind,134.5523,151.6614,1.587,0,0,1.0,1.0,
+377,Special Geographic Area,generation,,,,,,,,,404: No municipalities found for this province.
+316,SULTAN KUDARAT,generation,Solar,129.0875,122.4691,12.617,0,0,1.0,1.0,
+325,SULU,generation,Solar,141.3371,89.5367,0.557,0,0,1.0,1.0,
+320,SURIGAO DEL NORTE,generation,Wind,134.3757,155.4348,2.1043,0,2,1.0,1.114,
+321,SURIGAO DEL SUR,generation,Wind,137.3141,162.9043,21.531,0,0,1.0,1.0,
+343,TAGUIG-PATEROS,generation,,,,,,,,,404: No municipalities found for this province.
+266,TARLAC,generation,Solar,152.1678,98.3869,0.919,0,0,1.0,1.0,
+326,TAWI-TAWI,generation,Wind,140.7204,153.3306,0.641,0,0,1.0,1.0,
+267,ZAMBALES,generation,Solar,140.7267,120.9017,17.082,0,1,1.0,1.463,
+300,ZAMBOANGA DEL NORTE,generation,Solar,131.8573,113.3608,11.564,0,0,1.0,1.0,
+301,ZAMBOANGA DEL SUR,generation,Solar,137.8129,71.9586,7.046,0,0,1.0,1.0,
+302,ZAMBOANGA SIBUGAY,generation,Solar,138.8954,83.0027,1.796,0,0,1.0,1.0,

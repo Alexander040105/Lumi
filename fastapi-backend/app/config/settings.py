@@ -73,11 +73,68 @@ class Settings(BaseSettings):
     # Wind shear exponent (1/7 power law, per NREL Philippines Wind Atlas)
     wind_shear_exponent: float = 0.143
 
+    # Household wind turbine power curve. The rotor radius is set to a
+    # small-turbine size (≈5.5 m diameter) while the rated power is capped
+    # at a household inverter/generator rating (1.2 kW). This gives a
+    # realistic low-wind-optimized household unit.
+    household_wind_rated_power_kw: float = 1.2
+    household_wind_cut_in_mps: float = 3.0
+    household_wind_rated_mps: float = 11.0
+    household_wind_cut_out_mps: float = 25.0
+    household_wind_capacity_factor: float = 0.22
+    household_wind_rotor_radius_m: float = 6.2
+    household_wind_power_coefficient: float | None = None
+
     # Hydro head factor (fraction of municipal elevation drop usable for
-    # a single household run-of-river scheme; was 0.12, now 0.20)
-    household_hydro_head_factor: float = 0.20
+    # a single household run-of-river scheme; was 0.12, now 0.50)
+    household_hydro_head_factor: float = 0.50
     # Hydro catchment area in km² (typical household micro-hydro: 0.05–1.0 km²)
-    household_hydro_catchment_km2: float = 1.0
+    household_hydro_catchment_km2: float = 2.0
+    # Fraction of average stream flow usable for power after environmental
+    # reserve (0.40–0.80 typical for run-of-river micro-hydro)
+    household_hydro_design_flow_factor: float = 0.80
+    # Maximum realistic household-accessible head in meters (stream-derived)
+    household_hydro_max_head_m: float = 30.0
+    # Household micro-hydro turbine and generator efficiency
+    household_hydro_turbine_efficiency: float = 0.85
+    household_hydro_generator_efficiency: float = 0.95
+
+    # Wikipedia wind/hydro plant recalibration
+    # Boosts wind/hydro suitability for municipalities or provinces near
+    # operating wind or hydro power plants.
+    wind_plants_boost_enabled: bool = True
+    wind_plants_boost_radius_km: float = 25.0
+    wind_plants_max_bonus: float = 25.0
+    wind_plants_generation_scale_factor: float = 0.3
+    wind_plants_max_generation_scale: float = 1.5
+    hydro_plants_boost_enabled: bool = True
+    hydro_plants_boost_radius_km: float = 50.0
+    hydro_plants_max_bonus: float = 25.0
+    hydro_plants_generation_scale_factor: float = 0.6
+    hydro_plants_max_generation_scale: float = 2.5
+    # "suitability" = score boost; "generation" = scale household output.
+    wind_hydro_plant_boost_mode: str = "generation"
+    # Hydro plant output floor for proven hydro provinces (Approach C+).
+    # The floor uses sqrt(total operating capacity MW) to set a minimum
+    # plausible household micro-hydro output without a 1:1 MW-to-kWh conversion.
+    hydro_plant_floor_enabled: bool = True
+    hydro_plant_floor_factor: float = 15.0
+    hydro_plant_max_floor_kwh: float = 150.0
+    hydro_plant_absolute_cap_kwh: float = 250.0
+    hydro_plant_floor_provinces: list[str] = [
+        "Agusan del Norte",
+        "Benguet",
+        "Bukidnon",
+        "Bulacan",
+        "Catanduanes",
+        "Ilocos Norte",
+        "Isabela",
+        "La Union",
+        "Lanao del Sur",
+        "Mountain Province",
+        "Nueva Ecija",
+        "Oriental Mindoro",
+    ]
 
     # Catchment enrichment (Boothroyd et al. 2023, PMC9994713)
     # When enabled, EcoSim uses real Philippine catchment morphology and
@@ -86,7 +143,7 @@ class Settings(BaseSettings):
     # Assumed penstock length for stream-gradient-derived head (meters)
     household_hydro_penstock_length_m: float = 100.0
     # Household draws from this fraction of the full basin area
-    household_hydro_catchment_fraction: float = 0.001
+    household_hydro_catchment_fraction: float = 0.002
     # Beyond this distance to nearest stream, feasibility penalty floors at 0.1
     household_hydro_stream_max_distance_m: float = 10000.0
     # Enrichment data version (bumped when enrichment data is regenerated)

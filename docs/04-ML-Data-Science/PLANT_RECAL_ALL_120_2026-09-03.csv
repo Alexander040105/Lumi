@@ -1,0 +1,121 @@
+error,hydro_generation_scale,hydro_kwh,hydro_output_floor,nearby_hydro_count,nearby_wind_count,province,province_id,recommended_source,solar_kwh,wind_generation_scale,wind_kwh
+,1.0,45.973,0.0,0,0,ABRA,327,Solar,151.1148,1.0,117.9726
+,1.171,227.3731,86.04,2,0,AGUSAN DEL NORTE,317,Hydropower,124.9204,1.0,141.3582
+,1.0,1.467,0.0,0,0,AGUSAN DEL SUR,318,Wind,134.1797,1.0,136.495
+,1.0,2.933,0.0,0,1,AKLAN,284,Wind,130.8079,1.092,151.0416
+,1.0,35.582,0.0,0,0,ALBAY,278,Wind,137.7375,1.0,183.6157
+,1.0,18.725,0.0,0,0,ANTIQUE,285,Wind,132.9341,1.0,190.08
+,1.0,36.849,0.0,0,0,APAYAO,328,Solar,127.5571,1.0,114.2347
+,1.0,21.405,0.0,0,0,AURORA,261,Solar,129.9458,1.0,76.4231
+,1.0,0.559,0.0,0,0,BASILAN,322,Wind,133.7808,1.0,137.1677
+,1.694,11.3667,0.0,1,0,BATAAN,262,Solar,149.926,1.0,141.7194
+,1.0,2.84,0.0,0,0,BATANES,256,Wind,134.7732,1.0,190.08
+,1.0,8.397,0.0,0,0,BATANGAS,268,Solar,144.7388,1.0,141.5756
+,1.431,237.4587,150.0,1,0,BENGUET,329,Hydropower,142.6159,1.0,150.7506
+,1.0,0.035,0.0,0,0,BILIRAN,294,Wind,135.4586,1.0,142.3119
+,1.0,1.158,0.0,0,0,BOHOL,290,Wind,135.3497,1.0,145.3973
+,1.01,26.5468,18.97,1,0,BUKIDNON,303,Solar,133.3607,1.0,77.8698
+,1.694,150.0,150.0,1,0,BULACAN,263,Hydropower,135.4358,1.0,134.9691
+,1.0,3.262,0.0,0,0,CAGAYAN,257,Solar,141.7449,1.0,114.2347
+,1.0,5.182,0.0,0,0,CAMARINES NORTE,279,Wind,132.116,1.0,133.1937
+,1.0,25.899,0.0,0,0,CAMARINES SUR,280,Wind,135.7569,1.0,190.08
+,1.0,0.471,0.0,0,0,CAMIGUIN,304,Wind,136.444,1.0,190.08
+,1.0,0.799,0.0,0,0,CAPIZ,286,Solar,133.8865,1.0,102.7658
+,1.021,28.46,28.46,1,0,CATANDUANES,281,Wind,139.8376,1.0,190.08
+,1.0,4.519,0.0,0,0,CAVITE,269,Wind,142.709,1.0,190.08
+,1.0,0.161,0.0,0,0,CEBU,291,Wind,137.7934,1.0,190.08
+404: No municipalities found for this province.,,,,,,City of Angeles,344,,,,
+404: No municipalities found for this province.,,,,,,City of Bacolod,375,,,,
+404: No municipalities found for this province.,,,,,,City of Baguio,373,,,,
+404: No municipalities found for this province.,,,,,,City of Butuan,372,,,,
+404: No municipalities found for this province.,,,,,,City of Cagayan De Oro,351,,,,
+404: No municipalities found for this province.,,,,,,City of Caloocan,356,,,,
+404: No municipalities found for this province.,,,,,,City of General Santos,355,,,,
+404: No municipalities found for this province.,,,,,,City of Iligan,352,,,,
+404: No municipalities found for this province.,,,,,,City of Lapu-Lapu,347,,,,
+404: No municipalities found for this province.,,,,,,City of Las PiÃ±as,357,,,,
+404: No municipalities found for this province.,,,,,,City of Lucena,346,,,,
+404: No municipalities found for this province.,,,,,,City of Makati,358,,,,
+404: No municipalities found for this province.,,,,,,City of Malabon,359,,,,
+404: No municipalities found for this province.,,,,,,City of Mandaluyong,360,,,,
+404: No municipalities found for this province.,,,,,,City of Mandaue,348,,,,
+404: No municipalities found for this province.,,,,,,City of Manila,361,,,,
+404: No municipalities found for this province.,,,,,,City of Marikina,362,,,,
+404: No municipalities found for this province.,,,,,,City of Muntinlupa,363,,,,
+404: No municipalities found for this province.,,,,,,City of Navotas,364,,,,
+404: No municipalities found for this province.,,,,,,City of Olongapo,345,,,,
+404: No municipalities found for this province.,,,,,,City of ParaÃ±aque,365,,,,
+404: No municipalities found for this province.,,,,,,City of Pasig,367,,,,
+404: No municipalities found for this province.,,,,,,City of Puerto Princesa,374,,,,
+404: No municipalities found for this province.,,,,,,City of San Juan,369,,,,
+404: No municipalities found for this province.,,,,,,City of Tacloban,349,,,,
+404: No municipalities found for this province.,,,,,,City of Taguig,370,,,,
+404: No municipalities found for this province.,,,,,,City of Valenzuela,371,,,,
+404: No municipalities found for this province.,,,,,,City of Zamboanga,350,,,,
+,1.0,38.547,0.0,0,0,COMPOSTELA VALLEY,308,Solar,129.1664,1.0,118.0574
+404: No climate average data found for this province.,,,,,,COTABATO (NORTH COT.),313,,,,
+,1.0,2.024,0.0,0,0,DAVAO (DAVAO DEL NORTE),309,Solar,139.9468,1.0,90.0177
+404: No municipalities found for this province.,,,,,,Davao de Oro,354,,,,
+404: No municipalities found for this province.,,,,,,Davao del Norte,353,,,,
+,1.0,6.349,0.0,0,0,DAVAO DEL SUR,310,Solar,142.7604,1.0,133.3503
+,1.0,20.046,0.0,0,0,DAVAO OCCIDENTAL,311,Solar,131.1867,1.0,100.49
+,1.0,41.849,0.0,0,0,DAVAO ORIENTAL,312,Solar,132.0033,1.0,77.4972
+,1.0,7.427,0.0,0,0,DINAGAT ISLANDS,319,Wind,133.1763,1.0,181.9955
+,1.0,2.785,0.0,0,0,EASTERN SAMAR,295,Solar,134.6249,1.0,103.8462
+,1.0,0.005,0.0,0,1,GUIMARAS,287,Wind,146.7614,1.13,214.7904
+,1.916,244.177,0.0,1,0,IFUGAO,330,Hydropower,139.4252,1.0,0.0
+,1.353,134.16,134.16,1,3,ILOCOS NORTE,252,Wind,149.0391,1.388,260.2773
+,1.0,27.363,0.0,0,0,ILOCOS SUR,253,Solar,145.6164,1.0,117.9726
+,1.0,3.233,0.0,0,0,ILOILO,288,Wind,141.482,1.0,190.08
+,1.916,150.0,150.0,1,0,ISABELA,258,Hydropower,136.0202,1.0,85.8316
+,1.0,186.821,0.0,0,0,KALINGA,331,Hydropower,137.3058,1.0,102.2228
+,1.021,28.46,28.46,1,0,LA UNION,254,Solar,142.1391,1.0,78.4069
+,1.0,4.504,0.0,0,0,LAGUNA,270,Wind,136.779,1.0,137.5477
+,1.0,5.806,0.0,0,0,LANAO DEL NORTE,305,Solar,130.4194,1.0,64.6918
+,1.353,134.16,134.16,1,0,LANAO DEL SUR,323,Hydropower,128.9777,1.0,77.1522
+,1.0,0.948,0.0,0,0,LEYTE,296,Wind,131.5114,1.0,150.9207
+,1.0,3.528,0.0,0,0,MAGUINDANAO,324,Solar,147.2873,1.0,111.6645
+404: No municipalities found for this province.,,,,,,Maguindanao del Sur,376,,,,
+,1.0,1.677,0.0,0,0,MARINDUQUE,273,Wind,139.7975,1.0,170.5125
+,1.0,0.013,0.0,0,0,MASBATE,282,Wind,147.9226,1.0,190.08
+,1.0,5.64,0.0,0,0,MISAMIS OCCIDENTAL,306,Wind,130.8938,1.0,133.6464
+,1.01,4.039,0.0,1,0,MISAMIS ORIENTAL,307,Solar,134.7548,1.0,133.0092
+,1.916,250.0,150.0,1,0,MOUNTAIN PROVINCE,338,Hydropower,141.8622,1.0,129.226
+,1.0,7.559,0.0,0,0,NCR - 1st DISTRICT (MANILA),340,Solar,137.4341,1.0,83.997
+,1.0,0.628,0.0,0,0,NCR - 2nd DISTRICT,341,Solar,134.8282,1.0,83.997
+,1.0,0.401,0.0,0,0,NCR - 3rd DISTRICT,342,Solar,136.2272,1.0,87.7938
+,1.0,0.218,0.0,0,0,NCR - 4th DISTRICT,339,Solar,145.1639,1.0,127.4692
+,1.0,8.914,0.0,0,0,NEGROS OCCIDENTAL,289,Wind,133.15,1.0,190.08
+,1.0,28.525,0.0,0,0,NEGROS ORIENTAL,292,Wind,138.6424,1.0,190.08
+,1.0,0.742,0.0,0,0,NORTHERN SAMAR,297,Wind,141.4997,1.0,149.0483
+,1.505,150.0,150.0,1,0,NUEVA ECIJA,264,Wind,150.6827,1.0,151.5704
+,1.0,23.621,0.0,0,0,NUEVA VIZCAYA,259,Solar,132.1583,1.0,114.4831
+,1.0,43.49,0.0,0,0,OCCIDENTAL MINDORO,274,Wind,135.4675,1.0,190.08
+,1.018,25.98,25.98,1,0,ORIENTAL MINDORO,275,Solar,136.4481,1.0,126.5744
+,1.0,0.297,0.0,0,0,PALAWAN,276,Wind,139.1854,1.0,190.08
+,1.0,0.31,0.0,0,0,PAMPANGA,265,Solar,149.3954,1.0,137.1768
+,1.0,1.573,0.0,0,0,PANGASINAN,255,Solar,154.5464,1.0,122.6508
+404: No municipalities found for this province.,,,,,,Pasay City,366,,,,
+,1.0,0.599,0.0,0,0,QUEZON,271,Solar,137.924,1.0,118.7175
+404: No municipalities found for this province.,,,,,,Quezon City,368,,,,
+,1.0,26.123,0.0,0,0,QUIRINO,260,Solar,131.8711,1.0,90.4861
+,1.0,11.306,0.0,0,1,RIZAL,272,Solar,139.713,1.13,126.9746
+,1.0,0.063,0.0,0,0,ROMBLON,277,Wind,146.6292,1.0,190.08
+,1.0,2.613,0.0,0,0,SAMAR (WESTERN SAMAR),298,Solar,135.6105,1.0,98.3953
+,1.0,14.595,0.0,0,0,SARANGANI,314,Solar,133.5319,1.0,107.9991
+,1.0,2.857,0.0,0,0,SIQUIJOR,293,Wind,146.9117,1.0,179.6927
+,1.0,0.384,0.0,0,0,SORSOGON,283,Solar,140.2572,1.0,126.0062
+,1.0,9.25,0.0,0,0,SOUTH COTABATO,315,Solar,128.9378,1.0,83.4842
+,1.0,1.587,0.0,0,0,SOUTHERN LEYTE,299,Wind,134.5523,1.0,151.6614
+404: No municipalities found for this province.,,,,,,Special Geographic Area,377,,,,
+,1.0,12.617,0.0,0,0,SULTAN KUDARAT,316,Solar,129.0875,1.0,122.4691
+,1.0,0.557,0.0,0,0,SULU,325,Solar,141.3371,1.0,89.5367
+,1.171,2.212,0.0,2,0,SURIGAO DEL NORTE,320,Wind,134.3757,1.0,155.4348
+,1.0,21.531,0.0,0,0,SURIGAO DEL SUR,321,Wind,137.3141,1.0,162.9043
+404: No municipalities found for this province.,,,,,,TAGUIG-PATEROS,343,,,,
+,1.0,0.919,0.0,0,0,TARLAC,266,Solar,152.1678,1.0,98.3869
+,1.0,0.641,0.0,0,0,TAWI-TAWI,326,Wind,140.7204,1.0,153.3306
+,1.694,19.7791,0.0,1,0,ZAMBALES,267,Solar,140.7267,1.0,120.9017
+,1.0,11.564,0.0,0,0,ZAMBOANGA DEL NORTE,300,Solar,131.8573,1.0,113.3608
+,1.0,7.046,0.0,0,0,ZAMBOANGA DEL SUR,301,Solar,137.8129,1.0,71.9586
+,1.0,1.796,0.0,0,0,ZAMBOANGA SIBUGAY,302,Solar,138.8954,1.0,83.0027

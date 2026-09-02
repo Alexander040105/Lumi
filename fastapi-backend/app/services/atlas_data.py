@@ -144,10 +144,20 @@ def get_atlas_for_province(province_id: int) -> dict[str, Any]:
 
 
 def _mean_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    """Compute the arithmetic mean of all numeric atlas columns."""
+    """Compute the arithmetic mean of all numeric atlas columns.
+
+    Excludes ID columns (e.g. municipality_id, province_id) so province-level
+    aggregation does not accidentally produce averaged float IDs and then
+    corrupt downstream schema validation.
+    """
     if not rows:
         return {}
-    numeric_cols = [k for k, v in rows[0].items() if isinstance(v, (int, float))]
+    excluded_id_cols = {"municipality_id", "province_id", "barangay_id", "id"}
+    numeric_cols = [
+        k
+        for k, v in rows[0].items()
+        if isinstance(v, (int, float)) and k not in excluded_id_cols
+    ]
     result: dict[str, Any] = {"municipality_count": len(rows), "data_source": "Global Solar Atlas / Global Wind Atlas"}
     for col in numeric_cols:
         values = [r[col] for r in rows if r[col] is not None]
