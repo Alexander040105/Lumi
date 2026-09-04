@@ -235,7 +235,7 @@ def get_municipality_data(
         municipality_name = municipality_result.data.get("name", municipality).upper()
         province_id = municipality_result.data.get("province_id")
     else:
-        municipality_name = municipality.upper()
+        municipality_name = (municipality or "").upper() or f"MUNICIPALITY {municipality_id}"
 
     municipality_data = _get_climate_for_municipality(municipality_id)
 
@@ -264,7 +264,7 @@ def get_municipality_data(
                 detail="Atlas data not available for this municipality.",
             )
 
-    if source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in municipality_data[0]):
+    if source in ("auto", "era5"):
         # ERA5 only has 10m wind in this file; use it when explicitly requested or as an auto fallback.
         era5 = get_era5_for_municipality(municipality_id)
         if era5:
@@ -279,7 +279,7 @@ def get_municipality_data(
                     if "era5_wind_speed_10m_ms" in municipality_data[0]
                     else previous_source
                 )
-        elif source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in municipality_data[0]):
+        elif source == "era5":
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="ERA5 data not available for this municipality.",
@@ -653,7 +653,7 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
                 detail="Atlas data not available for this province.",
             )
 
-    if source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in aggregated):
+    if source in ("auto", "era5"):
         province_era5 = get_era5_for_province(province_id)
         if province_era5:
             previous_source = aggregated.get("data_source", "NASA POWER")
@@ -665,7 +665,7 @@ def get_province_data(province_name: str, source: str = "auto") -> dict:
                     if "era5_wind_speed_10m_ms" in aggregated
                     else previous_source
                 )
-        elif source == "era5" or (source == "auto" and "wind_speed_100m_ms" not in aggregated):
+        elif source == "era5":
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="ERA5 data not available for this province.",

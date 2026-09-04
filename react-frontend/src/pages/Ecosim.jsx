@@ -273,7 +273,12 @@ export default function Ecosim() {
         loadAi();
       }
     } catch (err) {
-      setError(err?.message || t("ecosim.toasts.ecosimError"));
+      const network = err?.name === "TypeError" || err?.name === "AbortError" || (err?.message && /fetch|network|abort/i.test(err.message));
+      setError({
+        message: err?.message || t("ecosim.toasts.ecosimError"),
+        status: err?.status,
+        network,
+      });
     } finally {
       runningRef.current = false;
       setLoading(false);
@@ -395,8 +400,30 @@ export default function Ecosim() {
         <Card className="border-destructive text-destructive">
           <CardHeader>
             <CardTitle>{t("ecosim.errorCardTitle")}</CardTitle>
-            <CardDescription>{error}</CardDescription>
+            <CardDescription>
+              {error.network
+                ? "Could not reach the EcoSim server. Please check your connection and try again."
+                : error.status === 401 || error.status === 429
+                ? error.message
+                : error.status === 404
+                ? "We don't have data for this location yet. Try another municipality or province."
+                : error.status >= 500
+                ? `${error.message} (Request failed on the server — please try again.)`
+                : error.message}
+            </CardDescription>
           </CardHeader>
+          {(error.network || error.status >= 500) && (
+            <CardContent>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Retrying…" : "Try again"}
+              </Button>
+            </CardContent>
+          )}
         </Card>
       )}
 
