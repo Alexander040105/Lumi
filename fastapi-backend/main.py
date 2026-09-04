@@ -2,8 +2,9 @@ import asyncio
 import logging
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.config.settings import get_settings
 from app.middleware.rate_limit import RateLimitMiddleware
@@ -18,6 +19,35 @@ setup_logging(level=settings.log_level.upper())
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title=settings.app_name, version="0.1.0")
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    """Catch any unhandled exception, log it, and return a structured 500.
+
+    This is a last-resort safety net. It preserves the request ID so the
+    backend logs can be correlated with user-facing errors even when an
+    unexpected failure (e.g., a missing local data file) slips through.
+    """
+    request_id = getattr(request.state, "request_id", None)
+    logger.exception(
+        "Unhandled exception: %s",
+        exc,
+        extra={
+            "request_id": request_id,
+            "method": request.method,
+            "path": request.url.path,
+            "client_ip": request.client.host if request.client else None,
+        },
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "detail": "Server error. Please try again or contact support.",
+            "request_id": request_id,
+        },
+        headers={"X-Request-ID": request_id} if request_id else {},
+    )
 
 # Middleware order: add middleware in reverse order of desired wrapping.
 # The last added middleware becomes the outermost wrapper. We want CORS

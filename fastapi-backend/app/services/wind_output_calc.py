@@ -86,7 +86,16 @@ def load_wind_averages(csv_path: str | None = None) -> dict:
 			_wind_summary = _compute_wind_averages(path)
 			return _wind_summary
 
-	raise RuntimeError("Wind summary unavailable and local fallback disabled")
+	logger.warning("Wind summary unavailable; using default Betz parameters")
+	_wind_summary = {
+		"avg_rotor_radius_m": 6.2,
+		"avg_power_coefficient": 35.0,
+		"rotor_count": 0,
+		"cp_count": 0,
+		"summary_rotor": "Using default residential rotor radius; no product data could be loaded.",
+		"summary_cp": "Using default power coefficient; no product data could be loaded.",
+	}
+	return _wind_summary
 
 
 avg_rotor_radius_m = None

@@ -51,9 +51,12 @@ def get_atlas_for_municipality(municipality_id: int) -> dict[str, Any] | None:
         logger.warning("Could not fetch atlas data from Supabase: %s", exc)
 
     # CSV fallback
-    df = _load_csv()
-    if municipality_id in df.index:
-        return _df_row_to_dict(df.loc[municipality_id])
+    try:
+        df = _load_csv()
+        if municipality_id in df.index:
+            return _df_row_to_dict(df.loc[municipality_id])
+    except FileNotFoundError:
+        logger.warning("Municipality atlas CSV not available for fallback")
     return None
 
 
@@ -74,9 +77,13 @@ def get_atlas_for_municipality_ids(municipality_ids: list[int]) -> dict[int, dic
         logger.warning("Could not fetch atlas data from Supabase: %s", exc)
 
     # CSV fallback
-    df = _load_csv()
-    common = df.loc[df.index.intersection(municipality_ids)]
-    return {int(idx): _df_row_to_dict(row) for idx, row in common.iterrows()}
+    try:
+        df = _load_csv()
+        common = df.loc[df.index.intersection(municipality_ids)]
+        return {int(idx): _df_row_to_dict(row) for idx, row in common.iterrows()}
+    except FileNotFoundError:
+        logger.warning("Municipality atlas CSV not available for fallback")
+    return {}
 
 
 def _load_province_csv() -> pd.DataFrame:
@@ -105,9 +112,12 @@ def get_province_atlas(province_id: int) -> dict[str, Any] | None:
         logger.warning("Could not fetch province atlas data from Supabase: %s", exc)
 
     # CSV fallback
-    df = _load_province_csv()
-    if province_id in df.index:
-        return _df_row_to_dict(df.loc[province_id])
+    try:
+        df = _load_province_csv()
+        if province_id in df.index:
+            return _df_row_to_dict(df.loc[province_id])
+    except FileNotFoundError:
+        logger.warning("Province atlas CSV not available for fallback")
     return None
 
 
@@ -136,11 +146,15 @@ def get_atlas_for_province(province_id: int) -> dict[str, Any]:
         logger.warning("Could not fetch atlas data from Supabase: %s", exc)
 
     # CSV fallback
-    df = _load_csv()
-    province_df = df[df["province_id"] == province_id]
-    if province_df.empty:
-        return {}
-    return _mean_rows(province_df.reset_index().to_dict("records"))
+    try:
+        df = _load_csv()
+        province_df = df[df["province_id"] == province_id]
+        if province_df.empty:
+            return {}
+        return _mean_rows(province_df.reset_index().to_dict("records"))
+    except FileNotFoundError:
+        logger.warning("Municipality atlas CSV not available for province fallback")
+    return {}
 
 
 def _mean_rows(rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -204,9 +218,12 @@ def get_era5_for_municipality(municipality_id: int) -> dict[str, Any] | None:
     except Exception as exc:
         logger.warning("Could not fetch ERA5 data from Supabase: %s", exc)
 
-    df = _load_muni_era5_csv()
-    if municipality_id in df.index:
-        return _df_row_to_dict(df.loc[municipality_id])
+    try:
+        df = _load_muni_era5_csv()
+        if municipality_id in df.index:
+            return _df_row_to_dict(df.loc[municipality_id])
+    except FileNotFoundError:
+        logger.warning("Municipality ERA5 CSV not available for fallback")
     return None
 
 
@@ -226,7 +243,10 @@ def get_era5_for_province(province_id: int) -> dict[str, Any] | None:
     except Exception as exc:
         logger.warning("Could not fetch ERA5 data from Supabase: %s", exc)
 
-    df = _load_province_era5_csv()
-    if province_id in df.index:
-        return _df_row_to_dict(df.loc[province_id])
+    try:
+        df = _load_province_era5_csv()
+        if province_id in df.index:
+            return _df_row_to_dict(df.loc[province_id])
+    except FileNotFoundError:
+        logger.warning("Province ERA5 CSV not available for fallback")
     return None
