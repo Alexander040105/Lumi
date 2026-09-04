@@ -9,8 +9,9 @@
 /DOE_Data_Extracted/**
 !/DOE_Data_Extracted/data_v2_preprocessed/
 !/DOE_Data_Extracted/data_v2_preprocessed/**
+
+# Raw / dev / non-runtime directories
 /philippine_geojson/
-/fastapi-backend/app/services/local_data/
 /fastapi-backend/scripts/
 /fastapi-backend/tests/
 /windsurf_data_extraction/
@@ -32,3 +33,17 @@ __pycache__/
 .venv/
 node_modules/
 /react-frontend/dist
+
+# Large archive / geospatial / notebook / markdown files
+*.md
+*.ipynb
+*.tif
+*.grib
+*.zip
+
+# Heavy RAG / FAISS / wind product files not needed at runtime
+/fastapi-backend/app/services/local_data/rag_chunks.json
+/fastapi-backend/app/services/local_data/rag_knowledge_base.json
+/fastapi-backend/app/services/local_data/rag_faiss.index
+/fastapi-backend/app/services/local_data/wind_products_joined.csv
+/fastapi-backend/app/services/local_data/wind_products_joined_betz.csv

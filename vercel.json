@@ -11,7 +11,7 @@
     "api/index.py": {
       "maxDuration": 60,
       "memory": 1024,
-      "excludeFiles": "{__pycache__/**,*.pyc,*.pyo,.pytest_cache/**,fastapi-backend/scripts/**,fastapi-backend/tests/**,docs/**,*.md,*.ipynb,*.tif,*.grib,*.zip,fastapi-backend/app/services/local_data/rag_chunks.json,fastapi-backend/app/services/local_data/rag_knowledge_base.json,fastapi-backend/app/services/local_data/rag_faiss.index,fastapi-backend/app/services/local_data/wind_products_joined.csv,fastapi-backend/app/services/local_data/wind_products_joined_betz.csv}",
+      "excludeFiles": "{__pycache__/**,*.pyc,*.pyo,.pytest_cache/**}",
       "includeFiles": "{fastapi-backend/**,api/**,DOE_Data_Extracted/data_v2_preprocessed/**}"
     }
   }
