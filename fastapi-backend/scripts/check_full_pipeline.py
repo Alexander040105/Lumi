@@ -9,7 +9,7 @@ import os
 import sys
 from pathlib import Path
 
-_repo = Path(__file__).resolve().parents[3]
+_repo = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_repo / "fastapi-backend"))
 
 # ------------------------------------------------------------------

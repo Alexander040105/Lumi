@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "fastapi-backend"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "fastapi-backend"))
 
 from app.services.rag_gemini_funcs import _normalize_rag_output
 

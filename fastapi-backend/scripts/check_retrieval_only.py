@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "fastapi-backend"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "fastapi-backend"))
 
 from app.services import rag_pipeline
 

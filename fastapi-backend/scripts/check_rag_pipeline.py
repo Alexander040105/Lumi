@@ -14,7 +14,7 @@ import sys
 from pathlib import Path
 
 # Add repo root to path so imports work when running standalone
-_repo_root = Path(__file__).resolve().parents[3]
+_repo_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(_repo_root / "fastapi-backend"))
 
 from app.services.rag_knowledge_builder import build_knowledge_base, save_knowledge_base
