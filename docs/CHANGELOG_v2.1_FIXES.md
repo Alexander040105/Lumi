@@ -265,7 +265,7 @@
       return _redis_async
   ```
 
-### 3.6 SQL Schema (`supabase_tables_scripts/municipal_population.sql`)
+### 3.6 SQL Schema (`supabase/table_scripts/municipal_population.sql`)
 
 **Unique Constraint**
 - **Line 25-28:** Added `uq_municipal_population_unique`.
@@ -349,7 +349,7 @@
 | 17 | `app/routes/admin.py` | 24-35, 96-107, 173-190, 228-234, 477-488 | Security |
 | 18 | `app/routes/simulations.py` | 1-11, 33-34 | Security |
 | 19 | `app/services/redis_client.py` | 11-30 | Security |
-| 20 | `supabase_tables_scripts/municipal_population.sql` | 25-28 | Data Integrity |
+| 20 | `supabase/table_scripts/municipal_population.sql` | 25-28 | Data Integrity |
 | 21 | `react-frontend/src/pages/EnergyHub.jsx` | 253-276, 277 | Frontend |
 | 22 | `react-frontend/src/components/energyhub/ProvincialDemand.jsx` | 80-114 | Frontend |
 | 23 | `react-frontend/src/pages/Ecosim.jsx` | 925-944 | Frontend |

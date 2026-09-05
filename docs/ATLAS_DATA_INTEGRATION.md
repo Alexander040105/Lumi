@@ -29,9 +29,9 @@ LUMI now uses high-resolution **Global Solar Atlas (Solargis / World Bank)** and
 
 1. Run `python scripts/extract_centroids.py` and `python scripts/insert_geospatial_metadata.py` to refresh true polygon centroids.
 2. Run `python scripts/extract_atlas_values.py` to sample the rasters and produce `scripts/gap_output/municipality_atlas_averages.csv`.
-3. (Optional) Run `python scripts/ingest_atlas_averages.py` after creating the `municipality_atlas_averages` table via `supabase_tables_scripts/municipality_atlas_schema.sql`.
+3. (Optional) Run `python scripts/ingest_atlas_averages.py` after creating the `municipality_atlas_averages` table via `supabase/table_scripts/municipality_atlas_schema.sql`.
 4. Run `python scripts/update_municipality_suitability_from_atlas.py` to update the live map scores in the `municipalities` table.
-5. For provinces, create the `province_atlas_averages` table with `supabase_tables_scripts/province_atlas_schema.sql`, then run `python scripts/build_province_atlas_averages.py` and `python scripts/ingest_province_atlas_averages.py`.
+5. For provinces, create the `province_atlas_averages` table with `supabase/table_scripts/province_atlas_schema.sql`, then run `python scripts/build_province_atlas_averages.py` and `python scripts/ingest_province_atlas_averages.py`.
 6. The local CSV fallbacks at `fastapi-backend/app/services/local_data/` keep EcoSim working before the tables are created.
 
 ## Solar calculation

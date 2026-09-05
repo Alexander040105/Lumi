@@ -71,7 +71,7 @@ The primary objectives of the LUMI testing framework are to:
 
 ### 3.3 Database Testing
 
-**Approach:** Execute SQL assertions against a test PostgreSQL instance or an in-memory SQLite mirror of `lumischema.sql`.
+**Approach:** Execute SQL assertions against a test PostgreSQL instance or an in-memory SQLite mirror of `supabase/schema_structure/lumischema.sql`.
 
 **Why appropriate for LUMI:**
 - The schema contains composite keys, foreign key cascades, and CHECK constraints (e.g., month 1–12, year >= 2018).

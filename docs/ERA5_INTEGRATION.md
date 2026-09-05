@@ -35,8 +35,8 @@ Solar and hydro variables are not present in this file, so they continue to come
    - `fastapi-backend/app/services/local_data/municipality_era5_averages.csv`
    - `fastapi-backend/app/services/local_data/province_era5_averages.csv`
 3. Create the Supabase tables:
-   - `supabase_tables_scripts/municipality_era5_schema.sql`
-   - `supabase_tables_scripts/province_era5_schema.sql`
+   - `supabase/table_scripts/municipality_era5_schema.sql`
+   - `supabase/table_scripts/province_era5_schema.sql`
 4. Ingest:
    ```powershell
    .venv\Scripts\python.exe scripts/ingest_era5_averages.py

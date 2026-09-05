@@ -270,7 +270,7 @@ See `docs/VERCEL_DEPLOYMENT_GUIDE.md` for environment variables and step-by-step
 
 ### Docker Compose (self-hosted)
 
-For a containerized self-hosted deployment, this project is designed to run using Docker Compose. See `DEPLOYMENT_GUIDE.md` for a detailed setup.
+For a containerized self-hosted deployment, this project is designed to run using Docker Compose. See `docs/05-Setup-Guides/DEPLOYMENT_GUIDE.md` for a detailed setup.
 
 ### Database & Cache
 

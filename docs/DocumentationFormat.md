@@ -59,25 +59,25 @@
 
 | Row / Item | Source Commit / File | Evidence Location |
 | --- | --- | --- |
-| T-01, T-02, T-03 (unit tests) | `8b4ba13` (pytest setup); `CHANGELOG_v3.2.md` (176 unit, 24 mock, 30 pipeline tests) | `lumi_tests/docs/testing_methodology_report.md`; `lumi_tests/README.md`; `lumi_tests/tests/unit/` |
-| T-04, T-05, T-06 (integration tests) | `c8513db` (pytest pythonpath); `CHANGELOG_v3.2.md` | `fastapi-backend/tests/test_routes.py`; `lumi_tests/tests/integration/test_api.py`; `lumi_tests/tests/integration/test_database.py`; `lumi_tests/tests/integration/test_pipeline.py` |
-| T-07 (performance) | `614b5a1` 2026-08-18 | `CHANGELOG_v3.2.md` sections 2.1/3.1; `docs/LESSONS_LEARNED.md` sections 4–5; `lumi_tests/tests/integration/performance_test.py` |
+| T-01, T-02, T-03 (unit tests) | `8b4ba13` (pytest setup); `CHANGELOG_v3.2.md` (176 unit, 24 mock, 30 pipeline tests) | `tests/docs/testing_methodology_report.md`; `tests/README.md`; `tests/tests/unit/` |
+| T-04, T-05, T-06 (integration tests) | `c8513db` (pytest pythonpath); `CHANGELOG_v3.2.md` | `fastapi-backend/tests/test_routes.py`; `tests/tests/integration/test_api.py`; `tests/tests/integration/test_database.py`; `tests/tests/integration/test_pipeline.py` |
+| T-07 (performance) | `614b5a1` 2026-08-18 | `CHANGELOG_v3.2.md` sections 2.1/3.1; `docs/LESSONS_LEARNED.md` sections 4–5; `tests/tests/integration/performance_test.py` |
 | T-08 (multi-granularity) | `c7689f1` 2026-07-12; `42151d7` 2026-06-30 | `docs/LUMI_THESIS_REVISIONS_MASTER.md` Phase 2 and Phase 7; `fastapi-backend/app/services/ecosim.py` |
-| T-09 (usability / design review) | `4fc1fc6` 2026-08-18 | `revisionFiles/LUMI-Revisions-Instructions.md` (sourced from `LUMI-System-Revisions.pdf`); `CHANGELOG_v3.2.md` |
-| T-10 (Atlas integration) | `118aff9` 2026-08-19; `e420163` 2026-08-19; `cf80c25` 2026-08-19 | `docs/ATLAS_DATA_INTEGRATION.md`; `docs/PROVINCE_ATLAS_VALIDATION.md`; `supabase_tables_scripts/province_atlas_schema.sql` |
+| T-09 (usability / design review) | `4fc1fc6` 2026-08-18 | `docs/thesis/revisionFiles/LUMI-Revisions-Instructions.md` (sourced from `docs/thesis/revisionFiles/LUMI-System-Revisions.pdf`); `CHANGELOG_v3.2.md` |
+| T-10 (Atlas integration) | `118aff9` 2026-08-19; `e420163` 2026-08-19; `cf80c25` 2026-08-19 | `docs/ATLAS_DATA_INTEGRATION.md`; `docs/PROVINCE_ATLAS_VALIDATION.md`; `supabase/table_scripts/province_atlas_schema.sql` |
 | T-11 (ERA5 integration) | `a808a60` 2026-08-20; `e32be88` 2026-08-20 | `docs/ERA5_INTEGRATION.md`; `docs/ERA5_VALIDATION.md`; `fastapi-backend/app/services/ecosim.py` |
 | T-12 (security) | `4500f0a` 2026-08-05; `2665956` 2026-08-19; `22bbed6` 2026-08-06 | `fastapi-backend/main.py`; `fastapi-backend/app/dependencies/auth.py`; `CHANGELOG_v3.2.md` |
 | P-01, P-02, P-09, P-10, P-12 (Atlas/accuracy) | `118aff9` 2026-08-19; `e420163` 2026-08-19; `cf80c25` 2026-08-19; `a808a60` 2026-08-20; `e32be88` 2026-08-20 | `docs/DATA_ACCURACY_AND_THESIS_DEFENSE_GUIDE.md`; `docs/ATLAS_DATA_INTEGRATION.md`; `docs/ERA5_VALIDATION.md` |
 | P-03, P-04, P-07 (EnergyHub/DOE) | `be0439b` 2026-08-07; `c7689f1` 2026-07-12 | `docs/LESSONS_LEARNED.md`; `CHANGELOG_v2.1_FIXES.md`; `CHANGELOG_v3.2.md` |
 | P-05, P-06, P-08 (Vercel/deployment) | `9cfff26` 2026-08-02; `742099a` 2026-08-06; `cfbd082` 2026-08-07; `907f268` 2026-08-06; `9d2c07d` 2026-08-05 | `docs/VERCEL_BACKEND_404_FIX.md`; `docs/LESSONS_LEARNED.md`; `vercel.json`; `.vercelignore` |
 | P-11 (ERA5 tooling) | `a808a60` 2026-08-20; `e32be88` 2026-08-20 | `docs/ERA5_INTEGRATION.md`; `scripts/inspect_era5.py`; `scripts/extract_era5_wind.py`; `scripts/ingest_era5_averages.py` |
-| BUG-01 | `c7689f1` 2026-07-12 | `DOE_Data_Extracted/data_v2_preprocessing.py`; `CHANGELOG_v2.1_FIXES.md` |
+| BUG-01 | `c7689f1` 2026-07-12 | `data/DOE_Data_Extracted/data_v2_preprocessing.py`; `CHANGELOG_v2.1_FIXES.md` |
 | BUG-02 | `be0439b` 2026-08-07 | `docs/LESSONS_LEARNED.md`; `fastapi-backend/app/ml/predictor.py` |
 | BUG-03 | `742099a` 2026-08-06 | `docs/VERCEL_BACKEND_404_FIX.md`; `fastapi-backend/main.py`; `fastapi-backend/app/routes/health.py` |
 | BUG-04 | `cfbd082` 2026-08-07 | `docs/LESSONS_LEARNED.md` section 3; `vercel.json` |
 | BUG-05 | `22bbed6` 2026-08-06; `79bfe27` 2026-08-06; `2665956` 2026-08-19 | `fastapi-backend/main.py`; `fastapi-backend/app/config/settings.py` |
 | BUG-06 | `614b5a1` 2026-08-18 | `CHANGELOG_v3.2.md` sections 2.1/3.1; `fastapi-backend/app/services/gemini_funcs.py` |
-| BUG-07, BUG-09 | `cf80c25` 2026-08-19 | `docs/PROVINCE_ATLAS_VALIDATION.md`; `supabase_tables_scripts/province_atlas_schema.sql` |
+| BUG-07, BUG-09 | `cf80c25` 2026-08-19 | `docs/PROVINCE_ATLAS_VALIDATION.md`; `supabase/table_scripts/province_atlas_schema.sql` |
 | BUG-08 | `9d2c07d` 2026-08-05 | `CHANGELOG_v2.1_FIXES.md` section 1.3; `fastapi-backend/app/services/products.py` |
 | BUG-10 | `e32be88` 2026-08-20 | `fastapi-backend/app/services/ecosim.py`; `fastapi-backend/app/services/atlas_data.py` |
 | BUG-11 | `42cf377` 2026-07-25 | `CHANGELOG_v2.1_FIXES.md` section 1.2; `fastapi-backend/app/services/supabase_service.py` |

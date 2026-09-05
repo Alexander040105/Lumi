@@ -4,7 +4,7 @@ import py_compile
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent
+REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "fastapi-backend"))
 
 FILES_TO_COMPILE = [
@@ -327,7 +327,7 @@ else:
     errors.append(("ecosim.py [:500]", "still present"))
 
 # Check data_v2_preprocessing.py fixes
-pre_src = (REPO / "DOE_Data_Extracted/data_v2_preprocessing.py").read_text(encoding="utf-8")
+pre_src = (REPO / "data" / "DOE_Data_Extracted" / "data_v2_preprocessing.py").read_text(encoding="utf-8")
 if 'parts.insert(34, "year")' not in pre_src:
     print("  OK  data_v2_preprocessing.py removed duplicate year hack")
 else:
@@ -405,7 +405,7 @@ else:
     errors.append(("simulations.py warning", "missing"))
 
 # Check SQL unique constraint
-sql_src = (REPO / "supabase_tables_scripts/municipal_population.sql").read_text(encoding="utf-8")
+sql_src = (REPO / "supabase" / "table_scripts" / "municipal_population.sql").read_text(encoding="utf-8")
 if "unique (province_id, municipality_id, year)" in sql_src:
     print("  OK  municipal_population.sql has unique constraint")
 else:

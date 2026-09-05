@@ -91,7 +91,7 @@ Many routes call `svc.build_overview()`, `svc.get_forecast()`, or `renewable_ene
 
 ### 2.1 Schema Overview
 
-The primary schema is defined in `lumi_schema_v4.sql` (1,464 lines) plus migrations in `supabase/migrations/0001_geospatial_architecture.sql` and `0002_psgc_data_columns.sql`. The design contains a normalized `regions/provinces/municipalities/barangays` hierarchy, plus many domain tables for climate, suitability, energy, chat, and admin.
+The primary schema is defined in `supabase/schema_structure/lumi_schema_v4.sql` (1,464 lines) plus migrations in `supabase/migrations/0001_geospatial_architecture.sql` and `0002_psgc_data_columns.sql`. The design contains a normalized `regions/provinces/municipalities/barangays` hierarchy, plus many domain tables for climate, suitability, energy, chat, and admin.
 
 ### 2.2 Critical Issues
 

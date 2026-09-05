@@ -25,7 +25,7 @@ Tracks every change made during the full implementation plan execution.
 | `.dockerignore` | Created | Excludes .env, data, docs, tests from Docker context |
 | `.github/workflows/ci.yml` | Created | CI: backend tests, frontend tests, Docker build check |
 | `.github/workflows/deploy.yml` | Created | CD: build, push to DO registry, SSH deploy |
-| `DEPLOYMENT_GUIDE.md` | Created | Comprehensive guide: Droplet + App Platform + bare metal |
+| `docs/05-Setup-Guides/DEPLOYMENT_GUIDE.md` | Created | Comprehensive guide: Droplet + App Platform + bare metal |
 
 ## Phase 1: Database Migrations
 

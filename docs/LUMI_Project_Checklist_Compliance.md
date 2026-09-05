@@ -29,7 +29,7 @@ This document maps every deliverable in the Research & System Development Checkl
 **Status:** Partial
 
 **Evidence:**
-- A conceptual framework is implied in the thesis Chapter 1 (`lumi-details/chapter1_full.txt`).
+- A conceptual framework is implied in the thesis Chapter 1 (`docs/thesis/lumi-details/chapter1_full.txt`).
 - The study identifies key variables: climate data (temperature, rainfall, wind speed, solar irradiance), energy consumption, renewable energy potential (solar, wind, hydro), and terrain metrics (elevation, slope, hydraulic head).
 - The Input-Process-Output relationship is described in the scope (Section 1.4.1): inputs are publicly available climate and energy data; processes include visualization, predictive analytics, rule-based recommendation, and what-if simulation; outputs are data-driven insights for renewable energy decision-making.
 - No standalone conceptual model diagram file exists.
@@ -41,9 +41,9 @@ This document maps every deliverable in the Research & System Development Checkl
   - **Output:** Dashboard visualizations, suitability scores, cost estimates, payback periods, carbon reduction metrics, AI-generated explanations.
 
 **Related Files:**
-- `lumi-details/chapter1_full.txt` (Sections 1.1–1.4)
-- `lumi-details/Thesis-Lumi.docx.pdf`
-- `lumi-details/Chapter1_Solis-Torreno-Virata.pdf`
+- `docs/thesis/lumi-details/chapter1_full.txt` (Sections 1.1–1.4)
+- `docs/thesis/lumi-details/Thesis-Lumi.docx.pdf`
+- `docs/thesis/lumi-details/Chapter1_Solis-Torreno-Virata.pdf`
 
 ---
 
@@ -64,7 +64,7 @@ This document maps every deliverable in the Research & System Development Checkl
 - None — adequately covered in thesis Chapter 1.
 
 **Related Files:**
-- `lumi-details/chapter1_full.txt`
+- `docs/thesis/lumi-details/chapter1_full.txt`
 - `LUMI_Methodology_Technical_Resources.md`
 - `LUMI_FORECASTING_DATA_SOURCES.md`
 - `windsurf_data_extraction/reports/hydro_formula_references.md`
@@ -88,7 +88,7 @@ This document maps every deliverable in the Research & System Development Checkl
   - Requirements gathered from stakeholders.
 
 **Related Files:**
-- `lumi-details/chapter1_full.txt` (Sections 1.2, 1.5)
+- `docs/thesis/lumi-details/chapter1_full.txt` (Sections 1.2, 1.5)
 
 ---
 
@@ -115,7 +115,7 @@ This document maps every deliverable in the Research & System Development Checkl
 - Expand Section 2.3 in the thesis to explicitly state the methodology and justify why it fits LUMI (flexibility for research-based development, need for rapid prototyping, parallel module development).
 
 **Related Files:**
-- `lumi-details/chapter1_full.txt`
+- `docs/thesis/lumi-details/chapter1_full.txt`
 - `DEVELOPMENT_GUIDE.md`
 
 ---
@@ -248,7 +248,7 @@ This document maps every deliverable in the Research & System Development Checkl
   - Policy impact (how government agencies can use the data).
 
 **Related Files:**
-- `lumi-details/chapter1_full.txt` (Section 1.5)
+- `docs/thesis/lumi-details/chapter1_full.txt` (Section 1.5)
 - `ECOSIM_ARCHITECTURE.md` (carbon reduction calculations)
 
 ---
@@ -620,7 +620,7 @@ The overall system architecture is documented in three primary architecture guid
 
 ### Database Architecture
 - `SUPABASE_GUIDE.md` — OAuth, JWT validation flow, RLS policies.
-- `lumischema.sql` — Full PostgreSQL schema with tables, indexes, foreign keys, and comments.
+- `supabase/schema_structure/lumischema.sql` — Full PostgreSQL schema with tables, indexes, foreign keys, and comments.
 
 ### ML Architecture
 - `LUMI_ML_MODEL_ANALYSIS.md` — Model selection rationale.
@@ -638,7 +638,7 @@ The overall system architecture is documented in three primary architecture guid
 - `FASTAPI_ARCHITECTURE_GUIDE.md`
 - `FRONTEND_STRUCTURE_GUIDE.md`
 - `SUPABASE_GUIDE.md`
-- `lumischema.sql`
+- `supabase/schema_structure/lumischema.sql`
 - `LUMI_ML_MODEL_ANALYSIS.md`
 - `LUMI_METHODOLOGY_ML.md`
 
@@ -671,7 +671,7 @@ The overall system architecture is documented in three primary architecture guid
 **Status:** Partial
 
 **Evidence:**
-- The **database schema** is fully defined in `lumischema.sql` with:
+- The **database schema** is fully defined in `supabase/schema_structure/lumischema.sql` with:
   - **Entities:** `regions`, `provinces`, `municipalities`, `barangays`, `municipality_climate_monthly`, `hydropower_suitability`.
   - **Relationships:** Foreign keys linking `barangays` → `municipalities` → `provinces` → `regions`.
   - **Composite key:** `municipality_climate_monthly` uses `(municipality_id, year, month)`.
@@ -686,7 +686,7 @@ The overall system architecture is documented in three primary architecture guid
   - The 1:1 relationship between `municipalities` and `hydropower_suitability`.
 
 **Related Files:**
-- `lumischema.sql`
+- `supabase/schema_structure/lumischema.sql`
 - `SUPABASE_GUIDE.md`
 - `ENERGYHUB_ARCHITECTURE.md` (Section 5 — Database Changes)
 
@@ -697,7 +697,7 @@ The overall system architecture is documented in three primary architecture guid
 **Status:** Partial
 
 **Evidence:**
-- Table schemas with column comments exist in `lumischema.sql` (e.g., `COMMENT ON COLUMN ... IS '...'` for climate columns).
+- Table schemas with column comments exist in `supabase/schema_structure/lumischema.sql` (e.g., `COMMENT ON COLUMN ... IS '...'` for climate columns).
 - `ECOSIM_ARCHITECTURE.md` (Section 5.1) lists Supabase tables with columns used.
 - `ENERGYHUB_ARCHITECTURE.md` (Section 5) lists tables and usage.
 - `LUMI_Methodology_Technical_Resources.md` (Section 3.6) lists database tables.
@@ -719,7 +719,7 @@ The overall system architecture is documented in three primary architecture guid
 | `hydropower_suitability` | `hydro_suitability_score` | `double precision` | Weighted composite score (0–1) |
 
 **Related Files:**
-- `lumischema.sql`
+- `supabase/schema_structure/lumischema.sql`
 - `ECOSIM_ARCHITECTURE.md`
 - `ENERGYHUB_ARCHITECTURE.md`
 - `LUMI_Methodology_Technical_Resources.md` (Section 3.6)
@@ -863,7 +863,7 @@ The overall system architecture is documented in three primary architecture guid
 - **Pattern:** Thin routes, thick services. Routes validate input; services contain business logic.
 
 ### Database Development
-- **Process:** Supabase project setup (`SUPABASE_GUIDE.md`) → OAuth configuration → RLS policy creation → schema migration via `lumischema.sql`.
+- **Process:** Supabase project setup (`SUPABASE_GUIDE.md`) → OAuth configuration → RLS policy creation → schema migration via `supabase/schema_structure/lumischema.sql`.
 - **Local data:** Pre-aggregated CSVs (`municipality_climate_averages.csv`, `wind_products_joined_betz.csv`) for fast lookups.
 
 ### AI Integration
@@ -1122,7 +1122,7 @@ This section consolidates all checklist items that are **Missing** or **Partial*
 |---|---|---|---|
 | 1 | **Formal SDLC methodology documentation** | Medium | Expand thesis Section 2.3 |
 | 2 | **Observation / Needs Analysis Report** | Medium | Document user observations |
-| 3 | **Data Dictionary** (consolidated table) | Medium | Extract from `lumischema.sql` |
+| 3 | **Data Dictionary** (consolidated table) | Medium | Extract from `supabase/schema_structure/lumischema.sql` |
 | 4 | **CI/CD pipeline** | Low | Optional for thesis scope |
 
 ---

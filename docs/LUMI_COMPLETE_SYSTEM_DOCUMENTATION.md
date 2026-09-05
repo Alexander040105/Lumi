@@ -90,7 +90,7 @@ Lumi/
 │       ├── utils/                           # Frontend utilities
 │       ├── App.jsx                          # Root component
 │       └── main.jsx                         # Entry point
-├── supabase_tables_scripts/                 # SQL schema definitions
+├── supabase/table_scripts/                 # SQL schema definitions
 ├── python_scripts/                          # ETL and utility scripts
 │   └── terrain_pipeline/                    # Terrain analysis pipeline
 ├── DOE_Data_Extracted/                      # DOE data and ML notebooks
@@ -100,7 +100,7 @@ Lumi/
 ├── regionalData/                            # Regional energy data
 ├── scraped_data/                            # E-commerce scraped data
 ├── windsurf_data_extraction/                # PDF extraction pipeline
-├── lumi_schema_v4.sql                       # Complete database schema
+├── supabase/schema_structure/lumi_schema_v4.sql  # Complete database schema
 └── README.md
 ```
 
@@ -111,7 +111,7 @@ Lumi/
 | `docs/` | Project documentation | Architecture guides, ML evaluations, thesis integration docs | Developer onboarding, thesis reference |
 | `fastapi-backend/` | REST API server | Python FastAPI application with services, routes, schemas | Business logic, data processing, AI integration |
 | `react-frontend/` | User interface | React components, pages, hooks, services | User interaction, visualization, dashboard |
-| `supabase_tables_scripts/` | Database schemas | SQL scripts for Supabase table creation | Database structure definition |
+| `supabase/table_scripts/` | Database schemas | SQL scripts for Supabase table creation | Database structure definition |
 | `python_scripts/` | ETL utilities | Data extraction, cleaning, terrain analysis scripts | Data pipeline automation |
 | `DOE_Data_Extracted/` | ML artifacts | Jupyter notebooks, CSV forecasts, model comparison results | Time-series forecasting, model evaluation |
 | `GeothermalDatasets/` | Geospatial data | Shapefiles, heat flow database, aquifer properties | Geothermal suitability calculations |
@@ -1111,7 +1111,7 @@ Lumi/
 ### 8.5 Database Schema Overview
 
 #### `lumi_schema_v4.sql`
-- **Location:** `d:\63947\Documents\GitHub\Lumi\lumi_schema_v4.sql`
+- **Location:** `supabase/schema_structure/lumi_schema_v4.sql` (repo root)
 - **Purpose:** Complete Supabase PostgreSQL schema
 - **Key Tables:**
 

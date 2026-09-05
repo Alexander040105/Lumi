@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Generate a PNG ERD diagram for the LUMI database schema using matplotlib."""
 
+from pathlib import Path
+
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -8,7 +10,7 @@ import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import numpy as np
 
-OUTPUT_PATH = 'd:/63947/Documents/GitHub/Lumi/lumi_erd.png'
+OUTPUT_PATH = Path(__file__).resolve().parents[1] / "docs" / "02-Architecture" / "lumi_erd.png"
 
 # Color scheme per domain
 COLORS = {

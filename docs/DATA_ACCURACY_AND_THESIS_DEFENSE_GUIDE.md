@@ -35,7 +35,7 @@
 
 | Dataset | What it fixes | How to use it | Free? |
 |---|---|---|---|
-| **PSA 2020 Census `municipal_population` + PSGC boundary GeoJSON** | Municipal `lat`/`lon`, `area_km2`, and population | Re-run `scripts/extract_centroids.py` -> `scripts/insert_geospatial_metadata.py`; load `supabase_tables_scripts/municipal_population.sql` | Yes |
+| **PSA 2020 Census `municipal_population` + PSGC boundary GeoJSON** | Municipal `lat`/`lon`, `area_km2`, and population | Re-run `scripts/extract_centroids.py` -> `scripts/insert_geospatial_metadata.py`; load `supabase/table_scripts/municipal_population.sql` | Yes |
 | **SRTM 1-arcsec (30 m) or NAMRIA DEM** | Elevation, slope, head, flow accumulation | Derive `mean_slope_deg`, `hydraulic_head_m`, `watershed_gradient` from real DEM instead of NASA POWER elevation | Yes |
 | **HydroSHEDS river network / catchments** | Real catchment area and river reach | Replace the fixed 0.5 km² catchment with the actual upstream catchment for each municipality | Yes |
 | **OpenStreetMap building footprints** | Rooftop area for solar; building density for demand | Filter residential/commercial buildings; compute rooftop area per municipality | Yes |
@@ -156,8 +156,8 @@ The limitations you are seeing (NASA POWER coarseness, no DNI/DHI, no stream gau
 - `fastapi-backend/app/services/local_data/municipality_climate_averages.csv` -- NASA POWER climate averages.
 - `scripts/extract_centroids.py` -- compute centroids from GeoJSON.
 - `scripts/insert_geospatial_metadata.py` -- upload centroids to Supabase.
-- `supabase_tables_scripts/schema.sql` -- regions, provinces, municipalities, barangays schema.
-- `supabase_tables_scripts/supabase_suitability_migration.sql` -- suitability score columns.
+- `supabase/table_scripts/schema.sql` -- regions, provinces, municipalities, barangays schema.
+- `supabase/table_scripts/supabase_suitability_migration.sql` -- suitability score columns.
 - `docs/FREE_ALTERNATIVE_DATA.md` -- existing catalog of free public data sources.
 - `docs/municipal_demand_granularity_study.md` -- demand disaggregation methodology and limitations.
 - `docs/geospatial_data_pipeline.md` -- full geospatial data pipeline.

@@ -147,7 +147,7 @@ TEST_DATABASE_URL=<postgresql_connection_string>
 
 **Objective:** Validate Supabase PostgreSQL schema integrity, CRUD operations, and constraint enforcement.
 
-**Approach:** SQL assertions are executed against a test PostgreSQL instance. The `lumischema.sql` file serves as the authoritative schema reference.
+**Approach:** SQL assertions are executed against a test PostgreSQL instance. The `supabase/schema_structure/lumischema.sql` file serves as the authoritative schema reference.
 
 **Rationale:** The schema contains composite keys, foreign key cascades, and CHECK constraints (e.g., month 1–12, year >= 2018). The `regional_lookup` view performs a 4-table join; its correctness is critical for frontend dropdowns. Hydropower suitability data is pre-computed and must not violate mathematical bounds.
 

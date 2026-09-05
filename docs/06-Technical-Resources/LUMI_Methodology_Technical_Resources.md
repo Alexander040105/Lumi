@@ -487,16 +487,16 @@ This section maps each required research and system development deliverable to t
 
 | Checklist Item | Status | Repo File(s) / Location |
 |---|---|---|
-| Conceptual Model of the Study | Available | `lumi-details/Thesis-Lumi.docx.pdf`, `lumi-details/Chapter1_Solis-Torreno-Virata.pdf`, `lumi-details/chapter1_full.txt` |
+| Conceptual Model of the Study | Available | `docs/thesis/lumi-details/Thesis-Lumi.docx.pdf`, `docs/thesis/lumi-details/Chapter1_Solis-Torreno-Virata.pdf`, `docs/thesis/lumi-details/chapter1_full.txt` |
 | Document Reviews | Available | `regionalData/DOE_Data/` — DOE PDFs (Pocket Size 2024, Grid Gross Generation, Philippine Energy Situationer, Compendium) |
-| Observation | Available | Covered in thesis Chapter 1; see `lumi-details/chapter1_full.txt` |
+| Observation | Available | Covered in thesis Chapter 1; see `docs/thesis/lumi-details/chapter1_full.txt` |
 
 ### 3.13.2 Project Planning
 
 | Checklist Item | Status | Repo File(s) / Location |
 |---|---|---|
-| Project Development Methodology (SDLC) | Partial | Covered in thesis documents (`lumi-details/`); no dedicated SDLC doc |
-| Planning | Partial | Covered in thesis scope and objectives (`lumi-details/`) |
+| Project Development Methodology (SDLC) | Partial | Covered in thesis documents (`docs/thesis/lumi-details/`); no dedicated SDLC doc |
+| Planning | Partial | Covered in thesis scope and objectives (`docs/thesis/lumi-details/`) |
 | Project Schedule: Gantt Chart | Not found | — |
 | Feasibility Study | Partial | Thesis Chapter 1 covers problem justification; `windsurf_data_extraction/reports/data_quality_report.md` |
 | Development and Operational Cost | Not found | — |
