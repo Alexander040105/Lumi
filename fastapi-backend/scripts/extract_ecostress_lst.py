@@ -30,7 +30,6 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 INPUT_H5 = (
     REPO_ROOT
-    / "data"
     / "GeothermalDatasets"
     / "ECOv003_L2G_LSTE_45056_033_20260616T160816_02.h5"
 )

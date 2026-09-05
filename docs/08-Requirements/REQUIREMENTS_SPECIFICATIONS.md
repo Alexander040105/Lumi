@@ -240,18 +240,18 @@
 - `npm run dev` → `http://localhost:5173`
 - Verify: Login/logout, Dashboard protected data load, EcoSim form → results, EnergyHub map + charts, AI Analysis panel
 
-### 5.4 ML / Data Pipeline Notebooks (`data/DOE_Data_Extracted/`)
+### 5.4 ML / Data Pipeline Notebooks (`DOE_Data_Extracted/`)
 - `DOE_datacleaning.ipynb` — DOE PDF data extraction and cleaning
 - `DOE_arima_forecasting.ipynb` — Offline ARIMA model training and forecast generation
 - `DOE_model_registry.ipynb` — Model artifact tracking and comparison
 
-### 5.5 E-Commerce Scrapers (`data/scraped_data/`)
+### 5.5 E-Commerce Scrapers (`scraped_data/`)
 - `alibaba_scraper.py`
 - `amazon_scraper.py`
 - `lazada_scraper.py`
 - `shopee_scraper.py`
 
-### 5.6 Data Extraction & RAG Conversion (`data/windsurf_data_extraction/`)
+### 5.6 Data Extraction & RAG Conversion (`windsurf_data_extraction/`)
 - `extract_compendium.py`
 - `pdf_extractor.py`
 - `rag_converter.py`

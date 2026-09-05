@@ -10,7 +10,6 @@ import pandas as pd
 
 DEFAULT_INPUT_PATH = (
     Path(__file__).resolve().parents[1]
-    / "data"
     / "scraped_data"
     / "output"
     / "cleaned"
@@ -18,7 +17,6 @@ DEFAULT_INPUT_PATH = (
 )
 DEFAULT_OUTPUT_DIR = (
     Path(__file__).resolve().parents[1]
-    / "data"
     / "scraped_data"
     / "output"
     / "rag_ready"

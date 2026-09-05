@@ -154,7 +154,7 @@ Uses lightweight inline SVG charts (no extra charting library) to avoid bundle b
 ### 4.1 Forecast Flow (Read-Only Artifacts)
 
 ```
-data/DOE_Data_Extracted/forecast_consumption_2025_2030.csv
+DOE_Data_Extracted/forecast_consumption_2025_2030.csv
         ↓  (loaded at startup)
 app/ml/predictor.py  →  EnergyHubML singleton
         ↓
@@ -196,7 +196,7 @@ The EnergyHub module consumes existing Supabase tables:
 | `hydropower_suitability` | `hydro_suitability_score` and `estimated_hydropower_potential_kw` |
 | `regional_lookup` (view) | Joined region→province→municipality→barangay for coordinate lookups |
 
-**Note:** The DOE energy data is stored as **static CSV files** in `data/DOE_Data_Extracted/` and loaded by the backend predictor. No database migration is required.
+**Note:** The DOE energy data is stored as **static CSV files** in `DOE_Data_Extracted/` and loaded by the backend predictor. No database migration is required.
 
 ---
 
@@ -348,7 +348,7 @@ Verify:
 ### Asset Files
 | File | Action |
 |------|--------|
-| `react-frontend/public/philippine_geojson_file_per_region.json` | Copied from `data/philippine_geojson/` |
+| `react-frontend/public/philippine_geojson_file_per_region.json` | Copied from `philippine_geojson/` |
 
 ---
 

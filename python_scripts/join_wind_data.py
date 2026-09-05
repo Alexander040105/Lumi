@@ -7,7 +7,7 @@ import statistics
 from typing import Dict, Iterable, List, Optional, Tuple
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SCRAPED_DIR = os.path.join(BASE_DIR, "data", "scraped_data")
+SCRAPED_DIR = os.path.join(BASE_DIR, "scraped_data")
 OUTPUT_DIR = os.path.join(SCRAPED_DIR, "output")
 
 OUT_JOINED = os.path.join(OUTPUT_DIR, "wind_products_joined.csv")

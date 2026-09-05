@@ -176,7 +176,7 @@ In addition to `0013` and `0014` from the auth work, run:
 
 ### 4.3 Data to load
 
-- `municipality_atlas_averages.wind_speed_10m_ms` should be populated from `fastapi-backend/app/services/local_data/municipality_atlas_averages.csv` or from sampling `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif`.
+- `municipality_atlas_averages.wind_speed_10m_ms` should be populated from `fastapi-backend/app/services/local_data/municipality_atlas_averages.csv` or from sampling `newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif`.
 - For a full renewable data audit and the free datasets that can improve solar, hydro, and geothermal, see:
   - `docs/05-Setup-Guides/ECOSIM_RENEWABLE_DATA_AUDIT.md`
 

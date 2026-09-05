@@ -49,12 +49,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Extract kW values from product listings.")
     parser.add_argument(
         "--input",
-        default=str(Path("data") / "scraped_data" / "output" / "cleaned" / "cleaned_products_master.csv"),
+        default=str(Path("scraped_data") / "output" / "cleaned" / "cleaned_products_master.csv"),
         help="Input CSV path.",
     )
     parser.add_argument(
         "--output",
-        default=str(Path("data") / "scraped_data" / "output" / "cleaned" / "cleaned_products_master_kw.csv"),
+        default=str(Path("scraped_data") / "output" / "cleaned" / "cleaned_products_master_kw.csv"),
         help="Output CSV path.",
     )
     return parser

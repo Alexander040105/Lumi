@@ -4,8 +4,8 @@ Usage (from repo root, with .venv activated):
     .venv\\Scripts\\python.exe scripts/ingest_era5_averages.py
 
 Run this after creating the tables with
-supabase/table_scripts/municipality_era5_schema.sql and
-supabase/table_scripts/province_era5_schema.sql.
+supabase_tables_scripts/municipality_era5_schema.sql and
+supabase_tables_scripts/province_era5_schema.sql.
 """
 from __future__ import annotations
 

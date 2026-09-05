@@ -12,7 +12,7 @@
       "maxDuration": 60,
       "memory": 1024,
       "excludeFiles": "{__pycache__/**,*.pyc,*.pyo,.pytest_cache/**}",
-      "includeFiles": "{fastapi-backend/**,api/**,data/DOE_Data_Extracted/data_v2_preprocessed/**}"
+      "includeFiles": "{fastapi-backend/**,api/**,DOE_Data_Extracted/data_v2_preprocessed/**}"
     }
   }
 }

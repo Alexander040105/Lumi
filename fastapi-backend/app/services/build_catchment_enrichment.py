@@ -8,7 +8,7 @@ Spatially joins each Philippine municipality centroid to:
 
 Outputs:
   - fastapi-backend/app/services/local_data/municipality_catchment_enrichment.csv
-  - supabase/table_scripts/municipality_catchment_enrichment_schema.sql
+  - supabase_tables_scripts/municipality_catchment_enrichment_schema.sql
   - supabase/migrations/0022_catchment_enrichment.sql
 
 Data source (CC-BY 4.0):
@@ -45,7 +45,7 @@ LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 MUNI_ATLAS_CSV = LOCAL_DATA_DIR / "municipality_atlas_averages.csv"
 OUTPUT_CSV = LOCAL_DATA_DIR / "municipality_catchment_enrichment.csv"
 
-SUPABASE_SCRIPTS_DIR = REPO_ROOT / "supabase" / "table_scripts"
+SUPABASE_SCRIPTS_DIR = REPO_ROOT / "supabase_tables_scripts"
 MIGRATIONS_DIR = REPO_ROOT / "supabase" / "migrations"
 
 # ---------------------------------------------------------------------------

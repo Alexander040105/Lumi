@@ -1,13 +1,5 @@
-# Legacy root-level paths (kept for merges/checkouts of pre-reorg history)
 scraped_data/runtime/** filter=lfs diff=lfs merge=lfs -text
 scraped_data/output/** filter=lfs diff=lfs merge=lfs -text
 GeothermalDatasets/** filter=lfs diff=lfs merge=lfs -text
 ThesisResearchStudies/** filter=lfs diff=lfs merge=lfs -text
 newDataPointsToExtract/**/*.zip filter=lfs diff=lfs merge=lfs -text
-
-# Post-reorg locations under data/
-data/scraped_data/runtime/** filter=lfs diff=lfs merge=lfs -text
-data/scraped_data/output/** filter=lfs diff=lfs merge=lfs -text
-data/GeothermalDatasets/** filter=lfs diff=lfs merge=lfs -text
-data/ThesisResearchStudies/** filter=lfs diff=lfs merge=lfs -text
-data/newDataPointsToExtract/**/*.zip filter=lfs diff=lfs merge=lfs -text

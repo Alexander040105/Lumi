@@ -8,8 +8,8 @@ Usage (from repo root with .venv activated):
     python fastapi-backend/scripts/extract_kmz_to_geojson.py
 
 Reads:
-    data/GeothermalDatasets/VOL_2016_000000000_02.kmz  (volcanoes)
-    data/GeothermalDatasets/aft_2025_000000000_02.kmz   (faults)
+    GeothermalDatasets/VOL_2016_000000000_02.kmz  (volcanoes)
+    GeothermalDatasets/aft_2025_000000000_02.kmz   (faults)
 
 Outputs:
     react-frontend/public/geothermal_overlays.json
@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-INPUT_DIR = REPO_ROOT / "data" / "GeothermalDatasets"
+INPUT_DIR = REPO_ROOT / "GeothermalDatasets"
 OUTPUT_DIR = REPO_ROOT / "react-frontend" / "public"
 
 KML_NS = "http://www.opengis.net/kml/2.2"

@@ -119,10 +119,10 @@ def fetch_missing_ids(table: str, id_field: str, page_size: int = 1000) -> set[i
 
 
 # Load CSVs
-regions       = pd.read_csv("data/regionalData/regions.csv")
-provinces     = pd.read_csv("data/regionalData/provinces.csv").rename(columns={"Name": "name"})
-municipalities = pd.read_csv("data/regionalData/municipalities.csv")
-barangays     = pd.read_csv("data/regionalData/barangays.csv")
+regions       = pd.read_csv("regionalData/regions.csv")
+provinces     = pd.read_csv("regionalData/provinces.csv").rename(columns={"Name": "name"})
+municipalities = pd.read_csv("regionalData/municipalities.csv")
+barangays     = pd.read_csv("regionalData/barangays.csv")
 
 region_by_id = regions.set_index("region_id")
 prov_by_id   = provinces.set_index("province_id")

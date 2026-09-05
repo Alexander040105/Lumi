@@ -29,7 +29,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-IHFC_PATH = REPO_ROOT / "data" / "GeothermalDatasets" / "IHFC_2024_GHFDB_v.2026.03.txt"
+IHFC_PATH = REPO_ROOT / "GeothermalDatasets" / "IHFC_2024_GHFDB_v.2026.03.txt"
 OUTPUT_CSV = BACKEND_DIR / "app" / "services" / "local_data" / "geothermal_heatflow.csv"
 
 # Geographic bounds: Philippines + generous buffer for IDW interpolation

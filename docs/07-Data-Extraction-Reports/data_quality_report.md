@@ -438,10 +438,10 @@
 - **Status:** Not included in this run
 - **Reason:** The PDF is extremely large (image-heavy pages) and causes pdfplumber/camelot to hang indefinitely
 - **Solution:** A dedicated optimized script was created:
-  - `data/windsurf_data_extraction/extract_compendium.py`
+  - `windsurf_data_extraction/extract_compendium.py`
   - Uses only pdfplumber (no camelot) for speed
   - Processes pages in batches of 50
-  - Run it separately when you have time: `python -m data.windsurf_data_extraction.extract_compendium`
+  - Run it separately when you have time: `python -m windsurf_data_extraction.extract_compendium`
 
 ## 7. Extraction Issues
 

@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = REPO_ROOT / "data" / "newDataPointsToExtract"
+DATA_DIR = REPO_ROOT / "newDataPointsToExtract"
 GSA_DAILY_DIR = (
     DATA_DIR
     / "GlobalSolarAtlasGIS"

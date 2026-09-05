@@ -95,16 +95,16 @@ def _enrich_sources(sources: list[str]) -> list[dict[str, str]]:
 # Paths
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_CSV = REPO_ROOT / "data" / "scraped_data" / "output" / "cleaned" / "cleaned_products_master.csv"
+DEFAULT_CSV = REPO_ROOT / "scraped_data" / "output" / "cleaned" / "cleaned_products_master.csv"
 LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 LOCAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
 KNOWLEDGE_JSON_PATH = LOCAL_DATA_DIR / "rag_knowledge_base.json"
 
 # LUMI data sources for RAG
-NATIONAL_ENERGY_CSV = REPO_ROOT / "data" / "DOE_Data_Extracted" / "national_energy_annual_ready.csv"
-MUNICIPALITIES_CSV = REPO_ROOT / "data" / "regionalData" / "municipalities.csv"
+NATIONAL_ENERGY_CSV = REPO_ROOT / "DOE_Data_Extracted" / "national_energy_annual_ready.csv"
+MUNICIPALITIES_CSV = REPO_ROOT / "regionalData" / "municipalities.csv"
 CLIMATE_CSV = REPO_ROOT / "fastapi-backend" / "app" / "services" / "local_data" / "municipality_climate_averages.csv"
-TERRAIN_CSV = REPO_ROOT / "data" / "regionalData" / "output" / "terrain_metrics" / "municipality_terrain_metrics.csv"
+TERRAIN_CSV = REPO_ROOT / "regionalData" / "output" / "terrain_metrics" / "municipality_terrain_metrics.csv"
 
 # ---------------------------------------------------------------------------
 # Re-classification rules (fixes the wind/hydro mis-labelling in the CSV)
@@ -1004,7 +1004,7 @@ def build_hydropower_suitability_knowledge(max_docs: int = 2000) -> list[dict[st
 # Thesis research papers
 # ---------------------------------------------------------------------------
 
-THESIS_DIR = REPO_ROOT / "data" / "ThesisResearchStudies"
+THESIS_DIR = REPO_ROOT / "ThesisResearchStudies"
 
 
 def _extract_pdf_text(pdf_path: Path, max_pages: int = 10) -> str:

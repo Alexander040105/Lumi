@@ -87,7 +87,7 @@ spatially joined to:
 | `fastapi-backend/app/services/local_data/municipality_catchment_enrichment.csv` | Bundled CSV fallback (1,376 rows) |
 | `fastapi-backend/app/services/catchment_data.py` | Loader (Supabase + CSV fallback) |
 | `supabase/migrations/0022_catchment_enrichment.sql` | Supabase table DDL + RLS |
-| `supabase/table_scripts/municipality_catchment_enrichment_schema.sql` | Standalone schema |
+| `supabase_tables_scripts/municipality_catchment_enrichment_schema.sql` | Standalone schema |
 | `fastapi-backend/tests/test_catchment_enrichment.py` | Tests (20 tests) |
 
 ## Configuration

@@ -30,8 +30,8 @@ def _sanitize_nan(obj: Any) -> Any:
 # The production ML layer loads these pre-computed artifacts on startup
 # and serves them without retraining on every request.
 
-_DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "DOE_Data_Extracted"
-_GEOJSON_DIR = Path(__file__).resolve().parents[3] / "data" / "philippine_geojson"
+_DATA_DIR = Path(__file__).resolve().parents[3] / "DOE_Data_Extracted"
+_GEOJSON_DIR = Path(__file__).resolve().parents[3] / "philippine_geojson"
 
 # --- Loaders ---
 
@@ -88,7 +88,7 @@ class EnergyHubML:
     """Lightweight ML prediction service for LUMI EnergyHub.
 
     Loads pre-computed ARIMA forecasts and historical data from the
-    data/DOE_Data_Extracted directory.  Prefers data_v2_preprocessed/ over
+    DOE_Data_Extracted directory.  Prefers data_v2_preprocessed/ over
     legacy data_v1/. No model retraining occurs at runtime.
     """
 
