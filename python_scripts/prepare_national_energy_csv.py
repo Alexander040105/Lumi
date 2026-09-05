@@ -5,7 +5,7 @@ Combines all 6 DOE extracted CSVs into a single clean CSV
 matching the `national_energy_annual` Supabase schema.
 Uses only the Python standard library (no pandas dependency).
 
-Output: DOE_Data_Extracted/national_energy_annual_ready.csv
+Output: data/DOE_Data_Extracted/national_energy_annual_ready.csv
 """
 
 import csv
@@ -13,7 +13,7 @@ import math
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-INPUT_DIR = BASE_DIR / "DOE_Data_Extracted"
+INPUT_DIR = BASE_DIR / "data" / "DOE_Data_Extracted"
 OUTPUT_FILE = INPUT_DIR / "national_energy_annual_ready.csv"
 
 

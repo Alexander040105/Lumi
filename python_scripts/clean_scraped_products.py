@@ -8,8 +8,8 @@ from typing import Dict, List, Optional, Tuple
 import pandas as pd
 
 
-DEFAULT_INPUT_DIR = Path(__file__).resolve().parents[1] / "scraped_data" / "output"
-DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "scraped_data" / "output" / "cleaned"
+DEFAULT_INPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "scraped_data" / "output"
+DEFAULT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "data" / "scraped_data" / "output" / "cleaned"
 
 HEADER_SYNONYMS = {
     "product_name": {"name", "title", "item_name", "product", "listing_name"},

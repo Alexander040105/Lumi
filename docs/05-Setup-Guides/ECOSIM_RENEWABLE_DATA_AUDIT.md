@@ -31,7 +31,7 @@ The first fix (already implemented) forces wind to use the **10 m** wind speed. 
 If `municipality_atlas_averages.wind_speed_10m_ms` is not already populated in Supabase, load it from the bundled CSV or sample the 10 m TIF:
 
 - Bundled CSV: `fastapi-backend/app/services/local_data/municipality_atlas_averages.csv`
-- Raw TIF: `newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif`
+- Raw TIF: `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif`
 
 ## 3. Solar
 
@@ -61,7 +61,7 @@ If `municipality_atlas_averages.wind_speed_10m_ms` is not already populated in S
 
 | Dataset | Use | Where to get it | Cost |
 |---------|-----|-----------------|------|
-| Global Solar Atlas | GHI, DNI, DHI, GTI, PVOUT | Already in `newDataPointsToExtract/GlobalSolarAtlasGIS` and the `municipality_atlas_averages.csv` | Free |
+| Global Solar Atlas | GHI, DNI, DHI, GTI, PVOUT | Already in `data/newDataPointsToExtract/GlobalSolarAtlasGIS` and the `municipality_atlas_averages.csv` | Free |
 | PVGIS (JRC) | PVOUT, GHI, temperature-corrected yield | https://re.jrc.ec.europa.eu/pvg_tools/en/#TMY | Free API |
 | NASA POWER | GHI, temperature, cloud | Already used | Free |
 | NSRDB | Hourly/daily solar, mainly Americas | https://nsrdb.nrel.gov/ | Free, limited PH coverage |
@@ -70,7 +70,7 @@ If `municipality_atlas_averages.wind_speed_10m_ms` is not already populated in S
 
 1. Switch `ecosim.py` to `solar_calc_advanced` when `solar_dni_kwh_m2_day` and `solar_dhi_kwh_m2_day` are present in `municipality_atlas_averages`.
 2. Replace the hard-coded 2 × 400 W with a configurable `household_solar_size_kwp` (default e.g. 2.0–3.0 kWp).
-3. If the Supabase `municipality_atlas_averages` table is missing DNI/DHI/GTI columns, run a migration and sample the Global Solar Atlas GeoTIFFs in `newDataPointsToExtract/GlobalSolarAtlasGIS`.
+3. If the Supabase `municipality_atlas_averages` table is missing DNI/DHI/GTI columns, run a migration and sample the Global Solar Atlas GeoTIFFs in `data/newDataPointsToExtract/GlobalSolarAtlasGIS`.
 
 ## 4. Hydropower
 
@@ -152,7 +152,7 @@ where `C` is a runoff coefficient from slope, `P` is monthly rainfall, `A` is th
 ## 6. Data files already in the repo
 
 ```
-newDataPointsToExtract/
+data/newDataPointsToExtract/
 ├── GlobalSolarAtlasGIS/          # GSA GeoTIFFs (solar)
 ├── SolarGis/                     # SolarGIS GeoTIFFs (solar)
 ├── GlobalWindAtlas_PHL_wind-speed_10m.tif

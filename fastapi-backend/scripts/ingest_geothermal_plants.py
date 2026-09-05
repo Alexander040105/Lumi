@@ -6,7 +6,7 @@ import pandas as pd
 
 def main():
     repo_root = Path(__file__).resolve().parents[2]
-    xl = repo_root / "GeothermalDatasets" / "Geothermal-Power-Tracker-March-2026-Final.xlsx"
+    xl = repo_root / "data" / "GeothermalDatasets" / "Geothermal-Power-Tracker-March-2026-Final.xlsx"
     df = pd.read_excel(xl, sheet_name="Data", header=0, skiprows=[1])
     ph = df[df["Country/Area"] == "Philippines"].copy()
 

@@ -208,7 +208,7 @@ These are used to build the **RAG knowledge base** for cost-aware AI recommendat
 ## 5. Deployment Architecture for ML
 
 ```
-DOE_Data_Extracted/
+data/DOE_Data_Extracted/
   ├── master_preprocessed.csv              (historical data)
   ├── forecast_consumption_2025_2030.csv   (ARIMA point forecast + 95% CI)
   ├── forecast_peak_demand_2025_2030.csv  (ARIMA peak demand forecast)
@@ -240,4 +240,4 @@ React frontend (EnergyHub dashboard)
 
 ---
 
-*Compiled from: `DOE_Data_Extracted/` notebooks, `fastapi-backend/app/ml/predictor.py`, `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md`, `LUMI_ML_MODEL_ANALYSIS.md`, `LUMI_METHODOLOGY_ML.md`, and `LUMI_TECH_RECOMMENDATIONS.md`.*
+*Compiled from: `data/DOE_Data_Extracted/` notebooks, `fastapi-backend/app/ml/predictor.py`, `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md`, `LUMI_ML_MODEL_ANALYSIS.md`, `LUMI_METHODOLOGY_ML.md`, and `LUMI_TECH_RECOMMENDATIONS.md`.*
