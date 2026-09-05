@@ -1,0 +1,128 @@
+[
+  {
+    "id": "SEC-AUTH-01",
+    "check": "No token -> /protected/me",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Missing token\"}"
+  },
+  {
+    "id": "SEC-AUTH-02",
+    "check": "Malformed token",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-03",
+    "check": "alg=none JWT",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-04",
+    "check": "Wrong-signature JWT",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-05",
+    "check": "Expired JWT (real secret, expired exp)",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-06",
+    "check": "Locally-minted JWT for nonexistent user",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "if 200: local JWT fallback accepts unregistered users"
+  },
+  {
+    "id": "SEC-AUTH-ADM",
+    "check": "Bad token -> /admin/users",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-ADM",
+    "check": "Bad token -> /admin/analytics",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-AUTH-ADM",
+    "check": "Bad token -> /admin/config",
+    "observed": "HTTP 401",
+    "verdict": "PASS",
+    "detail": "{\"detail\":\"Invalid token\"}"
+  },
+  {
+    "id": "SEC-HDR-01",
+    "check": "Security headers present",
+    "observed": "present=5/5 missing=[]",
+    "verdict": "PASS",
+    "detail": "x-content-type-options: nosniff; x-frame-options: DENY; strict-transport-security: max-age=31536000; includeSubDomains; content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'; referrer-policy: strict-origin-when-cross-or"
+  },
+  {
+    "id": "SEC-HDR-02",
+    "check": "Server banner disclosure",
+    "observed": "server='uvicorn'",
+    "verdict": "WARN",
+    "detail": ""
+  },
+  {
+    "id": "SEC-CORS-allowed",
+    "check": "Preflight origin=http://localhost:5173",
+    "observed": "HTTP 200 ACAO='http://localhost:5173'",
+    "verdict": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "SEC-CORS-regex-allowed",
+    "check": "Preflight origin=https://lumi-frontend-abc.vercel.app",
+    "observed": "HTTP 200 ACAO='https://lumi-frontend-abc.vercel.app'",
+    "verdict": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "SEC-CORS-disallowed",
+    "check": "Preflight origin=https://evil.example.com",
+    "observed": "HTTP 400 ACAO=None",
+    "verdict": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "SEC-DOCS",
+    "check": "/docs exposure",
+    "observed": "HTTP 200",
+    "verdict": "INFO",
+    "detail": ""
+  },
+  {
+    "id": "SEC-DOCS",
+    "check": "/openapi.json exposure",
+    "observed": "HTTP 200",
+    "verdict": "INFO",
+    "detail": ""
+  },
+  {
+    "id": "SEC-DOCS",
+    "check": "/redoc exposure",
+    "observed": "HTTP 200",
+    "verdict": "INFO",
+    "detail": ""
+  },
+  {
+    "id": "SEC-ERR-01",
+    "check": "500 body leaks internals (/geothermal/999999)",
+    "observed": "HTTP 500 leaks=False body={\"detail\":\"Server error. Please try again or contact support.\",\"request_id\":\"6289ebf5-b700-48b5-97b0-2ad34fec2704\"}",
+    "verdict": "PASS",
+    "detail": ""
+  }
+]

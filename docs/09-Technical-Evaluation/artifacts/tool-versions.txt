@@ -1,0 +1,9 @@
+Python: Python 3.13.2
+pytest: pytest 9.1.0
+locust: locust 2.46.4 from C:\Users\Pixel-Tone\AppData\Local\Programs\Python\Python313\Lib\site-packages\locust (Python 3.13.2)
+pip-audit: pip-audit 2.10.1
+bandit: __main__.py 1.9.4
+uvicorn: Running uvicorn 0.30.6 with CPython 3.13.2 on Windows
+node: v24.15.0
+npm: 11.12.1
+date: 2026-09-05 15:56:53

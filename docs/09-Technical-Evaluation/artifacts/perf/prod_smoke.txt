@@ -1,0 +1,5 @@
+GET /health | status=200 | 3835.4ms
+GET /health/detailed | status=200 | 3095.7ms
+GET /energyhub/overview | status=200 | 2280ms
+GET /ecosim/municipalities | status=200 | 1133.8ms
+GET /map/coverage | status=200 | 852.9ms

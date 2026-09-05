@@ -1,0 +1,13 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,GET /energyhub/map-data,HTTPError('429 Client Error: Too Many Requests for url: GET /energyhub/map-data'),144,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /products/browse,HTTPError('429 Client Error: Too Many Requests for url: GET /products/browse'),57,2026-09-05T08:20:41Z,2026-09-05T08:21:16Z
+GET,GET /ecosim/provinces,HTTPError('429 Client Error: Too Many Requests for url: GET /ecosim/provinces'),57,2026-09-05T08:20:41Z,2026-09-05T08:21:16Z
+GET,GET /map/coverage,HTTPError('429 Client Error: Too Many Requests for url: GET /map/coverage'),105,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /energyhub/overview,HTTPError('429 Client Error: Too Many Requests for url: GET /energyhub/overview'),144,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /geospatial/centroids,HTTPError('429 Client Error: Too Many Requests for url: GET /geospatial/centroids'),106,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /energyhub/trends,HTTPError('429 Client Error: Too Many Requests for url: GET /energyhub/trends'),144,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /ecosim/ (simulation),HTTPError('429 Client Error: Too Many Requests for url: GET /ecosim/ (simulation)'),124,2026-09-05T08:20:40Z,2026-09-05T08:21:16Z
+GET,GET /map/solar,HTTPError('429 Client Error: Too Many Requests for url: GET /map/solar'),105,2026-09-05T08:20:40Z,2026-09-05T08:21:17Z
+GET,GET /ecosim/municipalities,HTTPError('429 Client Error: Too Many Requests for url: GET /ecosim/municipalities'),57,2026-09-05T08:20:41Z,2026-09-05T08:21:16Z
+GET,GET /ecosim/ (simulation),HTTPError('401 Client Error: Unauthorized for url: GET /ecosim/ (simulation)'),7,2026-09-05T08:20:38Z,2026-09-05T08:20:40Z
+GET,GET /geothermal/plants,HTTPError('429 Client Error: Too Many Requests for url: GET /geothermal/plants'),58,2026-09-05T08:20:40Z,2026-09-05T08:21:16Z

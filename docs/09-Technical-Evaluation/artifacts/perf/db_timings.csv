@@ -1,0 +1,4 @@
+endpoint,method,path,params,n,min_ms,mean_ms,p50_ms,p95_ms,max_ms,statuses,all_2xx,threshold_ms,within_threshold,errors
+db:regions_select_1,RPC,supabase,{},10,68.5,160.8,70.6,962.9,962.9,ok,True,2000,True,
+db:municipalities_select_10,RPC,supabase,{},10,69.5,100.7,74.0,317.9,317.9,ok,True,2000,True,
+db:climate_monthly_filtered,RPC,supabase,{},10,69.9,78.1,76.1,88.0,88.0,ok,True,2000,True,
