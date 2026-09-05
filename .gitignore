@@ -239,3 +239,10 @@ scripts/gap_output/
 GeothermalDatasets/
 ThesisResearchStudies/
 scraped_data/output/
+
+# Supabase CLI local state
+supabase/.temp/
+
+# Vite timestamp artifacts and OS noise
+*.timestamp-*.mjs
+Thumbs.db
