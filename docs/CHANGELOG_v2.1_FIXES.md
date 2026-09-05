@@ -458,6 +458,6 @@ All 29 targeted code-quality checks passed:
 - Added `vercel-preview.yml` to deploy a Vercel preview on every push to `development` (or `develop`).
 
 **Documentation**
-- Added `docs/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
+- Added `docs/05-Setup-Guides/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
 
 *End of changelog.*

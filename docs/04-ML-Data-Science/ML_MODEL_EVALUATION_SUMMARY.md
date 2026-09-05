@@ -277,7 +277,7 @@ EcoSim's solar, wind, hydro, and geothermal calculators are **physics-based**, n
 
 > **Note:** While these are deterministic, they are still "models" in the scientific sense — simplified representations of physical reality. If sensor validation data becomes available in the future, MAE, MAPE, and Relative Error would be used to validate them.
 >
-> *Source:* `docs/THESIS_RESEARCH_INTEGRATION.md` (formula appendix)
+> *Source:* `docs/thesis/THESIS_RESEARCH_INTEGRATION.md` (formula appendix)
 
 ---
 
@@ -386,7 +386,7 @@ And that's why LUMI uses **physics formulas** for EcoSim. They don't need to "pr
 - `lumi_tests/docs/lumi_metrics_and_models_for_everyone.md` — Plain-language explanations of metrics and models.
 - `docs/04-ML-Data-Science/LUMI_ML_MODEL_ANALYSIS.md` — Theoretical feasibility study for LSTM, Prophet, LightGBM, and TFT.
 - `lumi_tests/docs/llm_evaluation_methodology.md` — Evaluation framework for Gemini and Groq generative models.
-- `docs/THESIS_RESEARCH_INTEGRATION.md` — Formula appendix for EcoSim physics-based calculators.
+- `docs/thesis/THESIS_RESEARCH_INTEGRATION.md` — Formula appendix for EcoSim physics-based calculators.
 
 ---
 

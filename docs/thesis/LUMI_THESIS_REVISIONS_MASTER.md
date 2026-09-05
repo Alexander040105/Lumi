@@ -131,7 +131,7 @@ This document consolidates **all 8 panelist revisions** (Phases 1–8) and the *
 - Data gap matrix with integration actions.
 
 **Files created:**
-- `@docs/FREE_ALTERNATIVE_DATA.md`
+- `@docs/04-ML-Data-Science/FREE_ALTERNATIVE_DATA.md`
 
 ---
 
@@ -149,7 +149,7 @@ This document consolidates **all 8 panelist revisions** (Phases 1–8) and the *
   - 5 suggested improvements: economic weighting, nighttime lights, DU data-sharing, building footprints, ML downscaling
 
 **Files created:**
-- `@docs/municipal_demand_granularity_study.md`
+- `@docs/04-ML-Data-Science/municipal_demand_granularity_study.md`
 
 ---
 
@@ -241,9 +241,9 @@ This document consolidates **all 8 panelist revisions** (Phases 1–8) and the *
 | `react-frontend/src/components/energyhub/ChartExplanation.jsx` | Reusable chart explanation block |
 | `react-frontend/src/components/energyhub/ProvincialDemand.jsx` | Provincial demand bar chart |
 | `supabase/table_scripts/municipal_population.sql` | PSA population table schema |
-| `docs/FREE_ALTERNATIVE_DATA.md` | Free data sources catalog |
-| `docs/municipal_demand_granularity_study.md` | Methodology document |
-| `docs/REVISIONS_INTEGRATION_SUMMARY.md` | Integration checklist |
+| `docs/04-ML-Data-Science/FREE_ALTERNATIVE_DATA.md` | Free data sources catalog |
+| `docs/04-ML-Data-Science/municipal_demand_granularity_study.md` | Methodology document |
+| `docs/thesis/REVISIONS_INTEGRATION_SUMMARY.md` | Integration checklist |
 
 ### Modified Files
 | File | Changes |

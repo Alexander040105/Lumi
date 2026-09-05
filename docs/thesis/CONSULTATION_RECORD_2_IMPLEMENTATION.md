@@ -189,7 +189,7 @@ Add TOTP-based two-factor authentication to protect user accounts.
 - `src/__tests__/I18nProvider.test.jsx`
 - `src/__tests__/theme-contrast.test.js`
 - `public/geothermal_volcanoes.json`
-- `docs/CONSULTATION_RECORD_2_IMPLEMENTATION.md` *(this document)*
+- `docs/thesis/CONSULTATION_RECORD_2_IMPLEMENTATION.md` *(this document)*
 
 ---
 

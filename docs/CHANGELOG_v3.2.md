@@ -40,8 +40,8 @@ This release integrates the `lumi-fastapi-react-v4` workstream, makes the EcoSim
 
 ### 1.5 Documentation
 
-- `docs/DEVELOPMENT_WORKFLOW.md` — branch strategy, CI/CD workflow explanation, and manual GitHub/Vercel settings.
-- `docs/LESSONS_LEARNED.md` — post-mortem and fixes for EnergyHub Vercel 500 errors.
+- `docs/05-Setup-Guides/DEVELOPMENT_WORKFLOW.md` — branch strategy, CI/CD workflow explanation, and manual GitHub/Vercel settings.
+- `docs/01-Project-Overview/LESSONS_LEARNED.md` — post-mortem and fixes for EnergyHub Vercel 500 errors.
 - `docs/function-reference/BACKEND.md`, `FRONTEND.md`, `GEOLOCATION.md`, `MISC.md`, `README.md`, `UPDATE_PROMPT.md` — auto-generated function reference docs.
 - `DOCS_INDEX.md` reorganized, alphabetized, and linked to the new function-reference section.
 
@@ -150,4 +150,4 @@ This release integrates the `lumi-fastapi-react-v4` workstream, makes the EcoSim
 ## 7. Notes
 
 - Production deploys now require a manual run of the `Vercel Production Deploy` and/or `Deploy` GitHub Actions from the `main` branch, plus an approved `production` environment reviewer.
-- See `docs/DEVELOPMENT_WORKFLOW.md` for the full branching and release process.
+- See `docs/05-Setup-Guides/DEVELOPMENT_WORKFLOW.md` for the full branching and release process.

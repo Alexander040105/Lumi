@@ -60,7 +60,7 @@ Province values are computed in two ways and reconciled:
 1. **Area-weighted municipal average** — municipalities are weighted by `area_km2` from the verified centroid CSV.
 2. **Direct centroid sample** — the GSA/GWA rasters are sampled at the province polygon centroid.
 
-The final values default to the area-weighted municipal average because it represents the whole province better than a single point. The `reconciliation_note` column records any variable where the two methods differ by more than 5%. See `docs/PROVINCE_ATLAS_VALIDATION.md` for the full validation report.
+The final values default to the area-weighted municipal average because it represents the whole province better than a single point. The `reconciliation_note` column records any variable where the two methods differ by more than 5%. See `docs/07-Data-Extraction-Reports/PROVINCE_ATLAS_VALIDATION.md` for the full validation report.
 
 ## Validation notes
 

@@ -158,12 +158,12 @@ The limitations you are seeing (NASA POWER coarseness, no DNI/DHI, no stream gau
 - `scripts/insert_geospatial_metadata.py` -- upload centroids to Supabase.
 - `supabase/table_scripts/schema.sql` -- regions, provinces, municipalities, barangays schema.
 - `supabase/table_scripts/supabase_suitability_migration.sql` -- suitability score columns.
-- `docs/FREE_ALTERNATIVE_DATA.md` -- existing catalog of free public data sources.
-- `docs/municipal_demand_granularity_study.md` -- demand disaggregation methodology and limitations.
-- `docs/geospatial_data_pipeline.md` -- full geospatial data pipeline.
-- `docs/GEOTHERMAL_FORMULAS.md` -- full geothermal formula reference.
-- `docs/PANEL_FORMULA_SUMMARY.md` -- panel-defense explanations for every EcoSim formula.
-- `docs/COMPLETE_FORMULA_SUMMARY_WITH_RRL.md` -- all formulas with thesis RRL references.
+- `docs/04-ML-Data-Science/FREE_ALTERNATIVE_DATA.md` -- existing catalog of free public data sources.
+- `docs/04-ML-Data-Science/municipal_demand_granularity_study.md` -- demand disaggregation methodology and limitations.
+- `docs/02-Architecture/geospatial_data_pipeline.md` -- full geospatial data pipeline.
+- `docs/04-ML-Data-Science/GEOTHERMAL_FORMULAS.md` -- full geothermal formula reference.
+- `docs/04-ML-Data-Science/PANEL_FORMULA_SUMMARY.md` -- panel-defense explanations for every EcoSim formula.
+- `docs/04-ML-Data-Science/COMPLETE_FORMULA_SUMMARY_WITH_RRL.md` -- all formulas with thesis RRL references.
 
 ---
 
