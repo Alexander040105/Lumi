@@ -13,17 +13,17 @@ LUMI now uses high-resolution **Global Solar Atlas (Solargis / World Bank)** and
 
 | File | Purpose |
 |---|---|
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GHI.tif` | Daily GHI (kWh/m²/day) |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/PVOUT.tif` | Daily PV specific yield (kWh/kWp/day) |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_YearlyMonthlyTotals/PVOUT.tif` | Annual PV specific yield (kWh/kWp/year) |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DNI.tif` | Direct normal irradiance |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DIF.tif` | Diffuse horizontal irradiance |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GTI.tif` | Global tilted irradiance (optimum tilt) |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/TEMP.tif` | Long-term average temperature (°C) |
-| `newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/OPTA.tif` | Optimum tilt angle (°) |
-| `newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif` | 10 m wind speed (m/s) |
-| `newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_50m.tif` | 50 m wind speed (m/s) |
-| `newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_100m.tif` | 100 m wind speed (m/s) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GHI.tif` | Daily GHI (kWh/m²/day) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/PVOUT.tif` | Daily PV specific yield (kWh/kWp/day) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_YearlyMonthlyTotals/PVOUT.tif` | Annual PV specific yield (kWh/kWp/year) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DNI.tif` | Direct normal irradiance |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DIF.tif` | Diffuse horizontal irradiance |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GTI.tif` | Global tilted irradiance (optimum tilt) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/TEMP.tif` | Long-term average temperature (°C) |
+| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/OPTA.tif` | Optimum tilt angle (°) |
+| `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif` | 10 m wind speed (m/s) |
+| `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_50m.tif` | 50 m wind speed (m/s) |
+| `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_100m.tif` | 100 m wind speed (m/s) |
 
 ## Extraction pipeline
 

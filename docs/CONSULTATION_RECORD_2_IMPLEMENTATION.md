@@ -80,7 +80,7 @@ Globalize all user-facing text and allow switching between English and Filipino.
 Integrate PHIVOLCS volcano data and render actual volcano markers on the map instead of relying only on raster overlays.
 
 ### Implementation
-- Converted `GeothermalDatasets/philippine_volcanoes.csv` (PHIVOLCS listing of 24 volcanoes) into a GeoJSON `FeatureCollection` at `react-frontend/public/geothermal_volcanoes.json`.
+- Converted `data/GeothermalDatasets/philippine_volcanoes.csv` (PHIVOLCS listing of 24 volcanoes) into a GeoJSON `FeatureCollection` at `react-frontend/public/geothermal_volcanoes.json`.
 - `src/components/energyhub/EnergyMap.jsx`
   - Added `volcanoGeojson` state.
   - Fetched the volcano GeoJSON and cached it with `fetchGeoJsonCached`.
@@ -197,7 +197,7 @@ Add TOTP-based two-factor authentication to protect user accounts.
 
 - **MFA requires the Supabase project to have Multi-Factor Authentication enabled** in the Auth settings. If it is disabled, the API calls will error and the UI will console-log the failure while still allowing the user to sign in (fail-open behavior).
 - **Admin stats in `AdminDashboard.jsx`** rely on Supabase table-level access. If the current user does not have admin RLS privileges, counts will remain `0`.
-- **Volcano markers** are rendered from `public/geothermal_volcanoes.json`, which was generated from `GeothermalDatasets/philippine_volcanoes.csv`.
+- **Volcano markers** are rendered from `public/geothermal_volcanoes.json`, which was generated from `data/GeothermalDatasets/philippine_volcanoes.csv`.
 
 ---
 

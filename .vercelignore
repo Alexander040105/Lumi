@@ -6,24 +6,24 @@
 
 # Keep small preprocessed DOE CSVs bundled for the EnergyHub predictor;
 # other DOE raw datasets remain offloaded to Supabase to stay under the 50 MB limit.
-/DOE_Data_Extracted/**
-!/DOE_Data_Extracted/data_v2_preprocessed/
-!/DOE_Data_Extracted/data_v2_preprocessed/**
+/data/DOE_Data_Extracted/**
+!/data/DOE_Data_Extracted/data_v2_preprocessed/
+!/data/DOE_Data_Extracted/data_v2_preprocessed/**
 
 # Raw / dev / non-runtime directories
-/philippine_geojson/
+/data/philippine_geojson/
 /fastapi-backend/scripts/
 /fastapi-backend/tests/
-/windsurf_data_extraction/
-/lumi_tests/
+/data/windsurf_data_extraction/
+/tests/
 /python_scripts/
-/scraped_data/
+/data/scraped_data/
 /scripts/gap_output/
-/newDataPointsToExtract/
-/GeothermalDatasets/
-/ThesisResearchStudies/
-/regionalData/
-/lumi-details/
+/data/newDataPointsToExtract/
+/data/GeothermalDatasets/
+/data/ThesisResearchStudies/
+/data/regionalData/
+/data/debug_outputs/
 /docs/
 /supabase/
 /expo-mobile/

@@ -24,9 +24,9 @@ from shapely.geometry import shape
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-GEOJSON_PATH = Path("philippine_geojson/philippine_geojson_file_per_provinces.json")
-CSV_MUNI_PATH = Path("regionalData/municipalities.csv")
-CSV_PROV_PATH = Path("regionalData/provinces.csv")
+GEOJSON_PATH = Path("data/philippine_geojson/philippine_geojson_file_per_provinces.json")
+CSV_MUNI_PATH = Path("data/regionalData/municipalities.csv")
+CSV_PROV_PATH = Path("data/regionalData/provinces.csv")
 
 # Supabase REST config
 load_env = Path(".env")

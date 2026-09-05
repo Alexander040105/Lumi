@@ -2,7 +2,7 @@
 
 ## What changed
 
-LUMI now ingests the Copernicus ERA5 10 m wind reanalysis for the Philippines. The dataset (`newDataPointsToExtract/ERA5_copernicusData.grib`) provides hourly `u10` and `v10` wind components on a 0.25° grid from 2015-01-01 to 2026-08-14, which we converted to scalar 10 m wind speed and sampled at every municipality and province centroid.
+LUMI now ingests the Copernicus ERA5 10 m wind reanalysis for the Philippines. The dataset (`data/newDataPointsToExtract/ERA5_copernicusData.grib`) provides hourly `u10` and `v10` wind components on a 0.25° grid from 2015-01-01 to 2026-08-14, which we converted to scalar 10 m wind speed and sampled at every municipality and province centroid.
 
 ## ERA5 variables in the file
 

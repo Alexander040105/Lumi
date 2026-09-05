@@ -27,7 +27,7 @@ jobs:
           pip install pytest pytest-mock pytest-benchmark
 
       - name: Run unit tests
-        working-directory: lumi_tests
+        working-directory: tests
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}

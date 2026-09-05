@@ -756,7 +756,7 @@ export default function MFASetup() {
 
 ## 8. PHIVOLCS Volcano GeoJSON — `react-frontend/public/geothermal_volcanoes.json` *(new data source)*
 
-**Why:** Provides the actual volcano locations used to render map markers. It was converted from `GeothermalDatasets/philippine_volcanoes.csv`.
+**Why:** Provides the actual volcano locations used to render map markers. It was converted from `data/GeothermalDatasets/philippine_volcanoes.csv`.
 
 ```json
 {

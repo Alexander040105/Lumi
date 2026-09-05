@@ -590,7 +590,7 @@ is multiplicative, which is better than additive but still opaque to users.
 
 ### 7.1 Current Forecasting Setup
 
-`app/ml/predictor.py` loads pre-computed ARIMA(1,1,1) forecasts from CSV files in `DOE_Data_Extracted/data_v2_preprocessed/`. The model is trained on national total consumption and peak demand from 2003–2020 and evaluated on 2021–2024. Forecasts are served statically; no retraining occurs at runtime.
+`app/ml/predictor.py` loads pre-computed ARIMA(1,1,1) forecasts from CSV files in `data/DOE_Data_Extracted/data_v2_preprocessed/`. The model is trained on national total consumption and peak demand from 2003–2020 and evaluated on 2021–2024. Forecasts are served statically; no retraining occurs at runtime.
 
 ### 7.2 Strengths
 
@@ -848,8 +848,8 @@ Data flows through several ad-hoc scripts and notebooks:
 - `scripts/extract_centroids.py` → `geospatial_metadata`
 - `municipality_suitability_builder.py` → `municipalities` / `*_suitability`
 - `rag_knowledge_builder.py` → `rag_knowledge_base.json`
-- `DOE_Data_Extracted/` notebooks → CSV artifacts
-- `scraped_data/` scripts → `cleaned_products_master.csv`
+- `data/DOE_Data_Extracted/` notebooks → CSV artifacts
+- `data/scraped_data/` scripts → `cleaned_products_master.csv`
 
 ### 10.2 Issues
 

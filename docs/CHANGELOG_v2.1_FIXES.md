@@ -164,7 +164,7 @@
 - **Problem:** Arbitrary 500-row truncation silently dropped valid municipalities from large provinces.
 - **Fix:** Pass the full `municipality_ids` list to the query.
 
-### 2.2 Data Preprocessing (`DOE_Data_Extracted/data_v2_preprocessing.py`)
+### 2.2 Data Preprocessing (`data/DOE_Data_Extracted/data_v2_preprocessing.py`)
 
 **Removed Duplicate Year Column Hack**
 - **Line 342-359:** Removed `parts.insert(34, "year")` and the associated CSV header rewrite.
@@ -339,7 +339,7 @@
 | 7 | `app/routes/chat.py` | 56-78 | Critical |
 | 8 | `main.py` | 11-17 | Critical |
 | 9 | `app/services/ecosim.py` | 258-278, 953-964, 1054-1115 | High |
-| 10 | `DOE_Data_Extracted/data_v2_preprocessing.py` | 342-359, 395-416 | High |
+| 10 | `data/DOE_Data_Extracted/data_v2_preprocessing.py` | 342-359, 395-416 | High |
 | 11 | `app/services/energyhub.py` | 997-1033 | High |
 | 12 | `app/schemas/energyhub.py` | 130-134 | High |
 | 13 | `app/services/gemini_funcs.py` | 1-20 | Security |

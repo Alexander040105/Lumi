@@ -23,6 +23,7 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 REPO_ROOT = Path(__file__).resolve().parents[2]
 INPUT_SHP = (
     REPO_ROOT
+    / "data"
     / "GeothermalDatasets"
     / "shapefilesForAquiferProperties"
     / "All_merged.shp"

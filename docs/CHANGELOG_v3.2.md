@@ -132,7 +132,7 @@ This release integrates the `lumi-fastapi-react-v4` workstream, makes the EcoSim
 
 ## 5. Removed / Cleaned
 
-- Deleted stale raw scraped-data artifacts under `scraped_data/output/raw_data/`.
+- Deleted stale raw scraped-data artifacts under `data/scraped_data/output/raw_data/`.
 - Removed `react-frontend/node_modules/nanoid/.claude/settings.local.json` and other incidental `node_modules` noise.
 
 ---
@@ -140,10 +140,10 @@ This release integrates the `lumi-fastapi-react-v4` workstream, makes the EcoSim
 ## 6. Verification
 
 - `python -m py_compile` passes on all changed Python files.
-- `lumi_tests/tests/unit/` — **176 passed**.
-- `lumi_tests/tests/integration/test_api.py -m mock` — **24 passed, 1 skipped**.
-- `lumi_tests/tests/integration/test_pipeline.py` — **30 passed**.
-- Live, database, and performance tests are conditional on environment variables and a running server (see `lumi_tests/README.md`).
+- `tests/tests/unit/` — **176 passed**.
+- `tests/tests/integration/test_api.py -m mock` — **24 passed, 1 skipped**.
+- `tests/tests/integration/test_pipeline.py` — **30 passed**.
+- Live, database, and performance tests are conditional on environment variables and a running server (see `tests/README.md`).
 
 ---
 
