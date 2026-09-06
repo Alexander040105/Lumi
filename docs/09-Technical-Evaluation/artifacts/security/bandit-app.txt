@@ -1,0 +1,237 @@
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.13.2
+Working... ---------------------------------------- 100% 0:00:02
+Run started:2026-09-05 08:06:02.580644+00:00
+
+Test results:
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: fastapi-backend\app\config\settings.py:220:12
+219	                    return parsed
+220	            except Exception:
+221	                pass
+222	        return _DEFAULT_CORS_ORIGINS
+
+--------------------------------------------------
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html
+   Location: fastapi-backend\app\dependencies\quota.py:22:58
+21	    """Return True for loopback addresses used in local dev only."""
+22	    return client_id in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+23	
+
+--------------------------------------------------
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html
+   Location: fastapi-backend\app\middleware\rate_limit.py:24:58
+23	    """Return True for loopback addresses used in local dev only."""
+24	    return client_ip in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+25	
+
+--------------------------------------------------
+>> Issue: [B324:hashlib] Use of weak MD5 hash for security. Consider usedforsecurity=False
+   Severity: High   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b324_hashlib.html
+   Location: fastapi-backend\app\services\ecosim.py:958:48
+957	            "hydro_plant_absolute_cap_kwh": _s.hydro_plant_absolute_cap_kwh,
+958	            "hydro_plant_floor_provinces_hash": hashlib.md5(
+959	                ",".join(sorted(p.lower() for p in _s.hydro_plant_floor_provinces)).encode("utf-8")
+960	            ).hexdigest()[:8],
+961	            "scoring_version": "v5",  # v5: hydro plant output floor
+
+--------------------------------------------------
+>> Issue: [B324:hashlib] Use of weak MD5 hash for security. Consider usedforsecurity=False
+   Severity: High   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b324_hashlib.html
+   Location: fastapi-backend\app\services\ecosim.py:963:22
+962	        }
+963	        params_hash = hashlib.md5(
+964	            json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
+965	        ).hexdigest()[:24]
+966	        cached = get_ecosim_cache_sync("municipality", geo_id, params_hash)
+
+--------------------------------------------------
+>> Issue: [B112:try_except_continue] Try, Except, Continue detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b112_try_except_continue.html
+   Location: fastapi-backend\app\services\energyhub.py:786:16
+785	                    parsed = json.loads(raw)
+786	                except Exception:
+787	                    continue
+788	            if not isinstance(parsed, dict):
+
+--------------------------------------------------
+>> Issue: [B324:hashlib] Use of weak MD5 hash for security. Consider usedforsecurity=False
+   Severity: High   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b324_hashlib.html
+   Location: fastapi-backend\app\services\energyhub.py:1277:15
+1276	        )
+1277	        return hashlib.md5(canonical.encode()).hexdigest()
+1278	
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
+   Location: fastapi-backend\app\services\energyhub.py:1295:19
+1294	            import random
+1295	            return random.choice(rows)["insight"]
+1296	        except Exception as exc:
+
+--------------------------------------------------
+>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
+   Severity: Low   Confidence: High
+   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random
+   Location: fastapi-backend\app\services\etl_orchestrator.py:230:11
+229	    import random
+230	    return random.choice(_USER_AGENTS)
+231	
+
+--------------------------------------------------
+>> Issue: [B324:hashlib] Use of weak MD5 hash for security. Consider usedforsecurity=False
+   Severity: High   Confidence: High
+   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b324_hashlib.html
+   Location: fastapi-backend\app\services\forecasting.py:40:13
+39	    payload = f"{target_col}:{sorted(exog_cols or ())}:{forecast_years}"
+40	    digest = hashlib.md5(payload.encode("utf-8")).hexdigest()[:24]
+41	    return f"lumi:forecast:{digest}"
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: fastapi-backend\app\services\gemini_funcs.py:84:4
+83	            return municipality_data.get("municipality_id")
+84	    except Exception:
+85	        pass
+86	    return None
+
+--------------------------------------------------
+>> Issue: [B405:blacklist] Using ElementTree to parse untrusted XML data is known to be vulnerable to XML attacks. Replace ElementTree with the equivalent defusedxml package, or make sure defusedxml.defuse_stdlib() is called.
+   Severity: Low   Confidence: High
+   CWE: CWE-20 (https://cwe.mitre.org/data/definitions/20.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b405-import-xml-etree
+   Location: fastapi-backend\app\services\geothermal\extract_kmz.py:23:0
+22	from pathlib import Path
+23	from xml.etree import ElementTree as ET
+24	
+
+--------------------------------------------------
+>> Issue: [B314:blacklist] Using xml.etree.ElementTree.parse to parse untrusted XML data is known to be vulnerable to XML attacks. Replace xml.etree.ElementTree.parse with its defusedxml equivalent function or make sure defusedxml.defuse_stdlib() is called
+   Severity: Medium   Confidence: High
+   CWE: CWE-20 (https://cwe.mitre.org/data/definitions/20.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b313-b320-xml-bad-elementtree
+   Location: fastapi-backend\app\services\geothermal\extract_kmz.py:54:19
+53	        with zf.open(kml_names[0]) as kml_file:
+54	            tree = ET.parse(kml_file)
+55	            root = tree.getroot()
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: fastapi-backend\app\services\municipality_suitability_builder.py:216:4
+215	                data[mid]["reservoir_temperature_c"] = r.get("reservoir_temperature_c")
+216	    except Exception:
+217	        # geothermal_output may not exist or have no data; skip gracefully
+218	        pass
+219	
+
+--------------------------------------------------
+>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html
+   Location: fastapi-backend\app\services\supabase_service.py:99:8
+98	            self.http.close()
+99	        except Exception:
+100	            pass
+101	
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: fastapi-backend\app\services\test_rag_normalize.py:28:0
+27	# Verify backward-compatible fields exist
+28	assert result["recommended_energy_source"] == "solar"
+29	assert result["summary"] == result["explanation"]
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: fastapi-backend\app\services\test_rag_normalize.py:29:0
+28	assert result["recommended_energy_source"] == "solar"
+29	assert result["summary"] == result["explanation"]
+30	assert result["recommendation"]["best_option"] == "solar"
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: fastapi-backend\app\services\test_rag_normalize.py:30:0
+29	assert result["summary"] == result["explanation"]
+30	assert result["recommendation"]["best_option"] == "solar"
+31	assert "solar" in result["cost_estimation"]
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: fastapi-backend\app\services\test_rag_normalize.py:31:0
+30	assert result["recommendation"]["best_option"] == "solar"
+31	assert "solar" in result["cost_estimation"]
+32	assert result["cost_estimation"]["solar"]["total_range"] == "PHP 35,000 - 70,000 for a 1.1 kWp system"
+
+--------------------------------------------------
+>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+   Severity: Low   Confidence: High
+   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b101_assert_used.html
+   Location: fastapi-backend\app\services\test_rag_normalize.py:32:0
+31	assert "solar" in result["cost_estimation"]
+32	assert result["cost_estimation"]["solar"]["total_range"] == "PHP 35,000 - 70,000 for a 1.1 kWp system"
+33	print("\nAll assertions passed.")
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 17006
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 13
+		Medium: 3
+		High: 4
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 2
+		High: 18
+Files skipped (0):

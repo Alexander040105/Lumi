@@ -1,0 +1,916 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- C:\Users\Pixel-Tone\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Pixel-Tone\Documents\GitHub\Lumi\lumi_tests
+configfile: pytest.ini
+plugins: anyio-4.13.0, locust-2.46.4, asyncio-1.4.0, typeguard-4.5.2
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 99 items
+
+tests/integration/performance_test.py::TestDatasetLoadingPerformance::test_doe_csv_load_time PASSED [  1%]
+tests/integration/performance_test.py::TestDatasetLoadingPerformance::test_large_csv_load_time PASSED [  2%]
+tests/integration/performance_test.py::TestPredictionPerformance::test_linear_regression_inference_time PASSED [  3%]
+tests/integration/performance_test.py::TestPredictionPerformance::test_preprocessing_pipeline_time PASSED [  4%]
+tests/integration/performance_test.py::TestApiResponsePerformance::test_health_endpoint_response_time PASSED [  5%]
+tests/integration/performance_test.py::TestApiResponsePerformance::test_energyhub_overview_response_time PASSED [  6%]
+tests/integration/performance_test.py::TestApiResponsePerformance::test_ecosim_response_time PASSED [  7%]
+tests/integration/performance_test.py::TestMapAggregationPerformance::test_province_aggregation_time PASSED [  8%]
+tests/integration/performance_test.py::TestMapAggregationPerformance::test_renewable_potential_computation_time PASSED [  9%]
+tests/integration/performance_test.py::TestRagRetrievalPerformance::test_faiss_search_time PASSED [ 10%]
+tests/integration/performance_test.py::TestRagRetrievalPerformance::test_chunk_filtering_time PASSED [ 11%]
+tests/integration/performance_test.py::TestMemoryPerformance::test_dataframe_memory_footprint PASSED [ 12%]
+tests/integration/performance_test.py::TestMemoryPerformance::test_faiss_index_memory_footprint PASSED [ 13%]
+tests/integration/test_api.py::TestHealthEndpoint::test_health_check_mock PASSED [ 14%]
+tests/integration/test_api.py::TestHealthEndpoint::test_health_check_live PASSED [ 15%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_overview_status_code PASSED [ 16%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_overview_response_keys PASSED [ 17%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_forecast_metric_param PASSED [ 18%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_trends_status_code PASSED [ 19%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_map_data_status_code PASSED [ 20%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_source_breakdown_status_code PASSED [ 21%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_grid_breakdown_status_code PASSED [ 22%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_invalid_metric_returns_error PASSED [ 23%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_with_valid_params PASSED [ 24%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_missing_params PASSED [ 25%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_with_ai_flags PASSED [ 26%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_municipalities PASSED [ 27%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_post_ecosim PASSED [ 28%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_post_ecosim_invalid_body PASSED [ 29%]
+tests/integration/test_api.py::TestAuthEndpoints::test_protected_endpoint_without_token PASSED [ 30%]
+tests/integration/test_api.py::TestAuthEndpoints::test_auth_callback_exists PASSED [ 31%]
+tests/integration/test_api.py::TestAuthEndpoints::test_valid_jwt_access PASSED [ 32%]
+tests/integration/test_api.py::TestAuthEndpoints::test_expired_jwt_rejected PASSED [ 33%]
+tests/integration/test_api.py::TestForecastEndpoints::test_forecast_consumption_metric PASSED [ 34%]
+tests/integration/test_api.py::TestForecastEndpoints::test_forecast_invalid_metric PASSED [ 35%]
+tests/integration/test_api.py::TestEcoSimPost::test_post_ecosim_valid_municipality SKIPPED [ 36%]
+tests/integration/test_api.py::TestEcoSimPost::test_post_ecosim_invalid_municipality PASSED [ 37%]
+tests/integration/test_api.py::TestResponseSchema::test_all_responses_are_json PASSED [ 38%]
+tests/integration/test_api.py::TestResponseSchema::test_error_responses_have_detail SKIPPED [ 39%]
+tests/integration/test_database.py::TestSchemaExists::test_all_tables_exist ERROR [ 40%]
+tests/integration/test_database.py::TestSchemaExists::test_regional_lookup_view_exists ERROR [ 41%]
+tests/integration/test_database.py::TestSchemaExists::test_expected_indexes_exist ERROR [ 42%]
+tests/integration/test_database.py::TestRegionsCRUD::test_insert_region ERROR [ 43%]
+tests/integration/test_database.py::TestRegionsCRUD::test_select_region ERROR [ 44%]
+tests/integration/test_database.py::TestRegionsCRUD::test_update_region ERROR [ 45%]
+tests/integration/test_database.py::TestRegionsCRUD::test_delete_region ERROR [ 46%]
+tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_valid_fk ERROR [ 47%]
+tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_invalid_fk_fails ERROR [ 48%]
+tests/integration/test_database.py::TestMunicipalitiesCRUD::test_insert_municipality ERROR [ 49%]
+tests/integration/test_database.py::TestMunicipalitiesCRUD::test_delete_municipality_cascades_to_climate ERROR [ 50%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_insert_climate_record ERROR [ 51%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_valid ERROR [ 52%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_invalid ERROR [ 53%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_year_constraint_invalid ERROR [ 54%]
+tests/integration/test_database.py::TestHydropowerSuitabilityCRUD::test_insert_hydropower_record ERROR [ 55%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_barangays_municipality_fk ERROR [ 56%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_municipalities_province_fk ERROR [ 57%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_provinces_region_fk ERROR [ 58%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_hydropower_municipality_fk ERROR [ 59%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_climate_municipality_fk ERROR [ 60%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_returns_rows ERROR [ 61%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_has_expected_columns ERROR [ 62%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_municipality_count_matches ERROR [ 63%]
+tests/integration/test_database.py::TestNullConstraints::test_regions_name_not_null ERROR [ 64%]
+tests/integration/test_database.py::TestNullConstraints::test_provinces_name_not_null ERROR [ 65%]
+tests/integration/test_database.py::TestNullConstraints::test_municipalities_name_not_null ERROR [ 66%]
+tests/integration/test_database.py::TestDataTypes::test_climate_t2m_is_double ERROR [ 67%]
+tests/integration/test_database.py::TestDataTypes::test_climate_year_is_smallint ERROR [ 68%]
+tests/integration/test_database.py::TestDataTypes::test_climate_month_check ERROR [ 69%]
+tests/integration/test_pipeline.py::TestDataLoading::test_load_returns_dataframe PASSED [ 70%]
+tests/integration/test_pipeline.py::TestDataLoading::test_load_has_required_columns PASSED [ 71%]
+tests/integration/test_pipeline.py::TestDataLoading::test_load_year_range PASSED [ 72%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_no_missing_consumption PASSED [ 73%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_years_are_sorted PASSED [ 74%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_no_duplicate_years PASSED [ 75%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_consumption_positive PASSED [ 76%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_trend_feature_created PASSED [ 77%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_lag_features_created PASSED [ 78%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_rolling_mean_created PASSED [ 79%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_yoy_growth_created PASSED [ 80%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_featured_data_no_nan PASSED [ 81%]
+tests/integration/test_pipeline.py::TestModelTraining::test_model_exists PASSED [ 82%]
+tests/integration/test_pipeline.py::TestModelTraining::test_coefficient_positive PASSED [ 83%]
+tests/integration/test_pipeline.py::TestModelTraining::test_model_can_predict PASSED [ 84%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_has_6_years PASSED [ 85%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_years_correct PASSED [ 86%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_values_positive PASSED [ 87%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_confidence_intervals_ordered PASSED [ 88%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_monotonic_increasing PASSED [ 89%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_is_dict PASSED [ 90%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_has_forecast_array PASSED [ 91%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_each_forecast_item_has_required_fields PASSED [ 92%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_model_field PASSED [ 93%]
+tests/integration/test_pipeline.py::TestCompletePipeline::test_end_to_end_no_exceptions PASSED [ 94%]
+tests/integration/test_pipeline.py::TestCompletePipeline::test_output_consistency PASSED [ 95%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_empty_dataframe_handling PASSED [ 96%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_missing_consumption_column PASSED [ 97%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_single_row_cannot_create_lag PASSED [ 98%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_corrupted_csv_file PASSED [100%]
+
+=================================== ERRORS ====================================
+__________ ERROR at setup of TestSchemaExists.test_all_tables_exist ___________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_____ ERROR at setup of TestSchemaExists.test_regional_lookup_view_exists _____
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_______ ERROR at setup of TestSchemaExists.test_expected_indexes_exist ________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+____________ ERROR at setup of TestRegionsCRUD.test_insert_region _____________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+____________ ERROR at setup of TestRegionsCRUD.test_select_region _____________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+____________ ERROR at setup of TestRegionsCRUD.test_update_region _____________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+____________ ERROR at setup of TestRegionsCRUD.test_delete_region _____________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+___ ERROR at setup of TestProvincesCRUD.test_insert_province_with_valid_fk ____
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_ ERROR at setup of TestProvincesCRUD.test_insert_province_with_invalid_fk_fails _
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+______ ERROR at setup of TestMunicipalitiesCRUD.test_insert_municipality ______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_ ERROR at setup of TestMunicipalitiesCRUD.test_delete_municipality_cascades_to_climate _
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+______ ERROR at setup of TestClimateDataCRUD.test_insert_climate_record _______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+______ ERROR at setup of TestClimateDataCRUD.test_month_constraint_valid ______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_____ ERROR at setup of TestClimateDataCRUD.test_month_constraint_invalid _____
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_____ ERROR at setup of TestClimateDataCRUD.test_year_constraint_invalid ______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_ ERROR at setup of TestHydropowerSuitabilityCRUD.test_insert_hydropower_record _
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+__ ERROR at setup of TestForeignKeyIntegrity.test_barangays_municipality_fk ___
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+__ ERROR at setup of TestForeignKeyIntegrity.test_municipalities_province_fk __
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_____ ERROR at setup of TestForeignKeyIntegrity.test_provinces_region_fk ______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+__ ERROR at setup of TestForeignKeyIntegrity.test_hydropower_municipality_fk __
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+___ ERROR at setup of TestForeignKeyIntegrity.test_climate_municipality_fk ____
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_______ ERROR at setup of TestRegionalLookupView.test_view_returns_rows _______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+___ ERROR at setup of TestRegionalLookupView.test_view_has_expected_columns ___
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_ ERROR at setup of TestRegionalLookupView.test_view_municipality_count_matches _
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+______ ERROR at setup of TestNullConstraints.test_regions_name_not_null _______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_____ ERROR at setup of TestNullConstraints.test_provinces_name_not_null ______
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+___ ERROR at setup of TestNullConstraints.test_municipalities_name_not_null ___
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+_________ ERROR at setup of TestDataTypes.test_climate_t2m_is_double __________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+________ ERROR at setup of TestDataTypes.test_climate_year_is_smallint ________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+__________ ERROR at setup of TestDataTypes.test_climate_month_check ___________
+
+    @pytest.fixture(scope="module")
+    def db_conn():
+        """Yield a database connection for the test module."""
+        if not PSYCOPG2_OK:
+            pytest.skip("psycopg2-binary not installed")
+>       conn = get_db_connection()
+               ^^^^^^^^^^^^^^^^^^^
+
+tests\integration\test_database.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    def get_db_connection():
+        """Create a database connection from environment or raise."""
+        if not PSYCOPG2_OK:
+            raise RuntimeError("psycopg2-binary is not installed")
+        url = os.getenv("TEST_DATABASE_URL", os.getenv("DATABASE_URL"))
+        if not url:
+>           raise RuntimeError(
+                "TEST_DATABASE_URL or DATABASE_URL environment variable required"
+            )
+E           RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+
+tests\integration\test_database.py:58: RuntimeError
+============================== warnings summary ===============================
+..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\supabase\__init__.py:1
+  C:\Users\Pixel-Tone\AppData\Local\Programs\Python\Python313\Lib\site-packages\supabase\__init__.py:1: DeprecationWarning: The `gotrue` package is deprecated, is not going to receive updates in the future. Please, use `supabase_auth` instead.
+    from gotrue.errors import (
+
+..\fastapi-backend\main.py:75
+  C:\Users\Pixel-Tone\Documents\GitHub\Lumi\fastapi-backend\main.py:75: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:4495
+  C:\Users\Pixel-Tone\AppData\Local\Programs\Python\Python313\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/integration/test_database.py::TestSchemaExists::test_all_tables_exist
+ERROR tests/integration/test_database.py::TestSchemaExists::test_regional_lookup_view_exists
+ERROR tests/integration/test_database.py::TestSchemaExists::test_expected_indexes_exist
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_insert_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_select_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_update_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_delete_region
+ERROR tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_valid_fk
+ERROR tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_invalid_fk_fails
+ERROR tests/integration/test_database.py::TestMunicipalitiesCRUD::test_insert_municipality
+ERROR tests/integration/test_database.py::TestMunicipalitiesCRUD::test_delete_municipality_cascades_to_climate
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_insert_climate_record
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_valid
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_invalid
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_year_constraint_invalid
+ERROR tests/integration/test_database.py::TestHydropowerSuitabilityCRUD::test_insert_hydropower_record
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_barangays_municipality_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_municipalities_province_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_provinces_region_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_hydropower_municipality_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_climate_municipality_fk
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_returns_rows
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_has_expected_columns
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_municipality_count_matches
+ERROR tests/integration/test_database.py::TestNullConstraints::test_regions_name_not_null
+ERROR tests/integration/test_database.py::TestNullConstraints::test_provinces_name_not_null
+ERROR tests/integration/test_database.py::TestNullConstraints::test_municipalities_name_not_null
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_t2m_is_double
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_year_is_smallint
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_month_check
+============ 67 passed, 2 skipped, 3 warnings, 30 errors in 12.52s ============

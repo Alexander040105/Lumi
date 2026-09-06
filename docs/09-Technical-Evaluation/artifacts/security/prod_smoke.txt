@@ -1,0 +1,4 @@
+GET /api/v1/health | status=200 | server=Vercel | xcto=nosniff | xfo=DENY | hsts=max-age=31536000; includeSubDomains | csp=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+GET /docs | status=200 | server=Vercel | xcto=nosniff | xfo=DENY | hsts=max-age=31536000; includeSubDomains | csp=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+GET /openapi.json | status=200 | server=Vercel | xcto=nosniff | xfo=DENY | hsts=max-age=31536000; includeSubDomains | csp=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+OPTIONS disallowed-origin | 400

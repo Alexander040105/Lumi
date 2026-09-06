@@ -1,0 +1,121 @@
+[
+  {
+    "id": "TC-FR-01",
+    "scenario": "Gemini outage -> Groq fallback",
+    "observed": "Fallback produced text in 1683ms",
+    "verdict": "GRACEFUL",
+    "detail": "resp='{\"response\":\"alive\"}'"
+  },
+  {
+    "id": "TC-FR-02",
+    "scenario": "EcoSim AI timeout -> fallback dict",
+    "observed": "Returned 'AI analysis timed out' in 61ms",
+    "verdict": "GRACEFUL",
+    "detail": "{\"summary\": \"AI analysis is taking longer than expected. A simplified summary is shown instead.\", \"renewable_analysis\": {\"solar\": \"\", \"wind\": \"\", \"hydro\": \"\", \"geothermal\": \"\"}, \"recommendation\": {\"be"
+  },
+  {
+    "id": "TC-FR-03",
+    "scenario": "LLM total outage -> EcoSim AI path",
+    "observed": "Returned fallback dict, error='AI analysis timed out'",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-04a",
+    "scenario": "Supabase down -> /health/detailed",
+    "observed": "status=degraded supabase=error",
+    "verdict": "GRACEFUL",
+    "detail": "{\"status\": \"degraded\", \"uptime_seconds\": 3.54, \"checks\": {\"supabase\": \"error\", \"redis\": \"ok\", \"rag_index\": \"not_loaded\"}}"
+  },
+  {
+    "id": "TC-FR-04b",
+    "scenario": "Supabase down -> /ecosim/municipalities",
+    "observed": "HTTP 200 body={\"items\":[{\"municipality_id\":5441,\"name\":\"ABORLAN\",\"province_name\":\"PALAWAN\"},{\"municipality_id\":5415,\"name\":\"ABRA DE IL",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-04c",
+    "scenario": "Supabase down -> /ecosim/ simulation",
+    "observed": "HTTP 404 body={\"detail\":\"The selected municipality was not found.\"}",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-04d",
+    "scenario": "Supabase down -> /protected/me (no token)",
+    "observed": "HTTP 401 body={\"detail\":\"Missing token\"}",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-05",
+    "scenario": "Redis down -> health + /map/solar",
+    "observed": "redis=not_configured, /map/solar=200",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-06",
+    "scenario": "NASA POWER outage at runtime",
+    "observed": "N/A — runtime climate is served from Supabase + bundled CSVs; NASA POWER exists only in disabled ETL scripts",
+    "verdict": "N/A",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-07a",
+    "scenario": "Invalid municipality_id -> /ecosim/",
+    "observed": "HTTP 404 {\"detail\":\"The selected municipality was not found.\"}",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-07b",
+    "scenario": "Invalid municipality_id -> /geothermal/{id}",
+    "observed": "HTTP 500 {\"detail\":\"Server error. Please try again or contact support.\",\"request_id\":\"321ecf90-1d68-4aac-96ca-9997611fa86d\"}",
+    "verdict": "DEGRADED",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-08",
+    "scenario": "ML worker down -> proxy",
+    "observed": "Harness error: RuntimeError: Cannot add middleware after an application has started",
+    "verdict": "FAIL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-09a",
+    "scenario": "Burst 70 req, public XFF -> 429 throttling",
+    "observed": "429s=0/70 (limit=60/min)",
+    "verdict": "FAIL",
+    "detail": "codes={200: 70}"
+  },
+  {
+    "id": "TC-FR-09b",
+    "scenario": "Burst 70 req, spoofed loopback XFF -> bypass",
+    "observed": "429s=0/70 — limiter bypassed",
+    "verdict": "BYPASS-CONFIRMED",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-10a",
+    "scenario": "Body >1MB -> limiter",
+    "observed": "HTTP 413 {\"detail\":\"Request body too large. Maximum size is 1 MB.\"}",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-10b",
+    "scenario": "Malformed JSON body",
+    "observed": "HTTP 422 {\"detail\":[{\"type\":\"json_invalid\",\"loc\":[\"body\",1],\"msg\":\"JSON decode error\",\"input\":{},\"ctx\":{\"error\":\"Expecting proper",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  },
+  {
+    "id": "TC-FR-10c",
+    "scenario": "Bad path params -> structured error",
+    "observed": "HTTP 422 {\"detail\":[{\"type\":\"int_parsing\",\"loc\":[\"path\",\"geo_id\"],\"msg\":\"Input should be a valid integer, unable to parse string as an integer\",\"inpu",
+    "verdict": "GRACEFUL",
+    "detail": ""
+  }
+]

@@ -47,3 +47,34 @@ node_modules/
 /fastapi-backend/app/services/local_data/rag_faiss.index
 /fastapi-backend/app/services/local_data/wind_products_joined.csv
 /fastapi-backend/app/services/local_data/wind_products_joined_betz.csv
+
+# Committed non-runtime directories (previously missed — ~300 MB)
+/data/
+/revisionFiles/
+/phl_msk_alt/
+/deploy/
+/templates/
+/supabase_tables_scripts/
+/scripts/
+/.windsurf/
+/.vscode/
+/.github/
+
+# Root-level analysis/dev artifacts not needed at runtime
+/verify_fixes.py
+/generate_erd.py
+/test_output.txt
+/retrieval_test_output.txt
+/gemini_mock_test.txt
+/lumi_erd.png
+/municipality_climate_averages.csv
+/*.sql
+/md.json
+/response.json
+/ren.json
+/geo.json
+/hydro.json
+/wind.json
+/invalid.json
+/explain_*.json
+/thesis_papers_extract.json
