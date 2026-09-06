@@ -9,8 +9,8 @@
 | 3 | Provincial & Municipal Energy Demand | ✅ Complete | `fastapi-backend/app/services/energyhub.py`, `fastapi-backend/app/routes/energyhub.py`, `react-frontend/src/components/energyhub/ProvincialDemand.jsx` |
 | 4 | EnergyHub UX Redesign | ✅ Complete | `react-frontend/src/components/energyhub/ChartExplanation.jsx`, `EnergyTrends.jsx`, `EnergySources.jsx` |
 | 5 | Product Recommendations | ✅ Complete | `fastapi-backend/app/services/products.py`, `fastapi-backend/app/routes/products.py`, `react-frontend/src/pages/Ecosim.jsx` |
-| 6 | Data Improvement Audit & Free Sources | ✅ Complete | `docs/FREE_ALTERNATIVE_DATA.md` |
-| 7 | Municipal Demand Granularity Study | ✅ Complete | `docs/municipal_demand_granularity_study.md` |
+| 6 | Data Improvement Audit & Free Sources | ✅ Complete | `docs/04-ML-Data-Science/FREE_ALTERNATIVE_DATA.md` |
+| 7 | Municipal Demand Granularity Study | ✅ Complete | `docs/04-ML-Data-Science/municipal_demand_granularity_study.md` |
 | 8 | Final Documentation & Integration Testing | ✅ Complete | This document + build verification |
 
 ---

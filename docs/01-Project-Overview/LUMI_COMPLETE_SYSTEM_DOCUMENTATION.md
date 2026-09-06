@@ -90,17 +90,21 @@ Lumi/
 │       ├── utils/                           # Frontend utilities
 │       ├── App.jsx                          # Root component
 │       └── main.jsx                         # Entry point
-├── supabase_tables_scripts/                 # SQL schema definitions
+├── supabase/table_scripts/                 # SQL schema definitions
 ├── python_scripts/                          # ETL and utility scripts
 │   └── terrain_pipeline/                    # Terrain analysis pipeline
-├── DOE_Data_Extracted/                      # DOE data and ML notebooks
-├── GeothermalDatasets/                      # Geospatial datasets
-├── ThesisResearchStudies/                   # Reference papers
-├── philippine_geojson/                      # GeoJSON map files
-├── regionalData/                            # Regional energy data
-├── scraped_data/                            # E-commerce scraped data
-├── windsurf_data_extraction/                # PDF extraction pipeline
-├── lumi_schema_v4.sql                       # Complete database schema
+├── data/                                    # All data directories (grouped)
+│   ├── DOE_Data_Extracted/                  # DOE data and ML notebooks
+│   ├── GeothermalDatasets/                  # Geospatial datasets
+│   ├── ThesisResearchStudies/               # Reference papers
+│   ├── philippine_geojson/                  # GeoJSON map files
+│   ├── regionalData/                        # Regional energy data
+│   ├── scraped_data/                        # E-commerce scraped data
+│   ├── windsurf_data_extraction/            # PDF extraction pipeline
+│   ├── newDataPointsToExtract/              # Atlas/ERA5 raw rasters
+│   ├── phl_msk_alt/                         # SRTM elevation raster
+│   └── debug_outputs/                       # Debug/response dumps
+├── supabase/schema_structure/lumi_schema_v4.sql  # Complete database schema
 └── README.md
 ```
 
@@ -111,15 +115,15 @@ Lumi/
 | `docs/` | Project documentation | Architecture guides, ML evaluations, thesis integration docs | Developer onboarding, thesis reference |
 | `fastapi-backend/` | REST API server | Python FastAPI application with services, routes, schemas | Business logic, data processing, AI integration |
 | `react-frontend/` | User interface | React components, pages, hooks, services | User interaction, visualization, dashboard |
-| `supabase_tables_scripts/` | Database schemas | SQL scripts for Supabase table creation | Database structure definition |
+| `supabase/table_scripts/` | Database schemas | SQL scripts for Supabase table creation | Database structure definition |
 | `python_scripts/` | ETL utilities | Data extraction, cleaning, terrain analysis scripts | Data pipeline automation |
-| `DOE_Data_Extracted/` | ML artifacts | Jupyter notebooks, CSV forecasts, model comparison results | Time-series forecasting, model evaluation |
-| `GeothermalDatasets/` | Geospatial data | Shapefiles, heat flow database, aquifer properties | Geothermal suitability calculations |
-| `ThesisResearchStudies/` | Academic references | PDF papers supporting algorithms and methods | Research backing for thesis |
-| `philippine_geojson/` | Map boundaries | Province and municipality GeoJSON files | Choropleth map rendering |
-| `regionalData/` | Regional statistics | DOE PDFs, fault line shapefiles, barangay data | National energy analysis |
-| `scraped_data/` | Market data | E-commerce product listings (Alibaba, Amazon, Lazada) | RAG knowledge base for pricing |
-| `windsurf_data_extraction/` | Document extraction | PDF-to-text/CSV conversion scripts, RAG chunks | DOE document processing |
+| `data/DOE_Data_Extracted/` | ML artifacts | Jupyter notebooks, CSV forecasts, model comparison results | Time-series forecasting, model evaluation |
+| `data/GeothermalDatasets/` | Geospatial data | Shapefiles, heat flow database, aquifer properties | Geothermal suitability calculations |
+| `data/ThesisResearchStudies/` | Academic references | PDF papers supporting algorithms and methods | Research backing for thesis |
+| `data/philippine_geojson/` | Map boundaries | Province and municipality GeoJSON files | Choropleth map rendering |
+| `data/regionalData/` | Regional statistics | DOE PDFs, fault line shapefiles, barangay data | National energy analysis |
+| `data/scraped_data/` | Market data | E-commerce product listings (Alibaba, Amazon, Lazada) | RAG knowledge base for pricing |
+| `data/windsurf_data_extraction/` | Document extraction | PDF-to-text/CSV conversion scripts, RAG chunks | DOE document processing |
 
 ---
 
@@ -609,10 +613,10 @@ Lumi/
 **Data Files Loaded:**
 | File | Description |
 |---|---|
-| `DOE_Data_Extracted/master_preprocessed.csv` | Historical data 2003–2024 |
-| `DOE_Data_Extracted/forecast_consumption_2025_2030.csv` | ARIMA forecast for consumption |
-| `DOE_Data_Extracted/forecast_peak_demand_2025_2030.csv` | ARIMA forecast for peak demand |
-| `DOE_Data_Extracted/model_comparison_results.csv` | Model evaluation metrics |
+| `data/DOE_Data_Extracted/master_preprocessed.csv` | Historical data 2003–2024 |
+| `data/DOE_Data_Extracted/forecast_consumption_2025_2030.csv` | ARIMA forecast for consumption |
+| `data/DOE_Data_Extracted/forecast_peak_demand_2025_2030.csv` | ARIMA forecast for peak demand |
+| `data/DOE_Data_Extracted/model_comparison_results.csv` | Model evaluation metrics |
 
 **`EnergyHubML` Class Methods:**
 
@@ -1111,7 +1115,7 @@ Lumi/
 ### 8.5 Database Schema Overview
 
 #### `lumi_schema_v4.sql`
-- **Location:** `d:\63947\Documents\GitHub\Lumi\lumi_schema_v4.sql`
+- **Location:** `supabase/schema_structure/lumi_schema_v4.sql` (repo root)
 - **Purpose:** Complete Supabase PostgreSQL schema
 - **Key Tables:**
 
@@ -1711,7 +1715,7 @@ filters = {
 Raw Sources
     |
     v
-[PDF Extraction]  →  Tabula / pdfplumber  →  CSV files (windsurf_data_extraction/)
+[PDF Extraction]  →  Tabula / pdfplumber  →  CSV files (data/windsurf_data_extraction/)
     |
     v
 [Data Cleaning]   →  pandas / custom scripts  →  Cleaned CSVs
@@ -1720,7 +1724,7 @@ Raw Sources
 [Feature Engineering] →  python_scripts/terrain_pipeline/  →  Suitability scores
     |
     v
-[ML Training]     →  Jupyter notebooks (DOE_Data_Extracted/*.ipynb)  →  Forecast CSVs
+[ML Training]     →  Jupyter notebooks (data/DOE_Data_Extracted/*.ipynb)  →  Forecast CSVs
     |
     v
 [Knowledge Building] →  rag_knowledge_builder.py  →  rag_knowledge_base.json

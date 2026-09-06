@@ -91,7 +91,7 @@ Many routes call `svc.build_overview()`, `svc.get_forecast()`, or `renewable_ene
 
 ### 2.1 Schema Overview
 
-The primary schema is defined in `lumi_schema_v4.sql` (1,464 lines) plus migrations in `supabase/migrations/0001_geospatial_architecture.sql` and `0002_psgc_data_columns.sql`. The design contains a normalized `regions/provinces/municipalities/barangays` hierarchy, plus many domain tables for climate, suitability, energy, chat, and admin.
+The primary schema is defined in `supabase/schema_structure/lumi_schema_v4.sql` (1,464 lines) plus migrations in `supabase/migrations/0001_geospatial_architecture.sql` and `0002_psgc_data_columns.sql`. The design contains a normalized `regions/provinces/municipalities/barangays` hierarchy, plus many domain tables for climate, suitability, energy, chat, and admin.
 
 ### 2.2 Critical Issues
 
@@ -590,7 +590,7 @@ is multiplicative, which is better than additive but still opaque to users.
 
 ### 7.1 Current Forecasting Setup
 
-`app/ml/predictor.py` loads pre-computed ARIMA(1,1,1) forecasts from CSV files in `DOE_Data_Extracted/data_v2_preprocessed/`. The model is trained on national total consumption and peak demand from 2003–2020 and evaluated on 2021–2024. Forecasts are served statically; no retraining occurs at runtime.
+`app/ml/predictor.py` loads pre-computed ARIMA(1,1,1) forecasts from CSV files in `data/DOE_Data_Extracted/data_v2_preprocessed/`. The model is trained on national total consumption and peak demand from 2003–2020 and evaluated on 2021–2024. Forecasts are served statically; no retraining occurs at runtime.
 
 ### 7.2 Strengths
 
@@ -848,8 +848,8 @@ Data flows through several ad-hoc scripts and notebooks:
 - `scripts/extract_centroids.py` → `geospatial_metadata`
 - `municipality_suitability_builder.py` → `municipalities` / `*_suitability`
 - `rag_knowledge_builder.py` → `rag_knowledge_base.json`
-- `DOE_Data_Extracted/` notebooks → CSV artifacts
-- `scraped_data/` scripts → `cleaned_products_master.csv`
+- `data/DOE_Data_Extracted/` notebooks → CSV artifacts
+- `data/scraped_data/` scripts → `cleaned_products_master.csv`
 
 ### 10.2 Issues
 

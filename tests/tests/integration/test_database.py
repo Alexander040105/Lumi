@@ -46,7 +46,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-SCHEMA_PATH = REPO_ROOT / "lumischema.sql"
+SCHEMA_PATH = REPO_ROOT / "supabase" / "schema_structure" / "lumischema.sql"
 
 
 def get_db_connection():

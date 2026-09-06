@@ -159,17 +159,16 @@ any fastapi paths not already covered:
 
 ```text
 # .vercelignore — project-level ignores
-/DOE_Data_Extracted/**
-!/DOE_Data_Extracted/data_v2_preprocessed/
-!/DOE_Data_Extracted/data_v2_preprocessed/**
-/philippine_geojson/
+/data/DOE_Data_Extracted/**
+!/data/DOE_Data_Extracted/data_v2_preprocessed/
+!/data/DOE_Data_Extracted/data_v2_preprocessed/**
+/data/philippine_geojson/
 /fastapi-backend/app/services/local_data/
 /fastapi-backend/scripts/
-/windsurf_data_extraction/
-/lumi_tests/
-/GeothermalDatasets/
-/regionalData/
-/lumi-details/
+/data/windsurf_data_extraction/
+/tests/
+/data/GeothermalDatasets/
+/data/regionalData/
 /docs/
 /supabase/
 /expo-mobile/

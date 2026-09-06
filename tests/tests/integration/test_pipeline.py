@@ -36,7 +36,7 @@ import pytest
 # Path setup
 # ---------------------------------------------------------------------------
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DOE_DIR = REPO_ROOT / "DOE_Data_Extracted"
+DOE_DIR = REPO_ROOT / "data" / "DOE_Data_Extracted"
 FASTAPI_SERVICES = REPO_ROOT / "fastapi-backend" / "app" / "services"
 
 import sys

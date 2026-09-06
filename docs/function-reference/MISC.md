@@ -331,15 +331,15 @@ services:
 ```
 
 
-## `generate_erd.py`
+## `scripts/generate_erd.py`
 
-**File:** `generate_erd.py`
+**File:** `scripts/generate_erd.py`
 
 **Summary:** Generate a PNG ERD diagram for the LUMI database schema using matplotlib.
 
 ### `draw_table`
 
-- **File:** `generate_erd.py`
+- **File:** `scripts/generate_erd.py`
 - **Lines:** `23-48`
 - **Signature:** `def draw_table(ax, x, y, title, columns, color, width=2.4, col_height=0.18, title_height=0.35):`
 - **Purpose:** Draw a table box with title and columns.
@@ -378,7 +378,7 @@ def draw_table(ax, x, y, title, columns, color, width=2.4, col_height=0.18, titl
 
 ### `draw_relationship`
 
-- **File:** `generate_erd.py`
+- **File:** `scripts/generate_erd.py`
 - **Lines:** `50-53`
 - **Signature:** `def draw_relationship(ax, x1, y1, x2, y2, style='--'):`
 - **Purpose:** Draw a relationship line with crow's foot notation.
@@ -395,7 +395,7 @@ def draw_relationship(ax, x1, y1, x2, y2, style='--'):
 
 ### `main`
 
-- **File:** `generate_erd.py`
+- **File:** `scripts/generate_erd.py`
 - **Lines:** `55-355`
 - **Signature:** `def main():`
 - **Purpose:** Handles main.
@@ -708,50 +708,9 @@ def main():
 **Explanation:** It accepts zero arguments. See the code below for the full implementation. Key calls include `subplots()`, `set_xlim()`, `set_ylim()`, `axis()`, `set_facecolor()`.
 
 
-## `lumi_schema_v3.sql`
+## `supabase/schema_structure/lumi_schema_v3.sql`
 
-**File:** `lumi_schema_v3.sql`
-
-**Summary:** SQL schema or migration script that defines the LUMI database tables.
-
-**First lines:**
-```sql
-
-
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-
-COMMENT ON SCHEMA "public" IS 'standard public schema';
-
-
-
-CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
-
-
-
-
-
-
-CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
-
-
-
-```
-
-
-## `lumi_schema_v4.sql`
-
-**File:** `lumi_schema_v4.sql`
+**File:** `supabase/schema_structure/lumi_schema_v3.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -790,9 +749,50 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
 ```
 
 
-## `lumischema.sql`
+## `supabase/schema_structure/lumi_schema_v4.sql`
 
-**File:** `lumischema.sql`
+**File:** `supabase/schema_structure/lumi_schema_v4.sql`
+
+**Summary:** SQL schema or migration script that defines the LUMI database tables.
+
+**First lines:**
+```sql
+
+
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+
+COMMENT ON SCHEMA "public" IS 'standard public schema';
+
+
+
+CREATE EXTENSION IF NOT EXISTS "pg_stat_statements" WITH SCHEMA "extensions";
+
+
+
+
+
+
+CREATE EXTENSION IF NOT EXISTS "pgcrypto" WITH SCHEMA "extensions";
+
+
+
+```
+
+
+## `supabase/schema_structure/lumischema.sql`
+
+**File:** `supabase/schema_structure/lumischema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12321,9 +12321,9 @@ _No module-level or class-level functions in this file._
 
 _No module-level or class-level functions in this file._
 
-## `supabase_tables_scripts/auth_admin_schema.sql`
+## `supabase/table_scripts/auth_admin_schema.sql`
 
-**File:** `supabase_tables_scripts/auth_admin_schema.sql`
+**File:** `supabase/table_scripts/auth_admin_schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12362,9 +12362,9 @@ create table if not exists public.profiles (
 ```
 
 
-## `supabase_tables_scripts/climate_schema.sql`
+## `supabase/table_scripts/climate_schema.sql`
 
-**File:** `supabase_tables_scripts/climate_schema.sql`
+**File:** `supabase/table_scripts/climate_schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12403,9 +12403,9 @@ comment on column public.municipality_climate_monthly.t2m_max is
 ```
 
 
-## `supabase_tables_scripts/geothermal_schema.sql`
+## `supabase/table_scripts/geothermal_schema.sql`
 
-**File:** `supabase_tables_scripts/geothermal_schema.sql`
+**File:** `supabase/table_scripts/geothermal_schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12444,9 +12444,9 @@ COMMENT ON COLUMN "public"."geothermal_suitability"."fault_density" IS 'Fault le
 ```
 
 
-## `supabase_tables_scripts/mcda_weights_schema.sql`
+## `supabase/table_scripts/mcda_weights_schema.sql`
 
-**File:** `supabase_tables_scripts/mcda_weights_schema.sql`
+**File:** `supabase/table_scripts/mcda_weights_schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12485,9 +12485,9 @@ GRANT ALL ON TABLE "public"."mcda_weights" TO "service_role";
 ```
 
 
-## `supabase_tables_scripts/municipal_population.sql`
+## `supabase/table_scripts/municipal_population.sql`
 
-**File:** `supabase_tables_scripts/municipal_population.sql`
+**File:** `supabase/table_scripts/municipal_population.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12526,9 +12526,9 @@ alter table public.municipal_population
 ```
 
 
-## `supabase_tables_scripts/national_energy_schema.sql`
+## `supabase/table_scripts/national_energy_schema.sql`
 
-**File:** `supabase_tables_scripts/national_energy_schema.sql`
+**File:** `supabase/table_scripts/national_energy_schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12567,9 +12567,9 @@ CREATE TABLE IF NOT EXISTS public.national_energy_annual (
 ```
 
 
-## `supabase_tables_scripts/schema.sql`
+## `supabase/table_scripts/schema.sql`
 
-**File:** `supabase_tables_scripts/schema.sql`
+**File:** `supabase/table_scripts/schema.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12608,9 +12608,9 @@ create table if not exists public.barangays (
 ```
 
 
-## `supabase_tables_scripts/supabase_suitability_migration.sql`
+## `supabase/table_scripts/supabase_suitability_migration.sql`
 
-**File:** `supabase_tables_scripts/supabase_suitability_migration.sql`
+**File:** `supabase/table_scripts/supabase_suitability_migration.sql`
 
 **Summary:** SQL schema or migration script that defines the LUMI database tables.
 
@@ -12677,9 +12677,9 @@ ADD COLUMN IF NOT EXISTS hydro_factors JSONB DEFAULT NULL;
 ```
 
 
-## `verify_fixes.py`
+## `scripts/verify_fixes.py`
 
-**File:** `verify_fixes.py`
+**File:** `scripts/verify_fixes.py`
 
 **Summary:** Verification script for LUMI v2.1 bug fixes.
 

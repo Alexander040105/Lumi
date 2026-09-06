@@ -164,7 +164,7 @@
 - **Problem:** Arbitrary 500-row truncation silently dropped valid municipalities from large provinces.
 - **Fix:** Pass the full `municipality_ids` list to the query.
 
-### 2.2 Data Preprocessing (`DOE_Data_Extracted/data_v2_preprocessing.py`)
+### 2.2 Data Preprocessing (`data/DOE_Data_Extracted/data_v2_preprocessing.py`)
 
 **Removed Duplicate Year Column Hack**
 - **Line 342-359:** Removed `parts.insert(34, "year")` and the associated CSV header rewrite.
@@ -265,7 +265,7 @@
       return _redis_async
   ```
 
-### 3.6 SQL Schema (`supabase_tables_scripts/municipal_population.sql`)
+### 3.6 SQL Schema (`supabase/table_scripts/municipal_population.sql`)
 
 **Unique Constraint**
 - **Line 25-28:** Added `uq_municipal_population_unique`.
@@ -339,7 +339,7 @@
 | 7 | `app/routes/chat.py` | 56-78 | Critical |
 | 8 | `main.py` | 11-17 | Critical |
 | 9 | `app/services/ecosim.py` | 258-278, 953-964, 1054-1115 | High |
-| 10 | `DOE_Data_Extracted/data_v2_preprocessing.py` | 342-359, 395-416 | High |
+| 10 | `data/DOE_Data_Extracted/data_v2_preprocessing.py` | 342-359, 395-416 | High |
 | 11 | `app/services/energyhub.py` | 997-1033 | High |
 | 12 | `app/schemas/energyhub.py` | 130-134 | High |
 | 13 | `app/services/gemini_funcs.py` | 1-20 | Security |
@@ -349,7 +349,7 @@
 | 17 | `app/routes/admin.py` | 24-35, 96-107, 173-190, 228-234, 477-488 | Security |
 | 18 | `app/routes/simulations.py` | 1-11, 33-34 | Security |
 | 19 | `app/services/redis_client.py` | 11-30 | Security |
-| 20 | `supabase_tables_scripts/municipal_population.sql` | 25-28 | Data Integrity |
+| 20 | `supabase/table_scripts/municipal_population.sql` | 25-28 | Data Integrity |
 | 21 | `react-frontend/src/pages/EnergyHub.jsx` | 253-276, 277 | Frontend |
 | 22 | `react-frontend/src/components/energyhub/ProvincialDemand.jsx` | 80-114 | Frontend |
 | 23 | `react-frontend/src/pages/Ecosim.jsx` | 925-944 | Frontend |
@@ -458,6 +458,6 @@ All 29 targeted code-quality checks passed:
 - Added `vercel-preview.yml` to deploy a Vercel preview on every push to `development` (or `develop`).
 
 **Documentation**
-- Added `docs/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
+- Added `docs/05-Setup-Guides/DEVELOPMENT_WORKFLOW.md` with the branch strategy, manual GitHub/Vercel settings required, and deployment instructions.
 
 *End of changelog.*
