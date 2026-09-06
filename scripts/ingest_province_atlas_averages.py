@@ -4,7 +4,7 @@ Usage (from repo root, with .venv activated):
     .venv\\Scripts\\python.exe scripts/ingest_province_atlas_averages.py
 
 Run this after creating the province_atlas_averages table via
-supabase_tables_scripts/province_atlas_schema.sql.
+supabase/table_scripts/province_atlas_schema.sql.
 """
 from __future__ import annotations
 

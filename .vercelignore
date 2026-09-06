@@ -6,24 +6,24 @@
 
 # Keep small preprocessed DOE CSVs bundled for the EnergyHub predictor;
 # other DOE raw datasets remain offloaded to Supabase to stay under the 50 MB limit.
-/DOE_Data_Extracted/**
-!/DOE_Data_Extracted/data_v2_preprocessed/
-!/DOE_Data_Extracted/data_v2_preprocessed/**
+/data/DOE_Data_Extracted/**
+!/data/DOE_Data_Extracted/data_v2_preprocessed/
+!/data/DOE_Data_Extracted/data_v2_preprocessed/**
 
 # Raw / dev / non-runtime directories
-/philippine_geojson/
+/data/philippine_geojson/
 /fastapi-backend/scripts/
 /fastapi-backend/tests/
-/windsurf_data_extraction/
-/lumi_tests/
+/data/windsurf_data_extraction/
+/tests/
 /python_scripts/
-/scraped_data/
+/data/scraped_data/
 /scripts/gap_output/
-/newDataPointsToExtract/
-/GeothermalDatasets/
-/ThesisResearchStudies/
-/regionalData/
-/lumi-details/
+/data/newDataPointsToExtract/
+/data/GeothermalDatasets/
+/data/ThesisResearchStudies/
+/data/regionalData/
+/data/debug_outputs/
 /docs/
 /supabase/
 /expo-mobile/
@@ -49,32 +49,13 @@ node_modules/
 /fastapi-backend/app/services/local_data/wind_products_joined_betz.csv
 
 # Committed non-runtime directories (previously missed — ~300 MB)
-/data/
-/revisionFiles/
-/phl_msk_alt/
+# /data/* excludes remaining data dirs (phl_msk_alt, csv/json artifacts);
+# DOE_Data_Extracted stays governed by the rules above.
+/data/*
+!/data/DOE_Data_Extracted/
 /deploy/
 /templates/
-/supabase_tables_scripts/
 /scripts/
 /.windsurf/
 /.vscode/
 /.github/
-
-# Root-level analysis/dev artifacts not needed at runtime
-/verify_fixes.py
-/generate_erd.py
-/test_output.txt
-/retrieval_test_output.txt
-/gemini_mock_test.txt
-/lumi_erd.png
-/municipality_climate_averages.csv
-/*.sql
-/md.json
-/response.json
-/ren.json
-/geo.json
-/hydro.json
-/wind.json
-/invalid.json
-/explain_*.json
-/thesis_papers_extract.json

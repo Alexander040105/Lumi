@@ -137,48 +137,71 @@ This uses `concurrently` to spin up both the React dev server and the FastAPI ba
 
 ```
 Lumi/
-├── docs/                           # Project documentation (organized by category)
-│   ├── 01-Project-Overview/       # README, setup, development guide
-│   ├── 02-Architecture/            # API, frontend, and system architecture
-│   ├── 03-Modules/                 # EcoSim & EnergyHub module docs
-│   ├── 04-ML-Data-Science/         # ML models, methodology, data sources
-│   ├── 05-Setup-Guides/            # Auth, shadcn, Supabase, Tailwind
-│   ├── 06-Technical-Resources/     # Methodology & tech recommendations
-│   ├── 07-Data-Extraction-Reports/ # Formula references & data quality
-│   └── 08-Requirements/            # Tech stack & requirements specs
-│
-├── react-frontend/                 # React + Vite frontend
-│   ├── src/
-│   │   ├── components/ui/          # shadcn/ui components
-│   │   ├── context/                # AuthContext, etc.
-│   │   ├── pages/                  # Dashboard, EcoSim, EnergyHub
-│   │   ├── routes/                 # React Router configuration
-│   │   ├── services/               # API client, Supabase client
-│   │   └── styles/                 # Tailwind + custom CSS
-│   └── package.json
-│
+├── api/                            # Vercel serverless entry point (imports the FastAPI app)
 ├── fastapi-backend/                # FastAPI Python backend
 │   ├── app/
+│   │   ├── auth/                   # JWT handling
+│   │   ├── config/                 # Settings and environment
 │   │   ├── dependencies/           # Auth dependencies
+│   │   ├── middleware/             # CORS, logging, rate limiting
 │   │   ├── ml/                     # ML prediction service (ARIMA artifacts)
-│   │   ├── routes/                 # API routers
-│   │   ├── schemas/                # Pydantic models
-│   │   ├── services/               # Business logic (EcoSim, RAG, etc.)
-│   │   └── auth/                   # JWT handling
+│   │   ├── routes/                 # API routers (EcoSim, EnergyHub, admin, etc.)
+│   │   ├── schemas/                # Pydantic request/response models
+│   │   ├── services/               # Business logic (EcoSim, RAG, geothermal, etc.)
+│   │   │   ├── geothermal/         # Geothermal feature extraction
+│   │   │   └── local_data/         # Bundled CSV/JSON data fallbacks
+│   │   └── utils/                  # Helper utilities
+│   ├── scripts/                    # One-off ingestion & verification scripts
+│   ├── tests/                      # Backend pytest suite (77 tests)
+│   ├── main.py                     # FastAPI entry point
 │   └── requirements.txt
 │
-├── DOE_Data_Extracted/             # DOE data, ARIMA notebooks, and CSV artifacts
-│   ├── DOE_arima_forecasting.ipynb
-│   ├── DOE_datacleaning.ipynb
-│   ├── DOE_model_registry.ipynb
-│   ├── master_preprocessed.csv
-│   ├── forecast_consumption_2025_2030.csv
-│   └── model_comparison_results.csv
+├── react-frontend/                 # React 18 + Vite frontend
+│   ├── public/                     # Static assets, GeoJSON overlays
+│   └── src/
+│       ├── components/             # Reusable UI components (incl. ui/ shadcn)
+│       ├── context/                # AuthContext, etc.
+│       ├── hooks/                  # Custom React hooks
+│       ├── pages/                  # Dashboard, EcoSim, EnergyHub, admin
+│       ├── services/               # API client, Supabase client
+│       └── package.json
 │
-├── python_scripts/                 # Terrain & climate ETL scripts
-├── scraped_data/                   # E-commerce scrapers (Alibaba, Amazon, Lazada, Shopee)
-├── windsurf_data_extraction/       # PDF extraction, cleaning, and RAG conversion
-└── requirements.txt                # Consolidated Python dependencies
+├── data/                           # All datasets & data pipelines (grouped)
+│   ├── DOE_Data_Extracted/         # DOE data, ARIMA notebooks, CSV artifacts
+│   ├── GeothermalDatasets/         # Shapefiles, heat-flow DB, plant tracker
+│   ├── ThesisResearchStudies/      # Reference papers for RAG/algorithms
+│   ├── philippine_geojson/         # Province/municipality GeoJSON boundaries
+│   ├── phl_msk_alt/                # SRTM elevation raster (DEM)
+│   ├── regionalData/               # Regional energy data, DOE PDFs, fault lines
+│   ├── scraped_data/               # E-commerce scraped product data
+│   ├── windsurf_data_extraction/   # PDF extraction → CSV → RAG pipeline
+│   ├── newDataPointsToExtract/     # Solar/Wind Atlas + ERA5 raw rasters
+│   └── debug_outputs/              # Saved debug/response dumps
+│
+├── python_scripts/                 # ETL & geocoding utilities (terrain_pipeline/)
+├── scripts/                        # Repo-root utility & migration scripts
+├── supabase/                       # Migrations, table_scripts/, schema_structure/
+├── tests/                          # Extended test suite (unit, integration, docs)
+├── templates/                      # SQL/other templates
+├── deploy/                         # Deployment configs (nginx, scripts)
+│
+├── docs/                           # Project documentation (organized by category)
+│   ├── 01-Project-Overview/        # System doc, implementation log, lessons learned
+│   ├── 02-Architecture/            # API, frontend, geospatial architecture, ERD
+│   ├── 03-Modules/                 # EcoSim & EnergyHub module docs
+│   ├── 04-ML-Data-Science/         # ML models, formulas, calibration reports
+│   ├── 05-Setup-Guides/            # Auth, Supabase, deployment guides
+│   ├── 06-Technical-Resources/     # Methodology & tech recommendations
+│   ├── 07-Data-Extraction-Reports/ # Data quality, Atlas/ERA5 integration reports
+│   ├── 08-Requirements/            # Tech stack & requirements specs
+│   ├── 09-Technical-Evaluation/    # Test results, audits, compliance checklists
+│   ├── thesis/                     # Thesis Chapter 3 drafts, revisions, source docs
+│   └── function-reference/         # Auto-generated per-file function reference
+│
+├── requirements.txt                # Consolidated Python dependencies (root)
+├── package.json                    # Root npm scripts (concurrently dev)
+├── docker-compose.yml              # Self-hosted deployment
+└── vercel.json                     # Vercel deployment config
 ```
 
 ---
@@ -253,6 +276,13 @@ All project documentation has been organized into categorized folders under `doc
 | Technical Resources | `docs/06-Technical-Resources/` |
 | Data Extraction Reports | `docs/07-Data-Extraction-Reports/` |
 | Requirements Specs | `docs/08-Requirements/` |
+| Technical Evaluation & Audit | `docs/09-Technical-Evaluation/` |
+| Thesis Materials | `docs/thesis/` |
+| Function Reference (generated) | `docs/function-reference/` |
+
+For a full listing, see `docs/DOCS_INDEX.md`. A summary of the repository
+reorganization (moves, renames, untracked artifacts, and flagged items) is in
+`docs/REPO_REORGANIZATION.md`.
 
 ---
 
@@ -266,11 +296,11 @@ The repository is now configured for a single-project Vercel deployment:
 - Heavy ML/RAG packages (`sentence-transformers`, `faiss-cpu`) are excluded from the Vercel Function bundle.
 - Optional companion ML worker for full RAG/ETL can be set via `ML_WORKER_URL`.
 
-See `docs/VERCEL_DEPLOYMENT_GUIDE.md` for environment variables and step-by-step deploy instructions.
+See `docs/05-Setup-Guides/VERCEL_DEPLOYMENT_GUIDE.md` for environment variables and step-by-step deploy instructions.
 
 ### Docker Compose (self-hosted)
 
-For a containerized self-hosted deployment, this project is designed to run using Docker Compose. See `DEPLOYMENT_GUIDE.md` for a detailed setup.
+For a containerized self-hosted deployment, this project is designed to run using Docker Compose. See `docs/05-Setup-Guides/DEPLOYMENT_GUIDE.md` for a detailed setup.
 
 ### Database & Cache
 

@@ -19,8 +19,8 @@ from app.services.geothermal.plants import (
 
 logger = logging.getLogger(__name__)
 
-_DATA_DIR = Path(__file__).resolve().parents[3] / "DOE_Data_Extracted"
-_GEOJSON_DIR = Path(__file__).resolve().parents[3] / "philippine_geojson"
+_DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "DOE_Data_Extracted"
+_GEOJSON_DIR = Path(__file__).resolve().parents[3] / "data" / "philippine_geojson"
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 
 _VOLCANOES: list[dict[str, Any]] | None = None
@@ -47,7 +47,7 @@ _MAP_EXPLANATION_FALLBACKS = {
     "hydro_potential": (
         "The map shows hydropower suitability based on terrain slope, hydraulic head, runoff potential, and gravity-flow feasibility from the pre-computed hydropower_suitability table. "
         "A place can have abundant surface water yet a low or medium score if the land is flat, because low hydraulic head and gentle watershed gradients produce very little extractable power. "
-        "Data source: regionalData/output/terrain_metrics/hydropower_suitability.csv and app/services/hydro_output_calc.py."
+        "Data source: data/regionalData/output/terrain_metrics/hydropower_suitability.csv and app/services/hydro_output_calc.py."
     ),
     "geothermal_potential": (
         "The map shows geothermal suitability boosted by proximity to operating geothermal plants. "
@@ -79,7 +79,7 @@ def _load_volcanoes() -> list[dict[str, Any]]:
     candidates = [
         _LOCAL_DATA_DIR / "geothermal_volcanoes.json",
         Path(__file__).resolve().parents[3] / "react-frontend" / "public" / "geothermal_volcanoes.json",
-        Path(__file__).resolve().parents[3] / "GeothermalDatasets" / "philippine_volcanoes.csv",
+        Path(__file__).resolve().parents[3] / "data" / "GeothermalDatasets" / "philippine_volcanoes.csv",
     ]
     _VOLCANOES = []
     for candidate in candidates:
@@ -1151,13 +1151,13 @@ class EnergyHubService:
                 "geothermal_suitability table",
                 "fastapi-backend/app/services/geothermal/plants.py",
                 "fastapi-backend/app/services/local_data/geothermal_volcanoes.json",
-                "GeothermalDatasets/philippine_volcanoes.csv",
+                "data/GeothermalDatasets/philippine_volcanoes.csv",
             ])
         elif metric == "hydro_potential":
             base.extend([
                 "hydropower_suitability table",
                 "municipalities.hydro_factors",
-                "regionalData/output/terrain_metrics/hydropower_suitability.csv",
+                "data/regionalData/output/terrain_metrics/hydropower_suitability.csv",
                 "fastapi-backend/app/services/hydro_output_calc.py",
             ])
         elif metric == "solar_potential":

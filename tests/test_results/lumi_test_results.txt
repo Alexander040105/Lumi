@@ -1,0 +1,763 @@
+================================================================================
+  LUMI Testing & Evaluation Suite — Test Results Summary
+================================================================================
+  Generated: 2026-06-14 23:33:09
+  Python: 3.13.2 (tags/v3.13.2:4f8bb39, Feb  4 2025, 15:23:48) [MSC v.1942 64 bit (AMD64)]
+
+--------------------------------------------------------------------------------
+UNIT TESTS (tests/unit/)
+--------------------------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\63947\Documents\GitHub\Lumi\tests
+plugins: anyio-4.13.0, langsmith-0.8.4, mock-3.15.1, typeguard-4.5.2
+collecting ... collected 89 items
+
+tests/unit/test_ai_service.py::TestPromptConstruction::test_prompt_contains_simulation_data PASSED [  1%]
+tests/unit/test_ai_service.py::TestPromptConstruction::test_prompt_contains_grounding_rules PASSED [  2%]
+tests/unit/test_ai_service.py::TestPromptConstruction::test_prompt_contains_rag_context_when_provided PASSED [  3%]
+tests/unit/test_ai_service.py::TestPromptConstruction::test_prompt_length_reasonable PASSED [  4%]
+tests/unit/test_ai_service.py::TestJsonNormalization::test_valid_json_parses PASSED [  5%]
+tests/unit/test_ai_service.py::TestJsonNormalization::test_invalid_json_missing_field PASSED [  6%]
+tests/unit/test_ai_service.py::TestJsonNormalization::test_empty_string_is_invalid PASSED [  7%]
+tests/unit/test_ai_service.py::TestJsonNormalization::test_json_with_extra_whitespace PASSED [  8%]
+tests/unit/test_ai_service.py::TestJsonNormalization::test_malformed_json_handled PASSED [ 10%]
+tests/unit/test_ai_service.py::TestRagRetrievalMock::test_chunk_filtering_by_renewable_type PASSED [ 11%]
+tests/unit/test_ai_service.py::TestRagRetrievalMock::test_cosine_similarity_bounds PASSED [ 12%]
+tests/unit/test_ai_service.py::TestRagRetrievalMock::test_score_threshold_filtering PASSED [ 13%]
+tests/unit/test_ai_service.py::TestErrorHandling::test_missing_api_key_raises PASSED [ 14%]
+tests/unit/test_ai_service.py::TestErrorHandling::test_empty_api_response PASSED [ 15%]
+tests/unit/test_ai_service.py::TestErrorHandling::test_api_timeout_handling PASSED [ 16%]
+tests/unit/test_ai_service.py::TestErrorHandling::test_non_json_response PASSED [ 17%]
+tests/unit/test_ai_service.py::TestGeminiModuleImports::test_gemini_client_exists SKIPPED [ 19%]
+tests/unit/test_ai_service.py::TestGeminiModuleImports::test_rag_functions_exist SKIPPED [ 20%]
+tests/unit/test_ml_preprocessing.py::TestPreprocessEnergyData::test_forward_fill_missing PASSED [ 21%]
+tests/unit/test_ml_preprocessing.py::TestPreprocessEnergyData::test_year_integer PASSED [ 22%]
+tests/unit/test_ml_preprocessing.py::TestPreprocessEnergyData::test_consumption_float PASSED [ 23%]
+tests/unit/test_ml_preprocessing.py::TestPreprocessEnergyData::test_shape_preserved PASSED [ 24%]
+tests/unit/test_ml_preprocessing.py::TestPreprocessEnergyData::test_all_missing_column PASSED [ 25%]
+tests/unit/test_ml_preprocessing.py::TestCreateTimeFeatures::test_trend_increases PASSED [ 26%]
+tests/unit/test_ml_preprocessing.py::TestCreateTimeFeatures::test_lag_created PASSED [ 28%]
+tests/unit/test_ml_preprocessing.py::TestCreateTimeFeatures::test_dropna_removes_first_row PASSED [ 29%]
+tests/unit/test_ml_preprocessing.py::TestSplitTrainTest::test_correct_split_size PASSED [ 30%]
+tests/unit/test_ml_preprocessing.py::TestSplitTrainTest::test_test_is_last_rows PASSED [ 31%]
+tests/unit/test_ml_preprocessing.py::TestLinearTrendForecast::test_prediction_shape PASSED [ 32%]
+tests/unit/test_ml_preprocessing.py::TestLinearTrendForecast::test_no_nan_outputs PASSED [ 33%]
+tests/unit/test_ml_preprocessing.py::TestLinearTrendForecast::test_correct_datatype PASSED [ 34%]
+tests/unit/test_ml_preprocessing.py::TestLinearTrendForecast::test_monotonic_increasing_trend PASSED [ 35%]
+tests/unit/test_ml_preprocessing.py::TestCalculateMape::test_perfect_prediction PASSED [ 37%]
+tests/unit/test_ml_preprocessing.py::TestCalculateMape::test_known_error PASSED [ 38%]
+tests/unit/test_ml_preprocessing.py::TestCalculateMape::test_zero_true_value_excluded PASSED [ 39%]
+tests/unit/test_ml_preprocessing.py::TestCalculateMape::test_all_zeros_returns_nan PASSED [ 40%]
+tests/unit/test_ml_preprocessing.py::TestScikitLearnMetrics::test_mae PASSED [ 41%]
+tests/unit/test_ml_preprocessing.py::TestScikitLearnMetrics::test_rmse PASSED [ 42%]
+tests/unit/test_ml_preprocessing.py::TestScikitLearnMetrics::test_r2_perfect PASSED [ 43%]
+tests/unit/test_ml_preprocessing.py::TestScikitLearnMetrics::test_r2_worse_than_mean PASSED [ 44%]
+tests/unit/test_renewable_calculations.py::TestSolarTemperatureFactor::test_none_returns_one PASSED [ 46%]
+tests/unit/test_renewable_calculations.py::TestSolarTemperatureFactor::test_reference_temp PASSED [ 47%]
+tests/unit/test_renewable_calculations.py::TestSolarTemperatureFactor::test_hot_temp_reduces_factor PASSED [ 48%]
+tests/unit/test_renewable_calculations.py::TestSolarTemperatureFactor::test_cold_temp_increases_factor PASSED [ 49%]
+tests/unit/test_renewable_calculations.py::TestSolarTemperatureFactor::test_floor_at_zero PASSED [ 50%]
+tests/unit/test_renewable_calculations.py::TestSolarDustLoss::test_none_returns_base PASSED [ 51%]
+tests/unit/test_renewable_calculations.py::TestSolarDustLoss::test_moderate_wind PASSED [ 52%]
+tests/unit/test_renewable_calculations.py::TestSolarDustLoss::test_high_wind_reduces_loss PASSED [ 53%]
+tests/unit/test_renewable_calculations.py::TestSolarDustLoss::test_bounds PASSED [ 55%]
+tests/unit/test_renewable_calculations.py::TestSolarHumidityDegradation::test_none_returns_base PASSED [ 56%]
+tests/unit/test_renewable_calculations.py::TestSolarHumidityDegradation::test_low_humidity PASSED [ 57%]
+tests/unit/test_renewable_calculations.py::TestSolarHumidityDegradation::test_high_humidity_reduces_degradation PASSED [ 58%]
+tests/unit/test_renewable_calculations.py::TestSolarPerformanceRatio::test_default_params PASSED [ 59%]
+tests/unit/test_renewable_calculations.py::TestSolarPerformanceRatio::test_zero_result_floored PASSED [ 60%]
+tests/unit/test_renewable_calculations.py::TestSolarCalc::test_typical_scenario PASSED [ 61%]
+tests/unit/test_renewable_calculations.py::TestSolarCalc::test_score_capped_at_100 PASSED [ 62%]
+tests/unit/test_renewable_calculations.py::TestSolarCalc::test_zero_panels PASSED [ 64%]
+tests/unit/test_renewable_calculations.py::TestWindLoadAverages::test_returns_dict_with_expected_keys PASSED [ 65%]
+tests/unit/test_renewable_calculations.py::TestWindLoadAverages::test_avg_power_coefficient_within_betz PASSED [ 66%]
+tests/unit/test_renewable_calculations.py::TestWindLoadAverages::test_avg_rotor_radius_positive PASSED [ 67%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_typical_scenario PASSED [ 68%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_power_proportional_to_cubed_wind_speed PASSED [ 69%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_invalid_rotor_radius_raises PASSED [ 70%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_invalid_wind_speed_raises PASSED [ 71%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_cp_exceeds_betz_raises PASSED [ 73%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_unrealistic_air_density_raises PASSED [ 74%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_capacity_factor_bounds PASSED [ 75%]
+tests/unit/test_renewable_calculations.py::TestWindCalculateOutput::test_low_speed_scenario PASSED [ 76%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_midpoint PASSED [ 77%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_at_min PASSED [ 78%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_at_max PASSED [ 79%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_none_returns_zero PASSED [ 80%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_clamped_below_zero PASSED [ 82%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_clamped_above_one PASSED [ 83%]
+tests/unit/test_renewable_calculations.py::TestHydroNormalize::test_divide_by_zero PASSED [ 84%]
+tests/unit/test_renewable_calculations.py::TestHydroRunoffCoefficient::test_none_returns_default PASSED [ 85%]
+tests/unit/test_renewable_calculations.py::TestHydroRunoffCoefficient::test_gentle_slope PASSED [ 86%]
+tests/unit/test_renewable_calculations.py::TestHydroRunoffCoefficient::test_moderate_slope PASSED [ 87%]
+tests/unit/test_renewable_calculations.py::TestHydroRunoffCoefficient::test_steep_slope PASSED [ 88%]
+tests/unit/test_renewable_calculations.py::TestHydroRunoffCoefficient::test_very_steep PASSED [ 89%]
+tests/unit/test_renewable_calculations.py::TestHydroFlowRate::test_typical_scenario PASSED [ 91%]
+tests/unit/test_renewable_calculations.py::TestHydroFlowRate::test_zero_rainfall PASSED [ 92%]
+tests/unit/test_renewable_calculations.py::TestHydroFlowRate::test_high_rainfall_steep_slope PASSED [ 93%]
+tests/unit/test_renewable_calculations.py::TestHydroCalculate::test_typical_scenario PASSED [ 94%]
+tests/unit/test_renewable_calculations.py::TestHydroCalculate::test_zero_flow PASSED [ 95%]
+tests/unit/test_renewable_calculations.py::TestHydroCalculate::test_head_clamped PASSED [ 96%]
+tests/unit/test_renewable_calculations.py::TestHydroCalculate::test_flow_clamped_to_max PASSED [ 97%]
+tests/unit/test_renewable_calculations.py::TestHydroDischarge::test_typical PASSED [ 98%]
+tests/unit/test_renewable_calculations.py::TestHydroDischarge::test_zero_rainfall PASSED [100%]
+
+======================== 87 passed, 2 skipped in 1.75s ========================
+
+
+--------------------------------------------------------------------------------
+INTEGRATION TESTS — API (tests/integration/test_api.py)
+--------------------------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\63947\Documents\GitHub\Lumi\tests
+plugins: anyio-4.13.0, langsmith-0.8.4, mock-3.15.1, typeguard-4.5.2
+collecting ... collected 20 items / 1 deselected / 19 selected
+
+tests/integration/test_api.py::TestHealthEndpoint::test_health_check_mock SKIPPED [  5%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_overview_status_code SKIPPED [ 10%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_overview_response_keys SKIPPED [ 15%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_forecast_metric_param SKIPPED [ 21%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_trends_status_code SKIPPED [ 26%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_map_data_status_code SKIPPED [ 31%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_source_breakdown_status_code SKIPPED [ 36%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_grid_breakdown_status_code SKIPPED [ 42%]
+tests/integration/test_api.py::TestEnergyHubEndpoints::test_invalid_metric_returns_error SKIPPED [ 47%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_with_valid_params SKIPPED [ 52%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_missing_params SKIPPED [ 57%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_ecosim_with_ai_flags SKIPPED [ 63%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_get_municipalities SKIPPED [ 68%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_post_ecosim SKIPPED [ 73%]
+tests/integration/test_api.py::TestEcoSimEndpoints::test_post_ecosim_invalid_body SKIPPED [ 78%]
+tests/integration/test_api.py::TestAuthEndpoints::test_protected_endpoint_without_token SKIPPED [ 84%]
+tests/integration/test_api.py::TestAuthEndpoints::test_auth_callback_exists SKIPPED [ 89%]
+tests/integration/test_api.py::TestResponseSchema::test_all_responses_are_json SKIPPED [ 94%]
+tests/integration/test_api.py::TestResponseSchema::test_error_responses_have_detail SKIPPED [100%]
+
+============================== warnings summary ===============================
+..\.venv\Lib\site-packages\supabase\__init__.py:1
+  D:\63947\Documents\GitHub\Lumi\.venv\Lib\site-packages\supabase\__init__.py:1: DeprecationWarning: The `gotrue` package is deprecated, is not going to receive updates in the future. Please, use `supabase_auth` instead.
+    from gotrue.errors import (
+
+tests\integration\test_api.py:133
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:133: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:142
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:142: PytestUnknownMarkWarning: Unknown pytest.mark.live - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.live
+
+tests\integration\test_api.py:160
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:160: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:166
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:166: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:175
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:175: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:185
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:185: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:190
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:190: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:195
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:195: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:200
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:200: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:205
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:205: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:219
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:219: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:226
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:226: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:232
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:232: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:244
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:244: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:253
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:253: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:266
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:266: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:281
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:281: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:288
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:288: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:302
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:302: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+tests\integration\test_api.py:320
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\test_api.py:320: PytestUnknownMarkWarning: Unknown pytest.mark.mock - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.mock
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============== 19 skipped, 1 deselected, 21 warnings in 1.61s ================
+
+
+--------------------------------------------------------------------------------
+INTEGRATION TESTS — DATABASE (tests/integration/test_database.py)
+Note: Skipped if TEST_DATABASE_URL not set or psycopg2 not installed
+--------------------------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\63947\Documents\GitHub\Lumi\tests
+plugins: anyio-4.13.0, langsmith-0.8.4, mock-3.15.1, typeguard-4.5.2
+collecting ... collected 30 items
+
+tests/integration/test_database.py::TestSchemaExists::test_all_tables_exist ERROR [  3%]
+tests/integration/test_database.py::TestSchemaExists::test_regional_lookup_view_exists ERROR [  6%]
+tests/integration/test_database.py::TestSchemaExists::test_expected_indexes_exist ERROR [ 10%]
+tests/integration/test_database.py::TestRegionsCRUD::test_insert_region ERROR [ 13%]
+tests/integration/test_database.py::TestRegionsCRUD::test_select_region ERROR [ 16%]
+tests/integration/test_database.py::TestRegionsCRUD::test_update_region ERROR [ 20%]
+tests/integration/test_database.py::TestRegionsCRUD::test_delete_region ERROR [ 23%]
+tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_valid_fk ERROR [ 26%]
+tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_invalid_fk_fails ERROR [ 30%]
+tests/integration/test_database.py::TestMunicipalitiesCRUD::test_insert_municipality ERROR [ 33%]
+tests/integration/test_database.py::TestMunicipalitiesCRUD::test_delete_municipality_cascades_to_climate ERROR [ 36%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_insert_climate_record ERROR [ 40%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_valid ERROR [ 43%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_invalid ERROR [ 46%]
+tests/integration/test_database.py::TestClimateDataCRUD::test_year_constraint_invalid ERROR [ 50%]
+tests/integration/test_database.py::TestHydropowerSuitabilityCRUD::test_insert_hydropower_record ERROR [ 53%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_barangays_municipality_fk ERROR [ 56%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_municipalities_province_fk ERROR [ 60%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_provinces_region_fk ERROR [ 63%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_hydropower_municipality_fk ERROR [ 66%]
+tests/integration/test_database.py::TestForeignKeyIntegrity::test_climate_municipality_fk ERROR [ 70%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_returns_rows ERROR [ 73%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_has_expected_columns ERROR [ 76%]
+tests/integration/test_database.py::TestRegionalLookupView::test_view_municipality_count_matches ERROR [ 80%]
+tests/integration/test_database.py::TestNullConstraints::test_regions_name_not_null ERROR [ 83%]
+tests/integration/test_database.py::TestNullConstraints::test_provinces_name_not_null ERROR [ 86%]
+tests/integration/test_database.py::TestNullConstraints::test_municipalities_name_not_null ERROR [ 90%]
+tests/integration/test_database.py::TestDataTypes::test_climate_t2m_is_double ERROR [ 93%]
+tests/integration/test_database.py::TestDataTypes::test_climate_year_is_smallint ERROR [ 96%]
+tests/integration/test_database.py::TestDataTypes::test_climate_month_check ERROR [100%]
+
+=================================== ERRORS ====================================
+__________ ERROR at setup of TestSchemaExists.test_all_tables_exist ___________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestSchemaExists.test_regional_lookup_view_exists _____
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_______ ERROR at setup of TestSchemaExists.test_expected_indexes_exist ________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_insert_region _____________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_select_region _____________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_update_region _____________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+____________ ERROR at setup of TestRegionsCRUD.test_delete_region _____________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestProvincesCRUD.test_insert_province_with_valid_fk ____
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestProvincesCRUD.test_insert_province_with_invalid_fk_fails _
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestMunicipalitiesCRUD.test_insert_municipality ______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestMunicipalitiesCRUD.test_delete_municipality_cascades_to_climate _
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestClimateDataCRUD.test_insert_climate_record _______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestClimateDataCRUD.test_month_constraint_valid ______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestClimateDataCRUD.test_month_constraint_invalid _____
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestClimateDataCRUD.test_year_constraint_invalid ______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestHydropowerSuitabilityCRUD.test_insert_hydropower_record _
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_barangays_municipality_fk ___
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_municipalities_province_fk __
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestForeignKeyIntegrity.test_provinces_region_fk ______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__ ERROR at setup of TestForeignKeyIntegrity.test_hydropower_municipality_fk __
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestForeignKeyIntegrity.test_climate_municipality_fk ____
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_______ ERROR at setup of TestRegionalLookupView.test_view_returns_rows _______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestRegionalLookupView.test_view_has_expected_columns ___
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_ ERROR at setup of TestRegionalLookupView.test_view_municipality_count_matches _
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+______ ERROR at setup of TestNullConstraints.test_regions_name_not_null _______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_____ ERROR at setup of TestNullConstraints.test_provinces_name_not_null ______
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+___ ERROR at setup of TestNullConstraints.test_municipalities_name_not_null ___
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+_________ ERROR at setup of TestDataTypes.test_climate_t2m_is_double __________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+________ ERROR at setup of TestDataTypes.test_climate_year_is_smallint ________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+__________ ERROR at setup of TestDataTypes.test_climate_month_check ___________
+tests\integration\test_database.py:73: in db_conn
+    conn = get_db_connection()
+           ^^^^^^^^^^^^^^^^^^^
+tests\integration\test_database.py:58: in get_db_connection
+    raise RuntimeError(
+E   RuntimeError: TEST_DATABASE_URL or DATABASE_URL environment variable required
+=========================== short test summary info ===========================
+ERROR tests/integration/test_database.py::TestSchemaExists::test_all_tables_exist
+ERROR tests/integration/test_database.py::TestSchemaExists::test_regional_lookup_view_exists
+ERROR tests/integration/test_database.py::TestSchemaExists::test_expected_indexes_exist
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_insert_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_select_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_update_region
+ERROR tests/integration/test_database.py::TestRegionsCRUD::test_delete_region
+ERROR tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_valid_fk
+ERROR tests/integration/test_database.py::TestProvincesCRUD::test_insert_province_with_invalid_fk_fails
+ERROR tests/integration/test_database.py::TestMunicipalitiesCRUD::test_insert_municipality
+ERROR tests/integration/test_database.py::TestMunicipalitiesCRUD::test_delete_municipality_cascades_to_climate
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_insert_climate_record
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_valid
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_month_constraint_invalid
+ERROR tests/integration/test_database.py::TestClimateDataCRUD::test_year_constraint_invalid
+ERROR tests/integration/test_database.py::TestHydropowerSuitabilityCRUD::test_insert_hydropower_record
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_barangays_municipality_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_municipalities_province_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_provinces_region_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_hydropower_municipality_fk
+ERROR tests/integration/test_database.py::TestForeignKeyIntegrity::test_climate_municipality_fk
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_returns_rows
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_has_expected_columns
+ERROR tests/integration/test_database.py::TestRegionalLookupView::test_view_municipality_count_matches
+ERROR tests/integration/test_database.py::TestNullConstraints::test_regions_name_not_null
+ERROR tests/integration/test_database.py::TestNullConstraints::test_provinces_name_not_null
+ERROR tests/integration/test_database.py::TestNullConstraints::test_municipalities_name_not_null
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_t2m_is_double
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_year_is_smallint
+ERROR tests/integration/test_database.py::TestDataTypes::test_climate_month_check
+============================= 30 errors in 0.85s ==============================
+
+
+--------------------------------------------------------------------------------
+INTEGRATION TESTS — PIPELINE (tests/integration/test_pipeline.py)
+--------------------------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\63947\Documents\GitHub\Lumi\tests
+plugins: anyio-4.13.0, langsmith-0.8.4, mock-3.15.1, typeguard-4.5.2
+collecting ... collected 30 items
+
+tests/integration/test_pipeline.py::TestDataLoading::test_load_returns_dataframe PASSED [  3%]
+tests/integration/test_pipeline.py::TestDataLoading::test_load_has_required_columns PASSED [  6%]
+tests/integration/test_pipeline.py::TestDataLoading::test_load_year_range PASSED [ 10%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_no_missing_consumption PASSED [ 13%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_years_are_sorted PASSED [ 16%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_no_duplicate_years PASSED [ 20%]
+tests/integration/test_pipeline.py::TestPreprocessing::test_consumption_positive PASSED [ 23%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_trend_feature_created PASSED [ 26%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_lag_features_created PASSED [ 30%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_rolling_mean_created PASSED [ 33%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_yoy_growth_created PASSED [ 36%]
+tests/integration/test_pipeline.py::TestFeatureEngineering::test_featured_data_no_nan PASSED [ 40%]
+tests/integration/test_pipeline.py::TestModelTraining::test_model_exists PASSED [ 43%]
+tests/integration/test_pipeline.py::TestModelTraining::test_coefficient_positive PASSED [ 46%]
+tests/integration/test_pipeline.py::TestModelTraining::test_model_can_predict PASSED [ 50%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_has_6_years ERROR [ 53%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_years_correct ERROR [ 56%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_values_positive ERROR [ 60%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_confidence_intervals_ordered ERROR [ 63%]
+tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_monotonic_increasing ERROR [ 66%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_is_dict ERROR [ 70%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_has_forecast_array ERROR [ 73%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_each_forecast_item_has_required_fields ERROR [ 76%]
+tests/integration/test_pipeline.py::TestApiFormatting::test_response_model_field ERROR [ 80%]
+tests/integration/test_pipeline.py::TestCompletePipeline::test_end_to_end_no_exceptions FAILED [ 83%]
+tests/integration/test_pipeline.py::TestCompletePipeline::test_output_consistency FAILED [ 86%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_empty_dataframe_handling FAILED [ 90%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_missing_consumption_column PASSED [ 93%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_single_row_cannot_create_lag FAILED [ 96%]
+tests/integration/test_pipeline.py::TestFailureHandling::test_corrupted_csv_file FAILED [100%]
+
+=================================== ERRORS ====================================
+_____ ERROR at setup of TestForecastGeneration.test_forecast_has_6_years ______
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+____ ERROR at setup of TestForecastGeneration.test_forecast_years_correct _____
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+___ ERROR at setup of TestForecastGeneration.test_forecast_values_positive ____
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+_ ERROR at setup of TestForecastGeneration.test_confidence_intervals_ordered __
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+_ ERROR at setup of TestForecastGeneration.test_forecast_monotonic_increasing _
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+__________ ERROR at setup of TestApiFormatting.test_response_is_dict __________
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+____ ERROR at setup of TestApiFormatting.test_response_has_forecast_array _____
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+_ ERROR at setup of TestApiFormatting.test_each_forecast_item_has_required_fields _
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+________ ERROR at setup of TestApiFormatting.test_response_model_field ________
+tests\integration\test_pipeline.py:164: in forecast_2025_2030
+    return generate_forecast(trained_model, start_year=2025, n_years=6)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+================================== FAILURES ===================================
+_____________ TestCompletePipeline.test_end_to_end_no_exceptions ______________
+tests\integration\test_pipeline.py:300: in test_end_to_end_no_exceptions
+    forecast = generate_forecast(model, start_year=2025, n_years=6)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+________________ TestCompletePipeline.test_output_consistency _________________
+tests\integration\test_pipeline.py:314: in test_output_consistency
+    forecast1 = generate_forecast(model1, 2025, 6)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\integration\test_pipeline.py:107: in generate_forecast
+    trend_values = np.arange(len(model_dict.get("train_len", 22)), len(model_dict.get("train_len", 22)) + n_years).reshape(-1, 1)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   TypeError: object of type 'int' has no len()
+______________ TestFailureHandling.test_empty_dataframe_handling ______________
+tests\integration\test_pipeline.py:333: in test_empty_dataframe_handling
+    with pytest.raises(Exception):
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE Exception
+____________ TestFailureHandling.test_single_row_cannot_create_lag ____________
+tests\integration\test_pipeline.py:349: in test_single_row_cannot_create_lag
+    with pytest.raises(Exception):
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE Exception
+_________________ TestFailureHandling.test_corrupted_csv_file _________________
+tests\integration\test_pipeline.py:358: in test_corrupted_csv_file
+    assert df["consumption_gwh"].isna().any()
+E   assert np.False_
+E    +  where np.False_ = any()
+E    +    where any = 0    False\n1    False\nName: consumption_gwh, dtype: bool.any
+E    +      where 0    False\n1    False\nName: consumption_gwh, dtype: bool = isna()
+E    +        where isna = 0      abc\n1    50000\nName: consumption_gwh, dtype: str.isna
+=========================== short test summary info ===========================
+FAILED tests/integration/test_pipeline.py::TestCompletePipeline::test_end_to_end_no_exceptions
+FAILED tests/integration/test_pipeline.py::TestCompletePipeline::test_output_consistency
+FAILED tests/integration/test_pipeline.py::TestFailureHandling::test_empty_dataframe_handling
+FAILED tests/integration/test_pipeline.py::TestFailureHandling::test_single_row_cannot_create_lag
+FAILED tests/integration/test_pipeline.py::TestFailureHandling::test_corrupted_csv_file
+ERROR tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_has_6_years
+ERROR tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_years_correct
+ERROR tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_values_positive
+ERROR tests/integration/test_pipeline.py::TestForecastGeneration::test_confidence_intervals_ordered
+ERROR tests/integration/test_pipeline.py::TestForecastGeneration::test_forecast_monotonic_increasing
+ERROR tests/integration/test_pipeline.py::TestApiFormatting::test_response_is_dict
+ERROR tests/integration/test_pipeline.py::TestApiFormatting::test_response_has_forecast_array
+ERROR tests/integration/test_pipeline.py::TestApiFormatting::test_each_forecast_item_has_required_fields
+ERROR tests/integration/test_pipeline.py::TestApiFormatting::test_response_model_field
+=================== 5 failed, 16 passed, 9 errors in 3.13s ====================
+
+
+--------------------------------------------------------------------------------
+PERFORMANCE TESTS (tests/integration/performance_test.py)
+--------------------------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.0, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\63947\Documents\GitHub\Lumi\tests
+plugins: anyio-4.13.0, langsmith-0.8.4, mock-3.15.1, typeguard-4.5.2
+collecting ... collected 13 items / 3 deselected / 10 selected
+
+tests/integration/performance_test.py::TestDatasetLoadingPerformance::test_doe_csv_load_time PASSED [ 10%]
+tests/integration/performance_test.py::TestDatasetLoadingPerformance::test_large_csv_load_time PASSED [ 20%]
+tests/integration/performance_test.py::TestPredictionPerformance::test_linear_regression_inference_time PASSED [ 30%]
+tests/integration/performance_test.py::TestPredictionPerformance::test_preprocessing_pipeline_time PASSED [ 40%]
+tests/integration/performance_test.py::TestMapAggregationPerformance::test_province_aggregation_time PASSED [ 50%]
+tests/integration/performance_test.py::TestMapAggregationPerformance::test_renewable_potential_computation_time PASSED [ 60%]
+tests/integration/performance_test.py::TestRagRetrievalPerformance::test_faiss_search_time PASSED [ 70%]
+tests/integration/performance_test.py::TestRagRetrievalPerformance::test_chunk_filtering_time PASSED [ 80%]
+tests/integration/performance_test.py::TestMemoryPerformance::test_dataframe_memory_footprint PASSED [ 90%]
+tests/integration/performance_test.py::TestMemoryPerformance::test_faiss_index_memory_footprint PASSED [100%]
+
+============================== warnings summary ===============================
+tests\integration\performance_test.py:139
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:139: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:149
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:149: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:179
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:179: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:200
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:200: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:223
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:223: PytestUnknownMarkWarning: Unknown pytest.mark.benchmark - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.benchmark
+
+tests\integration\performance_test.py:235
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:235: PytestUnknownMarkWarning: Unknown pytest.mark.benchmark - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.benchmark
+
+tests\integration\performance_test.py:249
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:249: PytestUnknownMarkWarning: Unknown pytest.mark.benchmark - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.benchmark
+
+tests\integration\performance_test.py:272
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:272: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:294
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:294: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:314
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:314: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:329
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:329: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:351
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:351: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+tests\integration\performance_test.py:357
+  D:\63947\Documents\GitHub\Lumi\tests\tests\integration\performance_test.py:357: PytestUnknownMarkWarning: Unknown pytest.mark.local - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.local
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================ 10 passed, 3 deselected, 13 warnings in 2.62s ================
+
+
+================================================================================
+  END OF TEST RESULTS
+================================================================================

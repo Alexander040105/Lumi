@@ -25,14 +25,8 @@ react-frontend/dist/
 react-frontend/.vite/
 
 # Data / artifacts (too large for image)
-scraped_data/
-windsurf_data_extraction/
-DOE_Data_Extracted/
-GeothermalDatasets/
-ThesisResearchStudies/
-philippine_geojson/
-phl_msk_alt/
-regionalData/
+data/
+newCatchmentsData/
 python_scripts/
 scripts/psgc_cache/
 scripts/gap_output/
@@ -47,7 +41,7 @@ scripts/gap_output/
 .gitignore
 .vscode/
 .windsurf/
-lumi_tests/
+tests/
 docs/
 deploy/
 supabase/
