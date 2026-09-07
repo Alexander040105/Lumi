@@ -208,7 +208,7 @@ class TestEnergyHubEndpoints:
     def test_invalid_metric_returns_error(self, client):
         """An unsupported metric should return 422 validation error."""
         response = client.get("/api/v1/energyhub/map-data?metric=invalid_metric")
-        assert response.status_code in (200, 401, 422, 404)
+        assert response.status_code == 422
 
 
 # ---------------------------------------------------------------------------
@@ -337,8 +337,7 @@ class TestForecastEndpoints:
     def test_forecast_invalid_metric(self, client):
         """BE-003: GET /energyhub/forecast?metric=invalid should return 422 Unprocessable Entity."""
         response = client.get("/api/v1/energyhub/forecast?metric=invalid")
-        # 422 if validation rejects it; 404 if route not mounted
-        assert response.status_code in (200, 401, 422, 404)
+        assert response.status_code == 422
 
 
 # ---------------------------------------------------------------------------

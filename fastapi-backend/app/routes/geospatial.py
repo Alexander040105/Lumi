@@ -11,6 +11,7 @@ from __future__ import annotations
 from fastapi import APIRouter, Query
 from pydantic import BaseModel
 
+from app.schemas.common import GeospatialLevel
 from app.services.geospatial_service import (
     get_all_centroids,
     get_centroid_with_fallback,
@@ -90,7 +91,7 @@ class ClimateFallbackResponse(BaseModel):
 
 @router.get("/centroids", response_model=CentroidListResponse)
 async def get_centroids(
-    level: str = Query(
+    level: GeospatialLevel = Query(
         default="province",
         description="Geographic level: region, province, municipality, or barangay",
     ),
@@ -105,7 +106,7 @@ async def get_centroids(
 
 @router.get("/centroids/{level}/{geo_id}", response_model=CentroidResponse)
 async def get_single_centroid(
-    level: str,
+    level: GeospatialLevel,
     geo_id: int,
 ):
     """Return centroid metadata for a single administrative unit.
@@ -155,7 +156,7 @@ async def get_single_centroid(
 
 @router.get("/climate", response_model=ClimateResponse)
 async def get_climate(
-    level: str = Query(
+    level: GeospatialLevel = Query(
         default="municipality",
         description="Geographic level: province, municipality, or barangay",
     ),

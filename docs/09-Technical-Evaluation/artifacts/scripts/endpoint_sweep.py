@@ -97,6 +97,8 @@ def build_cases(ids: dict) -> list[dict]:
         params=sim)
     add("TC-ES-011", "GET", "/ecosim/", "200 with RAG flag",
         params={**sim, "include_ai": "true", "use_rag": "true"})
+    add("TC-ES-011b", "GET", "/ecosim/", "4xx invalid data_source",
+        params={**sim, "data_source": "nasa"})
     add("TC-ES-012", "POST", "/ecosim/", "200/201 simulation",
         json_body={
             "house_name": "Eval Test House",
@@ -128,6 +130,8 @@ def build_cases(ids: dict) -> list[dict]:
     add("TC-EH-009", "GET", "/energyhub/ai-insight", "200 static insight",
         params={"use_llm": "false"})
     add("TC-EH-010", "GET", "/energyhub/forecast", "4xx invalid metric",
+        params={"metric": "invalid_metric"})
+    add("TC-EH-010b", "GET", "/energyhub/model-comparison", "4xx invalid metric",
         params={"metric": "invalid_metric"})
     add("TC-EH-011", "GET", "/energyhub/model-comparison", "200 model metrics")
     add("TC-EH-012", "GET", "/energyhub/provincial-demand", "200 provincial demand")
@@ -165,11 +169,15 @@ def build_cases(ids: dict) -> list[dict]:
     add("TC-GS-005", "GET", "/geospatial/climate/province-aggregate",
         "200 province aggregate", params={"province_id": pid, "year": 2023})
     add("TC-GS-006", "GET", "/geospatial/climate", "422 missing geo_id")
+    add("TC-GS-007", "GET", "/geospatial/centroids", "4xx invalid level",
+        params={"level": "country"})
 
     # --- Map ---
     add("TC-MAP-001", "GET", "/map/psgc/hierarchy", "200 PSGC hierarchy",
         params={"municipality_id": mid})
     add("TC-MAP-002", "GET", "/map/coverage", "200 coverage")
+    add("TC-MAP-002b", "GET", "/map/coverage", "4xx invalid level",
+        params={"level": "country"})
     for rt in ("solar", "wind", "hydro", "geothermal"):
         add(f"TC-MAP-003-{rt}", "GET", f"/map/{rt}", f"200 {rt} map data")
     add("TC-MAP-004", "GET", "/map/nuclear", "4xx invalid renewable_type")
@@ -180,10 +188,16 @@ def build_cases(ids: dict) -> list[dict]:
     add("TC-PROD-002", "GET", "/products/browse", "200 product list")
     add("TC-PROD-003", "GET", "/products/audit", "200 audit")
     add("TC-PROD-004", "GET", "/products/recommend", "422 missing energy_type")
+    add("TC-PROD-005", "GET", "/products/recommend", "4xx invalid energy_type",
+        params={"energy_type": "solar' OR '1'='1"})
 
     # --- Forecast ---
     add("TC-FC-001", "GET", "/forecast/run", "200 forecast run")
+    add("TC-FC-001b", "GET", "/forecast/run", "4xx invalid metric",
+        params={"metric": "' OR '1'='1"})
     add("TC-FC-002", "GET", "/forecast/backtest", "200 backtest")
+    add("TC-FC-002b", "GET", "/forecast/backtest", "4xx invalid metric",
+        params={"metric": "' OR '1'='1"})
     add("TC-FC-003", "GET", "/forecast/models", "200 model registry")
 
     # --- Protected (expect 401 without token) ---

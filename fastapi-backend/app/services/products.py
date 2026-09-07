@@ -17,6 +17,8 @@ from pathlib import Path
 import pandas as pd
 from fastapi import HTTPException, status
 
+from app.schemas.common import ProductEnergyType
+
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
 
@@ -109,7 +111,7 @@ def _row_to_dict(row: pd.Series) -> dict:
     }
 
 
-def get_product_recommendations(energy_type: str, budget_php: float | None = None, limit: int = 5) -> dict:
+def get_product_recommendations(energy_type: ProductEnergyType, budget_php: float | None = None, limit: int = 5) -> dict:
     """Return top-N matching products for a given renewable energy type."""
     df = _load_products()
     et = energy_type.lower().strip()
@@ -123,6 +125,11 @@ def get_product_recommendations(energy_type: str, budget_php: float | None = Non
         "geothermal": "geothermal",
     }
     target_cat = category_map.get(et, et)
+    if target_cat not in category_map.values():
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Invalid energy_type '{energy_type}'. Must be one of: solar, wind, hydro, hydropower, geothermal.",
+        )
 
     filtered = df[df["energy_category"] == target_cat]
     # Only recommend products with valid URLs

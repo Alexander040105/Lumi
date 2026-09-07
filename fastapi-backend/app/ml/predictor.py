@@ -6,6 +6,7 @@ from typing import Any
 import pandas as pd
 import numpy as np
 
+from app.schemas.common import ForecastMetric
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
 from app.config.settings import get_settings
@@ -193,7 +194,7 @@ class EnergyHubML:
         }
         return _sanitize_nan({"years": years, "series": series})
 
-    def get_forecast(self, metric: str = "consumption") -> dict[str, Any]:
+    def get_forecast(self, metric: ForecastMetric = "consumption") -> dict[str, Any]:
         """Return the 2025-2030 ML forecast with confidence intervals.
 
         Supported metrics: consumption, peak_demand, renewable_generation.
@@ -203,7 +204,7 @@ class EnergyHubML:
             "peak_demand": (self._forecast_peak, "total_peak_demand_mw"),
             "renewable_generation": (self._forecast_renewable, "renewable_generation_gwh"),
         }
-        df, target_col = metric_map.get(metric, (self._forecast_consumption, "total_consumption_gwh"))
+        df, target_col = metric_map[metric]
 
         if df is None or df.empty:
             return {
@@ -231,7 +232,7 @@ class EnergyHubML:
             "test_period": "2021-2024",
         })
 
-    def get_model_comparison(self, metric: str = "consumption") -> list[dict[str, Any]]:
+    def get_model_comparison(self, metric: ForecastMetric = "consumption") -> list[dict[str, Any]]:
         """Return test-set performance across all trained models for the requested metric."""
         def _df_or_fallback(df, fallback):
             if df is not None and not df.empty:
@@ -243,7 +244,7 @@ class EnergyHubML:
             "peak_demand": _df_or_fallback(self._model_comparison_peak, None),
             "renewable_generation": _df_or_fallback(self._model_comparison_renewable, None),
         }
-        df = metric_map.get(metric, self._model_comparison)
+        df = metric_map[metric]
 
         if df is None or df.empty:
             return []

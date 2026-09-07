@@ -9,8 +9,9 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, HTTPException, Query, status
 
+from app.schemas.common import MapCoverageLevel, MapRenewableType
 from app.services.map_service import (
     get_coverage_summary,
     get_map_data,
@@ -20,10 +21,15 @@ from app.services.map_service import (
 router = APIRouter()
 
 
-def _normalize_level(level: str | None) -> str:
+def _normalize_level(level: str | None) -> MapCoverageLevel:
     """Strip trailing IDs (e.g. 'municipality:1') and validate the level."""
     normalized = (level or "municipality").split(":")[0].lower().strip()
-    return normalized if normalized in {"municipality", "province"} else "municipality"
+    if normalized not in {"municipality", "province"}:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Invalid level '{level}'. Must be one of: municipality, province.",
+        )
+    return normalized  # type: ignore[return-value]
 
 
 @router.get("/psgc/hierarchy")
@@ -50,7 +56,7 @@ async def psgc_hierarchy(
 
 @router.get("/coverage")
 async def coverage_summary(
-    level: str = Query(
+    level: MapCoverageLevel = Query(
         default="municipality",
         description="Geographic level: municipality or province",
     ),
@@ -64,8 +70,8 @@ async def coverage_summary(
 
 @router.get("/{renewable_type}")
 async def get_suitability_map(
-    renewable_type: str,
-    level: str = Query(
+    renewable_type: MapRenewableType,
+    level: MapCoverageLevel = Query(
         default="municipality",
         description="Geographic level: municipality or province",
     ),
@@ -76,12 +82,6 @@ async def get_suitability_map(
     Returns a list of geographic units with their suitability scores
     and centroid coordinates, suitable for choropleth map rendering.
     """
-    valid_types = {"solar", "wind", "hydro", "geothermal"}
-    if renewable_type not in valid_types:
-        return {
-            "error": f"Invalid renewable_type '{renewable_type}'. Must be one of: {', '.join(valid_types)}"
-        }
-
     normalized_level = _normalize_level(level)
     data = get_map_data(renewable_type, level=normalized_level, use_cache=use_cache)
     return {

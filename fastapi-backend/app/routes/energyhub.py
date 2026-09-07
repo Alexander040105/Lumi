@@ -1,7 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 
 from app.dependencies.auth import get_verified_user_optional
-from app.dependencies.quota import check_anonymous_quota, get_client_id, get_optional_user_or_quota
+from app.schemas.common import EnergyHubMapLevel, EnergyHubMapMetric, ForecastMetric
+from app.dependencies.quota import (
+    check_anonymous_quota,
+    get_client_id,
+    get_energyhub_optional_user_or_quota,
+)
 from app.schemas.energyhub import (
     AiInsightResponse,
     AnalyzeChartRequest,
@@ -35,7 +40,7 @@ async def get_overview():
 
 @router.get("/forecast", response_model=ForecastResponse)
 async def get_forecast(
-    metric: str = Query(default="consumption", description="Metric to forecast: consumption, peak_demand, or renewable_generation"),
+    metric: ForecastMetric = Query(default="consumption", description="Metric to forecast: consumption, peak_demand, or renewable_generation"),
 ):
     """Return the ML forecast (2025-2030) with confidence intervals.
 
@@ -57,7 +62,7 @@ async def get_trends():
 
 @router.get("/map-data", response_model=MapDataResponse)
 async def get_map_data(
-    metric: str = Query(
+    metric: EnergyHubMapMetric = Query(
         default="renewable_potential",
         description=(
             "Metric for choropleth coloring. "
@@ -65,7 +70,7 @@ async def get_map_data(
             "hydro_potential, geothermal_potential"
         ),
     ),
-    level: str = Query(
+    level: EnergyHubMapLevel = Query(
         default="province",
         description="Geographic level: province, municipality, or barangay. Municipality/barangay require pre-computed suitability scores.",
     ),
@@ -101,7 +106,7 @@ async def get_grid_breakdown(
 
 @router.get("/model-comparison", response_model=ModelComparisonResponse)
 async def get_model_comparison(
-    metric: str = Query(default="consumption", description="Metric for model comparison: consumption, peak_demand, or renewable_generation"),
+    metric: ForecastMetric = Query(default="consumption", description="Metric for model comparison: consumption, peak_demand, or renewable_generation"),
 ):
     """Return test-set performance metrics for all trained models."""
     svc = get_energyhub_service()
@@ -126,7 +131,7 @@ async def get_ai_insight(
         if not allowed:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Please log in to continue using EcoSim.",
+                detail="Please log in to continue using EnergyHub.",
             )
 
     svc = get_energyhub_service()
@@ -138,7 +143,7 @@ async def get_ai_insight(
 @router.post("/analyze-chart", response_model=AnalyzeChartResponse)
 async def analyze_chart(
     payload: AnalyzeChartRequest,
-    auth: dict = Depends(get_optional_user_or_quota),
+    auth: dict = Depends(get_energyhub_optional_user_or_quota),
     force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
 ):
     """Send chart data to the LLM and receive a narrative explanation.
@@ -157,10 +162,10 @@ async def analyze_chart(
 
 @router.get("/map-explanation", response_model=MapExplanationResponse)
 async def get_map_explanation(
-    metric: str = Query(..., description="Map metric: renewable_potential, solar_potential, wind_potential, hydro_potential, or geothermal_potential"),
-    level: str = Query(default="province", description="Geographic level: province or municipality"),
+    metric: EnergyHubMapMetric = Query(..., description="Map metric: renewable_potential, solar_potential, wind_potential, hydro_potential, or geothermal_potential"),
+    level: EnergyHubMapLevel = Query(default="province", description="Geographic level: province or municipality"),
     force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
-    auth: dict = Depends(get_optional_user_or_quota),
+    auth: dict = Depends(get_energyhub_optional_user_or_quota),
 ):
     """Return a Groq-generated, data-grounded explanation for the current map.
 

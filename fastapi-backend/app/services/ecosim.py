@@ -10,6 +10,7 @@ from typing import Any
 import pandas as pd
 from fastapi import HTTPException, status
 from postgrest.exceptions import APIError
+from app.schemas.common import EcoSimDataSource
 from app.schemas.ecosim import PostHouse
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client
@@ -1773,7 +1774,7 @@ def build_ecosim_dashboard_response(
     use_rag: bool = False,
     rag_query: str | None = None,
     mode: str = "municipality",
-    data_source: str = "auto",
+    data_source: EcoSimDataSource = "auto",
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
