@@ -28,7 +28,7 @@
 
 | Area | Headline Result |
 |---|---|
-| **Functional** | 355 automated assertions pass (176 unit + 99 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
+| **Functional** | 356 automated assertions pass (177 unit + 99 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
 | **Performance** | All core endpoints p95 < 500 ms single-user; simulation ~450 ms; LLM path ~460 ms–3.2 s; Supabase ~70–160 ms/query; frontend bundle 1.91 MB gzipped as a single chunk. |
 | **Load** | **Every request succeeded at all levels** (1→100 users); graceful degradation; interactive ceiling ~10–25 users on a single worker; ~11–14 RPS throughput plateau. |
 | **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; split-counter fail-open under Redis flapping remains (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
@@ -70,7 +70,7 @@
 
 | Suite | Result | Evidence |
 |---|---|---|
-| `lumi_tests/` unit suite | **176 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
+| `lumi_tests/` unit suite | **177 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
 | `fastapi-backend/tests/` | **99 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** (3 files) | `artifacts/functional/vitest-frontend.txt` |
 | `fastapi-backend/tests/integration/` | **67 passed, 2 skipped** | `artifacts/functional/pytest-lumi-integration.txt` |
@@ -188,7 +188,7 @@ SQL-injection-style inputs (5 probe families) now return 422 at the API boundary
 | Machine Learning | 11 | 2 | 0 | 9 | endpoint-verified; notebook cases pending |
 | **Grand Total** | **69** | **58** | **0** | **11** | |
 
-> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **355 total automated assertions passed** (176 + 99 + 9 + 67 + 4 extra integration passes).
+> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **356 total automated assertions passed** (177 + 99 + 9 + 67 + 4 extra integration passes).
 
 ### 1.10 Defect Log
 
@@ -887,7 +887,7 @@ All paths are relative to the repository root. Small artifacts are reproduced in
 **A.1 `lumi_tests/` unit suite** — `docs/09-Technical-Evaluation/artifacts/functional/pytest-lumi-unit.txt`
 
 ```
-====================== 176 passed, 9 warnings in 34.39s =======================
+====================== 177 passed, 9 warnings in 29.66s =======================
 ```
 
 **A.2 `fastapi-backend/tests/`** — `artifacts/functional/pytest-backend.txt`
@@ -1143,7 +1143,7 @@ The 6 June failures and their resolution status:
 | `test_forecast_metric_param` (`KeyError: 'year'`) | Predictor DataFrame column | Resolved — forecast endpoints 200 in sweep |
 | `test_post_ecosim_invalid_municipality` (PGRST116) | Empty `.single()` result | Resolved for `/ecosim/` (clean 404); same pattern still open for `/geothermal/{id}` → DEF-01 |
 
-Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 176).
+Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 177).
 
 **G.2 RAG retrieval smoke** — `retrieval_test_output.txt` (excerpt): queries like "Which renewable source is cheaper?" return top-k knowledge chunks with cosine scores 0.49–0.78 from correct categories (`all/comparison`, `solar/equipment_cost`, `hydro/components`, `wind/components`, …).
 

@@ -71,6 +71,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             logger.warning("Redis rate limit check failed for %s: %s", client_ip, exc)
             return await self._is_allowed_memory(client_ip, limit=limit)
 
+    def _client_ip(self, request: Request) -> str:
+        """Return the client IP used for rate-limit buckets."""
+        return get_client_id(request)
+
     async def dispatch(self, request: Request, call_next: Any) -> Any:
         # Skip rate limiting for health checks and CORS preflight requests
         if request.method == "OPTIONS" or request.url.path.startswith("/api/v1/health"):
@@ -80,7 +84,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if _is_localhost(_direct_peer_ip(request)):
             return await call_next(request)
 
-        client_ip = get_client_id(request)
+        client_ip = self._client_ip(request)
 
         # Admin and protected write endpoints are higher-sensitivity auth actions
         # and get a much tighter per-minute budget.
