@@ -783,7 +783,8 @@ class EnergyHubService:
             if isinstance(raw, str):
                 try:
                     parsed = json.loads(raw)
-                except Exception:
+                except Exception as exc:
+                    logger.debug("Skipping non-JSON factor entry: %s", exc)
                     continue
             if not isinstance(parsed, dict):
                 continue
@@ -1274,7 +1275,7 @@ class EnergyHubService:
             sort_keys=True,
             default=str,
         )
-        return hashlib.md5(canonical.encode()).hexdigest()
+        return hashlib.sha256(canonical.encode()).hexdigest()
 
     def _get_cached_insight(self, chart_type: str, chart_hash: str) -> str | None:
         """Fetch a cached insight; if multiple exist, rotate randomly."""
@@ -1290,9 +1291,9 @@ class EnergyHubService:
             rows = resp.data or []
             if not rows:
                 return None
-            # Rotate: pick one at random from cached variants
+            # Rotate: pick one at random from cached variants (non-cryptographic)
             import random
-            return random.choice(rows)["insight"]
+            return random.choice(rows)["insight"]  # nosec B311
         except Exception as exc:
             logger.debug("Cache read failed (table may not exist yet): %s", exc)
             return None

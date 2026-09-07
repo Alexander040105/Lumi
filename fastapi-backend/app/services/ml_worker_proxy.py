@@ -47,6 +47,8 @@ class MLWorkerProxyMiddleware(BaseHTTPMiddleware):
         return False
 
     async def dispatch(self, request: Request, call_next: Callable[[Request], Awaitable[Any]]) -> Any:
+        request_id = getattr(request.state, "request_id", None)
+
         if not self._should_proxy(request.url.path):
             return await call_next(request)
 
@@ -76,8 +78,13 @@ class MLWorkerProxyMiddleware(BaseHTTPMiddleware):
                 )
         except Exception as exc:
             logger.exception("ML worker proxy failed for %s: %s", target, exc)
+            body = {
+                "detail": "ML worker unavailable. Please try again later.",
+            }
+            if request_id:
+                body["request_id"] = request_id
             return Response(
-                content=json.dumps({"detail": f"ML worker unavailable: {exc}"}),
+                content=json.dumps(body),
                 status_code=503,
                 media_type="application/json",
             )

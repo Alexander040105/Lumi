@@ -48,7 +48,11 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         return True
 
     async def _is_allowed_redis(self, client_ip: str, limit: int | None = None) -> bool:
-        """Redis sorted-set sliding window."""
+        """Redis sorted-set sliding window with merged in-memory counter.
+
+        The in-memory counter is always updated for allowed requests so the limit
+        is enforced even when Redis is flapping between healthy and failing.
+        """
         limit = self.rate_limit if limit is None else limit
         redis = get_redis()
         if isinstance(redis, NullRedis):
@@ -66,7 +70,10 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             pipe.zadd(key, {str(now): now})
             pipe.expire(key, self._window + 1)
             _, count, _, _ = await pipe.execute()
-            return count < limit
+            if count >= limit:
+                return False
+            # Merge with the local counter so flapping Redis cannot split counts.
+            return await self._is_allowed_memory(client_ip, limit=limit)
         except Exception as exc:
             logger.warning("Redis rate limit check failed for %s: %s", client_ip, exc)
             return await self._is_allowed_memory(client_ip, limit=limit)

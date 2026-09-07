@@ -37,6 +37,8 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         for header, value in _SECURITY_HEADERS.items():
             response.headers.setdefault(header, value)
+        # Mask the server-identifying banner added by Uvicorn.
+        response.headers["server"] = "Lumi"
         return response
 
 

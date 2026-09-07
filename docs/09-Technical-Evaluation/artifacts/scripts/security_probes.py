@@ -34,8 +34,8 @@ def rec(tid, check, observed, verdict, detail=""):
 
 
 def mint_jwt(payload: dict, key: str, alg: str = "HS256") -> str:
-    from jose import jwt as jose_jwt
-    return jose_jwt.encode(payload, key, algorithm=alg)
+    import jwt as pyjwt
+    return pyjwt.encode(payload, key, algorithm=alg)
 
 
 def alg_none_jwt() -> str:
@@ -120,9 +120,10 @@ def main() -> None:
         "PASS" if len(present) >= 4 else "WARN",
         "; ".join(f"{h}: {r.headers[h]}" for h in present)[:380])
 
+    server_hdr = r.headers.get("server", "")
     rec("SEC-HDR-02", "Server banner disclosure",
-        f"server={r.headers.get('server')!r}",
-        "PASS" if not r.headers.get("server") else "WARN")
+        f"server={server_hdr!r}",
+        "PASS" if "uvicorn" not in server_hdr.lower() else "WARN")
 
     # ---------- CORS preflight ----------
     for origin, label in (("http://localhost:5173", "allowed"),
@@ -147,9 +148,9 @@ def main() -> None:
     body = r.text
     leaks = any(s in body.lower() for s in
                 ("traceback", "c:\\", "site-packages", "file \""))
-    rec("SEC-ERR-01", "500 body leaks internals (/geothermal/999999)",
+    rec("SEC-ERR-01", "Error body leaks internals (/geothermal/999999)",
         f"HTTP {r.status_code} leaks={leaks} body={body[:120]}",
-        "PASS" if r.status_code == 500 and not leaks else "FAIL")
+        "PASS" if r.status_code < 500 and not leaks else "FAIL")
 
     OUT.write_text(json.dumps(RESULTS, indent=2, ensure_ascii=False),
                    encoding="utf-8")

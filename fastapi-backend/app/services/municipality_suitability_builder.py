@@ -213,9 +213,9 @@ def _fetch_geothermal_data(client) -> dict[int, dict[str, Any]]:
             mid = r.get("municipality_id")
             if mid is not None and mid in data:
                 data[mid]["reservoir_temperature_c"] = r.get("reservoir_temperature_c")
-    except Exception:
+    except Exception as exc:
         # geothermal_output may not exist or have no data; skip gracefully
-        pass
+        logger.debug("geothermal_output optional, ignoring: %s", exc)
 
     return data
 

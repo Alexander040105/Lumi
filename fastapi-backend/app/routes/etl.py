@@ -8,12 +8,35 @@ Provides:
 from __future__ import annotations
 
 import logging
+import re
 from typing import Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, HTTPException, Query
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
+
+# Tables that /etl/validate is allowed to inspect.
+_ALLOWED_ETL_TABLES = frozenset({
+    "barangays",
+    "climate_data",
+    "doe_datasets",
+    "geothermal_output",
+    "geothermal_suitability",
+    "hydropower_suitability",
+    "municipalities",
+    "municipality_climate_averages",
+    "municipality_renewable_explanations",
+    "products",
+    "provinces",
+    "user_ecosim_logs",
+    "user_roles",
+    "user_usage_limits",
+    "profiles",
+})
+
+
+_TABLE_NAME_RE = re.compile(r"^[a-z_][a-z0-9_]*$")
 
 
 @router.post("/run/climate")
@@ -66,6 +89,9 @@ async def validate_table(
     Checks row count, null rates, and basic column statistics.
     """
     from app.services.supabase_service import get_supabase_client
+
+    if not _TABLE_NAME_RE.fullmatch(table) or table not in _ALLOWED_ETL_TABLES:
+        raise HTTPException(status_code=400, detail="Invalid table name")
 
     client = get_supabase_client()
     try:

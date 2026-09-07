@@ -193,8 +193,9 @@ def get_municipality_terrain_data(
             query = query.eq("municipality_name", municipality.upper())
         result = query.single().execute()
         return result.data or None
-    except APIError:
-        return None  # terrain data is optional; degrade gracefully
+    except APIError as exc:
+        logger.debug("Hydropower terrain data optional, ignoring: %s", exc)
+        return None
 
 def get_municipality_data(
     municipality: str, municipality_id: int | None = None, source: str = "auto"
@@ -736,8 +737,8 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
                 if suit_result.data:
                     geo_score = suit_result.data.get("geothermal_score") or 0.0
                     classification = suit_result.data.get("classification", "Unknown")
-            except APIError:
-                pass
+            except APIError as exc:
+                logger.debug("Geothermal suitability optional, ignoring: %s", exc)
             assumption = data.get("assumption", "") or GEOTHERMAL_CITATION
             return {
                 "energy_type": "geothermal",
@@ -753,8 +754,8 @@ def get_geothermal_data(municipality_name: str, municipality_data: dict) -> dict
                 "citation": GEOTHERMAL_CITATION,
                 "source_type": "utility",
             }
-    except APIError:
-        pass
+    except APIError as exc:
+        logger.debug("Geothermal pre-computed row optional, falling back: %s", exc)
 
     # Fallback: compute on-the-fly using NASA POWER surface temp
     surface_temp = municipality_data.get("avg_t2m")
@@ -956,12 +957,12 @@ def renewable_energy_calculator(
             "hydro_plant_floor_factor": _s.hydro_plant_floor_factor,
             "hydro_plant_max_floor_kwh": _s.hydro_plant_max_floor_kwh,
             "hydro_plant_absolute_cap_kwh": _s.hydro_plant_absolute_cap_kwh,
-            "hydro_plant_floor_provinces_hash": hashlib.md5(
+            "hydro_plant_floor_provinces_hash": hashlib.sha256(
                 ",".join(sorted(p.lower() for p in _s.hydro_plant_floor_provinces)).encode("utf-8")
             ).hexdigest()[:8],
             "scoring_version": "v5",  # v5: hydro plant output floor
         }
-        params_hash = hashlib.md5(
+        params_hash = hashlib.sha256(
             json.dumps(cache_payload, sort_keys=True, default=str).encode("utf-8")
         ).hexdigest()[:24]
         cached = get_ecosim_cache_sync("municipality", geo_id, params_hash)
