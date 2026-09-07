@@ -32,7 +32,7 @@
 | **Performance** | All core endpoints p95 < 500 ms single-user; simulation ~450 ms; LLM path ~460 ms–3.2 s; Supabase ~70–160 ms/query; frontend bundle 1.91 MB gzipped as a single chunk. |
 | **Load** | **Every request succeeded at all levels** (1→100 users); graceful degradation; interactive ceiling ~10–25 users on a single worker; ~11–14 RPS throughput plateau. |
 | **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; split-counter fail-open under Redis flapping remains (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
-| **Failure/Recovery** | **16/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates all verified live. |
+| **Failure/Recovery** | **16/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates, and PGRST116→404 mapping all verified live. |
 | **ML models** | 6 forecasting models benchmarked on DOE 2003–2024 data: Linear Trend MAPE 4.97 % (best), ARIMA(1,1,1) MAPE 5.67 % (deployed). EcoSim calibrated across 84/120 provinces — Solar ~55 %, Wind ~42 %, Hydro ~4 % recommendation split. |
 | **ISO 25010 self-evaluation** | Weighted score **3.60 / 5.0** ("Good") — see Appendix H. |
 
