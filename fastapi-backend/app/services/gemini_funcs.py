@@ -81,8 +81,8 @@ def _municipality_id_from_payload(analysis_payload: dict[str, Any]) -> int | Non
             return municipality_data[0].get("municipality_id")
         if isinstance(municipality_data, dict):
             return municipality_data.get("municipality_id")
-    except Exception:
-        pass
+    except Exception as exc:
+        logger.debug("Could not extract municipality_id from payload: %s", exc)
     return None
 
 

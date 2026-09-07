@@ -19,7 +19,9 @@ def _direct_peer_ip(request: Request) -> str:
 
 
 def _is_localhost(client_ip: str) -> bool:
-    return client_ip in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
+    # nosec B104: these are sentinel strings used for localhost identification,
+    # not a bind address.
+    return client_ip in ("127.0.0.1", "::1", "localhost")
 
 
 def _is_trusted_proxy_platform(request: Request) -> bool:

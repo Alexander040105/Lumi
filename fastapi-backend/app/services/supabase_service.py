@@ -97,7 +97,7 @@ class SupabaseRestClient:
         try:
             self.http.close()
         except Exception:
-            pass
+            pass  # nosec B110: destructor cleanup should be silent
 
     def table(self, table_name: str) -> SupabaseRestQuery:
         return SupabaseRestQuery(self, table_name)

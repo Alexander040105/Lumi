@@ -1,4 +1,4 @@
-from jose import JWTError, jwt
+import jwt
 
 from app.config.settings import get_settings
 
@@ -13,5 +13,5 @@ def verify_jwt(token: str) -> dict:
             options={"verify_aud": False},
         )
         return payload
-    except JWTError as exc:
+    except jwt.InvalidTokenError as exc:
         raise ValueError("Invalid token") from exc

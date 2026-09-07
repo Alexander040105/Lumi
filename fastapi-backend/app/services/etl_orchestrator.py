@@ -227,7 +227,7 @@ _USER_AGENTS = [
 def get_random_user_agent() -> str:
     """Return a random user-agent string for scraper rotation."""
     import random
-    return random.choice(_USER_AGENTS)
+    return random.choice(_USER_AGENTS)  # nosec B311
 
 
 def fetch_with_retry(

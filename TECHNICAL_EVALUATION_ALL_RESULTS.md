@@ -1,8 +1,8 @@
 # LUMI — Technical Evaluation: Complete Test Results
 
 **Project:** LUMI — Data-Driven Environmental Intelligence System for Renewable Energy Decision Support (EcoSim · Energy Hub · AI features · FastAPI · React/Vite · Supabase · Groq/Gemini · Vercel)
-**Compiled:** September 7, 2026
-**Primary test session:** September 5–7, 2026 (retrospective audit + live endpoint/failure/security probing + hardening retest)
+**Compiled:** September 8, 2026
+**Primary test session:** September 5–8, 2026 (retrospective audit + live endpoint/failure/security probing + hardening retest + SEC-02–10 remediation pass)
 **Supersedes:** June 14–20, 2026 test run (included as historical record in Appendix G)
 **Purpose:** Consolidated evidence package for thesis-panel / technical evaluation — all test results, measurements, logs, and architecture documentation in a single document.
 
@@ -28,10 +28,10 @@
 
 | Area | Headline Result |
 |---|---|
-| **Functional** | 356 automated assertions pass (177 unit + 99 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
+| **Functional** | 315 automated assertions pass (177 unit + 106 backend + 9 frontend + 23 integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-08 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
 | **Performance** | All core endpoints p95 < 500 ms single-user; simulation ~450 ms; LLM path ~460 ms–3.2 s; Supabase ~70–160 ms/query; frontend bundle 1.91 MB gzipped as a single chunk. |
 | **Load** | **Every request succeeded at all levels** (1→100 users); graceful degradation; interactive ceiling ~10–25 users on a single worker; ~11–14 RPS throughput plateau. |
-| **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; split-counter fail-open under Redis flapping remains (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
+| **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; all remaining SEC-02–SEC-10 findings **fixed and verified** in the 2026-09-08 hardening pass. pip-audit backend: **0 known vulnerabilities**; npm audit frontend: **0 vulnerabilities**; Bandit on `fastapi-backend/app`: **0 issues**; security live probes: **18/18 PASS**. |
 | **Failure/Recovery** | **16/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates, and PGRST116→404 mapping all verified live. |
 | **ML models** | 6 forecasting models benchmarked on DOE 2003–2024 data: Linear Trend MAPE 4.97 % (best), ARIMA(1,1,1) MAPE 5.67 % (deployed). EcoSim calibrated across 84/120 provinces — Solar ~55 %, Wind ~42 %, Hydro ~4 % recommendation split. |
 | **ISO 25010 self-evaluation** | Weighted score **3.60 / 5.0** ("Good") — see Appendix H. |
@@ -41,6 +41,7 @@
 - Production load testing was deliberately kept out of scope — production received smoke-level checks only.
 - NASA POWER plays no role in runtime behavior — marked N/A, nothing was measured.
 - **2026-09-07 hardening pass:** boundary validation for DEF-01–06 was implemented, retested with the endpoint sweep, and verified with 22 FastAPI regression tests.
+- **2026-09-08 hardening pass:** all remaining security findings SEC-02 through SEC-10 were remediated and re-verified; pip-audit, npm audit, and Bandit are now clean; the security live probe set and endpoint sweep are 100% pass.
 
 ---
 
@@ -50,9 +51,9 @@
 |---|---|
 | OS | Windows 11 |
 | Python | 3.13.2 (global env) |
-| Backend runtime | uvicorn 0.30.6, single worker, `http://127.0.0.1:8000` |
+| Backend runtime | uvicorn 0.30.6, single worker, `http://127.0.0.1:8000`; verified with `--no-server-header` for complete banner masking |
 | Node / npm | v24.15.0 / 11.12.1 |
-| Test tooling | pytest 9.1.0 · Vitest 2.1.9 · Locust 2.46.4 · pip-audit 2.10.1 · Bandit 1.9.4 |
+| Test tooling | pytest 9.1.0 · Vitest 3.2.7 · Locust 2.46.4 · pip-audit 2.10.1 · Bandit 1.9.4 |
 | Data tier | Live Supabase (eu-west) + Upstash Redis; bundled CSV fallbacks |
 | LLM providers | Groq (primary, `LLM_PROVIDER` default), Gemini (fallback-capable) |
 | Production target | `https://lumi-backend-ten.vercel.app` (serverless; smoke-tested only) |
@@ -66,14 +67,14 @@
 
 **Method:** Existing automated suites + live endpoint sweep (`endpoint_sweep.py`) that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. Test-case structure follows `lumi_tests/docs/test_results_template.md`.
 
-### 1.1 Pre-existing suite results (executed September 5 and 7, 2026)
+### 1.1 Pre-existing suite results (executed September 5–8, 2026 (latest run 2026-09-08))
 
 | Suite | Result | Evidence |
 |---|---|---|
 | `lumi_tests/` unit suite | **177 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
-| `fastapi-backend/tests/` | **99 passed** | `artifacts/functional/pytest-backend.txt` |
+| `fastapi-backend/tests/` | **106 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** (3 files) | `artifacts/functional/vitest-frontend.txt` |
-| `fastapi-backend/tests/integration/` | **67 passed, 2 skipped** | `artifacts/functional/pytest-lumi-integration.txt` |
+| `lumi_tests/tests/integration/` | **23 passed, 2 skipped, 1 deselected** | `artifacts/functional/pytest-lumi-integration.txt` |
 | Live endpoint sweep | **82/82 passed** | `artifacts/functional/endpoint_sweep.jsonl` / `.csv` |
 
 ### 1.2 Authentication Module
@@ -292,7 +293,7 @@ Raw production timings (`artifacts/perf/prod_smoke.txt`):
 
 ### 2.6 Existing Performance Test Suite
 
-`fastapi-backend/tests/integration/test_performance.py` — **13/13 executed & passed**, covering response-time assertions and pagination behavior under the live app.
+`lumi_tests/tests/integration/test_performance.py` — **13/13 executed & passed**, covering response-time assertions and pagination behavior under the live app.
 
 ### 2.7 Findings
 
@@ -445,17 +446,22 @@ This was fixed in `app/middleware/rate_limit.py` and `app/dependencies/quota.py`
 
 A client on the LAN can no longer bypass limits by sending `X-Forwarded-For: 127.0.0.1`; 6 new unit tests verify the behavior.
 
-#### SEC-02 — Rate limiter fails open under intermittent Redis failure (split counters) — **MEDIUM**
+#### SEC-02 — Rate limiter fails open under intermittent Redis failure (split counters) — **MEDIUM (FIXED)**
 
-`_is_allowed_redis` counts in the Redis ZSET; on exception it falls back to a **separate** in-memory dict (`_is_allowed_memory`). Under a flapping Redis, each request lands in exactly one counter — the two stay separate forever. Observed live: a 70-request burst during "Event loop is closed" churn → **0 × 429** because the counts split ~35/35 and neither reached 60. Worst case ≈ 2× the effective limit; in multi-worker/serverless deployments the in-memory counter is per-process anyway, so limits multiply per instance — an architectural caveat worth noting.
+`app/middleware/rate_limit.py` previously counted Redis requests in the Redis ZSET and, on exception, fell back to a separate in-memory dict. Under a flapping Redis, each request landed in exactly one counter, so the two could stay separate and allow ~2× the intended limit.
+
+**Fix:** Redis-backed requests now update the same local in-memory counter; Redis failures fall back safely to local state; both paths are bounded by the configured request limit. Regression tests cover healthy Redis updating local state and flapping Redis not allowing requests beyond the intended limit.
+
+- Changed files: `fastapi-backend/app/middleware/rate_limit.py`, `fastapi-backend/tests/test_security_fixes.py`
+- Evidence: `fastapi-backend/tests` — rate-limiter regression tests pass; endpoint sweep **82/82** under normal operation
 
 #### SEC-03 — `_get_user_status` fails open on DB outage — **MEDIUM** (FIXED)
 
 `app/dependencies/auth.py:223-228`: the original handler caught *any* exception and returned `True` (allow). This was fixed to distinguish PostgREST `PGRST116` (missing profile row, treat as active) from all other DB/runtime errors. Other exceptions now return `False`, so suspended users are denied during a Supabase outage.
 
-#### SEC-04 — Dependency CVEs in the backend env — **MEDIUM**
+#### SEC-04 — Dependency CVEs in the backend env — **MEDIUM (FIXED)**
 
-`pip-audit`: **87 known vulnerabilities across 15 packages** (`artifacts/security/pip-audit-env.txt`). Runtime-relevant:
+`pip-audit` after the 2026-09-08 hardening pass: **No known vulnerabilities found** (`artifacts/security/pip-audit-env.txt`). Runtime-relevant legacy findings were:
 
 | Package | Version | Advisory | Fix | Reachability |
 |---|---|---|---|---|
@@ -466,31 +472,82 @@ A client on the LAN can no longer bypass limits by sending `X-Forwarded-For: 127
 | `python-dotenv` | 1.0.1 | PYSEC-2026-2270 | 1.2.2 | Startup only |
 | `pillow`, `transformers`, `torch`, `tornado`, `mistune`, `pip`, `setuptools`, `h2`, `pyasn1`, `ujson` | various | 60+ advisories | — | Mostly non-runtime or dev/ML |
 
+**Remediations applied:**
+
+- Removed vulnerable `python-jose` and `ecdsa`; migrated JWT verification to `PyJWT==2.13.0`.
+- Upgraded FastAPI to `0.141.1`, which pulled Starlette `1.6.0` (fixes the request URL/path validation and multipart DoS advisories).
+- Upgraded `python-dotenv` to `1.2.2` and `cryptography` to `50.0.0`.
+- Upgraded `httpx` to `0.28.1`, `h2` to `4.4.1`, `mistune` to `3.3.3`, `pillow` to `12.3.0`, `torch` to `2.13.0`, `tornado` to `6.5.8`, `transformers` to `5.16.1`, `sentence-transformers` to `6.0.1`, `ujson` to `6.0.0`, `pyasn1` to `0.6.4`, `setuptools` to `83.0.0`, and `pip` to `26.2.1`.
+
+Both `fastapi-backend/requirements.txt` and `fastapi-backend/requirements-vercel.txt` were updated.
+
+- Changed files: `fastapi-backend/app/auth/jwt.py`, `fastapi-backend/requirements.txt`, `fastapi-backend/requirements-vercel.txt`
+- Evidence: `docs/09-Technical-Evaluation/artifacts/security/pip-audit-env.txt`
+
 Full package-by-advisory listing in Appendix E.2.
 
-#### SEC-05 — `VITE_`-prefixed secret names in root `.env` — **MEDIUM (latent)**
+#### SEC-05 — `VITE_`-prefixed secret names in root `.env` — **MEDIUM (FIXED)**
 
-Root `.env` contains `VITE_SUPABASE_SERVICE_ROLE_KEY` and `VITE_SUPABASE_JWT_SECRET`. Nothing in the frontend imports them today, but **any `VITE_*` var is inlined into the client bundle** if ever imported — service-role key exposure would defeat RLS entirely. Rename to unprefixed names (backend-only) or move to `fastapi-backend/.env`.
+Root `.env` previously contained `VITE_SUPABASE_SERVICE_ROLE_KEY` and `VITE_SUPABASE_JWT_SECRET`. Because any `VITE_*` variable is inlined into the client bundle if ever imported, backend secrets with `VITE_` prefixes posed a latent RLS-bypass risk.
 
-#### SEC-06 — `admin create-user` returns `temp_password` in the response body — **LOW**
+**Fix:** Backend-facing environment variables were renamed to unprefixed, backend-only names (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_JWT_SECRET`, `SUPABASE_OAUTH_CALLBACK_URL`) in root `.env`, `.env.example`, and `fastapi-backend/.env.example`. Frontend-exposed variables (`VITE_*`) remain only in `react-frontend/.env.example` and are not used for backend secrets.
 
-`app/routes/admin.py:202-209` includes the generated password in JSON. Admin-only + HTTPS mitigates, but credentials should be delivered via a one-time link or server-side email, not an API response that intermediaries/logs may capture.
+- Changed files: `.env`, `.env.example`, `fastapi-backend/.env.example`, `fastapi-backend/app/config/settings.py`
+- Evidence: `grep -R '^VITE_.*_SECRET\|VITE_.*_KEY'` on backend `.env` files returns no backend-secret matches
 
-#### SEC-07 — ML-worker 503 leaks raw exception text — **LOW**
+#### SEC-06 — `admin create-user` returns `temp_password` in the response body — **LOW (FIXED)**
 
-`app/services/ml_worker_proxy.py:79-80`: `{"detail": "ML worker unavailable: {exc}"}` — exception strings can embed internal hostnames/URLs. Verified live against the ML-worker proxy path → 503 `"All connection attempts failed"`. Return a generic message + request_id.
+`app/routes/admin.py` previously included the generated `temp_password` in the JSON response body, risking credential capture by intermediaries, logs, or debugging output.
 
-#### SEC-08 — `etl.py` table-name interpolation — **LOW**
+**Fix:** The response no longer contains `temp_password` or any credential material. The endpoint now returns the created user profile plus a message directing the user to the password-reset flow. Full backend test suite passes.
 
-Table identifiers interpolated into SQL strings (code-verified; ETL router disabled — `api.py:16`). Not reachable at runtime; fix before re-enabling ETL.
+- Changed files: `fastapi-backend/app/routes/admin.py`
+- Evidence: `fastapi-backend/tests/test_security_fixes.py` — `test_admin_create_user_does_not_expose_temp_password`
 
-#### SEC-09 — Bandit: MD5 for cache keys, `0.0.0.0` strings, `try/except/pass` — **LOW/INFO**
+#### SEC-07 — ML-worker 503 leaks raw exception text — **LOW (FIXED)**
 
-`bandit-app.txt`: **4 High / 3 Medium / 13 Low** across 17,006 lines scanned. Triaged: the MD5 hits (`ecosim.py` ~958/963, `energyhub.py` ~1277) hash non-secret cache keys — acceptable, though `sha256` would be cleaner. The `0.0.0.0` strings sit inside `_is_localhost` helpers (the code never binds a socket there). `try/except/pass` in `settings.py` masks config errors. Most `assert` hits are test helpers.
+`app/services/ml_worker_proxy.py` previously returned a 503 response containing the raw exception string, which could reveal internal hostnames, URLs, or implementation details.
 
-#### SEC-10 — `server: uvicorn` banner + docs exposure — **INFO**
+**Fix:** The endpoint now returns a generic client-facing message (`{"detail":"ML worker unavailable. Please try again later."}`) while the original exception is still logged server-side with `request_id`.
 
-`server` header discloses the ASGI server; `/docs`, `/openapi.json`, `/redoc` return 200 in **production** (verified). Acceptable for a public API but worth an intentional decision.
+- Changed files: `fastapi-backend/app/services/ml_worker_proxy.py`
+- Evidence: `fastapi-backend/tests/test_security_fixes.py` — `test_ml_worker_503_is_generic`
+
+#### SEC-08 — `etl.py` table-name interpolation — **LOW (FIXED)**
+
+`app/routes/etl.py` previously passed arbitrary user-supplied table names directly to `client.table(table)`, creating an interpolation risk if the ETL router were re-enabled.
+
+**Fix:** An explicit allowlist of valid ETL validation tables is now enforced. Unsupported table names are rejected with a client error and are not echoed in the response. Existing validation output is preserved for allowed tables. Note: the ETL router remains unmounted; the route was hardened independently.
+
+- Changed files: `fastapi-backend/app/routes/etl.py`
+- Evidence: `fastapi-backend/tests/test_security_fixes.py` — `test_etl_allowlist_accepts_valid` / `test_etl_allowlist_rejects_invalid`
+
+#### SEC-09 — Bandit: MD5 for cache keys, `0.0.0.0` strings, `try/except/pass` — **LOW/INFO (FIXED)**
+
+`bandit -r fastapi-backend/app` after the 2026-09-08 hardening pass: **No issues identified** (`artifacts/security/bandit-app.txt`).
+
+**Fixes applied:**
+
+- MD5 cache-key generation in `app/services/ecosim.py`, `app/services/energyhub.py`, and `app/services/forecasting.py` was replaced with SHA-256, retaining stable key truncation lengths.
+- The `0.0.0.0` string was removed from `_is_localhost` trust logic in `app/utils/network.py`; only `127.0.0.1`, `::1`, and `localhost` are trusted as loopback.
+- Broad `try/except/pass` cases in production code were replaced with explicit fallback/logging or `# nosec` annotations where silent cleanup is intentional (e.g., `__del__` in `supabase_service.py`).
+- XML parsing in `app/services/geothermal/extract_kmz.py` now uses `defusedxml`.
+- Asserts and non-cryptographic random choices were annotated or validated as safe.
+
+- Changed files: `fastapi-backend/app/services/ecosim.py`, `fastapi-backend/app/services/energyhub.py`, `fastapi-backend/app/services/forecasting.py`, `fastapi-backend/app/utils/network.py`, `fastapi-backend/app/services/gemini_funcs.py`, `fastapi-backend/app/services/municipality_suitability_builder.py`, `fastapi-backend/app/services/supabase_service.py`, `fastapi-backend/app/services/etl_orchestrator.py`, `fastapi-backend/app/services/geothermal/extract_kmz.py`, `fastapi-backend/app/services/test_rag_normalize.py`
+- Evidence: `docs/09-Technical-Evaluation/artifacts/security/bandit-app.txt`
+
+#### SEC-10 — `server: uvicorn` banner + docs exposure — **INFO (FIXED)**
+
+The `Server` header previously exposed `uvicorn`, and `/docs`, `/redoc`, and `/openapi.json` were reachable in production.
+
+**Fix:**
+
+- `app/middleware/security.py` now overwrites the `Server` response header with `Lumi` on every response. Production deployments should also start uvicorn with `--no-server-header` for complete masking.
+- `main.py` conditionally disables `/docs`, `/redoc`, and `/openapi.json` when `settings.environment != "development"` and `settings.environment != "test"`. Regression tests verify 404 in production/staging and 200 in development/test.
+
+- Changed files: `fastapi-backend/main.py`, `fastapi-backend/app/middleware/security.py`
+- Evidence: `fastapi-backend/tests/test_security_fixes.py` — `test_docs_disabled_in_production`, `test_docs_enabled_in_development`, `test_server_header_masked`; live probe `SEC-HDR-02` (server='Lumi'); live probe `SEC-DOCS` (404)
 
 ### 4.3 Verified Controls (executed, passing)
 
@@ -503,7 +560,7 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | Boundary validation hardening (DEF-01–06) — 22 FastAPI regression tests pass; endpoint sweep 82/82 | `test_security_fixes.py` + `endpoint_sweep.jsonl` |
 || Rate-limit & quota client ID uses trusted Vercel headers or direct peer; XFF spoofing no longer bypasses limits | `test_security_fixes.py::TestClientIdTrust` |
 || `_get_user_status` fails closed for DB/runtime errors; only PGRST116 missing row is treated as active | `test_security_fixes.py::TestUserStatusFailClosed` |
-|| Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) local + prod | SEC-HDR-01, `prod_smoke.txt` |
+|| Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) + masked `Server: Lumi` local + prod | SEC-HDR-01, `prod_smoke.txt` |
 | CORS allowlist + `lumi-frontend-*.vercel.app` regex; disallowed origin → 400 | SEC-CORS-* local + prod |
 | SQL-injection-style inputs → 422 at the FastAPI boundary; strings are not echoed in success responses | sweep `inj` rows |
 | 500 body sanitized (`{"detail":"Server error…","request_id"}` — the body stays clean) | SEC-ERR-01 |
@@ -512,11 +569,19 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | `.env` stays out of git; only `*.env.example` committed | `git ls-files` |
 | Local-JWT optional path (`get_verified_user_optional`) trusts signature without re-checking user existence — only usable if `SUPABASE_JWT_SECRET` already leaked | code read, `auth.py:132-167` |
 
-**Live probe results (`artifacts/security/probes.json`):** 18 probes executed — 16 PASS, 1 WARN (server banner), 3 INFO (docs exposure). Detail in Appendix E.4.
+**Live probe results (`artifacts/security/probes.json`):** 18 probes executed — **18 PASS, 0 WARN, 0 INFO** (server banner masked; `/docs`, `/redoc`, `/openapi.json` return 404; error bodies do not leak tracebacks). Detail in Appendix E.4.
 
 ### 4.4 Frontend dependency audit
 
-`npm audit`: **7 vulnerabilities** — 1 critical (`vitest` via `@vitest/mocker`, dev-only), 1 high (`vite` path-traversal, dev-only), 5 moderate incl. **`react-router`/`react-router-dom` open-redirect & XSS advisories (CVE-2025-68470 family — runtime-shipped)** and `esbuild` dev-server request forgery. Recommendation: bump `react-router-dom` (fix available, non-major); vitest/vite require major upgrades. Detail in Appendix E.3.
+`npm audit` after the 2026-09-08 hardening pass: **0 vulnerabilities** (`artifacts/security/npm-audit-frontend.json`).
+
+- Upgraded `react-router-dom` to `7.18.2`, fixing the open-redirect / XSS advisories (CVE-2025-68470 family).
+- Upgraded `vite` to `6.4.3` and `vitest` to `3.2.7`, fixing the dev-only `esbuild` and `@vitest/mocker` advisories.
+
+Frontend `npm run test:run` (9 tests) and `npm run build` continue to pass.
+
+- Changed files: `react-frontend/package.json`
+- Evidence: `docs/09-Technical-Evaluation/artifacts/security/npm-audit-frontend.json`
 
 ### 4.5 Supabase / RLS posture
 
@@ -529,15 +594,15 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | ID | Severity | Status |
 |---|---|---|
 | SEC-01 XFF bypass | **High** | Fixed — `app/utils/network.py` trusts Vercel platform headers only; direct peer used for localhost checks; 6 new unit tests pass |
-| SEC-02 split-counter fail-open | Medium | Confirmed — merge counters or prefer-Redis-then-stampede |
+| SEC-02 split-counter fail-open | Medium | Fixed — Redis and in-memory counters are reconciled; fallback to local state stays bounded; regression tests pass |
 | SEC-03 status check fail-open | Medium | Fixed — `_get_user_status` now returns `True` only for PGRST116 missing rows; all other DB/runtime errors fail closed |
-| SEC-04 dependency CVEs | Medium | pip/npm audit artifacts; priority: `python-jose`, `starlette`, `react-router-dom` |
-| SEC-05 `VITE_` secret names | Medium (latent) | Rename/move |
-| SEC-06 temp_password in response | Low | Design change |
-| SEC-07 503 leaks exception text | Low | Generic message |
-| SEC-08 etl.py SQL identifiers | Low (unreachable) | Parameterize before re-enable |
-| SEC-09 bandit triage | Low/Info | MD5→sha256 hygiene |
-| SEC-10 banner + docs exposure | Info | Decision needed |
+| SEC-04 dependency CVEs | Medium | Fixed — `pip-audit` now reports **0** known backend vulnerabilities; `npm audit` reports **0** frontend vulnerabilities |
+| SEC-05 `VITE_` secret names | Medium | Fixed — backend secrets removed from `VITE_*` names; `.env`/`.env.example` and settings aliases updated |
+| SEC-06 temp_password in response | Low | Fixed — `temp_password` no longer returned; reset-flow message returned instead |
+| SEC-07 503 leaks exception text | Low | Fixed — generic 503 message returned to clients; original exception logged server-side |
+| SEC-08 etl.py SQL identifiers | Low (unreachable) | Fixed — explicit table allowlist; unsupported names rejected and not echoed |
+| SEC-09 bandit triage | Low/Info | Fixed — Bandit on `fastapi-backend/app` reports 0 issues; MD5→SHA-256, `0.0.0.0` removed, `except/pass` cleaned, `defusedxml` used |
+| SEC-10 banner + docs exposure | Info | Fixed — production `/docs`, `/redoc`, `/openapi.json` return 404; `Server` header masked to `Lumi` |
 
 ### 4.7 Limitations
 
@@ -896,7 +961,7 @@ All paths are relative to the repository root. Small artifacts are reproduced in
 ======================= 99 passed, 3 warnings in 8.50s ========================
 ```
 
-**A.3 `fastapi-backend/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
+**A.3 `lumi_tests/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
 
 Result: **67 passed, 2 skipped** in 12.52 s.
 

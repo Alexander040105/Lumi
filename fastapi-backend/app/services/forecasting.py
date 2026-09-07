@@ -37,7 +37,7 @@ def _forecast_cache_key(
     forecast_years: tuple[int, ...],
 ) -> str:
     payload = f"{target_col}:{sorted(exog_cols or ())}:{forecast_years}"
-    digest = hashlib.md5(payload.encode("utf-8")).hexdigest()[:24]
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:24]
     return f"lumi:forecast:{digest}"
 
 

@@ -25,9 +25,9 @@ import json
 print(json.dumps(result, indent=2, ensure_ascii=False))
 
 # Verify backward-compatible fields exist
-assert result["recommended_energy_source"] == "solar"
-assert result["summary"] == result["explanation"]
-assert result["recommendation"]["best_option"] == "solar"
-assert "solar" in result["cost_estimation"]
-assert result["cost_estimation"]["solar"]["total_range"] == "PHP 35,000 - 70,000 for a 1.1 kWp system"
+assert result["recommended_energy_source"] == "solar"  # nosec B101
+assert result["summary"] == result["explanation"]  # nosec B101
+assert result["recommendation"]["best_option"] == "solar"  # nosec B101
+assert "solar" in result["cost_estimation"]  # nosec B101
+assert result["cost_estimation"]["solar"]["total_range"] == "PHP 35,000 - 70,000 for a 1.1 kWp system"  # nosec B101
 print("\nAll assertions passed.")

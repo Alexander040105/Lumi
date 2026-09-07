@@ -18,7 +18,13 @@ setup_logging(level=settings.log_level.upper())
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(title=settings.app_name, version="0.1.0")
+app = FastAPI(
+    title=settings.app_name,
+    version="0.1.0",
+    docs_url="/docs" if settings.debug else None,
+    redoc_url="/redoc" if settings.debug else None,
+    openapi_url="/openapi.json" if settings.debug else None,
+)
 
 
 @app.exception_handler(Exception)

@@ -44,10 +44,23 @@ class Settings(BaseSettings):
         validation_alias=AliasChoices(
             "SUPABASE_JWT_SERVICE_ROLE_KEY",
             "SUPABASE_SERVICE_ROLE_KEY",
+            "VITE_SUPABASE_SERVICE_ROLE_KEY",
         ),
     )
-    supabase_jwt_secret: str | None = None
-    supabase_oauth_callback_url: str | None = None
+    supabase_jwt_secret: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "SUPABASE_JWT_SECRET",
+            "VITE_SUPABASE_JWT_SECRET",
+        ),
+    )
+    supabase_oauth_callback_url: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices(
+            "SUPABASE_OAUTH_CALLBACK_URL",
+            "VITE_SUPABASE_OAUTH_CALLBACK_URL",
+        ),
+    )
 
     # Direct Postgres password (kept for compatibility / local dev)
     supabase_db_password: str | None = Field(
@@ -217,8 +230,8 @@ class Settings(BaseSettings):
                 parsed = json.loads(value)
                 if isinstance(parsed, list) and parsed:
                     return parsed
-            except Exception:
-                pass
+            except Exception as exc:
+                logger.warning("CORS_ORIGINS parse failed: %s", exc)
         return _DEFAULT_CORS_ORIGINS
 
     @field_validator("cors_origin_regex", mode="before")

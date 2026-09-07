@@ -20,7 +20,7 @@ import logging
 import math
 import zipfile
 from pathlib import Path
-from xml.etree import ElementTree as ET
+from defusedxml import ElementTree as ET
 
 import pandas as pd
 

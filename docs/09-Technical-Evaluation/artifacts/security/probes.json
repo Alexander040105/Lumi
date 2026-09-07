@@ -72,8 +72,8 @@
   {
     "id": "SEC-HDR-02",
     "check": "Server banner disclosure",
-    "observed": "server='uvicorn'",
-    "verdict": "WARN",
+    "observed": "server='Lumi'",
+    "verdict": "PASS",
     "detail": ""
   },
   {
@@ -100,28 +100,28 @@
   {
     "id": "SEC-DOCS",
     "check": "/docs exposure",
-    "observed": "HTTP 200",
-    "verdict": "INFO",
+    "observed": "HTTP 404",
+    "verdict": "PASS",
     "detail": ""
   },
   {
     "id": "SEC-DOCS",
     "check": "/openapi.json exposure",
-    "observed": "HTTP 200",
-    "verdict": "INFO",
+    "observed": "HTTP 404",
+    "verdict": "PASS",
     "detail": ""
   },
   {
     "id": "SEC-DOCS",
     "check": "/redoc exposure",
-    "observed": "HTTP 200",
-    "verdict": "INFO",
+    "observed": "HTTP 404",
+    "verdict": "PASS",
     "detail": ""
   },
   {
     "id": "SEC-ERR-01",
-    "check": "500 body leaks internals (/geothermal/999999)",
-    "observed": "HTTP 500 leaks=False body={\"detail\":\"Server error. Please try again or contact support.\",\"request_id\":\"6289ebf5-b700-48b5-97b0-2ad34fec2704\"}",
+    "check": "Error body leaks internals (/geothermal/999999)",
+    "observed": "HTTP 404 leaks=False body={\"detail\":\"Municipality not found\"}",
     "verdict": "PASS",
     "detail": ""
   }

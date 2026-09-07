@@ -204,8 +204,7 @@ async def create_user(
         "email": email,
         "role": role,
         "plan": plan,
-        "temp_password": temp_password,
-        "message": "User created. Share the temp password or have them use Forgot Password.",
+        "message": "User created. Have them use Forgot Password to set a password.",
     }
 
 
