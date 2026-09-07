@@ -128,14 +128,26 @@ class TestRateLimitMiddleware:
         assert resp.status_code == 429
         assert resp.headers["Retry-After"] == "60"
 
-    def test_extracts_x_forwarded_for(self):
+    def test_extracts_client_ip_from_trusted_proxy(self):
+        app = MagicMock()
+        middleware = RateLimitMiddleware(app, requests_per_minute=2)
+        request = MagicMock()
+        request.url.path = "/api/v1/ecosim/"
+        request.headers = {
+            "x-vercel-forwarded-for": "9.9.9.9, 8.8.8.8",
+            "x-real-ip": "9.9.9.9",
+        }
+        request.client.host = "vercel-edge"
+        assert middleware._client_ip(request) == "9.9.9.9"
+
+    def test_ignores_untrusted_x_forwarded_for(self):
         app = MagicMock()
         middleware = RateLimitMiddleware(app, requests_per_minute=2)
         request = MagicMock()
         request.url.path = "/api/v1/ecosim/"
         request.headers = {"x-forwarded-for": "9.9.9.9, 8.8.8.8"}
-        request.client.host = "127.0.0.1"
-        assert middleware._client_ip(request) == "9.9.9.9"
+        request.client.host = "1.2.3.4"
+        assert middleware._client_ip(request) == "1.2.3.4"
 
     def test_skips_health_checks(self):
         app = MagicMock()

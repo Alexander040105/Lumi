@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Query
 
+from app.schemas.common import ProductEnergyType
 from app.schemas.products import (
     ProductRecommendationRequest,
     ProductRecommendationResponse,
@@ -17,7 +18,7 @@ router = APIRouter()
 
 @router.get("/recommend", response_model=ProductRecommendationResponse)
 async def recommend_products(
-    energy_type: str = Query(..., description="Renewable type: solar, wind, hydro, geothermal"),
+    energy_type: ProductEnergyType = Query(..., description="Renewable type: solar, wind, hydro(hydropower), geothermal"),
     budget_php: float | None = Query(default=None, description="Optional budget ceiling in PHP"),
     limit: int = Query(default=5, ge=1, le=20),
 ):

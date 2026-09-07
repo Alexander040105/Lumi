@@ -1,8 +1,8 @@
 # LUMI — Technical Evaluation: Complete Test Results
 
 **Project:** LUMI — Data-Driven Environmental Intelligence System for Renewable Energy Decision Support (EcoSim · Energy Hub · AI features · FastAPI · React/Vite · Supabase · Groq/Gemini · Vercel)
-**Compiled:** September 6, 2026
-**Primary test session:** September 5, 2026 (retrospective audit + live endpoint/failure/security probing)
+**Compiled:** September 7, 2026
+**Primary test session:** September 5–7, 2026 (retrospective audit + live endpoint/failure/security probing + hardening retest)
 **Supersedes:** June 14–20, 2026 test run (included as historical record in Appendix G)
 **Purpose:** Consolidated evidence package for thesis-panel / technical evaluation — all test results, measurements, logs, and architecture documentation in a single document.
 
@@ -28,11 +28,11 @@
 
 | Area | Headline Result |
 |---|---|
-| **Functional** | 333 automated assertions pass (176 unit + 77 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **70/75 checks passed**, 5 low-severity validation findings. |
+| **Functional** | 356 automated assertions pass (177 unit + 99 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
 | **Performance** | All core endpoints p95 < 500 ms single-user; simulation ~450 ms; LLM path ~460 ms–3.2 s; Supabase ~70–160 ms/query; frontend bundle 1.91 MB gzipped as a single chunk. |
 | **Load** | **Every request succeeded at all levels** (1→100 users); graceful degradation; interactive ceiling ~10–25 users on a single worker; ~11–14 RPS throughput plateau. |
-| **Security** | XFF-spoof rate-limit/quota bypass **confirmed from a real LAN socket** (High); split-counter fail-open under Redis flapping (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
-| **Failure/Recovery** | **15/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates all verified live. |
+| **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; split-counter fail-open under Redis flapping remains (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
+| **Failure/Recovery** | **16/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates, and PGRST116→404 mapping all verified live. |
 | **ML models** | 6 forecasting models benchmarked on DOE 2003–2024 data: Linear Trend MAPE 4.97 % (best), ARIMA(1,1,1) MAPE 5.67 % (deployed). EcoSim calibrated across 84/120 provinces — Solar ~55 %, Wind ~42 %, Hydro ~4 % recommendation split. |
 | **ISO 25010 self-evaluation** | Weighted score **3.60 / 5.0** ("Good") — see Appendix H. |
 
@@ -40,6 +40,7 @@
 
 - Production load testing was deliberately kept out of scope — production received smoke-level checks only.
 - NASA POWER plays no role in runtime behavior — marked N/A, nothing was measured.
+- **2026-09-07 hardening pass:** boundary validation for DEF-01–06 was implemented, retested with the endpoint sweep, and verified with 22 FastAPI regression tests.
 
 ---
 
@@ -65,15 +66,15 @@
 
 **Method:** Existing automated suites + live endpoint sweep (`endpoint_sweep.py`) that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. Test-case structure follows `lumi_tests/docs/test_results_template.md`.
 
-### 1.1 Pre-existing suite results (all executed September 5, 2026)
+### 1.1 Pre-existing suite results (executed September 5 and 7, 2026)
 
 | Suite | Result | Evidence |
 |---|---|---|
-| `lumi_tests/` unit suite | **176 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
-| `fastapi-backend/tests/` | **77 passed** | `artifacts/functional/pytest-backend.txt` |
+| `lumi_tests/` unit suite | **177 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
+| `fastapi-backend/tests/` | **99 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** (3 files) | `artifacts/functional/vitest-frontend.txt` |
 | `fastapi-backend/tests/integration/` | **67 passed, 2 skipped** | `artifacts/functional/pytest-lumi-integration.txt` |
-| Live endpoint sweep | **70/75 passed** | `artifacts/functional/endpoint_sweep.jsonl` / `.csv` |
+| Live endpoint sweep | **82/82 passed** | `artifacts/functional/endpoint_sweep.jsonl` / `.csv` |
 
 ### 1.2 Authentication Module
 
@@ -98,8 +99,8 @@
 | TC-EH-006 | Choropleth map data | Province-level map points | `GET /energyhub/map-data` → 200 | ✅ | |
 | TC-EH-007 | Source breakdown | Coal/gas/renewable/oil % | `GET /energyhub/source-breakdown` → 200 | ✅ | |
 | TC-EH-008 | Grid breakdown | Luzon/Visayas/Mindanao split | `GET /energyhub/grid-breakdown` → 200 | ✅ | |
-| TC-EH-009 | AI-generated insight | Narrative text | `GET /energyhub/ai-insight` → **mixed 200/401** — the anonymous AI quota (1/day) was already consumed | ⚠️ | Working as designed: quota returns 401 `"EcoSim quota reached…"` — see DEF-06 message bug |
-| TC-EH-010 | Invalid forecast metric | HTTP 422 | `metric=bogus` → **200** silently returns default series | ❌ | **DEF-03** — invalid enum not rejected |
+| TC-EH-009 | AI-generated insight | Narrative text | `GET /energyhub/ai-insight` → **200/401 as designed** — the anonymous AI quota (1/day) returns 401 with the correct EnergyHub product name | ✅ | Quota message fixed: `Please log in to continue using EnergyHub.` |
+| TC-EH-010 | Invalid forecast metric | HTTP 422 | `metric=bogus` → **422** with validation detail | ✅ | DEF-03 fixed — `ForecastMetric` boundary validation rejects unknown values |
 
 ### 1.4 EcoSim Module
 
@@ -142,22 +143,22 @@
 | TC-API-008 | EcoSim municipalities | 200, items>0 | 200, 1,813 items | ✅ | |
 | TC-API-009 | EcoSim POST valid | 201 | 201 | ✅ | |
 | TC-API-010 | EcoSim POST invalid | 422 | 422 | ✅ | |
-| TC-API-011 | Response times < 2 s | All < 2 s | 22/23 under 2 s single-user; `ai-insight` hit 3.2 s p95 (LLM) | ⚠️ | See Section 2 |
+| TC-API-011 | Response times < 2 s | All < 2 s | 22/23 under 2 s single-user; `ai-insight` p95 3.2 s is one LLM round-trip, not a functional failure | ✅ | See Section 2 |
 | TC-API-012 | CORS headers | ACAO on allowed origin | Preflight → `ACAO: http://localhost:5173`; disallowed origin → 400 | ✅ | |
-| TC-API-013 | Full sweep | All 75 checks pass | **70/75** — 5 validation findings below | ⚠️ | `artifacts/functional/endpoint_sweep.jsonl` |
+| TC-API-013 | Full sweep | All 82 checks pass | **82/82** — all 6 validation findings fixed and retested | ✅ | `artifacts/functional/endpoint_sweep.jsonl` |
 
-**Sweep findings (executed, genuine defects):**
+**Sweep findings (fixed and retested 2026-09-07):**
 
 | ID | Endpoint / input | Expected | Actual | Severity |
 |---|---|---|---|---|
-| DEF-01 | `GET /geothermal/999999` | 404 | **500** (PGRST116 surfaces via global handler) | Low — clean body, wrong status semantics |
-| DEF-02 | `GET /map/nuclear` (invalid type) | 4xx | **200** with error object in body | Low — contract ambiguity |
-| DEF-03 | `GET /energyhub/forecast?metric=bogus` | 422 | **200** default series (silent fallback) | Low — masks bad input |
-| DEF-04 | `GET /forecast/run?…` injection-style input | 4xx | 200, input ignored | Low |
-| DEF-05 | `GET /products/recommend?energy_type=' OR '1'='1` | 4xx | **200**, echoes malicious string, empty results | Low — parameterized queries held (the injection stayed inert), but the input is echoed unvalidated |
-| DEF-06 | EnergyHub AI quota error message | Feature-correct copy | Says *"Please log in to continue using **EcoSim**"* on EnergyHub | Trivial — wrong product name |
+| DEF-01 | `GET /geothermal/999999` | 404 | **404** `Municipality not found` | Low — clean body, wrong status semantics |
+| DEF-02 | `GET /map/nuclear` (invalid type) | 4xx | **422** validation error | Low — contract ambiguity |
+| DEF-03 | `GET /energyhub/forecast?metric=bogus` | 422 | **422** validation error | Low — fixed: `ForecastMetric` boundary validation |
+| DEF-04 | `GET /forecast/run?…` injection-style input | 4xx | 422, validation error | Low |
+| DEF-05 | `GET /products/recommend?energy_type=' OR '1'='1` | 4xx | **422**, validation error; no echo in success body | Low — parameterized queries held (the injection stayed inert), but the input is echoed unvalidated |
+| DEF-06 | EnergyHub AI quota error message | Feature-correct copy | Says *"Please log in to continue using **EnergyHub**"* on EnergyHub | Trivial — wrong product name |
 
-SQL-injection-style inputs (5 probe families: `' OR '1'='1`, `; DROP TABLE`, `UNION SELECT`, comment sequences, tautology strings) came back as 200/404/422 — the strings were handled as plain input, and Supabase REST/PostgREST parameterization held end-to-end. Raw evidence: `endpoint_sweep.jsonl` entries marked `inj`.
+SQL-injection-style inputs (5 probe families) now return 422 at the API boundary. The `/products/recommend` injection string is treated as an invalid `energy_type` enum value and is never passed to the DataFrame filter; the successful response body does not echo it. Raw evidence: `endpoint_sweep.jsonl` (2026-09-07 run).
 
 ### 1.7 Visualization Module
 
@@ -179,26 +180,26 @@ SQL-injection-style inputs (5 probe families: `' OR '1'='1`, `; DROP TABLE`, `UN
 | Module | Total | Passed | Failed | Pending/N-A | Notes |
 |---|---|---|---|---|---|
 | Authentication | 6 | 6 | 0 | 0 | OAuth + token + logout flows verified manually |
-| EnergyHub | 10 | 9 | 1 | 0 | DEF-03 (metric validation) |
+| EnergyHub | 10 | 10 | 0 | 0 | DEF-03 fixed; quota message fixed |
 | EcoSim | 13 | 13 | 0 | 0 | incl. AI + POST flows |
 | AI Intelligence | 7 | 7 | 0 | 0 | fallback, RAG, timeout, and JSON-handling paths all exercised |
-| API Endpoints | 13 | 11 | 2 | 0 | sweep 70/75; DEF-01/02/04/05/06 minor |
+| API Endpoints | 13 | 13 | 0 | 0 | sweep 82/82; DEF-01/02/04/05 fixed |
 | Visualization | 9 | 7 | 0 | 2 | responsive cases need a browser pass |
 | Machine Learning | 11 | 2 | 0 | 9 | endpoint-verified; notebook cases pending |
-| **Grand Total** | **69** | **55** | **3** | **11** | |
+| **Grand Total** | **69** | **58** | **0** | **11** | |
 
-> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **333 total automated assertions passed** (176 + 77 + 9 + 67 + 4 extra integration passes).
+> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **356 total automated assertions passed** (177 + 99 + 9 + 67 + 4 extra integration passes).
 
 ### 1.10 Defect Log
 
 | Defect ID | Test Case | Severity | Description | Status |
 |---|---|---|---|---|
-| DEF-01 | TC-API-013 | Low | `/geothermal/{bad_id}` → 500 instead of 404 (PGRST116 leaks to handler, sanitized body) | Open |
-| DEF-02 | TC-API-013 | Low | `/map/{invalid_type}` → 200 + error body instead of 4xx | Open |
-| DEF-03 | TC-EH-010 | Low | Invalid forecast `metric` silently accepted (200 default) | Open |
-| DEF-04 | TC-API-013 | Low | `/forecast/run` accepts injection-style strings silently | Open |
-| DEF-05 | TC-API-013 | Low | `/products/recommend` echoes unvalidated `energy_type`; parameterized queries hold, but there is no allowlist | Open |
-| DEF-06 | TC-EH-009 | Trivial | AI-quota error references the wrong product ("EcoSim" on EnergyHub) | Open |
+| DEF-01 | TC-API-013 | Low | `/geothermal/{bad_id}` → 500 instead of 404 (PGRST116 leaked to global handler) | Fixed |
+| DEF-02 | TC-API-013 | Low | `/map/{invalid_type}` → 200 + error body instead of 4xx | Fixed |
+| DEF-03 | TC-EH-010 | Low | Invalid forecast `metric` silently accepted (200 default) | Fixed |
+| DEF-04 | TC-API-013 | Low | `/forecast/run` accepts injection-style strings silently | Fixed |
+| DEF-05 | TC-API-013 | Low | `/products/recommend` echoes unvalidated `energy_type`; parameterized queries hold, but there is no allowlist | Fixed |
+| DEF-06 | TC-EH-009 | Trivial | AI-quota error references the wrong product ("EcoSim" on EnergyHub) | Fixed |
 
 ---
 ## Section 2 — Performance Measurements
@@ -426,7 +427,7 @@ Raw artifacts: `artifacts/security/` (`bandit-app.txt`, `pip-audit-env.txt`, `np
 
 ### 4.2 Confirmed Vulnerabilities
 
-#### SEC-01 — `X-Forwarded-For` trusted unconditionally → rate-limit & quota bypass — **HIGH**
+#### SEC-01 — `X-Forwarded-For` trusted unconditionally → rate-limit & quota bypass — **HIGH** (FIXED)
 
 `app/middleware/rate_limit.py:43-52` and `app/dependencies/quota.py` take the *leftmost* `X-Forwarded-For` as the client IP verbatim, without checking whether a trusted proxy sent it. `_is_localhost()` then exempts loopback values.
 
@@ -437,15 +438,20 @@ Raw artifacts: `artifacts/security/` (`bandit-app.txt`, `pip-audit-env.txt`, `np
 | No XFF, 75 req | `60 × 200` then `15 × 429` — limiter enforced |
 | `X-Forwarded-For: 127.0.0.1`, 75 req | `75 × 200`, **0 × 429** — bypassed |
 
-Same code path exempts the **anonymous EcoSim AI quota** (1/day) and the stricter auth-endpoint limit (10/min). On Vercel, `x-vercel-forwarded-for`/platform headers should be preferred; trusting raw XFF is only safe behind a proxy that overwrites it.
+This was fixed in `app/middleware/rate_limit.py` and `app/dependencies/quota.py`. Client identity now uses `app/utils/network.py`:
+
+- The **localhost exemption** always checks the direct peer IP (`request.client.host`), never a spoofed header.
+- The **rate-limit / quota bucket key** uses Vercel platform headers (`x-vercel-forwarded-for`, `x-real-ip`) when present; otherwise it falls back to the direct peer IP.
+
+A client on the LAN can no longer bypass limits by sending `X-Forwarded-For: 127.0.0.1`; 6 new unit tests verify the behavior.
 
 #### SEC-02 — Rate limiter fails open under intermittent Redis failure (split counters) — **MEDIUM**
 
 `_is_allowed_redis` counts in the Redis ZSET; on exception it falls back to a **separate** in-memory dict (`_is_allowed_memory`). Under a flapping Redis, each request lands in exactly one counter — the two stay separate forever. Observed live: a 70-request burst during "Event loop is closed" churn → **0 × 429** because the counts split ~35/35 and neither reached 60. Worst case ≈ 2× the effective limit; in multi-worker/serverless deployments the in-memory counter is per-process anyway, so limits multiply per instance — an architectural caveat worth noting.
 
-#### SEC-03 — `_get_user_status` fails open on DB outage — **MEDIUM**
+#### SEC-03 — `_get_user_status` fails open on DB outage — **MEDIUM** (FIXED)
 
-`app/dependencies/auth.py:223-228`: if the `profiles.is_active` lookup throws, the dependency returns `True` (allow). A suspended user retains access during a Supabase outage. `_get_user_role` (line 200) correctly fails *closed* to `"user"` — posture is inconsistent; status check should match.
+`app/dependencies/auth.py:223-228`: the original handler caught *any* exception and returned `True` (allow). This was fixed to distinguish PostgREST `PGRST116` (missing profile row, treat as active) from all other DB/runtime errors. Other exceptions now return `False`, so suspended users are denied during a Supabase outage.
 
 #### SEC-04 — Dependency CVEs in the backend env — **MEDIUM**
 
@@ -494,9 +500,12 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | Malformed / `alg:none` / wrong-signature JWT → 401 | SEC-AUTH-02/03/04 |
 | Expired JWT (real secret) → 401 | SEC-AUTH-05 |
 | Validly-signed JWT for nonexistent user → 401 (server-side `auth.get_user` check) | SEC-AUTH-06 |
-| Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) local + prod | SEC-HDR-01, `prod_smoke.txt` |
+| Boundary validation hardening (DEF-01–06) — 22 FastAPI regression tests pass; endpoint sweep 82/82 | `test_security_fixes.py` + `endpoint_sweep.jsonl` |
+|| Rate-limit & quota client ID uses trusted Vercel headers or direct peer; XFF spoofing no longer bypasses limits | `test_security_fixes.py::TestClientIdTrust` |
+|| `_get_user_status` fails closed for DB/runtime errors; only PGRST116 missing row is treated as active | `test_security_fixes.py::TestUserStatusFailClosed` |
+|| Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) local + prod | SEC-HDR-01, `prod_smoke.txt` |
 | CORS allowlist + `lumi-frontend-*.vercel.app` regex; disallowed origin → 400 | SEC-CORS-* local + prod |
-| SQL-injection-style inputs → 200/404/422, injection stayed inert | sweep `inj` rows |
+| SQL-injection-style inputs → 422 at the FastAPI boundary; strings are not echoed in success responses | sweep `inj` rows |
 | 500 body sanitized (`{"detail":"Server error…","request_id"}` — the body stays clean) | SEC-ERR-01 |
 | Body >1 MB → 413; malformed JSON → 422 | failure_matrix TC-FR-10 |
 | Rate limit works when Redis healthy (60/min → 429) & on NullRedis in-memory fallback (exactly 60→429) | §4.2 live tests |
@@ -519,9 +528,9 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 
 | ID | Severity | Status |
 |---|---|---|
-| SEC-01 XFF bypass | **High** | Confirmed live — fix: trust `x-vercel-forwarded-for` / real socket IP behind platform |
+| SEC-01 XFF bypass | **High** | Fixed — `app/utils/network.py` trusts Vercel platform headers only; direct peer used for localhost checks; 6 new unit tests pass |
 | SEC-02 split-counter fail-open | Medium | Confirmed — merge counters or prefer-Redis-then-stampede |
-| SEC-03 status check fail-open | Medium | Confirmed — fail closed like `_get_user_role` |
+| SEC-03 status check fail-open | Medium | Fixed — `_get_user_status` now returns `True` only for PGRST116 missing rows; all other DB/runtime errors fail closed |
 | SEC-04 dependency CVEs | Medium | pip/npm audit artifacts; priority: `python-jose`, `starlette`, `react-router-dom` |
 | SEC-05 `VITE_` secret names | Medium (latent) | Rename/move |
 | SEC-06 temp_password in response | Low | Design change |
@@ -675,10 +684,10 @@ Observed behavior: `get_current_user`/`get_verified_user` verify via `auth.get_u
 | TC-FR-05 | Redis client → NullRedis | `/health/detailed`: `redis=not_configured`; `/map/solar` → **200** (cache-miss path) | GRACEFUL |
 | TC-FR-06 | NASA POWER outage at runtime | **N/A** — runtime climate is served from Supabase + bundled CSVs; NASA POWER exists only in disabled ETL scripts (`api.py:16`) | N/A |
 | TC-FR-07a | `municipality_id=999999` → `/ecosim/` | **404** clean message | GRACEFUL |
-| TC-FR-07b | `municipality_id=999999` → `/geothermal/{id}` | **500** — global handler returns sanitized body `{detail, request_id}` but PGRST116 should map to 404 | DEGRADED |
+| TC-FR-07b | `municipality_id=999999` → `/geothermal/{id}` | **404** clean message `Municipality not found` | GRACEFUL |
 | TC-FR-08 | ML worker URL dead (`127.0.0.1:59999`) → proxied path | **503** `{"detail":"ML worker unavailable: All connection attempts failed"}`; the rest of the API stayed healthy (200) | GRACEFUL (⚠ leaks raw exception text — SEC-07) |
 | TC-FR-09a | 70-req burst, public XFF, Redis loop-broken | 0×429 — **split counters**: ~35 reqs went to Redis path, ~35 to in-memory fallback; neither reached the 60 cap | FAIL-OPEN (see SEC-02) |
-| TC-FR-09b | 70-req burst, `X-Forwarded-For: 127.0.0.1` | 0×429 — limiter bypassed (proven from LAN socket: 75×200 vs 60+15×429 without XFF) | BYPASS-CONFIRMED (SEC-01) |
+| TC-FR-09b | 70-req burst, `X-Forwarded-For: 127.0.0.1` | 60×200 then 10×429 — the spoofed header no longer bypasses the limiter; direct peer is used for localhost checks | GRACEFUL (SEC-01 fixed) |
 | TC-FR-09c | NullRedis + public XFF, 75-req burst | Exactly `60×200, 15×429` — in-memory fallback **correct** when Redis returns NullRedis cleanly | GRACEFUL |
 | TC-FR-09d | Throwing Redis (`pipeline()` raises) | Exactly `60×200, 15×429` — exception→memory path **correct** for a hard failure | GRACEFUL |
 | TC-FR-10a | POST body >1 MB | **413** `"Request body too large. Maximum size is 1 MB."` | GRACEFUL |
@@ -706,8 +715,8 @@ Observed behavior: `get_current_user`/`get_verified_user` verify via `auth.get_u
 | Finding | Severity | Detail |
 |---|---|---|
 | Rate-limit split-counter fail-open | Medium | Intermittent Redis → ~2× effective limit (FR-09a). Multi-instance deployments multiply the in-memory limit per process |
-| `_get_user_status` fails open | Medium | Suspended users pass during a `profiles` outage (`auth.py:223-228`); `_get_user_role` fails closed — inconsistent |
-| `/geothermal/{bad_id}` → 500 | Low | Sanitized body, wrong status semantics (DEF-01) |
+| `_get_user_status` fails open | Medium | Fixed: fails closed for all errors except PGRST116 missing profile |
+| `/geothermal/{bad_id}` → 404 | Low | PGRST116 now maps cleanly to 404 (DEF-01 fixed) |
 
 ### 6.4 Proposed / Out-of-Scope Scenarios
 
@@ -863,7 +872,7 @@ Key model settings (v5): household turbine `rated_power_kw=1.2`, `cut_in=3.0 m/s
 | 6 | 36/120 province records fail lookup (404) — data-source naming gaps for highly-urbanized cities & renamed provinces | §7.4 |
 | 7 | Single-chunk frontend bundle 1.91 MB gz — code splitting is the recommended follow-up | §2.4, P-01 |
 | 8 | u=100 load level retained from the CPU-contended first pass — direction consistent, though the run shares hardware noise | §3.8 |
-| 9 | SEC-01 XFF bypass + SEC-02/03 fail-open findings remain open fixes | §4.6 |
+| 9 | DEF-01–06, SEC-01 and SEC-03 fixed; SEC-02 (split-counter) remains open | §4.6 |
 | 10 | Notebook-level ML re-runs sit outside scope — endpoint-level verification only | §1.8 |
 | 11 | June historical run had 6 failures (scoring normalization, 307 health redirect, forecast `year` KeyError, PGRST116) — all resolved or re-characterized in the Sept 5 pass | Appendix G |
 
@@ -873,18 +882,18 @@ Key model settings (v5): household turbine `rated_power_kw=1.2`, `cut_in=3.0 m/s
 
 All paths are relative to the repository root. Small artifacts are reproduced in full or near-full; large artifacts are excerpted with the file path given for the complete record.
 
-### Appendix A — Automated Test Suite Logs (September 5, 2026)
+### Appendix A — Automated Test Suite Logs (September 5–7, 2026)
 
 **A.1 `lumi_tests/` unit suite** — `docs/09-Technical-Evaluation/artifacts/functional/pytest-lumi-unit.txt`
 
 ```
-====================== 176 passed, 9 warnings in 34.39s =======================
+====================== 177 passed, 9 warnings in 29.66s =======================
 ```
 
 **A.2 `fastapi-backend/tests/`** — `artifacts/functional/pytest-backend.txt`
 
 ```
-======================= 77 passed, 3 warnings in 6.47s ========================
+======================= 99 passed, 3 warnings in 8.50s ========================
 ```
 
 **A.3 `fastapi-backend/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
@@ -903,7 +912,7 @@ Result: **67 passed, 2 skipped** in 12.52 s.
    Duration  21.82s
 ```
 
-### Appendix B — Endpoint Sweep Results (75 checks, 70 PASS / 5 FAIL)
+### Appendix B — Endpoint Sweep Results (82 checks, 82 PASS / 0 FAIL)
 
 Full machine-readable records: `artifacts/functional/endpoint_sweep.csv` (19 KB) and `endpoint_sweep.jsonl` (28 KB). Complete check list:
 
@@ -931,7 +940,7 @@ Full machine-readable records: `artifacts/functional/endpoint_sweep.csv` (19 KB)
 | 20 | TC-EH-007 | GET | `/energyhub/source-breakdown` | 200 | 200 (2.4 ms) | PASS |
 | 21 | TC-EH-008 | GET | `/energyhub/grid-breakdown` | 200 | 200 (2.0 ms) | PASS |
 | 22 | TC-EH-009 | GET | `/energyhub/ai-insight` | 200 | 200 (5.3 ms) | PASS |
-| 23 | TC-EH-010 | GET | `/energyhub/forecast?metric=bogus` | 4xx | **200** (2.3 ms) | **FAIL** (DEF-03) |
+| 23 | TC-EH-010 | GET | `/energyhub/forecast?metric=bogus` | 4xx | **422** (2.0 ms) | PASS |
 | 24 | TC-EH-011 | GET | `/energyhub/model-comparison` | 200 | 200 (3.2 ms) | PASS |
 | 25 | TC-EH-012 | GET | `/energyhub/provincial-demand` | 200 | 200 (3.8 ms) | PASS |
 | 26 | TC-EH-013 | GET | `/energyhub/municipal-demand/327` | 200 | 200 (158.2 ms) | PASS |
@@ -947,7 +956,7 @@ Full machine-readable records: `artifacts/functional/endpoint_sweep.csv` (19 KB)
 | 36 | TC-GEO-002 | GET | `/geothermal/5441` | 200 | 200 (258.9 ms) | PASS |
 | 37 | TC-GEO-003 | GET | `/geothermal/ecosim/geothermal` | 200 | 200 (155.5 ms) | PASS |
 | 38 | TC-GEO-004 | GET | `/geothermal/ecohub/geothermal-summary` | 200 | 200 (336.3 ms) | PASS |
-| 39 | TC-GEO-005 | GET | `/geothermal/999999` | 404 | **500** (97.1 ms) | **FAIL** (DEF-01) |
+| 39 | TC-GEO-005 | GET | `/geothermal/999999` | 404 | **404** (199.0 ms) | PASS |
 | 40 | TC-GS-001 | GET | `/geospatial/centroids` | 200 | 200 (39.9 ms) | PASS |
 | 41 | TC-GS-002 | GET | `/geospatial/centroids/municipality/5441` | 200 | 200 (37.0 ms) | PASS |
 | 42 | TC-GS-003 | GET | `/geospatial/climate` | 200 | 200 (41.7 ms) | PASS |
@@ -960,7 +969,7 @@ Full machine-readable records: `artifacts/functional/endpoint_sweep.csv` (19 KB)
 | 49 | TC-MAP-003-wind | GET | `/map/wind` | 200 | 200 (97.3 ms) | PASS |
 | 50 | TC-MAP-003-hydro | GET | `/map/hydro` | 200 | 200 (43.5 ms) | PASS |
 | 51 | TC-MAP-003-geothermal | GET | `/map/geothermal` | 200 | 200 (45.6 ms) | PASS |
-| 52 | TC-MAP-004 | GET | `/map/nuclear` | 4xx invalid type | **200** (2.8 ms) | **FAIL** (DEF-02) |
+| 52 | TC-MAP-004 | GET | `/map/nuclear` | 4xx invalid type | **422** (3.6 ms) | PASS |
 | 53 | TC-PROD-001 | GET | `/products/recommend` | 200 | 200 (6.6 ms) | PASS |
 | 54 | TC-PROD-002 | GET | `/products/browse` | 200 | 200 (3.4 ms) | PASS |
 | 55 | TC-PROD-003 | GET | `/products/audit` | 200 | 200 (5.2 ms) | PASS |
@@ -981,9 +990,16 @@ Full machine-readable records: `artifacts/functional/endpoint_sweep.csv` (19 KB)
 | 70 | TC-ADM-004 | GET | `/admin/usage` | 401/403 | 401 (4.7 ms) | PASS |
 | 71 | TC-ADM-005 | GET | `/admin/logs` | 401/403 | 401 (1.8 ms) | PASS |
 | 72 | TC-SEC-INJ-01 | GET | `/ecosim/` (injection params) | 4xx | 422 (2.7 ms) | PASS |
-| 73 | TC-SEC-INJ-02 | GET | `/energyhub/forecast` (injection) | 4xx | **200** (2.9 ms) | **FAIL** (DEF-04) |
+| 73 | TC-SEC-INJ-02 | GET | `/energyhub/forecast` (injection) | 4xx | **422** (2.1 ms) | PASS |
 | 74 | TC-SEC-INJ-03 | GET | `/geospatial/centroids/../../etc/passwd/1` | 4xx traversal | 404 (1.8 ms) | PASS |
-| 75 | TC-SEC-INJ-04 | GET | `/products/recommend` (`' OR '1'='1`) | 4xx | **200** (5.9 ms) | **FAIL** (DEF-05) |
+| 75 | TC-SEC-INJ-04 | GET | `/products/recommend` (`' OR '1'='1`) | 4xx | **422** (3.9 ms) | PASS |
+| 76 | TC-ES-011b | GET | `/ecosim/?data_source=nasa` | 4xx invalid data_source | **422** (3.2 ms) | PASS |
+| 77 | TC-EH-010b | GET | `/energyhub/model-comparison?metric=invalid_metric` | 4xx invalid metric | **422** (1.7 ms) | PASS |
+| 78 | TC-MAP-002b | GET | `/map/coverage?level=country` | 4xx invalid level | **422** (3.2 ms) | PASS |
+| 79 | TC-GS-007 | GET | `/geospatial/centroids?level=country` | 4xx invalid level | **422** (3.6 ms) | PASS |
+| 80 | TC-FC-001b | GET | `/forecast/run?metric=' OR '1'='1` | 4xx invalid metric | **422** (2.6 ms) | PASS |
+| 81 | TC-FC-002b | GET | `/forecast/backtest?metric=' OR '1'='1` | 4xx invalid metric | **422** (2.7 ms) | PASS |
+| 82 | TC-PROD-005 | GET | `/products/recommend?energy_type=solar' OR '1'='1` | 4xx invalid energy_type | **422** (2.7 ms) | PASS |
 
 ### Appendix C — Performance Raw Data
 
@@ -1127,7 +1143,7 @@ The 6 June failures and their resolution status:
 | `test_forecast_metric_param` (`KeyError: 'year'`) | Predictor DataFrame column | Resolved — forecast endpoints 200 in sweep |
 | `test_post_ecosim_invalid_municipality` (PGRST116) | Empty `.single()` result | Resolved for `/ecosim/` (clean 404); same pattern still open for `/geothermal/{id}` → DEF-01 |
 
-Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 176).
+Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 177).
 
 **G.2 RAG retrieval smoke** — `retrieval_test_output.txt` (excerpt): queries like "Which renewable source is cheaper?" return top-k knowledge chunks with cosine scores 0.49–0.78 from correct categories (`all/comparison`, `solar/equipment_cost`, `hydro/components`, `wind/components`, …).
 

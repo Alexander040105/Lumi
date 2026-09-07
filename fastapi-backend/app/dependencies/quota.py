@@ -8,6 +8,7 @@ from app.config.settings import get_settings
 from app.dependencies.auth import _get_effective_plan, _get_user_role, get_verified_user_optional
 from app.services.redis_client import NullRedis, get_redis, is_redis_available
 from app.services.supabase_service import get_supabase_client
+from app.utils.network import _direct_peer_ip, _is_localhost, get_client_id
 
 logger = logging.getLogger(__name__)
 
@@ -15,24 +16,6 @@ logger = logging.getLogger(__name__)
 # Stores the timestamp of the last request for each anonymous client.
 _in_memory_last: dict[str, float] = {}
 _in_memory_counts: dict[str, int] = {}
-
-
-def _is_localhost(client_id: str) -> bool:
-    """Return True for loopback addresses used in local dev only."""
-    return client_id in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
-
-
-def get_client_id(request: Request) -> str:
-    """Extract a stable client identifier from the request."""
-    forwarded = request.headers.get("x-forwarded-for")
-    if forwarded:
-        return forwarded.split(",")[0].strip()
-    real_ip = request.headers.get("x-real-ip")
-    if real_ip:
-        return real_ip.strip()
-    if request.client:
-        return request.client.host
-    return "unknown"
 
 
 async def _reset_redis_key(key: str, window: int) -> bool:
@@ -167,11 +150,15 @@ async def check_authenticated_usage(user: dict, action: str = "simulation") -> d
 async def get_optional_user_or_quota(
     request: Request,
     user: dict | None = Depends(get_verified_user_optional),
+    feature_name: str = "EcoSim",
 ) -> dict[str, Any]:
     """Allow authenticated requests (with usage limits); apply an anonymous quota otherwise.
 
     Returns a dict with the verified user (if any) and the number of
     remaining anonymous requests for this client.
+
+    `feature_name` is used in the 401 message so EcoSim and EnergyHub each
+    show the correct product name.
     """
     if user:
         usage = await check_authenticated_usage(user, action="simulation")
@@ -181,22 +168,40 @@ async def get_optional_user_or_quota(
             "remaining_usage": usage.get("remaining"),
         }
 
-    client_id = get_client_id(request)
-    if _is_localhost(client_id):
+    # Localhost exemption must use the direct peer, never a spoofed header.
+    if _is_localhost(_direct_peer_ip(request)):
         return {
             "user": None,
             "remaining_anonymous_requests": 9999,
             "remaining_usage": None,
         }
 
+    client_id = get_client_id(request)
+
     allowed, remaining = await check_anonymous_quota(client_id)
     if not allowed:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Please log in to continue using EcoSim.",
+            detail=f"Please log in to continue using {feature_name}.",
         )
 
     return {
         "user": None,
         "remaining_anonymous_requests": remaining,
     }
+
+
+async def get_ecosim_optional_user_or_quota(
+    request: Request,
+    user: dict | None = Depends(get_verified_user_optional),
+) -> dict[str, Any]:
+    """EcoSim-flavored wrapper for the optional quota check."""
+    return await get_optional_user_or_quota(request, user, feature_name="EcoSim")
+
+
+async def get_energyhub_optional_user_or_quota(
+    request: Request,
+    user: dict | None = Depends(get_verified_user_optional),
+) -> dict[str, Any]:
+    """EnergyHub-flavored wrapper for the optional quota check."""
+    return await get_optional_user_or_quota(request, user, feature_name="EnergyHub")

@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, Query, status
+
+from app.schemas.common import EcoSimDataSource
 import logging
 
-from app.dependencies.quota import get_optional_user_or_quota
+from app.dependencies.quota import get_ecosim_optional_user_or_quota
 from app.schemas.ecosim import (
     BarangayListResponse,
     EcosimAIResponse,
@@ -46,8 +48,8 @@ async def get_ecosim_results(
     include_ai: bool = False,
     use_rag: bool = False,
     rag_query: str | None = None,
-    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
-    auth: dict = Depends(get_optional_user_or_quota),
+    data_source: EcoSimDataSource = Query(default="auto", description="auto | atlas | era5"),
+    auth: dict = Depends(get_ecosim_optional_user_or_quota),
 ):
     result = build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
@@ -72,8 +74,8 @@ async def get_ecosim_ai(
     params: EcosimQueryParams = Depends(),
     use_rag: bool = False,
     rag_query: str | None = None,
-    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
-    auth: dict = Depends(get_optional_user_or_quota),
+    data_source: EcoSimDataSource = Query(default="auto", description="auto | atlas | era5"),
+    auth: dict = Depends(get_ecosim_optional_user_or_quota),
 ):
     result = build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
@@ -115,11 +117,11 @@ async def get_barangays(
 @router.post("/", response_model=EcosimResponse, status_code=status.HTTP_201_CREATED)
 async def post_item(
     body: PostHouse,
-    auth: dict = Depends(get_optional_user_or_quota),
+    auth: dict = Depends(get_ecosim_optional_user_or_quota),
     include_ai: bool = True,
     use_rag: bool = True,
     rag_query: str | None = None,
-    data_source: str = Query(default="auto", description="nasa | atlas | auto"),
+    data_source: EcoSimDataSource = Query(default="auto", description="auto | atlas | era5"),
 ):
     response_data = renewable_energy_calculator(
         body.house_name,

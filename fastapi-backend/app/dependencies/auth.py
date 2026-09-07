@@ -6,6 +6,8 @@ from app.auth.jwt import verify_jwt
 from app.config.settings import get_settings
 from app.services.data_cache import cache_get_sync, cache_set_sync
 from app.services.supabase_service import get_supabase_client, get_supabase_public_client
+from app.utils.postgrest import is_pgrst116_not_found
+from postgrest.exceptions import APIError
 
 logger = logging.getLogger(__name__)
 
@@ -220,12 +222,17 @@ def _get_user_status(user_id: str) -> bool:
         logger.debug("_get_user_status: user_id=%s is_active=%s", user_id, is_active)
         cache_set_sync(cache_key, is_active, ttl=60)
         return is_active
-    except Exception as exc:
-        # If the profile lookup fails, fail safely and allow the request. A missing
-        # profile is treated as active (the user exists in auth.users and the normal
-        # profile trigger should have created it).
+    except APIError as exc:
+        # PGRST116 = missing row; treat a missing profile as active. Any other
+        # PostgREST/Supabase error is a real outage and should fail closed.
+        if is_pgrst116_not_found(exc):
+            logger.warning("_get_user_status missing profile for user_id=%s", user_id)
+            return True
         logger.error("_get_user_status DB failure for user_id=%s: %s", user_id, exc)
-        return True
+        return False
+    except Exception as exc:
+        logger.error("_get_user_status unexpected failure for user_id=%s: %s", user_id, exc)
+        return False
 
 
 def get_current_user_with_role(user: dict = Depends(get_verified_user)) -> dict:

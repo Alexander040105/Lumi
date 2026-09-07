@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+from postgrest.exceptions import APIError
 
 from app.schemas.geothermal import (
     GeothermalAnalysisResponse,
@@ -11,6 +12,7 @@ from app.services.geothermal.features import (
     compute_geothermal_output,
 )
 from app.services.geothermal.plants import get_all_ph_geothermal_plants
+from app.utils.postgrest import data_or_none_for_pgrst116, raise_for_pgrst116_or_404
 
 router = APIRouter()
 
@@ -28,13 +30,16 @@ async def get_geothermal_analysis(municipality_id: int):
     client = get_supabase_client()
 
     # Fetch municipality coordinates for fallback on-the-fly computation
-    muni_resp = (
-        client.table("municipalities")
-        .select("municipality_id, name, lat, lon")
-        .eq("municipality_id", municipality_id)
-        .single()
-        .execute()
-    )
+    try:
+        muni_resp = (
+            client.table("municipalities")
+            .select("municipality_id, name, lat, lon")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        raise_for_pgrst116_or_404(exc, "Municipality not found")
     if not muni_resp.data:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -42,24 +47,33 @@ async def get_geothermal_analysis(municipality_id: int):
         )
     muni = muni_resp.data
 
-    # Try pre-computed tables first
-    suit_resp = (
-        client.table("geothermal_suitability")
-        .select("*")
-        .eq("municipality_id", municipality_id)
-        .single()
-        .execute()
-    )
-    out_resp = (
-        client.table("geothermal_output")
-        .select("*")
-        .eq("municipality_id", municipality_id)
-        .single()
-        .execute()
-    )
+    # Try pre-computed tables first; missing rows are not fatal because we
+    # can fall back to on-the-fly computation.
+    suitability = None
+    try:
+        suit_resp = (
+            client.table("geothermal_suitability")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+        suitability = suit_resp.data
+    except APIError as exc:
+        data_or_none_for_pgrst116(exc)
 
-    suitability = suit_resp.data
-    output = out_resp.data
+    output = None
+    try:
+        out_resp = (
+            client.table("geothermal_output")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+        output = out_resp.data
+    except APIError as exc:
+        data_or_none_for_pgrst116(exc)
 
     # Fallback to on-the-fly if pre-computed rows are missing
     if not suitability or not output:
@@ -127,20 +141,16 @@ async def get_geothermal_simulation_params(municipality_id: int):
     """Return simulation-ready geothermal parameters for EcoSim."""
     client = get_supabase_client()
 
-    suit_resp = (
-        client.table("geothermal_suitability")
-        .select("*")
-        .eq("municipality_id", municipality_id)
-        .single()
-        .execute()
-    )
-    out_resp = (
-        client.table("geothermal_output")
-        .select("*")
-        .eq("municipality_id", municipality_id)
-        .single()
-        .execute()
-    )
+    try:
+        suit_resp = (
+            client.table("geothermal_suitability")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+    except APIError as exc:
+        raise_for_pgrst116_or_404(exc, "Geothermal suitability not found for this municipality.")
 
     if not suit_resp.data:
         raise HTTPException(
@@ -149,7 +159,18 @@ async def get_geothermal_simulation_params(municipality_id: int):
         )
 
     suit = suit_resp.data
-    out = out_resp.data or {}
+    out = {}
+    try:
+        out_resp = (
+            client.table("geothermal_output")
+            .select("*")
+            .eq("municipality_id", municipality_id)
+            .single()
+            .execute()
+        )
+        out = out_resp.data or {}
+    except APIError as exc:
+        data_or_none_for_pgrst116(exc)
 
     return {
         "municipality_id": municipality_id,

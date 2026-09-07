@@ -469,25 +469,18 @@ def __init__(self, app: Any, requests_per_minute: int = 60, window_seconds: int 
 ### `RateLimitMiddleware._client_ip`
 
 - **File:** `fastapi-backend/app/middleware/rate_limit.py`
-- **Lines:** `31-40`
+- **Lines:** `39-42`
 - **Signature:** `def _client_ip(self, request: Request) -> str:`
-- **Purpose:** Extract the real client IP, respecting reverse proxy headers.
+- **Purpose:** Return the client IP used for rate-limit buckets. Trusts only Vercel platform headers or the direct peer IP; raw `X-Forwarded-For` is not trusted.
 
 **Code:**
 ```python
 def _client_ip(self, request: Request) -> str:
-        """Extract the real client IP, respecting reverse proxy headers."""
-        forwarded = request.headers.get("x-forwarded-for")
-        if forwarded:
-            # X-Forwarded-For can be a comma-separated list; the left-most is the original client.
-            return forwarded.split(",")[0].strip()
-        real_ip = request.headers.get("x-real-ip")
-        if real_ip:
-            return real_ip.strip()
-        return request.client.host if request.client else "unknown"
+        """Return the client IP used for rate-limit buckets."""
+        return get_client_id(request)
 ```
 
-**Explanation:** It accepts `request` and returns `str`. See the code below for the full implementation. Key calls include `get()`, `strip()`, `split()`.
+**Explanation:** It accepts `request` and returns `str`. It delegates to `app/utils/network.py::get_client_id()`, which uses Vercel headers (`x-vercel-forwarded-for`, `x-real-ip`) when present and otherwise falls back to the direct peer IP.
 
 ### `RateLimitMiddleware._is_allowed_memory`
 

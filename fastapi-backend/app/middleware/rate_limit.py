@@ -15,13 +15,9 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from app.services.redis_client import NullRedis, get_redis
+from app.utils.network import _direct_peer_ip, _is_localhost, get_client_id
 
 logger = logging.getLogger(__name__)
-
-
-def _is_localhost(client_ip: str) -> bool:
-    """Return True for loopback addresses used in local dev only."""
-    return client_ip in ("127.0.0.1", "::1", "localhost", "0.0.0.0")
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
@@ -39,17 +35,6 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         self.auth_rate_limit = auth_requests_per_minute
         self._window = window_seconds
         self._hits: dict[str, list[float]] = defaultdict(list)
-
-    def _client_ip(self, request: Request) -> str:
-        """Extract the real client IP, respecting reverse proxy headers."""
-        forwarded = request.headers.get("x-forwarded-for")
-        if forwarded:
-            # X-Forwarded-For can be a comma-separated list; the left-most is the original client.
-            return forwarded.split(",")[0].strip()
-        real_ip = request.headers.get("x-real-ip")
-        if real_ip:
-            return real_ip.strip()
-        return request.client.host if request.client else "unknown"
 
     async def _is_allowed_memory(self, client_ip: str, limit: int | None = None) -> bool:
         """In-memory sliding window fallback."""
@@ -86,16 +71,20 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             logger.warning("Redis rate limit check failed for %s: %s", client_ip, exc)
             return await self._is_allowed_memory(client_ip, limit=limit)
 
+    def _client_ip(self, request: Request) -> str:
+        """Return the client IP used for rate-limit buckets."""
+        return get_client_id(request)
+
     async def dispatch(self, request: Request, call_next: Any) -> Any:
         # Skip rate limiting for health checks and CORS preflight requests
         if request.method == "OPTIONS" or request.url.path.startswith("/api/v1/health"):
             return await call_next(request)
 
-        client_ip = self._client_ip(request)
-
-        # Skip rate limiting for local development requests
-        if _is_localhost(client_ip):
+        # Localhost exemption must use the direct peer, never a spoofed header.
+        if _is_localhost(_direct_peer_ip(request)):
             return await call_next(request)
+
+        client_ip = self._client_ip(request)
 
         # Admin and protected write endpoints are higher-sensitivity auth actions
         # and get a much tighter per-minute budget.

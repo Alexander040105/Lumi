@@ -13,6 +13,7 @@ from typing import Any
 from fastapi import APIRouter, Query
 
 from app.ml.predictor import get_energyhub_ml
+from app.schemas.common import ForecastRunMetric
 from app.services.forecasting import (
     SARIMAConfig,
     backtest_walk_forward,
@@ -28,7 +29,7 @@ router = APIRouter()
 
 @router.get("/run")
 async def run_forecast(
-    metric: str = Query(default="consumption", description="consumption or peak_demand"),
+    metric: ForecastRunMetric = Query(default="consumption", description="consumption or peak_demand"),
     order_p: int = Query(default=1, description="AR order"),
     order_d: int = Query(default=1, description="Differencing order"),
     order_q: int = Query(default=1, description="MA order"),
@@ -72,7 +73,7 @@ async def run_forecast(
 
 @router.get("/backtest")
 async def run_backtest(
-    metric: str = Query(default="consumption"),
+    metric: ForecastRunMetric = Query(default="consumption"),
     train_end_year: int = Query(default=2020),
     order_p: int = Query(default=1),
     order_d: int = Query(default=1),
