@@ -10,10 +10,9 @@ pydantic-settings==2.4.0
 python-dotenv==1.2.2
 supabase==2.10.0
 PyJWT[crypto]==2.13.0
-httpx==0.28.1
+httpx>=0.26,<0.28
 redis==5.0.8
 cryptography==50.0.0
-google-genai==1.10.0
 groq==0.18.0
 
 # Time-series forecasting
