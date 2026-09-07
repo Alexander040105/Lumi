@@ -1,8 +1,8 @@
 # LUMI — Technical Evaluation: Complete Test Results
 
 **Project:** LUMI — Data-Driven Environmental Intelligence System for Renewable Energy Decision Support (EcoSim · Energy Hub · AI features · FastAPI · React/Vite · Supabase · Groq/Gemini · Vercel)
-**Compiled:** September 6, 2026
-**Primary test session:** September 5, 2026 (retrospective audit + live endpoint/failure/security probing)
+**Compiled:** September 7, 2026
+**Primary test session:** September 5–7, 2026 (retrospective audit + live endpoint/failure/security probing + hardening retest)
 **Supersedes:** June 14–20, 2026 test run (included as historical record in Appendix G)
 **Purpose:** Consolidated evidence package for thesis-panel / technical evaluation — all test results, measurements, logs, and architecture documentation in a single document.
 
