@@ -40,7 +40,7 @@
 
 - Production load testing was deliberately kept out of scope — production received smoke-level checks only.
 - NASA POWER plays no role in runtime behavior — marked N/A, nothing was measured.
-- **2026-09-07 hardening pass:** boundary validation for DEF-01–06 was implemented, retested with the endpoint sweep, and verified with 16 new FastAPI regression tests.
+- **2026-09-07 hardening pass:** boundary validation for DEF-01–06 was implemented, retested with the endpoint sweep, and verified with 22 FastAPI regression tests.
 
 ---
 
@@ -500,7 +500,7 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | Malformed / `alg:none` / wrong-signature JWT → 401 | SEC-AUTH-02/03/04 |
 | Expired JWT (real secret) → 401 | SEC-AUTH-05 |
 | Validly-signed JWT for nonexistent user → 401 (server-side `auth.get_user` check) | SEC-AUTH-06 |
-| Boundary validation hardening (DEF-01–06) — 16 FastAPI regression tests pass; endpoint sweep 82/82 | `test_security_fixes.py` + `endpoint_sweep.jsonl` |
+| Boundary validation hardening (DEF-01–06) — 22 FastAPI regression tests pass; endpoint sweep 82/82 | `test_security_fixes.py` + `endpoint_sweep.jsonl` |
 || Rate-limit & quota client ID uses trusted Vercel headers or direct peer; XFF spoofing no longer bypasses limits | `test_security_fixes.py::TestClientIdTrust` |
 || `_get_user_status` fails closed for DB/runtime errors; only PGRST116 missing row is treated as active | `test_security_fixes.py::TestUserStatusFailClosed` |
 || Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) local + prod | SEC-HDR-01, `prod_smoke.txt` |
