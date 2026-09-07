@@ -6,8 +6,11 @@ from unittest.mock import MagicMock
 
 import pytest
 from fastapi.testclient import TestClient
+from starlette.requests import Request
 
+from app.dependencies.auth import _get_user_status
 from app.dependencies.quota import _in_memory_counts, _in_memory_last
+from app.utils.network import _direct_peer_ip, _is_localhost, get_client_id
 from main import app
 
 
@@ -218,3 +221,106 @@ class TestQuotaMessage:
         response = client.get("/api/v1/ecosim/", params=params)
         assert response.status_code == 401
         assert "EcoSim" in response.json()["detail"]
+
+
+class TestClientIdTrust:
+    def test_xff_is_ignored_from_untrusted_peer(self):
+        scope = {
+            "type": "http",
+            "client": ("192.168.1.50", 12345),
+            "headers": [(b"x-forwarded-for", b"127.0.0.1")],
+        }
+        request = Request(scope)
+        assert _is_localhost(_direct_peer_ip(request)) is False
+        assert get_client_id(request) == "192.168.1.50"
+
+    def test_vercel_headers_are_trusted(self):
+        scope = {
+            "type": "http",
+            "client": ("vercel-edge", 12345),
+            "headers": [
+                (b"x-vercel-forwarded-for", b"203.0.113.1, vercel-edge"),
+                (b"x-real-ip", b"203.0.113.1"),
+            ],
+        }
+        request = Request(scope)
+        assert get_client_id(request) == "203.0.113.1"
+        assert _is_localhost(_direct_peer_ip(request)) is False
+
+    def test_localhost_direct_peer_is_exempt(self):
+        scope = {
+            "type": "http",
+            "client": ("127.0.0.1", 12345),
+            "headers": [(b"x-forwarded-for", b"10.0.0.1")],
+        }
+        request = Request(scope)
+        assert _is_localhost(_direct_peer_ip(request)) is True
+
+
+class TestUserStatusFailClosed:
+    def test_pgrst116_missing_profile_is_active(self, monkeypatch):
+        from postgrest.exceptions import APIError
+
+        class FakeTable:
+            def select(self, *_args, **_kwargs):
+                return self
+
+            def eq(self, *_args, **_kwargs):
+                return self
+
+            def single(self):
+                return self
+
+            def execute(self):
+                raise APIError({"code": "PGRST116", "message": "exactly one row expected"})
+
+        class FakeClient:
+            def table(self, _name):
+                return FakeTable()
+
+        monkeypatch.setattr("app.dependencies.auth.get_supabase_client", lambda: FakeClient())
+        assert _get_user_status("test-user-id") is True
+
+    def test_db_error_fails_closed(self, monkeypatch):
+        from postgrest.exceptions import APIError
+
+        class FakeTable:
+            def select(self, *_args, **_kwargs):
+                return self
+
+            def eq(self, *_args, **_kwargs):
+                return self
+
+            def single(self):
+                return self
+
+            def execute(self):
+                raise APIError({"code": "PGRST212", "message": "connection failed"})
+
+        class FakeClient:
+            def table(self, _name):
+                return FakeTable()
+
+        monkeypatch.setattr("app.dependencies.auth.get_supabase_client", lambda: FakeClient())
+        assert _get_user_status("test-user-id") is False
+
+    def test_generic_exception_fails_closed(self, monkeypatch):
+        class FakeTable:
+            def select(self, *_args, **_kwargs):
+                return self
+
+            def eq(self, *_args, **_kwargs):
+                return self
+
+            def single(self):
+                return self
+
+            def execute(self):
+                raise RuntimeError("network down")
+
+        class FakeClient:
+            def table(self, _name):
+                return FakeTable()
+
+        monkeypatch.setattr("app.dependencies.auth.get_supabase_client", lambda: FakeClient())
+        assert _get_user_status("test-user-id") is False

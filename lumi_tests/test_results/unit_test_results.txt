@@ -107,7 +107,7 @@ tests/unit/test_new_improvements.py::TestSafeJSONFormatter::test_format_without_
 tests/unit/test_new_improvements.py::TestSafeJSONFormatter::test_format_with_request_fields PASSED [ 55%]
 tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_allows_requests_under_limit PASSED [ 56%]
 tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_blocks_after_limit PASSED [ 56%]
-tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_extracts_x_forwarded_for PASSED [ 57%]
+tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_extracts_x_forwarded_for FAILED [ 57%]
 tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_skips_health_checks PASSED [ 57%]
 tests/unit/test_new_improvements.py::TestRedisFallback::test_null_redis_async PASSED [ 58%]
 tests/unit/test_new_improvements.py::TestRedisFallback::test_null_redis_async_await PASSED [ 59%]
@@ -184,6 +184,12 @@ tests/unit/test_renewable_calculations.py::TestCalculateOptionSummary::test_zero
 tests/unit/test_renewable_calculations.py::TestCalculateOptionSummary::test_wind_scale PASSED [ 99%]
 tests/unit/test_renewable_calculations.py::TestCalculateOptionSummary::test_geothermal_scale PASSED [100%]
 
+================================== FAILURES ===================================
+____________ TestRateLimitMiddleware.test_extracts_x_forwarded_for ____________
+tests\unit\test_new_improvements.py:138: in test_extracts_x_forwarded_for
+    assert middleware._client_ip(request) == "9.9.9.9"
+           ^^^^^^^^^^^^^^^^^^^^^
+E   AttributeError: 'RateLimitMiddleware' object has no attribute '_client_ip'
 ============================== warnings summary ===============================
 ..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages\supabase\__init__.py:1
   C:\Users\Pixel-Tone\AppData\Local\Programs\Python\Python313\Lib\site-packages\supabase\__init__.py:1: DeprecationWarning: The `gotrue` package is deprecated, is not going to receive updates in the future. Please, use `supabase_auth` instead.
@@ -204,4 +210,6 @@ tests/unit/test_new_improvements.py::TestForecastingHelpers::test_select_best_sa
     warnings.warn("Maximum Likelihood optimization failed to "
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-====================== 176 passed, 9 warnings in 29.23s =======================
+=========================== short test summary info ===========================
+FAILED tests/unit/test_new_improvements.py::TestRateLimitMiddleware::test_extracts_x_forwarded_for
+================= 1 failed, 175 passed, 9 warnings in 28.21s ==================

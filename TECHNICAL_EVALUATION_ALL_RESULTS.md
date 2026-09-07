@@ -28,11 +28,11 @@
 
 | Area | Headline Result |
 |---|---|
-| **Functional** | 349 automated assertions pass (176 unit + 93 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
+| **Functional** | 355 automated assertions pass (176 unit + 99 backend + 9 frontend + 67 integration + 4 extra integration). Live endpoint sweep: **82/82 checks passed** after the 2026-09-07 hardening pass. The six validation findings (DEF-01–06) are fixed and verified. |
 | **Performance** | All core endpoints p95 < 500 ms single-user; simulation ~450 ms; LLM path ~460 ms–3.2 s; Supabase ~70–160 ms/query; frontend bundle 1.91 MB gzipped as a single chunk. |
 | **Load** | **Every request succeeded at all levels** (1→100 users); graceful degradation; interactive ceiling ~10–25 users on a single worker; ~11–14 RPS throughput plateau. |
-| **Security** | XFF-spoof rate-limit/quota bypass **confirmed from a real LAN socket** (High); split-counter fail-open under Redis flapping (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
-| **Failure/Recovery** | **15/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates all verified live. |
+| **Security** | XFF-spoof rate-limit/quota bypass **fixed**: client ID now uses Vercel platform headers or direct peer IP, with 6 unit tests verifying spoofed `X-Forwarded-For` is ignored; split-counter fail-open under Redis flapping remains (Medium); 87 backend + 7 frontend dependency advisories; all auth/JWT probes rejected correctly; 5/5 security headers present locally and in production. |
+| **Failure/Recovery** | **16/17 scenarios graceful** — CSV fallback, NullRedis, LLM fallback + timeout, 503 proxy isolation, 413/422 input gates all verified live. |
 | **ML models** | 6 forecasting models benchmarked on DOE 2003–2024 data: Linear Trend MAPE 4.97 % (best), ARIMA(1,1,1) MAPE 5.67 % (deployed). EcoSim calibrated across 84/120 provinces — Solar ~55 %, Wind ~42 %, Hydro ~4 % recommendation split. |
 | **ISO 25010 self-evaluation** | Weighted score **3.60 / 5.0** ("Good") — see Appendix H. |
 
@@ -71,7 +71,7 @@
 | Suite | Result | Evidence |
 |---|---|---|
 | `lumi_tests/` unit suite | **176 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
-| `fastapi-backend/tests/` | **93 passed** | `artifacts/functional/pytest-backend.txt` |
+| `fastapi-backend/tests/` | **99 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** (3 files) | `artifacts/functional/vitest-frontend.txt` |
 | `fastapi-backend/tests/integration/` | **67 passed, 2 skipped** | `artifacts/functional/pytest-lumi-integration.txt` |
 | Live endpoint sweep | **82/82 passed** | `artifacts/functional/endpoint_sweep.jsonl` / `.csv` |
@@ -188,7 +188,7 @@ SQL-injection-style inputs (5 probe families) now return 422 at the API boundary
 | Machine Learning | 11 | 2 | 0 | 9 | endpoint-verified; notebook cases pending |
 | **Grand Total** | **69** | **58** | **0** | **11** | |
 
-> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **349 total automated assertions passed** (176 + 93 + 9 + 67 + 4 extra integration passes).
+> The earlier June run (212 pass / 6 fail) is superseded by this session's improved counts: **355 total automated assertions passed** (176 + 99 + 9 + 67 + 4 extra integration passes).
 
 ### 1.10 Defect Log
 
@@ -427,7 +427,7 @@ Raw artifacts: `artifacts/security/` (`bandit-app.txt`, `pip-audit-env.txt`, `np
 
 ### 4.2 Confirmed Vulnerabilities
 
-#### SEC-01 — `X-Forwarded-For` trusted unconditionally → rate-limit & quota bypass — **HIGH**
+#### SEC-01 — `X-Forwarded-For` trusted unconditionally → rate-limit & quota bypass — **HIGH** (FIXED)
 
 `app/middleware/rate_limit.py:43-52` and `app/dependencies/quota.py` take the *leftmost* `X-Forwarded-For` as the client IP verbatim, without checking whether a trusted proxy sent it. `_is_localhost()` then exempts loopback values.
 
@@ -438,15 +438,20 @@ Raw artifacts: `artifacts/security/` (`bandit-app.txt`, `pip-audit-env.txt`, `np
 | No XFF, 75 req | `60 × 200` then `15 × 429` — limiter enforced |
 | `X-Forwarded-For: 127.0.0.1`, 75 req | `75 × 200`, **0 × 429** — bypassed |
 
-Same code path exempts the **anonymous EcoSim AI quota** (1/day) and the stricter auth-endpoint limit (10/min). On Vercel, `x-vercel-forwarded-for`/platform headers should be preferred; trusting raw XFF is only safe behind a proxy that overwrites it.
+This was fixed in `app/middleware/rate_limit.py` and `app/dependencies/quota.py`. Client identity now uses `app/utils/network.py`:
+
+- The **localhost exemption** always checks the direct peer IP (`request.client.host`), never a spoofed header.
+- The **rate-limit / quota bucket key** uses Vercel platform headers (`x-vercel-forwarded-for`, `x-real-ip`) when present; otherwise it falls back to the direct peer IP.
+
+A client on the LAN can no longer bypass limits by sending `X-Forwarded-For: 127.0.0.1`; 6 new unit tests verify the behavior.
 
 #### SEC-02 — Rate limiter fails open under intermittent Redis failure (split counters) — **MEDIUM**
 
 `_is_allowed_redis` counts in the Redis ZSET; on exception it falls back to a **separate** in-memory dict (`_is_allowed_memory`). Under a flapping Redis, each request lands in exactly one counter — the two stay separate forever. Observed live: a 70-request burst during "Event loop is closed" churn → **0 × 429** because the counts split ~35/35 and neither reached 60. Worst case ≈ 2× the effective limit; in multi-worker/serverless deployments the in-memory counter is per-process anyway, so limits multiply per instance — an architectural caveat worth noting.
 
-#### SEC-03 — `_get_user_status` fails open on DB outage — **MEDIUM**
+#### SEC-03 — `_get_user_status` fails open on DB outage — **MEDIUM** (FIXED)
 
-`app/dependencies/auth.py:223-228`: if the `profiles.is_active` lookup throws, the dependency returns `True` (allow). A suspended user retains access during a Supabase outage. `_get_user_role` (line 200) correctly fails *closed* to `"user"` — posture is inconsistent; status check should match.
+`app/dependencies/auth.py:223-228`: the original handler caught *any* exception and returned `True` (allow). This was fixed to distinguish PostgREST `PGRST116` (missing profile row, treat as active) from all other DB/runtime errors. Other exceptions now return `False`, so suspended users are denied during a Supabase outage.
 
 #### SEC-04 — Dependency CVEs in the backend env — **MEDIUM**
 
@@ -496,6 +501,8 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 | Expired JWT (real secret) → 401 | SEC-AUTH-05 |
 | Validly-signed JWT for nonexistent user → 401 (server-side `auth.get_user` check) | SEC-AUTH-06 |
 | Boundary validation hardening (DEF-01–06) — 16 FastAPI regression tests pass; endpoint sweep 82/82 | `test_security_fixes.py` + `endpoint_sweep.jsonl` |
+|| Rate-limit & quota client ID uses trusted Vercel headers or direct peer; XFF spoofing no longer bypasses limits | `test_security_fixes.py::TestClientIdTrust` |
+|| `_get_user_status` fails closed for DB/runtime errors; only PGRST116 missing row is treated as active | `test_security_fixes.py::TestUserStatusFailClosed` |
 || Security headers 5/5 (XCTO, XFO, HSTS, CSP, Referrer-Policy) local + prod | SEC-HDR-01, `prod_smoke.txt` |
 | CORS allowlist + `lumi-frontend-*.vercel.app` regex; disallowed origin → 400 | SEC-CORS-* local + prod |
 | SQL-injection-style inputs → 422 at the FastAPI boundary; strings are not echoed in success responses | sweep `inj` rows |
@@ -521,9 +528,9 @@ Table identifiers interpolated into SQL strings (code-verified; ETL router disab
 
 | ID | Severity | Status |
 |---|---|---|
-| SEC-01 XFF bypass | **High** | Confirmed live — fix: trust `x-vercel-forwarded-for` / real socket IP behind platform |
+| SEC-01 XFF bypass | **High** | Fixed — `app/utils/network.py` trusts Vercel platform headers only; direct peer used for localhost checks; 6 new unit tests pass |
 | SEC-02 split-counter fail-open | Medium | Confirmed — merge counters or prefer-Redis-then-stampede |
-| SEC-03 status check fail-open | Medium | Confirmed — fail closed like `_get_user_role` |
+| SEC-03 status check fail-open | Medium | Fixed — `_get_user_status` now returns `True` only for PGRST116 missing rows; all other DB/runtime errors fail closed |
 | SEC-04 dependency CVEs | Medium | pip/npm audit artifacts; priority: `python-jose`, `starlette`, `react-router-dom` |
 | SEC-05 `VITE_` secret names | Medium (latent) | Rename/move |
 | SEC-06 temp_password in response | Low | Design change |
@@ -680,7 +687,7 @@ Observed behavior: `get_current_user`/`get_verified_user` verify via `auth.get_u
 | TC-FR-07b | `municipality_id=999999` → `/geothermal/{id}` | **404** clean message `Municipality not found` | GRACEFUL |
 | TC-FR-08 | ML worker URL dead (`127.0.0.1:59999`) → proxied path | **503** `{"detail":"ML worker unavailable: All connection attempts failed"}`; the rest of the API stayed healthy (200) | GRACEFUL (⚠ leaks raw exception text — SEC-07) |
 | TC-FR-09a | 70-req burst, public XFF, Redis loop-broken | 0×429 — **split counters**: ~35 reqs went to Redis path, ~35 to in-memory fallback; neither reached the 60 cap | FAIL-OPEN (see SEC-02) |
-| TC-FR-09b | 70-req burst, `X-Forwarded-For: 127.0.0.1` | 0×429 — limiter bypassed (proven from LAN socket: 75×200 vs 60+15×429 without XFF) | BYPASS-CONFIRMED (SEC-01) |
+| TC-FR-09b | 70-req burst, `X-Forwarded-For: 127.0.0.1` | 60×200 then 10×429 — the spoofed header no longer bypasses the limiter; direct peer is used for localhost checks | GRACEFUL (SEC-01 fixed) |
 | TC-FR-09c | NullRedis + public XFF, 75-req burst | Exactly `60×200, 15×429` — in-memory fallback **correct** when Redis returns NullRedis cleanly | GRACEFUL |
 | TC-FR-09d | Throwing Redis (`pipeline()` raises) | Exactly `60×200, 15×429` — exception→memory path **correct** for a hard failure | GRACEFUL |
 | TC-FR-10a | POST body >1 MB | **413** `"Request body too large. Maximum size is 1 MB."` | GRACEFUL |
@@ -708,7 +715,7 @@ Observed behavior: `get_current_user`/`get_verified_user` verify via `auth.get_u
 | Finding | Severity | Detail |
 |---|---|---|
 | Rate-limit split-counter fail-open | Medium | Intermittent Redis → ~2× effective limit (FR-09a). Multi-instance deployments multiply the in-memory limit per process |
-| `_get_user_status` fails open | Medium | Suspended users pass during a `profiles` outage (`auth.py:223-228`); `_get_user_role` fails closed — inconsistent |
+| `_get_user_status` fails open | Medium | Fixed: fails closed for all errors except PGRST116 missing profile |
 | `/geothermal/{bad_id}` → 404 | Low | PGRST116 now maps cleanly to 404 (DEF-01 fixed) |
 
 ### 6.4 Proposed / Out-of-Scope Scenarios
@@ -865,7 +872,7 @@ Key model settings (v5): household turbine `rated_power_kw=1.2`, `cut_in=3.0 m/s
 | 6 | 36/120 province records fail lookup (404) — data-source naming gaps for highly-urbanized cities & renamed provinces | §7.4 |
 | 7 | Single-chunk frontend bundle 1.91 MB gz — code splitting is the recommended follow-up | §2.4, P-01 |
 | 8 | u=100 load level retained from the CPU-contended first pass — direction consistent, though the run shares hardware noise | §3.8 |
-| 9 | DEF-01–06 fixed and retested; SEC-01/02/03 remain open fixes | §4.6 |
+| 9 | DEF-01–06, SEC-01 and SEC-03 fixed; SEC-02 (split-counter) remains open | §4.6 |
 | 10 | Notebook-level ML re-runs sit outside scope — endpoint-level verification only | §1.8 |
 | 11 | June historical run had 6 failures (scoring normalization, 307 health redirect, forecast `year` KeyError, PGRST116) — all resolved or re-characterized in the Sept 5 pass | Appendix G |
 
@@ -886,7 +893,7 @@ All paths are relative to the repository root. Small artifacts are reproduced in
 **A.2 `fastapi-backend/tests/`** — `artifacts/functional/pytest-backend.txt`
 
 ```
-======================= 93 passed, 3 warnings in 8.25s ========================
+======================= 99 passed, 3 warnings in 8.50s ========================
 ```
 
 **A.3 `fastapi-backend/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
