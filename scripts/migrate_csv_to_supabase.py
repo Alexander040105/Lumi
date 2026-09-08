@@ -199,7 +199,7 @@ DOE_CSVS = [
 def migrate_doe_datasets(client: Client) -> None:
     logger.info("Migrating DOE datasets into doe_datasets")
     for rel_path in DOE_CSVS:
-        csv_path = ROOT / rel_path
+        csv_path = ROOT / "data" / rel_path
         if not csv_path.exists():
             logger.warning("Skipping missing CSV: %s", rel_path)
             continue
@@ -401,8 +401,8 @@ def migrate_geothermal(client: Client) -> None:
 # ---------------------------------------------------------------------------
 
 GEOJSON_FILES = [
-    ("philippine_geojson/philippine_geojson_file_per_region.json", "philippine_geojson_file_per_region.json"),
-    ("philippine_geojson/philippine_geojson_file_per_provinces.json", "philippine_geojson_file_per_provinces.json"),
+    ("data/philippine_geojson/philippine_geojson_file_per_region.json", "philippine_geojson_file_per_region.json"),
+    ("data/philippine_geojson/philippine_geojson_file_per_provinces.json", "philippine_geojson_file_per_provinces.json"),
     ("fastapi-backend/app/services/local_data/aquifers_ph.geojson", "aquifers_ph.geojson"),
 ]
 

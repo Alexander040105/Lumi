@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 _PROJECT_ROOT = Path(__file__).resolve().parents[4]
-_DATASET_DIR = _PROJECT_ROOT / "GeothermalDatasets"
+_DATASET_DIR = _PROJECT_ROOT / "data" / "GeothermalDatasets"
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent.parent / "local_data"
 _LOCAL_DATA_DIR.mkdir(parents=True, exist_ok=True)
 

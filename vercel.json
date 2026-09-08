@@ -11,8 +11,8 @@
     "api/index.py": {
       "maxDuration": 60,
       "memory": 1024,
-      "excludeFiles": "{react-frontend/**,data/**,revisionFiles/**,phl_msk_alt/**,__pycache__/**,*.pyc,*.pyo,.pytest_cache/**}",
-      "includeFiles": "{fastapi-backend/**,api/**,DOE_Data_Extracted/data_v2_preprocessed/**}"
+      "excludeFiles": "{__pycache__/**,*.pyc,*.pyo,.pytest_cache/**}",
+      "includeFiles": "{fastapi-backend/**,api/**,data/DOE_Data_Extracted/data_v2_preprocessed/**}"
     }
   }
 }

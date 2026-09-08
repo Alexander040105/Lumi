@@ -17,6 +17,7 @@ logger = logging.getLogger(__name__)
 
 GRIB_PATH = (
     Path(__file__).resolve().parents[1]
+    / "data"
     / "newDataPointsToExtract"
     / "ERA5_copernicusData.grib"
 )

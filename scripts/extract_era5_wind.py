@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(mes
 logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GRIB_PATH = REPO_ROOT / "newDataPointsToExtract" / "ERA5_copernicusData.grib"
+GRIB_PATH = REPO_ROOT / "data" / "newDataPointsToExtract" / "ERA5_copernicusData.grib"
 OUTPUT_DIR = REPO_ROOT / "scripts" / "gap_output"
 LOCAL_DATA_DIR = REPO_ROOT / "fastapi-backend" / "app" / "services" / "local_data"
 

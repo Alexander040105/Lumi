@@ -15,6 +15,10 @@
 | 4 | [security-test-results.md](security-test-results.md) | 10 findings register (1 High confirmed live), auth matrix, scans, verified controls |
 | 5 | [system-architecture.md](system-architecture.md) | Mermaid deployment topology, request pipeline, data flow, auth sequence, failure boundaries |
 | 6 | [failure-recovery-results.md](failure-recovery-results.md) | 17-scenario failure-injection matrix, verified resilience, crash/fail-open findings |
+| 7 | [TECHNICAL_EVALUATION_ALL_RESULTS.md](TECHNICAL_EVALUATION_ALL_RESULTS.md) | Consolidated evaluation results (post-audit refresh) |
+| 8 | [TECHNICAL_EVALUATION_TEST_REPORTS.md](TECHNICAL_EVALUATION_TEST_REPORTS.md) | Human-written technical evaluation test reports |
+
+Additional docs in this category: `LUMI_COMPREHENSIVE_AUDIT.md`, `LUMI_PRODUCTION_READINESS_REPORT.md`, `LUMI_Project_Checklist_Compliance.md`, `DocumentationFormat.md`, `DATA_ACCURACY_AND_THESIS_DEFENSE_GUIDE.md`.
 
 ## Evidence artifacts (`artifacts/`)
 

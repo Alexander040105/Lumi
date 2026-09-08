@@ -39,8 +39,8 @@ class PipelineConfig:
 
 def default_config(repo_root: Path) -> PipelineConfig:
     return PipelineConfig(
-        raster_path=repo_root / "phl_msk_alt" / "PHL_msk_alt.vrt",
-        municipalities_csv=repo_root / "regionalData" / "municipalities.csv",
-        provinces_csv=repo_root / "regionalData" / "provinces.csv",
-        output_dir=repo_root / "regionalData" / "output" / "terrain_metrics",
+        raster_path=repo_root / "data" / "phl_msk_alt" / "PHL_msk_alt.vrt",
+        municipalities_csv=repo_root / "data" / "regionalData" / "municipalities.csv",
+        provinces_csv=repo_root / "data" / "regionalData" / "provinces.csv",
+        output_dir=repo_root / "data" / "regionalData" / "output" / "terrain_metrics",
     )

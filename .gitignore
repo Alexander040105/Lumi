@@ -230,12 +230,19 @@ react-frontend/dist/
 react-frontend/.vite/
 
 #runtime data
-scraped_data/runtime/
+data/scraped_data/runtime/
 
 # Raw geospatial data and generated outputs (kept in Supabase / external storage)
-newDataPointsToExtract/
+data/newDataPointsToExtract/
 newCatchmentsData/
 scripts/gap_output/
-GeothermalDatasets/
-ThesisResearchStudies/
-scraped_data/output/
+data/GeothermalDatasets/
+data/ThesisResearchStudies/
+data/scraped_data/output/
+
+# Supabase CLI local state
+supabase/.temp/
+
+# Vite timestamp artifacts and OS noise
+*.timestamp-*.mjs
+Thumbs.db

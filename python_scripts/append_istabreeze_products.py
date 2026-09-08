@@ -7,6 +7,7 @@ import pandas as pd
 
 DEFAULT_CLEANED_PATH = (
     Path(__file__).resolve().parents[1]
+    / "data"
     / "scraped_data"
     / "output"
     / "cleaned"
