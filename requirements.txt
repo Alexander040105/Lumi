@@ -4,9 +4,9 @@
 # This file aggregates every third-party package used across the LUMI repo:
 #   - fastapi-backend/          (API, RAG, LLM clients)
 #   - python_scripts/            (terrain pipeline, climate analysis, ETL)
-#   - scraped_data/              (e-commerce web scrapers)
-#   - windsurf_data_extraction/  (PDF extraction, cleaning, RAG conversion)
-#   - DOE_Data_Extracted/      (Jupyter notebooks for ARIMA preprocessing)
+#   - data/scraped_data/              (e-commerce web scrapers)
+#   - data/windsurf_data_extraction/  (PDF extraction, cleaning, RAG conversion)
+#   - data/DOE_Data_Extracted/        (Jupyter notebooks for ARIMA preprocessing)
 #
 # Install everything:
 #   pip install -r requirements.txt
@@ -135,14 +135,14 @@ python-escpos
 flask_mysqldb
 
 # ---------------------------------------------------------------------------
-# Testing & Evaluation (for lumi_tests/ suite)
+# Testing & Evaluation (for tests/ suite)
 # ---------------------------------------------------------------------------
 pytest>=8.0
 pytest-mock>=3.14
 pytest-benchmark>=4.0
 
 # ---------------------------------------------------------------------------
-# Jupyter (for notebooks under DOE_Data_Extracted/)
+# Jupyter (for notebooks under data/DOE_Data_Extracted/)
 # ---------------------------------------------------------------------------
 ipykernel
 notebook

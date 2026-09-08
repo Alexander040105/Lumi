@@ -9,7 +9,7 @@
 
 ## 1. Introduction
 
-This document records executed functional evidence for the LUMI platform: the pre-existing automated test suites, plus a live endpoint sweep that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. It follows the test-case structure of `lumi_tests/docs/test_results_template.md` and fills in actual measured results.
+This document records executed functional evidence for the LUMI platform: the pre-existing automated test suites, plus a live endpoint sweep that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. It follows the test-case structure of `tests/docs/test_results_template.md` and fills in actual measured results.
 
 ## 2. Environment & Method
 
@@ -27,7 +27,7 @@ This document records executed functional evidence for the LUMI platform: the pr
 
 | Suite | Result | Evidence |
 |---|---|---|
-| `lumi_tests/` unit suite | **176 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
+| `tests/` unit suite | **176 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
 | `fastapi-backend/tests/` | **77 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** | `artifacts/functional/vitest-frontend.txt` |
 | `fastapi-backend/tests/integration/` | **67 passed, 2 skipped, 30 errors** | `artifacts/functional/pytest-lumi-integration.txt` |

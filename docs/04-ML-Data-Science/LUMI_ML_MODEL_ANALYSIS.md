@@ -16,7 +16,7 @@ This evaluation determines the most suitable machine learning architecture for t
 
 ## 2. Database Analysis
 
-### 2.1 Schema Overview (`lumischema.sql`)
+### 2.1 Schema Overview (`supabase/schema_structure/lumischema.sql`)
 
 | Table | Type | Description |
 |---|---|---|
@@ -603,7 +603,7 @@ This preserves temporal causality and simulates real-world deployment where mode
 
 ## 10. Limitations
 
-1. **Missing Target Variable:** The current `lumischema.sql` does not contain energy consumption data. The Forecasting Module cannot function until `municipality_energy_monthly` (or equivalent) is populated -- ideally from DOE/EIA open data or simulated from population x economic-activity proxies.
+1. **Missing Target Variable:** The current `supabase/schema_structure/lumischema.sql` does not contain energy consumption data. The Forecasting Module cannot function until `municipality_energy_monthly` (or equivalent) is populated -- ideally from DOE/EIA open data or simulated from population x economic-activity proxies.
 
 2. **Short Temporal History:** ~84 months limits the model's ability to detect multi-year economic cycles or long-term electrification trends.
 

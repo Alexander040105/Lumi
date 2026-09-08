@@ -157,7 +157,7 @@ def update_coords(table: str, id_field: str, id_value: int, lat, lon) -> None:
 
 def main() -> int:
     # Load CSVs
-    csv_dir = Path("regionalData")
+    csv_dir = Path("data/regionalData")
     regions = pd.read_csv(csv_dir / "regions.csv")
     provinces = pd.read_csv(csv_dir / "provinces.csv").rename(columns={"Name": "name"})
     municipalities = pd.read_csv(csv_dir / "municipalities.csv")

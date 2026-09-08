@@ -487,18 +487,18 @@ This section maps each required research and system development deliverable to t
 
 | Checklist Item | Status | Repo File(s) / Location |
 |---|---|---|
-| Conceptual Model of the Study | Available | `lumi-details/Thesis-Lumi.docx.pdf`, `lumi-details/Chapter1_Solis-Torreno-Virata.pdf`, `lumi-details/chapter1_full.txt` |
-| Document Reviews | Available | `regionalData/DOE_Data/` — DOE PDFs (Pocket Size 2024, Grid Gross Generation, Philippine Energy Situationer, Compendium) |
-| Observation | Available | Covered in thesis Chapter 1; see `lumi-details/chapter1_full.txt` |
+| Conceptual Model of the Study | Available | `docs/thesis/lumi-details/Thesis-Lumi.docx.pdf`, `docs/thesis/lumi-details/Chapter1_Solis-Torreno-Virata.pdf`, `docs/thesis/lumi-details/chapter1_full.txt` |
+| Document Reviews | Available | `data/regionalData/DOE_Data/` — DOE PDFs (Pocket Size 2024, Grid Gross Generation, Philippine Energy Situationer, Compendium) |
+| Observation | Available | Covered in thesis Chapter 1; see `docs/thesis/lumi-details/chapter1_full.txt` |
 
 ### 3.13.2 Project Planning
 
 | Checklist Item | Status | Repo File(s) / Location |
 |---|---|---|
-| Project Development Methodology (SDLC) | Partial | Covered in thesis documents (`lumi-details/`); no dedicated SDLC doc |
-| Planning | Partial | Covered in thesis scope and objectives (`lumi-details/`) |
+| Project Development Methodology (SDLC) | Partial | Covered in thesis documents (`docs/thesis/lumi-details/`); no dedicated SDLC doc |
+| Planning | Partial | Covered in thesis scope and objectives (`docs/thesis/lumi-details/`) |
 | Project Schedule: Gantt Chart | Not found | — |
-| Feasibility Study | Partial | Thesis Chapter 1 covers problem justification; `windsurf_data_extraction/reports/data_quality_report.md` |
+| Feasibility Study | Partial | Thesis Chapter 1 covers problem justification; `data/windsurf_data_extraction/reports/data_quality_report.md` |
 | Development and Operational Cost | Not found | — |
 | Benefits and Return of Investment | Not found | — |
 | Commercialization and Monetization Plan | Not found | — |
@@ -526,7 +526,7 @@ This section maps each required research and system development deliverable to t
 | Entity Relationship Diagram | Partial | `SUPABASE_GUIDE.md` describes tables and relationships; no formal ERD image |
 | Data Dictionary | Partial | Table schemas and field descriptions in this document (Sections 3.6, 3.8), `ECOSIM_ARCHITECTURE.md`, `ENERGYHUB_ARCHITECTURE.md` |
 | System Flow Chart | Partial | ASCII flow diagrams in architecture guides |
-| Algorithm Structure | Available | `LUMI_ML_MODEL_ANALYSIS.md`, `DOE_Data_Extracted/DOE_arima_forecasting.ipynb`, `LUMI_METHODOLOGY_ML.md` |
+| Algorithm Structure | Available | `LUMI_ML_MODEL_ANALYSIS.md`, `data/DOE_Data_Extracted/DOE_arima_forecasting.ipynb`, `LUMI_METHODOLOGY_ML.md` |
 | AI Tools and APIs | Available | Sections 3.7 and 3.7.4 of this document; `ECOSIM_ARCHITECTURE.md` (Section 4.2) |
 
 ### 3.13.5 Development & Testing
