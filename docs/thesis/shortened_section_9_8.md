@@ -4,7 +4,7 @@ This section presents the testing and evaluation activities conducted for LUMI, 
 
 ## 9.8.1. Unit Testing
 
-Unit testing was performed during development to verify individual functions and modules in isolation before integration. The test suite is organized under `lumi_tests/tests/unit/` and implemented using **pytest** with `unittest.mock` for external dependencies.
+Unit testing was performed during development to verify individual functions and modules in isolation before integration. The test suite is organized under `tests/tests/unit/` and implemented using **pytest** with `unittest.mock` for external dependencies.
 
 **Renewable Energy Calculations** (`test_renewable_calculations.py`) covers solar (temperature factor, dust loss, humidity degradation, performance ratio, and `solar_calc` with score capping), wind (Betz-limit validation, cubic power scaling, swept area and rated power computation), and hydro (runoff coefficient by slope, flow rate bounding, hydropower with zero-flow handling, and head clamping). Edge cases include None inputs, boundary values, and invalid physical parameters. Economic summary tests (`TestCalculateOptionSummary`, RE-017) validate `_calculate_option_summary` for solar, wind, and geothermal scenarios, asserting suitability score bounds, positive payback periods, and correct scale classification (residential vs. utility).
 
@@ -30,7 +30,7 @@ Evaluation criteria include **task completion rate >= 85%**, average task time <
 
 ## 9.8.3. System Testing
 
-System testing validates LUMI's integrated functionality as a complete application, ensuring correct module interaction, consistent data flows, and reliable behavior under realistic usage. The integration test suite is located under `lumi_tests/tests/integration/`.
+System testing validates LUMI's integrated functionality as a complete application, ensuring correct module interaction, consistent data flows, and reliable behavior under realistic usage. The integration test suite is located under `tests/tests/integration/`.
 
 **API Integration Tests** (`test_api.py`) use FastAPI's `TestClient` and `httpx` to verify endpoint status codes, response schema validation, and input validation for EnergyHub (overview, trends, forecast with consumption metric and invalid-metric error handling, map-data, source/grid breakdown), EcoSim (GET with parameters, POST with JSON body for valid and invalid municipalities, missing-param handling), and authentication (protected endpoint 401 behavior, OAuth callback existence, valid JWT access, expired/malformed JWT rejection).
 
@@ -42,7 +42,7 @@ System testing validates LUMI's integrated functionality as a complete applicati
 
 ## 9.8.4. Pilot Run
 
-The pilot run evaluates multiple forecasting models on a held-out test set using standard regression metrics. The script `lumi_tests/pilot_run/evaluate_models.py` trains models on DOE 2003-2023 data and evaluates on the 2024 holdout.
+The pilot run evaluates multiple forecasting models on a held-out test set using standard regression metrics. The script `tests/pilot_run/evaluate_models.py` trains models on DOE 2003-2023 data and evaluates on the 2024 holdout.
 
 Models compared include Linear Trend Regression, ARIMA(1,1,1), Holt Linear Smoothing, SARIMAX with exogenous variables, and Random Forest (as a controlled experiment to demonstrate overfitting on limited data). Evaluation metrics are MAE, RMSE, MAPE, MPE, R2, AIC, BIC, directional accuracy, and prediction interval coverage probability (PICP). Statistical comparison uses the Diebold-Mariano test and Wilcoxon signed-rank test.
 
@@ -52,7 +52,7 @@ Pilot success criteria: at least one model achieves MAPE < 20% on the 2024 test 
 
 ## 9.8.5. Evaluation Rubrics (ISO/IEC 25010)
 
-LUMI was evaluated against the **ISO/IEC 25010:2011** software quality model using a 1-5 Likert scale with weighted importance. The evaluation is documented in `lumi_tests/docs/iso25010_evaluation.md`.
+LUMI was evaluated against the **ISO/IEC 25010:2011** software quality model using a 1-5 Likert scale with weighted importance. The evaluation is documented in `tests/docs/iso25010_evaluation.md`.
 
 **Table 19. ISO/IEC 25010 Evaluation Results**
 

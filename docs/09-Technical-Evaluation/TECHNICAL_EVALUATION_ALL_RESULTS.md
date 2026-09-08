@@ -65,16 +65,16 @@
 
 ## Section 1 — Functional Test Results
 
-**Method:** Existing automated suites + live endpoint sweep (`endpoint_sweep.py`) that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. Test-case structure follows `lumi_tests/docs/test_results_template.md`.
+**Method:** Existing automated suites + live endpoint sweep (`endpoint_sweep.py`) that exercised every mounted API route with valid, invalid, boundary, and adversarial inputs. Test-case structure follows `tests/docs/test_results_template.md`.
 
 ### 1.1 Pre-existing suite results (executed September 5–8, 2026 (latest run 2026-09-08))
 
 | Suite | Result | Evidence |
 |---|---|---|
-| `lumi_tests/` unit suite | **177 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
+| `tests/` unit suite | **177 passed** | `artifacts/functional/pytest-lumi-unit.txt` |
 | `fastapi-backend/tests/` | **106 passed** | `artifacts/functional/pytest-backend.txt` |
 | `react-frontend` Vitest | **9 passed** (3 files) | `artifacts/functional/vitest-frontend.txt` |
-| `lumi_tests/tests/integration/` | **23 passed, 2 skipped, 1 deselected** | `artifacts/functional/pytest-lumi-integration.txt` |
+| `tests/tests/integration/` | **23 passed, 2 skipped, 1 deselected** | `artifacts/functional/pytest-lumi-integration.txt` |
 | Live endpoint sweep | **82/82 passed** | `artifacts/functional/endpoint_sweep.jsonl` / `.csv` |
 
 ### 1.2 Authentication Module
@@ -293,7 +293,7 @@ Raw production timings (`artifacts/perf/prod_smoke.txt`):
 
 ### 2.6 Existing Performance Test Suite
 
-`lumi_tests/tests/integration/test_performance.py` — **13/13 executed & passed**, covering response-time assertions and pagination behavior under the live app.
+`tests/tests/integration/performance_test.py` — **13/13 executed & passed**, covering response-time assertions and pagination behavior under the live app.
 
 ### 2.7 Findings
 
@@ -810,7 +810,7 @@ This section consolidates the machine-learning / model-validation evidence: the 
 
 ### 7.1 Forecasting Model Benchmarks (empirical — DOE 2003–2024)
 
-**Dataset & protocol:** Philippine DOE Statistical Bulletin 2003–2024. Target: total national electricity consumption (`consumption_gwh`). Train: 2003–2020 (n=18). Test: 2021–2024 (n=4, held out). Source: `docs/ML_MODEL_EVALUATION_SUMMARY.md`; metrics in `DOE_Data_Extracted/model_comparison_results.csv`, registered in Supabase `ml_model_registry` and served live by `GET /energyhub/model-comparison`.
+**Dataset & protocol:** Philippine DOE Statistical Bulletin 2003–2024. Target: total national electricity consumption (`consumption_gwh`). Train: 2003–2020 (n=18). Test: 2021–2024 (n=4, held out). Source: `docs/04-ML-Data-Science/ML_MODEL_EVALUATION_SUMMARY.md`; metrics in `data/DOE_Data_Extracted/data_v2_preprocessed/model_comparison_results.csv`, registered in Supabase `ml_model_registry` and served live by `GET /energyhub/model-comparison`.
 
 > Forecasting outputs a continuous number — classification metrics (accuracy, recall, F1) are a category error here. Metrics used: MAE, RMSE, MAPE, R², AIC/BIC, Directional Accuracy, PICP.
 
@@ -949,7 +949,7 @@ All paths are relative to the repository root. Small artifacts are reproduced in
 
 ### Appendix A — Automated Test Suite Logs (September 5–7, 2026)
 
-**A.1 `lumi_tests/` unit suite** — `docs/09-Technical-Evaluation/artifacts/functional/pytest-lumi-unit.txt`
+**A.1 `tests/` unit suite** — `docs/09-Technical-Evaluation/artifacts/functional/pytest-lumi-unit.txt`
 
 ```
 ====================== 177 passed, 9 warnings in 29.66s =======================
@@ -961,7 +961,7 @@ All paths are relative to the repository root. Small artifacts are reproduced in
 ======================= 99 passed, 3 warnings in 8.50s ========================
 ```
 
-**A.3 `lumi_tests/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
+**A.3 `tests/tests/integration/`** — `artifacts/functional/pytest-lumi-integration.txt`
 
 Result: **67 passed, 2 skipped** in 12.52 s.
 
@@ -1188,7 +1188,7 @@ Note: the JSON records TC-FR-08 as `FAIL` with "Cannot add middleware after an a
 
 ### Appendix G — Historical June 2026 Run + Retrieval/LLM Smoke Logs
 
-**G.1 `lumi_tests` full-suite run (June 14–20, 2026 — superseded by §1.1 counts)** — `lumi_tests/test_results/lumi_test_results.txt` + `lumi_tests/reports/test_results_report.md`:
+**G.1 `tests` full-suite run (June 14–20, 2026 — superseded by §1.1 counts)** — `tests/test_results/lumi_test_results.txt` + `tests/reports/test_results_report.md`:
 
 | Metric | Count |
 |---|---|
@@ -1208,7 +1208,7 @@ The 6 June failures and their resolution status:
 | `test_forecast_metric_param` (`KeyError: 'year'`) | Predictor DataFrame column | Resolved — forecast endpoints 200 in sweep |
 | `test_post_ecosim_invalid_municipality` (PGRST116) | Empty `.single()` result | Resolved for `/ecosim/` (clean 404); same pattern still open for `/geothermal/{id}` → DEF-01 |
 
-Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 177).
+Additional June-era unit log `tests/test_results/unit_test_results.txt`: `87 passed, 2 skipped in 1.75s` (earlier, narrower suite — since expanded to 177).
 
 **G.2 RAG retrieval smoke** — `retrieval_test_output.txt` (excerpt): queries like "Which renewable source is cheaper?" return top-k knowledge chunks with cosine scores 0.49–0.78 from correct categories (`all/comparison`, `solar/equipment_cost`, `hydro/components`, `wind/components`, …).
 
@@ -1218,7 +1218,7 @@ Additional June-era unit log `lumi_tests/test_results/unit_test_results.txt`: `8
 
 ### Appendix H — Related Methodology & Evaluation Documents (index)
 
-These are evaluation frameworks/protocols (criteria and process, not raw results) kept in `lumi_tests/docs/`:
+These are evaluation frameworks/protocols (criteria and process, not raw results) kept in `tests/docs/`:
 
 | File | Contents |
 |---|---|
@@ -1235,7 +1235,7 @@ These are evaluation frameworks/protocols (criteria and process, not raw results
 
 Other related result docs in `docs/04-ML-Data-Science/`: `LUMI_ML_MODEL_ANALYSIS.md` (feasibility study), `LUMI_METHODOLOGY_ML.md`, `ML_LIBRARIES_ALGORITHMS_DATA.md`, `CATCHMENT_ENRICHMENT.md`, `DOE_datacleaning_EXPLAINED.md`, `LUMI_FORECASTING_DATA_SOURCES.md`; raw CSV/JSON alongside each report (`calibration_all_results.csv`, `province_test_all_results_*.json`, `PLANT_RECAL_ALL_120_*.json`).
 
-Reproduction scripts: `docs/09-Technical-Evaluation/artifacts/scripts/` — `endpoint_sweep.py`, `benchmark.py`, `failure_matrix.py`, `security_probes.py`; `lumi_tests/run_tests_and_save.py`; `lumi_tests/pilot_run/evaluate_models.py`.
+Reproduction scripts: `docs/09-Technical-Evaluation/artifacts/scripts/` — `endpoint_sweep.py`, `benchmark.py`, `failure_matrix.py`, `security_probes.py`; `tests/run_tests_and_save.py`; `tests/pilot_run/evaluate_models.py`.
 
 ---
 

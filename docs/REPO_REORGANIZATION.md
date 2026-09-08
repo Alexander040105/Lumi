@@ -12,7 +12,7 @@ top-level layout, no functional changes, no deletions without review.
 |---|--------|-------|
 | 1 | `241d963` | Untrack committed build artifacts, caches, runtime profiles |
 | 2 | `2d9c014` | Relocate stray root files into `docs/`, `data/`, `scripts/`, `supabase/` |
-| 3 | `bd2c2b6` | Group data directories under `data/`; rename `lumi_tests/` → `tests/` |
+| 3 | `bd2c2b6` | Group data directories under `data/`; rename `tests/` → `tests/` |
 | 4 | `edc270c` | Relocate script-style verification files out of `app/services/` |
 | 5 | (docs)   | Documentation consolidation + this file |
 
@@ -78,7 +78,7 @@ Notable fixes while moving:
 
 ### Tests
 
-- `lumi_tests/` → `tests/` (CI `working-directory` updated in
+- `tests/` → `tests/` (CI `working-directory` updated in
   `.github/workflows/ci.yml`).
 - Six files in `fastapi-backend/app/services/` (`test_*.py`) turned out to be
   **script-style verification harnesses** — no `def test_` functions; five run
@@ -136,7 +136,7 @@ Lumi/
 ├── GeothermalDatasets/  ├── newDataPointsToExtract/  ├── phl_msk_alt/
 ├── philippine_geojson/  ├── regionalData/  ├── scraped_data/
 ├── ThesisResearchStudies/  ├── windsurf_data_extraction/
-├── lumi-details/  revisionFiles/  lumi_tests/  supabase_tables_scripts/
+├── lumi-details/  revisionFiles/  tests/  supabase_tables_scripts/
 ├── ~30 loose .md/.json/.sql/.png/.txt/.py files at root
 ├── node_modules/ + scraped_data/runtime/ committed (3.5k junk files)
 ```

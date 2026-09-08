@@ -74,7 +74,7 @@ This report documents the production-readiness improvements implemented since th
 
 ### 2.8 Testing (Phase 5)
 
-- **`lumi_tests/tests/unit/test_new_improvements.py`** — New tests covering:
+- **`tests/tests/unit/test_new_improvements.py`** — New tests covering:
   - `SafeJSONFormatter`
   - `RateLimitMiddleware` (memory fallback + IP extraction)
   - `NullRedis` fallback

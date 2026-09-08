@@ -965,7 +965,7 @@ From code review, the following performance issues are evident:
 
 ### 11.3 Load & Stress Testing
 
-**Recommendation**: add a `lumi_tests/` suite with `pytest`, `pytest-benchmark`, and `locust`/`k6` to:
+**Recommendation**: add a `tests/` suite with `pytest`, `pytest-benchmark`, and `locust`/`k6` to:
 
 - Profile map endpoints under concurrent users.
 - Measure cold-start time and memory for the Docker container.

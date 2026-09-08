@@ -34,7 +34,7 @@ This document consolidates **every machine-learning and AI model evaluated acros
 
 > **Why not Accuracy, Recall, or F1?** These metrics require a confusion matrix (True Positives, False Positives, etc.), which only exists for discrete classification. Forecasting outputs a continuous number (e.g., 118,004.5 GWh). There is no "positive" or "negative" class. Applying classification metrics to continuous outputs is a **category error**.
 >
-> *Source:* `lumi_tests/docs/ml_evaluation_framework.md:2.1`
+> *Source:* `tests/docs/ml_evaluation_framework.md:2.1`
 
 #### 1.2 Metrics Used
 
@@ -77,7 +77,7 @@ These six models were trained on the 2003–2020 training set and evaluated on t
 |---|---|
 | **Family** | Statistical baseline |
 | **How it works** | Ordinary least squares using `year` as the sole predictor. |
-| **Code** | `lumi_tests/pilot_run/evaluate_models.py:132-138` |
+| **Code** | `tests/pilot_run/evaluate_models.py:132-138` |
 | **MAE / RMSE / MAPE** | 5,993.83 GWh / 7,342.10 GWh / **4.97%** |
 
 **Why it performed best:**
@@ -93,7 +93,7 @@ Philippine national electricity consumption from 2003–2020 is remarkably linea
 |---|---|
 | **Family** | Statistical baseline |
 | **How it works** | Maintains smoothed estimates of *level* and *trend*, giving more weight to recent observations. |
-| **Code** | `lumi_tests/pilot_run/evaluate_models.py:153-162` |
+| **Code** | `tests/pilot_run/evaluate_models.py:153-162` |
 | **MAE / RMSE / MAPE** | 6,557.72 GWh / 7,997.68 GWh / 5.44% |
 
 **Why it performed well:**
@@ -125,7 +125,7 @@ Surprisingly competitive because the series is dominated by a stable upward drif
 |---|---|
 | **Family** | Core thesis model (Box-Jenkins) |
 | **How it works** | **Auto**Regressive (remembers last year) + **I**ntegrated (differences to remove trend) + **M**oving **A**verage (adjusts for recent shocks). The parameters (1,1,1) mean: remember 1 past value, difference once, adjust for 1 recent shock. |
-| **Code** | `lumi_tests/pilot_run/evaluate_models.py:141-150` |
+| **Code** | `tests/pilot_run/evaluate_models.py:141-150` |
 | **MAE / RMSE / MAPE** | 6,829.09 GWh / 8,257.12 GWh / 5.67% |
 
 **Why it performed slightly worse than Linear Trend:**
@@ -157,7 +157,7 @@ With only 18 training observations, adding 2 exogenous variables forces the mode
 |---|---|
 | **Family** | Machine Learning (ensemble decision trees) |
 | **How it works** | 100 decision trees trained on random subsets of data; final prediction = average of all trees. In LUMI, it used `trend` and `lag_1` features. |
-| **Code** | `lumi_tests/pilot_run/evaluate_models.py:165-178` |
+| **Code** | `tests/pilot_run/evaluate_models.py:165-178` |
 | **MAE / RMSE / MAPE** | 15,957.41 GWh / 17,806.29 GWh / **13.41%** |
 
 **Why it failed catastrophically:**
@@ -171,7 +171,7 @@ With only 18 training observations, Random Forest memorizes the training set per
 > | Test MAPE | 13.41% (significantly worse than statistical models) |
 > | Train-Test Gap | −11.95 percentage points (classic overfitting) |
 >
-> *Source:* `lumi_tests/docs/ml_evaluation_framework.md:7`
+> *Source:* `tests/docs/ml_evaluation_framework.md:7`
 
 ---
 
@@ -213,7 +213,7 @@ The AI Chat layer integrates **Google Gemini 2.5 Flash** (primary) and **Groq-ho
 2. **No fixed output space:** The LLM can generate thousands of valid phrasings of the same recommendation.
 3. **No confusion matrix:** There is no TP/FP/TN/FN for generative text.
 
-*Source:* `lumi_tests/docs/llm_evaluation_methodology.md:2`
+*Source:* `tests/docs/llm_evaluation_methodology.md:2`
 
 #### 4.2 Evaluation Dimensions & Targets
 
@@ -232,7 +232,7 @@ The AI Chat layer integrates **Google Gemini 2.5 Flash** (primary) and **Groq-ho
 | Human Correctness | Human | ≥ 4.0 / 5 | Expert panel (n = 4 raters) |
 | Inter-Rater Kappa | Human | κ ≥ 0.60 | Cohen's Kappa |
 
-*Source:* `lumi_tests/docs/llm_evaluation_methodology.md:3-6`
+*Source:* `tests/docs/llm_evaluation_methodology.md:3-6`
 
 #### 4.3 Gemini vs. Groq: Comparative Summary
 
@@ -251,7 +251,7 @@ The AI Chat layer integrates **Google Gemini 2.5 Flash** (primary) and **Groq-ho
 2. **Quality Degradation:** Is the Groq response significantly worse for the same query?
 3. **Latency Improvement:** Does fallback reduce user-perceived wait time?
 
-*Source:* `lumi_tests/docs/llm_evaluation_methodology.md:4`
+*Source:* `tests/docs/llm_evaluation_methodology.md:4`
 
 ---
 
@@ -381,11 +381,11 @@ And that's why LUMI uses **physics formulas** for EcoSim. They don't need to "pr
 ## References
 
 - `DOE_Data_Extracted/model_comparison_results.csv` — Empirical metrics for the 6 forecasting models.
-- `lumi_tests/pilot_run/evaluate_models.py` — Python script implementing model fitting and evaluation.
-- `lumi_tests/docs/ml_evaluation_framework.md` — Academic framework for metric selection, statistical tests, and the Random Forest controlled experiment.
-- `lumi_tests/docs/lumi_metrics_and_models_for_everyone.md` — Plain-language explanations of metrics and models.
+- `tests/pilot_run/evaluate_models.py` — Python script implementing model fitting and evaluation.
+- `tests/docs/ml_evaluation_framework.md` — Academic framework for metric selection, statistical tests, and the Random Forest controlled experiment.
+- `tests/docs/lumi_metrics_and_models_for_everyone.md` — Plain-language explanations of metrics and models.
 - `docs/04-ML-Data-Science/LUMI_ML_MODEL_ANALYSIS.md` — Theoretical feasibility study for LSTM, Prophet, LightGBM, and TFT.
-- `lumi_tests/docs/llm_evaluation_methodology.md` — Evaluation framework for Gemini and Groq generative models.
+- `tests/docs/llm_evaluation_methodology.md` — Evaluation framework for Gemini and Groq generative models.
 - `docs/thesis/THESIS_RESEARCH_INTEGRATION.md` — Formula appendix for EcoSim physics-based calculators.
 
 ---

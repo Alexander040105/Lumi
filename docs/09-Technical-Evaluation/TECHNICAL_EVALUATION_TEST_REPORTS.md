@@ -24,10 +24,10 @@ Functional testing covered the React/Vite frontend, the FastAPI backend, the uni
 
 | Suite | Result | Status |
 |---|---|---|
-| Unit tests (`lumi_tests/tests/unit/`) | 177 passed | PASS |
+| Unit tests (`tests/tests/unit/`) | 177 passed | PASS |
 | Backend tests (`fastapi-backend/tests/`) | 106 passed | PASS |
 | Frontend Vitest (`react-frontend`) | 9 passed (3 test files) | PASS |
-| Integration tests (`lumi_tests/tests/integration/`, live server deselected) | 23 passed, 2 skipped, 1 deselected | PASS |
+| Integration tests (`tests/tests/integration/`, live server deselected) | 23 passed, 2 skipped, 1 deselected | PASS |
 | Live endpoint sweep | 82/82 passed | PASS |
 
 Across these four suites, **315 automated assertions passed**. A separate note in the source also reports 356 automated assertions (177 + 99 + 9 + 67 + 4 extra integration passes); that older aggregated total appears to pre-date the latest run and is superseded by the 315-assertion figure shown above.
