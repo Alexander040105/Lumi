@@ -790,7 +790,8 @@
       "loadFailed": "Failed to load saved simulation",
       "municipalitiesError": "Unable to load municipalities.",
       "provincesError": "Unable to load provinces.",
-      "ecosimError": "Unable to load Ecosim data."
+      "ecosimError": "Unable to load Ecosim data.",
+      "pdfFailed": "Could not generate PDF. Please try again."
     },
     "wizard": {
       "step": "Step {{current}} of {{total}}",
@@ -872,7 +873,10 @@
       "next": "Next",
       "runSimulation": "Run simulation",
       "running": "Running...",
-      "save": "Save"
+      "save": "Save",
+      "saveToAccount": "Save to Account",
+      "saveAsPdf": "Save as PDF",
+      "generatingPdf": "Generating..."
     },
     "results": {
       "bestMatch": "{{match}} Match",

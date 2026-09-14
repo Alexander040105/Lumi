@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
+import { downloadEcosimPdf } from "@/utils/ecosimPdf";
 import { Link, useSearchParams } from "react-router-dom";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,7 +19,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
-import { CheckCircle2, Printer } from "lucide-react";
+import { CheckCircle2, Printer, Loader2 } from "lucide-react";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -68,6 +69,7 @@ export default function Ecosim() {
   const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
   const [saveLabel, setSaveLabel] = useState("");
   const [saving, setSaving] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
   const resultRef = useRef(null);
 
   const filteredMunicipalities = useMemo(() => {
@@ -106,6 +108,16 @@ export default function Ecosim() {
         return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
       });
   }, [provinces, provinceQuery]);
+
+  const selectedName = useMemo(() => {
+    if (mode === "municipality") {
+      const found = filteredMunicipalities.find((m) => String(m.municipality_id) === municipalityId);
+      if (!found) return muniQuery;
+      return found.province_name ? `${found.name}, ${found.province_name}` : found.name;
+    }
+    const found = filteredProvinces.find((p) => String(p.province_id) === provinceId);
+    return found ? found.name : provinceQuery;
+  }, [mode, municipalityId, provinceId, filteredMunicipalities, filteredProvinces, muniQuery, provinceQuery]);
 
   const comparisonMax = useMemo(() => {
     if (!result?.options?.length) return 0;
@@ -389,6 +401,33 @@ export default function Ecosim() {
     }
   };
 
+  const handleDownloadPdf = async () => {
+    if (!result) {
+      toast.error(t("ecosim.toasts.runFirst"));
+      return;
+    }
+    setPdfLoading(true);
+    try {
+      await downloadEcosimPdf({
+        result,
+        inputs: {
+          mode,
+          selectedName,
+          monthlyConsumption,
+          monthlyBill,
+          electricityRate,
+          desiredSavings,
+          includeAi,
+        },
+      });
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+      toast.error(t("ecosim.toasts.pdfFailed"));
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   return (
     <section className="page-container stack">
       <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
@@ -459,6 +498,8 @@ export default function Ecosim() {
           setSaveLabel(defaultLabel);
           setSaveDialogOpen(true);
         }}
+        onDownloadPdf={handleDownloadPdf}
+        downloadPdfLoading={pdfLoading}
       />
 
       {error && (
@@ -522,11 +563,16 @@ export default function Ecosim() {
               variant="outline"
               onClick={() => {
                 setCompleteDialogOpen(false);
-                setTimeout(() => window.print(), 300);
+                handleDownloadPdf();
               }}
+              disabled={pdfLoading}
             >
-              <Printer className="mr-2 h-4 w-4" />
-              Save as PDF
+              {pdfLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Printer className="mr-2 h-4 w-4" />
+              )}
+              {pdfLoading ? "Generating..." : "Save as PDF"}
             </Button>
             <Button
               type="button"

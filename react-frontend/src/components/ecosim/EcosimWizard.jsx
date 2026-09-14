@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Search, Check } from "lucide-react";
+import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Search, Check, Save, Printer } from "lucide-react";
 import HelpTooltip from "@/components/shared/HelpTooltip";
 import BillHelpModal from "@/components/shared/BillHelpModal";
 import { useI18n } from "@/i18n";
@@ -13,7 +13,7 @@ export default function EcosimWizard({
   provinceQuery, setProvinceQuery, provinceOpen, setProvinceOpen, filteredProvinces, provinceId, setProvinceId, provincesError,
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
-  onRun, loading, activeId, result, user, onSave,
+  onRun, loading, activeId, result, user, onSave, onDownloadPdf, downloadPdfLoading,
 }) {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
@@ -323,9 +323,40 @@ export default function EcosimWizard({
                 {step < totalSteps ? (
                   <Button onClick={() => setStep(step + 1)} disabled={!canProceed || loading}>{t("ecosim.wizard.next")} <ArrowRight className="h-4 w-4 ml-1" /></Button>
                 ) : (
-                  <div className="flex gap-2">
-                    {result && user && <Button variant="outline" onClick={onSave} disabled={loading}>{t("ecosim.wizard.save")}</Button>}
-                    <Button onClick={(e) => { e.preventDefault(); onRun(e); }} disabled={loading || !activeId}>
+                  <div className="flex flex-wrap items-center gap-2 justify-end">
+                      {result && user && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={onSave}
+                          disabled={loading}
+                        >
+                          <Save className="mr-2 h-4 w-4" />
+                          {t("ecosim.wizard.saveToAccount") || "Save to Account"}
+                        </Button>
+                      )}
+                      {result && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={(e) => { e.preventDefault(); onDownloadPdf?.(); }}
+                          disabled={downloadPdfLoading || loading || !onDownloadPdf}
+                        >
+                          {downloadPdfLoading ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          ) : (
+                            <Printer className="mr-2 h-4 w-4" />
+                          )}
+                          {downloadPdfLoading
+                            ? t("ecosim.wizard.generatingPdf") || "Generating..."
+                            : t("ecosim.wizard.saveAsPdf") || "Save as PDF"}
+                        </Button>
+                      )}
+                      <Button
+                        type="button"
+                        onClick={(e) => { e.preventDefault(); onRun(e); }}
+                        disabled={loading || !activeId}
+                      >
                       {loading ? <><Loader2 className="h-4 w-4 mr-1 animate-spin" /> {t("ecosim.wizard.running")}</> : <>{t("ecosim.wizard.runSimulation")} <ArrowRight className="h-4 w-4 ml-1" /></>}
                     </Button>
                   </div>
