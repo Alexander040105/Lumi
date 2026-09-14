@@ -56,7 +56,8 @@ FALLBACK_GEMINI_MODELS = [
 # so Vercel's 10-second function limit is never breached.
 _AI_CACHE_TTL = int(os.getenv("ECOSIM_AI_CACHE_TTL", "604800"))  # 7 days
 _AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v2")
-_AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "4.0"))
+_AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "4.0"))  # outer API timeout
+_AI_LLM_TIMEOUT = float(os.getenv("ECOSIM_AI_LLM_TIMEOUT", "60.0"))  # worker LLM timeout
 _AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "2500"))
 _AI_MAX_RETRIES = int(os.getenv("ECOSIM_AI_MAX_RETRIES", "1"))
 
@@ -220,7 +221,7 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
         prompt,
         max_output_tokens=_AI_MAX_OUTPUT_TOKENS,
         max_retries=_AI_MAX_RETRIES,
-        timeout=_AI_CALL_TIMEOUT,
+        timeout=_AI_LLM_TIMEOUT,
     )
     if GEMINI_DEBUG:
         snippet = response_text[:500] if response_text else ""
@@ -230,7 +231,7 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
     cleaned = sanitize_llm_output(response_text)
     if not cleaned:
         logger.warning("LLM returned empty response after sanitization")
-        return _normalize_analysis_output({})
+        raise RuntimeError("AI analysis produced an empty response")
 
     if analysis_payload.get("mode") == "province":
         cleaned = _strip_geothermal_for_province(cleaned)
@@ -603,25 +604,62 @@ def _build_renewable_analysis_prompt(analysis_payload: dict[str, Any]) -> str:
 
 
 def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any]:
-    """Analyze renewable results with a persistent Supabase cache and a hard timeout."""
+    """Analyze renewable results with a persistent Supabase cache and in-flight worker lock."""
     cache_key = _compute_ai_cache_key(analysis_payload)
     cached = _get_cached_ai_analysis(cache_key)
     if cached is not None:
-        logger.info("EcoSim AI cache hit for key=%s", cache_key[:32])
-        return cached
+        # Return a hard failure, but skip stale timeout/empty placeholders so they regenerate.
+        if cached.get("status") == "failed":
+            logger.info("EcoSim AI cache hit for key=%s (failed)", cache_key[:32])
+            return cached
+        if cached.get("summary") and not (cached.get("error") or "").startswith("AI analysis timed") and cached.get("status") != "pending":
+            logger.info("EcoSim AI cache hit for key=%s", cache_key[:32])
+            return cached
+        logger.info("EcoSim AI cache hit for key=%s but stale/empty; recomputing", cache_key[:32])
+
+    in_flight_key = f"{cache_key}:in_flight"
+    if cache_get_sync(in_flight_key):
+        logger.info("EcoSim AI already running for key=%s; returning pending", cache_key[:32])
+        return {
+            "status": "pending",
+            "summary": "AI analysis is still being generated and will appear here shortly.",
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+            "recommendation": {"best_option": "", "reason": ""},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+        }
 
     municipality_id = _municipality_id_from_payload(analysis_payload)
 
+    # Mark this analysis as in-flight so parallel requests don't start duplicate workers.
+    _pending_ttl = int(_AI_LLM_TIMEOUT + 10)
+    cache_set_sync(in_flight_key, True, ttl=_pending_ttl)
+
+    failed_result = {
+        "status": "failed",
+        "summary": "AI analysis failed.",
+        "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+        "recommendation": {"best_option": "", "reason": ""},
+        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+        "environmental_impact": "",
+        "error": "AI analysis failed",
+    }
+
     # If the LLM call completes quickly, we return its result and it is cached.
-    # If it takes longer than _AI_CALL_TIMEOUT, we return a fallback and the
+    # If it takes longer than _AI_CALL_TIMEOUT, we return a pending response and the
     # worker thread continues so the next identical request can hit the cache.
     def _worker() -> dict[str, Any]:
         try:
             result = _build_renewable_analysis_result(analysis_payload)
-            _set_cached_ai_analysis(cache_key, municipality_id, result)
+            # Only cache real, non-empty analyses.
+            if not result.get("summary"):
+                raise RuntimeError("AI analysis produced an empty result")
+            _set_cached_ai_analysis(cache_key, municipality_id, result, ttl=_AI_CACHE_TTL)
+            cache_delete_sync(in_flight_key)
             return result
         except Exception:
             logger.exception("EcoSim AI worker failed for key=%s", cache_key[:32])
+            cache_delete_sync(in_flight_key)
             raise
 
     executor = ThreadPoolExecutor(max_workers=1)
@@ -632,23 +670,25 @@ def analyze_renewable_results(analysis_payload: dict[str, Any]) -> dict[str, Any
         return result
     except FutureTimeoutError:
         logger.warning(
-            "EcoSim AI call timed out after %ss for key=%s; returning fallback",
+            "EcoSim AI call timed out after %ss for key=%s; returning pending response",
             _AI_CALL_TIMEOUT,
             cache_key[:32],
         )
         executor.shutdown(wait=False)
+        return {
+            "status": "pending",
+            "summary": "AI analysis is still being generated and will appear here shortly.",
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+            "recommendation": {"best_option": "", "reason": ""},
+            "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
+            "environmental_impact": "",
+        }
     except Exception:
         logger.exception("EcoSim AI call failed for key=%s", cache_key[:32])
         executor.shutdown(wait=False)
-
-    return {
-        "summary": "AI analysis is taking longer than expected. A simplified summary is shown instead.",
-        "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
-        "recommendation": {"best_option": "", "reason": ""},
-        "cost_estimation": {"solar": {}, "wind": {}, "hydro": {}, "geothermal": {}},
-        "environmental_impact": "",
-        "error": "AI analysis timed out",
-    }
+        _set_cached_ai_analysis(cache_key, municipality_id, failed_result, ttl=300)
+        cache_delete_sync(in_flight_key)
+        return failed_result
 
 
 async def analyze_renewable_results_async(

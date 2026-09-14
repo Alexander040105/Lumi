@@ -50,7 +50,7 @@ function geoInfo(score, t) {
   return { level: "limited", label: t("common.ratings.limited"), desc: t("ecosim.results.info.Geothermal.limited") };
 }
 
-export default function EcosimResults({ result, aiLoading = false }) {
+export default function EcosimResults({ result, aiLoading = false, aiError = null, onAiRetry }) {
   const { t } = useI18n();
   const [showDetails, setShowDetails] = useState(false);
   if (!result) return null;
@@ -218,27 +218,42 @@ export default function EcosimResults({ result, aiLoading = false }) {
       </Card>
 
       {/* AI Analysis */}
-      {(aiLoading || result.ai_analysis) && (
+      {(aiLoading || result.ai_analysis || aiError) && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">AI Analysis</CardTitle>
+            <CardTitle className="text-lg">{t("ecosim.results.aiAnalysis.title")}</CardTitle>
             <CardDescription>
-              {aiLoading && !result.ai_analysis
-                ? "Analyzing your results with AI..."
-                : "AI-generated insight for this location."}
+              {aiError
+                ? t("ecosim.results.aiAnalysis.failedBody")
+                : aiLoading && (!result.ai_analysis || result.ai_analysis?.status === "pending")
+                  ? t("ecosim.results.aiAnalysis.pending")
+                  : t("ecosim.results.aiAnalysis.insight")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-muted-foreground">
-            {aiLoading && !result.ai_analysis && (
-              <div className="h-2 w-24 rounded bg-muted animate-pulse" />
-            )}
-            {result.ai_analysis?.summary && (
-              <Markdown className="text-sm text-muted-foreground leading-relaxed">
-                {result.ai_analysis.summary}
-              </Markdown>
-            )}
-            {aiLoading && result.ai_analysis?.error && (
-              <p className="text-xs text-muted-foreground">Full analysis is still being generated and will appear here shortly.</p>
+            {aiError ? (
+              <div className="space-y-2">
+                <p className="text-xs text-destructive">{aiError}</p>
+                {onAiRetry && (
+                  <Button variant="outline" size="sm" onClick={onAiRetry}>
+                    {t("ecosim.results.aiAnalysis.retry")}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <>
+                {aiLoading && (!result.ai_analysis || result.ai_analysis?.status === "pending") && (
+                  <div className="h-2 w-24 rounded bg-muted animate-pulse" />
+                )}
+                {result.ai_analysis?.summary && (
+                  <Markdown className="text-sm text-muted-foreground leading-relaxed">
+                    {result.ai_analysis.summary}
+                  </Markdown>
+                )}
+                {(aiLoading || result.ai_analysis?.status === "pending") && (
+                  <p className="text-xs text-muted-foreground">{t("ecosim.results.aiAnalysis.pendingBody")}</p>
+                )}
+              </>
             )}
           </CardContent>
         </Card>

@@ -780,6 +780,10 @@
       "save": "Save",
       "saving": "Saving..."
     },
+    "completion": {
+      "description": "The analysis has completed. You can review the results below.",
+      "viewResults": "View Results"
+    },
     "toasts": {
       "loginRequired": "Please log in to save simulations",
       "runFirst": "Run a simulation first",
@@ -791,7 +795,8 @@
       "municipalitiesError": "Unable to load municipalities.",
       "provincesError": "Unable to load provinces.",
       "ecosimError": "Unable to load Ecosim data.",
-      "pdfFailed": "Could not generate PDF. Please try again."
+      "pdfFailed": "Could not generate PDF. Please try again.",
+      "aiFailed": "AI analysis could not be generated. Please try again."
     },
     "wizard": {
       "step": "Step {{current}} of {{total}}",
@@ -919,6 +924,12 @@
         "climateAdvantageTextPoor": "This is the best home-scale match based on estimated monthly output. Although {{source}} conditions are {{level}} ({{value}}), this system is still estimated to produce the most kWh among the home-scale options."
       },
       "aiAnalysis": {
+        "title": "AI Analysis",
+        "insight": "AI-generated insight for this location.",
+        "pending": "AI analysis is still being generated...",
+        "pendingBody": "AI analysis is still being generated and will appear here shortly.",
+        "failedBody": "AI analysis could not be generated. Please try again.",
+        "retry": "Retry",
         "recommendationFallback": "Based on estimated monthly output, {{source}} is the best home-scale match. It could generate about {{gen}} kWh per month, covering roughly {{pct}}% of your effective electricity usage.",
         "environmentalImpactFallback": "Using a {{source}} system could reduce CO₂ emissions by about {{carbon}} kg per month compared to fossil-fuel generation."
       },

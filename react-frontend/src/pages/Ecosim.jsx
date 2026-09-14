@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
 import { downloadEcosimPdf } from "@/utils/ecosimPdf";
 import { Link, useSearchParams } from "react-router-dom";
@@ -19,7 +19,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
-import { CheckCircle2, Printer, Loader2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -71,6 +71,62 @@ export default function Ecosim() {
   const [saving, setSaving] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
   const resultRef = useRef(null);
+
+  const hasCompleteDialogBeenShownRef = useRef(false);
+  const aiParamsRef = useRef(null);
+  const aiAttemptsRef = useRef(0);
+  const aiInFlightRef = useRef(false);
+
+  const [aiError, setAiError] = useState(null);
+
+  const startAiPoll = useCallback((params, attempt) => {
+    const nextAttempt = attempt ?? aiAttemptsRef.current + 1;
+    if (nextAttempt > MAX_AI_ATTEMPTS) {
+      setAiLoading(false);
+      setAiError(t("ecosim.toasts.aiFailed"));
+      toast.error(t("ecosim.toasts.aiFailed"));
+      aiInFlightRef.current = false;
+      return;
+    }
+    aiAttemptsRef.current = nextAttempt;
+    aiInFlightRef.current = true;
+    setAiLoading(true);
+    setAiError(null);
+    getEcosimAI(params)
+      .then((aiData) => {
+        const analysis = aiData?.ai_analysis;
+        if (
+          (analysis?.error?.includes("timed out") || analysis?.status === "pending") &&
+          nextAttempt < MAX_AI_ATTEMPTS
+        ) {
+          aiPollTimerRef.current = setTimeout(() => {
+            startAiPoll(params);
+          }, AI_POLL_INTERVAL_MS);
+        } else if (analysis?.status === "failed" || (analysis?.error && !analysis?.summary)) {
+          setAiError(t("ecosim.toasts.aiFailed"));
+          toast.error(t("ecosim.toasts.aiFailed"));
+          setAiLoading(false);
+        } else {
+          setResult((prev) =>
+            prev ? { ...prev, ai_analysis: analysis } : prev
+          );
+          setAiError(null);
+          setAiLoading(false);
+        }
+        aiInFlightRef.current = false;
+      })
+      .catch((err) => {
+        console.error("AI analysis failed:", err);
+        setAiError(t("ecosim.toasts.aiFailed"));
+        toast.error(t("ecosim.toasts.aiFailed"));
+        setAiLoading(false);
+        aiInFlightRef.current = false;
+      });
+  }, [t]);
+
+  useEffect(() => {
+    hasCompleteDialogBeenShownRef.current = true;
+  }, []);
 
   const filteredMunicipalities = useMemo(() => {
     const q = muniQuery.trim().toLowerCase();
@@ -208,11 +264,29 @@ export default function Ecosim() {
   }, [searchParams, user, municipalities]);
 
   useEffect(() => {
-    if (result && !loading) {
+    if (result && !loading && !hasCompleteDialogBeenShownRef.current) {
       setCompleteDialogOpen(true);
+      hasCompleteDialogBeenShownRef.current = true;
       resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [result, loading]);
+
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.hidden) {
+        clearAiPoll();
+      } else if (
+        aiLoading &&
+        !result?.ai_analysis &&
+        !aiInFlightRef.current &&
+        !aiPollTimerRef.current
+      ) {
+        startAiPoll(aiParamsRef.current);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [aiLoading, result, startAiPoll]);
 
   useEffect(() => {
     let isActive = true;
@@ -271,7 +345,12 @@ export default function Ecosim() {
     setError(null);
     setLoading(true);
     setAiLoading(false);
+    setAiError(null);
+    setCompleteDialogOpen(false);
     clearAiPoll();
+    aiAttemptsRef.current = 0;
+    aiInFlightRef.current = false;
+    aiParamsRef.current = null;
 
     const validationError = validateInputs();
     if (validationError) {
@@ -292,6 +371,7 @@ export default function Ecosim() {
         mode,
       });
       setResult(data);
+      hasCompleteDialogBeenShownRef.current = false;
 
       if (includeAi) {
         const aiParams = {
@@ -302,30 +382,8 @@ export default function Ecosim() {
           desiredSavings: Number(desiredSavings) / 100,
           mode,
         };
-
-        const loadAi = (attempt = 1) => {
-          setAiLoading(true);
-          getEcosimAI(aiParams)
-            .then((aiData) => {
-              const analysis = aiData?.ai_analysis;
-              if (analysis?.error?.includes("timed out") && attempt < MAX_AI_ATTEMPTS) {
-                aiPollTimerRef.current = setTimeout(() => {
-                  loadAi(attempt + 1);
-                }, AI_POLL_INTERVAL_MS);
-              } else {
-                setResult((prev) =>
-                  prev ? { ...prev, ai_analysis: analysis } : prev
-                );
-                setAiLoading(false);
-              }
-            })
-            .catch((err) => {
-              console.error("AI analysis failed:", err);
-              setAiLoading(false);
-            });
-        };
-
-        loadAi();
+        aiParamsRef.current = aiParams;
+        startAiPoll(aiParams);
       }
     } catch (err) {
       const network = err?.name === "TypeError" || err?.name === "AbortError" || (err?.message && /fetch|network|abort/i.test(err.message));
@@ -426,6 +484,13 @@ export default function Ecosim() {
     } finally {
       setPdfLoading(false);
     }
+  };
+
+  const handleAiRetry = () => {
+    if (!aiParamsRef.current) return;
+    aiAttemptsRef.current = 0;
+    setAiError(null);
+    startAiPoll(aiParamsRef.current);
   };
 
   return (
@@ -537,7 +602,7 @@ export default function Ecosim() {
 
       {result && !loading && (
         <div id="ecosim-result" ref={resultRef}>
-          <EcosimResults result={result} aiLoading={aiLoading} />
+          <EcosimResults result={result} aiLoading={aiLoading} aiError={aiError} onAiRetry={handleAiRetry} />
         </div>
       )}
 
@@ -550,8 +615,7 @@ export default function Ecosim() {
               <DialogTitle>Your EcoSim estimate is ready</DialogTitle>
             </div>
             <DialogDescription>
-              The analysis has completed. You can review the results below, save them, or
-              download a PDF copy.
+              {t("ecosim.completion.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="py-2 text-sm text-muted-foreground">
@@ -560,28 +624,12 @@ export default function Ecosim() {
           <DialogFooter>
             <Button
               type="button"
-              variant="outline"
-              onClick={() => {
-                setCompleteDialogOpen(false);
-                handleDownloadPdf();
-              }}
-              disabled={pdfLoading}
-            >
-              {pdfLoading ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Printer className="mr-2 h-4 w-4" />
-              )}
-              {pdfLoading ? "Generating..." : "Save as PDF"}
-            </Button>
-            <Button
-              type="button"
               onClick={() => {
                 setCompleteDialogOpen(false);
                 resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             >
-              View Results
+              {t("ecosim.completion.viewResults")}
             </Button>
           </DialogFooter>
         </DialogContent>
