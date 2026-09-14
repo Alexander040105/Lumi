@@ -61,6 +61,7 @@ def generate_groq_response(
     temperature: float | None = None,
     max_tokens: int | None = None,
     max_retries: int = 3,
+    timeout: float | None = None,
 ) -> str:
     """
     Generate a response from Groq with retry + model fallback.
@@ -105,6 +106,7 @@ def generate_groq_response(
                         {"role": "user", "content": content},
                     ],
                     temperature=temp_value,
+                    timeout=timeout,
                     max_tokens=token_limit,
                 )
                 text = response.choices[0].message.content or ""

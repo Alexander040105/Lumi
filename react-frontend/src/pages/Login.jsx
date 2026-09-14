@@ -75,6 +75,7 @@ export default function Login() {
 
     try {
       if (mode === "signup" && password !== confirmPassword) {
+        setBusy(false);
         toast.error(t("mfa.passwordsDoNotMatch"));
         return;
       }

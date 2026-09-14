@@ -10,8 +10,9 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
+from app.dependencies.auth import get_verified_user
 from app.ml.predictor import get_energyhub_ml
 from app.schemas.common import ForecastRunMetric
 from app.services.forecasting import (
@@ -27,13 +28,30 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
+def _require_forecast_access(user: dict = Depends(get_verified_user)) -> dict:
+    """Forecasting is limited to premium users and admins."""
+    from app.dependencies.auth import _get_effective_plan, _get_user_role
+
+    role = _get_user_role(user.get("sub"))
+    if role in ("admin", "dev"):
+        return user
+    plan = _get_effective_plan(user.get("sub"), role=role)
+    if plan != "premium":
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Forecast is available to premium users and admins only.",
+        )
+    return user
+
+
 @router.get("/run")
 async def run_forecast(
     metric: ForecastRunMetric = Query(default="consumption", description="consumption or peak_demand"),
-    order_p: int = Query(default=1, description="AR order"),
-    order_d: int = Query(default=1, description="Differencing order"),
-    order_q: int = Query(default=1, description="MA order"),
-    forecast_to: int = Query(default=2030, description="Forecast end year"),
+    order_p: int = Query(default=1, ge=0, le=5, description="AR order"),
+    order_d: int = Query(default=1, ge=0, le=5, description="Differencing order"),
+    order_q: int = Query(default=1, ge=0, le=5, description="MA order"),
+    forecast_to: int = Query(default=2030, ge=2025, le=2035, description="Forecast end year"),
+    user: dict = Depends(_require_forecast_access),
 ) -> dict[str, Any]:
     """Run a SARIMA forecast on demand.
 
@@ -74,10 +92,11 @@ async def run_forecast(
 @router.get("/backtest")
 async def run_backtest(
     metric: ForecastRunMetric = Query(default="consumption"),
-    train_end_year: int = Query(default=2020),
-    order_p: int = Query(default=1),
-    order_d: int = Query(default=1),
-    order_q: int = Query(default=1),
+    train_end_year: int = Query(default=2020, ge=2000, le=2020, description="Last year used for training"),
+    order_p: int = Query(default=1, ge=0, le=5),
+    order_d: int = Query(default=1, ge=0, le=5),
+    order_q: int = Query(default=1, ge=0, le=5),
+    user: dict = Depends(_require_forecast_access),
 ) -> dict[str, Any]:
     """Run walk-forward backtesting on historical data."""
     ml = get_energyhub_ml()
@@ -118,6 +137,7 @@ async def run_backtest(
 @router.get("/models")
 async def list_model_runs(
     limit: int = Query(default=20, le=100),
+    user: dict = Depends(_require_forecast_access),
 ) -> dict[str, Any]:
     """List recent model runs from the forecast_model_runs registry."""
     try:

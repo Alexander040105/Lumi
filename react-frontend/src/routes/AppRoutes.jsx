@@ -19,6 +19,8 @@ import AdminConfig from "../pages/admin/AdminConfig";
 import AdminUsage from "../pages/admin/AdminUsage";
 import AdminLogs from "../pages/admin/AdminLogs";
 import NotFound from "../pages/NotFound";
+import Terms from "../pages/Terms";
+import Privacy from "../pages/Privacy";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
 import AdminRoute from "../components/shared/AdminRoute";
 
@@ -36,6 +38,8 @@ export default function AppRoutes() {
           <Route path="login" element={<Login />} />
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="about" element={<About />} />
+          <Route path="terms" element={<Terms />} />
+          <Route path="privacy" element={<Privacy />} />
           <Route
             path="dashboard"
             element={

@@ -220,6 +220,7 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
         prompt,
         max_output_tokens=_AI_MAX_OUTPUT_TOKENS,
         max_retries=_AI_MAX_RETRIES,
+        timeout=_AI_CALL_TIMEOUT,
     )
     if GEMINI_DEBUG:
         snippet = response_text[:500] if response_text else ""
@@ -251,14 +252,16 @@ def _build_renewable_analysis_result(analysis_payload: dict[str, Any]) -> dict[s
     }
 
 
-def _get_gemini_client() -> Any:
+def _get_gemini_client(timeout: float | None = None) -> Any:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        logger.error("GEMINI_API_KEY is not set")
+        raise ValueError("GEMINI_API_KEY is not set")
+    genai = _import_genai()
+    if timeout is not None:
+        return genai.Client(api_key=api_key, http_options={"timeout": timeout})
     global _client
     if _client is None:
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            logger.error("GEMINI_API_KEY is not set")
-            raise ValueError("GEMINI_API_KEY is not set")
-        genai = _import_genai()
         _client = genai.Client(api_key=api_key)
     return _client
 
@@ -334,6 +337,7 @@ def generate_gemini_response(
     temperature: float | None = None,
     max_output_tokens: int | None = None,
     max_retries: int = 3,
+    timeout: float | None = None,
 ) -> str:
     """
     Generate a response from Gemini with retry + model fallback.
@@ -341,7 +345,7 @@ def generate_gemini_response(
     If the primary model returns 503 UNAVAILABLE, we retry with exponential
     backoff and then fall back to less-loaded free models.
     """
-    client = _get_gemini_client()
+    client = _get_gemini_client(timeout=timeout)
     model_name = model or DEFAULT_GEMINI_MODEL
     temp_value = DEFAULT_TEMPERATURE if temperature is None else temperature
     token_limit = DEFAULT_MAX_OUTPUT_TOKENS if max_output_tokens is None else max_output_tokens

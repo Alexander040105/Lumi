@@ -14,7 +14,6 @@ ENV_FILE = Path(__file__).resolve().parents[3] / ".env"
 logger.info("Loading settings from: %s", ENV_FILE)
 load_dotenv(ENV_FILE, override=True)
 
-_DEFAULT_CORS_ORIGIN_REGEX = r"https://lumi-frontend-.*\.vercel\.app"
 _DEFAULT_CORS_ORIGINS = [
     "http://localhost:5173",
     "https://lumi-frontend-xi.vercel.app",
@@ -29,7 +28,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "https://lumi-frontend-xi.vercel.app",
     ]
-    cors_origin_regex: str | None = _DEFAULT_CORS_ORIGIN_REGEX
+    cors_origin_regex: str | None = None
     environment: str = "development"
     debug: bool = False
     log_level: str = "INFO"
@@ -39,26 +38,21 @@ class Settings(BaseSettings):
     supabase_anon_key: str = Field(
         validation_alias=AliasChoices("SUPABASE_JWT_ANON_KEY", "SUPABASE_ANON_KEY")
     )
-    supabase_service_role_key: str | None = Field(
-        default=None,
+    supabase_service_role_key: str = Field(
         validation_alias=AliasChoices(
             "SUPABASE_JWT_SERVICE_ROLE_KEY",
             "SUPABASE_SERVICE_ROLE_KEY",
-            "VITE_SUPABASE_SERVICE_ROLE_KEY",
         ),
     )
-    supabase_jwt_secret: str | None = Field(
-        default=None,
+    supabase_jwt_secret: str = Field(
         validation_alias=AliasChoices(
             "SUPABASE_JWT_SECRET",
-            "VITE_SUPABASE_JWT_SECRET",
         ),
     )
     supabase_oauth_callback_url: str | None = Field(
         default=None,
         validation_alias=AliasChoices(
             "SUPABASE_OAUTH_CALLBACK_URL",
-            "VITE_SUPABASE_OAUTH_CALLBACK_URL",
         ),
     )
 
@@ -169,7 +163,7 @@ class Settings(BaseSettings):
     premium_chat_message_limit: int = 5000
 
     # Whether to enforce usage limits for non-admin users
-    enforce_usage_limits: bool = False
+    enforce_usage_limits: bool = True
 
     # AI / LLM
     gemini_api_key: str | None = None
@@ -241,7 +235,7 @@ class Settings(BaseSettings):
             value = value.strip()
             if value and value.lower() != "none":
                 return value
-        return _DEFAULT_CORS_ORIGIN_REGEX
+        return None
 
 
 @lru_cache

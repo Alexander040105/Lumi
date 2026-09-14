@@ -15,6 +15,7 @@ from app.dependencies.quota import _in_memory_counts, _in_memory_last
 from app.dependencies.auth import require_admin
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.routes.etl import validate_table
+from app.routes.forecast import _require_forecast_access
 from app.utils.network import _direct_peer_ip, _is_localhost, get_client_id
 from main import app
 
@@ -93,6 +94,13 @@ class TestEnergyHubForecastValidation:
 
 class TestForecastRunValidation:
     """DEF-04: /forecast/run and /forecast/backtest must reject an unknown metric."""
+
+    @pytest.fixture(autouse=True)
+    def _auth_forecast(self, client):
+        """Forecast endpoints now require an authenticated premium/admin user."""
+        app.dependency_overrides[_require_forecast_access] = lambda: {"sub": "forecast-test-user"}
+        yield
+        app.dependency_overrides.pop(_require_forecast_access, None)
 
     def test_run_invalid_metric_returns_422(self, client):
         response = client.get("/api/v1/forecast/run?metric=' OR '1'='1")

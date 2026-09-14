@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
+import { CheckCircle2, Printer } from "lucide-react";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -52,6 +53,8 @@ export default function Ecosim() {
 
   const aiPollTimerRef = useRef(null);
   const runningRef = useRef(false);
+  const MAX_AI_ATTEMPTS = 6;
+  const AI_POLL_INTERVAL_MS = 5000;
   const clearAiPoll = () => {
     if (aiPollTimerRef.current) {
       clearTimeout(aiPollTimerRef.current);
@@ -62,8 +65,10 @@ export default function Ecosim() {
 
   // Save simulation dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
   const [saveLabel, setSaveLabel] = useState("");
   const [saving, setSaving] = useState(false);
+  const resultRef = useRef(null);
 
   const filteredMunicipalities = useMemo(() => {
     const q = muniQuery.trim().toLowerCase();
@@ -191,6 +196,13 @@ export default function Ecosim() {
   }, [searchParams, user, municipalities]);
 
   useEffect(() => {
+    if (result && !loading) {
+      setCompleteDialogOpen(true);
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [result, loading]);
+
+  useEffect(() => {
     let isActive = true;
 
     const loadProvinces = async () => {
@@ -217,6 +229,29 @@ export default function Ecosim() {
 
   const activeId = mode === "province" ? provinceId : municipalityId;
 
+  const validateInputs = () => {
+    const id = String(activeId).trim();
+    const consumption = Number(monthlyConsumption);
+    const bill = Number(monthlyBill);
+    const rate = Number(electricityRate);
+    const savings = Number(desiredSavings);
+
+    if (!id) return "Please select a municipality or province.";
+    if (!Number.isFinite(consumption) || consumption <= 0) {
+      return "Monthly consumption must be a positive number.";
+    }
+    if (!Number.isFinite(bill) || bill <= 0) {
+      return "Monthly bill must be a positive number.";
+    }
+    if (!Number.isFinite(rate) || rate < 0) {
+      return "Electricity rate cannot be negative.";
+    }
+    if (!Number.isFinite(savings) || savings < 0 || savings > 100) {
+      return "Desired savings must be between 0% and 100%.";
+    }
+    return null;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (runningRef.current) return;
@@ -225,6 +260,14 @@ export default function Ecosim() {
     setLoading(true);
     setAiLoading(false);
     clearAiPoll();
+
+    const validationError = validateInputs();
+    if (validationError) {
+      setError({ message: validationError });
+      setLoading(false);
+      runningRef.current = false;
+      return;
+    }
 
     try {
       const data = await getEcosim({
@@ -253,10 +296,10 @@ export default function Ecosim() {
           getEcosimAI(aiParams)
             .then((aiData) => {
               const analysis = aiData?.ai_analysis;
-              if (analysis?.error?.includes("timed out") && attempt < 10) {
+              if (analysis?.error?.includes("timed out") && attempt < MAX_AI_ATTEMPTS) {
                 aiPollTimerRef.current = setTimeout(() => {
                   loadAi(attempt + 1);
-                }, 15000);
+                }, AI_POLL_INTERVAL_MS);
               } else {
                 setResult((prev) =>
                   prev ? { ...prev, ai_analysis: analysis } : prev
@@ -348,12 +391,34 @@ export default function Ecosim() {
 
   return (
     <section className="page-container stack">
+      <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link to="/" className="hover:text-foreground hover:underline">
+              {t("nav.home")}
+            </Link>
+          </li>
+          <li>/</li>
+          <li className="text-foreground">{t("nav.ecosim")}</li>
+        </ol>
+      </nav>
+
       <div className="space-y-2">
         <h1>{t("ecosim.title")}</h1>
         <p className="text-muted-foreground">
           {t("ecosim.subtitle")}
         </p>
       </div>
+
+      <Card className="bg-muted/50 border-l-4 border-l-primary">
+        <CardContent className="pt-4 text-sm text-muted-foreground">
+          <p>
+            <strong>Important:</strong> EcoSim estimates are based on regional data and
+            simplified models. They are for educational and preliminary planning only. Always
+            consult a licensed renewable energy professional before making investment decisions.
+          </p>
+        </CardContent>
+      </Card>
 
       <EcosimWizard
         mode={mode}
@@ -430,8 +495,51 @@ export default function Ecosim() {
       {loading && <LoadingSkeleton />}
 
       {result && !loading && (
-        <EcosimResults result={result} aiLoading={aiLoading} />
+        <div id="ecosim-result" ref={resultRef}>
+          <EcosimResults result={result} aiLoading={aiLoading} />
+        </div>
       )}
+
+      {/* Completion Dialog */}
+      <Dialog open={completeDialogOpen} onOpenChange={setCompleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <div className="flex items-center gap-2 text-primary">
+              <CheckCircle2 className="h-5 w-5" />
+              <DialogTitle>Your EcoSim estimate is ready</DialogTitle>
+            </div>
+            <DialogDescription>
+              The analysis has completed. You can review the results below, save them, or
+              download a PDF copy.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2 text-sm text-muted-foreground">
+            Recommended source: {result?.recommended_source || "—"}
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setCompleteDialogOpen(false);
+                setTimeout(() => window.print(), 300);
+              }}
+            >
+              <Printer className="mr-2 h-4 w-4" />
+              Save as PDF
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                setCompleteDialogOpen(false);
+                resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            >
+              View Results
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Save Simulation Dialog */}
       <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>

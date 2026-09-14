@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 _JWT_PATTERN = re.compile(r"^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$")
 
 # Module-level singletons so we do not create a new client for every request.
-_supabase_client: Union[Client, "SupabaseRestClient", None] = None
-_supabase_public_client: Union[Client, "SupabaseRestClient", None] = None
+_supabase_client: Client | None = None
+_supabase_public_client: Client | None = None
 
 
 def _is_jwt_key(key: str | None) -> bool:
@@ -103,40 +103,43 @@ class SupabaseRestClient:
         return SupabaseRestQuery(self, table_name)
 
 
-def _create_client(url: str, key: str) -> Client | SupabaseRestClient:
-    if _is_jwt_key(key):
-        return create_client(url, key)
-    logger.warning("Supabase key is not JWT; using REST client fallback for table queries only.")
-    return SupabaseRestClient(url, key)
 
 
-def get_supabase_client() -> Client | SupabaseRestClient:
+def get_supabase_client() -> Client:
     global _supabase_client
     if _supabase_client is None:
         settings = get_settings()
-        key = settings.supabase_service_role_key or settings.supabase_anon_key
+        key = settings.supabase_service_role_key
         if not key:
-            raise ValueError("Supabase key is missing. Check your .env and environment overrides.")
-        _supabase_client = _create_client(settings.supabase_url, key)
+            raise ValueError("SUPABASE_SERVICE_ROLE_KEY is missing. Check your .env and environment overrides.")
+        if not _is_jwt_key(key):
+            raise ValueError(
+                "SUPABASE_SERVICE_ROLE_KEY must be a JWT service_role key from Supabase settings."
+            )
+        _supabase_client = create_client(settings.supabase_url, key)
         logger.debug(
-            "Supabase client initialized: url=%s key_source=%s key_present=%s",
+            "Supabase client initialized: url=%s key_present=%s",
             settings.supabase_url,
-            "service_role" if settings.supabase_service_role_key else "anon",
             bool(key),
         )
     return _supabase_client
 
 
-def get_supabase_public_client() -> Client | SupabaseRestClient:
+def get_supabase_public_client() -> Client:
     global _supabase_public_client
     if _supabase_public_client is None:
         settings = get_settings()
-        if not settings.supabase_anon_key:
-            raise ValueError("Supabase anon key is missing. Check your .env and environment overrides.")
-        _supabase_public_client = _create_client(settings.supabase_url, settings.supabase_anon_key)
+        key = settings.supabase_anon_key
+        if not key:
+            raise ValueError("SUPABASE_ANON_KEY is missing. Check your .env and environment overrides.")
+        if not _is_jwt_key(key):
+            raise ValueError(
+                "SUPABASE_ANON_KEY must be a JWT anon key from Supabase settings."
+            )
+        _supabase_public_client = create_client(settings.supabase_url, key)
         logger.debug(
             "Supabase public client initialized: url=%s key_present=%s",
             settings.supabase_url,
-            bool(settings.supabase_anon_key),
+            bool(key),
         )
     return _supabase_public_client

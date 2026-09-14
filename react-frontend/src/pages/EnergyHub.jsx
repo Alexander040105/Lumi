@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import {
@@ -229,15 +230,26 @@ export default function EnergyHub() {
       {/* Header */}
       <div className="border-b bg-card">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-2">
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link to="/" className="hover:text-foreground hover:underline">
+                  {t("nav.home")}
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-foreground">{t("nav.energyHub")}</li>
+            </ol>
+          </nav>
+
           <h1 className="text-3xl font-bold tracking-tight">{t("energyHub.title")}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
             {t("energyHub.description")}
           </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <CitationSources ids={t("energyHub.citations")} />
-            <p className="text-xs text-muted-foreground">
-              {t("energyHub.disclaimer")}
-            </p>
+          <div className="mt-3 rounded-md border border-l-4 border-l-amber-500 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
+            <strong>Important:</strong> The data and AI insights on this page are for
+            educational and planning purposes only. They are based on public datasets and
+            simplified models and do not replace professional engineering or policy advice.
           </div>
         </div>
       </div>

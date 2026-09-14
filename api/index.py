@@ -13,6 +13,7 @@ os.environ.setdefault("RAG_BACKEND", "pgvector")
 os.environ.setdefault("ENABLE_RAG", "true")
 os.environ.setdefault("EMBEDDING_PROVIDER", "huggingface-inference")
 os.environ.setdefault("EMBEDDING_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+os.environ.setdefault("ENFORCE_USAGE_LIMITS", "true")
 os.environ.setdefault("LLM_PROVIDER", "groq")
 
 # Import the FastAPI application from the backend package.
