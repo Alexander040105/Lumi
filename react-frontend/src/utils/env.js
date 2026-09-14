@@ -22,7 +22,8 @@ export function getApiBaseUrl() {
   if (!base) {
     throw new Error("VITE_API_BASE_URL is required");
   }
-  const trimmed = base.trim().replace(/\/+$/, "");
+  // Force IPv4 to avoid browsers resolving "localhost" to ::1 when the server is IPv4-only.
+  const trimmed = base.trim().replace(/\/+$/, "").replace("/localhost:", "/127.0.0.1:");
   if (trimmed.endsWith("/api/v1")) {
     return trimmed;
   }
