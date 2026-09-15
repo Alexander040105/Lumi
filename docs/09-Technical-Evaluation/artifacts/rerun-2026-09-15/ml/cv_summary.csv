@@ -1,0 +1,5 @@
+model,count,mean,std
+"ARIMA(1,1,1)",7,3.607,2.512
+Holt,7,3.525,3.496
+Linear Trend,7,5.861,3.917
+Naive w/ Drift,7,3.584,2.535

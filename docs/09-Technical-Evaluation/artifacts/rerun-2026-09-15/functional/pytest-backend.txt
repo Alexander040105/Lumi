@@ -1,0 +1,179 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.1.1, pluggy-1.6.0 -- D:\63947\Documents\GitHub\Lumi\fastapi-backend\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+benchmark: 5.3.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: D:\63947\Documents\GitHub\Lumi
+configfile: pyproject.toml
+plugins: anyio-4.14.2, locust-2.46.5, benchmark-5.3.0, mock-3.15.1
+collecting ... collected 106 items
+
+tests\test_calibration.py::test_wind_score_is_output_based_not_step_function PASSED [  0%]
+tests\test_calibration.py::test_wind_score_zero_for_zero_output PASSED   [  1%]
+tests\test_calibration.py::test_wind_score_capped_at_1_for_high_output PASSED [  2%]
+tests\test_calibration.py::test_wind_score_300_kwh_gives_score_1 PASSED  [  3%]
+tests\test_calibration.py::test_hydro_score_baseline_100_kwh PASSED      [  4%]
+tests\test_calibration.py::test_hydro_score_100_kwh_gives_score_100 PASSED [  5%]
+tests\test_calibration.py::test_hydro_score_not_near_zero_for_small_output PASSED [  6%]
+tests\test_calibration.py::test_scores_comparable_across_sources PASSED  [  7%]
+tests\test_calibration.py::test_scoring_baselines_documented PASSED      [  8%]
+tests\test_calibration.py::test_suitability_recommendation_field_exists PASSED [  9%]
+tests\test_calibration.py::test_hydro_confidence_maturity_updated PASSED [ 10%]
+tests\test_calibration.py::test_cache_key_includes_scoring_version PASSED [ 11%]
+tests\test_calibration.py::test_solar_score_calculation_unchanged PASSED [ 12%]
+tests\test_calibration.py::test_wind_output_calculation_unchanged PASSED [ 13%]
+tests\test_calibration.py::test_wind_power_curve_below_cut_in_is_zero PASSED [ 14%]
+tests\test_calibration.py::test_wind_power_curve_at_cut_out_is_zero PASSED [ 15%]
+tests\test_calibration.py::test_wind_power_curve_ramp_between_cut_in_and_rated PASSED [ 16%]
+tests\test_calibration.py::test_wind_power_curve_rated_is_capped PASSED  [ 16%]
+tests\test_calibration.py::test_wind_output_never_exceeds_rated_power_monthly PASSED [ 17%]
+tests\test_catchment_enrichment.py::test_enrichment_csv_has_all_municipalities PASSED [ 18%]
+tests\test_catchment_enrichment.py::test_enrichment_csv_no_duplicate_municipality_ids PASSED [ 19%]
+tests\test_catchment_enrichment.py::test_enrichment_csv_no_nulls_in_key_columns PASSED [ 20%]
+tests\test_catchment_enrichment.py::test_enrichment_match_methods_are_valid PASSED [ 21%]
+tests\test_catchment_enrichment.py::test_enrichment_within_count_matches_expected PASSED [ 22%]
+tests\test_catchment_enrichment.py::test_enrichment_stream_head_non_negative PASSED [ 23%]
+tests\test_catchment_enrichment.py::test_enrichment_stream_head_within_physical_bounds PASSED [ 24%]
+tests\test_catchment_enrichment.py::test_enrichment_feasibility_penalty_in_range PASSED [ 25%]
+tests\test_catchment_enrichment.py::test_enrichment_effective_catchment_area_in_range PASSED [ 26%]
+tests\test_catchment_enrichment.py::test_enrichment_runoff_coefficient_in_range PASSED [ 27%]
+tests\test_catchment_enrichment.py::test_catchment_loader_returns_data_for_known_municipality PASSED [ 28%]
+tests\test_catchment_enrichment.py::test_catchment_loader_returns_none_for_unknown_municipality PASSED [ 29%]
+tests\test_catchment_enrichment.py::test_estimated_flow_rate_with_runoff_override PASSED [ 30%]
+tests\test_catchment_enrichment.py::test_estimated_flow_rate_no_floor_allows_zero PASSED [ 31%]
+tests\test_catchment_enrichment.py::test_estimated_flow_rate_with_floor_returns_minimum PASSED [ 32%]
+tests\test_catchment_enrichment.py::test_calculate_hydropower_with_feasibility_penalty PASSED [ 33%]
+tests\test_catchment_enrichment.py::test_enriched_rc_not_modified_by_terrain_factors PASSED [ 33%]
+tests\test_catchment_enrichment.py::test_calculate_hydropower_head_already_realistic PASSED [ 34%]
+tests\test_catchment_enrichment.py::test_calculate_hydropower_head_scaled_by_factor PASSED [ 35%]
+tests\test_catchment_enrichment.py::test_calculate_hydropower_123_ceiling_broken_with_realistic_head PASSED [ 36%]
+tests\test_catchment_enrichment.py::test_enrichment_breaks_123_ceiling_for_some_municipalities PASSED [ 37%]
+tests\test_ecosim_explanations.py::test_build_static_renewable_explanations_embeds_output_numbers PASSED [ 38%]
+tests\test_ecosim_explanations.py::test_build_static_renewable_explanations_zero_output_omits_number PASSED [ 39%]
+tests\test_ecosim_explanations.py::test_get_or_build_explanations_returns_generated_without_municipality_id PASSED [ 40%]
+tests\test_ecosim_quezon.py::test_quezon_province_no_500 PASSED          [ 41%]
+tests\test_ecosim_quezon.py::test_quezon_municipality_no_500 PASSED      [ 42%]
+tests\test_ecosim_quezon.py::test_build_ecosim_dashboard_quezon_province PASSED [ 43%]
+tests\test_ecosim_quezon.py::test_get_province_data_quezon PASSED        [ 44%]
+tests\test_ecosim_quezon.py::test_get_municipality_data_quezon PASSED    [ 45%]
+tests\test_ecosim_quezon.py::test_missing_csv_fallbacks_return_none_or_empty PASSED [ 46%]
+tests\test_regression.py::test_format_score_scales_normalized_and_preserves_percentage PASSED [ 47%]
+tests\test_regression.py::test_aggregate_municipality_climate_monthly_means PASSED [ 48%]
+tests\test_regression.py::test_aggregate_municipality_climate_empty_input PASSED [ 49%]
+tests\test_regression.py::test_get_or_compute_province_climate_batches_and_aggregates PASSED [ 50%]
+tests\test_regression.py::test_aggregate_to_province_averages_municipality_scores PASSED [ 50%]
+tests\test_routes.py::test_ecosim_get_anonymous_first_request PASSED     [ 51%]
+tests\test_routes.py::test_ecosim_get_anonymous_second_request_blocked PASSED [ 52%]
+tests\test_routes.py::test_ecosim_get_authenticated_no_quota PASSED      [ 53%]
+tests\test_routes.py::test_ecosim_post_anonymous_first_request PASSED    [ 54%]
+tests\test_routes.py::test_ecosim_post_anonymous_second_request_blocked PASSED [ 55%]
+tests\test_routes.py::test_energyhub_ai_insight_static_no_quota PASSED   [ 56%]
+tests\test_routes.py::test_energyhub_ai_insight_llm_anonymous_quota PASSED [ 57%]
+tests\test_routes.py::test_energyhub_analyze_chart_anonymous_quota PASSED [ 58%]
+tests\test_routes.py::test_energyhub_authenticated_bypass_quota PASSED   [ 59%]
+tests\test_security_fixes.py::TestGeothermalNotFound::test_bad_municipality_id_returns_404 PASSED [ 60%]
+tests\test_security_fixes.py::TestMapValidation::test_invalid_renewable_type_returns_422 PASSED [ 61%]
+tests\test_security_fixes.py::TestMapValidation::test_invalid_map_level_returns_422 PASSED [ 62%]
+tests\test_security_fixes.py::TestMapValidation::test_valid_map_type_returns_200 PASSED [ 63%]
+tests\test_security_fixes.py::TestEnergyHubForecastValidation::test_invalid_forecast_metric_returns_422 PASSED [ 64%]
+tests\test_security_fixes.py::TestEnergyHubForecastValidation::test_valid_forecast_metric_returns_200 PASSED [ 65%]
+tests\test_security_fixes.py::TestEnergyHubForecastValidation::test_model_comparison_invalid_metric_returns_422 PASSED [ 66%]
+tests\test_security_fixes.py::TestForecastRunValidation::test_run_invalid_metric_returns_422 PASSED [ 66%]
+tests\test_security_fixes.py::TestForecastRunValidation::test_backtest_invalid_metric_returns_422 PASSED [ 67%]
+tests\test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200 PASSED [ 68%]
+tests\test_security_fixes.py::TestProductsValidation::test_invalid_energy_type_returns_422 PASSED [ 69%]
+tests\test_security_fixes.py::TestProductsValidation::test_valid_energy_type_returns_200 PASSED [ 70%]
+tests\test_security_fixes.py::TestQuotaMessage::test_energyhub_ai_insight_quota_message PASSED [ 71%]
+tests\test_security_fixes.py::TestQuotaMessage::test_energyhub_analyze_chart_quota_message PASSED [ 72%]
+tests\test_security_fixes.py::TestQuotaMessage::test_energyhub_map_explanation_quota_message PASSED [ 73%]
+tests\test_security_fixes.py::TestQuotaMessage::test_ecosim_quota_message PASSED [ 74%]
+tests\test_security_fixes.py::TestClientIdTrust::test_xff_is_ignored_from_untrusted_peer PASSED [ 75%]
+tests\test_security_fixes.py::TestClientIdTrust::test_vercel_headers_are_trusted PASSED [ 76%]
+tests\test_security_fixes.py::TestClientIdTrust::test_localhost_direct_peer_is_exempt PASSED [ 77%]
+tests\test_security_fixes.py::TestUserStatusFailClosed::test_pgrst116_missing_profile_is_active PASSED [ 78%]
+tests\test_security_fixes.py::TestUserStatusFailClosed::test_db_error_fails_closed PASSED [ 79%]
+tests\test_security_fixes.py::TestUserStatusFailClosed::test_generic_exception_fails_closed PASSED [ 80%]
+tests\test_security_fixes.py::TestRateLimitMergedCounters::test_flapping_redis_merges_counters PASSED [ 81%]
+tests\test_security_fixes.py::TestRateLimitMergedCounters::test_redis_and_memory_counters_merge PASSED [ 82%]
+tests\test_security_fixes.py::TestAdminCreateUser::test_create_user_response_does_not_leak_temp_password PASSED [ 83%]
+tests\test_security_fixes.py::TestProductionDocsAndBanner::test_docs_and_openapi_disabled_in_non_debug_mode PASSED [ 83%]
+tests\test_security_fixes.py::TestProductionDocsAndBanner::test_server_header_is_masked PASSED [ 84%]
+tests\test_security_fixes.py::TestETLTableAllowlist::test_validate_table_rejects_injection_names FAILED [ 85%]
+tests\test_security_fixes.py::TestETLTableAllowlist::test_validate_table_accepts_allowed_table FAILED [ 86%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_wind_plants_loader_returns_list PASSED [ 87%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_get_wind_plants_near_ilocos PASSED [ 88%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_wind_proximity_boost_increases_score PASSED [ 89%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_wind_proximity_boost_no_plants PASSED [ 90%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_wind_generation_scale_in_province PASSED [ 91%]
+tests\test_wind_hydro_plants.py::TestWindPlants::test_wind_generation_scale_capped PASSED [ 92%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_plants_loader_returns_list PASSED [ 93%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_get_hydro_plants_near_bulacan PASSED [ 94%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_proximity_boost_increases_score PASSED [ 95%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_proximity_boost_capped_at_100 PASSED [ 96%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_generation_scale_in_province PASSED [ 97%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_plant_floor_zero_without_plants PASSED [ 98%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_plant_floor_respects_max PASSED [ 99%]
+tests\test_wind_hydro_plants.py::TestHydroPlants::test_hydro_plant_floor_in_named_province PASSED [100%]
+
+================================== FAILURES ===================================
+______ TestETLTableAllowlist.test_validate_table_rejects_injection_names ______
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+_______ TestETLTableAllowlist.test_validate_table_accepts_allowed_table _______
+async def functions are not natively supported.
+You need to install a suitable plugin for your async framework, for example:
+  - anyio
+  - pytest-asyncio
+  - pytest-tornasync
+  - pytest-trio
+  - pytest-twisted
+============================== warnings summary ===============================
+.venv\Lib\site-packages\supabase\__init__.py:1
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\.venv\Lib\site-packages\supabase\__init__.py:1: DeprecationWarning: The `gotrue` package is deprecated, is not going to receive updates in the future. Please, use `supabase_auth` instead.
+    from gotrue.errors import (
+
+main.py:81
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\main.py:81: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+.venv\Lib\site-packages\fastapi\applications.py:4495
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\.venv\Lib\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests\test_security_fixes.py:507
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\tests\test_security_fixes.py:507: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+tests\test_security_fixes.py:513
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\tests\test_security_fixes.py:513: PytestUnknownMarkWarning: Unknown pytest.mark.asyncio - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html
+    @pytest.mark.asyncio
+
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+fastapi-backend/tests/test_security_fixes.py::TestForecastRunValidation::test_run_valid_metric_returns_200
+  D:\63947\Documents\GitHub\Lumi\fastapi-backend\.venv\Lib\site-packages\statsmodels\tsa\statespace\mlemodel.py:174: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    endog.shape = (endog.shape[0], 1)  # this will be C-contiguous
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests\test_security_fixes.py::TestETLTableAllowlist::test_validate_table_rejects_injection_names
+FAILED tests\test_security_fixes.py::TestETLTableAllowlist::test_validate_table_accepts_allowed_table
+================= 2 failed, 104 passed, 11 warnings in 44.68s =================

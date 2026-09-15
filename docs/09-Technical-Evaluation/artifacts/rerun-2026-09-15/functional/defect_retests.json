@@ -1,0 +1,23 @@
+{
+ "DEF-01_geothermal_bad_id": {
+  "status": 404,
+  "body": "{\"detail\":\"Municipality not found\"}"
+ },
+ "DEF-02_map_invalid_type": {
+  "status": 422,
+  "body": "{\"detail\":[{\"type\":\"literal_error\",\"loc\":[\"path\",\"renewable_type\"],\"msg\":\"Input should be 'solar', 'wind', 'hydro' or 'g"
+ },
+ "DEF-03_forecast_bogus_metric": {
+  "status": 422,
+  "body": "{\"detail\":[{\"type\":\"literal_error\",\"loc\":[\"query\",\"metric\"],\"msg\":\"Input should be 'consumption', 'peak_demand' or 'renewable_generation'\",\"input\":\"bogus\",\"ctx\""
+ },
+ "DEF-05_injection_energy_type": {
+  "status": 422,
+  "body": "{\"detail\":[{\"type\":\"literal_error\",\"loc\":[\"query\",\"energy_type\"],\"msg\":\"Input should be 'solar', 'wind', 'hydro', 'hydropower' or 'geothermal'\",\"input\":\"' OR '1"
+ },
+ "health_retime_ms": {
+  "min": 6.4,
+  "mean": 10.9,
+  "max": 16.6
+ }
+}

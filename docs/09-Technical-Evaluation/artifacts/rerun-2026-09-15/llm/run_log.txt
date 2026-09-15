@@ -1,0 +1,87 @@
+Groq model=groq/compound-mini attempt=1 failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01ktbb0wjfft0b5x0kkp6t7xma` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 8810, Requested 3618. Please try again in 2.14s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}
+Groq model=groq/compound-mini attempt=2 failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01ktbb0wjfft0b5x0kkp6t7xma` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11320, Requested 3599. Please try again in 14.594999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}
+Groq model=groq/compound-mini exhausted retries.
+LLM call timed out after 0.5s; returning empty
+Groq model=groq/compound-mini attempt=1 failed: Request timed out.
+Groq model=groq/compound-mini exhausted retries.
+Groq model=groq/compound-mini attempt=1 failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01ktbb0wjfft0b5x0kkp6t7xma` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 10502, Requested 3582. Please try again in 10.42s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}
+Groq model=groq/compound-mini exhausted retries.
+Groq model=groq/compound attempt=1 failed: Request timed out.
+Groq model=groq/compound exhausted retries.
+Groq model=qwen/qwen3.6-27b attempt=1 failed: Error code: 404 - {'error': {'message': 'The model `qwen/qwen3.6-27b` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}
+Groq model=qwen/qwen3.6-27b exhausted retries.
+Groq model=groq/compound attempt=1 failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `meta-llama/llama-4-scout-17b-16e-instruct` in organization `org_01ktbb0wjfft0b5x0kkp6t7xma` service tier `on_demand` on tokens per minute (TPM): Limit 30000, Used 29096, Requested 3701. Please try again in 5.594s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'compound', 'code': 'rate_limit_exceeded'}}
+Groq model=groq/compound exhausted retries.
+Groq model=qwen/qwen3.6-27b attempt=1 failed: Error code: 404 - {'error': {'message': 'The model `qwen/qwen3.6-27b` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}
+Groq model=qwen/qwen3.6-27b exhausted retries.
+[1/6] Building real EcoSim payload (municipality_id=5441) ...
+      prompt built: 8301 chars
+[2/6] Running 6 real Groq calls through production prompt ...
+      run 1: 5589 ms, 1953 chars, headers=3/3
+      run 2: 4167 ms, 1869 chars, headers=3/3
+      run 3: 4435 ms, 1942 chars, headers=3/3
+      run 4: 5052 ms, 2031 chars, headers=3/3
+      run 5: 4745 ms, 2059 chars, headers=3/3
+      run 6: 18469 ms, 1831 chars, headers=3/3
+[3/6] Running 4 JSON-mode probes ...
+      json run 1: 1513 ms, valid=False
+      json run 2: 3845 ms, valid=False
+      json run 3: 1517 ms, valid=False
+      json run 4: 1997 ms, valid=False
+[4/6] Testing Gemini->Groq emergency fallback (forced failure) ...
+      fallback returned response: True (1919.7 ms)
+[5/6] Testing hard-timeout path (timeout=0.5s) ...
+      elapsed 504.1 ms, empty=True
+[6/6] Capturing token usage via raw Groq client call ...
+      tokens: {'model_returned': 'groq/compound-mini', 'prompt_tokens': 571, 'completion_tokens': 450, 'total_tokens': 1021, 'latency_ms': 2028.6}
+
+{
+  "provider_env": "groq",
+  "groq_model_default": "groq/compound-mini",
+  "payload_keys": [
+    "municipality_data",
+    "consumption_results",
+    "renewable_energy_results",
+    "nearby_geothermal_plants",
+    "mode"
+  ],
+  "prompt_chars": 8301,
+  "latency": {
+    "n": 6,
+    "min_ms": 4166.8,
+    "mean_ms": 7076.1,
+    "p50_ms": 5052.3,
+    "p95_ms": 5588.6,
+    "max_ms": 18468.7
+  },
+  "non_empty_rate": 1.0,
+  "sanitizer_survival_rate": 1.0,
+  "header_compliance_rate": 1.0,
+  "prescriptive_extraction_rate": 1.0,
+  "json_mode": {
+    "n": 4,
+    "valid_json_rate": 0.0,
+    "schema_compliance_rate": 0.0,
+    "mean_latency_ms": 2217.8
+  },
+  "fallback": {
+    "gemini_failure_injected": true,
+    "groq_fallback_returned_response": true,
+    "elapsed_ms": 1919.7,
+    "error": null
+  },
+  "timeout_path": {
+    "timeout_s": 0.5,
+    "elapsed_ms": 504.1,
+    "returned_empty_string": true
+  },
+  "token_usage_sample": {
+    "model_returned": "groq/compound-mini",
+    "prompt_tokens": 571,
+    "completion_tokens": 450,
+    "total_tokens": 1021,
+    "latency_ms": 2028.6
+  }
+}
+
+Wrote D:\63947\Documents\GitHub\Lumi\docs\09-Technical-Evaluation\artifacts\rerun-2026-09-15\llm\llm_eval.json
