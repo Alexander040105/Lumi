@@ -13,6 +13,7 @@
     "delete": "Burahin",
     "edit": "I-edit",
     "open": "Buksan",
+    "view": "Tingnan",
     "saving": "Nagsi-save...",
     "toggleTheme": "Baguhin ang theme",
     "close": "Isara",
@@ -786,6 +787,8 @@
       "saveSuccess": "Matagumpay na na-save ang simulation",
       "loadSuccess": "Nai-load ang sinaved na simulation",
       "loadFailed": "Hindi ma-load ang sinaved na simulation",
+      "autoSaved": "Awtomatikong na-save ang simulation sa iyong account",
+      "alreadySaved": "Naka-save na ang resultang ito",
       "municipalitiesError": "Hindi ma-load ang mga munisipalidad.",
       "provincesError": "Hindi ma-load ang mga probinsya.",
       "ecosimError": "Hindi ma-load ang Ecosim data."

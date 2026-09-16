@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -10,7 +10,7 @@ import { supabase } from "@/services/supabaseClient";
 import { getApiBaseUrl } from "@/utils/env";
 
 export default function SecuritySettings() {
-  const { user, accessToken, signOut } = useAuth();
+  const { user, accessToken, signOut, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -20,6 +20,43 @@ export default function SecuritySettings() {
   const [savingEmail, setSavingEmail] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [ecosimAutosave, setEcosimAutosave] = useState(true);
+  const [savingAutosave, setSavingAutosave] = useState(false);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    supabase
+      .from("profiles")
+      .select("ecosim_autosave")
+      .eq("id", user.id)
+      .single()
+      .then(({ data }) => {
+        if (data?.ecosim_autosave != null) setEcosimAutosave(data.ecosim_autosave);
+      });
+  }, [user?.id]);
+
+  const handleAutosaveChange = async (checked) => {
+    setEcosimAutosave(checked);
+    setSavingAutosave(true);
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/protected/profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ ecosim_autosave: checked }),
+      });
+      if (!res.ok) throw new Error("Could not save preference");
+      toast.success("Preference saved");
+      refreshProfile?.();
+    } catch (err) {
+      setEcosimAutosave(!checked);
+      toast.error(err.message || "Could not save preference");
+    } finally {
+      setSavingAutosave(false);
+    }
+  };
 
   const reauthenticate = async (password) => {
     const { error } = await supabase.auth.signInWithPassword({
@@ -211,6 +248,31 @@ export default function SecuritySettings() {
           >
             Enable two-factor authentication
           </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Preferences</CardTitle>
+          <CardDescription>
+            Control how EcoSim behaves for your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              id="ecosim-autosave"
+              checked={ecosimAutosave}
+              onChange={(e) => handleAutosaveChange(e.target.checked)}
+              disabled={savingAutosave}
+              className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary accent-primary"
+            />
+            <div>
+              <label htmlFor="ecosim-autosave" className="text-sm font-medium">Automatically save my EcoSim runs</label>
+              <p className="text-xs text-muted-foreground">When on, each EcoSim run is saved to your account automatically.</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
 

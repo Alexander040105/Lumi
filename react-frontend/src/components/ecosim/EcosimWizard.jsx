@@ -17,7 +17,7 @@ export default function EcosimWizard({
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
   onRun, loading, activeId, result, user, onSave, onDownloadPdf, downloadPdfLoading,
-  onSaveLocation, locationSaved,
+  onSaveLocation, locationSaved, resultSaved,
 }) {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
@@ -323,7 +323,7 @@ export default function EcosimWizard({
                   <Button onClick={() => setStep(step + 1)} disabled={!canProceed || loading}>{t("ecosim.wizard.next")} <ArrowRight className="h-4 w-4 ml-1" /></Button>
                 ) : (
                   <div className="flex flex-wrap items-center gap-2 justify-end">
-                      {result && user && (
+                      {result && user && !resultSaved && (
                         <Button
                           type="button"
                           variant="outline"
