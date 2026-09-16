@@ -11,6 +11,7 @@ import {
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
+import ExplanationModal from "./ExplanationModal";
 import ProviderRecommendations from "./ProviderRecommendations";
 
 const formatNumber = (value, digits = 0) =>
@@ -193,7 +194,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border bg-muted/30 p-4">
               <p className="font-semibold mb-1">{t("ecosim.results.whyRecommended.yourLocation")}</p>
-              <p className="text-sm text-muted-foreground">{t("ecosim.results.whyRecommended.locationText", { municipality: result.municipality, id: result.municipality_id })}</p>
+              <p className="text-sm text-muted-foreground">{t("ecosim.results.whyRecommended.locationText", { municipality: result.municipality, province: result.province })}</p>
               <p className="text-sm mt-2">
                 {t("ecosim.results.whyRecommended.usageText", { consumption: cons.toFixed(0), bill: formatCurrency(bill), rate: formatCurrency(rate) })}
               </p>
@@ -306,15 +307,13 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                       : `${formatNumber(outputKwh, 0)} kWh/month`}
                   </p>
                   {sourceAnalysis && (
-                    <details className="mt-2 group">
-                      <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
-                        <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
-                        <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
-                      </summary>
-                      <div className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
-                        <Markdown>{sourceAnalysis}</Markdown>
-                      </div>
-                    </details>
+                    <div className="mt-2">
+                      <ExplanationModal
+                        title={t("ecosim.results.sources." + item.source)}
+                        content={sourceAnalysis}
+                        triggerText={t("ecosim.results.aiExplanation")}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
@@ -425,15 +424,13 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.monthly")}</span><span className="font-medium">{formatNumber(data.monthly_solar_output || data.monthly_energy_kwh || data.monthly_hydro_output, 1)} kWh</span></div>
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.annual")}</span><span className="font-medium">{formatNumber(data.annual_solar_output || data.annual_wind_output_kwh || data.annual_hydro_output || data.annual_energy_kwh, 0)} kWh</span></div>
                       {sourceAnalysis && (
-                        <details className="mt-2 group">
-                          <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
-                            <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
-                            <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
-                          </summary>
-                          <p className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
-                            {sourceAnalysis}
-                          </p>
-                        </details>
+                        <div className="mt-2">
+                          <ExplanationModal
+                            title={t("ecosim.results.sources." + title)}
+                            content={sourceAnalysis}
+                            triggerText={t("ecosim.results.aiExplanation")}
+                          />
+                        </div>
                       )}
                       {isUtility && data.citation && (
                         <p className="text-xs text-muted-foreground mt-2 leading-snug">{data.citation}</p>

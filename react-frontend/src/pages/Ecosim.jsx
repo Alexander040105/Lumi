@@ -262,6 +262,7 @@ export default function Ecosim() {
   }, [searchParams, municipalities]);
 
   const [locationSaved, setLocationSaved] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
   useEffect(() => setLocationSaved(false), [municipalityId]);
 
   const handleSaveLocation = async () => {
@@ -286,7 +287,9 @@ export default function Ecosim() {
     if (result && !loading && !hasCompleteDialogBeenShownRef.current) {
       setCompleteDialogOpen(true);
       hasCompleteDialogBeenShownRef.current = true;
-      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
     }
   }, [result, loading]);
 
@@ -534,12 +537,19 @@ export default function Ecosim() {
       </div>
 
       <Card className="bg-muted/50 border-l-4 border-l-primary">
-        <CardContent className="pt-4 text-sm text-muted-foreground">
+        <CardContent className="pt-4 text-sm text-muted-foreground space-y-2">
           <p>
-            <strong>Important:</strong> EcoSim estimates are based on regional data and
-            simplified models. They are for educational and preliminary planning only. Always
-            consult a licensed renewable energy professional before making investment decisions.
+            <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-auto px-1 py-0 text-xs text-muted-foreground underline decoration-dotted"
+              onClick={() => setShowDisclaimer((v) => !v)}
+            >
+              {t("ecosim.disclaimerWhy")}
+            </Button>
           </p>
+          {showDisclaimer && <p>{t("ecosim.disclaimerBody")}</p>}
         </CardContent>
       </Card>
 

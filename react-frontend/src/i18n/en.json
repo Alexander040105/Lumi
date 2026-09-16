@@ -776,6 +776,9 @@
     "title": "Find the Best Renewable Energy Options for your Area",
     "subtitle": "EcoSim looks at your location, electricity use, and local environmental conditions to help estimate which renewable energy option may fit you best.",
     "errorCardTitle": "Simulation error",
+    "disclaimerLead": "Important: EcoSim estimates are based on regional data and simplified models.",
+    "disclaimerBody": "They are for educational and preliminary planning only. Always consult a licensed renewable energy professional before making investment decisions.",
+    "disclaimerWhy": "Why is this only an estimate?",
     "defaults": {
       "simulation": "Simulation",
       "renewable": "Renewable"
@@ -926,7 +929,7 @@
         "title": "Why {{source}} Was Recommended",
         "description": "How your location and climate led to this recommendation",
         "yourLocation": "Your Location",
-        "locationText": "{{municipality}} — ID {{id}}",
+        "locationText": "{{municipality}}, {{province}}",
         "usageText": "Based on {{consumption}} kWh/month usage and {{bill}} monthly bill (effective rate: {{rate}}/kWh).",
         "climateAdvantage": "Climate Advantage",
         "climateAdvantageText": "This is the best home-scale match based on estimated monthly output. {{source}} conditions are {{level}} ({{value}}).",

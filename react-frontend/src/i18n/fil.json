@@ -750,6 +750,9 @@
     "title": "Hanapin ang Pinakamahusay na Opsyon sa Renewable Energy para sa Iyong Lugar",
     "subtitle": "Tinitingnan ng EcoSim ang iyong lokasyon, paggamit ng kuryente, at lokal na kondisyon ng kapaligiran para tulungan kang tantiyahin kung aling opsyon sa renewable energy ang maaaring angkop sa iyo.",
     "errorCardTitle": "Simulation error",
+    "disclaimerLead": "Mahalaga: Batay sa regional na data at pinasimpleng mga modelo ang mga estimate ng EcoSim.",
+    "disclaimerBody": "Para sa edukasyon at paunang pagpaplano lamang ang mga ito. Laging kumonsulta sa lisensyadong propesyonal sa renewable energy bago magdesisyon sa pamumuhunan.",
+    "disclaimerWhy": "Bakit estimate lang ito?",
     "defaults": {
       "simulation": "Simulation",
       "renewable": "Renewable"
@@ -891,7 +894,7 @@
         "title": "Bakit Inirerekomenda ang {{source}}",
         "description": "Paano humantong sa rekomendasyon ang iyong lokasyon at klima",
         "yourLocation": "Iyong Lokasyon",
-        "locationText": "{{municipality}} — ID {{id}}",
+        "locationText": "{{municipality}}, {{province}}",
         "usageText": "Batay sa {{consumption}} kWh/buwan na usage at {{bill}} na buwanang bill (effective rate: {{rate}}/kWh).",
         "climateAdvantage": "Advantage ng Klima",
         "climateAdvantageText": "Ito ang pinakamahusay na home-scale match batay sa tinantiyang buwanang output. Ang kondisyon para sa {{source}} ay {{level}} ({{value}}).",
