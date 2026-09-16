@@ -813,13 +813,15 @@
         "step1": "Location",
         "step2": "Electricity Use",
         "step3": "Savings Goal",
-        "step4": "Review"
+        "step4": "Explanation",
+        "step5": "Review"
       },
       "stepDescriptions": {
         "step1": "Select your city or municipality so we can analyze your local climate and resources.",
-        "step2": "Enter the numbers from your Meralco bill so we can estimate your savings.",
-        "step3": "How much would you like to reduce your monthly electricity bill?",
-        "step4": "Review your inputs and run the analysis."
+        "step2": "Enter the numbers from your latest electric bill.",
+        "step3": "Choose how much of your bill renewable energy should cover.",
+        "step4": "Decide if you want a plain-language explanation of the results.",
+        "step5": "Review your inputs and run the analysis."
       },
       "searchMode": "Select area type",
       "municipality": "City/Municipality",
@@ -838,23 +840,21 @@
       "locationSavedChip": "Location saved",
       "consumptionLabel": "Electricity used this billing period (kWh)",
       "consumptionPlaceholder": "e.g. 300",
-      "consumptionHint": "Look for 'Actual Consumption' on your Meralco bill.",
+      "consumptionHint": "Look for 'Actual Consumption' on your electric bill.",
       "billLabel": "Monthly bill (₱)",
       "billPlaceholder": "e.g. 5000",
       "billHint": "The total amount you pay for this billing period, before any subsidies or discounts.",
       "rateLabel": "Rate per kWh (₱/kWh)",
       "ratePlaceholder": "e.g. 13.66",
-      "rateHint": "Enter the exact rate shown on your Meralco bill, or use the computed value below.",
+      "rateHint": "Enter the rate shown on your electric bill, or use the computed value below.",
       "rateText": "Based on your inputs, you currently pay about **₱{{rate}} per kWh**. We use this to estimate your possible savings.",
       "rateComputedHint": "Based on your bill, your rate is approximately **₱{{rate}} per kWh**.",
       "useComputedRate": "Use this rate",
-      "billHelp": {
-        "consumptionTitle": "Finding your actual consumption",
-        "consumptionDescription": "Look for the 'Actual Consumption' line on your Meralco bill. It shows how many kWh you used this billing period, usually near the usage or metering section.",
-        "billTitle": "Finding your total bill",
-        "billDescription": "Look for the 'Total Amount Due' or 'Total Bill' before any subsidies or discounts. This is the amount you actually pay.",
-        "rateTitle": "Finding your rate per kWh",
-        "rateDescription": "Look for the 'Generation Charge' or 'Effective Rate' line. If it isn't shown, divide your total bill by your actual consumption."
+      "billGuide": {
+        "title": "Where to find these on your bill",
+        "kwh": "'Actual Consumption' or metered kWh for the billing period",
+        "bill": "'Total Amount Due' or 'Current Charges', before subsidies or discounts",
+        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used"
       },
       "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
       "savingsLevels": {
@@ -868,6 +868,7 @@
       "quickSelect": ["25%", "50%", "75%", "100%"],
       "aiAnalysis": "Include simple explanation",
       "aiAnalysisHint": "Adds a simple explanation of why a renewable option is recommended for your area.",
+      "explanationPreview": "We'll add a plain-language note explaining why the top option was recommended.",
       "summaryTitle": "Your Inputs",
       "summary": {
         "location": "Location",
@@ -880,9 +881,6 @@
       "reviewTitle": "Review your inputs",
       "compareText": "Compare solar, wind, and hydro based on your location.",
       "edit": "Edit",
-      "billHelpTrigger": "Where can I find this on my bill?",
-      "billImageAlt": "Sample Meralco bill showing the rate, consumption, and total bill boxes",
-      "billImageCaption": "Find the values in the colored boxes on your Meralco bill: green = rate per kWh, red = consumption, yellow = total bill.",
       "yes": "Yes",
       "no": "No",
       "back": "Back",

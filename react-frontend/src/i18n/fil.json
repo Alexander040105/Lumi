@@ -781,13 +781,15 @@
         "step1": "Lokasyon",
         "step2": "Paggamit ng Kuryente",
         "step3": "Savings Goal",
-        "step4": "Suriin"
+        "step4": "Paliwanag",
+        "step5": "Suriin"
       },
       "stepDescriptions": {
         "step1": "Piliin ang iyong lungsod o munisipalidad para ma-analyze namin ang lokal na klima at resources.",
-        "step2": "Ilagay ang mga numero mula sa iyong Meralco bill para ma-estimate namin ang iyong savings.",
-        "step3": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
-        "step4": "Suriin ang iyong inputs at patakbuhin ang analysis."
+        "step2": "Ilagay ang mga numero mula sa iyong pinakabagong electric bill.",
+        "step3": "Piliin kung gaano kalaki ng iyong bill ang sasagutin ng renewable energy.",
+        "step4": "Magpasya kung gusto mo ng simpleng paliwanag ng mga resulta.",
+        "step5": "Suriin ang iyong inputs at patakbuhin ang analysis."
       },
       "searchMode": "Piliin ang uri ng lugar",
       "municipality": "Lungsod/Munisipalidad",
@@ -806,23 +808,21 @@
       "locationSavedChip": "Naka-save ang lokasyon",
       "consumptionLabel": "Kuryenteng nagamit sa billing period (kWh)",
       "consumptionPlaceholder": "e.g. 300",
-      "consumptionHint": "Hanapin ang 'Actual Consumption' sa iyong Meralco bill.",
+      "consumptionHint": "Hanapin ang 'Actual Consumption' sa iyong electric bill.",
       "billLabel": "Buwanang bill (₱)",
       "billPlaceholder": "e.g. 5000",
       "billHint": "Ang kabuuang binabayaran mo para sa billing period, bago pa man ang anumang subsidyo o diskwento.",
       "rateLabel": "Rate bawat kWh (₱/kWh)",
       "ratePlaceholder": "e.g. 13.66",
-      "rateHint": "Ilagay ang eksaktong rate sa iyong Meralco bill, o gamitin ang computed value sa ibaba.",
+      "rateHint": "Ilagay ang rate na nakasaad sa iyong electric bill, o gamitin ang computed value sa ibaba.",
       "rateText": "Batay sa iyong inputs, humigit-kumulang **₱{{rate}} bawat kWh** ang iyong binabayaran. Ginagamit namin ito para i-estimate ang posibleng savings.",
       "rateComputedHint": "Batay sa iyong bill, ang iyong rate ay humigit-kumulang **₱{{rate}} bawat kWh**.",
       "useComputedRate": "Gamitin ang rate na ito",
-      "billHelp": {
-        "consumptionTitle": "Paghanap ng actual consumption",
-        "consumptionDescription": "Hanapin ang 'Actual Consumption' sa iyong Meralco bill. Ipinapakita nito kung gaano karaming kWh ang nagamit mo sa billing period, karaniwan malapit sa usage o metering section.",
-        "billTitle": "Paghanap ng kabuuang bill",
-        "billDescription": "Hanapin ang 'Total Amount Due' o 'Total Bill' bago pa man ang anumang subsidyo o diskwento. Ito ang aktwal na binabayaran mo.",
-        "rateTitle": "Paghanap ng rate bawat kWh",
-        "rateDescription": "Hanapin ang 'Generation Charge' o 'Effective Rate'. Kung hindi ito nakalagay, hatiin ang total bill sa actual consumption."
+      "billGuide": {
+        "title": "Saan matatagpuan ang mga ito sa iyong bill",
+        "kwh": "'Actual Consumption' o metered kWh para sa billing period",
+        "bill": "'Total Amount Due' o 'Current Charges', bago ang mga subsidyo o diskwento",
+        "rate": "'Generation Charge' o effective ₱/kWh — kung hindi nakalagay, hatiin ang total bill sa kWh na nagamit"
       },
       "savingsLabel": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
       "savingsLevels": {
@@ -836,6 +836,7 @@
       "quickSelect": ["25%", "50%", "75%", "100%"],
       "aiAnalysis": "Isama ang simpleng paliwanag",
       "aiAnalysisHint": "Nagdadagdag ng simpleng paliwanag kung bakit inirerekomenda ang renewable option para sa iyong lugar.",
+      "explanationPreview": "Magdaragdag kami ng simpleng paliwanag kung bakit inirerekomenda ang nangungunang opsyon.",
       "summaryTitle": "Ang Iyong Inputs",
       "summary": {
         "location": "Lokasyon",
@@ -848,9 +849,6 @@
       "reviewTitle": "Suriin ang iyong inputs",
       "compareText": "Ikumpara ang solar, wind, at hydro batay sa iyong lokasyon.",
       "edit": "I-edit",
-      "billHelpTrigger": "Nasaan ito sa aking bill?",
-      "billImageAlt": "Halimbawang Meralco bill na nagpapakita ng rate, consumption, at total bill",
-      "billImageCaption": "Hanapin ang mga halaga sa mga may kulay na box sa iyong Meralco bill: berde = rate bawat kWh, pula = consumption, dilaw = total bill.",
       "yes": "Oo",
       "no": "Hindi",
       "back": "Bumalik",
