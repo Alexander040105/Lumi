@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Search, Check, Save, Printer } from "lucide-react";
+import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Search, Check, Save, Printer, Bookmark } from "lucide-react";
 import HelpTooltip from "@/components/shared/HelpTooltip";
 import BillHelpModal from "@/components/shared/BillHelpModal";
 import { useI18n } from "@/i18n";
@@ -14,6 +14,7 @@ export default function EcosimWizard({
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
   onRun, loading, activeId, result, user, onSave, onDownloadPdf, downloadPdfLoading,
+  onSaveLocation, locationSaved,
 }) {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
@@ -145,8 +146,19 @@ export default function EcosimWizard({
                     {mode === "municipality" && municipalitiesError && <p className="text-xs text-destructive mt-1">{municipalitiesError}</p>}
                     {mode === "province" && provincesError && <p className="text-xs text-destructive mt-1">{provincesError}</p>}
                     {activeId && (
-                      <div className="mt-2 rounded-lg border bg-primary/10 px-3 py-2 text-sm text-primary">
-                        {t("ecosim.wizard.selected", { name: selectedName })}
+                      <div className="mt-2 rounded-lg border bg-primary/10 px-3 py-2 text-sm text-primary flex items-center justify-between gap-2">
+                        <span>{t("ecosim.wizard.selected", { name: selectedName })}</span>
+                        {user && mode === "municipality" && onSaveLocation && (
+                          <button
+                            type="button"
+                            onClick={onSaveLocation}
+                            className="shrink-0 text-primary hover:text-primary/70"
+                            aria-label={locationSaved ? t("ecosim.wizard.locationSavedChip") : t("ecosim.wizard.saveLocation")}
+                            title={locationSaved ? t("ecosim.wizard.locationSavedChip") : t("ecosim.wizard.saveLocation")}
+                          >
+                            {locationSaved ? <Check className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
+                          </button>
+                        )}
                       </div>
                     )}
                   </div>

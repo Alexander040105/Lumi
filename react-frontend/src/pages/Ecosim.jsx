@@ -21,6 +21,8 @@ import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
 import { CheckCircle2 } from "lucide-react";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
+import { saveLocation } from "@/services/savedLocations";
+import { filterMunicipalities, formatMunicipalityLabel } from "@/utils/municipalities";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
@@ -128,26 +130,10 @@ export default function Ecosim() {
     hasCompleteDialogBeenShownRef.current = true;
   }, []);
 
-  const filteredMunicipalities = useMemo(() => {
-    const q = muniQuery.trim().toLowerCase();
-    if (!q) return municipalities;
-    return municipalities
-      .map((m) => {
-        const name = m.name.toLowerCase();
-        const prov = (m.province_name || "").toLowerCase();
-        const nameIdx = name.indexOf(q);
-        const provIdx = prov.indexOf(q);
-        // Match if query is in municipality name OR province name
-        const matchIdx = nameIdx >= 0 ? nameIdx : provIdx;
-        return { ...m, _matchIdx: matchIdx, _startsWith: nameIdx === 0, _provinceMatch: provIdx >= 0 && nameIdx < 0 };
-      })
-      .filter((m) => m._matchIdx >= 0)
-      .sort((a, b) => {
-        if (a._startsWith !== b._startsWith) return a._startsWith ? -1 : 1;
-        if (a._provinceMatch !== b._provinceMatch) return a._provinceMatch ? 1 : -1;
-        return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
-      });
-  }, [municipalities, muniQuery]);
+  const filteredMunicipalities = useMemo(
+    () => filterMunicipalities(municipalities, muniQuery),
+    [municipalities, muniQuery]
+  );
 
   const filteredProvinces = useMemo(() => {
     const q = provinceQuery.trim().toLowerCase();
@@ -262,6 +248,39 @@ export default function Ecosim() {
       isActive = false;
     };
   }, [searchParams, user, municipalities]);
+
+  // Preselect municipality from query param ?municipality={id} (e.g. dashboard saved locations)
+  const muniParamHandledRef = useRef(null);
+  useEffect(() => {
+    if (searchParams.get("simulation_id")) return;
+    const muniParam = searchParams.get("municipality");
+    if (!muniParam || !municipalities.length || muniParamHandledRef.current === muniParam) return;
+    const found = municipalities.find((m) => String(m.municipality_id) === String(muniParam));
+    setMunicipalityId(String(muniParam));
+    setMuniQuery(found ? formatMunicipalityLabel(found) : muniParam);
+    muniParamHandledRef.current = muniParam;
+  }, [searchParams, municipalities]);
+
+  const [locationSaved, setLocationSaved] = useState(false);
+  useEffect(() => setLocationSaved(false), [municipalityId]);
+
+  const handleSaveLocation = async () => {
+    if (!user) return;
+    const res = await saveLocation({
+      userId: user.id,
+      municipalityId: Number(municipalityId),
+      label: selectedName,
+    });
+    if (res.status === "duplicate") {
+      toast.info(t("dashboard.locationAlreadySaved"));
+      setLocationSaved(true);
+    } else if (res.status === "saved") {
+      toast.success(t("dashboard.locationSavedToast"));
+      setLocationSaved(true);
+    } else {
+      toast.error(t("dashboard.locationSaveFailed"));
+    }
+  };
 
   useEffect(() => {
     if (result && !loading && !hasCompleteDialogBeenShownRef.current) {
@@ -565,6 +584,8 @@ export default function Ecosim() {
         }}
         onDownloadPdf={handleDownloadPdf}
         downloadPdfLoading={pdfLoading}
+        onSaveLocation={handleSaveLocation}
+        locationSaved={locationSaved}
       />
 
       {error && (

@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Check, MapPin, Trash2 } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
 import { useI18n } from "../i18n";
 import { supabase } from "../services/supabaseClient";
+import { getMunicipalities } from "../services/apiClient";
+import { saveLocation } from "../services/savedLocations";
+import { filterMunicipalities, formatMunicipalityLabel } from "../utils/municipalities";
 import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +20,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
+import SearchableSelect from "@/components/shared/SearchableSelect";
 import ForecastPanel from "../components/ForecastPanel";
 
 export default function Dashboard() {
@@ -32,8 +37,18 @@ export default function Dashboard() {
   const [savedLocations, setSavedLocations] = useState([]);
   const [savedSimulations, setSavedSimulations] = useState([]);
   const [municipalities, setMunicipalities] = useState([]);
+  const [municipalitiesError, setMunicipalitiesError] = useState(null);
+  const [muniQuery, setMuniQuery] = useState("");
+  const [muniOpen, setMuniOpen] = useState(false);
   const [selectedMuni, setSelectedMuni] = useState("");
-  const [compositeScore, setCompositeScore] = useState(0);
+  const [compositeScore, setCompositeScore] = useState(null);
+  const [compositeClassification, setCompositeClassification] = useState(null);
+  const [savingLocation, setSavingLocation] = useState(false);
+
+  const filteredMunicipalities = useMemo(
+    () => filterMunicipalities(municipalities, muniQuery),
+    [municipalities, muniQuery]
+  );
 
   const fileInputRef = useRef(null);
 
@@ -58,14 +73,16 @@ export default function Dashboard() {
 
         }
 
-        // Municipalities for dropdown and name lookup
-        const { data: munis } = await supabase
-          .from("municipalities")
-          .select("municipality_id, name")
-          .order("name", { ascending: true })
-          .limit(500);
-        const muniMap = new Map((munis || []).map((m) => [m.municipality_id, m.name]));
-        setMunicipalities(munis || []);
+        // Municipalities for dropdown and name lookup (full set via backend)
+        let munis = [];
+        try {
+          const data = await getMunicipalities();
+          munis = data?.items || [];
+        } catch {
+          setMunicipalitiesError(t("dashboard.municipalitiesError"));
+        }
+        const muniMap = new Map(munis.map((m) => [m.municipality_id, formatMunicipalityLabel(m)]));
+        setMunicipalities(munis);
 
         if (isLoggedIn) {
           const { data: locs } = await supabase
@@ -105,23 +122,48 @@ export default function Dashboard() {
   const fetchCompositeScore = async (muniId) => {
     if (!muniId) return;
     try {
-      const [solar, wind, hydro, geo] = await Promise.all([
-        supabase.from("solar_suitability").select("solar_score").eq("municipality_id", muniId).single(),
-        supabase.from("wind_suitability").select("wind_score").eq("municipality_id", muniId).single(),
-        supabase.from("hydropower_suitability").select("hydro_suitability_score").eq("municipality_id", muniId).single(),
-        supabase.from("geothermal_suitability").select("geothermal_score").eq("municipality_id", muniId).single(),
-      ]);
-      const scores = [
-        solar.data?.solar_score || 0,
-        wind.data?.wind_score || 0,
-        hydro.data?.hydro_suitability_score || 0,
-        geo.data?.geothermal_score || 0,
-      ];
-      const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-      setCompositeScore(Math.round(Math.min(100, Math.max(0, avg))));
+      const { data } = await supabase
+        .from("municipalities")
+        .select("composite_suitability_score, composite_classification")
+        .eq("municipality_id", muniId)
+        .single();
+      const raw = data?.composite_suitability_score;
+      setCompositeScore(raw == null ? null : Math.round(Number(raw)));
+      setCompositeClassification(data?.composite_classification || null);
     } catch {
-      setCompositeScore(0);
+      setCompositeScore(null);
+      setCompositeClassification(null);
     }
+  };
+
+  const handleSaveLocation = async () => {
+    const found = municipalities.find((m) => String(m.municipality_id) === String(selectedMuni));
+    const label = found ? formatMunicipalityLabel(found) : muniQuery;
+    setSavingLocation(true);
+    const res = await saveLocation({
+      userId: user.id,
+      municipalityId: Number(selectedMuni),
+      label,
+    });
+    setSavingLocation(false);
+    if (res.status === "duplicate") {
+      toast.info(t("dashboard.locationAlreadySaved"));
+    } else if (res.status === "saved") {
+      toast.success(t("dashboard.locationSavedToast"));
+      setSavedLocations((prev) => [{ ...res.row, municipality_name: label }, ...prev]);
+    } else {
+      toast.error(t("dashboard.locationSaveFailed"));
+    }
+  };
+
+  const handleRemoveLocation = async (loc) => {
+    const { error } = await supabase.from("saved_locations").delete().eq("id", loc.id);
+    if (error) {
+      toast.error(t("dashboard.locationRemoveFailed"));
+      return;
+    }
+    setSavedLocations((prev) => prev.filter((l) => l.id !== loc.id));
+    toast.success(t("dashboard.locationRemoved"));
   };
 
   useEffect(() => {
@@ -344,29 +386,66 @@ export default function Dashboard() {
             <CardDescription>{t("dashboard.overviewDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <select
-              value={selectedMuni}
-              onChange={(e) => setSelectedMuni(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">{t("dashboard.selectMunicipality")}</option>
-              {municipalities.map((m) => (
-                <option key={m.municipality_id} value={m.municipality_id}>
-                  {m.name}
-                </option>
-              ))}
-            </select>
+            <SearchableSelect
+              query={muniQuery}
+              onQueryChange={setMuniQuery}
+              open={muniOpen}
+              onOpenChange={setMuniOpen}
+              items={filteredMunicipalities}
+              getOptionId={(m) => m.municipality_id}
+              getOptionLabel={formatMunicipalityLabel}
+              selectedId={selectedMuni}
+              onSelect={(item) => {
+                setSelectedMuni(String(item.municipality_id));
+                setMuniQuery(formatMunicipalityLabel(item));
+                setMuniOpen(false);
+              }}
+              placeholder={t("dashboard.selectMunicipality")}
+              emptyText={t("ecosim.wizard.noResults")}
+              moreResultsText={(count, total) => t("ecosim.wizard.moreResults", { count, total })}
+              error={municipalitiesError}
+            />
 
             {selectedMuni && (
               <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>{t("dashboard.compositeScore")}</span>
-                  <span className="font-bold">{compositeScore}/100</span>
-                </div>
-                <Progress value={compositeScore} className="h-3" />
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.compositeDescription")}
-                </p>
+                {compositeScore === null ? (
+                  <p className="text-sm text-muted-foreground">{t("dashboard.noScoreData")}</p>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span>{t("dashboard.compositeScore")}</span>
+                      <span className="font-bold">{compositeScore}/100</span>
+                    </div>
+                    <Progress value={compositeScore} className="h-3" />
+                    {compositeClassification && (
+                      <p className="text-xs text-muted-foreground capitalize">{compositeClassification}</p>
+                    )}
+                    <p className="text-xs text-muted-foreground">
+                      {t("dashboard.compositeDescription")}
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
+            {selectedMuni && isLoggedIn && (
+              <div>
+                {savedLocations.some((l) => String(l.municipality_id) === String(selectedMuni)) ? (
+                  <Button variant="outline" size="sm" disabled>
+                    <Check className="h-4 w-4 mr-2" />
+                    {t("dashboard.locationSaved")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSaveLocation}
+                    disabled={savingLocation}
+                  >
+                    <MapPin className="h-4 w-4 mr-2" />
+                    {savingLocation ? t("common.saving") : t("dashboard.saveLocation")}
+                  </Button>
+                )}
               </div>
             )}
 
@@ -412,11 +491,21 @@ export default function Dashboard() {
             ) : (
               <ul className="space-y-2">
                 {savedLocations.map((loc) => (
-                  <li key={loc.id} className="flex items-center justify-between text-sm">
-                    <span>{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
-                    <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
-                      <Button variant="ghost" size="sm">{t("common.open")}</Button>
-                    </Link>
+                  <li key={loc.id} className="flex items-center justify-between text-sm gap-2">
+                    <span className="truncate">{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
+                    <div className="flex items-center shrink-0">
+                      <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
+                        <Button variant="ghost" size="sm">{t("common.open")}</Button>
+                      </Link>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleRemoveLocation(loc)}
+                        aria-label={t("common.delete")}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </li>
                 ))}
               </ul>
