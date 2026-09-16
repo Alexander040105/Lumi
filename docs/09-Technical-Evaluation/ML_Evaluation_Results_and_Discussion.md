@@ -1,6 +1,10 @@
-# Machine Learning Evaluation: Results and Discussion
+# **Title :** Machine Learning Evaluation of the LUMI Energy Forecasting and AI Recommendation Components
 
-**Title:** Machine Learning Evaluation of the LUMI Energy Forecasting and AI Recommendation Components
+Group Name : \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Technical Evaluators ( IT Experts ) \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+# **Machine Learning Evaluation: Results and Discussion**
+
 **Project:** LUMI — Data-Driven Environmental Intelligence System
 **Evaluation date:** 2026-09-15 (fresh re-execution); historical baseline September 5–8, 2026
 **Evaluator:** Automated evaluation executed in-repository by Devin (scripts, commands, and raw artifacts listed in Appendix A)
@@ -132,9 +136,9 @@ The worksheet's classification metrics — accuracy, precision, recall, F1, ROC-
 | Linear Trend (CV) | 3 / 7 | 42.9% |
 | Linear Trend Regression (test) | 2 / 4 | 50.0% |
 
-**Discussion.** *Result:* ARIMA(1,1,1) achieved MAPE 5.667% / MAE 6,829 GWh on the held-out years — the **fourth-best** of six models, behind Linear Trend (4.965%), Holt (5.435%), and Naive-drift (5.566%). *Meaning:* in absolute terms all top-four models err by roughly 5–6% of annual national consumption (~5,000–8,000 GWh) — respectable for a 4-year-ahead horizon. *Comparison:* every model under-forecast every test year, and errors grow monotonically with horizon (ARIMA: −1.45% → −10.94%); actual consumption grew faster than any model's extrapolated trend. *Explanation:* the test years coincided with accelerating post-2020 demand growth (the 2024 actual of 126,941 GWh is the series maximum), which purely extrapolative methods trained on 2003–2020 systematically underestimate; R² is near zero or negative for five of six models because with only four test points the variance of the test mean is tiny and cumulative under-forecasting dominates. *Implication:* ARIMA's raw point accuracy does not currently justify its position as the sole production model on accuracy grounds alone — its retained advantages are statistical structure and native prediction intervals (§4.8, §4.15); the honest conclusion is that **forecast accuracy on 2021–2024 is modest and direction-of-growth is captured, but magnitude of acceleration is not**.
+**Discussion.** *Result:* ARIMA(1,1,1) achieved MAPE 5.667% / MAE 6,829 GWh on the held-out years — the **fourth-best** of six models, behind Linear Trend (4.965%), Holt (5.435%), and Naive-drift (5.566%). *Meaning:* in absolute terms all top-four models err by roughly 5–6% of annual national consumption (~5,000–8,000 GWh) — respectable for a 4-year-ahead horizon. *Comparison:* every model under-forecast every test year, and errors grow monotonically with horizon (ARIMA: −1.45% → −10.94%); actual consumption grew faster than any model's extrapolated trend. *Explanation:* the test years coincided with accelerating post-2020 demand growth (the 2024 actual of 126,941 GWh is the series maximum), which purely extrapolative methods trained on 2003–2020 systematically underestimate; R² is near zero or negative for five of six models because with only four test points the variance of the test mean is tiny and cumulative under-forecasting dominates. *Implication:* ARIMA's raw point accuracy does not currently justify its position as the sole production model on accuracy grounds alone — its retained advantages are statistical structure and native prediction intervals (§4.7, §4.15); the honest conclusion is that **forecast accuracy on 2021–2024 is modest and direction-of-growth is captured, but magnitude of acceleration is not**.
 
-### 4.6 Confusion Matrix Analysis
+### 4.6 Confusion Matrix Analysis — Adapted for Regression
 
 A conventional classification confusion matrix is **not applicable** — there are no classes. As the closest valid substitute, a **directional 2×2** was computed from `directional_confusion.csv` (ARIMA, unique years 2015–2024, CV folds + test):
 
@@ -145,15 +149,15 @@ A conventional classification confusion matrix is **not applicable** — there a
 
 **Discussion.** ARIMA called the correct direction in 8 of 10 unique years (80% on de-duplicated years; 72.7% counting the duplicated 2021 fold row reported by the script). The telling cells are the two 2023–2024 "predicted-down / actual-up" misses — the model anticipated a slowdown exactly when demand accelerated — and the single 2020 false-up (actual −4.04% pandemic-year contraction, the only down year in the dataset, predicted up). Both error classes are consistent: the model cannot anticipate regime changes that have no precedent in 18 training years.
 
-### 4.7 Class-Level Performance
+The worksheet's ROC-AUC/PR-AUC item is likewise **not applicable** — those curves require a classification decision threshold over class probabilities, which a point forecaster does not produce. The deployment-relevant analogue, prediction-interval coverage, is reported in §4.7.
+
+### 4.7 Class-Level Performance — Adapted for Regression
 
 Per-class precision/recall/F1 are **not applicable** to regression. The structurally equivalent breakdown is **per-target performance** (§4.5 tables): the same ARIMA(1,1,1) specification performs very differently across targets — 5.667% MAPE on consumption, 5.611% on peak demand, and 13.665% on renewable generation — because the renewable-generation series is more volatile and structural-break-prone. *Implication:* a single fixed order is a reasonable default for the smooth consumption/demand aggregates but a poor choice for the renewable share series; per-target order selection is a concrete improvement path.
 
-### 4.8 ROC-AUC / PR-AUC
+**Prediction-interval coverage (regression analogue of a confidence-quality score).** The ARIMA 95% intervals covered **3 of 4** held-out test points (75% empirical coverage, `summary.json` → `picp_95pct_test`), with 2024 — the acceleration year — falling outside the band. *Implication:* intervals are slightly overconfident under regime acceleration, exactly the condition in which point forecasts also degrade; coverage should be rechecked whenever the test window includes a structural break.
 
-**Not applicable** — ROC and PR curves require a classification decision threshold over class probabilities; the task is point forecasting of a continuous target. The deployment-relevant analogue is **prediction-interval coverage**: the ARIMA 95% intervals covered **3 of 4** held-out test points (75% empirical coverage, `summary.json` → `picp_95pct_test`), with 2024 — the acceleration year — falling outside the band. *Implication:* intervals are slightly overconfident under regime acceleration, exactly the condition in which point forecasts also degrade; coverage should be rechecked whenever the test window includes a structural break.
-
-### 4.9 Cross-Validation Results
+### 4.8 Cross-Validation Results
 
 Expanding-window time-series cross-validation (7 folds; random k-fold would leak future information and was correctly not used) — absolute % error (`cv_summary.csv`):
 
@@ -166,7 +170,7 @@ Expanding-window time-series cross-validation (7 folds; random k-fold would leak
 
 **Discussion.** *Result:* across folds the top three methods are statistically indistinguishable (means within 0.09 pp of each other), while Linear Trend is clearly worse in CV despite winning the single 4-year test split. *Meaning:* the single-split leaderboard in §4.5 is not stable evidence — the model ranking flips under resampling. *Implication:* model selection should not rest on the 4-point test alone; ARIMA's CV showing (competitive mean, lowest-magnitude deviation alongside Naive-drift) is the fairer justification for keeping it, provided intervals remain calibrated.
 
-### 4.10 Comparative Evaluation
+### 4.9 Comparative Evaluation
 
 Consolidated consumption leaderboard (fresh 2026-09-15 run):
 
@@ -181,7 +185,7 @@ Consolidated consumption leaderboard (fresh 2026-09-15 run):
 
 **Discussion.** The proposed production model does **not** dominate the baselines on point accuracy; no honest reading of these tables can claim that. Its case rests on three pillars the baselines lack: (a) a likelihood-based fit with diagnostic testing (§4.4), (b) native prediction intervals used by the API's `ci_lower`/`ci_upper` fields, and (c) CV performance equal to the best baselines. SARIMAX's failure on consumption (14.0%) alongside its win on peak demand (3.87%) shows exogenous-regressor value is target-dependent — worth revisiting per-target, not globally. Random Forest's −2.91 R² confirms tree ensembles are inappropriate at n=18.
 
-### 4.11 Hyperparameter Analysis
+### 4.10 Hyperparameter Analysis
 
 ARIMA order selection — AIC grid over p,d,q ∈ {0,1,2} with d=1 (`aic_grid.csv`):
 
@@ -199,11 +203,11 @@ ARIMA order selection — AIC grid over p,d,q ∈ {0,1,2} with d=1 (`aic_grid.cs
 
 **Discussion.** The (1,1,1) order is not an arbitrary choice — it is the AIC/BIC-optimal order within the searched 3×3 grid, 1.8 AIC points ahead of the next candidate. However, d was fixed at 1 and seasonal orders were not searched (annual data ⇒ no within-year seasonality), so the grid is appropriate but narrow; a wider order/search space and per-target selection remain open improvements.
 
-### 4.12 Feature Importance / Explainability
+### 4.11 Feature Importance / Explainability
 
 ARIMA is interpretable through its fitted parameters rather than feature importances: `ar.L1 ≈ 1.00` means next year's level ≈ this year's level plus drift; `ma.L1 ≈ −1.00` means shocks are absorbed almost fully within one step — together describing a smooth-trend process with fast shock decay. For the Random Forest baseline, scikit-learn `feature_importances_` is available in the evaluation script's model object; its dominant features are `consumption_lag1` and the rolling means, i.e., it predicts almost purely from recent level — the same information ARIMA uses — but with 18 rows it cannot learn more than memorization, explaining its 10.9% MAPE. SHAP/LIME were not applied: at n=18 with <10 features they would add machinery without adding insight.
 
-### 4.13 Error Analysis
+### 4.12 Error Analysis
 
 | Error pattern | Frequency | Likely cause |
 |---|---|---|
@@ -216,16 +220,16 @@ ARIMA is interpretable through its fitted parameters rather than feature importa
 
 **Discussion.** Every model failed in the *same direction* — under-prediction — which indicates the dominant error source is the **data regime**, not model specification. The practical consequence: any purely-extrapolative model on this series will under-predict accelerating demand; adding exogenous drivers (electrification policy, economic growth) or retraining on shorter recent windows are the plausible fixes.
 
-### 4.14 Robustness and Generalization
+### 4.13 Robustness and Generalization
 
 - **Perturbation robustness** (`robustness_perturbation.csv`): 30 runs with small input perturbations → MAPE mean **5.707%**, std **0.155%**, range **5.279–6.068%**. The model is stable under input noise — no chaotic sensitivity.
 - **Generalization caveats:** the single held-out window (2021–2024) is one contiguous block during an acceleration regime — a favorable test would show different numbers. There is **no external validation dataset** (no second country's series, no held-out region). Temporal generalization is partially supported by CV stability, but genuine external validity is unestablished.
 
-### 4.15 Statistical Significance
+### 4.14 Statistical Significance
 
 A Diebold–Mariano-style comparison of ARIMA vs Linear Trend absolute-error losses on the test set (`dm_test.json`): statistic **3.532**, normal-approximation p ≈ **0.0004**, n = **4**. The evaluation script itself flags the caveat: **with n=4 the test has essentially no power and the nominal p-value must not be read as a real significance result.** No other significance testing was performed, because no defensible test exists at this sample size; the honest statement is that model differences on this test set are **not statistically established** — they are descriptive only. This is a limitation of the data, remediable only by more granular (monthly/quarterly) observations.
 
-### 4.16 Practical/Deployment Performance
+### 4.15 Practical/Deployment Performance
 
 | Metric | ARIMA(1,1,1) | Random Forest |
 |---|---:|---:|
@@ -235,11 +239,11 @@ A Diebold–Mariano-style comparison of ARIMA vs Linear Trend absolute-error los
 
 Serving reality is even cheaper: `predictor.py` reads precomputed CSVs, so production inference is a file read, not model execution. Deployment-wise ARIMA is unambiguously suitable — sub-millisecond, ~94 KB, no GPU. The real deployment risks are not compute but **staleness** (forecasts don't update until the CSV artifacts are regenerated) and the new authentication gate on `/forecast/*` routes changing previously-public behavior (see System Testing Report §8).
 
-### 4.17 Comparison With Related Studies
+### 4.16 Comparison With Related Studies
 
 Direct numeric comparison to published Philippine-demand forecasting studies was **not executable**: no benchmark table from an external study exists in the repository, and fabricating one would violate this report's ground rules. The internal reference point is the repository's own prior evaluation (`docs/04-ML-Data-Science/ML_MODEL_EVALUATION_SUMMARY.md`), whose stored `model_comparison_results.csv` marked the SARIMAX and Random Forest rows *"placeholder — model not executed."* This fresh run replaced those placeholders with real numbers — and found both models substantially worse than the placeholders implied — which is itself a reportable finding: **earlier documentation contained unaudited placeholder metrics that overstated pipeline completeness.** (See System Testing Report, defect table.)
 
-### 4.18 Limitations
+### 4.17 Limitations
 
 1. **Tiny sample:** 18 training / 4 test annual points; each test point = 25% of reported error.
 2. **No statistical power:** n=4 renders the DM test decorative; differences are descriptive.
@@ -251,14 +255,14 @@ Direct numeric comparison to published Philippine-demand forecasting studies was
 8. **Interval coverage below nominal** (75% vs 95%) under the acceleration regime.
 9. **Served forecasts are static artifacts** — freshness depends on pipeline re-runs, not the model itself.
 
-### 4.19 Implications
+### 4.18 Implications
 
 - *Theoretical:* with 18 observations, model complexity is bounded by information content — the naive-drift/ARIMA equivalence observed is exactly what time-series theory predicts for a smooth trended series.
 - *Practical:* the system's forecasts are usable as directional/trend guidance (5–7% error, correct growth direction in most years) but should not be presented to users as precise planning numbers without interval context — which the API already emits and should display prominently.
 - *Organizational:* the placeholder-metric discovery shows evaluation artifacts need the same audit discipline as code; a metrics file is a claim, not evidence.
 - *Technical roadmap:* (a) per-target order selection, (b) move to monthly data if DOE publishes it (the single highest-leverage improvement — it multiplies n by 12), (c) add exogenous demand drivers where SARIMAX showed target-specific promise, (d) schedule artifact regeneration so served forecasts can't silently go stale.
 
-### 4.19b Overall Synthesis
+### 4.19 Overall Synthesis
 
 The ARIMA(1,1,1) production forecaster is a **reasonable but not demonstrably optimal** choice: it loses the 4-point test to a straight line (5.67% vs 4.97% MAPE), ties the best baselines in cross-validation (3.61%), is diagnostically sound (white-noise residuals), uniquely provides prediction intervals (75% empirical coverage — slightly underconfident), and is deployment-trivial (0.97 ms, 94 KB). Its errors are honest, stable under perturbation (±0.16 pp), and shared by every comparator — the binding constraint is the dataset, not the model. The truthful verdict: **fit for purpose as a trend-extrapolation service, provided its intervals and limitations are surfaced to users; not a precision planning instrument.**
 

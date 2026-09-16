@@ -469,7 +469,17 @@ Counts include only activities actually executed on 2026-09-15 (skipped tests ex
 
 ## 24. Appendices — Evidence Index
 
-All under `docs/09-Technical-Evaluation/artifacts/`:
+**Worksheet appendices are filled in `SYSTEM_TESTING_APPENDICES.md`:**
+
+| Worksheet appendix | Where | Contents |
+|---|---|---|
+| Appendix A – Test Case Documentation | `SYSTEM_TESTING_APPENDICES.md` §A | all executed cases: 4 automated suites per-file, 82-endpoint sweep, 16 security probes, defect retests, DB checks, Groq checks, 132-case manual index |
+| Appendix B – Screenshots of Testing | §B | capture checklist B-01…B-24 — exact commands to run and what to screenshot, mapped to the required evidence types |
+| Appendix C – System Logs | §C | application/API/error/DB/performance log excerpts + index |
+| Appendix D – Test Environment | §D | full hardware/software/service specifications |
+| Appendix E – Defect Documentation | §E | DEF-01–06 closed records, SEC-01–10, SEC-04 reopen, BUG-01–09 open bug reports |
+
+Raw artifact index — all under `docs/09-Technical-Evaluation/artifacts/`:
 
 | Artifact | Contents |
 |---|---|
@@ -484,4 +494,4 @@ All under `docs/09-Technical-Evaluation/artifacts/`:
 | `artifacts/scripts/` | `evaluate_forecasting_models.py`, `llm_groq_eval.py` (authored for this evaluation) |
 | Historical (Sept 5–8) | `TECHNICAL_EVALUATION_ALL_RESULTS.md`, `functional-test-results.md`, `security-test-results.md`, `performance-measurements.md`, `artifacts/{functional,failure,load,security,perf}/` — cited as baseline only; fresh numbers above supersede where they conflict |
 
-**Appendix B note:** no screenshot evidence — no browser tool in this environment; artifacts are machine-readable JSON/CSV/logs instead.
+**Appendix B note:** `artifacts/screenshots/` contains the generated captures B-01…B-24 (terminal-style renders of the verbatim recorded outputs + live `curl -i` captures + the headless Locust report + forecast chart). Interactive UI screenshots still require the manual session — the appendices' capture table documents what to shoot.

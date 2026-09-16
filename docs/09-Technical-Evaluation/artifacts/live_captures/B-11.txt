@@ -1,0 +1,14 @@
+HTTP/1.1 422 Unprocessable Content
+date: Wed, 16 Sep 2026 10:25:31 GMT
+server: uvicorn
+content-length: 244
+content-type: application/json
+x-request-id: 70b0212d-992b-491b-ad4e-1afa8a17d479
+x-content-type-options: nosniff
+x-frame-options: DENY
+strict-transport-security: max-age=31536000; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+server: Lumi
+
+{"detail":[{"type":"literal_error","loc":["query","energy_type"],"msg":"Input should be 'solar', 'wind', 'hydro', 'hydropower' or 'geothermal'","input":"' OR '1'='1","ctx":{"expected":"'solar', 'wind', 'hydro', 'hydropower' or 'geothermal'"}}]}
