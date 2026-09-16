@@ -20,7 +20,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [signupStatus, setSignupStatus] = useState(null); // 'confirm' | 'auto' | null
+  const [signupStatus, setSignupStatus] = useState(null); // 'confirm' | 'auto' | 'exists' | null
 
   // MFA state
   const [mfaRequired, setMfaRequired] = useState(null); // null = checking, false = no mfa, true = mfa needed
@@ -90,7 +90,10 @@ export default function Login() {
         const result = await signUp(email, password);
         if (result.error) throw result.error;
 
-        if (result.confirmationRequired) {
+        if (result.accountExists) {
+          setSignupStatus("exists");
+          toast.info(t("login.accountExists"));
+        } else if (result.confirmationRequired) {
           setSignupStatus("confirm");
           toast.success(t("login.accountCreated"));
         } else {
@@ -273,6 +276,13 @@ export default function Login() {
                 >
                   {t("login.resend")}
                 </Button>
+              </div>
+            )}
+
+            {mode === "signup" && signupStatus === "exists" && (
+              <div className="rounded-md bg-warning/10 p-3 text-sm text-foreground border border-warning/20">
+                <p className="font-medium">{t("login.accountExists")}</p>
+                <p className="mt-1">{t("login.accountExistsDesc")}</p>
               </div>
             )}
 

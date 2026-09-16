@@ -144,6 +144,9 @@ export function AuthProvider({ children }) {
           error,
           // If session is null, email confirmation is required
           confirmationRequired: !data?.session && !error,
+          // Supabase anti-enumeration: an existing email returns a user with
+          // empty identities, no session, and no confirmation email
+          accountExists: !!data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0,
         };
       },
       resetPassword: (email) =>
