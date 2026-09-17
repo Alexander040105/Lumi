@@ -21,7 +21,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import SearchableSelect from "@/components/shared/SearchableSelect";
-import ForecastPanel from "../components/ForecastPanel";
 
 export default function Dashboard() {
   const { user, accessToken, refreshProfile, isAdmin } = useAuth();
@@ -535,9 +534,6 @@ export default function Dashboard() {
         </Card>
 
       </div>
-
-      {/* Forecasting */}
-      {isAdmin && <ForecastPanel />}
     </section>
   );
 }

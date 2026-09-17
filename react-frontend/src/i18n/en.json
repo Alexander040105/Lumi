@@ -26,6 +26,8 @@
     "next": "Next",
     "explore": "Explore",
     "notAvailable": "—",
+    "settings": "Account Settings",
+    "downloadCsv": "Download CSV",
     "ratings": {
       "excellent": "Excellent",
       "good": "Good",

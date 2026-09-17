@@ -5,13 +5,16 @@ All routes require an admin or dev role (require_admin dependency).
 
 from __future__ import annotations
 
+import csv
+import io
+import json
 import logging
 import secrets
 import re
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 
 from app.config.settings import get_settings
 
@@ -42,6 +45,26 @@ def _log_admin_action(admin_id: str, action: str, target_user_id: str | None = N
         }).execute()
     except Exception as exc:
         logger.warning("Admin audit log write failed: %s", exc)
+
+
+EXPORT_MAX_ROWS = 50000
+
+
+def _rows_to_csv(fieldnames: list[str], rows: list[dict]) -> str:
+    """Serialise dict rows to CSV text with a header line."""
+    buf = io.StringIO()
+    writer = csv.DictWriter(buf, fieldnames=fieldnames, extrasaction="ignore")
+    writer.writeheader()
+    writer.writerows(rows)
+    return buf.getvalue()
+
+
+def _csv_response(csv_text: str, filename: str) -> Response:
+    return Response(
+        content=csv_text,
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 def _has_auth_admin_api(client: Any) -> bool:
@@ -643,6 +666,59 @@ async def list_user_usage(
     return {"users": resp.data or [], "limit": limit, "offset": offset}
 
 
+@router.get("/usage/export")
+async def export_user_usage(
+    admin_user: dict = Depends(require_admin),
+) -> Response:
+    """Download the complete user usage summary as a CSV file."""
+    client = get_supabase_client()
+    try:
+        resp = client.rpc(
+            "get_admin_usage_summary",
+            {"p_limit": EXPORT_MAX_ROWS, "p_offset": 0, "p_search": None},
+        ).execute()
+    except Exception as exc:
+        logger.error("Failed to export user usage: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to export user usage",
+        )
+
+    rows = [
+        {
+            "user_id": u.get("id"),
+            "full_name": u.get("full_name") or "",
+            "email": u.get("email") or "",
+            "role": u.get("role") or "",
+            "status": "active" if u.get("is_active") else "banned",
+            "total_simulations": u.get("total_simulations") or 0,
+            "simulations_this_month": u.get("simulations_this_month") or 0,
+            "total_ecosim": u.get("total_ecosim") or 0,
+            "ecosim_this_month": u.get("ecosim_this_month") or 0,
+            "last_active": u.get("last_active") or "",
+        }
+        for u in resp.data or []
+    ]
+    csv_text = _rows_to_csv(
+        [
+            "user_id",
+            "full_name",
+            "email",
+            "role",
+            "status",
+            "total_simulations",
+            "simulations_this_month",
+            "total_ecosim",
+            "ecosim_this_month",
+            "last_active",
+        ],
+        rows,
+    )
+    _log_admin_action(admin_user.get("sub"), "export_usage_csv")
+    today = datetime.now(timezone.utc).date().isoformat()
+    return _csv_response(csv_text, f"user-usage-{today}.csv")
+
+
 # ---------------------------------------------------------------------------
 # Admin Audit Logs
 # ---------------------------------------------------------------------------
@@ -667,3 +743,44 @@ async def list_admin_logs(
         query = query.eq("action", action)
     resp = query.execute()
     return {"logs": resp.data or [], "limit": limit, "offset": offset}
+
+
+@router.get("/logs/export")
+async def export_admin_logs(
+    admin_user: dict = Depends(require_admin),
+) -> Response:
+    """Download the complete admin audit log as a CSV file."""
+    client = get_supabase_client()
+    try:
+        resp = (
+            client.table("admin_audit_log")
+            .select("*")
+            .order("created_at", desc=True)
+            .limit(EXPORT_MAX_ROWS)
+            .execute()
+        )
+    except Exception as exc:
+        logger.error("Failed to export audit logs: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to export audit logs",
+        )
+
+    rows = [
+        {
+            "id": log.get("id"),
+            "created_at": log.get("created_at"),
+            "admin_id": log.get("admin_id") or "",
+            "action": log.get("action") or "",
+            "target_user_id": log.get("target_user_id") or "",
+            "details": json.dumps(log.get("details") or {}, ensure_ascii=False),
+        }
+        for log in resp.data or []
+    ]
+    csv_text = _rows_to_csv(
+        ["id", "created_at", "admin_id", "action", "target_user_id", "details"],
+        rows,
+    )
+    _log_admin_action(admin_user.get("sub"), "export_audit_logs_csv")
+    today = datetime.now(timezone.utc).date().isoformat()
+    return _csv_response(csv_text, f"admin-audit-logs-{today}.csv")

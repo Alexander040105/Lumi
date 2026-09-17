@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,6 +36,7 @@ export default function AdminLogs() {
   const [action, setAction] = useState("all");
   const [offset, setOffset] = useState(0);
   const [limit] = useState(50);
+  const [exporting, setExporting] = useState(false);
 
   const fetchLogs = async () => {
     setLoading(true);
@@ -59,6 +62,27 @@ export default function AdminLogs() {
     fetchLogs();
   }, [accessToken, offset, action]);
 
+  const handleExportCsv = async () => {
+    setExporting(true);
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/admin/logs/export`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "admin-audit-logs.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast.error(t("common.error"));
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const formatDate = (d) => (d ? new Date(d).toLocaleString() : "—");
 
   const formatDetails = (details) => {
@@ -77,6 +101,10 @@ export default function AdminLogs() {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t("admin.logsPage.title")}</h1>
+        <Button variant="outline" size="sm" onClick={handleExportCsv} disabled={exporting}>
+          <Download className="h-4 w-4 mr-2" />
+          {exporting ? t("common.loading") : t("common.downloadCsv")}
+        </Button>
       </div>
 
       <div className="flex gap-3 mb-4">
