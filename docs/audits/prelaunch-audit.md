@@ -153,3 +153,12 @@ Users see literal strings like `admin.logsPage.title`. This is the same bug clas
 4. **H2** — fill missing i18n keys + add the locale-lint CI check.
 5. **M1** — strip server secrets from `react-frontend/.env`. **M3** — cache invalidation on admin writes. **L9** — confirm Supabase SMTP.
 6. Then the medium/low tail (M2 404s, M4 tables, M5 dead routers, M6 CORS).
+
+---
+
+## Launch checklist (from this audit)
+
+- [ ] **Custom SMTP verified in the Supabase dashboard** (Authentication → SMTP). The default Supabase email sender allows only a few emails/hour — it tripped `over_email_send_rate_limit` during this audit and will break signups, confirmations, and password resets at launch volume. Maileroo credentials already exist in the root `.env`; they must also be configured in the Supabase dashboard (separate from app env).
+- [ ] **`supabase/migrations/0024_audit_fixes.sql` applied** before launch — it carries the C1 column-grant and H1 cascade fixes; the app-side fixes below assume it is in place.
+- [ ] **CORS**: `ENVIRONMENT=production` is set on the backend so localhost origins are dropped from the allow-regex (Vercel preview origins remain allowed).
+- [ ] Re-run the direct PostgREST probes (`PATCH profiles {"plan":"premium"}`, `{"is_active":true}`) with a regular-user JWT — both must be denied after the migration.

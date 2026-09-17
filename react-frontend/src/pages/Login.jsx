@@ -74,6 +74,12 @@ export default function Login() {
     setSignupStatus(null);
 
     try {
+      if (mode === "signup" && password.length < 8) {
+        setBusy(false);
+        toast.error(t("login.passwordTooShort"));
+        return;
+      }
+
       if (mode === "signup" && password !== confirmPassword) {
         setBusy(false);
         toast.error(t("mfa.passwordsDoNotMatch"));
@@ -244,8 +250,12 @@ export default function Login() {
                 placeholder={t("login.password")}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                minLength={mode === "signup" ? 8 : undefined}
                 required
               />
+            )}
+            {mode === "signup" && (
+              <p className="text-xs text-muted-foreground">{t("login.passwordHint")}</p>
             )}
             {mode === "signup" && (
               <Input
@@ -255,6 +265,9 @@ export default function Login() {
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 required
               />
+            )}
+            {mode === "signup" && confirmPassword.length > 0 && password !== confirmPassword && (
+              <p className="text-xs text-destructive">{t("mfa.passwordsDoNotMatch")}</p>
             )}
 
             <Button className="w-full" type="submit" disabled={busy}>

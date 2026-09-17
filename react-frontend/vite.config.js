@@ -19,5 +19,22 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        // Heavy third-party libs split into named vendor chunks so the entry
+        // bundle stays small; route-level React.lazy() then loads them on
+        // demand. Function form because pdfmake/leaflet are pulled via
+        // subpath specifiers (pdfmake/build/pdfmake, etc.).
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (id.includes("plotly")) return "plotly";
+          if (id.includes("pdfmake")) return "pdfmake";
+          if (id.includes("leaflet")) return "leaflet";
+          if (id.includes("recharts")) return "recharts";
+        },
+      },
+    },
   }
 });

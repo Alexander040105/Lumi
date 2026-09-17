@@ -113,7 +113,7 @@ export default function AdminUsage() {
       {loading ? (
         <p className="text-muted-foreground">{t("admin.usagePage.loading")}</p>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
+        <div className="border rounded-lg overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

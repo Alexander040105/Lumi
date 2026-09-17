@@ -37,7 +37,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         for header, value in _SECURITY_HEADERS.items():
             response.headers.setdefault(header, value)
-        # Mask the server-identifying banner added by Uvicorn.
+        # Mask the server-identifying banner added by Uvicorn. Uvicorn prepends
+        # its own "server: uvicorn" header unless started with
+        # --no-server-header (set in deploy/backend/Dockerfile); for local dev,
+        # run: uvicorn main:app --reload --no-server-header
         response.headers["server"] = "Lumi"
         return response
 

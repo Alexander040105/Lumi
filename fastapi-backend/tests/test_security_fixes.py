@@ -271,7 +271,9 @@ class TestClientIdTrust:
 
 
 class TestUserStatusFailClosed:
-    def test_pgrst116_missing_profile_is_active(self, monkeypatch):
+    def test_pgrst116_missing_profile_is_denied(self, monkeypatch):
+        """Missing profile fails closed (L4): on_auth_user_created guarantees a
+        profile, so a missing row means broken provisioning — deny access."""
         from postgrest.exceptions import APIError
 
         class FakeTable:
@@ -292,7 +294,7 @@ class TestUserStatusFailClosed:
                 return FakeTable()
 
         monkeypatch.setattr("app.dependencies.auth.get_supabase_client", lambda: FakeClient())
-        assert _get_user_status("test-user-id") is True
+        assert _get_user_status("test-user-id") is False
 
     def test_db_error_fails_closed(self, monkeypatch):
         from postgrest.exceptions import APIError

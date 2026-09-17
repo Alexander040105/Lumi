@@ -42,4 +42,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 
 EXPOSE 8080
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "2"]
+# --no-server-header suppresses Uvicorn's "server: uvicorn" banner so the
+# security middleware's masked "server" header is the only one emitted.
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "2", "--no-server-header"]

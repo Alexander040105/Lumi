@@ -127,7 +127,7 @@ export default function AdminLogs() {
       {loading ? (
         <p className="text-muted-foreground">{t("admin.logsPage.loading")}</p>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
+        <div className="border rounded-lg overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

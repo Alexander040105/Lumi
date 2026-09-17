@@ -106,6 +106,9 @@ create index if not exists idx_chat_messages_session_id on public.chat_messages(
 
 -- ---------------------------------------------------------------------------
 -- 8. System config (global key-value settings for admin toggles)
+--    WARNING: world-readable by design — the "Anyone read system config" RLS
+--    policy exposes every row to the publishable anon key. NEVER store
+--    secrets, credentials, or internal-only values here.
 -- ---------------------------------------------------------------------------
 create table if not exists public.system_config (
   key text primary key,

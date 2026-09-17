@@ -11,7 +11,9 @@ import logging
 import re
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+
+from app.dependencies.auth import require_admin
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -40,8 +42,10 @@ _TABLE_NAME_RE = re.compile(r"^[a-z_][a-z0-9_]*$")
 
 
 @router.post("/run/climate")
-async def run_climate_etl() -> dict[str, Any]:
-    """Run the climate data ETL pipeline."""
+async def run_climate_etl(
+    admin_user: dict = Depends(require_admin),
+) -> dict[str, Any]:
+    """Run the climate data ETL pipeline (admin only)."""
     from app.services.etl_orchestrator import build_climate_etl_pipeline
 
     orchestrator = build_climate_etl_pipeline()
@@ -72,8 +76,9 @@ async def get_lineage(
     source: str | None = Query(default=None, description="Filter by data source"),
     table: str | None = Query(default=None, description="Filter by target table"),
     limit: int = Query(default=50, le=200),
+    admin_user: dict = Depends(require_admin),
 ) -> dict[str, Any]:
-    """View data lineage history."""
+    """View data lineage history (admin only)."""
     from app.services.etl_orchestrator import get_lineage_history
 
     history = get_lineage_history(source=source, table=table, limit=limit)
@@ -83,8 +88,9 @@ async def get_lineage(
 @router.get("/validate")
 async def validate_table(
     table: str = Query(..., description="Table name to validate"),
+    admin_user: dict = Depends(require_admin),
 ) -> dict[str, Any]:
-    """Run basic validation checks on a Supabase table.
+    """Run basic validation checks on a Supabase table (admin only).
 
     Checks row count, null rates, and basic column statistics.
     """

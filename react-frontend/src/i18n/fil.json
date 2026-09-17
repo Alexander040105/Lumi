@@ -81,7 +81,9 @@
     "accountExists": "May account na gamit ang email na ito",
     "accountExistsDesc": "Kung nag-sign up ka gamit ang Google, gamitin ang 'Continue with Google'. Para magamit din ang email/password sign-in, gamitin ang 'Forgot password' para mag-set ng password.",
     "error": "Nabigo ang authentication",
-    "signupServerError": "Hindi available ngayon ang pag-sign up. Subukang muli mamaya o gumamit ng ibang paraan."
+    "signupServerError": "Hindi available ngayon ang pag-sign up. Subukang muli mamaya o gumamit ng ibang paraan.",
+    "passwordHint": "Hindi bababa sa 8 na character",
+    "passwordTooShort": "Ang password ay dapat hindi bababa sa 8 na character"
   },
   "admin": {
     "portal": "Admin Portal",
@@ -230,7 +232,21 @@
       "peakMunicipality": "Peak Municipality",
       "monthlyBreakdown": "12-Buwan na Breakdown",
       "lastActive": "Huling Active",
-      "recentSimulations": "Mga Recent Simulation"
+      "recentSimulations": "Mga Recent Simulation",
+      "location": "Lokasyon",
+      "organization": "Organisasyon"
+    },
+    "logsPage": {
+      "title": "Mga Admin Audit Log",
+      "description": "Subaybayan ang mga aksyon at pagbabago ng admin.",
+      "loading": "Nilo-load ang mga log...",
+      "noResults": "Walang natagpuang log.",
+      "allActions": "Lahat ng aksyon",
+      "time": "Oras",
+      "admin": "Admin",
+      "action": "Aksyon",
+      "target": "Target",
+      "details": "Mga Detalye"
     }
   },
   "dashboard": {
@@ -352,10 +368,26 @@
       "learnMore": "Paano Gumagana ang LUMI"
     },
     "stats": {
-      "regionsCovered": { "label": "Mga Rehiyon ng Pilipinas na Saklaw", "value": "17+", "sub": "Tuklasin ang impormasyon sa klima at enerhiya sa buong bansa" },
-      "energySources": { "label": "Solar, Wind & Hydro", "value": "3", "sub": "Ikumpara ang tatlong opsyon sa renewable energy" },
-      "dataPoints": { "label": "Maaasahang Pinagkukunan ng Datos", "value": "10K+", "sub": "Impormasyon mula sa kinikilalang pinagkukunan ng panahon at enerhiya" },
-      "aiInsights": { "label": "Madaling Unawain na Resulta", "value": "Real-time", "sub": "Kumuha ng simpleng paliwanag at rekomendasyon" }
+      "regionsCovered": {
+        "label": "Mga Rehiyon ng Pilipinas na Saklaw",
+        "value": "17+",
+        "sub": "Tuklasin ang impormasyon sa klima at enerhiya sa buong bansa"
+      },
+      "energySources": {
+        "label": "Solar, Wind & Hydro",
+        "value": "3",
+        "sub": "Ikumpara ang tatlong opsyon sa renewable energy"
+      },
+      "dataPoints": {
+        "label": "Maaasahang Pinagkukunan ng Datos",
+        "value": "10K+",
+        "sub": "Impormasyon mula sa kinikilalang pinagkukunan ng panahon at enerhiya"
+      },
+      "aiInsights": {
+        "label": "Madaling Unawain na Resulta",
+        "value": "Real-time",
+        "sub": "Kumuha ng simpleng paliwanag at rekomendasyon"
+      }
     },
     "features": {
       "badge": "Mga Modyul ng Platforma",
@@ -364,18 +396,32 @@
       "energyHub": {
         "title": "EnergyHub",
         "description": "Tuklasin ang impormasyon sa enerhiya at panahon sa iyong lugar. Tingnan ang temperatura, rainfall, paggamit ng kuryente, at iba pang trend sa pamamagitan ng madaling basahing mga tsart at paliwanag.",
-        "tags": ["Pagsala ayon sa Rehiyon", "Mga Tsart at Pangunahing Impormasyon", "Mga Insight ng AI"]
+        "tags": [
+          "Pagsala ayon sa Rehiyon",
+          "Mga Tsart at Pangunahing Impormasyon",
+          "Mga Insight ng AI"
+        ]
       },
       "ecosim": {
         "title": "Ecosim",
         "description": "Ikumpara ang mga opsyon sa renewable energy. Pumili ng lugar at ikumpara ang solar, wind, at hydro batay sa tinatayang gastos, savings, at lokal na kondisyon.",
-        "tags": ["Mga Senaryong What-If", "Pagsusuri ng Gastos", "Tinatayang Savings", "Pagkumpara ng Mapagkukunan"]
+        "tags": [
+          "Mga Senaryong What-If",
+          "Pagsusuri ng Gastos",
+          "Tinatayang Savings",
+          "Pagkumpara ng Mapagkukunan"
+        ]
       },
       "ai": {
         "title": "Kumuha ng simpleng paliwanag",
         "badge": "Pinapagana ng AI",
         "description": "Kayang ipaliwanag ng LUMI ang mga tsart, forecast, at rekomendasyon gamit ang pang-araw-araw na wika.",
-        "tags": ["Simpleng Paliwanag", "Mga Paliwanag sa Tsart", "Mga Rekomendasyon", "Mga Pangingib na Pangkumpara"]
+        "tags": [
+          "Simpleng Paliwanag",
+          "Mga Paliwanag sa Tsart",
+          "Mga Rekomendasyon",
+          "Mga Pangingib na Pangkumpara"
+        ]
       }
     },
     "howItWorks": {
@@ -384,10 +430,22 @@
       "subtitle": "Pinapasimple ng LUMI ang paglalakbay mula sa kumalat na impormasyon tungkol sa klima at enerhiya patungo sa mga matatag na desisyon sa renewable energy.",
       "step": "Hakbang",
       "steps": [
-        { "title": "Pumili ng Lokasyon", "description": "Piliin ang iyong probinsya, lungsod, o rehiyon." },
-        { "title": "Tuklasin ang Lokal na Kondisyon", "description": "Tingnan ang rainfall, sikat ng araw, hangin, paggamit ng kuryente, at iba pang impormasyon." },
-        { "title": "Ikumpara ang iyong Opsyon", "description": "Ikumpara ang solar, wind, at hydro batay sa kondisyon ng iyong lugar." },
-        { "title": "Tingnan ang Rekomendasyon", "description": "Kumuha ng madaling unawain na paliwanag kung aling mga opsyon ang maaaring angkop sa iyong lugar." }
+        {
+          "title": "Pumili ng Lokasyon",
+          "description": "Piliin ang iyong probinsya, lungsod, o rehiyon."
+        },
+        {
+          "title": "Tuklasin ang Lokal na Kondisyon",
+          "description": "Tingnan ang rainfall, sikat ng araw, hangin, paggamit ng kuryente, at iba pang impormasyon."
+        },
+        {
+          "title": "Ikumpara ang iyong Opsyon",
+          "description": "Ikumpara ang solar, wind, at hydro batay sa kondisyon ng iyong lugar."
+        },
+        {
+          "title": "Tingnan ang Rekomendasyon",
+          "description": "Kumuha ng madaling unawain na paliwanag kung aling mga opsyon ang maaaring angkop sa iyong lugar."
+        }
       ]
     },
     "renewable": {
@@ -398,24 +456,37 @@
         "title": "Enerhiyang Solar",
         "header": "Pinakamahusay kung may masidhing sikat ng araw",
         "description": "Sinusuri ng LUMI ang sikat ng araw at lokal na kondisyon ng panahon para tulungan na tantyahin kung maaaring gumana nang maayos ang solar energy sa iyong lugar.",
-        "citations": [16, 12]
+        "citations": [
+          16,
+          12
+        ]
       },
       "wind": {
         "title": "Enerhiyang Hangin",
         "header": "Pinakamahusay sa mga lugar na may maaasahang hangin",
         "description": "Sinusuri ng LUMI ang kondisyon ng hangin para matulungan na malaman kung angkop ang wind energy sa iyong lokasyon.",
-        "citations": [8, 1]
+        "citations": [
+          8,
+          1
+        ]
       },
       "hydro": {
         "title": "Enerhiyang Tubig",
         "header": "Pinakamahusay malapit sa angkop na mapagkukunan ng tubig",
         "description": "Sinusuri ng LUMI ang rainfall at mga kondisyon na may kaugnayan sa tubig para matulungan na matantiya ang potensyal ng maliit na hydropower.",
-        "citations": [20]
+        "citations": [
+          20
+        ]
       },
       "insight": {
         "title": "Bakit Kailangan ng Pilipinas ng Renewable Energy",
         "description": "Malaki pa rin ng bahagi ng kuryente ng bansa ang mula sa fossil fuel. Ang mga renewable source tulad ng solar, wind, at hydro ay maaaring magbigay ng mas malinis na alternatibo, ngunit mahirap piliin ang tamang opsyon. Pinagsama-sama ng LUMI ang impormasyon sa panahon, enerhiya, at gastos upang mas madaling maikumpara ng mga tao ang kanilang mga opsyon.",
-        "citations": [13, 24, 2, 10],
+        "citations": [
+          13,
+          24,
+          2,
+          10
+        ],
         "readResearch": "Tingnan ang mga Pinagkukunan ng Datos"
       }
     },
@@ -450,11 +521,28 @@
       "badge": "Bakit Ginawa ang LUMI",
       "title": "Bakit Ginawa ang LUMI",
       "paragraph1": "Mahirap pumili ng renewable energy. Ang impormasyon tungkol sa gastos, kondisyon ng panahon, paggamit ng enerhiya, at mga available na teknolohiya ay kadalasang nakakalat sa iba't ibang mapagkukunan at mahirap unawain. Inilalapit ng LUMI ang impormasyong ito sa isang lugar at ipinaliliwanag sa mas simpleng paraan.",
-      "citations": [13, 24, 18, 23],
+      "citations": [
+        13,
+        24,
+        18,
+        23
+      ],
       "stats": {
-        "fossilShare": { "value": "70.5%", "label": "Bahaging Fossil Fuel", "description": "Ng produksyon ng enerhiya ng Pilipinas ay mula sa fossil fuel, kung saan 43.1% ay mula sa coal" },
-        "renewableShare": { "value": "29.5%", "label": "Bahaging Renewable", "description": "Humigit-kumulang 29.5% lamang ng enerhiya ng bansa ang ginawa mula sa mga renewable source" },
-        "barriers": { "value": "3 Hadlang", "label": "sa Pag-ampon", "description": "Ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay humahadlang sa paglipat sa renewable energy sa mga umuunlad na bansa" }
+        "fossilShare": {
+          "value": "70.5%",
+          "label": "Bahaging Fossil Fuel",
+          "description": "Ng produksyon ng enerhiya ng Pilipinas ay mula sa fossil fuel, kung saan 43.1% ay mula sa coal"
+        },
+        "renewableShare": {
+          "value": "29.5%",
+          "label": "Bahaging Renewable",
+          "description": "Humigit-kumulang 29.5% lamang ng enerhiya ng bansa ang ginawa mula sa mga renewable source"
+        },
+        "barriers": {
+          "value": "3 Hadlang",
+          "label": "sa Pag-ampon",
+          "description": "Ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay humahadlang sa paglipat sa renewable energy sa mga umuunlad na bansa"
+        }
       },
       "viewSourcesPrompt": "Gusto mong makita ang ebidensya?",
       "viewSources": "Tingnan ang Pananaliksik at mga Sanggunian"
@@ -476,7 +564,15 @@
       "badge": "Sino ang makakagamit ng LUMI?",
       "title": "Sino ang makakagamit ng LUMI?",
       "subtitle": "Ang LUMI ay ginawa para sa sinumang nais maunawaan ang mga opsyon sa renewable energy sa Pilipinas.",
-      "citations": [2, 11, 22, 5, 16, 12, 17],
+      "citations": [
+        2,
+        11,
+        22,
+        5,
+        16,
+        12,
+        17
+      ],
       "students": {
         "title": "Mga Estudyante at Mag-aaral",
         "description": "Maaaring gamitin ang LUMI bilang kagamitan sa pag-aaral upang tuklasin ang datos ng klima at enerhiya, at gawing mas madaling unawain ang mga abstrak na konsepto."
@@ -516,18 +612,63 @@
       "title": "Technology Stack",
       "subtitle": "Gumagamit ang LUMI ng moderno at scalable na arkitektura na idinisenyo para sa performance, accessibility, at integration ng AI at datos ng kapaligiran.",
       "viewTechnical": "Tingnan ang Technical Architecture",
-      "frontend": { "title": "Frontend", "items": ["React 18 + Vite", "Tailwind CSS", "Mga Komponenteng shadcn/ui", "React Router", "Lucide Icons"] },
-      "backend": { "title": "Backend", "items": ["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"] },
-      "database": { "title": "Database", "items": ["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"] },
-      "ai": { "title": "AI & ML", "items": ["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"] },
+      "frontend": {
+        "title": "Frontend",
+        "items": [
+          "React 18 + Vite",
+          "Tailwind CSS",
+          "Mga Komponenteng shadcn/ui",
+          "React Router",
+          "Lucide Icons"
+        ]
+      },
+      "backend": {
+        "title": "Backend",
+        "items": [
+          "FastAPI (Python)",
+          "RESTful API Design",
+          "Pydantic Validation",
+          "Async Data Processing"
+        ]
+      },
+      "database": {
+        "title": "Database",
+        "items": [
+          "Supabase PostgreSQL",
+          "Row Level Security",
+          "Real-time Sync",
+          "Secure Auth"
+        ]
+      },
+      "ai": {
+        "title": "AI & ML",
+        "items": [
+          "Gemini API (Google)",
+          "Rule-Based Engine",
+          "Predictive Analytics",
+          "Trend Forecasting"
+        ]
+      },
       "impact": {
         "title": "Para sa Lahat",
         "description": "Ang bawat pagpipilian sa teknolohiya ng LUMI ay naglilingkod sa layunin na gawing mabilis, naaabot, at madaling unawain ang impormasyon sa enerhiya.",
         "features": [
-          { "title": "Gumagana sa Telepono at Computer", "description": "Gamitin ang LUMI sa iba't ibang laki ng screen." },
-          { "title": "Ingles at Filipino", "description": "Piliin ang wikang mas komportable para sa iyo." },
-          { "title": "Madaling Basahing Disenyo", "description": "Malinaw na teksto, icon, at paliwanag." },
-          { "title": "Light at Dark Modes", "description": "Piliin ang display na komportable sa iyo." }
+          {
+            "title": "Gumagana sa Telepono at Computer",
+            "description": "Gamitin ang LUMI sa iba't ibang laki ng screen."
+          },
+          {
+            "title": "Ingles at Filipino",
+            "description": "Piliin ang wikang mas komportable para sa iyo."
+          },
+          {
+            "title": "Madaling Basahing Disenyo",
+            "description": "Malinaw na teksto, icon, at paliwanag."
+          },
+          {
+            "title": "Light at Dark Modes",
+            "description": "Piliin ang display na komportable sa iyo."
+          }
         ]
       }
     },
@@ -541,7 +682,11 @@
   "energyHub": {
     "title": "EnergyHub",
     "description": "Tuklasin ang paggamit ng kuryente, renewable energy, at impormasyon sa klima sa buong Pilipinas. Tingnan ang mga trend sa nakaraan, mga tantiya sa hinaharap, at potential ng renewable energy sa iba't ibang lugar.",
-    "citations": [25, 26, 27],
+    "citations": [
+      25,
+      26,
+      27
+    ],
     "disclaimer": "Para sa edukasyon: Tinutulungan ka ng EnergyHub na maunawaan ang impormasyon sa enerhiya, ngunit hindi ito dapat ipalit sa propesyonal na payo para sa proyekto o pamumuhunan sa enerhiya.",
     "sections": {
       "nationalOverview": "Pambansang Overview",
@@ -687,7 +832,8 @@
         "what": "Ipinapakita ng donut chart na ito kung ano ang share ng bawat pinagkukunan sa kabuuang kuryente ng bansa: coal, natural gas, oil-based, hydro, solar, wind, at biomass.",
         "why": "Tumutulong itong makita kung gaano karami sa kuryente ng bansa ang nanggagaling pa rin sa fossil fuels. Kapag mataas ang fossil share, kadalasang mas mataas ang carbon emissions at presyong apektado ng pandaigdigang merkado ng fuel.",
         "action": "Sa bahay, maaari mong bawasan ang iyong carbon footprint sa pamamagitan ng mas kaunting paggamit ng kuryente sa peak hours o pagsasaalang-alang ng rooftop solar kung pinapayagan."
-      }
+      },
+      "hover": "{{value}}% — {{gwh}} GWh"
     },
     "aiInsight": {
       "title": "Smart Summary",
@@ -758,7 +904,15 @@
       "levelTooltip": "Lumipat sa pagitan ng probinsya at munisipalidad.",
       "plantMarkerTooltip": "Operating geothermal power plant",
       "geothermalTooltip": "Ang mataas na iskor ay kadalasang nangangahulugan ng heat flow, malapit na fault o bulkan, o operating plant.",
-      "operatingPlants": "Operating geothermal plants"
+      "operatingPlants": "Operating geothermal plants",
+      "volcanoMarkerTooltip": "Bulkang Pilipino",
+      "explanationHidden": "Nakatago ang paliwanag ng mapa.",
+      "showExplanation": "Ipakita ang paliwanag",
+      "hideExplanation": "Itago ang paliwanag",
+      "refreshExplanation": "I-refresh ang paliwanag",
+      "explanationLoading": "Binubuo ang paliwanag ng mapa...",
+      "explanationError": "Hindi ma-load ang paliwanag ng mapa.",
+      "explanationTitleDefault": "Tungkol sa mapang ito"
     }
   },
   "ecosim": {
@@ -793,7 +947,9 @@
       "alreadySaved": "Naka-save na ang resultang ito",
       "municipalitiesError": "Hindi ma-load ang mga munisipalidad.",
       "provincesError": "Hindi ma-load ang mga probinsya.",
-      "ecosimError": "Hindi ma-load ang Ecosim data."
+      "ecosimError": "Hindi ma-load ang Ecosim data.",
+      "pdfFailed": "Hindi nabuo ang PDF. Pakisubukan muli.",
+      "aiFailed": "Hindi nabuo ang AI analysis. Pakisubukan muli."
     },
     "wizard": {
       "step": "Step {{current}} ng {{total}}",
@@ -853,7 +1009,12 @@
       },
       "savingsSliderStart": "Mabawasan nang kaunti",
       "savingsSliderEnd": "Mabawasan nang hangga't maaari",
-      "quickSelect": ["25%", "50%", "75%", "100%"],
+      "quickSelect": [
+        "25%",
+        "50%",
+        "75%",
+        "100%"
+      ],
       "aiAnalysis": "Isama ang simpleng paliwanag",
       "aiAnalysisHint": "Nagdadagdag ng simpleng paliwanag kung bakit inirerekomenda ang renewable option para sa iyong lugar.",
       "explanationPreview": "Magdaragdag kami ng simpleng paliwanag kung bakit inirerekomenda ang nangungunang opsyon.",
@@ -875,7 +1036,10 @@
       "next": "Susunod",
       "runSimulation": "Patakbuhin ang simulation",
       "running": "Tumatakbo...",
-      "save": "I-save"
+      "save": "I-save",
+      "generatingPdf": "Binubuo ang PDF...",
+      "saveAsPdf": "I-save bilang PDF",
+      "saveToAccount": "I-save sa Account"
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -919,7 +1083,13 @@
       },
       "aiAnalysis": {
         "recommendationFallback": "Batay sa tinantiyang buwanang output, ang {{source}} ang pinakamahusay na home-scale match. Maaari itong mag-generate ng humigit-kumulang {{gen}} kWh bawat buwan, na sakop ang humigit-kumulang {{pct}}% ng iyong effective electricity usage.",
-        "environmentalImpactFallback": "Ang paggamit ng {{source}} system ay maaaring makabawas ng humigit-kumulang {{carbon}} kg ng CO₂ bawat buwan kumpara sa fossil-fuel generation."
+        "environmentalImpactFallback": "Ang paggamit ng {{source}} system ay maaaring makabawas ng humigit-kumulang {{carbon}} kg ng CO₂ bawat buwan kumpara sa fossil-fuel generation.",
+        "title": "AI Analysis",
+        "insight": "Insight na binuo ng AI para sa lokasyong ito.",
+        "pending": "Binubuo pa ang AI analysis...",
+        "pendingBody": "Binubuo pa ang AI analysis at lilitaw ito dito sa ilang sandali.",
+        "failedBody": "Hindi nabuo ang AI analysis. Pakisubukan muli.",
+        "retry": "Subukan Muli"
       },
       "climateTemplates": {
         "Solar": "{{value}} kWh/m²/araw — {{desc}}",
@@ -1007,28 +1177,76 @@
       },
       "nextStepsList": {
         "Solar": [
-          { "title": "Kumuha ng quotes mula sa local solar installers", "description": "Ikumpara ang hindi bababa sa 3 quotes para sa system na tutugon sa iyong pangangailangan sa kuryente." },
-          { "title": "Tingnan kung eligible sa net metering", "description": "Tanungin ang iyong electric utility tungkol sa pagbenta ng sobrang kuryente pabalik sa grid." },
-          { "title": "Suriin ang kondisyon ng iyong bubong", "description": "Siguraduhing kayang suportahan ng bubong ang mga panel at hindi masyadong aninagin." },
-          { "title": "Mag-research ng government incentives", "description": "Tingnan ang mga programa ng DOE at LGU para sa renewable energy subsidies." }
+          {
+            "title": "Kumuha ng quotes mula sa local solar installers",
+            "description": "Ikumpara ang hindi bababa sa 3 quotes para sa system na tutugon sa iyong pangangailangan sa kuryente."
+          },
+          {
+            "title": "Tingnan kung eligible sa net metering",
+            "description": "Tanungin ang iyong electric utility tungkol sa pagbenta ng sobrang kuryente pabalik sa grid."
+          },
+          {
+            "title": "Suriin ang kondisyon ng iyong bubong",
+            "description": "Siguraduhing kayang suportahan ng bubong ang mga panel at hindi masyadong aninagin."
+          },
+          {
+            "title": "Mag-research ng government incentives",
+            "description": "Tingnan ang mga programa ng DOE at LGU para sa renewable energy subsidies."
+          }
         ],
         "Wind": [
-          { "title": "Kumonsulta sa wind energy specialist", "description": "Nangangailangan ng tamang pagkakalagay at wind assessment ang small turbines." },
-          { "title": "Tingnan ang local zoning regulations", "description": "May mga lugar na may limit sa taas ng turbine o nangangailangan ng permit." },
-          { "title": "Isa-alang-alang ang hybrid systems", "description": "Ang pagsasama ng wind at solar ay nagbibigay ng mas consistent na kuryente." },
-          { "title": "Subaybayan ang hangin sa loob ng 3-6 buwan", "description": "Mag-install ng maliit na anemometer bago mamuhunan sa turbine." }
+          {
+            "title": "Kumonsulta sa wind energy specialist",
+            "description": "Nangangailangan ng tamang pagkakalagay at wind assessment ang small turbines."
+          },
+          {
+            "title": "Tingnan ang local zoning regulations",
+            "description": "May mga lugar na may limit sa taas ng turbine o nangangailangan ng permit."
+          },
+          {
+            "title": "Isa-alang-alang ang hybrid systems",
+            "description": "Ang pagsasama ng wind at solar ay nagbibigay ng mas consistent na kuryente."
+          },
+          {
+            "title": "Subaybayan ang hangin sa loob ng 3-6 buwan",
+            "description": "Mag-install ng maliit na anemometer bago mamuhunan sa turbine."
+          }
         ],
         "Hydro": [
-          { "title": "Suriin ang local water sources", "description": "Hanapin ang mga stream o ilog na may consistent na daloy sa buong taon." },
-          { "title": "Tingnan ang water rights regulations", "description": "Maaaring kailanganin ng permit ang paggamit ng daloy ng tubig para sa power generation." },
-          { "title": "Kumonsulta sa micro-hydro expert", "description": "Nangangailangan ng espesyal na kaalaman ang site assessment at system design." },
-          { "title": "Sukatin ang head at flow", "description": "Ang dalawang measurement na ito ang tumutukoy sa dami ng kuryenteng maililikha." }
+          {
+            "title": "Suriin ang local water sources",
+            "description": "Hanapin ang mga stream o ilog na may consistent na daloy sa buong taon."
+          },
+          {
+            "title": "Tingnan ang water rights regulations",
+            "description": "Maaaring kailanganin ng permit ang paggamit ng daloy ng tubig para sa power generation."
+          },
+          {
+            "title": "Kumonsulta sa micro-hydro expert",
+            "description": "Nangangailangan ng espesyal na kaalaman ang site assessment at system design."
+          },
+          {
+            "title": "Sukatin ang head at flow",
+            "description": "Ang dalawang measurement na ito ang tumutukoy sa dami ng kuryenteng maililikha."
+          }
         ],
         "Geothermal": [
-          { "title": "Hindi home-scale option ang geothermal", "description": "Ito ay utility-scale resource. Isaalang-alang ang solar o wind para sa bahay." },
-          { "title": "Lumipat sa renewable energy provider", "description": "May mga utilities na nag-o-offer ng geothermal o green power programs." },
-          { "title": "Mag-advocate para sa community geothermal", "description": "Suportahan ang mga lokal na inisyatiba para sa geothermal district heating kung applicable." },
-          { "title": "I-run ulit ang EcoSim gamit ang ibang sources", "description": "Subukang i-run ang Solar o Wind simulation para makita ang home-scale options." }
+          {
+            "title": "Hindi home-scale option ang geothermal",
+            "description": "Ito ay utility-scale resource. Isaalang-alang ang solar o wind para sa bahay."
+          },
+          {
+            "title": "Lumipat sa renewable energy provider",
+            "description": "May mga utilities na nag-o-offer ng geothermal o green power programs."
+          },
+          {
+            "title": "Mag-advocate para sa community geothermal",
+            "description": "Suportahan ang mga lokal na inisyatiba para sa geothermal district heating kung applicable."
+          },
+          {
+            "title": "I-run ulit ang EcoSim gamit ang ibang sources",
+            "description": "Subukang i-run ang Solar o Wind simulation para makita ang home-scale options."
+          }
         ]
       },
       "meralco": {
@@ -1051,19 +1269,58 @@
       "total": "Total",
       "estimatedTotal": "Tinatayang Total",
       "items": {
-        "solar_panels": { "item": "Solar panels (400 W)", "unit": "panel" },
-        "solar_inverter": { "item": "Inverter", "unit": "unit" },
-        "solar_mounting": { "item": "Mounting & wiring", "unit": "set" },
-        "solar_labor": { "item": "Installation labor", "unit": "set" },
-        "solar_permits": { "item": "Permits & miscellaneous", "unit": "set" },
-        "wind_turbine": { "item": "Small wind turbine", "unit": "unit" },
-        "wind_tower": { "item": "Tower / mast", "unit": "unit" },
-        "wind_controller": { "item": "Controller & inverter", "unit": "unit" },
-        "wind_labor": { "item": "Installation & anchoring", "unit": "set" },
-        "hydro_turbine": { "item": "Micro-hydro turbine & generator", "unit": "unit" },
-        "hydro_penstock": { "item": "Penstock & civil works", "unit": "set" },
-        "hydro_controller": { "item": "Controller & protection", "unit": "unit" },
-        "hydro_labor": { "item": "Installation & commissioning", "unit": "set" }
+        "solar_panels": {
+          "item": "Solar panels (400 W)",
+          "unit": "panel"
+        },
+        "solar_inverter": {
+          "item": "Inverter",
+          "unit": "unit"
+        },
+        "solar_mounting": {
+          "item": "Mounting & wiring",
+          "unit": "set"
+        },
+        "solar_labor": {
+          "item": "Installation labor",
+          "unit": "set"
+        },
+        "solar_permits": {
+          "item": "Permits & miscellaneous",
+          "unit": "set"
+        },
+        "wind_turbine": {
+          "item": "Small wind turbine",
+          "unit": "unit"
+        },
+        "wind_tower": {
+          "item": "Tower / mast",
+          "unit": "unit"
+        },
+        "wind_controller": {
+          "item": "Controller & inverter",
+          "unit": "unit"
+        },
+        "wind_labor": {
+          "item": "Installation & anchoring",
+          "unit": "set"
+        },
+        "hydro_turbine": {
+          "item": "Micro-hydro turbine & generator",
+          "unit": "unit"
+        },
+        "hydro_penstock": {
+          "item": "Penstock & civil works",
+          "unit": "set"
+        },
+        "hydro_controller": {
+          "item": "Controller & protection",
+          "unit": "unit"
+        },
+        "hydro_labor": {
+          "item": "Installation & commissioning",
+          "unit": "set"
+        }
       }
     },
     "providers": {
@@ -1084,6 +1341,10 @@
       "discountedPayback": "Disc. Payback",
       "bcr": "BCR",
       "formula": "LCOE = Lifetime cost ÷ Lifetime energy production. NPV sa 10% discount rate. IRR = internal rate of return. BCR = benefit-cost ratio (≥1.0 ay profitable)."
+    },
+    "completion": {
+      "description": "Tapos na ang pagsusuri. Maaari mong tingnan ang mga resulta sa ibaba.",
+      "viewResults": "Tingnan ang mga Resulta"
     }
   },
   "profile": {

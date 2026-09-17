@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
@@ -5,24 +6,43 @@ import Home from "../pages/Home";
 import About from "../pages/About";
 import Login from "../pages/Login";
 import ResetPassword from "../pages/ResetPassword";
-import Dashboard from "../pages/Dashboard";
-import SavedSimulations from "../pages/SavedSimulations";
-import MFASetup from "../pages/MFASetup";
-import SecuritySettings from "../pages/SecuritySettings";
-import Ecosim from "../pages/Ecosim";
-import EnergyHub from "../pages/EnergyHub";
-import MapPage from "../pages/MapPage";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import AdminUsers from "../pages/admin/AdminUsers";
-import AdminAnalytics from "../pages/admin/AdminAnalytics";
-import AdminConfig from "../pages/admin/AdminConfig";
-import AdminUsage from "../pages/admin/AdminUsage";
-import AdminLogs from "../pages/admin/AdminLogs";
 import NotFound from "../pages/NotFound";
 import Terms from "../pages/Terms";
 import Privacy from "../pages/Privacy";
 import ProtectedRoute from "../components/shared/ProtectedRoute";
 import AdminRoute from "../components/shared/AdminRoute";
+
+// Route-level code splitting: authenticated and admin pages (which pull in
+// plotly/pdfmake/leaflet/recharts) load on demand instead of in the entry
+// chunk. Public entry pages stay eager for fast first paint.
+const Dashboard = lazy(() => import("../pages/Dashboard"));
+const SavedSimulations = lazy(() => import("../pages/SavedSimulations"));
+const MFASetup = lazy(() => import("../pages/MFASetup"));
+const SecuritySettings = lazy(() => import("../pages/SecuritySettings"));
+const Ecosim = lazy(() => import("../pages/Ecosim"));
+const EnergyHub = lazy(() => import("../pages/EnergyHub"));
+const AdminDashboard = lazy(() => import("../pages/admin/AdminDashboard"));
+const AdminUsers = lazy(() => import("../pages/admin/AdminUsers"));
+const AdminAnalytics = lazy(() => import("../pages/admin/AdminAnalytics"));
+const AdminConfig = lazy(() => import("../pages/admin/AdminConfig"));
+const AdminUsage = lazy(() => import("../pages/admin/AdminUsage"));
+const AdminLogs = lazy(() => import("../pages/admin/AdminLogs"));
+
+function RouteFallback() {
+  return (
+    <div
+      className="flex min-h-[40vh] items-center justify-center"
+      role="status"
+      aria-label="Loading page"
+    >
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-muted-foreground border-t-transparent" />
+    </div>
+  );
+}
+
+const withSuspense = (element) => (
+  <Suspense fallback={<RouteFallback />}>{element}</Suspense>
+);
 
 export default function AppRoutes() {
   return (
@@ -44,7 +64,7 @@ export default function AppRoutes() {
             path="dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                {withSuspense(<Dashboard />)}
               </ProtectedRoute>
             }
           />
@@ -52,7 +72,7 @@ export default function AppRoutes() {
             path="ecosim"
             element={
               <ProtectedRoute>
-                <Ecosim />
+                {withSuspense(<Ecosim />)}
               </ProtectedRoute>
             }
           />
@@ -60,7 +80,7 @@ export default function AppRoutes() {
             path="energyhub"
             element={
               <ProtectedRoute>
-                <EnergyHub />
+                {withSuspense(<EnergyHub />)}
               </ProtectedRoute>
             }
           />
@@ -68,7 +88,7 @@ export default function AppRoutes() {
             path="saved-simulations"
             element={
               <ProtectedRoute>
-                <SavedSimulations />
+                {withSuspense(<SavedSimulations />)}
               </ProtectedRoute>
             }
           />
@@ -76,7 +96,7 @@ export default function AppRoutes() {
             path="mfa"
             element={
               <ProtectedRoute>
-                <MFASetup />
+                {withSuspense(<MFASetup />)}
               </ProtectedRoute>
             }
           />
@@ -84,7 +104,7 @@ export default function AppRoutes() {
             path="settings/security"
             element={
               <ProtectedRoute>
-                <SecuritySettings />
+                {withSuspense(<SecuritySettings />)}
               </ProtectedRoute>
             }
           />
@@ -92,7 +112,7 @@ export default function AppRoutes() {
             path="admin"
             element={
               <AdminRoute>
-                <AdminDashboard />
+                {withSuspense(<AdminDashboard />)}
               </AdminRoute>
             }
           />
@@ -100,7 +120,7 @@ export default function AppRoutes() {
             path="admin/users"
             element={
               <AdminRoute>
-                <AdminUsers />
+                {withSuspense(<AdminUsers />)}
               </AdminRoute>
             }
           />
@@ -108,7 +128,7 @@ export default function AppRoutes() {
             path="admin/analytics"
             element={
               <AdminRoute>
-                <AdminAnalytics />
+                {withSuspense(<AdminAnalytics />)}
               </AdminRoute>
             }
           />
@@ -116,7 +136,7 @@ export default function AppRoutes() {
             path="admin/config"
             element={
               <AdminRoute>
-                <AdminConfig />
+                {withSuspense(<AdminConfig />)}
               </AdminRoute>
             }
           />
@@ -124,7 +144,7 @@ export default function AppRoutes() {
             path="admin/usage"
             element={
               <AdminRoute>
-                <AdminUsage />
+                {withSuspense(<AdminUsage />)}
               </AdminRoute>
             }
           />
@@ -132,7 +152,7 @@ export default function AppRoutes() {
             path="admin/logs"
             element={
               <AdminRoute>
-                <AdminLogs />
+                {withSuspense(<AdminLogs />)}
               </AdminRoute>
             }
           />

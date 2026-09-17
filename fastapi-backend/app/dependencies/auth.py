@@ -1,6 +1,7 @@
-from fastapi import Depends, HTTPException, Request, status
-
+import hashlib
 import logging
+
+from fastapi import Depends, HTTPException, Request, status
 
 from app.auth.jwt import verify_jwt
 from app.config.settings import get_settings
@@ -100,28 +101,44 @@ def get_current_user(token: str = Depends(get_bearer_token)) -> dict:
 
 
 def get_verified_user(token: str = Depends(get_bearer_token)) -> dict:
-    client = get_supabase_public_client()
-    try:
-        user_response = client.auth.get_user(token)
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    # Token-claims cache: Supabase issues ES256 tokens, which the local HS256
+    # verify_jwt fast path cannot verify — so cache verified claims per token
+    # instead. Cuts the auth.get_user() round-trip on repeat requests while
+    # _get_user_status (60s TTL) still enforces bans within ~a minute.
+    token_key = f"lumi:auth:token:{hashlib.sha256(token.encode()).hexdigest()}"
+    user = cache_get_sync(token_key)
 
-    user_data = _extract_user_data(user_response)
-    if not user_data:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    if not isinstance(user, dict):
+        client = get_supabase_public_client()
+        try:
+            user_response = client.auth.get_user(token)
+        except Exception:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
 
-    confirmed_at = (
-        getattr(user_data, "email_confirmed_at", None)
-        or getattr(user_data, "confirmed_at", None)
-        or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
-    )
-    if not confirmed_at:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Email address not verified"
+        user_data = _extract_user_data(user_response)
+        if not user_data:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+        confirmed_at = (
+            getattr(user_data, "email_confirmed_at", None)
+            or getattr(user_data, "confirmed_at", None)
+            or (isinstance(user_data, dict) and (user_data.get("email_confirmed_at") or user_data.get("confirmed_at")))
         )
+        if not confirmed_at:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Email address not verified"
+            )
 
-    user = _build_user_claims(user_data)
+        claims = _build_user_claims(user_data)
+        # Cache only JSON-safe fields (email_confirmed_at may be a datetime).
+        user = {
+            "sub": claims.get("sub"),
+            "email": claims.get("email"),
+            "user_metadata": claims.get("user_metadata", {}),
+        }
+        cache_set_sync(token_key, user, ttl=60)
+
     if not _get_user_status(user.get("sub")):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -223,11 +240,13 @@ def _get_user_status(user_id: str) -> bool:
         cache_set_sync(cache_key, is_active, ttl=60)
         return is_active
     except APIError as exc:
-        # PGRST116 = missing row; treat a missing profile as active. Any other
-        # PostgREST/Supabase error is a real outage and should fail closed.
+        # PGRST116 = missing row. Profiles are guaranteed by the
+        # on_auth_user_created trigger, so a missing profile means broken
+        # provisioning or a partially deleted account — fail closed rather
+        # than silently granting access to an account in an unknown state.
         if is_pgrst116_not_found(exc):
-            logger.warning("_get_user_status missing profile for user_id=%s", user_id)
-            return True
+            logger.warning("_get_user_status missing profile for user_id=%s; denying", user_id)
+            return False
         logger.error("_get_user_status DB failure for user_id=%s: %s", user_id, exc)
         return False
     except Exception as exc:
