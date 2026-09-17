@@ -175,7 +175,7 @@ export default function EnergyHub() {
         const ai = await getEnergyHubAiInsight(true);
         setInsight(ai);
       } catch (err) {
-        toast.error("LLM insight failed", { description: err.message });
+        toast.error(t("energyHub.toast.llmError"), { description: err.message });
       } finally {
         setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
@@ -246,10 +246,8 @@ export default function EnergyHub() {
           <p className="mt-2 max-w-2xl text-muted-foreground">
             {t("energyHub.description")}
           </p>
-          <div className="mt-3 rounded-md border border-l-4 border-l-amber-500 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-100">
-            <strong>Important:</strong> The data and AI insights on this page are for
-            educational and planning purposes only. They are based on public datasets and
-            simplified models and do not replace professional engineering or policy advice.
+          <div className="mt-3 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm text-foreground">
+            {t("energyHub.disclaimer")}
           </div>
         </div>
       </div>

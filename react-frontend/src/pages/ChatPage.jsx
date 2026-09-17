@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../services/supabaseClient";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useI18n } from "@/i18n";
 
 function formatCitations(text) {
@@ -134,7 +135,7 @@ export default function ChatPage() {
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: `Error: ${err.message}` },
+        { role: "assistant", content: `${t("chat.errorPrefix")}: ${err.message}` },
       ]);
     } finally {
       setIsLoading(false);
@@ -149,7 +150,7 @@ export default function ChatPage() {
           {t("chat.newChat")}
         </Button>
       </div>
-      <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30">
+      <div className="flex-1 overflow-y-auto border rounded-lg p-4 space-y-3 bg-muted/30" aria-live="polite" role="log">
         {messages.length === 0 && (
           <p className="text-muted-foreground text-center mt-8">
             {t("chat.empty")}
@@ -173,23 +174,25 @@ export default function ChatPage() {
           </div>
         )}
       </div>
-      <div className="flex gap-2 mt-4">
-        <input
+      <form
+        className="flex gap-2 mt-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSend();
+        }}
+      >
+        <Input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder={t("chat.placeholder")}
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+          aria-label={t("chat.inputLabel")}
+          className="flex-1"
         />
-        <button
-          onClick={handleSend}
-          disabled={isLoading}
-          className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50"
-        >
+        <Button type="submit" disabled={isLoading || !input.trim()}>
           {t("chat.send")}
-        </button>
-      </div>
+        </Button>
+      </form>
     </div>
   );
 }

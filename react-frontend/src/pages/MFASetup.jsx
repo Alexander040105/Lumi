@@ -238,10 +238,8 @@ export default function MFASetup() {
                 {t("mfa.copySecret")}
               </Button>
             </div>
-            <div className="text-sm text-amber-700 bg-amber-50 p-3 rounded">
-              <strong>Important:</strong> Supabase does not generate recovery/backup codes for
-              this project. Save the TOTP secret above in a safe place. If you lose your
-              authenticator, you will need this secret or an admin to reset your account.
+            <div className="text-sm text-foreground bg-warning/10 border border-warning/30 p-3 rounded">
+              {t("mfa.secretWarning")}
             </div>
             <p className="text-sm text-muted-foreground">{t("mfa.loginHint")}</p>
             <form onSubmit={handleVerify} className="space-y-2">

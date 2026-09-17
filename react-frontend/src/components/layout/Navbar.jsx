@@ -193,9 +193,9 @@ export default function Navbar() {
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link to="/login" aria-label={t("login.signIn")}>
-                    <Button size="sm">{t("nav.login")}</Button>
-                  </Link>
+                  <Button size="sm" asChild>
+                    <Link to="/login" aria-label={t("login.signIn")}>{t("nav.login")}</Link>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   <p>{t("login.signIn")}</p>
@@ -213,6 +213,7 @@ export default function Navbar() {
           <button
             type="button"
             aria-label={mobileOpen ? t("nav.closeMenu") : t("nav.openMenu")}
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
             className="md:hidden ml-2 rounded-md p-2 text-foreground hover:bg-muted"
           >

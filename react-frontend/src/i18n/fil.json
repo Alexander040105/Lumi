@@ -336,7 +336,8 @@
     "confirmResent": "Naipadala ulit ang confirmation email",
     "resendError": "Hindi maipadala ulit ang email",
     "passwordsDoNotMatch": "Hindi magkatugma ang password",
-    "error": "Nabigo ang authentication"
+    "error": "Nabigo ang authentication",
+    "secretWarning": "Mahalaga: Hindi bumubuo ang Supabase ng recovery codes para sa project na ito. I-save ang TOTP secret sa itaas sa ligtas na lugar — kapag nawala ang iyong authenticator, kakailanganin mo ang secret na ito o admin para i-reset ang iyong account."
   },
   "notFound": {
     "title": "Hindi natagpuan ang pahina",
@@ -356,7 +357,9 @@
     "send": "Ipadala",
     "failedToLoadHistory": "Hindi ma-load ang kasaysayan ng chat",
     "failedToCreateSession": "Hindi makagawa ng chat session",
-    "serverError": "Server error {{status}}: {{statusText}}"
+    "serverError": "Server error {{status}}: {{statusText}}",
+    "errorPrefix": "Error",
+    "inputLabel": "Mensahe sa chat"
   },
   "home": {
     "hero": {
@@ -813,7 +816,8 @@
       "aiExplain": "Ipaliwanag ng AI",
       "generating": "Gumagawa ng analysis...",
       "refresh": "I-refresh",
-      "getDifferent": "Kumuha ng ibang paliwanag"
+      "getDifferent": "Kumuha ng ibang paliwanag",
+      "enlarge": "Palakihin ang tsart"
     },
     "sources": {
       "title": "Energy Source Comparison",
@@ -934,6 +938,26 @@
       "cancel": "Kanselahin",
       "save": "I-save",
       "saving": "Nagse-save..."
+    },
+    "completion": {
+      "title": "Handa na ang iyong EcoSim estimate",
+      "description": "Tapos na ang pagsusuri. Maaari mong tingnan ang mga resulta sa ibaba.",
+      "recommendedLabel": "Inirerekomendang source",
+      "viewResults": "Tingnan ang mga Resulta"
+    },
+    "validation": {
+      "selectLocation": "Mangyaring pumili ng municipality o probinsya.",
+      "consumptionPositive": "Ang monthly consumption ay dapat positibong numero.",
+      "billPositive": "Ang monthly bill ay dapat positibong numero.",
+      "rateNegative": "Hindi maaaring negatibo ang electricity rate.",
+      "savingsRange": "Ang desired savings ay dapat nasa pagitan ng 0% at 100%."
+    },
+    "errors": {
+      "network": "Hindi namin ma-reach ang EcoSim server. Paki-check ang iyong connection at subukan ulit.",
+      "noData": "Wala pa kaming data para sa lokasyong ito. Subukan ang ibang municipality o probinsya.",
+      "server": "{{message}} (Nabigo ang request sa server — pakisubukan muli.)",
+      "retry": "Subukan ulit",
+      "retrying": "Nagre-retry…"
     },
     "toasts": {
       "loginRequired": "Mag-log in muna para makapag-save ng simulations",
@@ -1341,10 +1365,6 @@
       "discountedPayback": "Disc. Payback",
       "bcr": "BCR",
       "formula": "LCOE = Lifetime cost ÷ Lifetime energy production. NPV sa 10% discount rate. IRR = internal rate of return. BCR = benefit-cost ratio (≥1.0 ay profitable)."
-    },
-    "completion": {
-      "description": "Tapos na ang pagsusuri. Maaari mong tingnan ang mga resulta sa ibaba.",
-      "viewResults": "Tingnan ang mga Resulta"
     }
   },
   "profile": {
@@ -1415,6 +1435,13 @@
     "modules": "Modules",
     "settings": "Settings"
   },
+  "footer": {
+    "tagline": "Renewable energy feasibility intelligence para sa mga municipality ng Pilipinas.",
+    "terms": "Mga Tuntunin at Kondisyon",
+    "privacy": "Patakaran sa Privacy",
+    "contact": "Makipag-ugnayan",
+    "copyright": "© {{year}} LUMI. All rights reserved. Mga estimate lamang — kumonsulta sa renewable energy provider para sa eksaktong kalkulasyon."
+  },
   "glossary": {
     "solar_irradiance": "Dami ng sunlight na umaabot sa iyong lugar. Mas maraming sunlight ay nangangahulugang mas maraming kuryente ang malilikha ng solar panels.",
     "capacity_factor": "Nagpapakita kung gaano ka-epektibo ang renewable energy system mo kumpara sa maximum na posibleng output.",
@@ -1443,5 +1470,54 @@
     "brownout": "Pansamantalang pagbaba ng suplay ng kuryente, na nagdudulot ng pagdim ng ilaw at mahinang pagtakbo ng appliances.",
     "blackout": "Ganap na pagkawala ng kuryente sa isang lugar, kadalasang dulot ng bagyo o overloaded na power systems.",
     "municipality": "Isang lungsod o bayan na may sariling local government. Ginagamit namin ito para i-match ang iyong lugar sa lokal na climate at resource data."
+  },
+  "security": {
+    "title": "Mga security setting",
+    "currentPassword": "Kasalukuyang password",
+    "changeEmail": {
+      "title": "Palitan ang email",
+      "description": "Kumpirmahin ang iyong kasalukuyang password, pagkatapos ilagay ang bagong email. Ipapadala ang confirmation link sa bagong address.",
+      "newEmail": "Bagong email",
+      "submit": "Palitan ang email",
+      "submitting": "Pinapadala...",
+      "enterEmail": "Ilagay ang bagong email address",
+      "sent": "Ipinadala ang confirmation email sa bagong address.",
+      "failed": "Hindi mapalitan ang email"
+    },
+    "changePassword": {
+      "title": "Palitan ang password",
+      "description": "Kumpirmahin ang iyong kasalukuyang password, pagkatapos ilagay ang bagong password.",
+      "newPassword": "Bagong password",
+      "confirm": "Kumpirmahin ang bagong password",
+      "submit": "I-update ang password",
+      "submitting": "Nag-a-update...",
+      "tooShort": "Ang password ay dapat hindi bababa sa 6 na character",
+      "mismatch": "Hindi magkatugma ang mga password",
+      "success": "Na-update ang password. Gamitin ang bagong password sa susunod na pag-sign in.",
+      "failed": "Hindi mapalitan ang password"
+    },
+    "mfa": {
+      "title": "Two-factor authentication",
+      "description": "Magdagdag ng karagdagang layer ng seguridad sa iyong account.",
+      "enable": "I-enable ang two-factor authentication"
+    },
+    "preferences": {
+      "title": "Mga preference",
+      "description": "Kontrolin kung paano gumagana ang EcoSim para sa iyong account.",
+      "autosaveLabel": "Awtomatikong i-save ang aking mga EcoSim run",
+      "autosaveHint": "Kapag naka-on, awtomatikong nase-save ang bawat EcoSim run sa iyong account.",
+      "saved": "Na-save ang preference",
+      "saveFailed": "Hindi ma-save ang preference"
+    },
+    "deleteAccount": {
+      "title": "I-delete ang account",
+      "description": "Permanenteng ide-delete nito ang iyong LUMI account at lahat ng kaugnay na data. Hindi na ito mababawi.",
+      "confirmPassword": "Ilagay ang iyong kasalukuyang password para kumpirmahin",
+      "confirm": "Permanenteng i-delete ang iyong account? Hindi na ito mababawi.",
+      "submit": "I-delete ang account",
+      "submitting": "Nagde-delete...",
+      "success": "Na-delete ang account",
+      "failed": "Hindi ma-delete ang account"
+    }
   }
 }

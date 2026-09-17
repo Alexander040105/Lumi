@@ -223,6 +223,7 @@ export default function Login() {
               variant={mode === "login" ? "default" : "outline"}
               className="w-full"
               onClick={() => setMode("login")}
+              aria-pressed={mode === "login"}
             >
               {t("login.signIn")}
             </Button>
@@ -231,6 +232,7 @@ export default function Login() {
               variant={mode === "signup" ? "default" : "outline"}
               className="w-full"
               onClick={() => setMode("signup")}
+              aria-pressed={mode === "signup"}
             >
               {t("login.signUp")}
             </Button>
@@ -240,6 +242,8 @@ export default function Login() {
             <Input
               type="email"
               placeholder={t("login.email")}
+              aria-label={t("login.email")}
+              autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
@@ -248,6 +252,8 @@ export default function Login() {
               <Input
                 type="password"
                 placeholder={t("login.password")}
+                aria-label={t("login.password")}
+                autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 minLength={mode === "signup" ? 8 : undefined}
@@ -261,6 +267,8 @@ export default function Login() {
               <Input
                 type="password"
                 placeholder={t("login.confirmPassword")}
+                aria-label={t("login.confirmPassword")}
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 required
@@ -271,9 +279,13 @@ export default function Login() {
             )}
 
             <Button className="w-full" type="submit" disabled={busy}>
-              {mode === "login" && t("login.signIn")}
-              {mode === "signup" && t("login.createAccount")}
-              {mode === "reset" && t("login.sendResetEmail")}
+              {busy
+                ? t("common.loading")
+                : mode === "login"
+                  ? t("login.signIn")
+                  : mode === "signup"
+                    ? t("login.createAccount")
+                    : t("login.sendResetEmail")}
             </Button>
 
             {mode === "signup" && signupStatus === "confirm" && (

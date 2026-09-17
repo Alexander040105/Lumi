@@ -58,17 +58,17 @@ export default function EcosimWizard({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2" aria-hidden="true">
         {Array.from({ length: totalSteps }).map((_, i) => {
           const n = i + 1;
           const active = n === step;
           const done = n < step;
           return (
             <div key={n} className="flex items-center gap-2">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-primary text-primary-foreground" : active ? "bg-sky-500 text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+              <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-primary/15 text-primary" : active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
                 {done ? <Check className="h-4 w-4" /> : n}
               </div>
-              {n < totalSteps && <div className={`h-0.5 w-6 ${done ? "bg-primary" : "bg-muted"}`} />}
+              {n < totalSteps && <div className={`h-0.5 w-6 ${done ? "bg-primary/40" : "bg-border"}`} />}
             </div>
           );
         })}
@@ -79,11 +79,11 @@ export default function EcosimWizard({
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                {step === 1 && <MapPin className="h-5 w-5 text-sky-500" />}
-                {step === 2 && <Zap className="h-5 w-5 text-warning" />}
-                {step === 3 && <Target className="h-5 w-5 text-primary" />}
-                {step === 4 && <Sparkles className="h-5 w-5 text-sky-500" />}
-                {step === 5 && <ArrowRight className="h-5 w-5 text-destructive" />}
+                {step === 1 && <MapPin className="h-5 w-5 text-primary" aria-hidden="true" />}
+                {step === 2 && <Zap className="h-5 w-5 text-warning" aria-hidden="true" />}
+                {step === 3 && <Target className="h-5 w-5 text-primary" aria-hidden="true" />}
+                {step === 4 && <Sparkles className="h-5 w-5 text-primary" aria-hidden="true" />}
+                {step === 5 && <ArrowRight className="h-5 w-5 text-primary" aria-hidden="true" />}
                 {t("ecosim.wizard.step", { current: step, total: totalSteps })}
               </CardTitle>
               <CardDescription>
@@ -105,9 +105,10 @@ export default function EcosimWizard({
                     </div>
                   )}
                   <div>
-                    <label className="text-sm font-medium block mb-1">{ENABLE_PROVINCE_MODE && mode === "province" ? t("ecosim.wizard.searchProvince") : t("ecosim.wizard.searchMunicipality")}</label>
+                    <label htmlFor="ecosim-location-search" className="text-sm font-medium block mb-1">{ENABLE_PROVINCE_MODE && mode === "province" ? t("ecosim.wizard.searchProvince") : t("ecosim.wizard.searchMunicipality")}</label>
                     {ENABLE_PROVINCE_MODE && mode === "province" ? (
                       <SearchableSelect
+                        id="ecosim-location-search"
                         query={provinceQuery}
                         onQueryChange={setProvinceQuery}
                         open={provinceOpen}
@@ -125,6 +126,7 @@ export default function EcosimWizard({
                       />
                     ) : (
                       <SearchableSelect
+                        id="ecosim-location-search"
                         query={muniQuery}
                         onQueryChange={setMuniQuery}
                         open={muniOpen}
@@ -181,18 +183,18 @@ export default function EcosimWizard({
                   </div>
                   <div className="grid gap-4 md:grid-cols-3">
                     <div>
-                      <label className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1"><HelpTooltip term="kWh">{t("ecosim.wizard.consumptionLabel")}</HelpTooltip></label>
-                      <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.consumptionPlaceholder")} value={monthlyConsumption || ""} onChange={(e) => setMonthlyConsumption(Number(e.target.value))} />
+                      <label htmlFor="ecosim-consumption" className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1"><HelpTooltip term="kWh">{t("ecosim.wizard.consumptionLabel")}</HelpTooltip></label>
+                      <Input id="ecosim-consumption" type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.consumptionPlaceholder")} value={monthlyConsumption || ""} onChange={(e) => setMonthlyConsumption(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.consumptionHint")}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1">{t("ecosim.wizard.rateLabel")}</label>
-                      <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.ratePlaceholder")} value={electricityRate || ""} onChange={(e) => setElectricityRate(Number(e.target.value))} />
+                      <label htmlFor="ecosim-rate" className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1">{t("ecosim.wizard.rateLabel")}</label>
+                      <Input id="ecosim-rate" type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.ratePlaceholder")} value={electricityRate || ""} onChange={(e) => setElectricityRate(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.rateHint")}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1">{t("ecosim.wizard.billLabel")}</label>
-                      <Input type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.billPlaceholder")} value={monthlyBill || ""} onChange={(e) => setMonthlyBill(Number(e.target.value))} />
+                      <label htmlFor="ecosim-bill" className="text-sm font-medium flex items-center min-h-[2.5rem] leading-tight mb-1">{t("ecosim.wizard.billLabel")}</label>
+                      <Input id="ecosim-bill" type="number" min="0" step="0.01" placeholder={t("ecosim.wizard.billPlaceholder")} value={monthlyBill || ""} onChange={(e) => setMonthlyBill(Number(e.target.value))} />
                       <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.billHint")}</p>
                     </div>
                   </div>
@@ -215,8 +217,8 @@ export default function EcosimWizard({
                 <div className="space-y-4">
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <label className="text-sm font-medium">{t("ecosim.wizard.savingsLabel")}</label>
-                      <span className="text-sm font-bold text-sky-600">{desiredSavings}% — {savingsLabel}</span>
+                      <label htmlFor="ecosim-savings" className="text-sm font-medium">{t("ecosim.wizard.savingsLabel")}</label>
+                      <span className="text-sm font-bold text-primary">{desiredSavings}% — {savingsLabel}</span>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-3">
                       {(t("ecosim.wizard.quickSelect") || ["25%", "50%", "75%", "100%"]).map((pct) => {
@@ -235,13 +237,14 @@ export default function EcosimWizard({
                       })}
                     </div>
                     <input
+                      id="ecosim-savings"
                       type="range"
                       min="0"
                       max="100"
                       step="5"
                       value={desiredSavings}
                       onChange={(e) => setDesiredSavings(Number(e.target.value))}
-                      className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-sky-500"
+                      className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
                     />
                     <div className="flex justify-between text-xs text-muted-foreground mt-1">
                       <span>{t("ecosim.wizard.savingsSliderStart")}</span>
@@ -256,12 +259,13 @@ export default function EcosimWizard({
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <input
+                        id="ecosim-include-ai"
                         type="checkbox"
                         checked={includeAi}
                         onChange={(e) => setIncludeAi(e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-primary accent-primary"
+                        className="h-4 w-4 rounded border-input text-primary accent-primary"
                       />
-                      <label className="text-sm font-medium">{t("ecosim.wizard.aiAnalysis")}</label>
+                      <label htmlFor="ecosim-include-ai" className="text-sm font-medium">{t("ecosim.wizard.aiAnalysis")}</label>
                     </div>
                     <p className="text-xs text-muted-foreground">{t("ecosim.wizard.aiAnalysisHint")}</p>
                   </div>

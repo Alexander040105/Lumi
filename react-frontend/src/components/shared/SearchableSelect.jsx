@@ -10,12 +10,14 @@ export default function SearchableSelect({
   placeholder, disabled, error,
   emptyText, moreResultsText,
   maxVisible = 50,
+  id,
 }) {
   return (
     <div>
       <div className="relative">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" aria-hidden="true" />
         <Input
+          id={id}
           className="pl-9"
           placeholder={placeholder}
           value={query}
@@ -24,17 +26,21 @@ export default function SearchableSelect({
           onBlur={() => onOpenChange(false)}
           disabled={disabled}
           autoComplete="off"
+          role="combobox"
+          aria-expanded={open}
         />
       </div>
       {open && (
-        <div className="mt-1 max-h-64 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
+        <div role="listbox" className="mt-1 max-h-64 overflow-y-auto rounded-lg border bg-card shadow-sm z-10 relative">
           {items.length ? (
             <>
               {items.slice(0, maxVisible).map((item) => (
                 <button
                   key={getOptionId(item)}
                   type="button"
-                  className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(getOptionId(item)) === String(selectedId) ? "bg-accent font-medium" : "")}
+                  role="option"
+                  aria-selected={String(getOptionId(item)) === String(selectedId)}
+                  className={"w-full px-3 py-2 text-left text-sm hover:bg-muted transition-colors " + (String(getOptionId(item)) === String(selectedId) ? "bg-secondary font-medium" : "")}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => onSelect(item)}
                 >

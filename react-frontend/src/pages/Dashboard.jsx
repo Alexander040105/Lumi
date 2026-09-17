@@ -269,20 +269,20 @@ export default function Dashboard() {
       {isAdmin && (
         <div className="rounded-lg border bg-primary/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-sm font-medium">{t("dashboard.adminLink")}</p>
-          <Link to="/admin">
-            <Button variant="outline" size="sm">{t("nav.adminPortal")}</Button>
-          </Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin">{t("nav.adminPortal")}</Link>
+          </Button>
         </div>
       )}
       {/* ===== Profile Card ===== */}
       <Card className="overflow-hidden">
-        <div className="bg-gradient-to-r from-primary/10 to-primary/5 px-6 py-6">
+        <div className="bg-muted/50 px-6 py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {/* Avatar */}
             <div className="relative shrink-0">
               <div className="w-20 h-20 rounded-full bg-muted border-2 border-background overflow-hidden flex items-center justify-center">
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <span className="text-2xl font-bold text-muted-foreground">
                     {displayName.charAt(0).toUpperCase()}
@@ -331,6 +331,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.fullNamePlaceholder")}
+                    aria-label={t("dashboard.fullNamePlaceholder")}
                     value={editForm.full_name}
                     onChange={(e) => setEditForm((p) => ({ ...p, full_name: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -338,6 +339,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.organizationPlaceholder")}
+                    aria-label={t("dashboard.organizationPlaceholder")}
                     value={editForm.organization}
                     onChange={(e) => setEditForm((p) => ({ ...p, organization: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -345,6 +347,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.locationPlaceholder")}
+                    aria-label={t("dashboard.locationPlaceholder")}
                     value={editForm.location}
                     onChange={(e) => setEditForm((p) => ({ ...p, location: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -431,7 +434,7 @@ export default function Dashboard() {
               <div>
                 {savedLocations.some((l) => String(l.municipality_id) === String(selectedMuni)) ? (
                   <Button variant="outline" size="sm" disabled>
-                    <Check className="h-4 w-4 mr-2" />
+                    <Check className="h-4 w-4 mr-2" aria-hidden="true" />
                     {t("dashboard.locationSaved")}
                   </Button>
                 ) : (
@@ -441,7 +444,7 @@ export default function Dashboard() {
                     onClick={handleSaveLocation}
                     disabled={savingLocation}
                   >
-                    <MapPin className="h-4 w-4 mr-2" />
+                    <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
                     {savingLocation ? t("common.saving") : t("dashboard.saveLocation")}
                   </Button>
                 )}
@@ -462,15 +465,15 @@ export default function Dashboard() {
             <CardTitle>{t("dashboard.quickActions")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <Link to="/ecosim" className="block">
-              <Button className="w-full">{t("dashboard.runEcosim")}</Button>
-            </Link>
-            <Link to="/energyhub" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.viewEnergyHub")}</Button>
-            </Link>
-            <Link to="/mfa" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.mfaLink")}</Button>
-            </Link>
+            <Button className="w-full" asChild>
+              <Link to="/ecosim">{t("dashboard.runEcosim")}</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/energyhub">{t("dashboard.viewEnergyHub")}</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/mfa">{t("dashboard.mfaLink")}</Link>
+            </Button>
           </CardContent>
         </Card>
 
@@ -493,16 +496,16 @@ export default function Dashboard() {
                   <li key={loc.id} className="flex items-center justify-between text-sm gap-2">
                     <span className="truncate">{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
                     <div className="flex items-center shrink-0">
-                      <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
-                        <Button variant="ghost" size="sm">{t("common.open")}</Button>
-                      </Link>
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link to={`/ecosim?municipality=${loc.municipality_id}`}>{t("common.open")}</Link>
+                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleRemoveLocation(loc)}
                         aria-label={t("common.delete")}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </div>
                   </li>
@@ -524,11 +527,11 @@ export default function Dashboard() {
                 <Link to="/login" className="underline text-primary">{t("nav.login")}</Link>{" "}{t("dashboard.loginToSaveSims")}
               </p>
             ) : (
-              <Link to="/saved-simulations">
-                <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/saved-simulations">
                   {t("dashboard.viewAllSavedSims")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
           </CardContent>
         </Card>

@@ -1,7 +1,12 @@
-import { useState } from "react";
 import { HelpCircle } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { getGlossary } from "@/utils/glossary";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * HelpTooltip — wraps children with a hover tooltip that shows a plain-English
@@ -9,7 +14,6 @@ import { getGlossary } from "@/utils/glossary";
  */
 
 export default function HelpTooltip({ term, children, className = "" }) {
-  const [show, setShow] = useState(false);
   const { t } = useI18n();
 
   const key = (term || "").toLowerCase().trim().replace(/\s+/g, "_");
@@ -22,21 +26,24 @@ export default function HelpTooltip({ term, children, className = "" }) {
   }
 
   return (
-    <span className={`relative inline-flex items-center gap-1 ${className}`}>
-      {children}
-      <span
-        className="cursor-help text-muted-foreground hover:text-foreground transition-colors"
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
-        onClick={() => setShow(!show)}
-      >
-        <HelpCircle className="h-3.5 w-3.5" />
-      </span>
-      {show && (
-        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-slate-800 px-3 py-2 text-xs text-white shadow-lg z-50">
-          {definition}
+    <TooltipProvider delayDuration={150}>
+      <Tooltip>
+        <span className={`inline-flex items-center gap-1 ${className}`}>
+          {children}
+          <TooltipTrigger asChild>
+            <button
+              type="button"
+              aria-label={definition}
+              className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded"
+            >
+              <HelpCircle className="h-3.5 w-3.5" />
+            </button>
+          </TooltipTrigger>
         </span>
-      )}
-    </span>
+        <TooltipContent side="top" align="center" className="max-w-64">
+          <p>{definition}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

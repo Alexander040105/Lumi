@@ -101,7 +101,7 @@ export default function EnergyOverview({ data }) {
             </div>
             {card.icon && (
               <div className={`rounded-lg p-2.5 ${card.bg} shrink-0 ml-3`}>
-                <card.icon className={`h-5 w-5 ${card.color}`} />
+                <card.icon className={`h-5 w-5 ${card.color}`} aria-hidden="true" />
               </div>
             )}
           </div>

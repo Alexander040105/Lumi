@@ -111,7 +111,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
     <div className="space-y-6">
       {result.input_warning && (
         <div className="rounded-lg border border-warning bg-warning/10 p-4 flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-medium text-sm">{t("ecosim.results.inputWarning.title")}</p>
             <p className="text-sm text-muted-foreground">
@@ -160,20 +160,20 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
 
       {/* Quick Benefits */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="border-l-4 border-l-chart-wind">
+        <Card>
           <CardContent className="p-5">
             <div className="flex items-center gap-2 text-primary mb-1">
-              <Zap className="h-4 w-4" />
+              <Zap className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">{t("ecosim.results.benefits.energyCoverage")}</span>
             </div>
             <p className="text-2xl font-bold">{formatNumber(coverage, 0)}%</p>
             <p className="text-xs text-muted-foreground mt-1">{t("ecosim.results.benefits.ofYourMonthlyConsumption")}</p>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-primary">
+        <Card>
           <CardContent className="p-5">
             <div className="flex items-center gap-2 text-primary mb-1">
-              <TreePine className="h-4 w-4" />
+              <TreePine className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">{t("ecosim.results.benefits.co2Reduction")}</span>
             </div>
             <p className="text-2xl font-bold">{formatNumber(result.carbon_reduction)} kg</p>
@@ -369,14 +369,21 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
 
       {/* Technical Details Toggle */}
       <div className="text-center">
-        <Button variant="ghost" size="sm" onClick={() => setShowDetails(!showDetails)} className="text-muted-foreground hover:text-foreground">
-          {showDetails ? <ChevronUp className="h-4 w-4 mr-1" /> : <ChevronDown className="h-4 w-4 mr-1" />}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowDetails(!showDetails)}
+          className="text-muted-foreground hover:text-foreground"
+          aria-expanded={showDetails}
+          aria-controls="ecosim-technical-details"
+        >
+          {showDetails ? <ChevronUp className="h-4 w-4 mr-1" aria-hidden="true" /> : <ChevronDown className="h-4 w-4 mr-1" aria-hidden="true" />}
           {showDetails ? t("ecosim.results.technical.hide") : t("ecosim.results.technical.show")}
         </Button>
       </div>
 
       {showDetails && (
-        <div className="space-y-6">
+        <div className="space-y-6" id="ecosim-technical-details">
           {/* Climate data */}
           {climate && (
             <Card>
@@ -415,10 +422,10 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                 const isUtility = key === "geothermal";
                 const sourceAnalysis = resolveSourceAnalysis(result, key);
                 return (
-                  <Card key={key} className={`border-t-4 border-t-${meta.bar.replace("bg-", "")}`}>
+                  <Card key={key}>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2 text-sm">
-                        <span className={`inline-block h-3 w-3 rounded-full ${meta.bar}`} />
+                        <span className={`inline-block h-3 w-3 rounded-full ${meta.bar}`} aria-hidden="true" />
                         {t("ecosim.results.technical.output", { source: t("ecosim.results.sources." + title) })}
                       </CardTitle>
                     </CardHeader>

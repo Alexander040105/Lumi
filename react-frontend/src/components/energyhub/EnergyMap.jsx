@@ -211,7 +211,6 @@ function FallbackMapGrid({ data, metric, level }) {
           <div
             key={`${item.region}-${item.province || idx}-${item.municipality || ""}`}
             className="rounded-lg border p-3 text-center transition-transform hover:scale-[1.02]"
-            style={{ borderLeft: `4px solid ${getColorForValue(item.value)}` }}
           >
             <p className="text-xs text-muted-foreground truncate">
               {displayName}
@@ -563,6 +562,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <select
               className="bg-transparent text-sm focus:outline-none"
               title={t("energyHub.map.levelTooltip")}
+              aria-label={t("energyHub.map.levelTooltip")}
               value={level}
               onChange={(e) => onLevelChange(e.target.value)}
             >
@@ -580,6 +580,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <select
               className="bg-transparent text-sm focus:outline-none"
               title={t("energyHub.map.metricTooltip")}
+              aria-label={t("energyHub.map.metricTooltip")}
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
             >
@@ -597,6 +598,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
               <button
                 type="button"
                 onClick={() => setShowVolcanoes((v) => !v)}
+                aria-pressed={showVolcanoes}
                 className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
                   showVolcanoes
                     ? "bg-destructive/10 border-destructive/20 text-foreground"
@@ -611,6 +613,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
                 <button
                   type="button"
                   onClick={() => setShowFaults((v) => !v)}
+                  aria-pressed={showFaults}
                   className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
                     showFaults
                       ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"

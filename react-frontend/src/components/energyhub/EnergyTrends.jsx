@@ -5,6 +5,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
+function cssVarColor(name, fallback) {
+  if (typeof window === "undefined") return fallback;
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return v ? `hsl(${v})` : fallback;
+}
+
 function sanitizeLLMOutput(text = "") {
   if (!text) return "";
   let t = text;
@@ -131,7 +137,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.historical"),
-        line: { color: "#3b82f6", width: 3 },
+        line: { color: cssVarColor("--primary", "#3b82f6"), width: 3 },
         marker: { size: 6 },
         hovertemplate: t("energyHub.trends.hover.consumption", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
@@ -141,7 +147,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.forecast"),
-        line: { color: "#f87171", width: 3, dash: "dash" },
+        line: { color: cssVarColor("--destructive", "#f87171"), width: 3, dash: "dash" },
         marker: { size: 6 },
         hovertemplate: t("energyHub.trends.hover.consumption", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
@@ -194,7 +200,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.historical"),
-        line: { color: "#f43f5e", width: 2 },
+        line: { color: cssVarColor("--warning", "#f43f5e"), width: 2 },
         marker: { size: 5 },
         hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
@@ -204,7 +210,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.forecast"),
-        line: { color: "#f87171", width: 2, dash: "dash" },
+        line: { color: cssVarColor("--destructive", "#f87171"), width: 2, dash: "dash" },
         marker: { size: 5 },
         hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
@@ -243,8 +249,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.historical"),
-        line: { color: "#10b981", width: 2 },
-        marker: { size: 5, color: "#10b981" },
+        line: { color: cssVarColor("--brand-success", "#10b981"), width: 2 },
+        marker: { size: 5, color: cssVarColor("--brand-success", "#10b981") },
         hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
       {
@@ -253,7 +259,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.forecast"),
-        line: { color: "#f87171", width: 2, dash: "dash" },
+        line: { color: cssVarColor("--destructive", "#f87171"), width: 2, dash: "dash" },
         marker: { size: 5 },
         hovertemplate: t("energyHub.trends.hover.renewable", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.forecast") }),
       },
@@ -285,11 +291,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         <h3 className="text-lg font-semibold">{t("energyHub.trends.title")}</h3>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
-            <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
+            <span className="inline-block h-2 w-2 rounded-full bg-primary" />
             {t("energyHub.trends.legend.historical")}
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="inline-block h-2 w-2 rounded-full bg-red-400" />
+            <span className="inline-block h-2 w-2 rounded-full bg-destructive" />
             {t("energyHub.trends.legend.forecast")}
           </span>
         </div>
@@ -320,7 +326,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
               })
             }
             className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
-            aria-label="Enlarge chart"
+            aria-label={t("energyHub.trends.enlarge")}
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </button>
@@ -359,7 +365,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 })
               }
               className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
-              aria-label="Enlarge chart"
+              aria-label={t("energyHub.trends.enlarge")}
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
@@ -395,7 +401,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 })
               }
               className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
-              aria-label="Enlarge chart"
+              aria-label={t("energyHub.trends.enlarge")}
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>

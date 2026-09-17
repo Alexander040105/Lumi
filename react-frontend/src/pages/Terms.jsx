@@ -4,7 +4,7 @@ export default function Terms() {
   const { t } = useI18n();
 
   return (
-    <section className="page-container stack prose max-w-4xl">
+    <section className="page-container stack max-w-4xl">
       <h1>Terms & Conditions</h1>
       <p className="text-muted-foreground">Effective date: {new Date().toLocaleDateString()}</p>
 

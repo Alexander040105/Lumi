@@ -50,6 +50,8 @@ export default function ResetPassword() {
             <Input
               type="password"
               placeholder={t("resetPassword.newPasswordPlaceholder")}
+              aria-label={t("resetPassword.newPasswordPlaceholder")}
+              autoComplete="new-password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
@@ -58,13 +60,15 @@ export default function ResetPassword() {
             <Input
               type="password"
               placeholder={t("resetPassword.confirmPasswordPlaceholder")}
+              aria-label={t("resetPassword.confirmPasswordPlaceholder")}
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
               required
               minLength={6}
             />
             <Button className="w-full" type="submit" disabled={busy || !session}>
-              {t("resetPassword.updatePassword")}
+              {busy ? t("common.loading") : t("resetPassword.updatePassword")}
             </Button>
           </form>
         </CardContent>

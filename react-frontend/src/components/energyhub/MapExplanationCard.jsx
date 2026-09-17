@@ -86,7 +86,7 @@ export default function MapExplanationCard({ metric, level }) {
       : t("energyHub.map.explanationTitleDefault");
 
   return (
-    <Card className="mb-4 border-l-4 border-l-primary bg-muted/40">
+    <Card className="mb-4 bg-muted/40">
       <CardContent className="py-3 px-4">
         {hidden ? (
           <div className="flex items-center justify-between gap-2 text-sm">
@@ -96,13 +96,13 @@ export default function MapExplanationCard({ metric, level }) {
               onClick={handleToggleHidden}
               className="inline-flex items-center gap-1 text-primary hover:underline"
             >
-              <Eye className="h-4 w-4" />
+              <Eye className="h-4 w-4" aria-hidden="true" />
               {t("energyHub.map.showExplanation")}
             </button>
           </div>
         ) : (
           <div className="flex items-start gap-2">
-            <Info className="mt-0.5 h-4 w-4 text-primary shrink-0" />
+            <Info className="mt-0.5 h-4 w-4 text-primary shrink-0" aria-hidden="true" />
             <div className="space-y-1 text-sm flex-1 min-w-0">
               <div className="flex items-start justify-between gap-2">
                 <p className="font-semibold text-foreground">{title}</p>
@@ -112,27 +112,29 @@ export default function MapExplanationCard({ metric, level }) {
                     onClick={() => load(true)}
                     disabled={loading}
                     title={t("energyHub.map.refreshExplanation")}
+                    aria-label={t("energyHub.map.refreshExplanation")}
                     className="inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted disabled:opacity-50"
                   >
                     {loading ? (
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
                     ) : (
-                      <RefreshCw className="h-3.5 w-3.5" />
+                      <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
                     )}
                   </button>
                   <button
                     type="button"
                     onClick={handleToggleHidden}
                     title={t("energyHub.map.hideExplanation")}
+                    aria-label={t("energyHub.map.hideExplanation")}
                     className="inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
                   >
-                    <EyeOff className="h-3.5 w-3.5" />
+                    <EyeOff className="h-3.5 w-3.5" aria-hidden="true" />
                   </button>
                 </div>
               </div>
               {loading && !result && (
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
                   {t("energyHub.map.explanationLoading")}
                 </div>
               )}

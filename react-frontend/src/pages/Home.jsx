@@ -21,15 +21,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CitationSources from "@/components/shared/CitationSources";
 
-function SectionHeading({ badge, title, subtitle }) {
+function SectionHeading({ title, subtitle }) {
   return (
     <div className="mx-auto max-w-3xl text-center space-y-4">
-      {badge && (
-        <Badge variant="secondary" className="text-xs font-medium tracking-wide uppercase">
-          {badge}
-        </Badge>
-      )}
-      <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+      <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
         {title}
       </h2>
       {subtitle && (
@@ -43,8 +38,7 @@ function SectionHeading({ badge, title, subtitle }) {
 
 function FeatureCard({ icon: Icon, title, description, tags, badge }) {
   return (
-    <Card className="group relative overflow-hidden border-border/60 bg-card/80 backdrop-blur-sm transition-all hover:border-primary/40 hover:shadow-lg">
-      <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-brand-success opacity-0 transition-opacity group-hover:opacity-100" />
+    <Card className="group relative overflow-hidden border-border/60 transition-all hover:border-primary/40 hover:shadow-lg">
       <CardHeader className="space-y-3">
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
           <Icon className="h-6 w-6" />
@@ -79,7 +73,7 @@ function StepCard({ number, icon: Icon, title, description }) {
   const { t } = useI18n();
   return (
     <div className="relative flex flex-col items-center text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground shadow-lg">
+      <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground">
         <Icon className="h-7 w-7" />
       </div>
       <div className="mt-5 space-y-2">
@@ -128,11 +122,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* HERO */}
-      <section className="relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/50" />
-        <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+      <section className="relative overflow-hidden bg-muted/30">
 
       <div className="relative page-container py-20 sm:py-28">
         <div className="mx-auto max-w-4xl text-center space-y-8">
@@ -145,15 +135,9 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <Badge
-              variant="outline"
-              className="border-primary/30 bg-primary/5 text-primary px-3 py-1 text-sm"
-            >
-              {t("home.hero.badge")}
-            </Badge>
             <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               {t("home.hero.title")}{" "}
-              <span className="bg-gradient-to-r from-primary to-brand-success bg-clip-text text-transparent">
+              <span className="text-primary">
                 {t("home.hero.titleHighlight")}
               </span>
             </h1>
@@ -163,18 +147,18 @@ export default function Home() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/energyhub">
-              <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
+            <Button size="lg" className="gap-2 text-base" asChild>
+              <Link to="/energyhub">
                 <BarChart3 className="h-5 w-5" />
                 {t("home.hero.tryEnergyHub")}
-              </Button>
-            </Link>
-            <Link to="/about">
-              <Button size="lg" variant="outline" className="gap-2 text-base">
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
+              <Link to="/about">
                 {t("home.hero.learnMore")}
                 <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
 
           {/* Stats row */}
@@ -187,7 +171,7 @@ export default function Home() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-border/50 bg-card/60 p-4 backdrop-blur-sm"
+                className="rounded-xl border border-border/50 bg-card p-4"
               >
                 <div className="text-2xl font-bold text-primary sm:text-3xl">{stat.value}</div>
                 <div className="text-sm font-medium text-foreground">{stat.label}</div>
@@ -200,10 +184,9 @@ export default function Home() {
     </section>
 
       {/* FEATURES */}
-      <section className="relative border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
+      <section className="relative border-t border-border/40">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge={t("home.features.badge")}
             title={t("home.features.title")}
             subtitle={t("home.features.subtitle")}
           />
@@ -234,13 +217,9 @@ export default function Home() {
 
       {/* HOW IT WORKS */}
       <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDIuNjg2LTYgNiAyLjY4NiA2IDYgNnptMCAzMGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNi02IDIuNjg2LTYgNiAyLjY4NiA2IDYgNnptLTE4LTE1YzMuMzE0IDAgNi0yLjY4NiA2LTZzLTIuNjg2LTYtNi02LTYgMi42ODYtNiA2IDIuNjg2IDYgNiA2eiIgZmlsbD0iI2ZmZiIgZmlsbC1vcGFjaXR5PSIwLjAzIi8+PC9nPjwvc3ZnPg==')] opacity-30" />
         <div className="page-container py-20 sm:py-24 space-y-16">
           <div className="mx-auto max-w-3xl text-center space-y-4">
-            <Badge className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 uppercase tracking-wide">
-              {t("home.howItWorks.badge")}
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.howItWorks.title")}
             </h2>
             <p className="text-lg text-primary-foreground/80 leading-relaxed">
@@ -272,7 +251,6 @@ export default function Home() {
       {/* RENEWABLE ENERGY */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge={t("home.renewable.badge")}
           title={t("home.renewable.title")}
           subtitle={t("home.renewable.subtitle")}
         />
@@ -296,7 +274,7 @@ export default function Home() {
         </div>
 
         {/* Insight banner */}
-        <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-card to-muted/30 p-6 sm:p-8">
+        <div className="rounded-2xl border border-border/60 bg-muted/30 p-6 sm:p-8">
           <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="space-y-3">
               <h3 className="text-lg font-semibold text-foreground">
@@ -312,32 +290,31 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden border-t border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+      <section className="relative overflow-hidden border-t border-border/40 bg-muted/30">
         <div className="relative page-container py-20 sm:py-24">
-          <div className="mx-auto max-w-3xl rounded-3xl border border-border/60 bg-card/80 p-8 text-center shadow-xl backdrop-blur-sm sm:p-12">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg mb-6">
+          <div className="mx-auto max-w-3xl rounded-3xl border border-border/60 bg-card p-8 text-center shadow-sm sm:p-12">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground mb-6">
               <TrendingUp className="h-8 w-8" />
             </div>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {t("home.cta.title")}
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground leading-relaxed">
               {t("home.cta.subtitle")}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link to="/ecosim">
-                <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
+              <Button size="lg" className="gap-2 text-base" asChild>
+                <Link to="/ecosim">
                   <Zap className="h-5 w-5" />
                   {t("home.cta.tryEcosim")}
-                </Button>
-              </Link>
-              <Link to="/energyhub">
-                <Button size="lg" variant="outline" className="gap-2 text-base">
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
+                <Link to="/energyhub">
                   <BarChart3 className="h-5 w-5" />
                   {t("home.cta.tryEnergyHub")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

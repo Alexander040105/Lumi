@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import { Sun } from "lucide-react";
 
+import { useI18n } from "@/i18n";
+
 export default function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="border-t bg-background/95 py-8">
       <div className="page-container grid gap-6 md:grid-cols-3">
@@ -11,32 +15,31 @@ export default function Footer() {
             <span>LUMI</span>
           </div>
           <p className="text-sm text-muted-foreground">
-            Renewable energy feasibility intelligence for Philippine municipalities.
+            {t("footer.tagline")}
           </p>
         </div>
 
-        <nav className="flex flex-col gap-2 text-sm">
-          <Link to="/" className="hover:text-primary">Home</Link>
-          <Link to="/about" className="hover:text-primary">About</Link>
-          <Link to="/energyhub" className="hover:text-primary">Energy Hub</Link>
-          <Link to="/ecosim" className="hover:text-primary">EcoSim</Link>
+        <nav className="flex flex-col gap-2 text-sm" aria-label="Site">
+          <Link to="/" className="hover:text-primary">{t("nav.home")}</Link>
+          <Link to="/about" className="hover:text-primary">{t("nav.about")}</Link>
+          <Link to="/energyhub" className="hover:text-primary">{t("nav.energyHub")}</Link>
+          <Link to="/ecosim" className="hover:text-primary">{t("nav.ecosim")}</Link>
         </nav>
 
-        <nav className="flex flex-col gap-2 text-sm">
-          <Link to="/terms" className="hover:text-primary">Terms & Conditions</Link>
-          <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
+        <nav className="flex flex-col gap-2 text-sm" aria-label="Legal">
+          <Link to="/terms" className="hover:text-primary">{t("footer.terms")}</Link>
+          <Link to="/privacy" className="hover:text-primary">{t("footer.privacy")}</Link>
           <a
             href="mailto:alexanderjonsolis0401@gmail.com"
             className="hover:text-primary"
           >
-            Contact
+            {t("footer.contact")}
           </a>
         </nav>
       </div>
 
       <div className="page-container mt-8 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} LUMI. All rights reserved. Estimates only — consult a
-        renewable energy provider for precise calculations.
+        {t("footer.copyright", { year: new Date().getFullYear() })}
       </div>
     </footer>
   );

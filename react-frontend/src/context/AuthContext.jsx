@@ -63,7 +63,6 @@ export function AuthProvider({ children }) {
           const data = await res.json();
           const backendRole = data.user?.role;
           if (backendRole) {
-            console.log("[AuthContext] Role from backend:", backendRole);
             setRole(backendRole);
           } else {
             setRole("user");

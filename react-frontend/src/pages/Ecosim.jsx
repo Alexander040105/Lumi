@@ -349,18 +349,18 @@ export default function Ecosim() {
     const rate = Number(electricityRate);
     const savings = Number(desiredSavings);
 
-    if (!id) return "Please select a municipality or province.";
+    if (!id) return t("ecosim.validation.selectLocation");
     if (!Number.isFinite(consumption) || consumption <= 0) {
-      return "Monthly consumption must be a positive number.";
+      return t("ecosim.validation.consumptionPositive");
     }
     if (!Number.isFinite(bill) || bill <= 0) {
-      return "Monthly bill must be a positive number.";
+      return t("ecosim.validation.billPositive");
     }
     if (!Number.isFinite(rate) || rate < 0) {
-      return "Electricity rate cannot be negative.";
+      return t("ecosim.validation.rateNegative");
     }
     if (!Number.isFinite(savings) || savings < 0 || savings > 100) {
-      return "Desired savings must be between 0% and 100%.";
+      return t("ecosim.validation.savingsRange");
     }
     return null;
   };
@@ -565,7 +565,7 @@ export default function Ecosim() {
         </p>
       </div>
 
-      <Card className="bg-muted/50 border-l-4 border-l-primary">
+      <Card className="bg-muted/50">
         <CardContent className="pt-4 text-sm text-muted-foreground space-y-2">
           <p>
             <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
@@ -574,6 +574,7 @@ export default function Ecosim() {
               size="sm"
               className="h-auto px-1 py-0 text-xs text-muted-foreground underline decoration-dotted"
               onClick={() => setShowDisclaimer((v) => !v)}
+              aria-expanded={showDisclaimer}
             >
               {t("ecosim.disclaimerWhy")}
             </Button>
@@ -630,18 +631,18 @@ export default function Ecosim() {
       />
 
       {error && (
-        <Card className="border-destructive text-destructive">
+        <Card className="border-destructive" role="alert">
           <CardHeader>
-            <CardTitle>{t("ecosim.errorCardTitle")}</CardTitle>
+            <CardTitle className="text-destructive">{t("ecosim.errorCardTitle")}</CardTitle>
             <CardDescription>
               {error.network
-                ? "Could not reach the EcoSim server. Please check your connection and try again."
+                ? t("ecosim.errors.network")
                 : error.status === 401 || error.status === 429
                 ? error.message
                 : error.status === 404
-                ? "We don't have data for this location yet. Try another municipality or province."
+                ? t("ecosim.errors.noData")
                 : error.status >= 500
-                ? `${error.message} (Request failed on the server — please try again.)`
+                ? t("ecosim.errors.server", { message: error.message })
                 : error.message}
             </CardDescription>
           </CardHeader>
@@ -653,7 +654,7 @@ export default function Ecosim() {
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                {loading ? "Retrying…" : "Try again"}
+                {loading ? t("ecosim.errors.retrying") : t("ecosim.errors.retry")}
               </Button>
             </CardContent>
           )}
@@ -673,15 +674,15 @@ export default function Ecosim() {
         <DialogContent>
           <DialogHeader>
             <div className="flex items-center gap-2 text-primary">
-              <CheckCircle2 className="h-5 w-5" />
-              <DialogTitle>Your EcoSim estimate is ready</DialogTitle>
+              <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
+              <DialogTitle>{t("ecosim.completion.title")}</DialogTitle>
             </div>
             <DialogDescription>
               {t("ecosim.completion.description")}
             </DialogDescription>
           </DialogHeader>
           <div className="py-2 text-sm text-muted-foreground">
-            Recommended source: {result?.recommended_source || "—"}
+            {t("ecosim.completion.recommendedLabel")}: {result?.recommended_source || "—"}
           </div>
           <DialogFooter>
             <Button
@@ -707,8 +708,11 @@ export default function Ecosim() {
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
-            <label className="text-sm font-medium">{t("ecosim.saveDialog.label")}</label>
+            <label htmlFor="save-simulation-label" className="text-sm font-medium">
+              {t("ecosim.saveDialog.label")}
+            </label>
             <Input
+              id="save-simulation-label"
               value={saveLabel}
               onChange={(e) => setSaveLabel(e.target.value)}
               placeholder={t("ecosim.saveDialog.placeholder")}

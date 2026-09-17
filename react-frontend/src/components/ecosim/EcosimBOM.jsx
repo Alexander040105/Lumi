@@ -75,7 +75,7 @@ export default function EcosimBOM({ result }) {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <Package className="h-5 w-5 text-primary" />
+            <Package className="h-5 w-5 text-primary" aria-hidden="true" />
             {t("ecosim.bom.title")}
           </CardTitle>
           <CardDescription>{t("ecosim.bom.description")}</CardDescription>
@@ -106,7 +106,7 @@ export default function EcosimBOM({ result }) {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Package className="h-5 w-5 text-primary" />
+          <Package className="h-5 w-5 text-primary" aria-hidden="true" />
           {t("ecosim.bom.title")}
         </CardTitle>
         <CardDescription>

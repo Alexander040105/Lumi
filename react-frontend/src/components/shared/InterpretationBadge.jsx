@@ -1,3 +1,5 @@
+import { Star } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { useI18n } from "@/i18n";
 
@@ -19,23 +21,24 @@ export function getRating(score, max = 100) {
   return RATINGS.find((r) => pct >= r.pct) || RATINGS[RATINGS.length - 1];
 }
 
-export function getStars(score, max = 100) {
-  const pct = Math.max(0, Math.min(1, (score ?? 0) / max));
-  const full = Math.floor(pct * 5);
-  let s = "";
-  for (let i = 0; i < full; i++) s += "★";
-  while (s.length < 5) s += "☆";
-  return s;
-}
-
 export default function InterpretationBadge({ score, max = 100, showStars = true, className = "" }) {
   const { t } = useI18n();
   const rating = getRating(score, max);
-  const stars = getStars(score, max);
+  const full = Math.max(0, Math.min(5, Math.floor(((score ?? 0) / max) * 5)));
   return (
     <div className={`flex items-center gap-2 flex-wrap ${className}`}>
       <Badge className={`${rating.color} hover:${rating.color}`}>{t("common.ratings." + rating.label.toLowerCase())}</Badge>
-      {showStars && <span className="text-warning tracking-widest text-sm">{stars}</span>}
+      {showStars && (
+        <span className="inline-flex items-center gap-0.5 text-warning" aria-hidden="true">
+          {Array.from({ length: 5 }, (_, i) => (
+            <Star
+              key={i}
+              className="h-3.5 w-3.5"
+              fill={i < full ? "currentColor" : "none"}
+            />
+          ))}
+        </span>
+      )}
     </div>
   );
 }

@@ -336,7 +336,8 @@
     "confirmResent": "Confirmation email resent",
     "resendError": "Failed to resend email",
     "passwordsDoNotMatch": "Passwords do not match",
-    "error": "Authentication failed"
+    "error": "Authentication failed",
+    "secretWarning": "Important: Supabase does not generate recovery codes for this project. Save the TOTP secret above in a safe place — if you lose your authenticator, you will need this secret or an admin to reset your account."
   },
   "notFound": {
     "title": "Page not found",
@@ -356,7 +357,9 @@
     "send": "Send",
     "failedToLoadHistory": "Failed to load chat history",
     "failedToCreateSession": "Failed to create chat session",
-    "serverError": "Server error {{status}}: {{statusText}}"
+    "serverError": "Server error {{status}}: {{statusText}}",
+    "errorPrefix": "Error",
+    "inputLabel": "Chat message"
   },
   "home": {
     "hero": {
@@ -769,6 +772,7 @@
     },
     "trends": {
       "title": "Energy Trends",
+      "enlarge": "Enlarge chart",
       "legend": {
         "historical": "Historical",
         "forecast": "Forecast"
@@ -942,8 +946,24 @@
       "saving": "Saving..."
     },
     "completion": {
+      "title": "Your EcoSim estimate is ready",
       "description": "The analysis has completed. You can review the results below.",
+      "recommendedLabel": "Recommended source",
       "viewResults": "View Results"
+    },
+    "validation": {
+      "selectLocation": "Please select a municipality or province.",
+      "consumptionPositive": "Monthly consumption must be a positive number.",
+      "billPositive": "Monthly bill must be a positive number.",
+      "rateNegative": "Electricity rate cannot be negative.",
+      "savingsRange": "Desired savings must be between 0% and 100%."
+    },
+    "errors": {
+      "network": "We couldn't reach the EcoSim server. Please check your connection and try again.",
+      "noData": "We don't have data for this location yet. Try another municipality or province.",
+      "server": "{{message}} (Request failed on the server — please try again.)",
+      "retry": "Try again",
+      "retrying": "Retrying…"
     },
     "toasts": {
       "loginRequired": "Please log in to save simulations",
@@ -1421,6 +1441,13 @@
     "modules": "Modules",
     "settings": "Settings"
   },
+  "footer": {
+    "tagline": "Renewable energy feasibility intelligence for Philippine municipalities.",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "contact": "Contact",
+    "copyright": "© {{year}} LUMI. All rights reserved. Estimates only — consult a renewable energy provider for precise calculations."
+  },
   "glossary": {
     "solar_irradiance": "The amount of sunlight reaching your area. More sunlight generally means more electricity can be produced by solar panels.",
     "capacity_factor": "Shows how efficiently a renewable energy system is expected to operate compared to its maximum possible output.",
@@ -1449,5 +1476,54 @@
     "brownout": "A temporary drop in electricity supply, causing lights to dim and appliances to work poorly.",
     "blackout": "A complete loss of electricity in an area, usually caused by storms or overloaded power systems.",
     "municipality": "A city or town with its own local government. We use this to match your area with local climate and resource data."
+  },
+  "security": {
+    "title": "Security settings",
+    "currentPassword": "Current password",
+    "changeEmail": {
+      "title": "Change email",
+      "description": "Confirm your current password, then enter the new email. A confirmation link will be sent to the new address.",
+      "newEmail": "New email",
+      "submit": "Change email",
+      "submitting": "Sending...",
+      "enterEmail": "Enter a new email address",
+      "sent": "A confirmation email has been sent to the new address.",
+      "failed": "Could not change email"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "description": "Confirm your current password, then enter a new password.",
+      "newPassword": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Update password",
+      "submitting": "Updating...",
+      "tooShort": "Password must be at least 6 characters",
+      "mismatch": "Passwords do not match",
+      "success": "Password updated. Use your new password to sign in next time.",
+      "failed": "Could not change password"
+    },
+    "mfa": {
+      "title": "Two-factor authentication",
+      "description": "Add an extra layer of security to your account.",
+      "enable": "Enable two-factor authentication"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "description": "Control how EcoSim behaves for your account.",
+      "autosaveLabel": "Automatically save my EcoSim runs",
+      "autosaveHint": "When on, each EcoSim run is saved to your account automatically.",
+      "saved": "Preference saved",
+      "saveFailed": "Could not save preference"
+    },
+    "deleteAccount": {
+      "title": "Delete account",
+      "description": "This will permanently delete your LUMI account and all associated data. This action cannot be undone.",
+      "confirmPassword": "Enter your current password to confirm",
+      "confirm": "Permanently delete your account? This cannot be undone.",
+      "submit": "Delete account",
+      "submitting": "Deleting...",
+      "success": "Account deleted",
+      "failed": "Could not delete account"
+    }
   }
 }

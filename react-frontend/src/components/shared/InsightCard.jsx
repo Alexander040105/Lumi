@@ -12,7 +12,7 @@ export default function InsightCard({
   icon: Icon,
   iconColor = "text-muted-foreground",
   iconBg = "bg-muted",
-  borderColor = "border-l-4 border-border",
+  borderColor = "",
   title,
   value,
   subtitle,
