@@ -6,12 +6,13 @@ import { Button } from "@/components/ui/button";
 import {
   Zap, TreePine, Sun, Wind, Droplets, Flame,
   CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
-  TrendingUp,
+  TrendingUp, Loader2,
 } from "lucide-react";
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
 import ExplanationModal from "./ExplanationModal";
+import { resolveSourceAnalysis } from "@/utils/ecosimAnalysis";
 import ProviderRecommendations from "./ProviderRecommendations";
 
 const formatNumber = (value, digits = 0) =>
@@ -243,16 +244,16 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               </div>
             ) : (
               <>
-                {aiLoading && (!result.ai_analysis || result.ai_analysis?.status === "pending") && (
-                  <div className="h-2 w-24 rounded bg-muted animate-pulse" />
+                {(aiLoading || result.ai_analysis?.status === "pending") && (
+                  <div className="flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-foreground">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+                    {t("ecosim.results.aiAnalysis.pendingBody")}
+                  </div>
                 )}
                 {result.ai_analysis?.summary && (
                   <Markdown className="text-sm text-muted-foreground leading-relaxed">
                     {result.ai_analysis.summary}
                   </Markdown>
-                )}
-                {(aiLoading || result.ai_analysis?.status === "pending") && (
-                  <p className="text-xs text-muted-foreground">{t("ecosim.results.aiAnalysis.pendingBody")}</p>
                 )}
               </>
             )}
@@ -288,7 +289,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               ? (item.output?.annual_energy_gwh ? (item.output.annual_energy_gwh * 1_000_000) / 12 : 0)
               : (option.monthly_output || 0);
             const rating = getRating(scoreVal, 100);
-            const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[item.source.toLowerCase()] || item.info.desc;
+            const sourceAnalysis = resolveSourceAnalysis(result, item.source.toLowerCase(), item.info.desc);
             return (
               <div key={item.source} className={`flex items-start gap-4 p-3 rounded-lg border ${isRec ? "border-primary/30 bg-secondary/50" : ""}`}>
                 <div className={`shrink-0 w-10 h-10 rounded-full ${meta.bg} flex items-center justify-center`}>
@@ -311,6 +312,8 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                       <ExplanationModal
                         title={t("ecosim.results.sources." + item.source)}
                         content={sourceAnalysis}
+                        aiSummary={result.ai_analysis?.summary}
+                        aiPending={aiLoading || result.ai_analysis?.status === "pending"}
                         triggerText={t("ecosim.results.aiExplanation")}
                       />
                     </div>
@@ -410,7 +413,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                 const title = key === "geothermal" ? "Geothermal" : key.charAt(0).toUpperCase() + key.slice(1);
                 const meta = sourceMeta[title] || sourceMeta.Solar;
                 const isUtility = key === "geothermal";
-                const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[key];
+                const sourceAnalysis = resolveSourceAnalysis(result, key);
                 return (
                   <Card key={key} className={`border-t-4 border-t-${meta.bar.replace("bg-", "")}`}>
                     <CardHeader>
@@ -428,6 +431,8 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                           <ExplanationModal
                             title={t("ecosim.results.sources." + title)}
                             content={sourceAnalysis}
+                            aiSummary={result.ai_analysis?.summary}
+                            aiPending={aiLoading || result.ai_analysis?.status === "pending"}
                             triggerText={t("ecosim.results.aiExplanation")}
                           />
                         </div>

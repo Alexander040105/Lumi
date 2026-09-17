@@ -252,6 +252,7 @@ function buildComparisonTable(result) {
     const note = isGeothermal ? "Utility-scale reference" : "";
     const analysis =
       result.ai_analysis?.renewable_analysis?.[key] ||
+      result.explanations?.[key] ||
       detail?.assumption ||
       "";
 

@@ -613,6 +613,8 @@ export default function Ecosim() {
         setIncludeAi={setIncludeAi}
         onRun={handleSubmit}
         loading={loading}
+        aiLoading={aiLoading}
+        aiError={aiError}
         activeId={activeId}
         result={result}
         user={user}

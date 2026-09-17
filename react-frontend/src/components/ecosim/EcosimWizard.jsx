@@ -17,7 +17,7 @@ export default function EcosimWizard({
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
   onRun, loading, activeId, result, user, onSave, onDownloadPdf, downloadPdfLoading,
-  onSaveLocation, locationSaved, resultSaved,
+  onSaveLocation, locationSaved, resultSaved, aiLoading, aiError,
 }) {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
@@ -53,6 +53,8 @@ export default function EcosimWizard({
     }
     return 0;
   }, [monthlyConsumption, monthlyBill]);
+
+  const aiReady = !includeAi || aiError || (!aiLoading && result?.ai_analysis?.summary && result.ai_analysis?.status !== "pending");
 
   return (
     <div className="space-y-4">
@@ -334,7 +336,7 @@ export default function EcosimWizard({
                           {t("ecosim.wizard.saveToAccount") || "Save to Account"}
                         </Button>
                       )}
-                      {result && (
+                      {result && aiReady && (
                         <Button
                           type="button"
                           variant="outline"

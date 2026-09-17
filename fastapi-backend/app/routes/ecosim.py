@@ -106,6 +106,16 @@ async def get_ecosim_ai(
     else:
         ai_analysis = analyze_renewable_results(analysis_payload)
 
+    # Fill empty per-source slots with the deterministic explanations so the
+    # frontend always has text for the per-source modals (mirrors the merge in
+    # renewable_energy_calculator).
+    if isinstance(ai_analysis, dict):
+        ra = ai_analysis.get("renewable_analysis") or {}
+        for key, text in (base_result.get("explanations") or {}).items():
+            if not ra.get(key):
+                ra[key] = text
+        ai_analysis["renewable_analysis"] = ra
+
     _log_ecosim_request(auth.get("user"), params.municipality_id)
     return {
         "ai_analysis": ai_analysis,
