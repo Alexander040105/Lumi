@@ -23,6 +23,8 @@ import pytest
 # Ensure required env vars exist for Settings instantiation
 os.environ.setdefault("SUPABASE_URL", "https://placeholder.supabase.co")
 os.environ.setdefault("SUPABASE_ANON_KEY", "placeholder-anon-key")
+os.environ.setdefault("SUPABASE_SERVICE_ROLE_KEY", "placeholder-service-role-key")
+os.environ.setdefault("SUPABASE_JWT_SECRET", "placeholder-jwt-secret")
 
 from app.config.settings import get_settings, Settings
 from app.middleware.request_id import SafeJSONFormatter
