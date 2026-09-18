@@ -1,31 +1,26 @@
 /**
- * Lazy-loads pdfmake and configures the fonts. Fonts are self-hosted in
- * public/fonts/roboto/ and fetched same-origin — the production CSP only
- * allows connect-src 'self', so CDN font URLs would be blocked.
+ * Lazy-loads pdfmake and registers the bundled Roboto fontContainer. The TTFs
+ * ship inside pdfmake as base64 and are written into the virtual file system
+ * at runtime — no network fetch, so nothing can be blocked by CSP.
  */
-
-const SELF_HOSTED_FONTS = {
-  Roboto: {
-    normal: "/fonts/roboto/Roboto-Regular.ttf",
-    bold: "/fonts/roboto/Roboto-Medium.ttf",
-    italics: "/fonts/roboto/Roboto-Italic.ttf",
-    bolditalics: "/fonts/roboto/Roboto-MediumItalic.ttf",
-  },
-};
 
 let pdfMakePromise = null;
 
 export async function getPdfMake() {
   if (!pdfMakePromise) {
-    pdfMakePromise = import("pdfmake/build/pdfmake").then((mod) => {
-      const pdfMake = mod.default || mod;
+    pdfMakePromise = Promise.all([
+      import("pdfmake/build/pdfmake"),
+      import("pdfmake/build/fonts/Roboto.js"),
+    ]).then(([pdfMakeMod, robotoMod]) => {
+      const pdfMake = pdfMakeMod.default || pdfMakeMod;
+      const roboto = robotoMod.default || robotoMod;
       if (pdfMake && typeof pdfMake.createPdf === "function") {
-        pdfMake.fonts = { ...(pdfMake.fonts || {}), ...SELF_HOSTED_FONTS };
+        pdfMake.addFontContainer(roboto);
         return pdfMake;
       }
       // Fallback for UMD builds that expose a global instead of a default export.
       if (typeof window !== "undefined" && window.pdfMake) {
-        window.pdfMake.fonts = { ...(window.pdfMake.fonts || {}), ...SELF_HOSTED_FONTS };
+        window.pdfMake.addFontContainer(roboto);
         return window.pdfMake;
       }
       throw new Error("Unable to load pdfmake");
