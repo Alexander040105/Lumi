@@ -13,6 +13,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "open": "Open",
+    "view": "View",
     "saving": "Saving...",
     "toggleTheme": "Toggle theme",
     "close": "Close",
@@ -25,6 +26,8 @@
     "next": "Next",
     "explore": "Explore",
     "notAvailable": "—",
+    "settings": "Account Settings",
+    "downloadCsv": "Download CSV",
     "ratings": {
       "excellent": "Excellent",
       "good": "Good",
@@ -75,8 +78,12 @@
     "resend": "Didn't receive it? Resend",
     "accountCreated": "Account created!",
     "noEmailConfirmation": "No email confirmation required for this domain.",
+    "accountExists": "An account with this email already exists",
+    "accountExistsDesc": "If you signed up with Google, use 'Continue with Google'. To also enable email/password sign-in, use 'Forgot password' to set a password.",
     "error": "Authentication failed",
-    "signupServerError": "Signup is temporarily unavailable. Please try again later or use another sign-in method."
+    "signupServerError": "Signup is temporarily unavailable. Please try again later or use another sign-in method.",
+    "passwordHint": "At least 8 characters",
+    "passwordTooShort": "Password must be at least 8 characters"
   },
   "admin": {
     "portal": "Admin Portal",
@@ -214,7 +221,9 @@
       "peakMunicipality": "Peak Municipality",
       "monthlyBreakdown": "12-Month Breakdown",
       "lastActive": "Last Active",
-      "recentSimulations": "Recent Simulations"
+      "recentSimulations": "Recent Simulations",
+      "location": "Location",
+      "organization": "Organization"
     },
     "usagePage": {
       "title": "User Usage",
@@ -250,6 +259,15 @@
     "compositeScore": "Composite Renewable Score",
     "compositeDescription": "Averaged across solar, wind, hydro, and geothermal suitability.",
     "selectPrompt": "Choose a municipality to display its renewable potential score.",
+    "noScoreData": "No suitability data yet for this municipality.",
+    "municipalitiesError": "Unable to load municipalities.",
+    "saveLocation": "Save this location",
+    "locationSaved": "Location saved",
+    "locationSavedToast": "Location saved to your dashboard",
+    "locationAlreadySaved": "This location is already saved",
+    "locationSaveFailed": "Could not save location",
+    "locationRemoved": "Location removed",
+    "locationRemoveFailed": "Could not remove location",
     "quickActions": "Quick Actions",
     "runEcosim": "Run EcoSim",
     "askLumiAi": "Ask LUMI AI",
@@ -293,6 +311,16 @@
     "verify": "Verify",
     "scanQR": "Scan QR code",
     "scanQRDescription": "Scan this QR code with your authenticator app, then enter the generated code.",
+    "stepInstall": "Install Microsoft Authenticator or Google Authenticator on your phone.",
+    "stepAdd": "Add a new account: '+' → 'Other account' in Microsoft Authenticator, or '+' → 'Scan a QR code' in Google Authenticator.",
+    "stepScan": "Scan the QR code below.",
+    "stepEnter": "Enter the 6-digit code the app shows to finish setup.",
+    "cantScan": "Can't scan the QR code?",
+    "manualEntryDesc": "Choose 'Enter a setup key' (Google) or 'Enter code manually' (Microsoft) and paste this secret:",
+    "copySecret": "Copy secret",
+    "copied": "Secret copied to clipboard",
+    "copyFailed": "Could not copy secret",
+    "loginHint": "When you sign in, enter the current 6-digit code from the app after your password.",
     "codePlaceholder": "6-digit code",
     "factorError": "Failed to load MFA factors",
     "enrollError": "Failed to start 2FA enrollment",
@@ -308,7 +336,8 @@
     "confirmResent": "Confirmation email resent",
     "resendError": "Failed to resend email",
     "passwordsDoNotMatch": "Passwords do not match",
-    "error": "Authentication failed"
+    "error": "Authentication failed",
+    "secretWarning": "Important: Supabase does not generate recovery codes for this project. Save the TOTP secret above in a safe place — if you lose your authenticator, you will need this secret or an admin to reset your account."
   },
   "notFound": {
     "title": "Page not found",
@@ -328,7 +357,9 @@
     "send": "Send",
     "failedToLoadHistory": "Failed to load chat history",
     "failedToCreateSession": "Failed to create chat session",
-    "serverError": "Server error {{status}}: {{statusText}}"
+    "serverError": "Server error {{status}}: {{statusText}}",
+    "errorPrefix": "Error",
+    "inputLabel": "Chat message"
   },
   "home": {
     "hero": {
@@ -340,10 +371,26 @@
       "learnMore": "How LUMI Works"
     },
     "stats": {
-      "regionsCovered": { "label": "Philippine Regions Covered", "value": "17+", "sub": "Explore climate and energy information across the country" },
-      "energySources": { "label": "Solar, Wind & Hydro", "value": "3", "sub": "Compare three renewable energy options" },
-      "dataPoints": { "label": "Reliable Data Sources", "value": "10K+", "sub": "Information from recognized weather and energy sources" },
-      "aiInsights": { "label": "Easy-to-Understand Results", "value": "Real-time", "sub": "Get simple explanations and recommendations" }
+      "regionsCovered": {
+        "label": "Philippine Regions Covered",
+        "value": "17+",
+        "sub": "Explore climate and energy information across the country"
+      },
+      "energySources": {
+        "label": "Solar, Wind & Hydro",
+        "value": "3",
+        "sub": "Compare three renewable energy options"
+      },
+      "dataPoints": {
+        "label": "Reliable Data Sources",
+        "value": "10K+",
+        "sub": "Information from recognized weather and energy sources"
+      },
+      "aiInsights": {
+        "label": "Easy-to-Understand Results",
+        "value": "Real-time",
+        "sub": "Get simple explanations and recommendations"
+      }
     },
     "features": {
       "badge": "Platform Modules",
@@ -352,18 +399,32 @@
       "energyHub": {
         "title": "EnergyHub",
         "description": "Explore energy and weather information in your area. See temperature, rainfall, electricity use, and other trends through easy-to-read charts and explanations.",
-        "tags": ["Regional Filtering", "Charts & Key Information", "AI Insights"]
+        "tags": [
+          "Regional Filtering",
+          "Charts & Key Information",
+          "AI Insights"
+        ]
       },
       "ecosim": {
         "title": "Ecosim",
         "description": "Compare renewable energy options. Choose a location and compare solar, wind, and hydro based on estimated cost, savings, and local conditions.",
-        "tags": ["What-If Scenarios", "Cost Analysis", "Estimated Savings", "Source Comparison"]
+        "tags": [
+          "What-If Scenarios",
+          "Cost Analysis",
+          "Estimated Savings",
+          "Source Comparison"
+        ]
       },
       "ai": {
         "title": "Get simple explanations",
         "badge": "Powered by AI",
         "description": "LUMI can explain charts, forecasts, and recommendations using everyday language.",
-        "tags": ["Simple Explanations", "Chart Explanations", "Recommendations", "Comparative Summaries"]
+        "tags": [
+          "Simple Explanations",
+          "Chart Explanations",
+          "Recommendations",
+          "Comparative Summaries"
+        ]
       }
     },
     "howItWorks": {
@@ -372,10 +433,22 @@
       "subtitle": "LUMI simplifies the journey from scattered climate and energy information to confident renewable energy choices.",
       "step": "Step",
       "steps": [
-        { "title": "Choose your Location", "description": "Select your province, city, or region." },
-        { "title": "Explore Local Conditions", "description": "See rainfall, sunlight, wind, electricity use, and other information." },
-        { "title": "Compare your Options", "description": "Compare solar, wind, and hydro based on your area's conditions." },
-        { "title": "See your Recommendation", "description": "Get an easy-to-understand explanation of which options may suit your area." }
+        {
+          "title": "Choose your Location",
+          "description": "Select your province, city, or region."
+        },
+        {
+          "title": "Explore Local Conditions",
+          "description": "See rainfall, sunlight, wind, electricity use, and other information."
+        },
+        {
+          "title": "Compare your Options",
+          "description": "Compare solar, wind, and hydro based on your area's conditions."
+        },
+        {
+          "title": "See your Recommendation",
+          "description": "Get an easy-to-understand explanation of which options may suit your area."
+        }
       ]
     },
     "renewable": {
@@ -386,24 +459,37 @@
         "title": "Solar Energy",
         "header": "Best where there is strong sunlight",
         "description": "LUMI examines sunlight and local weather conditions to help estimate whether solar energy may work well in your area.",
-        "citations": [16, 12]
+        "citations": [
+          16,
+          12
+        ]
       },
       "wind": {
         "title": "Wind Energy",
         "header": "Best in locations with reliable wind",
         "description": "LUMI examines wind conditions to help determine whether wind energy may be suitable for your location.",
-        "citations": [8, 1]
+        "citations": [
+          8,
+          1
+        ]
       },
       "hydro": {
         "title": "Hydro Energy",
         "header": "Best near suitable water resources",
         "description": "LUMI examines rainfall and water-related conditions to help determine the potential for small-scale hydropower.",
-        "citations": [20]
+        "citations": [
+          20
+        ]
       },
       "insight": {
         "title": "Why the Philippines Needs Renewable Energy",
         "description": "Much of the country's electricity still comes from fossil fuels. Renewable sources such as solar, wind, and hydro can provide cleaner alternatives, but choosing the right option can be difficult. LUMI brings weather, energy, and cost information together so people can compare their options more easily.",
-        "citations": [13, 24, 2, 10],
+        "citations": [
+          13,
+          24,
+          2,
+          10
+        ],
         "readResearch": "See Our Data Sources"
       }
     },
@@ -438,11 +524,28 @@
       "badge": "Why LUMI Was Created",
       "title": "Why LUMI Was Created",
       "paragraph1": "Choosing renewable energy can be difficult. Information about costs, weather conditions, energy use, and available technologies is often spread across different sources and can be hard to understand. LUMI brings this information together in one place and explains it in a simpler way.",
-      "citations": [13, 24, 18, 23],
+      "citations": [
+        13,
+        24,
+        18,
+        23
+      ],
       "stats": {
-        "fossilShare": { "value": "70.5%", "label": "Fossil Fuel Share", "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%" },
-        "renewableShare": { "value": "29.5%", "label": "Renewable Share", "description": "Only about 29.5% of the country's energy is generated from renewable sources" },
-        "barriers": { "value": "3 Barriers", "label": "To Adoption", "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries" }
+        "fossilShare": {
+          "value": "70.5%",
+          "label": "Fossil Fuel Share",
+          "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%"
+        },
+        "renewableShare": {
+          "value": "29.5%",
+          "label": "Renewable Share",
+          "description": "Only about 29.5% of the country's energy is generated from renewable sources"
+        },
+        "barriers": {
+          "value": "3 Barriers",
+          "label": "To Adoption",
+          "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries"
+        }
       },
       "viewSourcesPrompt": "Want to see the evidence?",
       "viewSources": "View Research & Sources"
@@ -464,7 +567,15 @@
       "badge": "Who can use LUMI?",
       "title": "Who can use LUMI?",
       "subtitle": "LUMI is built for anyone who wants to understand renewable energy options in the Philippines.",
-      "citations": [2, 11, 22, 5, 16, 12, 17],
+      "citations": [
+        2,
+        11,
+        22,
+        5,
+        16,
+        12,
+        17
+      ],
       "students": {
         "title": "Students & Learners",
         "description": "LUMI can be used as a learning tool to explore climate and energy data, making abstract concepts easier to understand."
@@ -504,18 +615,63 @@
       "title": "Technology Stack",
       "subtitle": "LUMI uses a modern, scalable architecture designed for performance, accessibility, and integration of AI and environmental data.",
       "viewTechnical": "View Technical Architecture",
-      "frontend": { "title": "Frontend", "items": ["React 18 + Vite", "Tailwind CSS", "shadcn/ui Components", "React Router", "Lucide Icons"] },
-      "backend": { "title": "Backend", "items": ["FastAPI (Python)", "RESTful API Design", "Pydantic Validation", "Async Data Processing"] },
-      "database": { "title": "Database", "items": ["Supabase PostgreSQL", "Row Level Security", "Real-time Sync", "Secure Auth"] },
-      "ai": { "title": "AI & ML", "items": ["Gemini API (Google)", "Rule-Based Engine", "Predictive Analytics", "Trend Forecasting"] },
+      "frontend": {
+        "title": "Frontend",
+        "items": [
+          "React 18 + Vite",
+          "Tailwind CSS",
+          "shadcn/ui Components",
+          "React Router",
+          "Lucide Icons"
+        ]
+      },
+      "backend": {
+        "title": "Backend",
+        "items": [
+          "FastAPI (Python)",
+          "RESTful API Design",
+          "Pydantic Validation",
+          "Async Data Processing"
+        ]
+      },
+      "database": {
+        "title": "Database",
+        "items": [
+          "Supabase PostgreSQL",
+          "Row Level Security",
+          "Real-time Sync",
+          "Secure Auth"
+        ]
+      },
+      "ai": {
+        "title": "AI & ML",
+        "items": [
+          "Gemini API (Google)",
+          "Rule-Based Engine",
+          "Predictive Analytics",
+          "Trend Forecasting"
+        ]
+      },
       "impact": {
         "title": "Made for Everyone",
         "description": "Every technology choice in LUMI serves the goal of making energy information fast, accessible, and easy to understand.",
         "features": [
-          { "title": "Works on Phones & Computers", "description": "Use LUMI on different screen sizes." },
-          { "title": "English & Filipino", "description": "Choose the language you're more comfortable with." },
-          { "title": "Easy-to-Read Design", "description": "Clear text, icons, and explanations." },
-          { "title": "Light & Dark Modes", "description": "Choose the display that's comfortable for you." }
+          {
+            "title": "Works on Phones & Computers",
+            "description": "Use LUMI on different screen sizes."
+          },
+          {
+            "title": "English & Filipino",
+            "description": "Choose the language you're more comfortable with."
+          },
+          {
+            "title": "Easy-to-Read Design",
+            "description": "Clear text, icons, and explanations."
+          },
+          {
+            "title": "Light & Dark Modes",
+            "description": "Choose the display that's comfortable for you."
+          }
         ]
       }
     },
@@ -529,7 +685,11 @@
   "energyHub": {
     "title": "EnergyHub",
     "description": "Explore electricity use, renewable energy, and climate information across the Philippines. See past trends, future estimates, and renewable energy potential for different locations.",
-    "citations": [25, 26, 27],
+    "citations": [
+      25,
+      26,
+      27
+    ],
     "disclaimer": "For educational use: EnergyHub helps you understand energy information but should not replace professional advice for energy projects or investments.",
     "sections": {
       "nationalOverview": "National Overview",
@@ -612,6 +772,7 @@
     },
     "trends": {
       "title": "Energy Trends",
+      "enlarge": "Enlarge chart",
       "legend": {
         "historical": "Historical",
         "forecast": "Forecast"
@@ -675,7 +836,8 @@
         "what": "This donut chart shows what share of the country's electricity comes from each source: coal, natural gas, oil-based, hydro, solar, wind, and biomass.",
         "why": "This helps you see how much of the country's electricity still comes from fossil fuels. A high fossil share usually means higher carbon emissions and prices that are affected by global fuel markets.",
         "action": "At home, you can reduce your own carbon footprint by using less electricity during peak hours or by considering rooftop solar where allowed."
-      }
+      },
+      "hover": "{{value}}% — {{gwh}} GWh"
     },
     "aiInsight": {
       "title": "Smart Summary",
@@ -767,6 +929,9 @@
     "title": "Find the Best Renewable Energy Options for your Area",
     "subtitle": "EcoSim looks at your location, electricity use, and local environmental conditions to help estimate which renewable energy option may fit you best.",
     "errorCardTitle": "Simulation error",
+    "disclaimerLead": "Important: EcoSim estimates are based on regional data and simplified models.",
+    "disclaimerBody": "They are for educational and preliminary planning only. Always consult a licensed renewable energy professional before making investment decisions.",
+    "disclaimerWhy": "Why is this only an estimate?",
     "defaults": {
       "simulation": "Simulation",
       "renewable": "Renewable"
@@ -780,6 +945,26 @@
       "save": "Save",
       "saving": "Saving..."
     },
+    "completion": {
+      "title": "Your EcoSim estimate is ready",
+      "description": "The analysis has completed. You can review the results below.",
+      "recommendedLabel": "Recommended source",
+      "viewResults": "View Results"
+    },
+    "validation": {
+      "selectLocation": "Please select a municipality or province.",
+      "consumptionPositive": "Monthly consumption must be a positive number.",
+      "billPositive": "Monthly bill must be a positive number.",
+      "rateNegative": "Electricity rate cannot be negative.",
+      "savingsRange": "Desired savings must be between 0% and 100%."
+    },
+    "errors": {
+      "network": "We couldn't reach the EcoSim server. Please check your connection and try again.",
+      "noData": "We don't have data for this location yet. Try another municipality or province.",
+      "server": "{{message}} (Request failed on the server — please try again.)",
+      "retry": "Try again",
+      "retrying": "Retrying…"
+    },
     "toasts": {
       "loginRequired": "Please log in to save simulations",
       "runFirst": "Run a simulation first",
@@ -788,9 +973,13 @@
       "saveSuccess": "Simulation saved successfully",
       "loadSuccess": "Loaded saved simulation",
       "loadFailed": "Failed to load saved simulation",
+      "autoSaved": "Simulation auto-saved to your account",
+      "alreadySaved": "This result is already saved",
       "municipalitiesError": "Unable to load municipalities.",
       "provincesError": "Unable to load provinces.",
-      "ecosimError": "Unable to load Ecosim data."
+      "ecosimError": "Unable to load Ecosim data.",
+      "pdfFailed": "Could not generate PDF. Please try again.",
+      "aiFailed": "AI analysis could not be generated. Please try again."
     },
     "wizard": {
       "step": "Step {{current}} of {{total}}",
@@ -798,18 +987,30 @@
         "step1": "Location",
         "step2": "Electricity Use",
         "step3": "Savings Goal",
-        "step4": "Review"
+        "step4": "Explanation",
+        "step5": "Review"
       },
       "stepDescriptions": {
         "step1": "Select your city or municipality so we can analyze your local climate and resources.",
-        "step2": "Enter the numbers from your Meralco bill so we can estimate your savings.",
-        "step3": "How much would you like to reduce your monthly electricity bill?",
-        "step4": "Review your inputs and run the analysis."
+        "step2": "Enter the numbers from your latest electric bill.",
+        "step3": "Choose how much of your bill renewable energy should cover.",
+        "step4": "Decide if you want a plain-language explanation of the results.",
+        "step5": "Review your inputs and run the analysis."
       },
       "searchMode": "Select area type",
       "municipality": "City/Municipality",
       "province": "Province",
       "municipalityHint": "We use your location to estimate local solar, wind, and water conditions.",
+      "useMyLocation": "Use my location",
+      "locating": "Locating…",
+      "locationFar": "Matched {{name}} — it's about {{distance}} km from your location. Please confirm it's correct.",
+      "locationErrors": {
+        "denied": "Location permission was denied. Allow location access or search manually.",
+        "unavailable": "Your location couldn't be determined. Please search manually.",
+        "timeout": "Location request timed out. Please try again or search manually.",
+        "noMatch": "Couldn't match your location to a municipality. Please search manually.",
+        "unsupported": "Your browser doesn't support location access. Please search manually."
+      },
       "provinceHint": "Choose province for a broader regional overview.",
       "searchMunicipality": "Search city/municipality",
       "searchProvince": "Search province",
@@ -819,25 +1020,25 @@
       "moreResults": "Showing 50 of {{total}} results. {{count}} more — refine your search.",
       "selected": "Selected: {{name}}",
       "notSelected": "Not selected",
+      "saveLocation": "Save this location",
+      "locationSavedChip": "Location saved",
       "consumptionLabel": "Electricity used this billing period (kWh)",
       "consumptionPlaceholder": "e.g. 300",
-      "consumptionHint": "Look for 'Actual Consumption' on your Meralco bill.",
+      "consumptionHint": "Look for 'Actual Consumption' on your electric bill.",
       "billLabel": "Monthly bill (₱)",
       "billPlaceholder": "e.g. 5000",
       "billHint": "The total amount you pay for this billing period, before any subsidies or discounts.",
       "rateLabel": "Rate per kWh (₱/kWh)",
       "ratePlaceholder": "e.g. 13.66",
-      "rateHint": "Enter the exact rate shown on your Meralco bill, or use the computed value below.",
+      "rateHint": "Enter the rate shown on your electric bill, or use the computed value below.",
       "rateText": "Based on your inputs, you currently pay about **₱{{rate}} per kWh**. We use this to estimate your possible savings.",
       "rateComputedHint": "Based on your bill, your rate is approximately **₱{{rate}} per kWh**.",
       "useComputedRate": "Use this rate",
-      "billHelp": {
-        "consumptionTitle": "Finding your actual consumption",
-        "consumptionDescription": "Look for the 'Actual Consumption' line on your Meralco bill. It shows how many kWh you used this billing period, usually near the usage or metering section.",
-        "billTitle": "Finding your total bill",
-        "billDescription": "Look for the 'Total Amount Due' or 'Total Bill' before any subsidies or discounts. This is the amount you actually pay.",
-        "rateTitle": "Finding your rate per kWh",
-        "rateDescription": "Look for the 'Generation Charge' or 'Effective Rate' line. If it isn't shown, divide your total bill by your actual consumption."
+      "billGuide": {
+        "title": "Where to find these on your bill",
+        "kwh": "'Actual Consumption' or metered kWh for the billing period",
+        "bill": "'Total Amount Due' or 'Current Charges', before subsidies or discounts",
+        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used"
       },
       "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
       "savingsLevels": {
@@ -848,9 +1049,15 @@
       },
       "savingsSliderStart": "Reduce a little",
       "savingsSliderEnd": "Reduce as much as possible",
-      "quickSelect": ["25%", "50%", "75%", "100%"],
+      "quickSelect": [
+        "25%",
+        "50%",
+        "75%",
+        "100%"
+      ],
       "aiAnalysis": "Include simple explanation",
       "aiAnalysisHint": "Adds a simple explanation of why a renewable option is recommended for your area.",
+      "explanationPreview": "We'll add a plain-language note explaining why the top option was recommended.",
       "summaryTitle": "Your Inputs",
       "summary": {
         "location": "Location",
@@ -863,16 +1070,16 @@
       "reviewTitle": "Review your inputs",
       "compareText": "Compare solar, wind, and hydro based on your location.",
       "edit": "Edit",
-      "billHelpTrigger": "Where can I find this on my bill?",
-      "billImageAlt": "Sample Meralco bill showing the rate, consumption, and total bill boxes",
-      "billImageCaption": "Find the values in the colored boxes on your Meralco bill: green = rate per kWh, red = consumption, yellow = total bill.",
       "yes": "Yes",
       "no": "No",
       "back": "Back",
       "next": "Next",
       "runSimulation": "Run simulation",
       "running": "Running...",
-      "save": "Save"
+      "save": "Save",
+      "saveToAccount": "Save to Account",
+      "saveAsPdf": "Save as PDF",
+      "generatingPdf": "Generating..."
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -908,13 +1115,19 @@
         "title": "Why {{source}} Was Recommended",
         "description": "How your location and climate led to this recommendation",
         "yourLocation": "Your Location",
-        "locationText": "{{municipality}} — ID {{id}}",
+        "locationText": "{{municipality}}, {{province}}",
         "usageText": "Based on {{consumption}} kWh/month usage and {{bill}} monthly bill (effective rate: {{rate}}/kWh).",
         "climateAdvantage": "Climate Advantage",
         "climateAdvantageText": "This is the best home-scale match based on estimated monthly output. {{source}} conditions are {{level}} ({{value}}).",
         "climateAdvantageTextPoor": "This is the best home-scale match based on estimated monthly output. Although {{source}} conditions are {{level}} ({{value}}), this system is still estimated to produce the most kWh among the home-scale options."
       },
       "aiAnalysis": {
+        "title": "AI Analysis",
+        "insight": "AI-generated insight for this location.",
+        "pending": "AI analysis is still being generated...",
+        "pendingBody": "AI analysis is still being generated and will appear here shortly.",
+        "failedBody": "AI analysis could not be generated. Please try again.",
+        "retry": "Retry",
         "recommendationFallback": "Based on estimated monthly output, {{source}} is the best home-scale match. It could generate about {{gen}} kWh per month, covering roughly {{pct}}% of your effective electricity usage.",
         "environmentalImpactFallback": "Using a {{source}} system could reduce CO₂ emissions by about {{carbon}} kg per month compared to fossil-fuel generation."
       },
@@ -1004,28 +1217,76 @@
       },
       "nextStepsList": {
         "Solar": [
-          { "title": "Get quotes from local solar installers", "description": "Compare at least 3 quotes for a system that covers your energy needs." },
-          { "title": "Check net metering eligibility", "description": "Ask your electric utility about selling excess power back to the grid." },
-          { "title": "Assess your roof condition", "description": "Ensure your roof can support panels and is not heavily shaded." },
-          { "title": "Research government incentives", "description": "Check DOE and LGU programs for renewable energy subsidies." }
+          {
+            "title": "Get quotes from local solar installers",
+            "description": "Compare at least 3 quotes for a system that covers your energy needs."
+          },
+          {
+            "title": "Check net metering eligibility",
+            "description": "Ask your electric utility about selling excess power back to the grid."
+          },
+          {
+            "title": "Assess your roof condition",
+            "description": "Ensure your roof can support panels and is not heavily shaded."
+          },
+          {
+            "title": "Research government incentives",
+            "description": "Check DOE and LGU programs for renewable energy subsidies."
+          }
         ],
         "Wind": [
-          { "title": "Consult a wind energy specialist", "description": "Small turbines require proper siting and wind assessment." },
-          { "title": "Check local zoning regulations", "description": "Some areas restrict turbine height or require permits." },
-          { "title": "Consider hybrid systems", "description": "Combining wind with solar can provide more consistent power." },
-          { "title": "Monitor wind for 3-6 months", "description": "Install a small anemometer before investing in a turbine." }
+          {
+            "title": "Consult a wind energy specialist",
+            "description": "Small turbines require proper siting and wind assessment."
+          },
+          {
+            "title": "Check local zoning regulations",
+            "description": "Some areas restrict turbine height or require permits."
+          },
+          {
+            "title": "Consider hybrid systems",
+            "description": "Combining wind with solar can provide more consistent power."
+          },
+          {
+            "title": "Monitor wind for 3-6 months",
+            "description": "Install a small anemometer before investing in a turbine."
+          }
         ],
         "Hydro": [
-          { "title": "Survey local water sources", "description": "Identify streams or rivers with consistent year-round flow." },
-          { "title": "Check water rights regulations", "description": "You may need permits to use water flow for power generation." },
-          { "title": "Consult a micro-hydro expert", "description": "Site assessment and system design require specialized knowledge." },
-          { "title": "Measure head and flow", "description": "These two measurements determine how much power you can generate." }
+          {
+            "title": "Survey local water sources",
+            "description": "Identify streams or rivers with consistent year-round flow."
+          },
+          {
+            "title": "Check water rights regulations",
+            "description": "You may need permits to use water flow for power generation."
+          },
+          {
+            "title": "Consult a micro-hydro expert",
+            "description": "Site assessment and system design require specialized knowledge."
+          },
+          {
+            "title": "Measure head and flow",
+            "description": "These two measurements determine how much power you can generate."
+          }
         ],
         "Geothermal": [
-          { "title": "Geothermal is not a home-scale option", "description": "This is a utility-scale resource. Consider solar or wind instead for your home." },
-          { "title": "Switch to a renewable energy provider", "description": "Some utilities offer geothermal or green power programs." },
-          { "title": "Advocate for community geothermal", "description": "Support local initiatives for geothermal district heating if applicable." },
-          { "title": "Re-run EcoSim with alternative sources", "description": "Try Solar or Wind simulation to see home-scale options." }
+          {
+            "title": "Geothermal is not a home-scale option",
+            "description": "This is a utility-scale resource. Consider solar or wind instead for your home."
+          },
+          {
+            "title": "Switch to a renewable energy provider",
+            "description": "Some utilities offer geothermal or green power programs."
+          },
+          {
+            "title": "Advocate for community geothermal",
+            "description": "Support local initiatives for geothermal district heating if applicable."
+          },
+          {
+            "title": "Re-run EcoSim with alternative sources",
+            "description": "Try Solar or Wind simulation to see home-scale options."
+          }
         ]
       },
       "meralco": {
@@ -1048,19 +1309,58 @@
       "total": "Total",
       "estimatedTotal": "Estimated Total",
       "items": {
-        "solar_panels": { "item": "Solar panels (400 W)", "unit": "panel" },
-        "solar_inverter": { "item": "Inverter", "unit": "unit" },
-        "solar_mounting": { "item": "Mounting & wiring", "unit": "set" },
-        "solar_labor": { "item": "Installation labor", "unit": "set" },
-        "solar_permits": { "item": "Permits & miscellaneous", "unit": "set" },
-        "wind_turbine": { "item": "Small wind turbine", "unit": "unit" },
-        "wind_tower": { "item": "Tower / mast", "unit": "unit" },
-        "wind_controller": { "item": "Controller & inverter", "unit": "unit" },
-        "wind_labor": { "item": "Installation & anchoring", "unit": "set" },
-        "hydro_turbine": { "item": "Micro-hydro turbine & generator", "unit": "unit" },
-        "hydro_penstock": { "item": "Penstock & civil works", "unit": "set" },
-        "hydro_controller": { "item": "Controller & protection", "unit": "unit" },
-        "hydro_labor": { "item": "Installation & commissioning", "unit": "set" }
+        "solar_panels": {
+          "item": "Solar panels (400 W)",
+          "unit": "panel"
+        },
+        "solar_inverter": {
+          "item": "Inverter",
+          "unit": "unit"
+        },
+        "solar_mounting": {
+          "item": "Mounting & wiring",
+          "unit": "set"
+        },
+        "solar_labor": {
+          "item": "Installation labor",
+          "unit": "set"
+        },
+        "solar_permits": {
+          "item": "Permits & miscellaneous",
+          "unit": "set"
+        },
+        "wind_turbine": {
+          "item": "Small wind turbine",
+          "unit": "unit"
+        },
+        "wind_tower": {
+          "item": "Tower / mast",
+          "unit": "unit"
+        },
+        "wind_controller": {
+          "item": "Controller & inverter",
+          "unit": "unit"
+        },
+        "wind_labor": {
+          "item": "Installation & anchoring",
+          "unit": "set"
+        },
+        "hydro_turbine": {
+          "item": "Micro-hydro turbine & generator",
+          "unit": "unit"
+        },
+        "hydro_penstock": {
+          "item": "Penstock & civil works",
+          "unit": "set"
+        },
+        "hydro_controller": {
+          "item": "Controller & protection",
+          "unit": "unit"
+        },
+        "hydro_labor": {
+          "item": "Installation & commissioning",
+          "unit": "set"
+        }
       }
     },
     "providers": {
@@ -1151,6 +1451,13 @@
     "modules": "Modules",
     "settings": "Settings"
   },
+  "footer": {
+    "tagline": "Renewable energy feasibility intelligence for Philippine municipalities.",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "contact": "Contact",
+    "copyright": "© {{year}} LUMI. All rights reserved. Estimates only — consult a renewable energy provider for precise calculations."
+  },
   "glossary": {
     "solar_irradiance": "The amount of sunlight reaching your area. More sunlight generally means more electricity can be produced by solar panels.",
     "capacity_factor": "Shows how efficiently a renewable energy system is expected to operate compared to its maximum possible output.",
@@ -1179,5 +1486,54 @@
     "brownout": "A temporary drop in electricity supply, causing lights to dim and appliances to work poorly.",
     "blackout": "A complete loss of electricity in an area, usually caused by storms or overloaded power systems.",
     "municipality": "A city or town with its own local government. We use this to match your area with local climate and resource data."
+  },
+  "security": {
+    "title": "Security settings",
+    "currentPassword": "Current password",
+    "changeEmail": {
+      "title": "Change email",
+      "description": "Confirm your current password, then enter the new email. A confirmation link will be sent to the new address.",
+      "newEmail": "New email",
+      "submit": "Change email",
+      "submitting": "Sending...",
+      "enterEmail": "Enter a new email address",
+      "sent": "A confirmation email has been sent to the new address.",
+      "failed": "Could not change email"
+    },
+    "changePassword": {
+      "title": "Change password",
+      "description": "Confirm your current password, then enter a new password.",
+      "newPassword": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Update password",
+      "submitting": "Updating...",
+      "tooShort": "Password must be at least 6 characters",
+      "mismatch": "Passwords do not match",
+      "success": "Password updated. Use your new password to sign in next time.",
+      "failed": "Could not change password"
+    },
+    "mfa": {
+      "title": "Two-factor authentication",
+      "description": "Add an extra layer of security to your account.",
+      "enable": "Enable two-factor authentication"
+    },
+    "preferences": {
+      "title": "Preferences",
+      "description": "Control how EcoSim behaves for your account.",
+      "autosaveLabel": "Automatically save my EcoSim runs",
+      "autosaveHint": "When on, each EcoSim run is saved to your account automatically.",
+      "saved": "Preference saved",
+      "saveFailed": "Could not save preference"
+    },
+    "deleteAccount": {
+      "title": "Delete account",
+      "description": "This will permanently delete your LUMI account and all associated data. This action cannot be undone.",
+      "confirmPassword": "Enter your current password to confirm",
+      "confirm": "Permanently delete your account? This cannot be undone.",
+      "submit": "Delete account",
+      "submitting": "Deleting...",
+      "success": "Account deleted",
+      "failed": "Could not delete account"
+    }
   }
 }

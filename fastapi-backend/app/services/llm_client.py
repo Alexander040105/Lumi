@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeoutError
 from typing import Any
 
 from app.services.llm_sanitizer import clean_ai_output
@@ -35,6 +36,7 @@ def generate_response(
     max_output_tokens: int | None = None,
     max_retries: int = 3,
     clean: bool = True,
+    timeout: float | None = None,
 ) -> str:
     """
     Generate a response from the configured LLM provider.
@@ -43,47 +45,64 @@ def generate_response(
 
     If the configured provider is Gemini and *all* Gemini models fail,
     we automatically fall back to Groq when GROQ_API_KEY is present.
-    """
-    response = ""
-    if LLM_PROVIDER == "groq":
-        from app.services.groq_client import generate_groq_response
-        response = generate_groq_response(
-            content,
-            model=model,
-            temperature=temperature,
-            max_tokens=max_output_tokens,
-            max_retries=max_retries,
-        )
-        return clean_ai_output(response) if clean and response else response or ""
 
-    # Default: Gemini (with built-in retry + model fallback)
-    from app.services.gemini_funcs import generate_gemini_response
-    try:
-        response = generate_gemini_response(
-            content,
-            model=model,
-            temperature=temperature,
-            max_output_tokens=max_output_tokens,
-            max_retries=max_retries,
-        )
-        return clean_ai_output(response) if clean and response else response or ""
-    except Exception:
-        # All Gemini models failed — try Groq as emergency fallback
-        groq_key = os.getenv("GROQ_API_KEY")
-        if groq_key:
-            logger.warning(
-                "All Gemini models failed; falling back to Groq emergency path."
-            )
+    If ``timeout`` is provided, the entire provider call (including retries
+    and emergency fallback) is capped at ``timeout`` seconds. On timeout an
+    empty string is returned so callers can fall back gracefully.
+    """
+
+    def _attempt() -> str:
+        if LLM_PROVIDER == "groq":
             from app.services.groq_client import generate_groq_response
-            response = generate_groq_response(
+            return generate_groq_response(
                 content,
-                model=None,
+                model=model,
                 temperature=temperature,
                 max_tokens=max_output_tokens,
                 max_retries=max_retries,
+                timeout=timeout,
             )
-            return clean_ai_output(response) if clean and response else response or ""
-        raise
+
+        # Default: Gemini (with built-in retry + model fallback)
+        from app.services.gemini_funcs import generate_gemini_response
+        try:
+            return generate_gemini_response(
+                content,
+                model=model,
+                temperature=temperature,
+                max_output_tokens=max_output_tokens,
+                max_retries=max_retries,
+                timeout=timeout,
+            )
+        except Exception:
+            # All Gemini models failed — try Groq as emergency fallback
+            groq_key = os.getenv("GROQ_API_KEY")
+            if groq_key:
+                from app.services.groq_client import generate_groq_response
+                return generate_groq_response(
+                    content,
+                    model=None,
+                    temperature=temperature,
+                    max_tokens=max_output_tokens,
+                    max_retries=max_retries,
+                    timeout=timeout,
+                )
+            raise
+
+    if timeout is not None:
+        executor = ThreadPoolExecutor(max_workers=1)
+        future = executor.submit(_attempt)
+        try:
+            response = future.result(timeout=timeout)
+            executor.shutdown(wait=False)
+        except FutureTimeoutError:
+            executor.shutdown(wait=False)
+            logger.warning("LLM call timed out after %ss; returning empty", timeout)
+            return ""
+    else:
+        response = _attempt()
+
+    return clean_ai_output(response) if clean and response else response or ""
 
 
 def parse_json_response(text: str) -> dict[str, Any]:

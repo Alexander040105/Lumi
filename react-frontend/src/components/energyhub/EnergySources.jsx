@@ -9,10 +9,10 @@ const SOURCE_META = {
   coal: { label: "Coal", color: "#64748b" },
   natural_gas: { label: "Natural Gas", color: "#3b82f6" },
   oil_based: { label: "Oil-Based", color: "#f59e0b" },
-  geothermal: { label: "Geothermal", color: "#ef4444" },
-  hydro: { label: "Hydro", color: "#06b6d4" },
-  solar: { label: "Solar", color: "#eab308" },
-  wind: { label: "Wind", color: "#22c55e" },
+  geothermal: { label: "Geothermal", cssVar: "--chart-geothermal", color: "#ef4444" },
+  hydro: { label: "Hydro", cssVar: "--chart-hydro", color: "#06b6d4" },
+  solar: { label: "Solar", cssVar: "--chart-solar", color: "#eab308" },
+  wind: { label: "Wind", cssVar: "--chart-wind", color: "#22c55e" },
   biomass: { label: "Biomass", color: "#8b5cf6" },
 };
 
@@ -28,11 +28,13 @@ export default function EnergySources({ breakdown }) {
     return entries.map(([key, value]) => ({
       key,
       label: t(`energyHub.sources.labels.${key}`) || key,
-      color: SOURCE_META[key]?.color || "#cbd5e1",
+      color: SOURCE_META[key]?.cssVar
+        ? cssVarToHsl(SOURCE_META[key].cssVar, SOURCE_META[key].color)
+        : SOURCE_META[key]?.color || "#cbd5e1",
       share: value,
       gwh: breakdown.generation_gwh?.[key] || 0,
     }));
-  }, [breakdown, t]);
+  }, [breakdown, t, theme]);
 
   const plotlyData = useMemo(() => {
     if (chartData.length === 0) return [];

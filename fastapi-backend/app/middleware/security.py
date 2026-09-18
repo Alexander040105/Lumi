@@ -37,7 +37,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         for header, value in _SECURITY_HEADERS.items():
             response.headers.setdefault(header, value)
-        # Mask the server-identifying banner added by Uvicorn.
+        # Mask the server-identifying banner added by Uvicorn. Uvicorn prepends
+        # its own "server: uvicorn" header unless started with
+        # --no-server-header (set in deploy/backend/Dockerfile); for local dev,
+        # run: uvicorn main:app --reload --no-server-header
         response.headers["server"] = "Lumi"
         return response
 
@@ -52,4 +55,18 @@ class BodySizeLimitMiddleware(BaseHTTPMiddleware):
                 status_code=413,
                 content={"detail": "Request body too large. Maximum size is 1 MB."},
             )
+
+        body_parts: list[bytes] = []
+        body_size = 0
+        async for chunk in request.stream():
+            body_parts.append(chunk)
+            body_size += len(chunk)
+            if body_size > _MAX_BODY_BYTES:
+                return JSONResponse(
+                    status_code=413,
+                    content={"detail": "Request body too large. Maximum size is 1 MB."},
+                )
+
+        # Cache the consumed body so FastAPI/Starlette can still read it downstream.
+        request._body = b"".join(body_parts)  # type: ignore[attr-defined]
         return await call_next(request)

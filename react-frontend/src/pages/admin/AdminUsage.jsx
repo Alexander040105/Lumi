@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Download } from "lucide-react";
+import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +28,7 @@ export default function AdminUsage() {
   const [limit] = useState(50);
   const [selectedUser, setSelectedUser] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
 
   const fetchUsage = async () => {
     setLoading(true);
@@ -62,12 +65,37 @@ export default function AdminUsage() {
     setDrawerOpen(true);
   };
 
+  const handleExportCsv = async () => {
+    setExporting(true);
+    try {
+      const res = await fetch(`${getApiBaseUrl()}/admin/usage/export`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) throw new Error("Export failed");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "user-usage.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      toast.error(t("common.error"));
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const formatDate = (d) => (d ? new Date(d).toLocaleString() : "—");
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">{t("admin.usagePage.title")}</h1>
+        <Button variant="outline" size="sm" onClick={handleExportCsv} disabled={exporting}>
+          <Download className="h-4 w-4 mr-2" />
+          {exporting ? t("common.loading") : t("common.downloadCsv")}
+        </Button>
       </div>
 
       <form onSubmit={handleSearch} className="flex gap-3 mb-4">
@@ -85,7 +113,7 @@ export default function AdminUsage() {
       {loading ? (
         <p className="text-muted-foreground">{t("admin.usagePage.loading")}</p>
       ) : (
-        <div className="border rounded-lg overflow-hidden">
+        <div className="border rounded-lg overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>

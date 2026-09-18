@@ -30,6 +30,7 @@ class ProfileUpdatePayload(BaseModel):
     location: str | None = Field(None, max_length=120)
     preferred_municipality_id: str | None = Field(None, max_length=40)
     avatar_url: str | None = Field(None, max_length=500)
+    ecosim_autosave: bool | None = None
 
     model_config = {"extra": "forbid"}
 

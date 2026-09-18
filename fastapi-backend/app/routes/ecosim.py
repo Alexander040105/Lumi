@@ -21,6 +21,8 @@ from app.services.ecosim import (
     list_provinces,
     renewable_energy_calculator,
 )
+from app.services.gemini_funcs import analyze_renewable_results
+from app.services.rag_gemini_funcs import analyze_with_rag
 from app.services.supabase_service import get_supabase_client
 
 logger = logging.getLogger(__name__)
@@ -77,21 +79,46 @@ async def get_ecosim_ai(
     data_source: EcoSimDataSource = Query(default="auto", description="auto | atlas | era5"),
     auth: dict = Depends(get_ecosim_optional_user_or_quota),
 ):
-    result = build_ecosim_dashboard_response(
+    # Reuse the non-AI dashboard result so we don’t recompute climate, solar,
+    # wind, and hydro math just to add the AI analysis.
+    base_result = build_ecosim_dashboard_response(
         municipality_id=params.municipality_id,
         monthly_consumption=params.monthly_consumption,
         monthly_bill=params.monthly_bill,
         electricity_rate=params.electricity_rate,
         desired_savings=params.desired_savings,
-        include_ai=True,
+        include_ai=False,
         use_rag=use_rag,
         rag_query=rag_query,
         mode=params.mode,
         data_source=data_source,
     )
+
+    analysis_payload = {
+        "municipality_data": base_result.get("municipality_data") or [],
+        "consumption_results": base_result.get("consumption_results"),
+        "renewable_energy_results": base_result.get("renewable_energy_results"),
+        "nearby_geothermal_plants": base_result.get("nearby_geothermal_plants") or [],
+        "mode": params.mode,
+    }
+    if use_rag and rag_query:
+        ai_analysis = analyze_with_rag(analysis_payload, rag_query)
+    else:
+        ai_analysis = analyze_renewable_results(analysis_payload)
+
+    # Fill empty per-source slots with the deterministic explanations so the
+    # frontend always has text for the per-source modals (mirrors the merge in
+    # renewable_energy_calculator).
+    if isinstance(ai_analysis, dict):
+        ra = ai_analysis.get("renewable_analysis") or {}
+        for key, text in (base_result.get("explanations") or {}).items():
+            if not ra.get(key):
+                ra[key] = text
+        ai_analysis["renewable_analysis"] = ra
+
     _log_ecosim_request(auth.get("user"), params.municipality_id)
     return {
-        "ai_analysis": result.get("ai_analysis"),
+        "ai_analysis": ai_analysis,
         "remaining_anonymous_requests": auth["remaining_anonymous_requests"],
         "remaining_usage": auth.get("remaining_usage"),
     }

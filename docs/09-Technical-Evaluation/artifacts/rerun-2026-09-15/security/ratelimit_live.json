@@ -1,0 +1,12 @@
+{
+ "A_no_xff_70req": {
+  "200": 60,
+  "429": 10
+ },
+ "B_spoofed_loopback_xff_70req": {
+  "429": 70
+ },
+ "C_public_xff_70req": {
+  "429": 70
+ }
+}

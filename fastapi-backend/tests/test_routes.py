@@ -80,6 +80,12 @@ def _sample_dashboard(**_):
         },
         "municipality_data": [],
         "ai_analysis": None,
+        "explanations": {
+            "solar": "Solar explanation",
+            "wind": "Wind explanation",
+            "hydro": "Hydro explanation",
+            "geothermal": "Geothermal explanation",
+        },
         "nearby_geothermal_plants": [],
     }
 
@@ -170,6 +176,41 @@ def test_ecosim_get_authenticated_no_quota(authed_client):
     assert response.status_code == 200
     data = response.json()
     assert data["remaining_anonymous_requests"] is None
+
+
+def test_ecosim_ai_fills_empty_renewable_analysis(client, monkeypatch):
+    monkeypatch.setattr(
+        "app.routes.ecosim.analyze_renewable_results",
+        lambda payload: {
+            "summary": "AI summary",
+            "renewable_analysis": {"solar": "", "wind": "", "hydro": "", "geothermal": ""},
+            "recommendation": {"best_option": "", "reason": ""},
+        },
+    )
+    response = client.get(
+        "/api/v1/ecosim/ai?municipality_id=1&monthly_consumption=350&monthly_bill=5000"
+    )
+    assert response.status_code == 200
+    ra = response.json()["ai_analysis"]["renewable_analysis"]
+    assert ra["wind"] == "Wind explanation"
+    assert all(ra[k] for k in ("solar", "wind", "hydro", "geothermal"))
+
+
+def test_ecosim_ai_preserves_llm_renewable_analysis(client, monkeypatch):
+    monkeypatch.setattr(
+        "app.routes.ecosim.analyze_renewable_results",
+        lambda payload: {
+            "summary": "AI summary",
+            "renewable_analysis": {"wind": "LLM wind text"},
+        },
+    )
+    response = client.get(
+        "/api/v1/ecosim/ai?municipality_id=1&monthly_consumption=350&monthly_bill=5000"
+    )
+    assert response.status_code == 200
+    ra = response.json()["ai_analysis"]["renewable_analysis"]
+    assert ra["wind"] == "LLM wind text"
+    assert ra["solar"] == "Solar explanation"
 
 
 def test_ecosim_post_anonymous_first_request(client):

@@ -1,32 +1,45 @@
 export function getSupabaseUrl() {
-  return (
-    import.meta.env.VITE_SUPABASE_URL ||
-    "https://husnkzlccdrjpwlqcfbt.supabase.co"
-  );
+  const url = import.meta.env.VITE_SUPABASE_URL;
+  if (!url) {
+    throw new Error("VITE_SUPABASE_URL is required");
+  }
+  return url;
 }
 
 export function getSupabaseAnonKey() {
-  return (
-    import.meta.env.VITE_SUPABASE_ANON_KEY ||
-    "sb_publishable_dth7eXs1Shn6pBPstjr0dQ_wprh2qGR"
-  );
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  if (!key) {
+    throw new Error("VITE_SUPABASE_ANON_KEY is required");
+  }
+  return key;
+}
+
+export function getCartoApiKey() {
+  const key =
+    import.meta.env.CARTO_API_KEY || import.meta.env.VITE_CARTO_API_KEY || "";
+  if (!key && import.meta.env.DEV) {
+    console.warn(
+      "[LUMI] CARTO_API_KEY is not set — basemap tiles will show the 'API key required' watermark."
+    );
+  }
+  return key;
 }
 
 export function getApiBaseUrl() {
   if (import.meta.env.DEV) {
     return "/api/v1";
   }
-  const base = (
-    import.meta.env.VITE_API_BASE_URL ||
-    "https://lumi-backend-ten.vercel.app"
-  )
-    .trim()
-    .replace(/\/+$/, "");
-  if (base.endsWith("/api/v1")) {
-    return base;
+  const base = import.meta.env.VITE_API_BASE_URL;
+  if (!base) {
+    throw new Error("VITE_API_BASE_URL is required");
   }
-  if (base.endsWith("/api")) {
-    return `${base}/v1`;
+  // Force IPv4 to avoid browsers resolving "localhost" to ::1 when the server is IPv4-only.
+  const trimmed = base.trim().replace(/\/+$/, "").replace("/localhost:", "/127.0.0.1:");
+  if (trimmed.endsWith("/api/v1")) {
+    return trimmed;
   }
-  return `${base}/api/v1`;
+  if (trimmed.endsWith("/api")) {
+    return `${trimmed}/v1`;
+  }
+  return `${trimmed}/api/v1`;
 }

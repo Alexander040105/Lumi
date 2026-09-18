@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getApiBaseUrl } from "@/utils/env";
-import { useSearchParams } from "react-router-dom";
+import { downloadEcosimPdf } from "@/utils/ecosimPdf";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,10 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
+import { CheckCircle2 } from "lucide-react";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
+import { saveLocation } from "@/services/savedLocations";
+import { filterMunicipalities, formatMunicipalityLabel } from "@/utils/municipalities";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { supabase } from "@/services/supabaseClient";
@@ -26,7 +30,8 @@ import { useI18n } from "@/i18n";
 
 export default function Ecosim() {
   const { t } = useI18n();
-  const { user, accessToken } = useAuth();
+  const { user, accessToken, profile } = useAuth();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [mode, setMode] = useState("municipality");
@@ -52,6 +57,8 @@ export default function Ecosim() {
 
   const aiPollTimerRef = useRef(null);
   const runningRef = useRef(false);
+  const MAX_AI_ATTEMPTS = 6;
+  const AI_POLL_INTERVAL_MS = 5000;
   const clearAiPoll = () => {
     if (aiPollTimerRef.current) {
       clearTimeout(aiPollTimerRef.current);
@@ -62,29 +69,72 @@ export default function Ecosim() {
 
   // Save simulation dialog state
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [completeDialogOpen, setCompleteDialogOpen] = useState(false);
   const [saveLabel, setSaveLabel] = useState("");
   const [saving, setSaving] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const resultRef = useRef(null);
 
-  const filteredMunicipalities = useMemo(() => {
-    const q = muniQuery.trim().toLowerCase();
-    if (!q) return municipalities;
-    return municipalities
-      .map((m) => {
-        const name = m.name.toLowerCase();
-        const prov = (m.province_name || "").toLowerCase();
-        const nameIdx = name.indexOf(q);
-        const provIdx = prov.indexOf(q);
-        // Match if query is in municipality name OR province name
-        const matchIdx = nameIdx >= 0 ? nameIdx : provIdx;
-        return { ...m, _matchIdx: matchIdx, _startsWith: nameIdx === 0, _provinceMatch: provIdx >= 0 && nameIdx < 0 };
+  const hasCompleteDialogBeenShownRef = useRef(false);
+  const aiParamsRef = useRef(null);
+  const aiAttemptsRef = useRef(0);
+  const aiInFlightRef = useRef(false);
+
+  const [aiError, setAiError] = useState(null);
+
+  const startAiPoll = useCallback((params, attempt) => {
+    const nextAttempt = attempt ?? aiAttemptsRef.current + 1;
+    if (nextAttempt > MAX_AI_ATTEMPTS) {
+      setAiLoading(false);
+      setAiError(t("ecosim.toasts.aiFailed"));
+      toast.error(t("ecosim.toasts.aiFailed"));
+      aiInFlightRef.current = false;
+      return;
+    }
+    aiAttemptsRef.current = nextAttempt;
+    aiInFlightRef.current = true;
+    setAiLoading(true);
+    setAiError(null);
+    getEcosimAI(params)
+      .then((aiData) => {
+        const analysis = aiData?.ai_analysis;
+        if (
+          (analysis?.error?.includes("timed out") || analysis?.status === "pending") &&
+          nextAttempt < MAX_AI_ATTEMPTS
+        ) {
+          aiPollTimerRef.current = setTimeout(() => {
+            startAiPoll(params);
+          }, AI_POLL_INTERVAL_MS);
+        } else if (analysis?.status === "failed" || (analysis?.error && !analysis?.summary)) {
+          setAiError(t("ecosim.toasts.aiFailed"));
+          toast.error(t("ecosim.toasts.aiFailed"));
+          setAiLoading(false);
+        } else {
+          setResult((prev) =>
+            prev ? { ...prev, ai_analysis: analysis } : prev
+          );
+          setAiError(null);
+          setAiLoading(false);
+        }
+        aiInFlightRef.current = false;
       })
-      .filter((m) => m._matchIdx >= 0)
-      .sort((a, b) => {
-        if (a._startsWith !== b._startsWith) return a._startsWith ? -1 : 1;
-        if (a._provinceMatch !== b._provinceMatch) return a._provinceMatch ? 1 : -1;
-        return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
+      .catch((err) => {
+        console.error("AI analysis failed:", err);
+        setAiError(t("ecosim.toasts.aiFailed"));
+        toast.error(t("ecosim.toasts.aiFailed"));
+        setAiLoading(false);
+        aiInFlightRef.current = false;
       });
-  }, [municipalities, muniQuery]);
+  }, [t]);
+
+  useEffect(() => {
+    hasCompleteDialogBeenShownRef.current = true;
+  }, []);
+
+  const filteredMunicipalities = useMemo(
+    () => filterMunicipalities(municipalities, muniQuery),
+    [municipalities, muniQuery]
+  );
 
   const filteredProvinces = useMemo(() => {
     const q = provinceQuery.trim().toLowerCase();
@@ -101,6 +151,16 @@ export default function Ecosim() {
         return a._matchIdx - b._matchIdx || a.name.localeCompare(b.name);
       });
   }, [provinces, provinceQuery]);
+
+  const selectedName = useMemo(() => {
+    if (mode === "municipality") {
+      const found = filteredMunicipalities.find((m) => String(m.municipality_id) === municipalityId);
+      if (!found) return muniQuery;
+      return found.province_name ? `${found.name}, ${found.province_name}` : found.name;
+    }
+    const found = filteredProvinces.find((p) => String(p.province_id) === provinceId);
+    return found ? found.name : provinceQuery;
+  }, [mode, municipalityId, provinceId, filteredMunicipalities, filteredProvinces, muniQuery, provinceQuery]);
 
   const comparisonMax = useMemo(() => {
     if (!result?.options?.length) return 0;
@@ -177,6 +237,7 @@ export default function Ecosim() {
         // Pre-populate results
         if (sim.results) {
           setResult(sim.results);
+          loadedFromSavedRef.current = true;
         }
         toast.success(t("ecosim.toasts.loadSuccess"));
       } catch (err) {
@@ -189,6 +250,70 @@ export default function Ecosim() {
       isActive = false;
     };
   }, [searchParams, user, municipalities]);
+
+  const loadedFromSavedRef = useRef(false);
+  const autoSavedResultRef = useRef(null);
+
+  // Preselect municipality from query param ?municipality={id} (e.g. dashboard saved locations)
+  const muniParamHandledRef = useRef(null);
+  useEffect(() => {
+    if (searchParams.get("simulation_id")) return;
+    const muniParam = searchParams.get("municipality");
+    if (!muniParam || !municipalities.length || muniParamHandledRef.current === muniParam) return;
+    const found = municipalities.find((m) => String(m.municipality_id) === String(muniParam));
+    setMunicipalityId(String(muniParam));
+    setMuniQuery(found ? formatMunicipalityLabel(found) : muniParam);
+    muniParamHandledRef.current = muniParam;
+  }, [searchParams, municipalities]);
+
+  const [locationSaved, setLocationSaved] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
+  useEffect(() => setLocationSaved(false), [municipalityId]);
+
+  const handleSaveLocation = async () => {
+    if (!user) return;
+    const res = await saveLocation({
+      userId: user.id,
+      municipalityId: Number(municipalityId),
+      label: selectedName,
+    });
+    if (res.status === "duplicate") {
+      toast.info(t("dashboard.locationAlreadySaved"));
+      setLocationSaved(true);
+    } else if (res.status === "saved") {
+      toast.success(t("dashboard.locationSavedToast"));
+      setLocationSaved(true);
+    } else {
+      toast.error(t("dashboard.locationSaveFailed"));
+    }
+  };
+
+  useEffect(() => {
+    if (result && !loading && !hasCompleteDialogBeenShownRef.current) {
+      setCompleteDialogOpen(true);
+      hasCompleteDialogBeenShownRef.current = true;
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, [result, loading]);
+
+  useEffect(() => {
+    const onVisibility = () => {
+      if (document.hidden) {
+        clearAiPoll();
+      } else if (
+        aiLoading &&
+        !result?.ai_analysis &&
+        !aiInFlightRef.current &&
+        !aiPollTimerRef.current
+      ) {
+        startAiPoll(aiParamsRef.current);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => document.removeEventListener("visibilitychange", onVisibility);
+  }, [aiLoading, result, startAiPoll]);
 
   useEffect(() => {
     let isActive = true;
@@ -217,14 +342,52 @@ export default function Ecosim() {
 
   const activeId = mode === "province" ? provinceId : municipalityId;
 
+  const validateInputs = () => {
+    const id = String(activeId).trim();
+    const consumption = Number(monthlyConsumption);
+    const bill = Number(monthlyBill);
+    const rate = Number(electricityRate);
+    const savings = Number(desiredSavings);
+
+    if (!id) return t("ecosim.validation.selectLocation");
+    if (!Number.isFinite(consumption) || consumption <= 0) {
+      return t("ecosim.validation.consumptionPositive");
+    }
+    if (!Number.isFinite(bill) || bill <= 0) {
+      return t("ecosim.validation.billPositive");
+    }
+    if (!Number.isFinite(rate) || rate < 0) {
+      return t("ecosim.validation.rateNegative");
+    }
+    if (!Number.isFinite(savings) || savings < 0 || savings > 100) {
+      return t("ecosim.validation.savingsRange");
+    }
+    return null;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (runningRef.current) return;
     runningRef.current = true;
+    loadedFromSavedRef.current = false;
+    autoSavedResultRef.current = null;
     setError(null);
     setLoading(true);
     setAiLoading(false);
+    setAiError(null);
+    setCompleteDialogOpen(false);
     clearAiPoll();
+    aiAttemptsRef.current = 0;
+    aiInFlightRef.current = false;
+    aiParamsRef.current = null;
+
+    const validationError = validateInputs();
+    if (validationError) {
+      setError({ message: validationError });
+      setLoading(false);
+      runningRef.current = false;
+      return;
+    }
 
     try {
       const data = await getEcosim({
@@ -237,6 +400,17 @@ export default function Ecosim() {
         mode,
       });
       setResult(data);
+      hasCompleteDialogBeenShownRef.current = false;
+
+      if (user && profile?.ecosim_autosave !== false && !loadedFromSavedRef.current) {
+        saveSimulation(defaultSaveLabel(data), data).then((ok) => {
+          if (!ok) return;
+          autoSavedResultRef.current = data;
+          toast.success(t("ecosim.toasts.autoSaved"), {
+            action: { label: t("common.view"), onClick: () => navigate("/saved-simulations") },
+          });
+        });
+      }
 
       if (includeAi) {
         const aiParams = {
@@ -247,30 +421,8 @@ export default function Ecosim() {
           desiredSavings: Number(desiredSavings) / 100,
           mode,
         };
-
-        const loadAi = (attempt = 1) => {
-          setAiLoading(true);
-          getEcosimAI(aiParams)
-            .then((aiData) => {
-              const analysis = aiData?.ai_analysis;
-              if (analysis?.error?.includes("timed out") && attempt < 10) {
-                aiPollTimerRef.current = setTimeout(() => {
-                  loadAi(attempt + 1);
-                }, 15000);
-              } else {
-                setResult((prev) =>
-                  prev ? { ...prev, ai_analysis: analysis } : prev
-                );
-                setAiLoading(false);
-              }
-            })
-            .catch((err) => {
-              console.error("AI analysis failed:", err);
-              setAiLoading(false);
-            });
-        };
-
-        loadAi();
+        aiParamsRef.current = aiParams;
+        startAiPoll(aiParams);
       }
     } catch (err) {
       const network = err?.name === "TypeError" || err?.name === "AbortError" || (err?.message && /fetch|network|abort/i.test(err.message));
@@ -285,20 +437,10 @@ export default function Ecosim() {
     }
   };
 
-  const handleSaveSimulation = async () => {
-    if (!user || !accessToken) {
-      toast.error(t("ecosim.toasts.loginRequired"));
-      return;
-    }
-    if (!result || !activeId) {
-      toast.error(t("ecosim.toasts.runFirst"));
-      return;
-    }
+  const defaultSaveLabel = (data) =>
+    `${data?.municipality || t("ecosim.defaults.simulation")} — ${data?.recommended_source || t("ecosim.defaults.renewable")}`;
 
-    const defaultLabel = `${result.municipality || t("ecosim.defaults.simulation")} — ${result.recommended_source || t("ecosim.defaults.renewable")}`;
-    const label = saveLabel.trim() || defaultLabel;
-
-    setSaving(true);
+  const saveSimulation = async (label, simResult = result) => {
     try {
       const res = await fetch(
         `${getApiBaseUrl()}/simulations`,
@@ -321,7 +463,7 @@ export default function Ecosim() {
               include_ai: includeAi,
               mode,
             },
-            results: result,
+            results: simResult,
           }),
         }
       );
@@ -333,27 +475,113 @@ export default function Ecosim() {
         } else {
           toast.error(errData.detail?.message || t("ecosim.toasts.saveFailed"));
         }
-        return;
+        return false;
       }
+      return true;
+    } catch (err) {
+      toast.error(err?.message || t("ecosim.toasts.saveFailed"));
+      return false;
+    }
+  };
 
+  const handleSaveSimulation = async () => {
+    if (!user || !accessToken) {
+      toast.error(t("ecosim.toasts.loginRequired"));
+      return;
+    }
+    if (!result || !activeId) {
+      toast.error(t("ecosim.toasts.runFirst"));
+      return;
+    }
+    if (result === autoSavedResultRef.current || loadedFromSavedRef.current) {
+      toast.info(t("ecosim.toasts.alreadySaved"));
+      return;
+    }
+
+    const label = saveLabel.trim() || defaultSaveLabel(result);
+
+    setSaving(true);
+    const ok = await saveSimulation(label);
+    setSaving(false);
+    if (ok) {
       toast.success(t("ecosim.toasts.saveSuccess"));
       setSaveDialogOpen(false);
       setSaveLabel("");
-    } catch (err) {
-      toast.error(err?.message || t("ecosim.toasts.saveFailed"));
-    } finally {
-      setSaving(false);
     }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!result) {
+      toast.error(t("ecosim.toasts.runFirst"));
+      return;
+    }
+    setPdfLoading(true);
+    try {
+      await downloadEcosimPdf({
+        result,
+        inputs: {
+          mode,
+          selectedName,
+          monthlyConsumption,
+          monthlyBill,
+          electricityRate,
+          desiredSavings,
+          includeAi,
+        },
+      });
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+      toast.error(t("ecosim.toasts.pdfFailed"));
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
+  const handleAiRetry = () => {
+    if (!aiParamsRef.current) return;
+    aiAttemptsRef.current = 0;
+    setAiError(null);
+    startAiPoll(aiParamsRef.current);
   };
 
   return (
     <section className="page-container stack">
+      <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
+        <ol className="flex items-center gap-2">
+          <li>
+            <Link to="/" className="hover:text-foreground hover:underline">
+              {t("nav.home")}
+            </Link>
+          </li>
+          <li>/</li>
+          <li className="text-foreground">{t("nav.ecosim")}</li>
+        </ol>
+      </nav>
+
       <div className="space-y-2">
         <h1>{t("ecosim.title")}</h1>
         <p className="text-muted-foreground">
           {t("ecosim.subtitle")}
         </p>
       </div>
+
+      <Card className="bg-muted/50">
+        <CardContent className="pt-4 text-sm text-muted-foreground space-y-2">
+          <p>
+            <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-auto px-1 py-0 text-xs text-muted-foreground underline decoration-dotted"
+              onClick={() => setShowDisclaimer((v) => !v)}
+              aria-expanded={showDisclaimer}
+            >
+              {t("ecosim.disclaimerWhy")}
+            </Button>
+          </p>
+          {showDisclaimer && <p>{t("ecosim.disclaimerBody")}</p>}
+        </CardContent>
+      </Card>
 
       <EcosimWizard
         mode={mode}
@@ -363,6 +591,7 @@ export default function Ecosim() {
         muniOpen={muniOpen}
         setMuniOpen={setMuniOpen}
         filteredMunicipalities={filteredMunicipalities}
+        municipalities={municipalities}
         municipalityId={municipalityId}
         setMunicipalityId={setMunicipalityId}
         municipalitiesError={municipalitiesError}
@@ -386,29 +615,35 @@ export default function Ecosim() {
         setIncludeAi={setIncludeAi}
         onRun={handleSubmit}
         loading={loading}
+        aiLoading={aiLoading}
+        aiError={aiError}
         activeId={activeId}
         result={result}
         user={user}
         onSave={() => {
-          const defaultLabel = `${result.municipality || t("ecosim.defaults.simulation")} — ${result.recommended_source || t("ecosim.defaults.renewable")}`;
-          setSaveLabel(defaultLabel);
+          setSaveLabel(defaultSaveLabel(result));
           setSaveDialogOpen(true);
         }}
+        onDownloadPdf={handleDownloadPdf}
+        downloadPdfLoading={pdfLoading}
+        onSaveLocation={handleSaveLocation}
+        locationSaved={locationSaved}
+        resultSaved={result === autoSavedResultRef.current || loadedFromSavedRef.current}
       />
 
       {error && (
-        <Card className="border-destructive text-destructive">
+        <Card className="border-destructive" role="alert">
           <CardHeader>
-            <CardTitle>{t("ecosim.errorCardTitle")}</CardTitle>
+            <CardTitle className="text-destructive">{t("ecosim.errorCardTitle")}</CardTitle>
             <CardDescription>
               {error.network
-                ? "Could not reach the EcoSim server. Please check your connection and try again."
+                ? t("ecosim.errors.network")
                 : error.status === 401 || error.status === 429
                 ? error.message
                 : error.status === 404
-                ? "We don't have data for this location yet. Try another municipality or province."
+                ? t("ecosim.errors.noData")
                 : error.status >= 500
-                ? `${error.message} (Request failed on the server — please try again.)`
+                ? t("ecosim.errors.server", { message: error.message })
                 : error.message}
             </CardDescription>
           </CardHeader>
@@ -420,7 +655,7 @@ export default function Ecosim() {
                 onClick={handleSubmit}
                 disabled={loading}
               >
-                {loading ? "Retrying…" : "Try again"}
+                {loading ? t("ecosim.errors.retrying") : t("ecosim.errors.retry")}
               </Button>
             </CardContent>
           )}
@@ -430,8 +665,39 @@ export default function Ecosim() {
       {loading && <LoadingSkeleton />}
 
       {result && !loading && (
-        <EcosimResults result={result} aiLoading={aiLoading} />
+        <div id="ecosim-result" ref={resultRef}>
+          <EcosimResults result={result} aiLoading={aiLoading} aiError={aiError} onAiRetry={handleAiRetry} />
+        </div>
       )}
+
+      {/* Completion Dialog */}
+      <Dialog open={completeDialogOpen} onOpenChange={setCompleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <div className="flex items-center gap-2 text-primary">
+              <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
+              <DialogTitle>{t("ecosim.completion.title")}</DialogTitle>
+            </div>
+            <DialogDescription>
+              {t("ecosim.completion.description")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-2 text-sm text-muted-foreground">
+            {t("ecosim.completion.recommendedLabel")}: {result?.recommended_source || "—"}
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={() => {
+                setCompleteDialogOpen(false);
+                resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+            >
+              {t("ecosim.completion.viewResults")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Save Simulation Dialog */}
       <Dialog open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
@@ -443,8 +709,11 @@ export default function Ecosim() {
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">
-            <label className="text-sm font-medium">{t("ecosim.saveDialog.label")}</label>
+            <label htmlFor="save-simulation-label" className="text-sm font-medium">
+              {t("ecosim.saveDialog.label")}
+            </label>
             <Input
+              id="save-simulation-label"
               value={saveLabel}
               onChange={(e) => setSaveLabel(e.target.value)}
               placeholder={t("ecosim.saveDialog.placeholder")}

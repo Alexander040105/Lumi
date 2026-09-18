@@ -34,8 +34,10 @@ cd fastapi-backend
 python -m venv venv
 source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env            # fill in Supabase/Gemini/Groq/Redis values
-uvicorn main:app --reload --port 8000
+# Backend config loads from the REPOSITORY-ROOT .env (settings.py resolves
+# ../.env relative to this package). A fastapi-backend/.env file is ignored —
+# use it only as a local template reference, not for real values.
+uvicorn main:app --reload --port 8000 --no-server-header
 ```
 
 ## Tests

@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import {
@@ -174,7 +175,7 @@ export default function EnergyHub() {
         const ai = await getEnergyHubAiInsight(true);
         setInsight(ai);
       } catch (err) {
-        toast.error("LLM insight failed", { description: err.message });
+        toast.error(t("energyHub.toast.llmError"), { description: err.message });
       } finally {
         setLlmLoading((prev) => ({ ...prev, overview: false }));
       }
@@ -229,15 +230,24 @@ export default function EnergyHub() {
       {/* Header */}
       <div className="border-b bg-card">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground mb-2">
+            <ol className="flex items-center gap-2">
+              <li>
+                <Link to="/" className="hover:text-foreground hover:underline">
+                  {t("nav.home")}
+                </Link>
+              </li>
+              <li>/</li>
+              <li className="text-foreground">{t("nav.energyHub")}</li>
+            </ol>
+          </nav>
+
           <h1 className="text-3xl font-bold tracking-tight">{t("energyHub.title")}</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
             {t("energyHub.description")}
           </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <CitationSources ids={t("energyHub.citations")} />
-            <p className="text-xs text-muted-foreground">
-              {t("energyHub.disclaimer")}
-            </p>
+          <div className="mt-3 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm text-foreground">
+            {t("energyHub.disclaimer")}
           </div>
         </div>
       </div>

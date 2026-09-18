@@ -1,0 +1,140 @@
+{
+  "provider_env": "groq",
+  "groq_model_default": "groq/compound-mini",
+  "payload_keys": [
+    "municipality_data",
+    "consumption_results",
+    "renewable_energy_results",
+    "nearby_geothermal_plants",
+    "mode"
+  ],
+  "prompt_chars": 8301,
+  "runs": [
+    {
+      "run": 1,
+      "latency_ms": 5588.6,
+      "chars": 1953,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    },
+    {
+      "run": 2,
+      "latency_ms": 4166.8,
+      "chars": 1869,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    },
+    {
+      "run": 3,
+      "latency_ms": 4435.1,
+      "chars": 1942,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    },
+    {
+      "run": 4,
+      "latency_ms": 5052.3,
+      "chars": 2031,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    },
+    {
+      "run": 5,
+      "latency_ms": 4745.2,
+      "chars": 2059,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    },
+    {
+      "run": 6,
+      "latency_ms": 18468.7,
+      "chars": 1831,
+      "non_empty": true,
+      "survives_sanitizer": true,
+      "headers_found": [
+        "## Observation",
+        "## Interpretation",
+        "## Recommendation"
+      ],
+      "headers_ok": true,
+      "prescriptive_extracted": true,
+      "error": null
+    }
+  ],
+  "latency": {
+    "n": 6,
+    "min_ms": 4166.8,
+    "mean_ms": 7076.1,
+    "p50_ms": 5052.3,
+    "p95_ms": 5588.6,
+    "max_ms": 18468.7
+  },
+  "non_empty_rate": 1.0,
+  "sanitizer_survival_rate": 1.0,
+  "header_compliance_rate": 1.0,
+  "prescriptive_extraction_rate": 1.0,
+  "json_mode": {
+    "n": 4,
+    "valid_json_rate": 0.0,
+    "schema_compliance_rate": 0.0,
+    "mean_latency_ms": 2217.8
+  },
+  "fallback": {
+    "gemini_failure_injected": true,
+    "groq_fallback_returned_response": true,
+    "elapsed_ms": 1919.7,
+    "error": null
+  },
+  "timeout_path": {
+    "timeout_s": 0.5,
+    "elapsed_ms": 504.1,
+    "returned_empty_string": true
+  },
+  "token_usage_sample": {
+    "model_returned": "groq/compound-mini",
+    "prompt_tokens": 571,
+    "completion_tokens": 450,
+    "total_tokens": 1021,
+    "latency_ms": 2028.6
+  }
+}

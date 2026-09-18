@@ -1,0 +1,73 @@
+Dataset: 23 rows, years 2003-2025, 45 cols
+[
+ {
+  "mae": 5993.83,
+  "rmse": 7342.1,
+  "mape": 4.965,
+  "r2": 0.1054,
+  "model": "Linear Trend Regression",
+  "fit_seconds": 0.0374
+ },
+ {
+  "mae": 6709.32,
+  "rmse": 8128.45,
+  "mape": 5.566,
+  "r2": -0.0965,
+  "model": "Naive with Drift",
+  "fit_seconds": 0.0001
+ },
+ {
+  "mae": 6557.72,
+  "rmse": 7997.68,
+  "mape": 5.435,
+  "r2": -0.0615,
+  "model": "Holt Linear Smoothing",
+  "fit_seconds": 0.016
+ },
+ {
+  "mae": 6829.09,
+  "rmse": 8257.12,
+  "mape": 5.667,
+  "r2": -0.1315,
+  "model": "ARIMA(1,1,1)",
+  "fit_seconds": 0.0859
+ },
+ {
+  "mae": 16721.1,
+  "rmse": 18787.73,
+  "mape": 14.031,
+  "r2": -4.8577,
+  "model": "SARIMAX(1,1,1) + Exog",
+  "fit_seconds": 0.0704
+ },
+ {
+  "mae": 13118.37,
+  "rmse": 15349.45,
+  "mape": 10.937,
+  "r2": -2.9099,
+  "model": "Random Forest Regression",
+  "fit_seconds": 0.1026
+ }
+]
+
+CV summary (abs pct err):
+         model  count  mean   std
+  ARIMA(1,1,1)      7 3.607 2.512
+          Holt      7 3.525 3.496
+  Linear Trend      7 5.861 3.917
+Naive w/ Drift      7 3.584 2.535
+
+Directional accuracy:
+                         sum  count   mean
+model                                     
+ARIMA(1,1,1)               8     11  0.727
+Linear Trend               3      7  0.429
+Linear Trend Regression    2      4  0.500
+
+DM: {'comparison': 'ARIMA(1,1,1) vs Linear Trend (|error| loss)', 'dm_stat': 3.532, 'p_value_normal_approx': 0.0004, 'n_test': 4, 'caveat': 'n=4 -> test has essentially no power; reported for completeness'}
+
+Robustness MAPE: {'n_runs': 30, 'mean': 5.707, 'std': 0.155, 'min': 5.279, 'max': 6.068}
+
+Latency/size: {'arima_forecast6_ms_mean': 0.97, 'rf_predict_ms_mean': 9.926, 'arima_joblib_bytes': 93611, 'rf_joblib_bytes': 181553, 'fit_seconds_consumption': {'Linear Trend Regression': 0.03742979999879026, 'Naive with Drift': 5.090000013296958e-05, 'Holt Linear Smoothing': 0.015969399999448797, 'ARIMA(1,1,1)': 0.08593419999851903, 'SARIMAX(1,1,1) + Exog': 0.07041039999967325, 'Random Forest Regression': 0.10257169999931648}}
+
+ARIMA diagnostics: {'arima_params': {'ar.L1': 0.9999, 'ma.L1': -0.9972, 'sigma2': 10319017.6158}, 'arima_aic': 325.63, 'arima_bic': 328.13, 'ljung_box_lag5': {'lb_stat': 0.258, 'p_value': 0.9984}, 'picp_95pct_test': '3/4'}

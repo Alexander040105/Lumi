@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import {
   Zap, TreePine, Sun, Wind, Droplets, Flame,
   CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
-  TrendingUp,
+  TrendingUp, Loader2,
 } from "lucide-react";
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
+import ExplanationModal from "./ExplanationModal";
+import { resolveSourceAnalysis } from "@/utils/ecosimAnalysis";
 import ProviderRecommendations from "./ProviderRecommendations";
 
 const formatNumber = (value, digits = 0) =>
@@ -50,7 +52,7 @@ function geoInfo(score, t) {
   return { level: "limited", label: t("common.ratings.limited"), desc: t("ecosim.results.info.Geothermal.limited") };
 }
 
-export default function EcosimResults({ result, aiLoading = false }) {
+export default function EcosimResults({ result, aiLoading = false, aiError = null, onAiRetry }) {
   const { t } = useI18n();
   const [showDetails, setShowDetails] = useState(false);
   if (!result) return null;
@@ -109,7 +111,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
     <div className="space-y-6">
       {result.input_warning && (
         <div className="rounded-lg border border-warning bg-warning/10 p-4 flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" />
+          <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-medium text-sm">{t("ecosim.results.inputWarning.title")}</p>
             <p className="text-sm text-muted-foreground">
@@ -158,20 +160,20 @@ export default function EcosimResults({ result, aiLoading = false }) {
 
       {/* Quick Benefits */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="border-l-4 border-l-chart-wind">
+        <Card>
           <CardContent className="p-5">
             <div className="flex items-center gap-2 text-primary mb-1">
-              <Zap className="h-4 w-4" />
+              <Zap className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">{t("ecosim.results.benefits.energyCoverage")}</span>
             </div>
             <p className="text-2xl font-bold">{formatNumber(coverage, 0)}%</p>
             <p className="text-xs text-muted-foreground mt-1">{t("ecosim.results.benefits.ofYourMonthlyConsumption")}</p>
           </CardContent>
         </Card>
-        <Card className="border-l-4 border-l-primary">
+        <Card>
           <CardContent className="p-5">
             <div className="flex items-center gap-2 text-primary mb-1">
-              <TreePine className="h-4 w-4" />
+              <TreePine className="h-4 w-4" aria-hidden="true" />
               <span className="text-sm font-medium">{t("ecosim.results.benefits.co2Reduction")}</span>
             </div>
             <p className="text-2xl font-bold">{formatNumber(result.carbon_reduction)} kg</p>
@@ -193,7 +195,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border bg-muted/30 p-4">
               <p className="font-semibold mb-1">{t("ecosim.results.whyRecommended.yourLocation")}</p>
-              <p className="text-sm text-muted-foreground">{t("ecosim.results.whyRecommended.locationText", { municipality: result.municipality, id: result.municipality_id })}</p>
+              <p className="text-sm text-muted-foreground">{t("ecosim.results.whyRecommended.locationText", { municipality: result.municipality, province: result.province })}</p>
               <p className="text-sm mt-2">
                 {t("ecosim.results.whyRecommended.usageText", { consumption: cons.toFixed(0), bill: formatCurrency(bill), rate: formatCurrency(rate) })}
               </p>
@@ -218,27 +220,42 @@ export default function EcosimResults({ result, aiLoading = false }) {
       </Card>
 
       {/* AI Analysis */}
-      {(aiLoading || result.ai_analysis) && (
+      {(aiLoading || result.ai_analysis || aiError) && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">AI Analysis</CardTitle>
+            <CardTitle className="text-lg">{t("ecosim.results.aiAnalysis.title")}</CardTitle>
             <CardDescription>
-              {aiLoading && !result.ai_analysis
-                ? "Analyzing your results with AI..."
-                : "AI-generated insight for this location."}
+              {aiError
+                ? t("ecosim.results.aiAnalysis.failedBody")
+                : aiLoading && (!result.ai_analysis || result.ai_analysis?.status === "pending")
+                  ? t("ecosim.results.aiAnalysis.pending")
+                  : t("ecosim.results.aiAnalysis.insight")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-3 text-sm text-muted-foreground">
-            {aiLoading && !result.ai_analysis && (
-              <div className="h-2 w-24 rounded bg-muted animate-pulse" />
-            )}
-            {result.ai_analysis?.summary && (
-              <Markdown className="text-sm text-muted-foreground leading-relaxed">
-                {result.ai_analysis.summary}
-              </Markdown>
-            )}
-            {aiLoading && result.ai_analysis?.error && (
-              <p className="text-xs text-muted-foreground">Full analysis is still being generated and will appear here shortly.</p>
+            {aiError ? (
+              <div className="space-y-2">
+                <p className="text-xs text-destructive">{aiError}</p>
+                {onAiRetry && (
+                  <Button variant="outline" size="sm" onClick={onAiRetry}>
+                    {t("ecosim.results.aiAnalysis.retry")}
+                  </Button>
+                )}
+              </div>
+            ) : (
+              <>
+                {(aiLoading || result.ai_analysis?.status === "pending") && (
+                  <div className="flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-foreground">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+                    {t("ecosim.results.aiAnalysis.pendingBody")}
+                  </div>
+                )}
+                {result.ai_analysis?.summary && (
+                  <Markdown className="text-sm text-muted-foreground leading-relaxed">
+                    {result.ai_analysis.summary}
+                  </Markdown>
+                )}
+              </>
             )}
           </CardContent>
         </Card>
@@ -272,7 +289,7 @@ export default function EcosimResults({ result, aiLoading = false }) {
               ? (item.output?.annual_energy_gwh ? (item.output.annual_energy_gwh * 1_000_000) / 12 : 0)
               : (option.monthly_output || 0);
             const rating = getRating(scoreVal, 100);
-            const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[item.source.toLowerCase()] || item.info.desc;
+            const sourceAnalysis = resolveSourceAnalysis(result, item.source.toLowerCase(), item.info.desc);
             return (
               <div key={item.source} className={`flex items-start gap-4 p-3 rounded-lg border ${isRec ? "border-primary/30 bg-secondary/50" : ""}`}>
                 <div className={`shrink-0 w-10 h-10 rounded-full ${meta.bg} flex items-center justify-center`}>
@@ -291,15 +308,15 @@ export default function EcosimResults({ result, aiLoading = false }) {
                       : `${formatNumber(outputKwh, 0)} kWh/month`}
                   </p>
                   {sourceAnalysis && (
-                    <details className="mt-2 group">
-                      <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
-                        <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
-                        <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
-                      </summary>
-                      <div className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
-                        <Markdown>{sourceAnalysis}</Markdown>
-                      </div>
-                    </details>
+                    <div className="mt-2">
+                      <ExplanationModal
+                        title={t("ecosim.results.sources." + item.source)}
+                        content={sourceAnalysis}
+                        aiSummary={result.ai_analysis?.summary}
+                        aiPending={aiLoading || result.ai_analysis?.status === "pending"}
+                        triggerText={t("ecosim.results.aiExplanation")}
+                      />
+                    </div>
                   )}
                 </div>
               </div>
@@ -352,14 +369,21 @@ export default function EcosimResults({ result, aiLoading = false }) {
 
       {/* Technical Details Toggle */}
       <div className="text-center">
-        <Button variant="ghost" size="sm" onClick={() => setShowDetails(!showDetails)} className="text-muted-foreground hover:text-foreground">
-          {showDetails ? <ChevronUp className="h-4 w-4 mr-1" /> : <ChevronDown className="h-4 w-4 mr-1" />}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowDetails(!showDetails)}
+          className="text-muted-foreground hover:text-foreground"
+          aria-expanded={showDetails}
+          aria-controls="ecosim-technical-details"
+        >
+          {showDetails ? <ChevronUp className="h-4 w-4 mr-1" aria-hidden="true" /> : <ChevronDown className="h-4 w-4 mr-1" aria-hidden="true" />}
           {showDetails ? t("ecosim.results.technical.hide") : t("ecosim.results.technical.show")}
         </Button>
       </div>
 
       {showDetails && (
-        <div className="space-y-6">
+        <div className="space-y-6" id="ecosim-technical-details">
           {/* Climate data */}
           {climate && (
             <Card>
@@ -396,12 +420,12 @@ export default function EcosimResults({ result, aiLoading = false }) {
                 const title = key === "geothermal" ? "Geothermal" : key.charAt(0).toUpperCase() + key.slice(1);
                 const meta = sourceMeta[title] || sourceMeta.Solar;
                 const isUtility = key === "geothermal";
-                const sourceAnalysis = result.ai_analysis?.renewable_analysis?.[key];
+                const sourceAnalysis = resolveSourceAnalysis(result, key);
                 return (
-                  <Card key={key} className={`border-t-4 border-t-${meta.bar.replace("bg-", "")}`}>
+                  <Card key={key}>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2 text-sm">
-                        <span className={`inline-block h-3 w-3 rounded-full ${meta.bar}`} />
+                        <span className={`inline-block h-3 w-3 rounded-full ${meta.bar}`} aria-hidden="true" />
                         {t("ecosim.results.technical.output", { source: t("ecosim.results.sources." + title) })}
                       </CardTitle>
                     </CardHeader>
@@ -410,15 +434,15 @@ export default function EcosimResults({ result, aiLoading = false }) {
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.monthly")}</span><span className="font-medium">{formatNumber(data.monthly_solar_output || data.monthly_energy_kwh || data.monthly_hydro_output, 1)} kWh</span></div>
                       <div className="flex justify-between"><span className="text-muted-foreground">{t("ecosim.results.technical.annual")}</span><span className="font-medium">{formatNumber(data.annual_solar_output || data.annual_wind_output_kwh || data.annual_hydro_output || data.annual_energy_kwh, 0)} kWh</span></div>
                       {sourceAnalysis && (
-                        <details className="mt-2 group">
-                          <summary className="text-xs text-foreground cursor-pointer list-none flex items-center gap-1 marker:hidden">
-                            <span className="underline decoration-dotted">{t("ecosim.results.aiExplanation")}</span>
-                            <ChevronDown className="h-3 w-3 group-open:rotate-180 transition-transform" />
-                          </summary>
-                          <p className="mt-1 text-xs text-muted-foreground leading-relaxed border-l-2 border-muted pl-2">
-                            {sourceAnalysis}
-                          </p>
-                        </details>
+                        <div className="mt-2">
+                          <ExplanationModal
+                            title={t("ecosim.results.sources." + title)}
+                            content={sourceAnalysis}
+                            aiSummary={result.ai_analysis?.summary}
+                            aiPending={aiLoading || result.ai_analysis?.status === "pending"}
+                            triggerText={t("ecosim.results.aiExplanation")}
+                          />
+                        </div>
                       )}
                       {isUtility && data.citation && (
                         <p className="text-xs text-muted-foreground mt-2 leading-snug">{data.citation}</p>

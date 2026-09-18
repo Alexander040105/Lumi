@@ -1,0 +1,14 @@
+HTTP/1.1 401 Unauthorized
+date: Wed, 16 Sep 2026 10:25:31 GMT
+server: uvicorn
+content-length: 26
+content-type: application/json
+x-request-id: a16ea5da-2dbb-42b5-9d76-242b45be8aee
+x-content-type-options: nosniff
+x-frame-options: DENY
+strict-transport-security: max-age=31536000; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+server: Lumi
+
+{"detail":"Missing token"}

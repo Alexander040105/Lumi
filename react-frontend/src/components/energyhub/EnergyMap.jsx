@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MapPin, Layers, Map as MapIcon } from "lucide-react";
 import { useI18n } from "@/i18n";
+import { useTheme } from "@/hooks/useTheme";
+import { getCartoApiKey } from "@/utils/env";
 import MapExplanationCard from "./MapExplanationCard";
 
 const METRIC_KEYS = [
@@ -211,7 +213,6 @@ function FallbackMapGrid({ data, metric, level }) {
           <div
             key={`${item.region}-${item.province || idx}-${item.municipality || ""}`}
             className="rounded-lg border p-3 text-center transition-transform hover:scale-[1.02]"
-            style={{ borderLeft: `4px solid ${getColorForValue(item.value)}` }}
           >
             <p className="text-xs text-muted-foreground truncate">
               {displayName}
@@ -233,6 +234,7 @@ function FallbackMapGrid({ data, metric, level }) {
 
 function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {}, showVolcanoMarkers = false }) {
   const { t } = useI18n();
+  const { theme } = useTheme();
   const [L, setL] = useState(null);
   const [RL, setRL] = useState(null);
   const [rawGeojson, setRawGeojson] = useState(null);
@@ -244,6 +246,14 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
       : "/philippine_geojson_file_per_region.json";
 
   const nameProperty = level === "municipality" ? "adm3_en" : "adm2_en";
+
+  // CARTO requires an API key on basemap tiles; unkeyed tiles ship the
+  // "API key required" watermark. Match the app theme with Positron/Dark Matter.
+  const tileStyle = theme === "dark" ? "dark_all" : "light_all";
+  const cartoKey = getCartoApiKey();
+  const tileUrl = `https://{s}.basemaps.cartocdn.com/${tileStyle}/{z}/{x}/{y}{r}.png${
+    cartoKey ? `?key=${cartoKey}` : ""
+  }`;
 
   // 1. Name-based lookup (fallback)
   const nameLookup = useMemo(() => {
@@ -404,8 +414,9 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          key={tileStyle}
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          url={tileUrl}
         />
         <GeoJSON data={enrichedGeojson} style={styleFeature} onEachFeature={onEachFeature} />
         {showPlantMarkers && L && RL && operatingPlants.map((p) => {
@@ -563,6 +574,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <select
               className="bg-transparent text-sm focus:outline-none"
               title={t("energyHub.map.levelTooltip")}
+              aria-label={t("energyHub.map.levelTooltip")}
               value={level}
               onChange={(e) => onLevelChange(e.target.value)}
             >
@@ -580,6 +592,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
             <select
               className="bg-transparent text-sm focus:outline-none"
               title={t("energyHub.map.metricTooltip")}
+              aria-label={t("energyHub.map.metricTooltip")}
               value={metric}
               onChange={(e) => onMetricChange(e.target.value)}
             >
@@ -597,6 +610,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
               <button
                 type="button"
                 onClick={() => setShowVolcanoes((v) => !v)}
+                aria-pressed={showVolcanoes}
                 className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
                   showVolcanoes
                     ? "bg-destructive/10 border-destructive/20 text-foreground"
@@ -611,6 +625,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
                 <button
                   type="button"
                   onClick={() => setShowFaults((v) => !v)}
+                  aria-pressed={showFaults}
                   className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
                     showFaults
                       ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"

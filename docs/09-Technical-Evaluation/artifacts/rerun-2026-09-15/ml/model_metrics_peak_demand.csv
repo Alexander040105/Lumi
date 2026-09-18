@@ -1,0 +1,7 @@
+model,mae,rmse,mape,r2,fit_seconds
+Linear Trend Regression,1180.05,1402.88,6.562,-0.3141,0.0011
+Naive with Drift,996.81,1275.51,5.482,-0.0863,0.0
+Holt Linear Smoothing,996.81,1275.51,5.482,-0.0863,0.0186
+"ARIMA(1,1,1)",1019.66,1299.08,5.611,-0.1268,0.0882
+"SARIMAX(1,1,1) + Exog",705.96,938.06,3.868,0.4124,0.0807
+Random Forest Regression,2111.23,2440.28,11.776,-2.9762,0.0994

@@ -63,10 +63,25 @@ app.add_middleware(RequestIDMiddleware)
 app.add_middleware(RateLimitMiddleware, requests_per_minute=60)
 app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(BodySizeLimitMiddleware)
+
+# CORS origin policy: explicit origins come from CORS_ORIGINS (production
+# frontend + known dev ports). The regex is composed here rather than taken
+# verbatim from CORS_ORIGIN_REGEX so that:
+#   - Vercel preview deploys are scoped to this project's naming
+#     (lumi-frontend-*-<team>.vercel.app), not every deployment on the team.
+#   - localhost/127.0.0.1 on arbitrary ports is allowed in non-production
+#     environments only; it is never permitted when ENVIRONMENT=production.
+_VERCEL_PREVIEW_ORIGIN = r"https://lumi-frontend[a-z0-9-]*-xi\.vercel\.app"
+_LOCALHOST_ORIGIN = r"http://(localhost|127\.0\.0\.1)(:\d+)?"
+_cors_origin_regex = (
+    _VERCEL_PREVIEW_ORIGIN
+    if settings.environment == "production"
+    else rf"{_VERCEL_PREVIEW_ORIGIN}|{_LOCALHOST_ORIGIN}"
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-    allow_origin_regex=settings.cors_origin_regex,
+    allow_origin_regex=_cors_origin_regex,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],

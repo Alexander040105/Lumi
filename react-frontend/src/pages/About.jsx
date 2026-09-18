@@ -17,21 +17,15 @@ import {
 } from "lucide-react";
 
 import { useI18n } from "@/i18n";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CitationSources from "@/components/shared/CitationSources";
 import ExpandableBlock from "@/components/shared/ExpandableBlock";
 
-function SectionHeading({ badge, title, subtitle }) {
+function SectionHeading({ title, subtitle }) {
   return (
     <div className="mx-auto max-w-3xl text-center space-y-4">
-      {badge && (
-        <Badge variant="secondary" className="text-xs font-medium tracking-wide uppercase">
-          {badge}
-        </Badge>
-      )}
-      <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+      <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
         {title}
       </h2>
       {subtitle && (
@@ -45,7 +39,7 @@ function SectionHeading({ badge, title, subtitle }) {
 
 function ValueCard({ icon: Icon, title, description }) {
   return (
-    <Card className="border-border/60 bg-card/80 transition-all hover:border-primary/30 hover:shadow-md">
+    <Card className="border-border/60 bg-card transition-all hover:border-primary/30 hover:shadow-md">
       <CardHeader className="space-y-3">
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
           <Icon className="h-6 w-6" />
@@ -82,22 +76,13 @@ export default function About() {
   return (
     <div className="flex flex-col">
       {/* HERO */}
-      <section className="relative overflow-hidden border-b border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/50" />
-        <div className="absolute -top-24 -right-24 h-96 w-96 rounded-full bg-accent/20 blur-3xl" />
-        <div className="absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
+      <section className="relative overflow-hidden border-b border-border/40 bg-muted/30">
 
         <div className="relative page-container py-16 sm:py-24">
           <div className="mx-auto max-w-4xl text-center space-y-6">
-            <Badge
-              variant="outline"
-              className="border-primary/30 bg-primary/5 text-primary px-3 py-1 text-sm"
-            >
-              {t("about.hero.badge")}
-            </Badge>
             <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               {t("about.hero.title")}{" "}
-              <span className="bg-gradient-to-r from-primary to-brand-success bg-clip-text text-transparent">
+              <span className="text-primary">
                 {t("about.hero.titleHighlight")}
               </span>
             </h1>
@@ -105,19 +90,19 @@ export default function About() {
               {t("about.hero.subtitle")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-              <Link to="/energyhub">
-                <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
+              <Button size="lg" className="gap-2 text-base" asChild>
+                <Link to="/energyhub">
                   <BarChart3 className="h-5 w-5" />
                   {t("about.hero.exploreEnergyData")}
-                </Button>
-              </Link>
-              <Link to="/ecosim">
-                <Button size="lg" variant="outline" className="gap-2 text-base">
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
+                <Link to="/ecosim">
                   <Zap className="h-5 w-5" />
                   {t("about.hero.compareEnergyOptions")}
                   <ChevronRight className="h-4 w-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -127,10 +112,7 @@ export default function About() {
       <section className="page-container py-20 sm:py-24 space-y-16">
         <div className="grid gap-12 lg:grid-cols-2 items-start">
           <div className="space-y-6">
-            <Badge variant="secondary" className="uppercase tracking-wide text-xs">
-              {t("about.problem.badge")}
-            </Badge>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {t("about.problem.title")}
             </h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -140,23 +122,23 @@ export default function About() {
           </div>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6">
+              <div className="rounded-2xl border border-border/60 bg-card p-6">
                 <div className="text-3xl font-bold text-primary">{t("about.problem.stats.fossilShare.value")}</div>
                 <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.fossilShare.label")}</div>
                 <div className="text-xs text-muted-foreground mt-1">{t("about.problem.stats.fossilShare.description")}</div>
               </div>
-              <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6">
+              <div className="rounded-2xl border border-border/60 bg-card p-6">
                 <div className="text-3xl font-bold text-primary">{t("about.problem.stats.renewableShare.value")}</div>
                 <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.renewableShare.label")}</div>
                 <div className="text-xs text-muted-foreground mt-1">{t("about.problem.stats.renewableShare.description")}</div>
               </div>
-              <div className="rounded-2xl border border-border/60 bg-gradient-to-br from-card to-muted/30 p-6 sm:col-span-2">
+              <div className="rounded-2xl border border-border/60 bg-card p-6 sm:col-span-2">
                 <div className="text-3xl font-bold text-primary">{t("about.problem.stats.barriers.value")}</div>
                 <div className="text-sm font-medium text-foreground mt-1">{t("about.problem.stats.barriers.label")}</div>
                 <div className="text-xs text-muted-foreground mt-1">{t("about.problem.stats.barriers.description")}</div>
               </div>
             </div>
-            <div className="flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-card/50 p-4 text-center">
+            <div className="flex flex-col items-center gap-2 rounded-xl border border-border/60 bg-card p-4 text-center">
               <p className="text-sm text-muted-foreground">{t("about.problem.viewSourcesPrompt")}</p>
               <CitationSources ids={t("about.problem.citations")} />
             </div>
@@ -165,10 +147,9 @@ export default function About() {
       </section>
 
       {/* MISSION & VISION */}
-      <section className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
+      <section className="relative overflow-hidden border-t border-border/40 bg-muted/30">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge={t("about.mission.badge")}
             title={t("about.mission.title")}
             subtitle={t("about.mission.subtitle")}
           />
@@ -191,13 +172,12 @@ export default function About() {
       {/* WHO CAN USE LUMI */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge={t("about.beneficiaries.badge")}
           title={t("about.beneficiaries.title")}
           subtitle={t("about.beneficiaries.subtitle")}
         />
 
         <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="border-border/60 bg-card/80">
+          <Card className="border-border/60 bg-card">
             <CardHeader className="space-y-3">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <BookOpen className="h-6 w-6" />
@@ -208,7 +188,7 @@ export default function About() {
               </CardDescription>
             </CardHeader>
           </Card>
-          <Card className="border-border/60 bg-card/80">
+          <Card className="border-border/60 bg-card">
             <CardHeader className="space-y-3">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <Users className="h-6 w-6" />
@@ -219,7 +199,7 @@ export default function About() {
               </CardDescription>
             </CardHeader>
           </Card>
-          <Card className="border-border/60 bg-card/80">
+          <Card className="border-border/60 bg-card">
             <CardHeader className="space-y-3">
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
                 <Globe className="h-6 w-6" />
@@ -238,10 +218,9 @@ export default function About() {
       </section>
 
       {/* SYSTEM OVERVIEW */}
-      <section className="relative overflow-hidden border-t border-border/40 bg-gradient-to-b from-muted/30 to-background">
+      <section className="relative overflow-hidden border-t border-border/40 bg-muted/30">
         <div className="page-container py-20 sm:py-24 space-y-16">
           <SectionHeading
-            badge={t("about.system.badge")}
             title={t("about.system.title")}
             subtitle={t("about.system.subtitle")}
           />
@@ -270,7 +249,6 @@ export default function About() {
       {/* TECHNOLOGY STACK */}
       <section className="page-container py-20 sm:py-24 space-y-16">
         <SectionHeading
-          badge={t("about.technology.badge")}
           title={t("about.technology.title")}
           subtitle={t("about.technology.subtitle")}
         />
@@ -300,7 +278,7 @@ export default function About() {
           </div>
         </ExpandableBlock>
 
-        <div className="rounded-2xl border border-border/60 bg-gradient-to-r from-primary/5 to-accent/5 p-6 sm:p-8">
+        <div className="rounded-2xl border border-border/60 bg-primary/5 p-6 sm:p-8">
           <h3 className="text-xl font-semibold text-foreground text-center">
             {t("about.technology.impact.title")}
           </h3>
@@ -334,29 +312,28 @@ export default function About() {
       </section>
 
       {/* FOOTER CTA */}
-      <section className="relative overflow-hidden border-t border-border/40">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5" />
+      <section className="relative overflow-hidden border-t border-border/40 bg-muted/30">
         <div className="relative page-container py-16 sm:py-20">
           <div className="mx-auto max-w-3xl text-center space-y-6">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {t("about.footer.title")}
             </h2>
             <p className="mx-auto max-w-xl text-lg text-muted-foreground leading-relaxed">
               {t("about.footer.subtitle")}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link to="/energyhub">
-                <Button size="lg" className="gap-2 text-base shadow-lg shadow-primary/20">
+              <Button size="lg" className="gap-2 text-base" asChild>
+                <Link to="/energyhub">
                   <BarChart3 className="h-5 w-5" />
                   {t("about.footer.exploreMyArea")}
-                </Button>
-              </Link>
-              <Link to="/ecosim">
-                <Button size="lg" variant="outline" className="gap-2 text-base">
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
+                <Link to="/ecosim">
                   <Zap className="h-5 w-5" />
                   {t("about.footer.compareEnergyOptions")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

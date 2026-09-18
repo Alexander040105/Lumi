@@ -1,0 +1,14 @@
+HTTP/1.1 404 Not Found
+date: Wed, 16 Sep 2026 10:25:31 GMT
+server: uvicorn
+content-length: 35
+content-type: application/json
+x-request-id: 1d21b5cf-b5a9-4a82-a1e4-9a7a1fef305e
+x-content-type-options: nosniff
+x-frame-options: DENY
+strict-transport-security: max-age=31536000; includeSubDomains
+referrer-policy: strict-origin-when-cross-origin
+content-security-policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co; font-src 'self' data:; frame-ancestors 'none'
+server: Lumi
+
+{"detail":"Municipality not found"}

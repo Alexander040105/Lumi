@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Shield, ShieldCheck, ShieldOff } from "lucide-react";
+import { Copy, Shield, ShieldCheck, ShieldOff } from "lucide-react";
 
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/services/supabaseClient";
@@ -43,6 +43,7 @@ export default function MFASetup() {
     return <Navigate to="/login" replace />;
   }
 
+  // Supabase Auth supports TOTP MFA only — SMS/WhatsApp would require a paid Twilio Verify integration (out of scope).
   const handleEnroll = async () => {
     setEnrolling(true);
     try {
@@ -96,6 +97,15 @@ export default function MFASetup() {
 
   const cancelUnenroll = () => {
     setUnenroll({ factorId: null, code: "" });
+  };
+
+  const handleCopySecret = async () => {
+    try {
+      await navigator.clipboard.writeText(enrollment?.totp?.secret || "");
+      toast.success(t("mfa.copied"));
+    } catch {
+      toast.error(t("mfa.copyFailed"));
+    }
   };
 
   const handleUnenrollConfirm = async (e) => {
@@ -204,6 +214,12 @@ export default function MFASetup() {
             <CardDescription>{t("mfa.scanQRDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            <ol className="list-decimal list-inside space-y-1 text-sm text-muted-foreground">
+              <li>{t("mfa.stepInstall")}</li>
+              <li>{t("mfa.stepAdd")}</li>
+              <li>{t("mfa.stepScan")}</li>
+              <li>{t("mfa.stepEnter")}</li>
+            </ol>
             <div className="flex justify-center">
               <img
                 src={enrollment.totp?.qr_code}
@@ -211,14 +227,21 @@ export default function MFASetup() {
                 className="rounded-lg border bg-card p-2"
               />
             </div>
-            <div className="rounded bg-muted p-3 text-sm font-mono break-all">
-              {enrollment.totp?.secret}
+            <div className="space-y-2">
+              <p className="text-sm font-medium">{t("mfa.cantScan")}</p>
+              <p className="text-xs text-muted-foreground">{t("mfa.manualEntryDesc")}</p>
+              <div className="rounded bg-muted p-3 text-sm font-mono break-all">
+                {enrollment.totp?.secret}
+              </div>
+              <Button type="button" variant="outline" size="sm" onClick={handleCopySecret}>
+                <Copy className="h-4 w-4 mr-2" />
+                {t("mfa.copySecret")}
+              </Button>
             </div>
-            <div className="text-sm text-amber-700 bg-amber-50 p-3 rounded">
-              <strong>Important:</strong> Supabase does not generate recovery/backup codes for
-              this project. Save the TOTP secret above in a safe place. If you lose your
-              authenticator, you will need this secret or an admin to reset your account.
+            <div className="text-sm text-foreground bg-warning/10 border border-warning/30 p-3 rounded">
+              {t("mfa.secretWarning")}
             </div>
+            <p className="text-sm text-muted-foreground">{t("mfa.loginHint")}</p>
             <form onSubmit={handleVerify} className="space-y-2">
               <Input
                 value={code}

@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Check, MapPin, Trash2 } from "lucide-react";
 
 import { useAuth } from "../hooks/useAuth";
 import { useI18n } from "../i18n";
 import { supabase } from "../services/supabaseClient";
+import { getMunicipalities } from "../services/apiClient";
+import { saveLocation } from "../services/savedLocations";
+import { filterMunicipalities, formatMunicipalityLabel } from "../utils/municipalities";
 import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,7 +20,7 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
-import ForecastPanel from "../components/ForecastPanel";
+import SearchableSelect from "@/components/shared/SearchableSelect";
 
 export default function Dashboard() {
   const { user, accessToken, refreshProfile, isAdmin } = useAuth();
@@ -32,8 +36,18 @@ export default function Dashboard() {
   const [savedLocations, setSavedLocations] = useState([]);
   const [savedSimulations, setSavedSimulations] = useState([]);
   const [municipalities, setMunicipalities] = useState([]);
+  const [municipalitiesError, setMunicipalitiesError] = useState(null);
+  const [muniQuery, setMuniQuery] = useState("");
+  const [muniOpen, setMuniOpen] = useState(false);
   const [selectedMuni, setSelectedMuni] = useState("");
-  const [compositeScore, setCompositeScore] = useState(0);
+  const [compositeScore, setCompositeScore] = useState(null);
+  const [compositeClassification, setCompositeClassification] = useState(null);
+  const [savingLocation, setSavingLocation] = useState(false);
+
+  const filteredMunicipalities = useMemo(
+    () => filterMunicipalities(municipalities, muniQuery),
+    [municipalities, muniQuery]
+  );
 
   const fileInputRef = useRef(null);
 
@@ -58,14 +72,16 @@ export default function Dashboard() {
 
         }
 
-        // Municipalities for dropdown and name lookup
-        const { data: munis } = await supabase
-          .from("municipalities")
-          .select("municipality_id, name")
-          .order("name", { ascending: true })
-          .limit(500);
-        const muniMap = new Map((munis || []).map((m) => [m.municipality_id, m.name]));
-        setMunicipalities(munis || []);
+        // Municipalities for dropdown and name lookup (full set via backend)
+        let munis = [];
+        try {
+          const data = await getMunicipalities();
+          munis = data?.items || [];
+        } catch {
+          setMunicipalitiesError(t("dashboard.municipalitiesError"));
+        }
+        const muniMap = new Map(munis.map((m) => [m.municipality_id, formatMunicipalityLabel(m)]));
+        setMunicipalities(munis);
 
         if (isLoggedIn) {
           const { data: locs } = await supabase
@@ -105,23 +121,48 @@ export default function Dashboard() {
   const fetchCompositeScore = async (muniId) => {
     if (!muniId) return;
     try {
-      const [solar, wind, hydro, geo] = await Promise.all([
-        supabase.from("solar_suitability").select("solar_score").eq("municipality_id", muniId).single(),
-        supabase.from("wind_suitability").select("wind_score").eq("municipality_id", muniId).single(),
-        supabase.from("hydropower_suitability").select("hydro_suitability_score").eq("municipality_id", muniId).single(),
-        supabase.from("geothermal_suitability").select("geothermal_score").eq("municipality_id", muniId).single(),
-      ]);
-      const scores = [
-        solar.data?.solar_score || 0,
-        wind.data?.wind_score || 0,
-        hydro.data?.hydro_suitability_score || 0,
-        geo.data?.geothermal_score || 0,
-      ];
-      const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-      setCompositeScore(Math.round(Math.min(100, Math.max(0, avg))));
+      const { data } = await supabase
+        .from("municipalities")
+        .select("composite_suitability_score, composite_classification")
+        .eq("municipality_id", muniId)
+        .single();
+      const raw = data?.composite_suitability_score;
+      setCompositeScore(raw == null ? null : Math.round(Number(raw)));
+      setCompositeClassification(data?.composite_classification || null);
     } catch {
-      setCompositeScore(0);
+      setCompositeScore(null);
+      setCompositeClassification(null);
     }
+  };
+
+  const handleSaveLocation = async () => {
+    const found = municipalities.find((m) => String(m.municipality_id) === String(selectedMuni));
+    const label = found ? formatMunicipalityLabel(found) : muniQuery;
+    setSavingLocation(true);
+    const res = await saveLocation({
+      userId: user.id,
+      municipalityId: Number(selectedMuni),
+      label,
+    });
+    setSavingLocation(false);
+    if (res.status === "duplicate") {
+      toast.info(t("dashboard.locationAlreadySaved"));
+    } else if (res.status === "saved") {
+      toast.success(t("dashboard.locationSavedToast"));
+      setSavedLocations((prev) => [{ ...res.row, municipality_name: label }, ...prev]);
+    } else {
+      toast.error(t("dashboard.locationSaveFailed"));
+    }
+  };
+
+  const handleRemoveLocation = async (loc) => {
+    const { error } = await supabase.from("saved_locations").delete().eq("id", loc.id);
+    if (error) {
+      toast.error(t("dashboard.locationRemoveFailed"));
+      return;
+    }
+    setSavedLocations((prev) => prev.filter((l) => l.id !== loc.id));
+    toast.success(t("dashboard.locationRemoved"));
   };
 
   useEffect(() => {
@@ -228,20 +269,20 @@ export default function Dashboard() {
       {isAdmin && (
         <div className="rounded-lg border bg-primary/10 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-sm font-medium">{t("dashboard.adminLink")}</p>
-          <Link to="/admin">
-            <Button variant="outline" size="sm">{t("nav.adminPortal")}</Button>
-          </Link>
+          <Button variant="outline" size="sm" asChild>
+            <Link to="/admin">{t("nav.adminPortal")}</Link>
+          </Button>
         </div>
       )}
       {/* ===== Profile Card ===== */}
       <Card className="overflow-hidden">
-        <div className="bg-gradient-to-r from-primary/10 to-primary/5 px-6 py-6">
+        <div className="bg-muted/50 px-6 py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {/* Avatar */}
             <div className="relative shrink-0">
               <div className="w-20 h-20 rounded-full bg-muted border-2 border-background overflow-hidden flex items-center justify-center">
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="avatar" className="w-full h-full object-cover" />
+                  <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <span className="text-2xl font-bold text-muted-foreground">
                     {displayName.charAt(0).toUpperCase()}
@@ -290,6 +331,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.fullNamePlaceholder")}
+                    aria-label={t("dashboard.fullNamePlaceholder")}
                     value={editForm.full_name}
                     onChange={(e) => setEditForm((p) => ({ ...p, full_name: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -297,6 +339,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.organizationPlaceholder")}
+                    aria-label={t("dashboard.organizationPlaceholder")}
                     value={editForm.organization}
                     onChange={(e) => setEditForm((p) => ({ ...p, organization: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -304,6 +347,7 @@ export default function Dashboard() {
                   <input
                     type="text"
                     placeholder={t("dashboard.locationPlaceholder")}
+                    aria-label={t("dashboard.locationPlaceholder")}
                     value={editForm.location}
                     onChange={(e) => setEditForm((p) => ({ ...p, location: e.target.value }))}
                     className="w-full px-3 py-1.5 border rounded-md text-sm"
@@ -344,29 +388,66 @@ export default function Dashboard() {
             <CardDescription>{t("dashboard.overviewDescription")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <select
-              value={selectedMuni}
-              onChange={(e) => setSelectedMuni(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">{t("dashboard.selectMunicipality")}</option>
-              {municipalities.map((m) => (
-                <option key={m.municipality_id} value={m.municipality_id}>
-                  {m.name}
-                </option>
-              ))}
-            </select>
+            <SearchableSelect
+              query={muniQuery}
+              onQueryChange={setMuniQuery}
+              open={muniOpen}
+              onOpenChange={setMuniOpen}
+              items={filteredMunicipalities}
+              getOptionId={(m) => m.municipality_id}
+              getOptionLabel={formatMunicipalityLabel}
+              selectedId={selectedMuni}
+              onSelect={(item) => {
+                setSelectedMuni(String(item.municipality_id));
+                setMuniQuery(formatMunicipalityLabel(item));
+                setMuniOpen(false);
+              }}
+              placeholder={t("dashboard.selectMunicipality")}
+              emptyText={t("ecosim.wizard.noResults")}
+              moreResultsText={(count, total) => t("ecosim.wizard.moreResults", { count, total })}
+              error={municipalitiesError}
+            />
 
             {selectedMuni && (
               <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>{t("dashboard.compositeScore")}</span>
-                  <span className="font-bold">{compositeScore}/100</span>
-                </div>
-                <Progress value={compositeScore} className="h-3" />
-                <p className="text-xs text-muted-foreground">
-                  {t("dashboard.compositeDescription")}
-                </p>
+                {compositeScore === null ? (
+                  <p className="text-sm text-muted-foreground">{t("dashboard.noScoreData")}</p>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span>{t("dashboard.compositeScore")}</span>
+                      <span className="font-bold">{compositeScore}/100</span>
+                    </div>
+                    <Progress value={compositeScore} className="h-3" />
+                    {compositeClassification && (
+                      <p className="text-xs text-muted-foreground capitalize">{compositeClassification}</p>
+                    )}
+                    <p className="text-xs text-muted-foreground">
+                      {t("dashboard.compositeDescription")}
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
+            {selectedMuni && isLoggedIn && (
+              <div>
+                {savedLocations.some((l) => String(l.municipality_id) === String(selectedMuni)) ? (
+                  <Button variant="outline" size="sm" disabled>
+                    <Check className="h-4 w-4 mr-2" aria-hidden="true" />
+                    {t("dashboard.locationSaved")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSaveLocation}
+                    disabled={savingLocation}
+                  >
+                    <MapPin className="h-4 w-4 mr-2" aria-hidden="true" />
+                    {savingLocation ? t("common.saving") : t("dashboard.saveLocation")}
+                  </Button>
+                )}
               </div>
             )}
 
@@ -384,15 +465,15 @@ export default function Dashboard() {
             <CardTitle>{t("dashboard.quickActions")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <Link to="/ecosim" className="block">
-              <Button className="w-full">{t("dashboard.runEcosim")}</Button>
-            </Link>
-            <Link to="/energyhub" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.viewEnergyHub")}</Button>
-            </Link>
-            <Link to="/mfa" className="block">
-              <Button variant="outline" className="w-full">{t("dashboard.mfaLink")}</Button>
-            </Link>
+            <Button className="w-full" asChild>
+              <Link to="/ecosim">{t("dashboard.runEcosim")}</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/energyhub">{t("dashboard.viewEnergyHub")}</Link>
+            </Button>
+            <Button variant="outline" className="w-full" asChild>
+              <Link to="/mfa">{t("dashboard.mfaLink")}</Link>
+            </Button>
           </CardContent>
         </Card>
 
@@ -412,11 +493,21 @@ export default function Dashboard() {
             ) : (
               <ul className="space-y-2">
                 {savedLocations.map((loc) => (
-                  <li key={loc.id} className="flex items-center justify-between text-sm">
-                    <span>{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
-                    <Link to={`/ecosim?municipality=${loc.municipality_id}`}>
-                      <Button variant="ghost" size="sm">{t("common.open")}</Button>
-                    </Link>
+                  <li key={loc.id} className="flex items-center justify-between text-sm gap-2">
+                    <span className="truncate">{loc.label || loc.municipality_name || t("dashboard.municipality")}</span>
+                    <div className="flex items-center shrink-0">
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link to={`/ecosim?municipality=${loc.municipality_id}`}>{t("common.open")}</Link>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleRemoveLocation(loc)}
+                        aria-label={t("common.delete")}
+                      >
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
+                      </Button>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -436,19 +527,16 @@ export default function Dashboard() {
                 <Link to="/login" className="underline text-primary">{t("nav.login")}</Link>{" "}{t("dashboard.loginToSaveSims")}
               </p>
             ) : (
-              <Link to="/saved-simulations">
-                <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" asChild>
+                <Link to="/saved-simulations">
                   {t("dashboard.viewAllSavedSims")}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
           </CardContent>
         </Card>
 
       </div>
-
-      {/* Forecasting */}
-      {isAdmin && <ForecastPanel />}
     </section>
   );
 }

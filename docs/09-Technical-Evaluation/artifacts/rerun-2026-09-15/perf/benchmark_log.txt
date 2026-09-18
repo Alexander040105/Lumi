@@ -1,0 +1,25 @@
+health                           n=30 mean=     3.6ms p95=     4.0ms thr=500 OK
+health_detailed                  n=30 mean=   260.7ms p95=   250.7ms thr=5000 OK
+energyhub_overview               n=30 mean=     5.5ms p95=     7.0ms thr=2000 OK
+energyhub_forecast               n=30 mean=     3.4ms p95=     4.8ms thr=2000 OK
+energyhub_trends                 n=30 mean=     7.2ms p95=     9.2ms thr=2000 OK
+energyhub_map_data               n=30 mean=    41.1ms p95=    42.6ms thr=2000 OK
+energyhub_source_breakdown       n=30 mean=     3.4ms p95=     5.8ms thr=2000 OK
+energyhub_grid_breakdown         n=30 mean=     3.2ms p95=     4.4ms thr=2000 OK
+energyhub_model_comparison       n=30 mean=     5.2ms p95=     6.5ms thr=2000 OK
+energyhub_provincial_demand      n=30 mean=     4.8ms p95=     6.0ms thr=2000 OK
+ecosim_municipalities            n=30 mean=    50.1ms p95=    52.4ms thr=2000 OK
+ecosim_provinces                 n=30 mean=    40.5ms p95=    43.1ms thr=2000 OK
+geothermal_plants                n=30 mean=     4.6ms p95=     5.9ms thr=2000 OK
+geothermal_municipality          n=30 mean=   294.9ms p95=   324.5ms thr=2000 OK
+geospatial_climate               n=30 mean=    47.1ms p95=    48.2ms thr=2000 OK
+map_coverage                     n=30 mean=    39.0ms p95=    40.3ms thr=2000 OK
+map_solar                        n=30 mean=    60.1ms p95=    61.5ms thr=2000 OK
+products_recommend               n=30 mean=     8.2ms p95=     9.3ms thr=2000 OK
+forecast_models                  n=30 mean=     3.1ms p95=     4.0ms thr=2000 OVER  statuses=401
+ecosim_simulation                n= 5 mean=   547.0ms p95=   553.3ms thr=3000 OK
+ecosim_ai                        n= 5 mean=   611.8ms p95=   628.3ms thr=5000 OK
+energyhub_ai_insight             n= 5 mean=   638.9ms p95=  3038.0ms thr=5000 OVER  statuses=200,401
+energyhub_map_explanation        n= 5 mean=   137.6ms p95=   144.9ms thr=5000 OK
+
+Artifacts: D:\63947\Documents\GitHub\Lumi\docs\09-Technical-Evaluation\artifacts\rerun-2026-09-15\perf\latency.csv

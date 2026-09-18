@@ -1,0 +1,41 @@
+{
+ "rows": 23,
+ "year_min": 2003,
+ "year_max": 2025,
+ "cols": 45,
+ "missing_cells": 15,
+ "missing_by_col": {
+  "total_consumption_diff1": 1,
+  "total_peak_demand_diff1": 1,
+  "renewable_generation_diff1": 1,
+  "consumption_yoy_growth": 1,
+  "peak_yoy_growth": 1,
+  "consumption_lag1": 1,
+  "consumption_lag2": 2,
+  "peak_lag1": 1,
+  "consumption_roll3": 2,
+  "consumption_roll5": 4
+ },
+ "consumption_stats": {
+  "count": 23.0,
+  "mean": 83960.09,
+  "std": 24158.43,
+  "min": 52941.0,
+  "25%": 61377.5,
+  "50%": 77261.0,
+  "75%": 103898.5,
+  "max": 126941.0
+ },
+ "target_range": [
+  52941.0,
+  126941.0
+ ],
+ "train_2003_2020_n": 18,
+ "test_2021_2024_n": 4,
+ "rows_2025": 1,
+ "dupes": 0,
+ "cagr_2003_2024": 4.252,
+ "mean_abs_yoy_pct": 4.492,
+ "max_yoy": 10.17,
+ "min_yoy": -4.04
+}

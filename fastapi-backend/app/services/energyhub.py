@@ -1017,6 +1017,7 @@ class EnergyHubService:
                 prompt,
                 temperature=0.5,
                 max_output_tokens=2000,
+                timeout=8.0,
             )
         except Exception as exc:
             logger.warning("LLM call failed for map explanation: %s", exc)
@@ -1247,7 +1248,7 @@ class EnergyHubService:
 
         prompt = self._build_chart_prompt(chart_type, chart_data)
         try:
-            text = generate_response(prompt, temperature=0.5, max_output_tokens=2000)
+            text = generate_response(prompt, temperature=0.5, max_output_tokens=2000, timeout=8.0)
         except Exception as exc:
             logger.warning("LLM call failed for chart analysis: %s", exc)
             return self._ml.get_ai_insight()
@@ -1374,7 +1375,7 @@ class EnergyHubService:
         )
 
         try:
-            text = generate_response(prompt, temperature=0.3, max_output_tokens=3000)
+            text = generate_response(prompt, temperature=0.3, max_output_tokens=3000, timeout=8.0)
         except Exception as exc:
             logger.warning("LLM call failed: %s", exc)
             return self._ml.get_ai_insight()

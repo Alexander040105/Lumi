@@ -20,7 +20,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [busy, setBusy] = useState(false);
-  const [signupStatus, setSignupStatus] = useState(null); // 'confirm' | 'auto' | null
+  const [signupStatus, setSignupStatus] = useState(null); // 'confirm' | 'auto' | 'exists' | null
 
   // MFA state
   const [mfaRequired, setMfaRequired] = useState(null); // null = checking, false = no mfa, true = mfa needed
@@ -74,7 +74,14 @@ export default function Login() {
     setSignupStatus(null);
 
     try {
+      if (mode === "signup" && password.length < 8) {
+        setBusy(false);
+        toast.error(t("login.passwordTooShort"));
+        return;
+      }
+
       if (mode === "signup" && password !== confirmPassword) {
+        setBusy(false);
         toast.error(t("mfa.passwordsDoNotMatch"));
         return;
       }
@@ -89,7 +96,10 @@ export default function Login() {
         const result = await signUp(email, password);
         if (result.error) throw result.error;
 
-        if (result.confirmationRequired) {
+        if (result.accountExists) {
+          setSignupStatus("exists");
+          toast.info(t("login.accountExists"));
+        } else if (result.confirmationRequired) {
           setSignupStatus("confirm");
           toast.success(t("login.accountCreated"));
         } else {
@@ -213,6 +223,7 @@ export default function Login() {
               variant={mode === "login" ? "default" : "outline"}
               className="w-full"
               onClick={() => setMode("login")}
+              aria-pressed={mode === "login"}
             >
               {t("login.signIn")}
             </Button>
@@ -221,6 +232,7 @@ export default function Login() {
               variant={mode === "signup" ? "default" : "outline"}
               className="w-full"
               onClick={() => setMode("signup")}
+              aria-pressed={mode === "signup"}
             >
               {t("login.signUp")}
             </Button>
@@ -230,6 +242,8 @@ export default function Login() {
             <Input
               type="email"
               placeholder={t("login.email")}
+              aria-label={t("login.email")}
+              autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               required
@@ -238,25 +252,40 @@ export default function Login() {
               <Input
                 type="password"
                 placeholder={t("login.password")}
+                aria-label={t("login.password")}
+                autoComplete={mode === "signup" ? "new-password" : "current-password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                minLength={mode === "signup" ? 8 : undefined}
                 required
               />
+            )}
+            {mode === "signup" && (
+              <p className="text-xs text-muted-foreground">{t("login.passwordHint")}</p>
             )}
             {mode === "signup" && (
               <Input
                 type="password"
                 placeholder={t("login.confirmPassword")}
+                aria-label={t("login.confirmPassword")}
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 required
               />
             )}
+            {mode === "signup" && confirmPassword.length > 0 && password !== confirmPassword && (
+              <p className="text-xs text-destructive">{t("mfa.passwordsDoNotMatch")}</p>
+            )}
 
             <Button className="w-full" type="submit" disabled={busy}>
-              {mode === "login" && t("login.signIn")}
-              {mode === "signup" && t("login.createAccount")}
-              {mode === "reset" && t("login.sendResetEmail")}
+              {busy
+                ? t("common.loading")
+                : mode === "login"
+                  ? t("login.signIn")
+                  : mode === "signup"
+                    ? t("login.createAccount")
+                    : t("login.sendResetEmail")}
             </Button>
 
             {mode === "signup" && signupStatus === "confirm" && (
@@ -272,6 +301,13 @@ export default function Login() {
                 >
                   {t("login.resend")}
                 </Button>
+              </div>
+            )}
+
+            {mode === "signup" && signupStatus === "exists" && (
+              <div className="rounded-md bg-warning/10 p-3 text-sm text-foreground border border-warning/20">
+                <p className="font-medium">{t("login.accountExists")}</p>
+                <p className="mt-1">{t("login.accountExistsDesc")}</p>
               </div>
             )}
 

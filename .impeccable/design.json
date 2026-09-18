@@ -1,0 +1,271 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T00:30:00Z",
+  "title": "Design System: LUMI",
+  "extensions": {
+    "colorMeta": {
+      "lumi-green": {
+        "role": "primary",
+        "displayName": "Lumi Green",
+        "canonical": "hsl(122 35% 30%)",
+        "tonalRamp": ["hsl(122 35% 10%)", "hsl(122 35% 18%)", "hsl(122 35% 24%)", "hsl(122 35% 30%)", "hsl(122 35% 42%)", "hsl(122 35% 56%)", "hsl(122 35% 72%)", "hsl(122 35% 88%)"]
+      },
+      "forest-deep": {
+        "role": "primary",
+        "displayName": "Forest Deep",
+        "canonical": "hsl(120 50% 15%)",
+        "tonalRamp": ["hsl(120 50% 6%)", "hsl(120 50% 10%)", "hsl(120 50% 15%)", "hsl(120 50% 25%)", "hsl(120 50% 38%)", "hsl(120 50% 52%)", "hsl(120 50% 70%)", "hsl(120 50% 88%)"]
+      },
+      "forest-ink": {
+        "role": "neutral",
+        "displayName": "Forest Ink",
+        "canonical": "hsl(120 50% 10%)",
+        "tonalRamp": ["hsl(120 50% 4%)", "hsl(120 50% 10%)", "hsl(120 50% 18%)", "hsl(120 50% 30%)", "hsl(120 50% 44%)", "hsl(120 50% 60%)", "hsl(120 50% 76%)", "hsl(120 50% 90%)"]
+      },
+      "fern": {
+        "role": "primary",
+        "displayName": "Fern",
+        "canonical": "hsl(108 48% 69%)",
+        "tonalRamp": ["hsl(108 48% 15%)", "hsl(108 48% 25%)", "hsl(108 48% 38%)", "hsl(108 48% 52%)", "hsl(108 48% 69%)", "hsl(108 48% 78%)", "hsl(108 48% 86%)", "hsl(108 48% 94%)"]
+      },
+      "leaf-border": {
+        "role": "neutral",
+        "displayName": "Leaf Border",
+        "canonical": "hsl(120 25% 83%)",
+        "tonalRamp": ["hsl(120 25% 18%)", "hsl(120 25% 30%)", "hsl(120 25% 45%)", "hsl(120 25% 60%)", "hsl(120 25% 72%)", "hsl(120 25% 83%)", "hsl(120 25% 90%)", "hsl(120 25% 95%)"]
+      },
+      "meadow-mist": {
+        "role": "neutral",
+        "displayName": "Meadow Mist",
+        "canonical": "hsl(120 45% 90%)",
+        "tonalRamp": ["hsl(120 45% 20%)", "hsl(120 45% 34%)", "hsl(120 45% 50%)", "hsl(120 45% 66%)", "hsl(120 45% 78%)", "hsl(120 45% 85%)", "hsl(120 45% 90%)", "hsl(120 45% 95%)"]
+      },
+      "mist": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "hsl(120 35% 93%)",
+        "tonalRamp": ["hsl(120 35% 22%)", "hsl(120 35% 36%)", "hsl(120 35% 52%)", "hsl(120 35% 68%)", "hsl(120 35% 80%)", "hsl(120 35% 87%)", "hsl(120 35% 93%)", "hsl(120 35% 97%)"]
+      },
+      "pale-meadow": {
+        "role": "neutral",
+        "displayName": "Pale Meadow",
+        "canonical": "hsl(120 30% 97%)",
+        "tonalRamp": ["hsl(120 30% 25%)", "hsl(120 30% 40%)", "hsl(120 30% 55%)", "hsl(120 30% 70%)", "hsl(120 30% 82%)", "hsl(120 30% 90%)", "hsl(120 30% 97%)", "hsl(120 30% 99%)"]
+      },
+      "card-white": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "hsl(0 0% 100%)",
+        "tonalRamp": ["hsl(0 0% 12%)", "hsl(0 0% 26%)", "hsl(0 0% 42%)", "hsl(0 0% 58%)", "hsl(0 0% 72%)", "hsl(0 0% 84%)", "hsl(0 0% 93%)", "hsl(0 0% 100%)"]
+      },
+      "ring-green": {
+        "role": "primary",
+        "displayName": "Ring Green",
+        "canonical": "hsl(122 35% 35%)",
+        "tonalRamp": ["hsl(122 35% 12%)", "hsl(122 35% 20%)", "hsl(122 35% 28%)", "hsl(122 35% 35%)", "hsl(122 35% 48%)", "hsl(122 35% 62%)", "hsl(122 35% 78%)", "hsl(122 35% 92%)"]
+      },
+      "solar-gold": {
+        "role": "secondary",
+        "displayName": "Solar Gold",
+        "canonical": "hsl(45 90% 65%)",
+        "tonalRamp": ["hsl(45 90% 18%)", "hsl(45 90% 28%)", "hsl(45 90% 40%)", "hsl(45 90% 52%)", "hsl(45 90% 65%)", "hsl(45 90% 76%)", "hsl(45 90% 86%)", "hsl(45 90% 94%)"]
+      },
+      "solar-glow": {
+        "role": "tertiary",
+        "displayName": "Solar Glow",
+        "canonical": "hsl(47 100% 73%)",
+        "tonalRamp": ["hsl(47 100% 20%)", "hsl(47 100% 32%)", "hsl(47 100% 44%)", "hsl(47 100% 58%)", "hsl(47 100% 73%)", "hsl(47 100% 82%)", "hsl(47 100% 89%)", "hsl(47 100% 95%)"]
+      },
+      "wind-green": {
+        "role": "tertiary",
+        "displayName": "Wind Green",
+        "canonical": "hsl(117 42% 56%)",
+        "tonalRamp": ["hsl(117 42% 14%)", "hsl(117 42% 24%)", "hsl(117 42% 34%)", "hsl(117 42% 45%)", "hsl(117 42% 56%)", "hsl(117 42% 68%)", "hsl(117 42% 82%)", "hsl(117 42% 93%)"]
+      },
+      "geothermal-ember": {
+        "role": "tertiary",
+        "displayName": "Geothermal Ember",
+        "canonical": "hsl(30 90% 42%)",
+        "tonalRamp": ["hsl(30 90% 12%)", "hsl(30 90% 20%)", "hsl(30 90% 30%)", "hsl(30 90% 42%)", "hsl(30 90% 55%)", "hsl(30 90% 70%)", "hsl(30 90% 84%)", "hsl(30 90% 93%)"]
+      },
+      "harvest-amber": {
+        "role": "tertiary",
+        "displayName": "Harvest Amber",
+        "canonical": "hsl(22 85% 40%)",
+        "tonalRamp": ["hsl(22 85% 12%)", "hsl(22 85% 20%)", "hsl(22 85% 30%)", "hsl(22 85% 40%)", "hsl(22 85% 54%)", "hsl(22 85% 70%)", "hsl(22 85% 84%)", "hsl(22 85% 93%)"]
+      },
+      "signal-red": {
+        "role": "tertiary",
+        "displayName": "Signal Red",
+        "canonical": "hsl(0 72% 51%)",
+        "tonalRamp": ["hsl(0 72% 14%)", "hsl(0 72% 24%)", "hsl(0 72% 36%)", "hsl(0 72% 51%)", "hsl(0 72% 64%)", "hsl(0 72% 76%)", "hsl(0 72% 87%)", "hsl(0 72% 94%)"]
+      },
+      "map-verdant": {
+        "role": "tertiary",
+        "displayName": "Map Verdant",
+        "canonical": "hsl(142 76% 36%)",
+        "tonalRamp": ["hsl(142 76% 10%)", "hsl(142 76% 18%)", "hsl(142 76% 27%)", "hsl(142 76% 36%)", "hsl(142 76% 48%)", "hsl(142 76% 62%)", "hsl(142 76% 78%)", "hsl(142 76% 91%)"]
+      },
+      "map-canopy": {
+        "role": "tertiary",
+        "displayName": "Map Canopy",
+        "canonical": "hsl(142 71% 45%)",
+        "tonalRamp": ["hsl(142 71% 12%)", "hsl(142 71% 22%)", "hsl(142 71% 33%)", "hsl(142 71% 45%)", "hsl(142 71% 58%)", "hsl(142 71% 72%)", "hsl(142 71% 85%)", "hsl(142 71% 94%)"]
+      },
+      "map-gold": {
+        "role": "tertiary",
+        "displayName": "Map Gold",
+        "canonical": "hsl(48 96% 53%)",
+        "tonalRamp": ["hsl(48 96% 15%)", "hsl(48 96% 26%)", "hsl(48 96% 38%)", "hsl(48 96% 53%)", "hsl(48 96% 66%)", "hsl(48 96% 78%)", "hsl(48 96% 88%)", "hsl(48 96% 95%)"]
+      },
+      "map-amber": {
+        "role": "tertiary",
+        "displayName": "Map Amber",
+        "canonical": "hsl(25 95% 53%)",
+        "tonalRamp": ["hsl(25 95% 15%)", "hsl(25 95% 26%)", "hsl(25 95% 38%)", "hsl(25 95% 53%)", "hsl(25 95% 66%)", "hsl(25 95% 78%)", "hsl(25 95% 88%)", "hsl(25 95% 95%)"]
+      },
+      "map-red": {
+        "role": "tertiary",
+        "displayName": "Map Red",
+        "canonical": "hsl(0 84% 60%)",
+        "tonalRamp": ["hsl(0 84% 16%)", "hsl(0 84% 28%)", "hsl(0 84% 42%)", "hsl(0 84% 60%)", "hsl(0 84% 70%)", "hsl(0 84% 80%)", "hsl(0 84% 89%)", "hsl(0 84% 95%)"]
+      },
+      "map-slate": {
+        "role": "neutral",
+        "displayName": "Map Slate",
+        "canonical": "hsl(215 20% 65%)",
+        "tonalRamp": ["hsl(215 20% 18%)", "hsl(215 20% 28%)", "hsl(215 20% 40%)", "hsl(215 20% 52%)", "hsl(215 20% 65%)", "hsl(215 20% 76%)", "hsl(215 20% 86%)", "hsl(215 20% 93%)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headlines only; extrabold with tight tracking." },
+      "headline": { "displayName": "Headline", "purpose": "Page titles (h1); semibold tracking-tight." },
+      "title": { "displayName": "Title", "purpose": "Section headings (h2/h3); semibold." },
+      "body": { "displayName": "Body", "purpose": "Prose and UI text; 17px root, line-height 1.75." },
+      "label": { "displayName": "Label", "purpose": "Buttons, form labels, meta; medium weight. Eyebrows go uppercase tracking-wider." }
+    },
+    "shadows": [
+      { "name": "resting-card", "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)", "purpose": "Default contact shadow on cards, inputs, panels — barely-there at rest." },
+      { "name": "interactive-lift", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Hover/focus lift on clickable cards and prominent actions." },
+      { "name": "brand-lift", "value": "0 10px 15px -3px hsl(122 35% 30% / 0.35), 0 4px 6px -4px hsl(122 35% 30% / 0.2)", "purpose": "Brand-tinted lift reserved for featured/hero cards." },
+      { "name": "modal-elevation", "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)", "purpose": "Dialogs and sheets only." }
+    ],
+    "motion": [
+      { "name": "color-fade", "value": "color 150ms, background-color 150ms, border-color 150ms", "purpose": "Default state transition — nearly every interactive element uses transition-colors." },
+      { "name": "shadow-lift", "value": "box-shadow 150ms", "purpose": "Paired with the state-responsive lift on hover/focus." },
+      { "name": "accordion", "value": "height 0.2s ease-out", "purpose": "Disclosure animation from tailwindcss-animate accordion keyframes." },
+      { "name": "loading-spin", "value": "1s linear infinite rotation", "purpose": "Spinner for indeterminate waits." },
+      { "name": "skeleton-pulse", "value": "2s ease-in-out infinite opacity 0.5–1", "purpose": "Content-shaped loading placeholders." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "container-2xl", "value": "1200px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Lumi Green fill, white text; the single action voice of a screen.",
+      "html": "<button class=\"ds-btn-primary\">Run Simulation</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; height: 2.5rem; padding: 0.5rem 1rem; border-radius: 0.625rem; border: none; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: color 150ms, background-color 150ms, opacity 150ms; } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Meadow Mist fill for quiet secondary actions.",
+      "html": "<button class=\"ds-btn-secondary\">Compare Options</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; height: 2.5rem; padding: 0.5rem 1rem; border-radius: 0.625rem; border: none; background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: color 150ms, background-color 150ms, opacity 150ms; } .ds-btn-secondary:hover { opacity: 0.9; } .ds-btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Leaf Border stroke on the page background; fills Meadow Mist on hover.",
+      "html": "<button class=\"ds-btn-outline\">View Details</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; height: 2.5rem; padding: 0.5rem 1rem; border-radius: 0.625rem; border: 1px solid hsl(var(--input)); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: color 150ms, background-color 150ms; } .ds-btn-outline:hover { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent tertiary action; reveals a Mist fill on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Dismiss</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; height: 2.5rem; padding: 0.5rem 1rem; border-radius: 0.625rem; border: none; background: transparent; color: hsl(var(--foreground)); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: color 150ms, background-color 150ms; } .ds-btn-ghost:hover { background: hsl(var(--muted)); color: hsl(var(--muted-foreground)); } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card-default",
+      "description": "White document surface on Pale Meadow; flat at rest, lifts only when interactive.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-header\"><h3 class=\"ds-card-title\">Solar Potential</h3><p class=\"ds-card-desc\">Estimated output for your municipality</p></div><div class=\"ds-card-content\">4.2 kWh/m²/day average irradiance</div></div>",
+      "css": ".ds-card { border-radius: 0.75rem; border: 1px solid hsl(var(--border)); background: hsl(var(--card)); color: hsl(var(--card-foreground)); box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); } .ds-card-header { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.5rem; } .ds-card-title { margin: 0; font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; } .ds-card-desc { margin: 0; font-size: 0.875rem; color: hsl(var(--muted-foreground)); } .ds-card-content { padding: 1.5rem; padding-top: 0; font-size: 0.875rem; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-default",
+      "description": "Leaf Border stroke on Pale Meadow; Ring Green focus ring is the only focus signal.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Monthly consumption (kWh)\" />",
+      "css": ".ds-input { display: flex; height: 2.5rem; width: 100%; border-radius: 0.625rem; border: 1px solid hsl(var(--input)); background: hsl(var(--background)); color: hsl(var(--foreground)); padding: 0.5rem 0.75rem; font-size: 0.875rem; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); transition: border-color 150ms, box-shadow 150ms; } .ds-input::placeholder { color: hsl(var(--muted-foreground)); } .ds-input:focus-visible { outline: none; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--ring)); }"
+    },
+    {
+      "name": "Primary Badge",
+      "kind": "chip",
+      "refersTo": "badge-primary",
+      "description": "Pill in Lumi Green for status and category labels.",
+      "html": "<span class=\"ds-badge-primary\">Recommended</span>",
+      "css": ".ds-badge-primary { display: inline-flex; align-items: center; border-radius: 9999px; border: 1px solid transparent; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); padding: 0.125rem 0.625rem; font-size: 0.75rem; font-weight: 500; transition: color 150ms, background-color 150ms; }"
+    },
+    {
+      "name": "Secondary Badge",
+      "kind": "chip",
+      "refersTo": "badge-secondary",
+      "description": "Quieter pill in Meadow Mist for supporting labels.",
+      "html": "<span class=\"ds-badge-secondary\">Solar</span>",
+      "css": ".ds-badge-secondary { display: inline-flex; align-items: center; border-radius: 9999px; border: 1px solid transparent; background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); padding: 0.125rem 0.625rem; font-size: 0.75rem; font-weight: 500; transition: color 150ms, background-color 150ms; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Municipal Energy Advisor",
+    "overview": "LUMI's visual system is a knowledgeable local advisor rendered in green: it stands beside a Filipino homeowner, opens the climate and energy record for their municipality, and explains in plain language what solar, wind, or hydro would mean for their household. Every surface behaves like that advisor — calm, trustworthy, unhurried, and honest about what is an estimate. The palette is a living green field anchored on Lumi Green (#2e5f2b), the confirmed base color from which the entire brand scale is derived. A single warm accent, Solar Gold, marks sunlight, savings, and moments worth attention. The system never shouts: it reassures. Surfaces stay flat and quiet until the user touches them, at which point they lift gently to confirm the interaction. There is deliberately no alarmist energy-crisis framing and no dashboard clutter — a homeowner comparing options should feel accompanied, not examined. The system is bilingual (English/Filipino) and dual-themed: a light theme of pale meadow surfaces and a complete dark theme of deep forest tones, both built from the same green family. Density is generous and readable — 17px base type, open line height, cards that breathe.",
+    "keyCharacteristics": [
+      "Single-family green palette anchored on Lumi Green (#2e5f2b); gold reserved for solar and emphasis",
+      "Flat-by-default surfaces with state-responsive lift on hover/focus",
+      "Soft, friendly geometry — 0.75rem corner radius, pill badges, generous padding",
+      "Plain-language, hedged voice; data visualization colors are semantic (gold = solar, green = wind, deep green = hydro, ember = geothermal)",
+      "Full dark theme as a supported, usable second theme via .dark class",
+      "WCAG AA contrast and keyboard focus as hard requirements"
+    ],
+    "rules": [
+      { "name": "The One Family Rule", "body": "All UI greens belong to the Lumi Green family (hue ~108–142). A second hue family may only ever enter through data (charts, maps), never as interface chrome.", "section": "colors" },
+      { "name": "The Gold Reserve Rule", "body": "Solar Gold marks solar and emphasis only. If gold appears more than once or twice on a screen, something is wrong — it is a signal, not a theme color.", "section": "colors" },
+      { "name": "The No-Pure-Neutral Rule", "body": "Backgrounds, text, and borders are all green-tinted. Pure grays and pure blacks break the family; the only pure white allowed is card surface.", "section": "colors" },
+      { "name": "The Semibold Ceiling Rule", "body": "Headings top out at semibold inside app surfaces; extrabold is reserved for the marketing hero. Weight is spent sparingly so it still means something.", "section": "typography" },
+      { "name": "The Plain-Language Rule", "body": "Labels and microcopy prefer plain words over units and jargon — the advisor explains; it never gatekeeps.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "A shadow that does not answer a user action is a bug. Static surfaces are flat; shadows exist only to say \"this responds to you.\"", "section": "elevation" }
+    ],
+    "dos": [
+      "Do anchor every green on the Lumi Green family (hue ~108–142); derive new steps from it rather than introducing foreign greens.",
+      "Do keep surfaces flat at rest and let hover/focus supply the only elevation (shadow-sm → shadow-lg, shadow-primary for featured cards).",
+      "Do use Solar Gold only for solar references and rare emphasis — its scarcity is what makes it read as sunlight.",
+      "Do write UI copy in the advisor voice — plain, hedged, honest (\"estimated\", \"may work in your area\"), in both en.json and fil.json.",
+      "Do verify WCAG AA contrast on both themes — especially gold-on-light and accent-green-on-dark.",
+      "Do keep focus-visible:ring-2 on every interactive element; the Ring Green ring is the accessibility floor.",
+      "Do use the semantic chart/map tokens for data colors, so a solar chart and a solar badge share the same sunlight."
+    ],
+    "donts": [
+      "Don't introduce a second accent hue (no blues, purples, teals) into interface chrome — the system is one green family plus gold.",
+      "Don't use pure gray or pure black for text, borders, or surfaces; neutrals are green-tinted, the only pure white is card surface.",
+      "Don't decorate with the map-classification or chart colors — those hues are data semantics (a red badge must never mean \"nice low cost\").",
+      "Don't add static shadows for depth — elevation is a state response, not a styling choice.",
+      "Don't ship English-only strings or unthemed components; dark-mode parity and fil.json parity ship with the feature.",
+      "Don't present estimates as promises — visuals and copy must preserve the hedged, honest framing."
+    ]
+  }
+}

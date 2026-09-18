@@ -290,8 +290,46 @@ def get_municipality_data(
     return municipality_data
 
 
+def _get_climate_municipality_ids() -> set[int]:
+    """Return the set of municipality_ids that have climate data.
+
+    Mirrors the data sources _get_climate_for_municipality uses: the
+    municipality_climate_averages table plus the bundled CSV fallback.
+    Returns an empty set when coverage can't be determined.
+    """
+    ids: set[int] = set()
+    client = get_supabase_client()
+    try:
+        batch_size = 1000
+        offset = 0
+        while True:
+            result = (
+                client
+                .table("municipality_climate_averages")
+                .select("municipality_id")
+                .range(offset, offset + batch_size - 1)
+                .execute()
+            )
+            batch = result.data or []
+            ids.update(
+                row["municipality_id"]
+                for row in batch
+                if row.get("municipality_id") is not None
+            )
+            if len(batch) < batch_size:
+                break
+            offset += batch_size
+    except Exception as exc:
+        logger.warning("Failed to load climate municipality ids from Supabase: %s", exc)
+
+    df = _load_climate_csv()
+    if df is not None and "municipality_id" in df.columns:
+        ids.update(int(v) for v in df["municipality_id"].dropna().unique())
+    return ids
+
+
 def list_municipalities() -> list[dict]:
-    cache_key = "lumi:ecosim:municipalities"
+    cache_key = "lumi:ecosim:municipalities:v3"
     cached = cache_get_sync(cache_key)
     if cached is not None:
         return cached
@@ -305,7 +343,7 @@ def list_municipalities() -> list[dict]:
             result = (
                 client
                 .table("municipalities")
-                .select("municipality_id,name,province_id")
+                .select("municipality_id,name,province_id,lat,lon")
                 .order("name")
                 .range(offset, offset + batch_size - 1)
                 .execute()
@@ -326,6 +364,13 @@ def list_municipalities() -> list[dict]:
             detail=message,
         )
 
+    # Drop municipalities with no climate data — the simulator can't run on
+    # them, and the stale rows surface as "City of X" duplicates in the picker.
+    # Fail open when coverage can't be determined rather than emptying the list.
+    climate_ids = _get_climate_municipality_ids()
+    if climate_ids:
+        items = [i for i in items if i.get("municipality_id") in climate_ids]
+
     # Build province_id → province_name map from cached province list
     province_map = {p["province_id"]: p["name"] for p in list_provinces()}
 
@@ -335,6 +380,8 @@ def list_municipalities() -> list[dict]:
                 "municipality_id": item.get("municipality_id"),
                 "name": item.get("name"),
                 "province_name": province_map.get(item.get("province_id")),
+                "lat": item.get("lat"),
+                "lon": item.get("lon"),
             }
             for item in items
             if item.get("municipality_id") and item.get("name")

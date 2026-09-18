@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { BarChart3, LogOut, Menu, Shield, Settings, User, X } from "lucide-react";
 
 import ThemeToggle from "@/components/shared/ThemeToggle";
 import LanguageToggle from "@/components/shared/LanguageToggle";
@@ -159,20 +159,21 @@ export default function Navbar() {
                       onClick={() => navigate("/admin")}
                       className="flex items-center gap-2 text-primary focus:text-primary"
                     >
-                      <span className="text-base">🛡️</span>
+                      <Shield className="h-4 w-4" />
                       <span>{t("nav.adminPortal")}</span>
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem onClick={() => navigate("/dashboard")} className="flex items-center gap-2">
-                    <span className="text-base">👤</span>
+                    <User className="h-4 w-4" />
                     <span>{t("nav.dashboard")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/saved-simulations")} className="flex items-center gap-2">
-                    <span className="text-base">📊</span>
+                    <BarChart3 className="h-4 w-4" />
                     <span>{t("nav.savedSims")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/settings/security")} className="flex items-center gap-2">
-                    <span>Settings</span>
+                    <Settings className="h-4 w-4" />
+                    <span>{t("common.settings")}</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
@@ -182,7 +183,7 @@ export default function Navbar() {
                     }}
                     className="flex items-center gap-2 text-destructive focus:text-destructive"
                   >
-                    <span className="text-base">🚪</span>
+                    <LogOut className="h-4 w-4" />
                     <span>{t("nav.logout")}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -192,9 +193,9 @@ export default function Navbar() {
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Link to="/login" aria-label={t("login.signIn")}>
-                    <Button size="sm">{t("nav.login")}</Button>
-                  </Link>
+                  <Button size="sm" asChild>
+                    <Link to="/login" aria-label={t("login.signIn")}>{t("nav.login")}</Link>
+                  </Button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
                   <p>{t("login.signIn")}</p>
@@ -212,6 +213,7 @@ export default function Navbar() {
           <button
             type="button"
             aria-label={mobileOpen ? t("nav.closeMenu") : t("nav.openMenu")}
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
             className="md:hidden ml-2 rounded-md p-2 text-foreground hover:bg-muted"
           >

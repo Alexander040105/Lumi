@@ -1,3 +1,13 @@
+# Secrets / local env files
+.env
+.env.*
+*.key
+*auth*.json
+lumi_oauth.json
+client_secret_*.json
+fastapi-backend/.env
+fastapi-backend/.env.*
+
 # Ignore local/development requirements files so Vercel's Python builder
 # uses only api/requirements.txt for the serverless function.
 /requirements.txt

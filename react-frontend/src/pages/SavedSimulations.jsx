@@ -68,7 +68,20 @@ export default function SavedSimulations() {
     }
   };
 
-  if (!user) return <p className="p-6">{t("savedSimulations.pleaseLogin")}</p>;
+  if (!user) {
+    return (
+      <section className="page-container stack">
+        <h1 className="text-2xl font-bold">{t("savedSimulations.title")}</h1>
+        <p className="text-muted-foreground">
+          {t("savedSimulations.pleaseLogin")}{" "}
+          <Link to="/login" className="underline text-primary">
+            {t("nav.login")}
+          </Link>
+          .
+        </p>
+      </section>
+    );
+  }
   if (loading) {
     return (
       <section className="page-container stack">
@@ -133,11 +146,11 @@ export default function SavedSimulations() {
                       <p className="text-xs text-muted-foreground mt-1">{created}</p>
                     )}
                     <div className="flex items-center gap-2 mt-3">
-                      <Link to={`/ecosim?simulation_id=${sim.id}`} className="flex-1">
-                        <Button variant="outline" size="sm" className="w-full">
+                      <Button variant="outline" size="sm" className="flex-1" asChild>
+                        <Link to={`/ecosim?simulation_id=${sim.id}`}>
                           {t("savedSimulations.open")}
-                        </Button>
-                      </Link>
+                        </Link>
+                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"

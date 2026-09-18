@@ -20,7 +20,7 @@ export const DropdownMenuContent = ({ className, sideOffset = 8, ...props }) => 
 export const DropdownMenuItem = ({ className, ...props }) => (
   <DropdownMenuPrimitive.Item
     className={cn(
-      "cursor-pointer select-none rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground",
+      "cursor-pointer select-none rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-secondary focus:text-secondary-foreground",
       className
     )}
     {...props}

@@ -5,6 +5,7 @@ import { useI18n } from "@/i18n";
 import { supabase } from "@/services/supabaseClient";
 import { getApiBaseUrl } from "@/utils/env";
 import { Button } from "@/components/ui/button";
+import { CheckCircle2, AlertTriangle } from "lucide-react";
 
 export default function ProfilePage() {
   const { t } = useI18n();
@@ -152,11 +153,11 @@ export default function ProfilePage() {
         <span>{user?.email}</span>
         {emailConfirmed ? (
           <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
-            ✓ {t("profile.verified")}
+            <CheckCircle2 className="h-3 w-3 mr-1" aria-hidden="true" />{t("profile.verified")}
           </span>
         ) : (
           <span className="inline-flex items-center rounded-full bg-warning/10 px-2 py-0.5 text-xs font-medium text-warning">
-            ⚠ {t("profile.unverified")}
+            <AlertTriangle className="h-3 w-3 mr-1" aria-hidden="true" />{t("profile.unverified")}
           </span>
         )}
       </div>

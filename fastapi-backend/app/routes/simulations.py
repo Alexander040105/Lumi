@@ -3,26 +3,46 @@ from datetime import datetime, timezone
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel, Field
+from postgrest.exceptions import APIError
+from pydantic import BaseModel, Field, field_validator
 
 from app.dependencies.auth import get_current_user_with_role_and_plan, get_verified_user
 from app.services.supabase_service import get_supabase_client
+from app.utils.postgrest import is_pgrst116_not_found
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
+def _sanitize_label(v: str) -> str:
+    """Plain-text label: strip angle brackets and surrounding whitespace."""
+    cleaned = v.replace("<", "").replace(">", "").strip()
+    if not cleaned:
+        raise ValueError("label must not be empty")
+    return cleaned
+
+
 class SimulationCreate(BaseModel):
     label: str = Field(..., min_length=1, max_length=200)
-    municipality_id: int | None = None
-    province_id: int | None = None
+    municipality_id: int | None = Field(None, ge=0)
+    province_id: int | None = Field(None, ge=0)
     mode: str = Field(default="municipality", pattern="^(municipality|province|barangay)$")
     inputs: dict = Field(default_factory=dict)
     results: dict = Field(default_factory=dict)
 
+    @field_validator("label")
+    @classmethod
+    def sanitize_label(cls, v: str) -> str:
+        return _sanitize_label(v)
+
 
 class SimulationUpdate(BaseModel):
     label: str = Field(..., min_length=1, max_length=200)
+
+    @field_validator("label")
+    @classmethod
+    def sanitize_label(cls, v: str) -> str:
+        return _sanitize_label(v)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
@@ -111,6 +131,18 @@ async def get_simulation(
         return {"simulation": resp.data}
     except HTTPException:
         raise
+    except APIError as exc:
+        # .single() raises PGRST116 when the row doesn't exist (or isn't owned)
+        if is_pgrst116_not_found(exc):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Simulation not found or access denied",
+            )
+        logger.error("Failed to fetch simulation %s for user=%s: %s", simulation_id, user_id, exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch simulation",
+        )
     except Exception as exc:
         logger.error("Failed to fetch simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(
@@ -154,6 +186,17 @@ async def update_simulation(
         return {"simulation": resp.data[0] if resp.data else None}
     except HTTPException:
         raise
+    except APIError as exc:
+        if is_pgrst116_not_found(exc):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Simulation not found or access denied",
+            )
+        logger.error("Failed to update simulation %s for user=%s: %s", simulation_id, user_id, exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update simulation",
+        )
     except Exception as exc:
         logger.error("Failed to update simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(
@@ -189,6 +232,17 @@ async def delete_simulation(
         client.table("saved_simulations").delete().eq("id", simulation_id).execute()
     except HTTPException:
         raise
+    except APIError as exc:
+        if is_pgrst116_not_found(exc):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Simulation not found or access denied",
+            )
+        logger.error("Failed to delete simulation %s for user=%s: %s", simulation_id, user_id, exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to delete simulation",
+        )
     except Exception as exc:
         logger.error("Failed to delete simulation %s for user=%s: %s", simulation_id, user_id, exc)
         raise HTTPException(

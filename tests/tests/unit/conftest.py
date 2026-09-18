@@ -29,6 +29,19 @@ LOCAL_DATA_DIR = SERVICES_DIR / "local_data"
 
 
 # ---------------------------------------------------------------------------
+# Required environment placeholders
+# ---------------------------------------------------------------------------
+
+# Settings() requires these Supabase vars; tests never call a real project
+# (clients are mocked). setdefault fills only missing vars, so CI secrets and
+# developer env vars always take precedence. Never put real credentials here.
+os.environ.setdefault("SUPABASE_URL", "https://placeholder.supabase.co")
+os.environ.setdefault("SUPABASE_ANON_KEY", "placeholder-anon-key")
+os.environ.setdefault("SUPABASE_SERVICE_ROLE_KEY", "placeholder-service-role-key")
+os.environ.setdefault("SUPABASE_JWT_SECRET", "placeholder-jwt-secret")
+
+
+# ---------------------------------------------------------------------------
 # Generic fixtures
 # ---------------------------------------------------------------------------
 

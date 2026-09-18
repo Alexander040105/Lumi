@@ -1,0 +1,23 @@
+model,year,actual_dir,pred_dir,correct
+Linear Trend,2015,up,up,True
+"ARIMA(1,1,1)",2015,up,up,True
+Linear Trend,2016,up,down,False
+"ARIMA(1,1,1)",2016,up,up,True
+Linear Trend,2017,up,down,False
+"ARIMA(1,1,1)",2017,up,up,True
+Linear Trend,2018,up,down,False
+"ARIMA(1,1,1)",2018,up,up,True
+Linear Trend,2019,up,down,False
+"ARIMA(1,1,1)",2019,up,up,True
+Linear Trend,2020,down,down,True
+"ARIMA(1,1,1)",2020,down,up,False
+Linear Trend,2021,up,up,True
+"ARIMA(1,1,1)",2021,up,up,True
+"ARIMA(1,1,1)",2021,up,up,True
+Linear Trend Regression,2021,up,up,True
+"ARIMA(1,1,1)",2022,up,up,True
+Linear Trend Regression,2022,up,up,True
+"ARIMA(1,1,1)",2023,up,down,False
+Linear Trend Regression,2023,up,down,False
+"ARIMA(1,1,1)",2024,up,down,False
+Linear Trend Regression,2024,up,down,False

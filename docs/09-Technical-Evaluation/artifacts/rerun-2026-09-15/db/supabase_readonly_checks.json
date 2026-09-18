@@ -1,0 +1,64 @@
+{
+ "count_regions": {
+  "status": 200,
+  "content_range": "0-17/18"
+ },
+ "count_provinces": {
+  "status": 200,
+  "content_range": "0-119/120"
+ },
+ "count_municipalities": {
+  "status": 206,
+  "content_range": "0-999/1813"
+ },
+ "count_barangays": {
+  "status": 206,
+  "content_range": "0-999/53460"
+ },
+ "count_municipality_climate_monthly": {
+  "status": 206,
+  "content_range": "0-999/334584"
+ },
+ "count_hydropower_suitability": {
+  "status": 206,
+  "content_range": "0-999/1600"
+ },
+ "count_geothermal_suitability": {
+  "status": 206,
+  "content_range": "0-999/1813"
+ },
+ "count_ml_model_registry": {
+  "status": 401,
+  "content_range": ""
+ },
+ "rls_profiles": {
+  "status": 401,
+  "rows_returned": null,
+  "body_snippet": "{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.profiles TO anon;\",\"message\":\"permission denied for table profiles\"}"
+ },
+ "rls_simulations": {
+  "status": 404,
+  "rows_returned": null,
+  "body_snippet": "{\"code\":\"PGRST205\",\"details\":null,\"hint\":\"Perhaps you meant the table 'public.saved_simulations'\",\"message\":\"Could not find the table 'public.simulations' in the schema cache\"}"
+ },
+ "rls_saved_simulations": {
+  "status": 401,
+  "rows_returned": null,
+  "body_snippet": "{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.saved_simulations TO anon;\",\"message\":\"permission denied for table saved_simulatio"
+ },
+ "rls_user_ecosim_logs": {
+  "status": 200,
+  "rows_returned": 0,
+  "body_snippet": ""
+ },
+ "rls_admin_audit_log": {
+  "status": 401,
+  "rows_returned": null,
+  "body_snippet": "{\"code\":\"42501\",\"details\":null,\"hint\":\"Grant the required privileges to the current role with: GRANT SELECT ON public.admin_audit_log TO anon;\",\"message\":\"permission denied for table admin_audit_log\"}"
+ },
+ "rls_api_usage_logs": {
+  "status": 404,
+  "rows_returned": null,
+  "body_snippet": "{\"code\":\"PGRST205\",\"details\":null,\"hint\":\"Perhaps you meant the table 'public.user_usage_limits'\",\"message\":\"Could not find the table 'public.api_usage_logs' in the schema cache\"}"
+ }
+}

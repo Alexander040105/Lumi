@@ -104,6 +104,7 @@ class EcosimResponse(BaseModel):
     consumption_results: ConsumptionResults
     renewable_energy_results: RenewableEnergyResults
     ai_analysis: dict | None = None
+    explanations: dict | None = None
     remaining_anonymous_requests: int | None = None
     province: str | None = None
 
@@ -165,6 +166,7 @@ class EcosimDashboardResponse(BaseModel):
     consumption_results: ConsumptionResults | None = None
     municipality_data: list[MunicipalityClimate] | None = None
     ai_analysis: dict | None = None
+    explanations: dict | None = None
     remaining_anonymous_requests: int | None = None
     # Hidden: suitability-score-based recommendation (for future reactivation)
     suitability_recommended_source: str | None = None
@@ -184,6 +186,8 @@ class MunicipalityOption(BaseModel):
     municipality_id: int
     name: str
     province_name: str | None = None
+    lat: float | None = None
+    lon: float | None = None
 
 
 class MunicipalityListResponse(BaseModel):

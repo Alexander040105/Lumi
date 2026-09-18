@@ -1,0 +1,7 @@
+{
+  "comparison": "ARIMA(1,1,1) vs Linear Trend (|error| loss)",
+  "dm_stat": 3.532,
+  "p_value_normal_approx": 0.0004,
+  "n_test": 4,
+  "caveat": "n=4 -> test has essentially no power; reported for completeness"
+}

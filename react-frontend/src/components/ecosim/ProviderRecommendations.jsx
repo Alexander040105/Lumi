@@ -26,7 +26,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Building2 className="h-5 w-5 text-primary" />
+          <Building2 className="h-5 w-5 text-primary" aria-hidden="true" />
           {t("ecosim.providers.title")}
         </CardTitle>
         <CardDescription>
@@ -45,7 +45,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
                 className="rounded-lg border bg-card p-4 shadow-sm hover:shadow-md transition-shadow flex flex-col gap-2"
               >
                 <div className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                  <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" aria-hidden="true" />
                   <div className="min-w-0">
                     <p className="text-sm font-medium line-clamp-2">{p.name}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{p.type}</p>
@@ -55,7 +55,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
                 <div className="flex items-center justify-between mt-auto pt-1">
                   <span className="text-xs text-muted-foreground">{p.years}</span>
                   <span className="text-xs text-primary flex items-center gap-1">
-                    {t("ecosim.providers.visit")} <ExternalLink className="h-3 w-3" />
+                    {t("ecosim.providers.visit")} <ExternalLink className="h-3 w-3" aria-hidden="true" />
                   </span>
                 </div>
               </a>
@@ -63,7 +63,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
           </div>
         ) : (
           <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
-            <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" />
+            <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" aria-hidden="true" />
             {t("ecosim.providers.none", { area: municipalityName || provinceName || t("common.notAvailable") })}
           </div>
         )}
