@@ -186,6 +186,8 @@ class MunicipalityOption(BaseModel):
     municipality_id: int
     name: str
     province_name: str | None = None
+    lat: float | None = None
+    lon: float | None = None
 
 
 class MunicipalityListResponse(BaseModel):

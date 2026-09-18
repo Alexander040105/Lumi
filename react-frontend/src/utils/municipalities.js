@@ -22,3 +22,29 @@ export function filterMunicipalities(items, query) {
 export function formatMunicipalityLabel(m) {
   return m.province_name ? `${m.name}, ${m.province_name}` : m.name;
 }
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const toRad = (deg) => (deg * Math.PI) / 180;
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+export function nearestMunicipality(items, lat, lon) {
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  let best = null;
+  for (const item of items || []) {
+    const mLat = Number(item?.lat);
+    const mLon = Number(item?.lon);
+    if (!Number.isFinite(mLat) || !Number.isFinite(mLon)) continue;
+    const distanceKm = haversineKm(lat, lon, mLat, mLon);
+    if (!best || distanceKm < best.distanceKm) {
+      best = { item, distanceKm };
+    }
+  }
+  return best;
+}

@@ -1,18 +1,15 @@
 /**
- * Lazy-loads pdfmake and configures the fonts. Using a CDN avoids Vite/VFS
- * build issues and keeps the initial bundle small.
+ * Lazy-loads pdfmake and configures the fonts. Fonts are self-hosted in
+ * public/fonts/roboto/ and fetched same-origin — the production CSP only
+ * allows connect-src 'self', so CDN font URLs would be blocked.
  */
 
-const CDN_FONTS = {
+const SELF_HOSTED_FONTS = {
   Roboto: {
-    normal:
-      "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf",
-    bold:
-      "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf",
-    italics:
-      "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf",
-    bolditalics:
-      "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf",
+    normal: "/fonts/roboto/Roboto-Regular.ttf",
+    bold: "/fonts/roboto/Roboto-Medium.ttf",
+    italics: "/fonts/roboto/Roboto-Italic.ttf",
+    bolditalics: "/fonts/roboto/Roboto-MediumItalic.ttf",
   },
 };
 
@@ -23,12 +20,12 @@ export async function getPdfMake() {
     pdfMakePromise = import("pdfmake/build/pdfmake").then((mod) => {
       const pdfMake = mod.default || mod;
       if (pdfMake && typeof pdfMake.createPdf === "function") {
-        pdfMake.fonts = { ...(pdfMake.fonts || {}), ...CDN_FONTS };
+        pdfMake.fonts = { ...(pdfMake.fonts || {}), ...SELF_HOSTED_FONTS };
         return pdfMake;
       }
       // Fallback for UMD builds that expose a global instead of a default export.
       if (typeof window !== "undefined" && window.pdfMake) {
-        window.pdfMake.fonts = { ...(window.pdfMake.fonts || {}), ...CDN_FONTS };
+        window.pdfMake.fonts = { ...(window.pdfMake.fonts || {}), ...SELF_HOSTED_FONTS };
         return window.pdfMake;
       }
       throw new Error("Unable to load pdfmake");

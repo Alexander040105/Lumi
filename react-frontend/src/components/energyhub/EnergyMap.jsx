@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { MapPin, Layers, Map as MapIcon } from "lucide-react";
 import { useI18n } from "@/i18n";
+import { useTheme } from "@/hooks/useTheme";
+import { getCartoApiKey } from "@/utils/env";
 import MapExplanationCard from "./MapExplanationCard";
 
 const METRIC_KEYS = [
@@ -232,6 +234,7 @@ function FallbackMapGrid({ data, metric, level }) {
 
 function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {}, showVolcanoMarkers = false }) {
   const { t } = useI18n();
+  const { theme } = useTheme();
   const [L, setL] = useState(null);
   const [RL, setRL] = useState(null);
   const [rawGeojson, setRawGeojson] = useState(null);
@@ -243,6 +246,14 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
       : "/philippine_geojson_file_per_region.json";
 
   const nameProperty = level === "municipality" ? "adm3_en" : "adm2_en";
+
+  // CARTO requires an API key on basemap tiles; unkeyed tiles ship the
+  // "API key required" watermark. Match the app theme with Positron/Dark Matter.
+  const tileStyle = theme === "dark" ? "dark_all" : "light_all";
+  const cartoKey = getCartoApiKey();
+  const tileUrl = `https://{s}.basemaps.cartocdn.com/${tileStyle}/{z}/{x}/{y}{r}.png${
+    cartoKey ? `?key=${cartoKey}` : ""
+  }`;
 
   // 1. Name-based lookup (fallback)
   const nameLookup = useMemo(() => {
@@ -403,8 +414,9 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          key={tileStyle}
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+          url={tileUrl}
         />
         <GeoJSON data={enrichedGeojson} style={styleFeature} onEachFeature={onEachFeature} />
         {showPlantMarkers && L && RL && operatingPlants.map((p) => {

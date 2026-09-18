@@ -2,17 +2,17 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Check, Save, Printer, Bookmark, Receipt, Calculator, Sparkles } from "lucide-react";
+import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Check, Save, Printer, Bookmark, Receipt, Calculator, Sparkles, LocateFixed } from "lucide-react";
 import HelpTooltip from "@/components/shared/HelpTooltip";
 import SearchableSelect from "@/components/shared/SearchableSelect";
-import { formatMunicipalityLabel } from "@/utils/municipalities";
+import { formatMunicipalityLabel, nearestMunicipality } from "@/utils/municipalities";
 import { useI18n } from "@/i18n";
 
 const ENABLE_PROVINCE_MODE = false;
 
 export default function EcosimWizard({
   mode, setMode,
-  muniQuery, setMuniQuery, muniOpen, setMuniOpen, filteredMunicipalities, municipalityId, setMunicipalityId, municipalitiesError,
+  muniQuery, setMuniQuery, muniOpen, setMuniOpen, filteredMunicipalities, municipalities = [], municipalityId, setMunicipalityId, municipalitiesError,
   provinceQuery, setProvinceQuery, provinceOpen, setProvinceOpen, filteredProvinces, provinceId, setProvinceId, provincesError,
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
@@ -21,6 +21,9 @@ export default function EcosimWizard({
 }) {
   const { t } = useI18n();
   const [step, setStep] = useState(1);
+  const [locating, setLocating] = useState(false);
+  const [locateError, setLocateError] = useState(null);
+  const [farDistanceKm, setFarDistanceKm] = useState(null);
   const totalSteps = 5;
 
   const canProceed = useMemo(() => {
@@ -55,6 +58,38 @@ export default function EcosimWizard({
   }, [monthlyConsumption, monthlyBill]);
 
   const aiReady = !includeAi || aiError || (!aiLoading && result?.ai_analysis?.summary && result.ai_analysis?.status !== "pending");
+
+  const handleLocate = () => {
+    setLocateError(null);
+    setFarDistanceKm(null);
+    if (!navigator.geolocation) {
+      setLocateError("ecosim.wizard.locationErrors.unsupported");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocating(false);
+        const match = nearestMunicipality(municipalities, pos.coords.latitude, pos.coords.longitude);
+        if (!match) {
+          setLocateError("ecosim.wizard.locationErrors.noMatch");
+          return;
+        }
+        setMunicipalityId(String(match.item.municipality_id));
+        setMuniQuery(formatMunicipalityLabel(match.item));
+        setMuniOpen(false);
+        if (match.distanceKm > 150) {
+          setFarDistanceKm(Math.round(match.distanceKm));
+        }
+      },
+      (err) => {
+        setLocating(false);
+        const key = err.code === 1 ? "denied" : err.code === 2 ? "unavailable" : "timeout";
+        setLocateError(`ecosim.wizard.locationErrors.${key}`);
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+    );
+  };
 
   return (
     <div className="space-y-4">
@@ -135,7 +170,7 @@ export default function EcosimWizard({
                         getOptionId={(item) => item.municipality_id}
                         getOptionLabel={formatMunicipalityLabel}
                         selectedId={municipalityId}
-                        onSelect={(item) => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(formatMunicipalityLabel(item)); setMuniOpen(false); }}
+                        onSelect={(item) => { setMunicipalityId(String(item.municipality_id)); setMuniQuery(formatMunicipalityLabel(item)); setMuniOpen(false); setLocateError(null); setFarDistanceKm(null); }}
                         placeholder={t("ecosim.wizard.placeholderMunicipality")}
                         disabled={loading}
                         error={municipalitiesError}
@@ -144,6 +179,29 @@ export default function EcosimWizard({
                       />
                     )}
                     <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.municipalityHint")}</p>
+                    {(!ENABLE_PROVINCE_MODE || mode === "municipality") && (
+                      <div className="mt-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={handleLocate}
+                          disabled={loading || locating || municipalities.length === 0}
+                          aria-busy={locating}
+                        >
+                          {locating ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4" />}
+                          {t(locating ? "ecosim.wizard.locating" : "ecosim.wizard.useMyLocation")}
+                        </Button>
+                        {locateError && (
+                          <p role="alert" className="text-xs text-destructive mt-1.5">{t(locateError)}</p>
+                        )}
+                        {farDistanceKm !== null && !locateError && (
+                          <p role="status" className="text-xs text-warning mt-1.5">
+                            {t("ecosim.wizard.locationFar", { name: selectedName, distance: farDistanceKm })}
+                          </p>
+                        )}
+                      </div>
+                    )}
                     {activeId && (
                       <div className="mt-2 rounded-lg border bg-primary/10 px-3 py-2 text-sm text-primary flex items-center justify-between gap-2">
                         <span>{t("ecosim.wizard.selected", { name: selectedName })}</span>

@@ -591,6 +591,7 @@ export default function Ecosim() {
         muniOpen={muniOpen}
         setMuniOpen={setMuniOpen}
         filteredMunicipalities={filteredMunicipalities}
+        municipalities={municipalities}
         municipalityId={municipalityId}
         setMunicipalityId={setMunicipalityId}
         municipalitiesError={municipalitiesError}

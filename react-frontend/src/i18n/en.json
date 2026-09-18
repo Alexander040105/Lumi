@@ -1001,6 +1001,16 @@
       "municipality": "City/Municipality",
       "province": "Province",
       "municipalityHint": "We use your location to estimate local solar, wind, and water conditions.",
+      "useMyLocation": "Use my location",
+      "locating": "Locating…",
+      "locationFar": "Matched {{name}} — it's about {{distance}} km from your location. Please confirm it's correct.",
+      "locationErrors": {
+        "denied": "Location permission was denied. Allow location access or search manually.",
+        "unavailable": "Your location couldn't be determined. Please search manually.",
+        "timeout": "Location request timed out. Please try again or search manually.",
+        "noMatch": "Couldn't match your location to a municipality. Please search manually.",
+        "unsupported": "Your browser doesn't support location access. Please search manually."
+      },
       "provinceHint": "Choose province for a broader regional overview.",
       "searchMunicipality": "Search city/municipality",
       "searchProvince": "Search province",

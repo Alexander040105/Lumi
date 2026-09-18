@@ -995,6 +995,16 @@
       "municipality": "Lungsod/Munisipalidad",
       "province": "Probinsya",
       "municipalityHint": "Gumagamit kami ng iyong lokasyon para i-estimate ang lokal na kondisyon para sa solar, wind, at tubig.",
+      "useMyLocation": "Gamitin ang aking lokasyon",
+      "locating": "Tinitingnan ang lokasyon…",
+      "locationFar": "Naka-match sa {{name}} — mga {{distance}} km ang layo sa lokasyon mo. Pakikumpirma kung tama ito.",
+      "locationErrors": {
+        "denied": "Tinanggihan ang access sa lokasyon. Payagan ang location access o maghanap nang manual.",
+        "unavailable": "Hindi matukoy ang lokasyon mo. Pakihanap nang manual.",
+        "timeout": "Nag-timeout ang location request. Pakisubukan ulit o maghanap nang manual.",
+        "noMatch": "Hindi naitugma ang lokasyon mo sa isang munisipalidad. Pakihanap nang manual.",
+        "unsupported": "Hindi sinusuportahan ng browser mo ang location access. Pakihanap nang manual."
+      },
       "provinceHint": "Piliin ang probinsya para sa mas malawak na regional overview.",
       "searchMunicipality": "Hanapin ang lungsod/munisipalidad",
       "searchProvince": "Hanapin ang probinsya",

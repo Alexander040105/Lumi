@@ -71,57 +71,184 @@ function savingsLabel(savings) {
   return "Reduce as much as possible";
 }
 
+// Maps AI-generated typography that the embedded Roboto font cannot render to
+// safe equivalents. Kept character-level on purpose — NFKD would decompose ñ.
+const PDF_SUPERSCRIPTS = {
+  "⁰": "0",
+  "¹": "1",
+  "⁴": "4",
+  "⁵": "5",
+  "⁶": "6",
+  "⁷": "7",
+  "⁸": "8",
+  "⁹": "9",
+  "⁻": "-",
+  "⁺": "+",
+};
+
+function normalizePdfText(value) {
+  return String(value ?? "")
+    .replace(/[\u00a0\u2007\u2009\u202f\u205f\u3000]/g, " ")
+    .replace(/[\u00ad\u200b-\u200f\u2060\ufeff]/g, "")
+    .replace(/[\u2010\u2011]/g, "-")
+    .replace(/\s+s⁻¹/g, "/s")
+    .replace(/[⁰¹⁴⁵⁶⁷⁸⁹⁻⁺]/g, (c) => PDF_SUPERSCRIPTS[c])
+    .replace(/→/g, "->")
+    .replace(/←/g, "<-")
+    .replace(/↑/g, "^")
+    .replace(/↓/g, "v");
+}
+
 function parseMarkdownInline(text) {
   if (!text) return [];
   const out = [];
-  const parts = String(text).split(/(\*\*[^*\n]+?\*\*|\*[^*\n]+?\*)/g);
+  const parts = normalizePdfText(text).split(
+    /(\*\*[^*\n]+?\*\*|\*[^*\n]+?\*|__[^_\n]+?__|`[^`\n]+?`|\[[^\]\n]+\]\([^)\n]+\))/g
+  );
   for (const part of parts) {
     if (!part) continue;
     if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
       out.push({ text: part.slice(2, -2), bold: true });
+    } else if (part.startsWith("__") && part.endsWith("__") && part.length > 4) {
+      out.push({ text: part.slice(2, -2), bold: true });
     } else if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
       out.push({ text: part.slice(1, -1), italics: true });
+    } else if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
+      out.push({ text: part.slice(1, -1) });
     } else {
-      out.push({ text: part });
+      const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (link) {
+        out.push({
+          text: link[1],
+          link: link[2],
+          color: "#2563eb",
+          decoration: "underline",
+        });
+      } else {
+        out.push({ text: part });
+      }
     }
   }
   return out;
 }
 
+const MD_HEADING = /^(#{1,6})\s+(.*)$/;
+const MD_BULLET = /^[*\-+•]\s+(.*)$/;
+const MD_NUMBERED = /^\d+[.)]\s+(.*)$/;
+const MD_RULE = /^\s*([-*_])(?:\s*\1){2,}\s*$/;
+const MD_QUOTE = /^>\s?(.*)$/;
+
 function parseMarkdownToBlocks(text) {
   if (!text) return [];
   const blocks = [];
-  const paragraphs = String(text).split(/\n\n+/);
+  let paraLines = [];
+  let list = null;
 
-  for (const para of paragraphs) {
-    const lines = para.split("\n").filter(Boolean).map((l) => l.trim());
-    if (lines.length === 0) continue;
+  const flushPara = () => {
+    if (!paraLines.length) return;
+    blocks.push({
+      text: parseMarkdownInline(paraLines.join(" ")),
+      margin: [0, 0, 0, 8],
+      lineHeight: 1.35,
+    });
+    paraLines = [];
+  };
+  const flushList = () => {
+    if (!list) return;
+    blocks.push({ [list.kind]: list.items, margin: [0, 0, 0, 8] });
+    list = null;
+  };
 
-    const bulletRe = /^(\*|\-|\+)\s+/;
-    const numberedRe = /^\d+\.\s+/;
+  for (const rawLine of String(text).split("\n")) {
+    const line = normalizePdfText(rawLine).trim();
+    if (!line) {
+      flushPara();
+      flushList();
+      continue;
+    }
 
-    if (lines.every((l) => bulletRe.test(l))) {
-      const items = lines.map((l) => ({
-        text: parseMarkdownInline(l.replace(bulletRe, "")),
-        margin: [0, 2, 0, 2],
-      }));
-      blocks.push({ ul: items, margin: [0, 0, 0, 8] });
-    } else if (lines.every((l) => numberedRe.test(l))) {
-      const items = lines.map((l) => ({
-        text: parseMarkdownInline(l.replace(numberedRe, "")),
-        margin: [0, 2, 0, 2],
-      }));
-      blocks.push({ ol: items, margin: [0, 0, 0, 8] });
-    } else {
-      const joined = lines.join(" ");
+    const heading = line.match(MD_HEADING);
+    if (heading) {
+      flushPara();
+      flushList();
       blocks.push({
-        text: parseMarkdownInline(joined),
-        margin: [0, 0, 0, 8],
+        text: parseMarkdownInline(heading[2]),
+        bold: true,
+        fontSize: heading[1].length <= 2 ? 12 : 11,
+        color: COLORS.primary,
+        margin: [0, 8, 0, 4],
+      });
+      continue;
+    }
+
+    if (MD_RULE.test(line)) {
+      flushPara();
+      flushList();
+      blocks.push({
+        canvas: [
+          {
+            type: "line",
+            x1: 0,
+            y1: 0,
+            x2: 515,
+            y2: 0,
+            lineWidth: 0.5,
+            lineColor: COLORS.border,
+          },
+        ],
+        margin: [0, 4, 0, 10],
+      });
+      continue;
+    }
+
+    const bullet = line.match(MD_BULLET);
+    if (bullet) {
+      flushPara();
+      if (list?.kind !== "ul") {
+        flushList();
+        list = { kind: "ul", items: [] };
+      }
+      list.items.push({
+        text: parseMarkdownInline(bullet[1]),
+        margin: [0, 2, 0, 2],
+      });
+      continue;
+    }
+
+    const numbered = line.match(MD_NUMBERED);
+    if (numbered) {
+      flushPara();
+      if (list?.kind !== "ol") {
+        flushList();
+        list = { kind: "ol", items: [] };
+      }
+      list.items.push({
+        text: parseMarkdownInline(numbered[1]),
+        margin: [0, 2, 0, 2],
+      });
+      continue;
+    }
+
+    const quote = line.match(MD_QUOTE);
+    if (quote) {
+      flushPara();
+      flushList();
+      blocks.push({
+        text: parseMarkdownInline(quote[1]),
+        color: COLORS.muted,
+        italics: true,
+        margin: [12, 0, 0, 8],
         lineHeight: 1.35,
       });
+      continue;
     }
+
+    flushList();
+    paraLines.push(line);
   }
 
+  flushPara();
+  flushList();
   return blocks;
 }
 
@@ -469,7 +596,7 @@ export function buildEcosimPdf({ result, inputs }) {
               {
                 text: isGeothermalRec
                   ? `Geothermal is shown as a reference only because it is typically utility-scale, not a home option. The recommendation is based on available data for ${meta.label}.`
-                  : result?.explanation || "",
+                  : normalizePdfText(result?.explanation || ""),
                 fontSize: 9,
                 color: COLORS.muted,
                 margin: [0, 8, 0, 0],

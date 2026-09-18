@@ -14,6 +14,17 @@ export function getSupabaseAnonKey() {
   return key;
 }
 
+export function getCartoApiKey() {
+  const key =
+    import.meta.env.CARTO_API_KEY || import.meta.env.VITE_CARTO_API_KEY || "";
+  if (!key && import.meta.env.DEV) {
+    console.warn(
+      "[LUMI] CARTO_API_KEY is not set — basemap tiles will show the 'API key required' watermark."
+    );
+  }
+  return key;
+}
+
 export function getApiBaseUrl() {
   if (import.meta.env.DEV) {
     return "/api/v1";

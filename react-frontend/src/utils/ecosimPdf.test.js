@@ -191,4 +191,95 @@ describe("ecosimPdf", () => {
     // NCR providers include Solaric, PHILERGY, etc.
     expect(allText).toMatch(/Solaric|PHILERGY|MSpectrum/);
   });
+
+  it("cleanses real AI markdown for PDF output", () => {
+    const result = {
+      ...sampleResult,
+      ai_analysis: {
+        summary:
+          "## Observation\n" +
+          "Dasmariñas City is warm year‑round with an average temperature of about 27.7 °C and high humidity around 80 %. " +
+          "Average wind speed is 5.3 m s⁻¹ and rainfall averages 7.5 mm (moderate).\n\n" +
+          "## Interpretation\n" +
+          "- **Solar** – With 5 kWh/m²/day of sunshine, output is roughly 146 kWh (≈350 kWh use).\n" +
+          "- **Wind** – The average wind speed of 5.3 m s⁻¹ gives about 190 kWh per month.\n\n" +
+          "## Recommendation\n" +
+          "The backend recommendation of **Wind** is confirmed.",
+        renewable_analysis: {
+          solar: "Irradiance of 5 kWh/m²/day is strong.",
+        },
+      },
+    };
+    const doc = buildEcosimPdf({ result, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+
+    // Headings render as text, never as literal "##"
+    expect(allText).toContain("Observation");
+    expect(allText).toContain("Interpretation");
+    expect(allText).not.toContain("##");
+
+    // Roboto-unrenderable characters are normalized away
+    expect(allText).not.toMatch(/[\u202f\u00a0⁻¹⁰]/);
+    expect(allText).not.toContain("‑");
+
+    // Units survive: slash notation and superscript-two are preserved
+    expect(allText).toContain("kWh/m²/day");
+    expect(allText).toContain("5.3 m/s");
+    expect(allText).toContain("27.7 °C");
+    expect(allText).toContain("year-round");
+
+    // ≈ renders in Roboto and is preserved as-is
+    expect(allText).toContain("≈350");
+  });
+
+  it("turns heading-plus-bullet sections into real list blocks", () => {
+    const result = {
+      ...sampleResult,
+      ai_analysis: {
+        summary:
+          "## Interpretation\n" +
+          "- **Solar** – first point\n" +
+          "- **Wind** – second point\n\n" +
+          "Trailing paragraph.",
+      },
+    };
+    const doc = buildEcosimPdf({ result, inputs: sampleInputs });
+
+    const ulBlocks = [];
+    (function walk(node) {
+      if (Array.isArray(node)) return node.forEach(walk);
+      if (node && typeof node === "object") {
+        if (node.ul) ulBlocks.push(node.ul);
+        for (const key of ["stack", "columns", "content", "table"])
+          if (node[key]) walk(node[key]);
+      }
+    })(doc.content);
+
+    const aiList = ulBlocks.find((items) =>
+      items.some((i) => flatText(i).join("").includes("first point"))
+    );
+    expect(aiList).toBeDefined();
+    expect(aiList).toHaveLength(2);
+
+    // Bold segment inside the bullet is preserved
+    const itemText = aiList[0].text;
+    const boldSeg = itemText.find((s) => s.bold);
+    expect(boldSeg?.text).toBe("Solar");
+  });
+
+  it("handles malformed markdown without crashing", () => {
+    const result = {
+      ...sampleResult,
+      ai_analysis: {
+        summary:
+          "Unclosed **bold and `code here\n\n* lone star\n\n> quoted note\n\n---\n\n[Link](https://example.com) end.",
+        renewable_analysis: { wind: null },
+      },
+    };
+    const doc = buildEcosimPdf({ result, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+    expect(allText).toContain("Unclosed");
+    expect(allText).toContain("quoted note");
+    expect(allText).toContain("Link");
+  });
 });

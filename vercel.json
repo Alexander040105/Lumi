@@ -11,7 +11,7 @@
     "api/index.py": {
       "maxDuration": 60,
       "memory": 1024,
-      "excludeFiles": ["__pycache__/**", "*.pyc", "*.pyo", ".pytest_cache/**"],
+      "excludeFiles": ["__pycache__/**", "*.pyc", "*.pyo", ".pytest_cache/**", "fastapi-backend/app/services/local_data/rag_faiss.index", "fastapi-backend/app/services/local_data/rag_chunks.json", "fastapi-backend/app/services/local_data/rag_knowledge_base.json"],
       "includeFiles": ["fastapi-backend/app/**", "fastapi-backend/main.py", "api/**", "data/DOE_Data_Extracted/data_v2_preprocessed/**"]
     }
   }
