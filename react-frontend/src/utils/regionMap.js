@@ -47,9 +47,9 @@ export const PROVINCE_TO_REGION = {
   "parañaque": "NCR", "paranaque": "NCR", "pasay": "NCR", "pasig": "NCR",
   "pateros": "NCR", "quezon city": "NCR", "san juan": "NCR", "taguig": "NCR",
   "valenzuela": "NCR",
-  // CAR — Cordillera (no providers in registry, map to Region I as nearest)
-  "abra": "I", "apayao": "I", "benguet": "I", "ifugao": "I", "kalinga": "I",
-  "mountain province": "I",
+  // CAR — Cordillera (a CAR-based provider exists: United Hydro Power Builders, Baguio)
+  "abra": "CAR", "apayao": "CAR", "benguet": "CAR", "ifugao": "CAR", "kalinga": "CAR",
+  "mountain province": "CAR",
   // BARMM — Bangsamoro (no providers in registry, map to XII as nearest)
   "basilan": "XII", "lanao del sur": "XII", "maguindanao": "XII", "sulu": "XII",
   "tawi-tawi": "XII",

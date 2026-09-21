@@ -1,4 +1,51 @@
-**Renewable Energy Providers** 
+**Renewable Energy Providers**
+
+## Nationwide Verified Provider List (2026)
+
+Source: `RenewableEnergyProviders_Updated.md` — DOE Solar PV Installer Registry (July 13, 2026), DOE ESCO registry, SEC/DTI/CDA/PCAB evidence. These entries are merged into `react-frontend/src/data/providers.json` (`registry: "doe-2026"`, `verified: true`) alongside the legacy 2025 registry extract below.
+
+Verification indicators applied per provider: **DOE Listed - 2026**, **Business Registration Confirmed** (DTI sole proprietorship / SEC corporation or OPC / CDA cooperative), **Active RE Provider**, **Government/Industry Evidence** (DOE, PCAB, government contracts).
+
+| # | Provider | Technology | Location / Base | Contact / Website | Verification Status |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | R.K.I. Building Technologies Inc. | Solar | Tacloban City, Leyte | (053) 530-7337 | SEC Reg. No. CS201626045; DOE-listed - 2026 |
+| 2 | Greenergy Development Corp. | Solar | Cagayan de Oro City | (088) 881-5250 \| greenergydev.net | SEC Reg. No. CS200829157; DOE-listed - 2026 |
+| 3 | Physics Research - Sales & Services Corp. | Solar | Talisay, Cebu | 0917-710-7469 \| prcebu.com | SEC Reg. No. CS201231836; DOE-listed - 2026 |
+| 4 | Ecoplus Solar Inc. | Solar | Trece Martires, Cavite | 0976-223-4048 \| ecoplus.ph | SEC Reg. No. 2022120077907-69; DOE-listed - 2026 |
+| 5 | MSpectrum, Inc. | Solar | Pasig City | (02) 8887-6527 \| mspectrum.com.ph | SEC Reg. No. CS201601220; DOE-listed - 2026 |
+| 6 | Solaren Renewable Energy Solutions Corp. | Solar | La Paz, Tarlac | 0917-879-6037 \| solaren-power.com | SEC Registration Confirmed; DOE-listed - 2026 |
+| 7 | Energisto Philippines REDC | Solar | General Santos City | (083) 520-6489 \| energisto.ph | SEC Reg. No. CS201805386; DOE-listed - 2026 |
+| 8 | Greenheat Corporation | Solar | Manila | (02) 8251-0857 \| greenheat.com.ph | SEC Reg. No. CS201005781; DOE-listed - 2026 |
+| 9 | Trademaster Resources Corporation | Solar | Las Piñas | 0919-073-5634 \| trademasterph.com | SEC Reg. No. A199816057; DOE-listed - 2026 |
+| 10 | Aceser Corporation | Solar | Taguig | 0905-370-1571 | SEC Reg. No. CS201705308; DOE-listed - 2026 |
+| 11 | Superserve Corporation | Solar | Quezon City | (02) 8332-1220 \| superservecorp.com | SEC Reg. No. CS200318402; DOE-listed - 2026 |
+| 12 | Aces Solar Corporation | Solar | Las Piñas | acessolarcorp.com | SEC Reg. No. 2022040048347-01; DOE-listed - 2026 |
+| 13 | Sedibus Industrial & Facilities Management Corp. | Solar | Dauis, Bohol | 0917-328-5830 \| sedibusengineering.com | DOE-listed - 2026; SEC registration not independently verified |
+| 14 | Priume Philippines Manufacturing Corp. | Solar | Talisay, Cebu | 0967-220-2022 | DOE-listed - 2026; SEC registration not independently verified |
+| 15 | Wyn Power Corporation | Solar | Lipa City, Batangas | 0917-590-7641 \| CEO@wynpower.net | DOE-listed - 2026; SEC registered as per official website |
+| 16 | SolarAll New Energy Corporation | Solar | Mandaue, Cebu | 0951-314-0053 | SEC Reg. No. 2023030089769-11; DOE-listed - 2026 |
+| 17 | OEM Industrial Parts & Construction Services Corp. | Solar | Quezon City | 0906-506-5271 | DOE-listed - 2026; SEC registration not independently verified; PCAB/government-contract evidence |
+| 18 | RITSCO Electrical and Solar Inc. | Solar | Manila | (02) 7955-9405 \| ritsco.com.ph | SEC Reg. No. CS201601190; DOE-listed - 2026 |
+| 19 | Vega Energy Services Corp. | Solar | BGC, Taguig | (02) 7001-5080 \| vega.ph | SEC Reg. No. 2021100027434-00; DOE ESCO/solar |
+| 20 | EEI Power Corporation | Solar | Quezon City | 0995-188-6997 \| eeipower.com | SEC Reg. No. AS93006133; DOE ESCO/solar |
+| 21 | WWC Yellow Bumblebee Corporation | Solar | Pasig City | 7933-5943 | SEC Reg. No. 2021030008596-20; DOE ESCO/solar |
+| 22 | First Gen Energy Solutions | Solar | Pasig City | (02) 3449-6400 \| firstgen.com.ph | SEC Reg. No. A1998-18260; DOE ESCO/solar |
+| 23 | De Leon Solar Power Installation Services | Solar | Orani, Bataan | 0917-567-3251 \| Facebook | DOE-listed - 2026; PCAB/government-contract evidence |
+| 24 | LABB Construction Development Inc. | Solar | Dauis, Bohol | labbconstruction@yahoo.com.ph | DOE-listed - 2026; Valid PCAB License No. 13524 |
+| 25 | Upgrade Energy Philippines Inc. | Solar | Makati | ugep-energy.com | DOE-certified ESCO; strong operating/corporate evidence |
+| 26 | SmartPower Solutions Corp. | Solar | Quezon City | smartpowerph.com | DOE ESCO/solar; strong operating evidence |
+| 27 | Pi Energy Inc. | Solar | Pasig | 0905-214-7375 | SEC-registered; wholly owned by First Gen Corporation; DOE Certified ESCO |
+| 28 | EISSS Inc. | Solar | Sta. Rosa, Laguna | 0917-506-9879 \| energyiserve.com | SEC Reg. No. CS201825751; DOE ESCO-registered |
+| 29 | One Renewable Energy Enterprise, Inc. | Solar / Hydro | Pasig | onerenewable.com.ph | SEC Reg. No. CS201021258; Active RE Provider |
+| 30 | United Hydro Power Builders | Hydro | Baguio City | 0917-590-8701 \| uhpb.com.ph | Company-stated DTI registration since 2007; PCAB; active hydro projects |
+| 31 | Maschinen & Technik, Inc. (MATEC) | Wind / RE Engineering | Alabang, Muntinlupa City | (02) 8850-6450 to 52 \| energy@matec.com.ph \| matec.com.ph | Active Wind/RE Provider; strong operating evidence |
+| 32 | Alternergy Holdings Corporation | Wind / RE Project Development | Makati City | +63 (2) 8813-4678 \| alternergy.com | SEC Reg. No. CS200909233; active wind project developer |
+
+> Note: the source doc lists MSpectrum's website as "spectrum.net.ph"; the verified domain `mspectrum.com.ph` (Meralco group) is used instead.
+
+---
+
+## Legacy Registry Extract (June 2025)
 
 Factors to consider: 
 

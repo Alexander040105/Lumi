@@ -1358,11 +1358,20 @@
       }
     },
     "providers": {
-      "title": "Trusted Solar Installers sa Iyong Rehiyon",
-      "description": "Ang mga kumpanyang ito ay rehistrado sa DOE Solar PV Installer Registry (mula Hunyo 2025). Siguraduhing i-verify ang kasalukuyang status bago kumuha.",
+      "title": "Mga Renewable-Energy Provider sa Iyong Rehiyon",
+      "description": "Mga verified na provider mula sa DOE Solar PV Installer Registry (2026) at mga pampublikong rekord. Siguraduhing direktang kumpirmahin ang kanilang credentials at service coverage.",
       "visit": "Bisitahin",
-      "none": "Walang rehistradong provider sa iyong rehiyon. Isaalang-alang ang mga provider sa kalapit na rehiyon, o maghanap online ng \"{{area}} solar installer\".",
-      "note": "Ang registry na ito ay solar-focused. Hindi pa nakalista ang wind, hydro, at geothermal providers."
+      "verified": "Na-verify",
+      "registryBadge": "DOE Registry (2025)",
+      "showAll": "Ipakita lahat ng {{count}} provider",
+      "showLess": "Ipakita ang mas kaunti",
+      "fallbackTitle": "Walang provider na nahanap malapit sa iyong lokasyon. Narito ang iba pang verified na provider na maaari mong kontakin:",
+      "disclaimerSolar": "Maaaring magkaiba ang service areas at requirements ng mga solar provider. Kontakin muna ang provider para kumpirmahin kung nase-serve nila ang iyong lokasyon at ang pangangailangan ng iyong bahay.",
+      "disclaimerWind": "Maaaring hindi nag-o-offer ng serbisyo para sa mga bahay ang ilang nakalistang wind provider. Kontakin muna sila para kumpirmahin kung tumatanggap sila ng residential customers sa iyong lugar.",
+      "disclaimerHydro": "Maaaring hindi nag-o-offer ng serbisyo para sa mga bahay ang ilang hydropower provider. Kontakin muna sila para kumpirmahin kung hine-handle nila ang small-scale o residential projects sa iyong lugar.",
+      "none": "Walang rehistradong provider sa iyong rehiyon. Isaalang-alang ang mga provider sa kalapit na rehiyon, o maghanap online ng \"{{area}} renewable energy provider\".",
+      "note": "Batay sa DOE Solar PV Installer Registry (2026) at mga verified na pampublikong rekord ang listahan. Hindi ine-endorso ng LUMI ang sinumang provider.",
+      "generalNote": "Ipinapakita ng LUMI ang renewable-energy potential sa iyong lugar. Makipag-ugnayan sa kwalipikadong provider para kumpirmahin kung angkop ang installation sa iyong bahay."
     },
     "lcoe": {
       "title": "LCOE Comparison",

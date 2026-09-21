@@ -351,7 +351,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
       )}
 
       {/* Provider Recommendations */}
-      <ProviderRecommendations municipalityName={result.municipality} provinceName={result.province || result.municipality} />
+      <ProviderRecommendations municipalityName={result.municipality} provinceName={result.province || result.municipality} recommendedSource={recSource} />
 
       {/* Next Steps */}
       <Card>

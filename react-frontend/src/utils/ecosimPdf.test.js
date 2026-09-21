@@ -192,6 +192,23 @@ describe("ecosimPdf", () => {
     expect(allText).toMatch(/Solaric|PHILERGY|MSpectrum/);
   });
 
+  it("renders technology disclaimers and the general provider note", () => {
+    const doc = buildEcosimPdf({ result: sampleResult, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+    // NCR verified list includes solar, wind (MATEC/Alternergy), and solar/hydro (OREE)
+    expect(allText).toContain("Solar providers may have different service areas");
+    expect(allText).toContain("wind providers may not offer services for homes");
+    expect(allText).toContain("hydropower providers may not offer services for homes");
+    expect(allText).toContain("contact a qualified provider");
+  });
+
+  it("falls back to verified providers when the region has none", () => {
+    const result = { ...sampleResult, municipality: "Legazpi", province: "Albay" };
+    const doc = buildEcosimPdf({ result, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+    expect(allText).toContain("No provider was found near your location");
+  });
+
   it("cleanses real AI markdown for PDF output", () => {
     const result = {
       ...sampleResult,
