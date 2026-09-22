@@ -64,6 +64,7 @@ ALTER TYPE "public"."app_role" OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."get_suitability_classification"("score" numeric) RETURNS character varying
     LANGUAGE "plpgsql" IMMUTABLE
+    SET "search_path" TO 'pg_catalog', 'public'
     AS $$
 BEGIN
     IF score IS NULL THEN RETURN NULL; END IF;
@@ -81,6 +82,7 @@ ALTER FUNCTION "public"."get_suitability_classification"("score" numeric) OWNER 
 
 CREATE OR REPLACE FUNCTION "public"."handle_new_user"() RETURNS "trigger"
     LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'pg_catalog', 'public'
     AS $$
 begin
   insert into public.profiles (id, full_name, plan, is_active, created_at)
@@ -140,6 +142,7 @@ ALTER FUNCTION "public"."match_rag_chunks"("query_embedding" "extensions"."vecto
 
 CREATE OR REPLACE FUNCTION "public"."set_updated_at"() RETURNS "trigger"
     LANGUAGE "plpgsql"
+    SET "search_path" TO 'pg_catalog', 'public'
     AS $$
 BEGIN
     NEW.updated_at = now();
@@ -1171,7 +1174,7 @@ COMMENT ON COLUMN "public"."province_climate_monthly"."rhoa" IS 'Surface air den
 
 
 
-CREATE OR REPLACE VIEW "public"."province_climate_annual" AS
+CREATE OR REPLACE VIEW "public"."province_climate_annual" WITH (security_invoker = true) AS
  SELECT "province_id",
     "year",
     "avg"("t2m") AS "avg_t2m",
@@ -1269,7 +1272,7 @@ CREATE TABLE IF NOT EXISTS "public"."regions" (
 ALTER TABLE "public"."regions" OWNER TO "postgres";
 
 
-CREATE OR REPLACE VIEW "public"."regional_lookup" AS
+CREATE OR REPLACE VIEW "public"."regional_lookup" WITH (security_invoker = true) AS
  SELECT "r"."region_id",
     "r"."name" AS "region_name",
     "r"."lat" AS "region_lat",
@@ -1295,7 +1298,7 @@ CREATE OR REPLACE VIEW "public"."regional_lookup" AS
 ALTER VIEW "public"."regional_lookup" OWNER TO "postgres";
 
 
-CREATE OR REPLACE VIEW "public"."regional_lookup_v2" AS
+CREATE OR REPLACE VIEW "public"."regional_lookup_v2" WITH (security_invoker = true) AS
  SELECT "r"."region_id",
     "r"."name" AS "region_name",
     "p"."province_id",
@@ -2374,7 +2377,7 @@ CREATE POLICY "Anyone read system config" ON "public"."system_config" FOR SELECT
 
 
 
-CREATE POLICY "Service role all on forecast_model_runs" ON "public"."forecast_model_runs" USING (("auth"."role"() = 'service_role'::"text")) WITH CHECK (("auth"."role"() = 'service_role'::"text"));
+CREATE POLICY "forecast_model_runs_service_role" ON "public"."forecast_model_runs" TO "service_role" USING (true) WITH CHECK (true);
 
 
 
@@ -3042,19 +3045,15 @@ GRANT ALL ON FUNCTION "public"."get_suitability_classification"("score" numeric)
 
 
 
-GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
-GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
 
 
 
-GRANT ALL ON FUNCTION "public"."is_admin"() TO "anon";
 GRANT ALL ON FUNCTION "public"."is_admin"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."is_admin"() TO "service_role";
 
 
-
-
+GRANT ALL ON FUNCTION "public"."match_rag_chunks"("query_embedding" "extensions"."vector", "match_count" integer, "similarity_threshold" double precision, "filter_renewable_type" "text", "filter_category" "text") TO "service_role";
 
 
 GRANT ALL ON FUNCTION "public"."set_updated_at"() TO "anon";
@@ -3144,8 +3143,6 @@ GRANT ALL ON TABLE "public"."forecast_cache" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."forecast_model_runs" TO "anon";
-GRANT ALL ON TABLE "public"."forecast_model_runs" TO "authenticated";
 GRANT ALL ON TABLE "public"."forecast_model_runs" TO "service_role";
 
 
@@ -3294,8 +3291,8 @@ GRANT ALL ON TABLE "public"."province_climate_monthly" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."province_climate_annual" TO "anon";
-GRANT ALL ON TABLE "public"."province_climate_annual" TO "authenticated";
+GRANT SELECT ON TABLE "public"."province_climate_annual" TO "anon";
+GRANT SELECT ON TABLE "public"."province_climate_annual" TO "authenticated";
 GRANT ALL ON TABLE "public"."province_climate_annual" TO "service_role";
 
 
@@ -3324,14 +3321,14 @@ GRANT ALL ON TABLE "public"."regions" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."regional_lookup" TO "anon";
-GRANT ALL ON TABLE "public"."regional_lookup" TO "authenticated";
+GRANT SELECT ON TABLE "public"."regional_lookup" TO "anon";
+GRANT SELECT ON TABLE "public"."regional_lookup" TO "authenticated";
 GRANT ALL ON TABLE "public"."regional_lookup" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."regional_lookup_v2" TO "anon";
-GRANT ALL ON TABLE "public"."regional_lookup_v2" TO "authenticated";
+GRANT SELECT ON TABLE "public"."regional_lookup_v2" TO "anon";
+GRANT SELECT ON TABLE "public"."regional_lookup_v2" TO "authenticated";
 GRANT ALL ON TABLE "public"."regional_lookup_v2" TO "service_role";
 
 
