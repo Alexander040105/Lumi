@@ -310,6 +310,7 @@
 | `docs/04-ML-Data-Science/CATCHMENT_ENRICHMENT.md` |
 | `docs/04-ML-Data-Science/COMPLETE_FORMULA_SUMMARY_WITH_RRL.md` |
 | `docs/04-ML-Data-Science/DOE_datacleaning_EXPLAINED.md` |
+| `docs/04-ML-Data-Science/ECOSIM_ENERGYHUB_LAYMAN_GUIDE.md` |
 | `docs/04-ML-Data-Science/explanation_mismatch_report.md` |
 | `docs/04-ML-Data-Science/FREE_ALTERNATIVE_DATA.md` |
 | `docs/04-ML-Data-Science/GEOTHERMAL_FORMULAS.md` |

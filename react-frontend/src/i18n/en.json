@@ -1364,11 +1364,20 @@
       }
     },
     "providers": {
-      "title": "Trusted Solar Installers in Your Region",
-      "description": "These companies are registered with the DOE Solar PV Installer Registry (as of June 2025). Always verify current status before hiring.",
+      "title": "Renewable-Energy Providers in Your Region",
+      "description": "Verified providers from the DOE Solar PV Installer Registry (2026) and public records. Always confirm credentials and service coverage directly.",
       "visit": "Visit",
-      "none": "No registered providers found in your region. Consider contacting providers in nearby regions, or search online for \"{{area}} solar installer\".",
-      "note": "This registry is solar-focused. Wind, hydro, and geothermal providers are not listed yet."
+      "verified": "Verified",
+      "registryBadge": "DOE Registry (2025)",
+      "showAll": "Show all {{count}} providers",
+      "showLess": "Show fewer",
+      "fallbackTitle": "No provider was found near your location. Here are other verified providers you may contact:",
+      "disclaimerSolar": "Solar providers may have different service areas and requirements. Please contact the provider first to confirm if they serve your location and household needs.",
+      "disclaimerWind": "Some listed wind providers may not offer services for homes. Please contact them first to confirm if they serve residential customers and your area.",
+      "disclaimerHydro": "Some hydropower providers may not offer services for homes. Please contact them first to check if they handle small-scale or residential projects in your area.",
+      "none": "No registered providers found in your region. Consider contacting providers in nearby regions, or search online for \"{{area}} renewable energy provider\".",
+      "note": "Listings are based on the DOE Solar PV Installer Registry (2026) and verified public records. LUMI does not endorse any provider.",
+      "generalNote": "LUMI shows the renewable-energy potential in your area. Please contact a qualified provider to confirm if installation is suitable for your home."
     },
     "lcoe": {
       "title": "LCOE Comparison",

@@ -1,5 +1,6 @@
 import { getPdfMake } from "./pdfFonts";
 import { getRegionFromProvince, getRegionFromMunicipality } from "./regionMap";
+import { matchProviders, normalizeTechnology } from "./matchProviders";
 import providersData from "@/data/providers.json";
 
 const COLORS = {
@@ -437,6 +438,23 @@ function buildClimateTable(climate) {
   };
 }
 
+const PROVIDER_DISCLAIMERS = {
+  Solar:
+    "Solar providers may have different service areas and requirements. Please contact the provider first to confirm if they serve your location and household needs.",
+  Wind: "Some listed wind providers may not offer services for homes. Please contact them first to confirm if they serve residential customers and your area.",
+  Hydro:
+    "Some hydropower providers may not offer services for homes. Please contact them first to check if they handle small-scale or residential projects in your area.",
+};
+
+const PROVIDER_GENERAL_NOTE =
+  "LUMI shows the renewable-energy potential in your area. Please contact a qualified provider to confirm if installation is suitable for your home.";
+
+function providerTechnologies(p) {
+  return String(p.technology || "Solar")
+    .split("/")
+    .map((s) => s.trim());
+}
+
 function buildProviderTable(result) {
   const provinceName =
     result.province ||
@@ -448,48 +466,89 @@ function buildProviderTable(result) {
     region = getRegionFromMunicipality(municipalityName);
   }
 
-  const matched = region
-    ? providersData.filter((p) => p.region === region)
-    : [];
+  const technology = normalizeTechnology(result.recommended_source);
+  const { matched, fallback } = matchProviders({
+    providers: providersData,
+    region,
+    technology,
+  });
 
-  if (matched.length === 0) {
-    return {
-      text: `No DOE-registered solar installers were found for this region (${region || "unknown"}). Try checking the provider registry directly.`,
+  const verified = matched.filter((p) => p.verified);
+  const usingFallback = verified.length === 0;
+  const rows = usingFallback ? fallback : verified;
+
+  const shownTechs = new Set(rows.flatMap(providerTechnologies));
+
+  const blocks = [];
+
+  if (usingFallback) {
+    blocks.push({
+      text:
+        fallback.length > 0
+          ? "No provider was found near your location. Here are other verified providers you may contact:"
+          : `No verified providers were found for this region (${region || "unknown"}). Try checking the DOE provider registry directly.`,
       color: COLORS.muted,
       italics: true,
       margin: [0, 0, 0, 8],
-    };
+    });
   }
 
-  const body = [
-    [
-      headerCell("Provider"),
-      headerCell("Location"),
-      headerCell("Details"),
-      headerCell("Website"),
-    ],
-  ];
+  if (rows.length > 0) {
+    const body = [
+      [
+        headerCell("Provider"),
+        headerCell("Location"),
+        headerCell("Verification"),
+        headerCell("Website"),
+      ],
+    ];
 
-  for (const p of matched) {
-    const details = [p.type, p.years].filter(Boolean).join(" • ");
-    body.push([
-      cellText(p.name, { bold: true }),
-      cellText(p.address || "—"),
-      cellText(details || "—"),
-      p.url
-        ? { text: p.url, link: p.url, color: COLORS.wind, fontSize: 8, decoration: "underline" }
-        : cellText("—"),
-    ]);
+    for (const p of rows) {
+      body.push([
+        {
+          text: [
+            { text: p.name, bold: true },
+            { text: `\n${p.technology || p.type || ""}`, color: COLORS.muted, fontSize: 8 },
+          ],
+          color: COLORS.text,
+          fontSize: 9,
+        },
+        cellText(p.address || "—"),
+        cellText(p.verification || "—", { color: COLORS.muted }),
+        p.url
+          ? { text: p.url, link: p.url, color: COLORS.wind, fontSize: 8, decoration: "underline" }
+          : cellText("—"),
+      ]);
+    }
+
+    blocks.push({
+      table: {
+        headerRows: 1,
+        widths: ["auto", "auto", "*", "auto"],
+        body,
+      },
+      ...styledTable({}),
+    });
   }
 
-  return {
-    table: {
-      headerRows: 1,
-      widths: ["auto", "*", "auto", "auto"],
-      body,
-    },
-    ...styledTable({}),
-  };
+  for (const tech of ["Solar", "Wind", "Hydro"]) {
+    if (shownTechs.has(tech)) {
+      blocks.push({
+        text: PROVIDER_DISCLAIMERS[tech],
+        fontSize: 8,
+        color: COLORS.muted,
+        margin: [0, 4, 0, 0],
+      });
+    }
+  }
+  blocks.push({
+    text: PROVIDER_GENERAL_NOTE,
+    fontSize: 8,
+    color: COLORS.muted,
+    margin: [0, 4, 0, 0],
+  });
+
+  return blocks;
 }
 
 export function buildEcosimPdf({ result, inputs }) {
@@ -780,7 +839,7 @@ export function buildEcosimPdf({ result, inputs }) {
   content.push({ text: "Recommended Providers", style: "sectionHeading" });
   content.push(
     {
-      text: "DOE-registered solar installers in your region. LUMI does not endorse any provider; contact them directly for quotes and site surveys.",
+      text: "Verified renewable-energy providers in your region. LUMI does not endorse any provider; contact them directly for quotes and site surveys.",
       fontSize: 9,
       color: COLORS.muted,
       margin: [0, 0, 0, 8],
