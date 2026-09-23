@@ -9,7 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from app.services.data_cache import cache_get_sync, cache_set_sync
+from app.services.data_cache import cache_delete_sync, cache_get_sync, cache_set_sync
 
 
 def _import_genai():

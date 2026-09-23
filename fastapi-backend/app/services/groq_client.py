@@ -9,11 +9,10 @@ Groq free tier (as of 2026):
 
 Sign up at https://console.groq.com to get a free API key.
 
-Model stack (updated July 2026 — llama-3.3-70b-versatile deprecated Aug 16, 2026):
-  Primary: qwen/qwen3-32b (60 RPM, 500K TPD)
-  Fallback 1: meta-llama/llama-4-scout-17b-16e-instruct (30K TPM, 500K TPD)
-  Fallback 2: llama-3.1-8b-instant (14.4K RPD, fast)
-  Emergency: openai/gpt-oss-120b (high quality, lower TPD)
+Model stack (verified against the account's /models list, Sept 2026):
+  Primary: qwen/qwen3.8-27b
+  Fallback 1: openai/gpt-oss-120b (high quality, lower TPD)
+  Fallback 2: openai/gpt-oss-20b (fast, smallest)
 """
 
 from __future__ import annotations
@@ -25,15 +24,15 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound-mini")
+DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "qwen/qwen3.8-27b")
 DEFAULT_TEMPERATURE = float(os.getenv("GROQ_TEMPERATURE", "0.3"))
 DEFAULT_MAX_TOKENS = int(os.getenv("GROQ_MAX_TOKENS", "4000"))
 
-# Valid chat models for this Groq account (as of 2026-08-18).
-# compound-mini is fastest; compound is a stronger fallback.
+# Valid chat models for this Groq account (verified via /models, Sept 2026).
+# groq/compound* and llama-* were removed from the account's model list.
 FALLBACK_GROQ_MODELS = [
-    "groq/compound",
-    "qwen/qwen3.6-27b",
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
 ]
 
 _groq_client: Any | None = None
