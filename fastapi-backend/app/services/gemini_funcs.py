@@ -55,7 +55,7 @@ FALLBACK_GEMINI_MODELS = [
 # Cache successful analyses for 7 days and cap the LLM call at 5 seconds
 # so Vercel's 10-second function limit is never breached.
 _AI_CACHE_TTL = int(os.getenv("ECOSIM_AI_CACHE_TTL", "604800"))  # 7 days
-_AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v2")
+_AI_CACHE_VERSION = os.getenv("ECOSIM_AI_CACHE_VERSION", "v3")
 _AI_CALL_TIMEOUT = float(os.getenv("ECOSIM_AI_CALL_TIMEOUT", "4.0"))  # outer API timeout
 _AI_LLM_TIMEOUT = float(os.getenv("ECOSIM_AI_LLM_TIMEOUT", "60.0"))  # worker LLM timeout
 _AI_MAX_OUTPUT_TOKENS = int(os.getenv("ECOSIM_AI_MAX_OUTPUT_TOKENS", "2500"))

@@ -64,7 +64,9 @@ def generate_groq_response(
 ) -> str:
     """
     Generate a response from Groq with retry + model fallback.
-    Forces JSON output via response_format.
+
+    The system message sets a plain-language persona only — each caller's
+    user prompt specifies its own output format (prose, markdown, or JSON).
     """
     client = _get_groq_client()
     model_name = model or DEFAULT_GROQ_MODEL
@@ -89,8 +91,8 @@ def generate_groq_response(
                             "role": "system",
                             "content": (
                                 "You are a friendly energy advisor speaking to a Filipino homeowner who has NO technical background. "
-                                "You must always return valid JSON. Do not include markdown formatting, explanations, or anything outside the JSON object. "
-                                "Rules for all text you generate inside the JSON:"
+                                "Follow the output format requested in the user message exactly. "
+                                "Rules for all text you generate:"
                                 "\n- Use plain English. Avoid jargon. If you must use a technical term, explain it immediately in simple words."
                                 "\n- Example: Instead of 'solar irradiance is 5.8 kWh/m²/day', say 'Your area gets plenty of sunlight — about 5.8 hours of strong sun each day, which is excellent for solar panels.'"
                                 "\n- Example: Instead of 'capacity factor', say 'how efficiently the system runs compared to its best possible performance.'"
