@@ -449,13 +449,16 @@ const PROVIDER_DISCLAIMERS = {
 const PROVIDER_GENERAL_NOTE =
   "LUMI shows the renewable-energy potential in your area. Please contact a qualified provider to confirm if installation is suitable for your home.";
 
+const RETAILER_DISCLAIMER =
+  "Retailers are not DOE-verified installers. Please confirm product availability, delivery coverage, and warranty directly with the seller.";
+
 function providerTechnologies(p) {
   return String(p.technology || "Solar")
     .split("/")
     .map((s) => s.trim());
 }
 
-function buildProviderTable(result) {
+function resolveResultRegion(result) {
   const provinceName =
     result.province ||
     (result.municipality ? result.municipality.split(",")[1]?.trim() : null);
@@ -465,12 +468,18 @@ function buildProviderTable(result) {
   if (!region && municipalityName) {
     region = getRegionFromMunicipality(municipalityName);
   }
+  return region;
+}
+
+function buildProviderTable(result) {
+  const region = resolveResultRegion(result);
 
   const technology = normalizeTechnology(result.recommended_source);
   const { matched, fallback } = matchProviders({
     providers: providersData,
     region,
     technology,
+    category: "provider",
   });
 
   const verified = matched.filter((p) => p.verified);
@@ -543,6 +552,83 @@ function buildProviderTable(result) {
   }
   blocks.push({
     text: PROVIDER_GENERAL_NOTE,
+    fontSize: 8,
+    color: COLORS.muted,
+    margin: [0, 4, 0, 0],
+  });
+
+  return blocks;
+}
+
+function buildRetailerTable(result) {
+  const region = resolveResultRegion(result);
+  const technology = normalizeTechnology(result.recommended_source);
+  const { matched } = matchProviders({
+    providers: providersData,
+    region,
+    technology,
+    category: "retailer",
+  });
+
+  const blocks = [];
+
+  if (matched.length === 0) {
+    blocks.push({
+      text: "No retailers found for this area.",
+      color: COLORS.muted,
+      italics: true,
+      margin: [0, 0, 0, 8],
+    });
+    return blocks;
+  }
+
+  const body = [
+    [
+      headerCell("Retailer"),
+      headerCell("Location"),
+      headerCell("Products"),
+      headerCell("Contact / Website"),
+    ],
+  ];
+
+  for (const p of matched) {
+    body.push([
+      {
+        text: [
+          { text: p.name, bold: true },
+          { text: `\n${p.technology || ""}`, color: COLORS.muted, fontSize: 8 },
+        ],
+        color: COLORS.text,
+        fontSize: 9,
+      },
+      cellText(
+        p.nationwide
+          ? `${p.address || ""} (Nationwide / Online)`
+          : p.address || "—"
+      ),
+      cellText(p.products || "—", { color: COLORS.muted }),
+      p.url
+        ? {
+            text: [
+              ...(p.contact ? [{ text: `${p.contact}\n`, fontSize: 8, color: COLORS.text }] : []),
+              { text: p.url, link: p.url, color: COLORS.wind, fontSize: 8, decoration: "underline" },
+            ],
+          }
+        : cellText(p.contact || "—"),
+    ]);
+  }
+
+  blocks.push({
+    table: {
+      headerRows: 1,
+      widths: ["auto", "auto", "*", "auto"],
+      body,
+    },
+    ...styledTable({}),
+  });
+
+  blocks.push({
+    text: RETAILER_DISCLAIMER,
     fontSize: 8,
     color: COLORS.muted,
     margin: [0, 4, 0, 0],
@@ -835,16 +921,19 @@ export function buildEcosimPdf({ result, inputs }) {
     if (climateTable) content.push(climateTable);
   }
 
-  // Providers
-  content.push({ text: "Recommended Providers", style: "sectionHeading" });
+  // Providers & retailers
+  content.push({ text: "Recommended Providers & Retailers", style: "sectionHeading" });
   content.push(
     {
-      text: "Verified renewable-energy providers in your region. LUMI does not endorse any provider; contact them directly for quotes and site surveys.",
+      text: "DOE-listed renewable-energy providers and screened equipment retailers relevant to your region. LUMI does not endorse any listing; contact them directly for quotes, pricing, and site surveys.",
       fontSize: 9,
       color: COLORS.muted,
       margin: [0, 0, 0, 8],
     },
-    buildProviderTable(result)
+    { text: "Providers", style: "subSection" },
+    buildProviderTable(result),
+    { text: "Equipment Retailers", style: "subSection" },
+    buildRetailerTable(result)
   );
 
   return {

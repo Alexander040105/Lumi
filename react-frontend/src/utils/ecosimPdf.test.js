@@ -209,6 +209,31 @@ describe("ecosimPdf", () => {
     expect(allText).toContain("No provider was found near your location");
   });
 
+  it("renders an Equipment Retailers table with regional retailers first", () => {
+    const doc = buildEcosimPdf({ result: sampleResult, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+    expect(allText).toContain("Recommended Providers & Retailers");
+    expect(allText).toContain("Equipment Retailers");
+    // NCR retailers come before nationwide ones
+    expect(allText.indexOf("JAFED Solar Equipment Trading")).toBeGreaterThan(-1);
+    expect(allText.indexOf("Solar Warehouse PH")).toBeGreaterThan(-1);
+    expect(allText.indexOf("JAFED Solar Equipment Trading")).toBeLessThan(
+      allText.indexOf("Solar Warehouse PH")
+    );
+    // products and disclaimer
+    expect(allText).toContain("Panels, batteries, inverters");
+    expect(allText).toContain("Retailers are not DOE-verified installers");
+    expect(allText).toContain("Nationwide / Online");
+  });
+
+  it("still lists retailers when no regional retailer exists", () => {
+    const result = { ...sampleResult, municipality: "Legazpi", province: "Albay" };
+    const doc = buildEcosimPdf({ result, inputs: sampleInputs });
+    const allText = flatText(doc).join(" ");
+    // nationwide retailers still render
+    expect(allText).toContain("Solar Warehouse PH");
+  });
+
   it("cleanses real AI markdown for PDF output", () => {
     const result = {
       ...sampleResult,

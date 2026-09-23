@@ -99,3 +99,66 @@ describe("matchProviders", () => {
     expect(fallback).toHaveLength(0);
   });
 });
+
+describe("matchProviders — category and nationwide", () => {
+  const R = (over) => ({
+    name: "Retailer",
+    category: "retailer",
+    region: null,
+    technology: "Solar",
+    ...over,
+  });
+
+  const mixed = [
+    P({ name: "ncr-provider", verified: true }),
+    R({ name: "nationwide-shop", nationwide: true }),
+    R({ name: "ncr-retailer", region: "NCR" }),
+    R({ name: "nationwide-wind-shop", nationwide: true, technology: "Wind" }),
+    R({ name: "iii-retailer", region: "III" }),
+  ];
+
+  it("filters by category, treating missing category as provider", () => {
+    const prov = matchProviders({ providers: mixed, region: "NCR", technology: "Solar", category: "provider" });
+    expect(prov.matched.map((p) => p.name)).toEqual(["ncr-provider"]);
+
+    const ret = matchProviders({ providers: mixed, region: "NCR", technology: "Solar", category: "retailer" });
+    expect(ret.matched.every((p) => p.category === "retailer")).toBe(true);
+  });
+
+  it("appends nationwide retailers after regional matches", () => {
+    const { matched } = matchProviders({ providers: mixed, region: "NCR", technology: "Solar", category: "retailer" });
+    expect(matched.map((p) => p.name)).toEqual([
+      "ncr-retailer",
+      "nationwide-shop",
+      "nationwide-wind-shop",
+    ]);
+  });
+
+  it("counts a nationwide retailer with a matching region as regional", () => {
+    const list = [
+      R({ name: "local-plus-nationwide", region: "NCR", nationwide: true }),
+      R({ name: "pure-nationwide", nationwide: true }),
+    ];
+    const { matched } = matchProviders({ providers: list, region: "NCR", technology: "Solar", category: "retailer" });
+    expect(matched[0].name).toBe("local-plus-nationwide");
+  });
+
+  it("shows only nationwide retailers when the region has none", () => {
+    const { matched, fallback } = matchProviders({ providers: mixed, region: "V", technology: "Solar", category: "retailer" });
+    expect(matched.map((p) => p.name)).toEqual(["nationwide-shop", "nationwide-wind-shop"]);
+    expect(fallback).toHaveLength(0);
+  });
+
+  it("excludes retailers from the verified provider fallback", () => {
+    const list = [R({ name: "verified-retailer", nationwide: false, verified: true })];
+    const { matched, fallback } = matchProviders({ providers: list, region: "V", technology: "Solar", category: "provider" });
+    expect(matched).toHaveLength(0);
+    expect(fallback).toHaveLength(0);
+  });
+
+  it("returns everything when category is undefined or 'all'", () => {
+    const { matched } = matchProviders({ providers: mixed, region: "NCR", technology: "Solar" });
+    expect(matched.map((p) => p.name)).toContain("ncr-provider");
+    expect(matched.map((p) => p.name)).toContain("ncr-retailer");
+  });
+});
