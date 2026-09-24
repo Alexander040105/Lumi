@@ -1,6 +1,6 @@
 # LUMI Project Documentation Index
 
-> Regenerated during the repository reorganization — lists all tracked Markdown files.
+> Regenerated during the repository reorganization ï¿½ lists all tracked Markdown files.
 
 ## `./`
 
@@ -263,6 +263,7 @@
 | `docs/CHANGELOG_v2.1_FIXES.md` |
 | `docs/CHANGELOG_v3.2.md` |
 | `docs/DOCS_INDEX.md` |
+| `docs/megaplan-it-feedback.md` |
 
 ## `./docs/01-Project-Overview/`
 
@@ -390,6 +391,16 @@
 | `docs/09-Technical-Evaluation/README.md` |
 | `docs/09-Technical-Evaluation/security-test-results.md` |
 | `docs/09-Technical-Evaluation/system-architecture.md` |
+
+## `./docs/pscxi/`
+
+| File |
+|---|---|
+| `docs/pscxi/README.md` |
+| `docs/pscxi/01-evaluation-report.md` |
+| `docs/pscxi/02-concept-note-draft.md` |
+| `docs/pscxi/03-improvement-work-items.md` |
+| `docs/pscxi/04-submission-checklist.md` |
 
 ## `./docs/function-reference/`
 
