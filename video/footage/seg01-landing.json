@@ -1,0 +1,22 @@
+{
+  "clip": "seg01-landing.mp4",
+  "duration": 15.48,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 4.96
+    },
+    {
+      "label": "hero",
+      "t": 8.12
+    },
+    {
+      "label": "features",
+      "t": 12
+    },
+    {
+      "label": "tools",
+      "t": 16.37
+    }
+  ]
+}

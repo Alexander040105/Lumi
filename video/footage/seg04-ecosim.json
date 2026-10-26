@@ -1,0 +1,54 @@
+{
+  "clip": "seg04-ecosim.mp4",
+  "duration": 52.6,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 2.46
+    },
+    {
+      "label": "wizard-start",
+      "t": 13.89
+    },
+    {
+      "label": "location-selected",
+      "t": 18.66
+    },
+    {
+      "label": "bill-details",
+      "t": 20.14
+    },
+    {
+      "label": "rate-filled",
+      "t": 22.93
+    },
+    {
+      "label": "coverage",
+      "t": 24.37
+    },
+    {
+      "label": "review",
+      "t": 27.45
+    },
+    {
+      "label": "running",
+      "t": 29.99
+    },
+    {
+      "label": "computed",
+      "t": 39.24
+    },
+    {
+      "label": "results",
+      "t": 40.56
+    },
+    {
+      "label": "breakdown",
+      "t": 45.84
+    },
+    {
+      "label": "summary",
+      "t": 49.35
+    }
+  ]
+}

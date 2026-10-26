@@ -1,0 +1,26 @@
+{
+  "clip": "seg07-saved.mp4",
+  "duration": 41.84,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 1.95
+    },
+    {
+      "label": "list",
+      "t": 20.43
+    },
+    {
+      "label": "opening",
+      "t": 22.98
+    },
+    {
+      "label": "open-sim",
+      "t": 29.2
+    },
+    {
+      "label": "security",
+      "t": 38.48
+    }
+  ]
+}

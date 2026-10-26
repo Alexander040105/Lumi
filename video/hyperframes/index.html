@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      :root {
+        --ink: #12220f;
+        --deep: #172e15;
+        --green: #2e5f2b;
+        --fern: #8fc98a;
+        --leaf: #cfe4cb;
+        --meadow: #eaf4e9;
+        --pale: #f6faf5;
+        --gold: #f6d96a;
+        --ember: #c96a16;
+        --muted: #5b6e58;
+        --font-display: "Outfit", sans-serif;
+        --font-body: "Inter", sans-serif;
+        --font-mono: "Space Mono", monospace;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        font-family: var(--font-body);
+        color: var(--pale);
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+      .fill-dark {
+        background:
+          radial-gradient(1200px 800px at 72% 18%, rgba(246, 217, 106, 0.10), transparent 60%),
+          radial-gradient(1000px 700px at 20% 85%, rgba(143, 201, 138, 0.10), transparent 55%),
+          linear-gradient(160deg, var(--deep) 0%, var(--ink) 70%);
+      }
+      .fill-pale {
+        background:
+          radial-gradient(1100px 750px at 78% 12%, rgba(246, 217, 106, 0.22), transparent 60%),
+          linear-gradient(160deg, var(--pale) 0%, var(--meadow) 80%);
+      }
+      .kicker {
+        font-family: var(--font-mono);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+      .h-xl {
+        font-family: var(--font-display);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.04;
+      }
+      .h-lg {
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.12;
+      }
+      .body {
+        font-size: 30px;
+        line-height: 1.5;
+        font-weight: 400;
+      }
+      .center {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .left-mid {
+        position: absolute;
+        left: 150px;
+        top: 0;
+        bottom: 0;
+        width: 1200px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .gold {
+        color: var(--gold);
+      }
+      .green-on-pale {
+        color: var(--green);
+      }
+      .ink-on-pale {
+        color: var(--ink);
+      }
+      .dim {
+        color: var(--fern);
+      }
+      .dim-pale {
+        color: var(--muted);
+      }
+      /* --- S1 hook --- */
+      #s1 .q {
+        font-size: 92px;
+        color: var(--pale);
+      }
+      #s1 .sub {
+        margin-top: 46px;
+        font-size: 34px;
+        color: var(--fern);
+      }
+      #s1 .sunline {
+        margin-top: 60px;
+        height: 6px;
+        width: 340px;
+        border-radius: 3px;
+        background: var(--gold);
+        transform-origin: 0 50%;
+      }
+      /* --- S2 problem --- */
+      .cardrow {
+        display: flex;
+        gap: 44px;
+        margin-top: 70px;
+      }
+      .pcard {
+        width: 380px;
+        padding: 36px 32px;
+        border-radius: 18px;
+        background: rgba(246, 250, 245, 0.05);
+        border: 1px solid rgba(143, 201, 138, 0.22);
+        color: var(--leaf);
+      }
+      .pcard .t {
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+      .pcard .d {
+        font-size: 22px;
+        line-height: 1.45;
+        color: var(--fern);
+      }
+      /* --- S3 reveal --- */
+      #s3 .logo {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+        filter: drop-shadow(0 18px 60px rgba(246, 217, 106, 0.35));
+      }
+      #s3 .word {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 150px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        margin-top: 30px;
+      }
+      #s3 .tag {
+        font-size: 36px;
+        color: var(--green);
+        margin-top: 18px;
+        font-weight: 500;
+      }
+      /* --- S4 USP --- */
+      .bignum {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 190px;
+        color: var(--gold);
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .chips {
+        display: flex;
+        gap: 24px;
+        margin-top: 54px;
+      }
+      .chip {
+        font-family: var(--font-mono);
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 14px 26px;
+        border-radius: 999px;
+        border: 1.5px solid rgba(143, 201, 138, 0.5);
+        color: var(--leaf);
+      }
+      /* --- S5 features --- */
+      .fgrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 36px;
+        width: 1280px;
+        margin-top: 56px;
+      }
+      .fcard {
+        display: flex;
+        gap: 26px;
+        align-items: flex-start;
+        padding: 34px 36px;
+        border-radius: 20px;
+        background: rgba(246, 250, 245, 0.05);
+        border: 1px solid rgba(143, 201, 138, 0.22);
+      }
+      .fcard .ico {
+        flex: 0 0 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        font-size: 34px;
+        background: rgba(246, 217, 106, 0.16);
+      }
+      .fcard .t {
+        font-family: var(--font-display);
+        font-size: 30px;
+        font-weight: 700;
+        color: var(--pale);
+        margin-bottom: 8px;
+      }
+      .fcard .d {
+        font-size: 22px;
+        line-height: 1.4;
+        color: var(--fern);
+      }
+      /* --- S6 preview --- */
+      .browser {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 1560px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(143, 201, 138, 0.35);
+        background: var(--deep);
+        box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+      }
+      .browser .bar {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 14px 22px;
+        background: rgba(18, 34, 15, 0.9);
+        border-bottom: 1px solid rgba(143, 201, 138, 0.2);
+      }
+      .browser .dots {
+        display: flex;
+        gap: 8px;
+      }
+      .browser .dots i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(246, 250, 245, 0.28);
+      }
+      .browser .addr {
+        flex: 1;
+        max-width: 560px;
+        margin: 0 auto;
+        font-family: var(--font-mono);
+        font-size: 18px;
+        color: var(--fern);
+        background: rgba(246, 250, 245, 0.07);
+        padding: 8px 22px;
+        border-radius: 999px;
+        text-align: center;
+      }
+      .browser .screen {
+        position: relative;
+        height: 780px;
+        background: #000;
+      }
+      .browser .screen video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      /* --- S7 market --- */
+      .persona {
+        display: flex;
+        gap: 40px;
+        margin-top: 64px;
+      }
+      .pcard2 {
+        width: 400px;
+        padding: 42px 36px;
+        border-radius: 20px;
+        text-align: center;
+        background: rgba(246, 250, 245, 0.05);
+        border: 1px solid rgba(143, 201, 138, 0.22);
+      }
+      .pcard2 .emo {
+        font-size: 52px;
+        margin-bottom: 20px;
+      }
+      .pcard2 .t {
+        font-family: var(--font-display);
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--pale);
+        margin-bottom: 12px;
+      }
+      .pcard2 .d {
+        font-size: 22px;
+        line-height: 1.45;
+        color: var(--fern);
+      }
+      /* --- S8 value --- */
+      #s8 .arrow {
+        font-size: 120px;
+        color: var(--gold);
+        margin: 0 50px;
+        font-family: var(--font-display);
+        font-weight: 800;
+      }
+      .bigrow {
+        display: flex;
+        align-items: center;
+        margin-top: 60px;
+      }
+      .big {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 96px;
+        letter-spacing: -0.02em;
+        color: var(--pale);
+      }
+      /* --- S9 CTA --- */
+      #s9 .logo {
+        width: 190px;
+        height: 190px;
+        object-fit: contain;
+      }
+      #s9 .cta {
+        margin-top: 56px;
+        font-family: var(--font-display);
+        font-size: 40px;
+        font-weight: 700;
+        color: var(--ink);
+        background: var(--gold);
+        padding: 22px 58px;
+        border-radius: 999px;
+        letter-spacing: 0.01em;
+      }
+      #s9 .tag {
+        margin-top: 30px;
+        font-size: 30px;
+        color: var(--fern);
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="84.3"
+      data-width="1920"
+      data-height="1080"
+      data-fps="30"
+    >
+      <!-- S1 · HOOK · 0–8.6 -->
+      <section id="s1" class="scene clip fill-dark" data-start="0" data-duration="7.5" data-track-index="0">
+        <div class="center" style="padding: 0 180px">
+          <div class="kicker dim" id="s1-kick">LUMI · ENVIRONMENTAL INTELLIGENCE</div>
+          <h1 class="h-xl q" id="s1-q1" style="margin-top:44px">Which renewable energy actually works for your area?</h1>
+          <div class="sub" id="s1-sub">Solar, wind, or hydro — the answer depends on <span class="gold">where you live</span>.</div>
+          <div class="sunline" id="s1-line"></div>
+        </div>
+      </section>
+
+      <!-- S2 · PROBLEM · 8.6–16.6 -->
+      <section id="s2" class="scene clip fill-dark" data-start="7.5" data-duration="8.9" data-track-index="0">
+        <div class="center" style="padding: 0 160px">
+          <h2 class="h-lg" id="s2-h" style="font-size:64px">Renewable data is <span class="gold">everywhere</span> — and nowhere useful.</h2>
+          <div class="cardrow" id="s2-cards">
+            <div class="pcard"><div class="t">Scattered</div><div class="d">DOE tables, NASA records, tariff sheets — in a dozen places.</div></div>
+            <div class="pcard"><div class="t">Technical</div><div class="d">Irradiance curves and capacity factors, not plain answers.</div></div>
+            <div class="pcard"><div class="t">Never local</div><div class="d">National averages say nothing about your town.</div></div>
+          </div>
+          <div class="body dim" id="s2-tail" style="margin-top:54px">Peak demand is projected to grow ~50% by 2030.</div>
+        </div>
+      </section>
+
+      <!-- S3 · PRODUCT REVEAL · 16.6–27.4 -->
+      <section id="s3" class="scene clip fill-pale" data-start="16.4" data-duration="9.5" data-track-index="0">
+        <div class="center">
+          <img class="logo" id="s3-logo" src="assets/logo.png" alt="LUMI logo" />
+          <div class="word" id="s3-word">LUMI</div>
+          <div class="tag" id="s3-tag">Environmental intelligence for the Philippines</div>
+        </div>
+      </section>
+
+      <!-- S4 · USP · 27.4–39.7 -->
+      <section id="s4" class="scene clip fill-dark" data-start="25.9" data-duration="11.4" data-track-index="0">
+        <div class="left-mid">
+          <div class="kicker dim" id="s4-kick">NOT GENERIC ADVICE</div>
+          <div style="display:flex;align-items:baseline;gap:26px;margin-top:36px">
+            <div class="bignum" id="s4-num">0</div>
+            <div class="h-lg" id="s4-cap" style="font-size:56px;max-width:460px">cities and municipalities analyzed, individually</div>
+          </div>
+          <div class="chips" id="s4-chips">
+            <span class="chip">PHILIPPINE DOE DATA</span>
+            <span class="chip">NASA CLIMATE RECORDS</span>
+            <span class="chip">YOUR TOWN, NOT THE AVERAGE</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- S5 · FEATURES · 39.7–57.4 -->
+      <section id="s5" class="scene clip fill-dark" data-start="37.3" data-duration="16" data-track-index="0">
+        <div class="center">
+          <div class="kicker dim" id="s5-kick">WHAT IT DOES</div>
+          <div class="fgrid">
+            <div class="fcard" id="s5-f1"><div class="ico">☀️</div><div><div class="t">EcoSim simulations</div><div class="d">Solar, wind and hydro for your municipality — estimated cost, savings, payback.</div></div></div>
+            <div class="fcard" id="s5-f2"><div class="ico">📈</div><div><div class="t">EnergyHub analytics</div><div class="d">Two decades of DOE data, with national trends forecast to 2030.</div></div></div>
+            <div class="fcard" id="s5-f3"><div class="ico">�</div><div><div class="t">Next steps built in</div><div class="d">DOE-registered installers and screened retailers, matched to your area.</div></div></div>
+            <div class="fcard" id="s5-f4"><div class="ico">🗺️</div><div><div class="t">Suitability maps</div><div class="d">Province-level potential for every source, on one map.</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S6 · PRODUCT PREVIEW · 57.4–69.4 -->
+      <section id="s6" class="scene clip fill-dark" data-start="53.3" data-duration="8" data-track-index="0">
+        <div class="browser" id="s6-frame">
+          <div class="bar">
+            <span class="dots"><i></i><i></i><i></i></span>
+            <span class="addr">lumi-frontend-xi.vercel.app</span>
+          </div>
+          <div class="screen"></div>
+        </div>
+        <div class="kicker dim" id="s6-kick" style="position:absolute;left:180px;top:64px">THIS IS IT, WORKING</div>
+      </section>
+
+      <!-- preview footage: root-level clip aligned to the browser screen rect -->
+      <video
+        id="s6-vid"
+        class="clip"
+        src="assets/shots/energyhub.mp4"
+        muted
+        playsinline
+        data-start="53.3"
+        data-duration="8"
+        data-media-start="26"
+        data-track-index="1"
+        style="position:absolute;left:181px;top:175px;width:1558px;height:777px;object-fit:cover;border-radius:0 0 19px 19px"
+      ></video>
+
+      <!-- S7 · TARGET MARKET · 69.4–78.4 -->
+      <section id="s7" class="scene clip fill-dark" data-start="61.3" data-duration="10.3" data-track-index="0">
+        <div class="center" style="padding:0 140px">
+          <h2 class="h-lg" id="s7-h" style="font-size:58px">Built for the people making the decision</h2>
+          <div class="persona" id="s7-cards">
+            <div class="pcard2"><div class="emo">🏠</div><div class="t">Homeowners</div><div class="d">Deciding whether solar, wind, or hydro pays back at home.</div></div>
+            <div class="pcard2"><div class="emo">🏛️</div><div class="t">Planners &amp; LGUs</div><div class="d">Choosing where clean-energy investment goes.</div></div>
+            <div class="pcard2"><div class="emo">🔬</div><div class="t">Researchers</div><div class="d">Who need the real numbers, cited.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- S8 · VALUE · 78.4–87.4 -->
+      <section id="s8" class="scene clip fill-dark" data-start="71.6" data-duration="5.9" data-track-index="0">
+        <div class="center" style="padding:0 160px">
+          <div class="bigrow">
+            <div class="big" id="s8-a">Hours of research</div>
+            <div class="arrow" id="s8-ar">→</div>
+            <div class="big gold" id="s8-b">minutes</div>
+          </div>
+          <div class="body dim" id="s8-sub" style="margin-top:56px;font-size:32px">Sources cited. Assumptions stated, not hidden.</div>
+        </div>
+      </section>
+
+      <!-- S9 · CTA · 87.4–98 -->
+      <section id="s9" class="scene clip fill-pale" data-start="77.5" data-duration="6.8" data-track-index="0">
+        <div class="center">
+          <img class="logo" id="s9-logo" src="assets/logo.png" alt="LUMI logo" />
+          <div class="h-lg green-on-pale" id="s9-h" style="font-size:64px;margin-top:40px">Make smarter energy decisions<br />with LUMI.</div>
+          <div class="cta" id="s9-cta">Explore your energy potential today</div>
+          <div class="tag dim-pale" id="s9-url">lumi-frontend-xi.vercel.app</div>
+        </div>
+      </section>
+
+      <!-- narration -->
+      <audio id="vo1" class="clip" src="assets/voice/01.wav" data-start="0.6" data-duration="6" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo2" class="clip" src="assets/voice/02.wav" data-start="8.1" data-duration="7.45" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo3" class="clip" src="assets/voice/03.wav" data-start="17" data-duration="8" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo4" class="clip" src="assets/voice/04.wav" data-start="26.5" data-duration="9.9" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo5" class="clip" src="assets/voice/05.wav" data-start="37.9" data-duration="14.53" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo6" class="clip" src="assets/voice/06.wav" data-start="53.9" data-duration="6.4" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo7" class="clip" src="assets/voice/07.wav" data-start="61.9" data-duration="8.8" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo8" class="clip" src="assets/voice/08.wav" data-start="72.2" data-duration="4.4" data-volume="1" data-track-index="8"></audio>
+      <audio id="vo9" class="clip" src="assets/voice/09.wav" data-start="78.1" data-duration="4.61" data-volume="1" data-track-index="8"></audio>
+      <!-- music -->
+      <audio id="bed" class="clip" src="assets/music/bed84.wav" data-start="0" data-duration="84.3" data-volume="0.14" data-track-index="9"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+
+      /* S1 — hook: kicker drops, question rises, sub + sun line · 0–7.5 */
+      tl.fromTo("#s1-kick", { opacity: 0, y: -18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.3);
+      tl.fromTo("#s1-q1", { opacity: 0, y: 46, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9, ease: "power4.out" }, 0.7);
+      tl.fromTo("#s1-sub", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 4.4);
+      tl.fromTo("#s1-line", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power4.out" }, 5.0);
+      tl.to("#s1", { opacity: 0, duration: 0.45, ease: "power2.in" }, 7.05);
+
+      /* S2 — problem: headline, cards stagger, tail line · 7.5–16.4 */
+      tl.fromTo("#s2-h", { opacity: 0, y: 34 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 7.8);
+      tl.fromTo("#s2-cards .pcard", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.35 }, 8.5);
+      tl.fromTo("#s2-tail", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 12.4);
+      tl.to("#s2", { opacity: 0, duration: 0.45, ease: "power2.in" }, 15.95);
+
+      /* S3 — reveal: logo blooms, word + tag · 16.4–25.9 */
+      tl.fromTo("#s3-logo", { opacity: 0, scale: 0.6, filter: "blur(14px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.1, ease: "power4.out" }, 16.6);
+      tl.fromTo("#s3-word", { opacity: 0, y: 30, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power3.out" }, 17.2);
+      tl.fromTo("#s3-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 21.1);
+      tl.to("#s3-logo", { scale: 1.05, duration: 3.6, ease: "sine.inOut" }, 21.9);
+      tl.to("#s3", { opacity: 0, duration: 0.45, ease: "power2.in" }, 25.45);
+
+      /* S4 — USP: counter to 1800, chips · 25.9–37.3 */
+      tl.fromTo("#s4-kick", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5 }, 26.2);
+      tl.fromTo("#s4-num", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 26.6);
+      const counter = { v: 0 };
+      tl.to(counter, {
+        v: 1800,
+        duration: 2.2,
+        ease: "power2.out",
+        onUpdate() { document.getElementById("s4-num").textContent = Math.round(counter.v).toLocaleString("en-US") + "+"; },
+      }, 26.6);
+      tl.fromTo("#s4-cap", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.6 }, 27.0);
+      tl.fromTo("#s4-chips .chip", { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.3 }, 30.1);
+      tl.fromTo("#s4-chips .chip", { boxShadow: "0 0 0 rgba(246,217,106,0)" }, { boxShadow: "0 0 18px rgba(246,217,106,0.35)", duration: 0.7, stagger: 0.35, yoyo: true, repeat: 1 }, 33.4);
+      tl.to("#s4", { opacity: 0, duration: 0.45, ease: "power2.in" }, 36.85);
+
+      /* S5 — features: kicker + 4 cards stagger · 37.3–53.3 */
+      tl.fromTo("#s5-kick", { opacity: 0, y: -16 }, { opacity: 1, y: 0, duration: 0.5 }, 37.6);
+      tl.fromTo("#s5 .fcard", { opacity: 0, y: 44, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out", stagger: 0.45 }, 38.3);
+      tl.to("#s5 .fcard", { scale: 1.03, duration: 0.55, ease: "sine.inOut", stagger: 2.7, yoyo: true, repeat: 1 }, 41.5);
+      tl.to("#s5", { opacity: 0, duration: 0.45, ease: "power2.in" }, 52.85);
+
+      /* S6 — preview: browser rises, slow zoom on screen · 53.3–61.3 */
+      tl.fromTo("#s6-frame", { opacity: 0, y: 70, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: "power4.out" }, 53.6);
+      tl.fromTo("#s6-kick", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.5 }, 54.3);
+      tl.fromTo("#s6-vid", { scale: 1.0 }, { scale: 1.06, duration: 7, ease: "none" }, 54.0);
+      tl.to("#s6", { opacity: 0, duration: 0.45, ease: "power2.in" }, 60.85);
+
+      /* S7 — market: headline + persona stagger · 61.3–71.6 */
+      tl.fromTo("#s7-h", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.7 }, 61.6);
+      tl.fromTo("#s7-cards .pcard2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.3 }, 62.5);
+      tl.to("#s7-cards .pcard2", { scale: 1.04, duration: 0.55, ease: "sine.inOut", stagger: 1.6, yoyo: true, repeat: 1 }, 64.6);
+      tl.to("#s7", { opacity: 0, duration: 0.45, ease: "power2.in" }, 71.15);
+
+      /* S8 — value: words in, arrow sweeps, minutes lands · 71.6–77.5 */
+      tl.fromTo("#s8-a", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.7, ease: "power3.out" }, 71.8);
+      tl.fromTo("#s8-ar", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 73.2);
+      tl.fromTo("#s8-b", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)" }, 73.6);
+      tl.fromTo("#s8-sub", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 75.2);
+      tl.to("#s8", { opacity: 0, duration: 0.45, ease: "power2.in" }, 77.05);
+
+      /* S9 — CTA: logo, tagline, button, url · 77.5–84.3 */
+      tl.fromTo("#s9-logo", { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 77.7);
+      tl.fromTo("#s9-h", { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: 0.7 }, 78.3);
+      tl.fromTo("#s9-cta", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(2)" }, 80.2);
+      tl.to("#s9-cta", { scale: 1.04, duration: 0.9, ease: "sine.inOut", repeat: 3, yoyo: true }, 81.0);
+      tl.fromTo("#s9-url", { opacity: 0 }, { opacity: 1, duration: 0.6 }, 81.8);
+
+      tl.seek(0);
+    </script>
+  </body>
+</html>

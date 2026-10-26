@@ -229,6 +229,16 @@ react-frontend/node_modules/
 react-frontend/dist/
 react-frontend/.vite/
 
+# Video production workspace
+video/out/
+video/remotion/node_modules/
+video/remotion/public/voice/
+video/remotion/public/music/
+video/hyperframes/.hyperframes/
+video/hyperframes/assets/voice/
+video/hyperframes/assets/music/
+video/hyperframes/assets/shots/
+
 #runtime data
 data/scraped_data/runtime/
 
@@ -246,3 +256,8 @@ supabase/.temp/
 # Vite timestamp artifacts and OS noise
 *.timestamp-*.mjs
 Thumbs.db
+# Video production: secrets + intermediate artifacts (outputs stay on disk)
+video/tools/creds.json
+video/footage/_work/
+video/footage/_*.png
+video/footage/raw-*/

@@ -1,0 +1,26 @@
+{
+  "clip": "seg06-maps.mp4",
+  "duration": 32.16,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 1.88
+    },
+    {
+      "label": "map-visible",
+      "t": 22.16
+    },
+    {
+      "label": "layer-switch",
+      "t": 24.42
+    },
+    {
+      "label": "zoom",
+      "t": 28.05
+    },
+    {
+      "label": "pan",
+      "t": 30.71
+    }
+  ]
+}
