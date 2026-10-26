@@ -1,0 +1,14 @@
+{
+  "clip": "seg08-recap.mp4",
+  "duration": 17.52,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 1.81
+    },
+    {
+      "label": "recap",
+      "t": 14.03
+    }
+  ]
+}

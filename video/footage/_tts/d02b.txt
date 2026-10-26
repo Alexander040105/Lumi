@@ -1,0 +1,1 @@
+After registering, a confirmation email verifies the address. Once confirmed, the same form signs you in — and you land on your dashboard.

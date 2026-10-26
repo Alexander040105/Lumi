@@ -1,0 +1,30 @@
+{
+  "clip": "seg05-energyhub.mp4",
+  "duration": 39.04,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 1.87
+    },
+    {
+      "label": "overview",
+      "t": 19.39
+    },
+    {
+      "label": "trends",
+      "t": 23.59
+    },
+    {
+      "label": "forecast",
+      "t": 27.72
+    },
+    {
+      "label": "breakdown",
+      "t": 31.93
+    },
+    {
+      "label": "benchmark",
+      "t": 36.11
+    }
+  ]
+}

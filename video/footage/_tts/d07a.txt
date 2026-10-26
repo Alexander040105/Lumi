@@ -1,0 +1,1 @@
+Saved Simulations is where EcoSim runs live — reopen, compare, or delete. They persist across sessions.

@@ -1,0 +1,1 @@
+Every source is broken out — solar, wind, hydro, geothermal — and each figure names its dataset. An IRENA benchmark sits alongside for cross-reference.

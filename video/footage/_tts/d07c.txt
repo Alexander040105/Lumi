@@ -1,0 +1,1 @@
+And in Security settings, users can enable multi-factor authentication on the account.

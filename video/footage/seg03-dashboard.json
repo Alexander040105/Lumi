@@ -1,0 +1,26 @@
+{
+  "clip": "seg03-dashboard.mp4",
+  "duration": 25.2,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 3.39
+    },
+    {
+      "label": "top",
+      "t": 14.32
+    },
+    {
+      "label": "quick-actions",
+      "t": 18.36
+    },
+    {
+      "label": "nav-hover",
+      "t": 21.9
+    },
+    {
+      "label": "saved",
+      "t": 25.89
+    }
+  ]
+}

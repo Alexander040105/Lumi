@@ -1,0 +1,1 @@
+A short review of the inputs — then run the simulation. The model scores solar, wind, and hydro against the area's resource data.

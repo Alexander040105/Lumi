@@ -1,0 +1,26 @@
+{
+  "clip": "seg02-account.mp4",
+  "duration": 21.2,
+  "markers": [
+    {
+      "label": "sync",
+      "t": 3.18
+    },
+    {
+      "label": "signup",
+      "t": 7.97
+    },
+    {
+      "label": "loginform",
+      "t": 12.02
+    },
+    {
+      "label": "submit",
+      "t": 13.69
+    },
+    {
+      "label": "dashboard-arrive",
+      "t": 18.65
+    }
+  ]
+}

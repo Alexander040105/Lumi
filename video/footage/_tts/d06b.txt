@@ -1,0 +1,1 @@
+Switch between provincial suitability for each energy source — color-coded from very high to very low potential — then zoom in.
