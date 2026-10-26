@@ -1,6 +1,6 @@
 # LUMI Project Documentation Index
 
-> Regenerated during the repository reorganization — lists all tracked Markdown files.
+> Regenerated during the repository reorganization ï¿½ lists all tracked Markdown files.
 
 ## `./`
 
@@ -411,6 +411,8 @@
 | `docs/thesis/Chapter_3_Table_19_ISO25010_Evaluation_Criteria.md` |
 | `docs/thesis/Chapter_3_Table_19_ISO25010_Evaluation_Criteria_Flat.md` |
 | `docs/thesis/Chapter_3_Testing_and_Evaluation_Revised.md` |
+| `docs/thesis/CHAPTER3_SYSTEM_TEST_AND_ML_EVALUATION.md` |
+| `docs/thesis/CHAPTER3_SYSTEM_TEST_AND_ML_EVALUATION_TABULAR.md` |
 | `docs/thesis/CONSULTATION_RECORD_2_CHANGELOG.md` |
 | `docs/thesis/CONSULTATION_RECORD_2_IMPLEMENTATION.md` |
 | `docs/thesis/LUMI_THESIS_REVISIONS_MASTER.md` |
