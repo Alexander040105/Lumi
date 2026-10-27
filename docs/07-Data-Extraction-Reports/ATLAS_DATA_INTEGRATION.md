@@ -13,14 +13,14 @@ LUMI now uses high-resolution **Global Solar Atlas (Solargis / World Bank)** and
 
 | File | Purpose |
 |---|---|
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GHI.tif` | Daily GHI (kWh/m²/day) |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/PVOUT.tif` | Daily PV specific yield (kWh/kWp/day) |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_YearlyMonthlyTotals/PVOUT.tif` | Annual PV specific yield (kWh/kWp/year) |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DNI.tif` | Direct normal irradiance |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/DIF.tif` | Diffuse horizontal irradiance |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/GTI.tif` | Global tilted irradiance (optimum tilt) |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/TEMP.tif` | Long-term average temperature (°C) |
-| `data/newDataPointsToExtract/GlobalSolarAtlasGIS/.../LTAy_AvgDailyTotals/OPTA.tif` | Optimum tilt angle (°) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/GHI.tif` | Daily GHI (kWh/m²/day) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/PVOUT.tif` | Daily PV specific yield (kWh/kWp/day) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_YearlyMonthlyTotals/PVOUT.tif` | Annual PV specific yield (kWh/kWp/year) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/DNI.tif` | Direct normal irradiance |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/DIF.tif` | Diffuse horizontal irradiance |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/GTI.tif` | Global tilted irradiance (optimum tilt) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/TEMP.tif` | Long-term average temperature (°C) |
+| `data/DOE_Data_Extracted/data_v2/newDataset/GlobalSolarAtlas-v2_AvgDailyTotals/OPTA.tif` | Optimum tilt angle (°) |
 | `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_10m.tif` | 10 m wind speed (m/s) |
 | `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_50m.tif` | 50 m wind speed (m/s) |
 | `data/newDataPointsToExtract/GlobalWindAtlas_PHL_wind-speed_100m.tif` | 100 m wind speed (m/s) |

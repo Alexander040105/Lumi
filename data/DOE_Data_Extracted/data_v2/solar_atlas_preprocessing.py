@@ -4,7 +4,7 @@ Solar Atlas Preprocessing
 Reads Global Solar Atlas v2 GEOTIFF files and extracts solar
 irradiance values at key Philippine locations.
 
-Input files (from newDataset/Philippines_GISdata_*_GlobalSolarAtlas-v2_GEOTIFF/):
+Input files (from newDataset/GlobalSolarAtlas-v2_*/):
 - GHI.tif   → Global Horizontal Irradiance (kWh/m²/day)
 - DNI.tif   → Direct Normal Irradiance (kWh/m²/day)
 - DIF.tif   → Diffuse Horizontal Irradiance (kWh/m²/day)
@@ -21,8 +21,7 @@ import pandas as pd
 INPUT_DIR = (
     Path(__file__).resolve().parent
     / "newDataset"
-    / "Philippines_GISdata_LTAym_AvgDailyTotals_GlobalSolarAtlas-v2_GEOTIFF"
-    / "Philippines_GISdata_LTAy_AvgDailyTotals_GlobalSolarAtlas-v2_GEOTIFF"
+    / "GlobalSolarAtlas-v2_AvgDailyTotals"
 )
 OUTPUT_DIR = Path(__file__).resolve().parent / "data_v2_preprocessed"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

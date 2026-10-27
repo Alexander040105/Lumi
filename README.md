@@ -83,6 +83,7 @@ The platform ingests municipal climate data from **NASA POWER**, national energy
 
 - **Node.js** 18+
 - **Python** 3.11+
+- **Git LFS** (`git lfs install`) — required to fetch the large datasets under `data/` (~880 MB)
 - A **Supabase** account (free tier sufficient)
 - (Optional) **Upstash Redis** for caching
 

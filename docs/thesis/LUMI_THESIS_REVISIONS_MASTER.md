@@ -204,7 +204,7 @@ This document consolidates **all 8 panelist revisions** (Phases 1–8) and the *
 **Integration mode:** Supplement NASA POWER (display alongside, not replace)
 
 **Dataset processed:**
-- `Philippines_GISdata_LTAym_*_GlobalSolarAtlas-v2_GEOTIFF/` → `solar_atlas_ph.csv` (15 locations)
+- `GlobalSolarAtlas-v2_*/` (newDataset) → `solar_atlas_ph.csv` (15 locations)
 
 **Extracted metrics:**
 - GHI (Global Horizontal Irradiance): mean = 4.874 kWh/m²/day

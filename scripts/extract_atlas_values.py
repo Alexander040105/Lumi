@@ -22,18 +22,9 @@ logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = REPO_ROOT / "data" / "newDataPointsToExtract"
-GSA_DIR = (
-    DATA_DIR
-    / "GlobalSolarAtlasGIS"
-    / "Philippines_GISdata_LTAym_AvgDailyTotals_GlobalSolarAtlas-v2_GEOTIFF (1)"
-    / "Philippines_GISdata_LTAy_AvgDailyTotals_GlobalSolarAtlas-v2_GEOTIFF"
-)
-GSA_YEARLY_DIR = (
-    DATA_DIR
-    / "GlobalSolarAtlasGIS"
-    / "Philippines_GISdata_LTAym_YearlyMonthlyTotals_GlobalSolarAtlas-v2_GEOTIFF (1)"
-    / "Philippines_GISdata_LTAy_YearlyMonthlyTotals_GlobalSolarAtlas-v2_GEOTIFF"
-)
+GSA_DATASET_DIR = REPO_ROOT / "data" / "DOE_Data_Extracted" / "data_v2" / "newDataset"
+GSA_DIR = GSA_DATASET_DIR / "GlobalSolarAtlas-v2_AvgDailyTotals"
+GSA_YEARLY_DIR = GSA_DATASET_DIR / "GlobalSolarAtlas-v2_YearlyMonthlyTotals"
 OUTPUT_DIR = REPO_ROOT / "scripts" / "gap_output"
 
 GSA_DAILY_LAYERS = {
