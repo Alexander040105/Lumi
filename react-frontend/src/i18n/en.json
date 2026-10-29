@@ -74,7 +74,7 @@
     "backToSignIn": "Back to sign in",
     "continueWithGoogle": "Continue with Google",
     "checkYourEmail": "Check your email",
-    "confirmationSentDesc": "We sent a confirmation link to {{email}}. Click it to verify your account.",
+    "confirmationSentDesc": "We sent a confirmation link to {{email}}. Click it to verify your account (check your spam folder too).",
     "resend": "Didn't receive it? Resend",
     "accountCreated": "Account created!",
     "noEmailConfirmation": "No email confirmation required for this domain.",
@@ -84,6 +84,13 @@
     "signupServerError": "Signup is temporarily unavailable. Please try again later or use another sign-in method.",
     "passwordHint": "At least 8 characters",
     "passwordTooShort": "Password must be at least 8 characters"
+  },
+  "authCallback": {
+    "title": "Confirming your account",
+    "description": "Hold on while we verify your sign-in.",
+    "errorTitle": "Confirmation link failed",
+    "expiredError": "This link may have expired or already been used. Request a new one from the sign-in page.",
+    "backToSignIn": "Back to sign in"
   },
   "admin": {
     "portal": "Admin Portal",
@@ -335,6 +342,7 @@
     "resetSent": "Password reset email sent",
     "confirmResent": "Confirmation email resent",
     "resendError": "Failed to resend email",
+    "resendRateLimited": "Too many emails sent. Please wait about an hour, then try again.",
     "passwordsDoNotMatch": "Passwords do not match",
     "error": "Authentication failed",
     "secretWarning": "Important: Supabase does not generate recovery codes for this project. Save the TOTP secret above in a safe place — if you lose your authenticator, you will need this secret or an admin to reset your account."

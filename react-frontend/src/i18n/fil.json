@@ -74,7 +74,7 @@
     "backToSignIn": "Bumalik sa sign in",
     "continueWithGoogle": "Magpatuloy gamit ang Google",
     "checkYourEmail": "Tingnan ang iyong email",
-    "confirmationSentDesc": "Nagpadala kami ng confirmation link sa {{email}}. I-click ito para i-verify ang account.",
+    "confirmationSentDesc": "Nagpadala kami ng confirmation link sa {{email}}. I-click ito para i-verify ang account (tingnan din ang spam folder).",
     "resend": "Hindi natanggap? Ipadala ulit",
     "accountCreated": "Account ay nagawa!",
     "noEmailConfirmation": "Walang email confirmation na kailangan para sa domain na ito.",
@@ -84,6 +84,13 @@
     "signupServerError": "Hindi available ngayon ang pag-sign up. Subukang muli mamaya o gumamit ng ibang paraan.",
     "passwordHint": "Hindi bababa sa 8 na character",
     "passwordTooShort": "Ang password ay dapat hindi bababa sa 8 na character"
+  },
+  "authCallback": {
+    "title": "Kinukumpirma ang iyong account",
+    "description": "Sandali lang habang bine-verify namin ang pag-sign in mo.",
+    "errorTitle": "Nabigo ang confirmation link",
+    "expiredError": "Maaaring expired na o nagamit na ang link na ito. Humingi ng bago sa sign-in page.",
+    "backToSignIn": "Bumalik sa sign in"
   },
   "admin": {
     "portal": "Admin Portal",
@@ -335,6 +342,7 @@
     "resetSent": "Naipadala ang password reset email",
     "confirmResent": "Naipadala ulit ang confirmation email",
     "resendError": "Hindi maipadala ulit ang email",
+    "resendRateLimited": "Maraming email ang naipadala. Maghintay ng isang oras, pagkatapos subukang muli.",
     "passwordsDoNotMatch": "Hindi magkatugma ang password",
     "error": "Nabigo ang authentication",
     "secretWarning": "Mahalaga: Hindi bumubuo ang Supabase ng recovery codes para sa project na ito. I-save ang TOTP secret sa itaas sa ligtas na lugar — kapag nawala ang iyong authenticator, kakailanganin mo ang secret na ito o admin para i-reset ang iyong account."

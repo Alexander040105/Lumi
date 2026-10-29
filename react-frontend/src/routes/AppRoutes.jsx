@@ -5,6 +5,7 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Login from "../pages/Login";
+import AuthCallback from "../pages/AuthCallback";
 import ResetPassword from "../pages/ResetPassword";
 import NotFound from "../pages/NotFound";
 import Terms from "../pages/Terms";
@@ -56,6 +57,7 @@ export default function AppRoutes() {
         <Route element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
+          <Route path="auth/callback" element={<AuthCallback />} />
           <Route path="reset-password" element={<ResetPassword />} />
           <Route path="about" element={<About />} />
           <Route path="terms" element={<Terms />} />

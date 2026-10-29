@@ -160,7 +160,10 @@ export default function Login() {
       if (error) throw error;
       toast.success(t("mfa.confirmResent"));
     } catch (error) {
-      toast.error(error?.message || t("mfa.resendError"));
+      const isRateLimited =
+        error?.status === 429 ||
+        /rate limit|too many|over_email_send_rate_limit/i.test(error?.message || "");
+      toast.error(isRateLimited ? t("mfa.resendRateLimited") : error?.message || t("mfa.resendError"));
     } finally {
       setBusy(false);
     }
