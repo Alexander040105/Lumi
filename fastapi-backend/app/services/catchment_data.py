@@ -1,4 +1,4 @@
-"""Catchment enrichment data loader for EcoSim hydro calculations.
+                                                                                                                     """Catchment enrichment data loader for EcoSim hydro calculations.
 
 Loads per-municipality catchment morphology and nearest-stream data from
 the Boothroyd et al. (2023) national-scale geodatabase. Tries Supabase

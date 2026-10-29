@@ -85,6 +85,13 @@
     "passwordHint": "At least 8 characters",
     "passwordTooShort": "Password must be at least 8 characters"
   },
+  "authCallback": {
+    "title": "Confirming your account",
+    "description": "Hold on while we verify your sign-in.",
+    "errorTitle": "Confirmation link failed",
+    "expiredError": "This link may have expired or already been used. Request a new one from the sign-in page.",
+    "backToSignIn": "Back to sign in"
+  },
   "admin": {
     "portal": "Admin Portal",
     "welcome": "Welcome, admin",

@@ -123,7 +123,7 @@ export function AuthProvider({ children }) {
       signInWithProvider: (provider) =>
         supabase.auth.signInWithOAuth({
           provider,
-          options: { redirectTo: `${window.location.origin}/login` },
+          options: { redirectTo: `${window.location.origin}/auth/callback` },
         }),
       signInWithPassword: (email, password) =>
         supabase.auth.signInWithPassword({ email, password }),
@@ -133,7 +133,7 @@ export function AuthProvider({ children }) {
           password,
           options: {
             ...options,
-            emailRedirectTo: options.emailRedirectTo || `${window.location.origin}/login`,
+            emailRedirectTo: options.emailRedirectTo || `${window.location.origin}/auth/callback`,
           },
         });
         if (error) console.error("[AuthContext] signup error:", error);
