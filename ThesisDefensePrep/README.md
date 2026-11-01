@@ -12,7 +12,7 @@
 
 | Doc | Purpose |
 |---|---|
-| [`01-PRESENTATION-GUIDE-AND-SCRIPT.md`](./01-PRESENTATION-GUIDE-AND-SCRIPT.md) | Slide-by-slide guide: script + talking points + delivery notes + if-asked answers for every deck segment (S1–S24 main + S25–S29 appendix), incl. live-demo choreography and the cheat card. |
+| [`01-PRESENTATION-GUIDE-AND-SCRIPT.md`](./01-PRESENTATION-GUIDE-AND-SCRIPT.md) | Slide-by-slide guide: script + talking points + delivery notes + if-asked answers for every deck segment (S1–S24 main + S25–S29 appendix), incl. live-demo choreography and the cheat card. S18/S19 carry **Evidence to justify it live** blocks — each number mapped to its harness code, artifact file/row, and re-run command. |
 | [`02-PAPER-TO-CODE-AUDIT.md`](./02-PAPER-TO-CODE-AUDIT.md) | Traceability matrix mapping every paper/deck claim to implementing code (Part A), exhaustive file-by-file inventory of all ~280 relevant files (Part B), bidirectional gap lists (Part C), and deep logic breakdowns of the ~25 core files (Part D). |
 | [`03-SYSTEM-DESIGN-AUDIT.md`](./03-SYSTEM-DESIGN-AUDIT.md) | "Why we built it this way": request lifecycle, deployment topology, 25-item decision log, module boundaries, security model, migration narrative 0001–0025, known limitations. |
 | [`04-TESTING-AUDIT.md`](./04-TESTING-AUDIT.md) | Every test suite audited: actual suite runs in this session, evidence artifacts, count-drift reconciliation (the "315" claim vs current runs), failures/skips/environment limits, security findings. |
@@ -29,6 +29,7 @@ Every code file cited by `02`–`04` gets a uniform logic walkthrough — what i
 | [`06b-CODE-BREAKDOWNS-ETL-SCRIPTS.md`](./06b-CODE-BREAKDOWNS-ETL-SCRIPTS.md) | `python_scripts/` ETL/ingestion/calibration + `scripts/` ops utilities — offline data pipelines. |
 | [`06c-CODE-BREAKDOWNS-FRONTEND.md`](./06c-CODE-BREAKDOWNS-FRONTEND.md) | `react-frontend/src` pages, components, services, contexts, utils — state/flow logic. |
 | [`06d-CODE-BREAKDOWNS-TESTS.md`](./06d-CODE-BREAKDOWNS-TESTS.md) | Every test file — what each class asserts and why it matters to the defense. |
+| [`06e-CODE-BREAKDOWNS-MCDM.md`](./06e-CODE-BREAKDOWNS-MCDM.md) | The MCDM deep-dive: every weight verbatim, factor provenance per source, all formulas, worked examples, sensitivity analysis, runtime-vs-dormant truth map, thesis linkage, panel Q&A. |
 
 ## Recommended reading / rehearsal order
 

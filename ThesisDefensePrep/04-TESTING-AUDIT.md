@@ -8,6 +8,8 @@
 > reconciliation table (paper vs. artifacts vs. today). §4 = per-file coverage. §5 = evidence
 >
 > **Code logic:** what each test file asserts and why → [`06d-CODE-BREAKDOWNS-TESTS.md`](./06d-CODE-BREAKDOWNS-TESTS.md).
+> The MCDM-math tests (`test_geothermal_calculations.py`, `test_calibration.py`) back the
+> weight/factor claims in [`06e-CODE-BREAKDOWNS-MCDM.md`](./06e-CODE-BREAKDOWNS-MCDM.md).
 > trails for non-pytest claims. §6 = known gaps. §7 = exact re-run commands.
 
 ---
@@ -183,6 +185,10 @@ from the Oct-31 collection and may drift.)*
 | ARIMA metrics | `rerun-2026-09-15/ml/model_metrics_{consumption,peak_demand}.csv`, `aic_grid.csv`, `cv_*.csv`, `dm_test.json`, `forecast_vs_actual.csv`, `latency_and_size.json` | Full model comparison (Linear/Naive/Holt/ARIMA/SARIMAX+Exog/RF); ARIMA consumption MAE 6,829.09 / RMSE 8,257.12 / MAPE 5.667; peak MAE 1,019.66 |
 | Failure tolerance | `artifacts/failure/failure_matrix.json`, `failure-recovery-results.md` | 17 injected scenarios; provider fallback, 61 ms timeout fallback, Supabase→CSV fallback, 413/422 body guards |
 | Screenshots | `artifacts/screenshots/B-01…B-17.png` | pytest runs, sweep, probes, locust, audits — the visual evidence for S26/demo backup |
+
+> **Presentation-ready copies:** the same trails, formatted claim → harness → artifact field →
+> re-run → say-if-pressed, live in `01-PRESENTATION-GUIDE-AND-SCRIPT.md` under the S18 and S19
+> *"Evidence to justify it live"* blocks.
 
 ---
 

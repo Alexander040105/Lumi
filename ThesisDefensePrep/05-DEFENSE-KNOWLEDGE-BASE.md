@@ -2,7 +2,7 @@
 
 > Everything else needed on the stand: discrepancy watchlist, claims discipline, expanded Q&A
 > bank, glossary, and demo-day operations reference. Cross-links: slides → `01`, code → `02`,
-> architecture → `03`, tests → `04`, code logic → `02` Part D + `06a`–`06d`.
+> architecture → `03`, tests → `04`, code logic → `02` Part D + `06a`–`06e` (MCDM weights → `06e`).
 
 ---
 
@@ -75,8 +75,25 @@ mature SPA ecosystem; managed Postgres+Auth+RLS on a free tier.
 
 **Q: Why weighted MCDM instead of a learned model?**
 A: Expert-validated weights are inspectable — engineers can challenge a weight, not a neural
-network. We add AHP consistency checks and a PROMETHEE II cross-check; the agreement-rate
-validation was only possible because the logic is transparent.
+network. AHP consistency-check and PROMETHEE II outranking functions are implemented for
+cross-validation (callable infrastructure, not wired into the live path — the shipped engine
+is weighted-sum). The agreement-rate validation was only possible because the logic is
+transparent. Weights/factors detail → `06e-CODE-BREAKDOWNS-MCDM.md`.
+
+**Q: Where exactly did the criterion weights come from?**
+A: Honest answer: the code calls them "AHP-derived"/expert-judgment defaults, shaped like
+Philippine GIS-AHP practice — heat-flow dominant for geothermal, irradiance/speed dominant for
+solar/wind, rainfall+slope+catchment+head for hydro (Asadi 2023; Tarife 2023; Shatnawi 2021's
+technical-criterion dominance). They're stored in the `mcda_weights` table so they're tunable,
+with hardcoded fallback so scoring never breaks. No pairwise-matrix artifact exists in the
+repo — say that plainly if pressed; see `06e` §7.
+
+**Q: Do all four sources use the AHP weight table?**
+A: No — and don't claim otherwise. Only geothermal consumes `get_weights` at runtime
+(`features.py`); solar/wind/hydro score via output-normalized physics (PVOUT/1800, kWh/300,
+kWh/100) then a 0.4/0.6 household composite. The weight rows for the other three exist as
+documented defaults — dormant infrastructure. Map-level scores are single-factor + unweighted
+mean. Full truth map → `06e` §0.
 
 **Q: Why ARIMA(1,1,1)?**
 A: Selected via AIC grid search (`ml/aic_grid.csv`) and pilot comparison vs linear/Holt/RF

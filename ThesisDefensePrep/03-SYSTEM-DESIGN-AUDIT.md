@@ -6,7 +6,8 @@
 >
 > **Code logic:** per-file function-level walkthroughs live in `02` Part D +
 > [`06a`](./06a-CODE-BREAKDOWNS-BACKEND.md)/[`06b`](./06b-CODE-BREAKDOWNS-ETL-SCRIPTS.md)/
-> [`06c`](./06c-CODE-BREAKDOWNS-FRONTEND.md)/[`06d`](./06d-CODE-BREAKDOWNS-TESTS.md).
+> [`06c`](./06c-CODE-BREAKDOWNS-FRONTEND.md)/[`06d`](./06d-CODE-BREAKDOWNS-TESTS.md)/
+> [`06e`](./06e-CODE-BREAKDOWNS-MCDM.md) (MCDM weights/factors).
 
 ---
 

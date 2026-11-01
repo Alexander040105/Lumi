@@ -1,22 +1,9 @@
 # 02 — Paper ↔ Code Audit
 
-> **Purpose:** answer any "show me the code for X in the paper" question in seconds, and let the
-> developer track every code file in the repo — what it does and why it exists.
->
-> **Method:** every technical claim in the thesis manuscript and the 27-slide deck was mapped to
-> verified repo paths (each path checked to exist). File purposes come from module docstrings,
-> code reads, `docs/` documentation, and `git log` history; anything not recorded is tagged
-> `*(inferred)*`. Sources are cited as thesis section (§), deck slide (S#), or artifact path.
-> Repo state: `main @ 438789c`, audited 2026-10-31.
->
-> **Structure:** Part A = claim→code traceability matrix · Part B = exhaustive file inventory ·
-> Part C = bidirectional gap lists · Part D = deep logic breakdowns of the ~25 core files.
->
-> **Code logic:** Part D covers the core files in depth. Every *other* cited file gets a
-> uniform logic breakdown in the companion volumes — [`06a`](./06a-CODE-BREAKDOWNS-BACKEND.md)
-> (backend app), [`06b`](./06b-CODE-BREAKDOWNS-ETL-SCRIPTS.md) (ETL/ops scripts),
-> [`06c`](./06c-CODE-BREAKDOWNS-FRONTEND.md) (React frontend),
-> [`06d`](./06d-CODE-BREAKDOWNS-TESTS.md) (test files).
+> **Purpose:** answer any "show me the code for X in the paper" question in seconds, and let the developer track every code file in the repo — what it does and why it exists.
+> ****Method:** every technical claim in the thesis manuscript and the 27-slide deck was mapped to verified repo paths (each path checked to exist). File purposes come from module docstrings, code reads, `docs/` documentation, and `git log` history; anything not recorded is tagged `*(inferred)*`. Sources are cited as thesis section (§), deck slide (S#), or artifact path. Repo state: `main @ 438789c`, audited 2026-10-31.
+> ****Structure:** Part A = claim→code traceability matrix · Part B = exhaustive file inventory · Part C = bidirectional gap lists · Part D = deep logic breakdowns of the \~25 core files.
+> ****Code logic:** Part D covers the core files in depth. Every *other* cited file gets a uniform logic breakdown in the companion volumes — `06a`(backend app), `06b` (ETL/ops scripts), `06c` (React frontend), `06d` (test files).
 
 ---
 
@@ -25,7 +12,7 @@
 ### A.0 Specific objectives → modules → code
 
 | Ref | Objective claim | Implementing code | What it does | Evidence |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | SO1 (S5) | Interactive map-based interface, site suitability per province/municipality | `react-frontend/src/pages/EnergyHub.jsx`, `Dashboard.jsx`; `components/energyhub/EnergyMap.jsx`, `ProvincialDemand.jsx`, `EnergyOverview.jsx`; backend `routes/energyhub.py`, `routes/map.py`, `routes/geospatial.py`; services `energyhub.py`, `map_service.py`, `geospatial_service.py`, `atlas_data.py` | Map UI + choropleth/overview/provincial-demand endpoints | IT experts rated Energy Dashboard & Map 4.50/5 (S5) |
 | SO2 (S5) | Weighted multi-criteria recommendation engine | `services/mcda.py`, `mcda_weights_service.py`, `municipality_suitability_builder.py`, `confidence.py`; exposed via `services/ecosim.py` → `routes/ecosim.py` | AHP weights + weighted-sum scoring + PROMETHEE II ranking + confidence scoring | 82.22% agreement w/ engineers (S9) |
 | SO3 (S5) | Predictive analytics on PH energy demand | `ml/predictor.py`, `services/forecasting.py`, `ml_worker_proxy.py`; `routes/forecast.py`, `routes/energyhub.py` (`/forecast`, `/model-comparison`, `/trends`) | SARIMA/ARIMA(1,1,1) fit+forecast, walk-forward backtest, model registry | MAE 6,829.09 GWh / MAPE 5.67% (S18) |
@@ -33,16 +20,16 @@
 | SO5 (S5) | User-friendly interface aiding interpretation | `react-frontend/src/**` (pages, `components/shared/{Markdown,InsightCard,InterpretationBadge,CitationSources,NextStepList,HelpTooltip}`), `i18n/{en,fil}.json`, AI explanation endpoints | Dashboards, charts, AI explanations in plain language | 4.70/5 household clarity rating (S5) |
 | SO6 (S6) | Evaluate usability/usefulness/acceptability | Household questionnaire (thesis §2.10.5); results in paper ch.3/4 | Survey instrument + analysis | 4.73 usability / 4.79 advantage (S9) |
 | SO7 (S6) | Validate criteria & rule logic w/ barangay + engineers; software quality via IT experts | Engineering + IT instruments (§2.10.6–7); scoring code under validation: `mcda*.py`, `*_output_calc.py` | Criteria/weights validated by domain experts | 82.22% agreement; 4.47/5 ISO 25010 (S9) |
-| SO8 (S6) | Performance testing: agreement rate, response time, ML MAE/RMSE | `tests/` + `fastapi-backend/tests/` + sweep/locust/security scripts; artifacts in `docs/09-Technical-Evaluation/` | Full test pyramid + live sweeps | 82.22%, ~104 ms, 6,829.09/8,257.12 (S18–19) |
+| SO8 (S6) | Performance testing: agreement rate, response time, ML MAE/RMSE | `tests/` + `fastapi-backend/tests/` + sweep/locust/security scripts; artifacts in `docs/09-Technical-Evaluation/` | Full test pyramid + live sweeps | 82.22%, \~104 ms, 6,829.09/8,257.12 (S18–19) |
 
 ### A.1 Algorithm-structure claims (thesis §2.7.2.2.8) → implementing code
 
 | Paper algorithm (§2.7.2.2.8) | File | What the code does | Decision rationale |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | Solar temperature factor (25 °C STC deviation) | `fastapi-backend/app/services/solar_output_calc.py` | `calculate_temperature_factor` — **NOCT-based** correction (not a naive linear factor) | Docstring: "NOCT-based temperature correction (replaces simple linear factor)" — more physically accurate for household-scale estimates |
 | Solar performance ratio aggregation (temp, dust, inverter, mismatch, wiring, degradation) | `solar_output_calc.py` | `calculate_performance_ratio`, `calculate_dust_loss_from_wind`, `calculate_degradation_from_humidity`, `solar_calc(_pvout/_advanced)` | Composable loss model; GHI-only fallback when DNI/DHI missing; air-density correction from surface pressure |
 | Wind power output (P ∝ v³, swept area, density) | `wind_output_calc.py`, `python_scripts/wind_power_coefficient.py` | `calculate_wind_output`, `load_wind_averages`, `extrapolate_wind_speed`; Cp bounded by **Betz limit 16/27** (`python_scripts/wind_power_coefficient.py`) | Household power-curve calibrated (git `77bb8725`); unrealistic inputs raise errors (tests assert bounds) |
-| Runoff coefficient (slope-based small catchment) | `hydro_output_calc.py` | C by slope band: <3°→0.30, 3–10°→0.45, 10–20°→0.60, >20°→0.75 (Javadinejad et al. 2022 in docstring) | Slope-from-terrain data decides runoff — physically grounded without field surveys |
+| Runoff coefficient (slope-based small catchment) | `hydro_output_calc.py` | C by slope band: &lt;3°→0.30, 3–10°→0.45, 10–20°→0.60, &gt;20°→0.75 (Javadinejad et al. 2022 in docstring) | Slope-from-terrain data decides runoff — physically grounded without field surveys |
 | Micro-hydro design flow (rational method) | `hydro_output_calc.py` | `estimated_flow_rate` — catchment area × runoff coeff × rainfall intensity | Adapts civil-engineering rational method to municipality-scale data we actually have |
 | Micro-hydro electrical output (run-of-river) | `hydro_output_calc.py` | `calculate_hydropower` — ρ·g·Q·H·η with head/flow clamps | Di Dio et al. cited in paper; clamps prevent nonphysical outputs (unit-tested) |
 | Economic viability + recommendation scoring | `financials.py`, `mcda.py`, `mcda_weights_service.py` | NPV, IRR, LCOE, discounted + simple payback (PHP/kWh); weighted-sum + PROMETHEE II + AHP consistency check | Standard investment metrics households understand; weights come from `mcda_weights_service` (DB w/ hardcoded fallback so scoring never breaks) |
@@ -52,7 +39,7 @@
 ### A.2 Weighted MCDM recommendation engine (SO2, S10, S18)
 
 | File | What it does | Decision rationale |
-|---|---|---|
+| --- | --- | --- |
 | `services/mcda.py` | AHP consistency check for weight matrices; weighted-sum aggregation; PROMETHEE II outranking | Docstring: "AHP weight validation and PROMETHEE ranking" — gives both a weighted score AND an outranking cross-check *(inferred: dual methods defend against a single-method critique)* |
 | `services/mcda_weights_service.py` | Loads AHP-derived criterion weights from Supabase; falls back to hardcoded defaults if table missing/empty | Docstring: "the scoring pipeline never breaks" — resilience over strictness |
 | `services/municipality_suitability_builder.py` | Computes per-municipality suitability scores for solar/wind/hydro/geothermal and composite | Core scoring assembly for the 82.22% agreement figure |
@@ -62,7 +49,7 @@
 ### A.3 Predictive analytics — ARIMA(1,1,1) (SO3, S10, S18)
 
 | File | What it does | Decision rationale |
-|---|---|---|
+| --- | --- | --- |
 | `app/ml/predictor.py` | Model wrapper; `_sanitize_nan` for JSON-safe output | NaN/Inf → None so forecast JSON never 500s on edge data |
 | `services/forecasting.py` | SARIMA(p,d,q)(P,D,Q,s) + ARIMAX fitting, walk-forward backtesting, model registry integration | Docstring; chosen model is ARIMA(1,1,1) per `ml/model_metrics_consumption.csv` (AIC grid in `ml/aic_grid.csv` documents order search) |
 | `services/ml_worker_proxy.py` | Optional proxy: forwards heavy/RAG/long-running paths to a companion full-Docker worker when `ML_WORKER_URL` set | Docstring: Vercel's light serverless can't run heavy ML — split-worker design; SEC-07 notes the 503 leak finding |
@@ -73,25 +60,25 @@
 ### A.4 AI Assistant & RAG layer (SO5, S10, S18)
 
 | File | What it does | Decision rationale |
-|---|---|---|
+| --- | --- | --- |
 | `services/rag_pipeline.py` | **Dispatcher**: `RAG_BACKEND=pgvector` (Supabase vector, Vercel-compatible) or `faiss` (local sentence-transformers) | Docstring: two backends because FAISS can't run on Vercel serverless — deployment-shaped design |
 | `services/rag_faiss.py` | Semantic chunking, rich metadata (renewable_type/category/product_type), cosine FAISS | "replaces ad-hoc text slicing" — quality upgrade |
 | `services/rag_pgvector_store.py` | `rag_chunks` table + `match_rag_chunks` RPC (migration 0007) | Serverless-safe retrieval path |
 | `services/rag_embeddings_client.py` | Embedding encode (384-d), Redis-cached, batch, OpenAI provider option | Cache embeddings — repeat queries are free |
 | `services/rag_hybrid.py` | Semantic + BM25 keyword → reciprocal-rank fusion → optional cross-encoder rerank | Hybrid beats pure-vector on energy jargon queries *(docstring)* |
-| `services/rag_knowledge_builder.py` | Aggregates scraped product listings + national stats + climate/terrain into knowledge chunks | Structured docs > raw rows for LLM grounding |
-| `services/llm_client.py` | Unified client: `LLM_PROVIDER` (`gemini` default per docstring, **`groq` runtime default at line 28**), retry, timeout cap, Gemini→Groq emergency fallback | Free-tier constraints drive design; NOTE: paper §2.7.2.2.9 says "primary AI is Gemini 2.5 Flash" while runtime default is Groq — order flipped in practice (see 05 watchlist) |
+| `services/rag_knowledge_builder.py` | Aggregates scraped product listings + national stats + climate/terrain into knowledge chunks | Structured docs &gt; raw rows for LLM grounding |
+| `services/llm_client.py` | Unified client: `LLM_PROVIDER` (`gemini` default per docstring, `groq` **runtime default at line 28**), retry, timeout cap, Gemini→Groq emergency fallback | Free-tier constraints drive design; NOTE: paper §2.7.2.2.9 says "primary AI is Gemini 2.5 Flash" while runtime default is Groq — order flipped in practice (see 05 watchlist) |
 | `services/groq_client.py` | Groq free-tier client (20 rpm / 200k tpm / 500k tpd limits documented) | Cost ceiling = free tier |
-| `services/gemini_funcs.py` | Gemini analysis (`analyze_renewable_results`), lazy google-genai import so Vercel can omit it, hard-timeout + content-keyed cache (lines ~601–647) | Lazy import keeps serverless bundle small; timeout→fallback dict prevents hangs (TC-FR-02 verified 61 ms) |
+| `services/gemini_funcs.py` | Gemini analysis (`analyze_renewable_results`), lazy google-genai import so Vercel can omit it, hard-timeout + content-keyed cache (lines \~601–647) | Lazy import keeps serverless bundle small; timeout→fallback dict prevents hangs (TC-FR-02 verified 61 ms) |
 | `services/rag_gemini_funcs.py` | RAG prompt construction w/ strong grounding rules, `analyze_with_rag` | Grounding prompts keep LLM honest |
 | `services/llm_sanitizer.py` | Strips JSON wrappers, markdown fences, HTML, chain-of-thought, normalizes whitespace | LLM output is untrusted — never render raw (test file exists) |
-| `routes/chat.py` | RAG chat endpoints (`POST /chat`, sessions) — **router commented out in `api.py`; dormant** (GAP-01) | Chat surface was descoped; AI lives in EcoSim/EnergyHub explanations |
+| `routes/chat.py` | RAG chat endpoints (`POST /chat`, sessions) — **router commented out in** `api.py`**; dormant** (GAP-01) | Chat surface was descoped; AI lives in EcoSim/EnergyHub explanations |
 | `python_scripts/prepare_rag_products.py`, `fastapi-backend/scripts/seed_rag_pgvector.py` | RAG corpus prep + pgvector seeding | Offline corpus build so runtime only retrieves |
 
 ### A.5 EcoSim what-if module (SO4, S13–15, S17)
 
 | File | What it does | Decision rationale |
-|---|---|---|
+| --- | --- | --- |
 | `routes/ecosim.py` | `GET /ecosim/` dashboard, `/ai`, `/municipalities`, `/provinces`, `/barangays`, `POST /`; quota dep `get_ecosim_optional_user_or_quota`; `data_source` param (auto/atlas/era5); logs each run to `user_ecosim_logs` | Printed verbatim in thesis System Codes appendix — verify printed vs current (see A.13) |
 | `services/ecosim.py` | Orchestrates: climate/atlas/era5/catchment inputs → solar/wind/hydro calcs → geothermal compute → plant proximity boosts → financials → explanations; two cache layers (`data_cache`, `redis_client` `_ECOSIM_TTL`) | The module's "brain"; imports show the full dependency fan-in |
 | `services/financials.py` | NPV, IRR, LCOE, discounted + simple payback | Paper's "savings and payback" (S13) — investment metrics a household can read |
@@ -104,7 +91,7 @@
 ### A.6 EnergyHub module (SO1/SO3, S11–12)
 
 | File | What it does |
-|---|---|
+| --- | --- |
 | `routes/energyhub.py` | `/overview`, `/trends`, `/forecast`, `/map-data`, `/source-breakdown`, `/grid-breakdown`, `/model-comparison`, `/provincial-demand`, `/ai-insight`, `/map-explanation`, `/analyze-chart` (printed in appendix) |
 | `services/energyhub.py` | National/provincial stats assembly + suitability cache |
 | `services/map_service.py` | Suitability scores + centroids per renewable at any admin level; materialized views; PSGC joins |
@@ -117,7 +104,7 @@
 ### A.7 Geothermal (reference-only per deck caveats)
 
 | File | What it does | Decision note |
-|---|---|---|
+| --- | --- | --- |
 | `services/geothermal/features.py` | Physics-based suitability + output (IHFC heat flow, fault/volcano distances, NASA temp; flags estimated inputs) | Docstring: measured vs estimated inputs explicitly flagged — honesty about data quality |
 | `services/geothermal/plants.py` | GEM geothermal-plant tracker → proximity boost | Real plant proximity |
 | `services/geothermal/ml_classifier.py` | Optional RandomForest classifier + feature importance | Docstring: "Physics-based calculations remain primary; this is enhancement only" |
@@ -127,7 +114,7 @@
 ### A.8 Authentication & accounts (S16)
 
 | File | What it does | Decision rationale |
-|---|---|---|
+| --- | --- | --- |
 | `react-frontend/src/context/AuthContext.jsx` | Supabase auth wrapper: signup (incl. anti-enumeration handling), login, Google OAuth, MFA, profile fetch | `PRODUCTION_AUTH_EMAIL.md` + recent commits document Gmail-SMTP + `/auth/callback` flow fixes |
 | `react-frontend/src/pages/{Login,MFASetup,SecuritySettings,AuthCallback,ResetPassword,ProfilePage}.jsx` | Auth UX: sign-in/up, TOTP enrollment (QR + manual secret + app guidance), security prefs incl. EcoSim autosave toggle, OAuth/email landing | TOTP-only 2FA — Supabase Auth as configured supports TOTP; SMS/WhatsApp would need paid Twilio (megaplan-it-feedback A2) |
 | `app/auth/jwt.py`, `app/dependencies/auth.py`, `app/dependencies/quota.py` | JWT verify + role/status deps (fail-closed), anonymous EcoSim quota (Redis TTL counter) | SEC-03 fix: user-status now fails closed; quota gives guests a taste without accounts |
@@ -138,7 +125,7 @@
 ### A.9 Saved simulations & locations (S17)
 
 | File | What it does |
-|---|---|
+| --- | --- |
 | `routes/simulations.py` | CRUD for `saved_simulations` (label sanitization strips `<>`; 404/422 mappings tested) |
 | `react-frontend/src/services/savedLocations.js`, `pages/SavedSimulations.jsx`, Dashboard save/open/remove flows | Save, revisit, delete previous analyses; deep-link `?municipality=` + `?simulation_id=` |
 | `supabase/migrations/0021_add_saved_simulation_mode.sql`, `0023_profiles_ecosim_autosave.sql` | Province-mode saves + default-ON autosave preference |
@@ -147,7 +134,7 @@
 ### A.10 Named data sources → ingestion/ETL code
 
 | Source named in paper/deck | Ingestion / prep code | Lands in |
-|---|---|---|
+| --- | --- | --- |
 | DOE data (national energy stats) | `python_scripts/prepare_national_energy_csv.py` (+ipynb), `scripts/migrate_csv_to_supabase.py` | `national_energy_annual` + forecast tables |
 | NASA POWER climate | `python_scripts/ingest_nasa_power_monthly.py`, `scripts/run_nasa_for_gaps.py`, `ingest_municipality_climate_averages.py` | `municipality_climate_monthly/averages` |
 | Climate data (analysis) | `python_scripts/municipality_climate_analysis.py` | analysis CSVs |
@@ -168,7 +155,7 @@
 ### A.11 Frontend surfaces → features
 
 | Surface | Files | Feature (deck ref) |
-|---|---|---|
+| --- | --- | --- |
 | Home/About/Privacy/Terms/NotFound | `pages/{Home,About,Privacy,Terms,NotFound}.jsx` | Static/landing (S1) |
 | Dashboard | `pages/Dashboard.jsx` + `components/shared/SearchableSelect.jsx` | Municipality picker, composite score card, saved locations (S11/S16+) |
 | EnergyHub | `pages/EnergyHub.jsx` + `components/energyhub/*` | National stats, trends, forecast, maps, AI insights (S11–12) |
@@ -184,7 +171,7 @@
 ### A.12 Evaluation instruments & results → where they live
 
 | Paper element | Location |
-|---|---|
+| --- | --- |
 | Household questionnaire (12 usability + 7 comparison items) | thesis §2.10.5 + appendix "Sample Questionnaire" (@3094) |
 | IT expert ISO/IEC 25010 instrument | §2.10.6 + `tests/docs/iso25010_evaluation.md` + `docs/thesis/Chapter_3_Table_19_*` |
 | Engineering validation form | §2.10.7 + appendix transcripts (@3121–3488) |
@@ -195,29 +182,26 @@
 ### A.13 Printed System Codes ↔ current code (drift check)
 
 | Appendix listing (@3523–7752) | Current file | Drift status |
-|---|---|---|
+| --- | --- | --- |
 | `ecosim.py (FastAPI endpoints)` | `fastapi-backend/app/routes/ecosim.py` | Printed version shows `data_source` param + `get_ecosim_optional_user_or_quota` — recent features; verify printed ≈ current at defense (line-level diff recommended if panel asks) |
 | `energyhub.py (FastAPI Endpoints)` | `fastapi-backend/app/routes/energyhub.py` | verify |
 | `ecosim.py (Function Logic)` | `fastapi-backend/app/services/ecosim.py` | verify — file has grown (imports list 30+ services) |
 | `energyhub.py (Function Logic)` | `fastapi-backend/app/services/energyhub.py` | verify |
 
-*The other ~80 backend files exist in the repo but are NOT printed in the appendix — Part C.*
+*The other \~80 backend files exist in the repo but are NOT printed in the appendix — Part C.*
 
 ---
 
 ## PART B — Exhaustive file inventory
 
-Scope: every code file in `fastapi-backend/`, `react-frontend/src/`, `python_scripts/`, `scripts/`,
-`tests/`, `api/`, `supabase/migrations/`, plus root config. Excluded: `node_modules/`, `.venv/`,
-`__pycache__/`, `dist/`, `.git/`, raw `data/` datasets (summarized by category in A.10), binary
-assets, `expo-mobile/` (stub, future work), `video/` (production assets).
+Scope: every code file in `fastapi-backend/`, `react-frontend/src/`, `python_scripts/`, `scripts/`, `tests/`, `api/`, `supabase/migrations/`, plus root config. Excluded: `node_modules/`, `.venv/`, `__pycache__/`, `dist/`, `.git/`, raw `data/` datasets (summarized by category in A.10), binary assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 
 ### B.1 `fastapi-backend/` application code
 
 **Entry & config**
 
 | File | Purpose | Notes / rationale |
-|---|---|---|
+| --- | --- | --- |
 | `main.py` | FastAPI app: sanitized global 500 handler, middleware stack (RequestID→RateLimit→SecurityHeaders→BodyLimit→CORS→Timing), router mount at `api_v1_prefix`, startup warm-up (Supabase/Redis clients, RAG index), docs gated on `settings.debug` | Comment block documents middleware-order reasoning (CORS outermost for headers on 429/413/5xx; Timing last-added=outermost for full-measurement) |
 | `main.py` `@app.on_event` | startup hook | DeprecationWarning noted — lifespan handler is the modern replacement (low-risk cleanup) |
 | `requirements.txt` / `requirements-vercel.txt` | Full vs slim dependency set | Vercel omits heavy ML/geo deps (lazy imports guard the seams, e.g. `gemini_funcs`) |
@@ -238,12 +222,12 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 **Routes** (all mounted under `/api/v1` via `routes/api.py`; `api.py` itself aggregates routers — chat/etl commented out)
 
 | File | Endpoints / purpose |
-|---|---|
+| --- | --- |
 | `routes/api.py` | Router registry + `/api/v1` mount; chat & etl routers **dormant** |
 | `routes/health.py` | `/health` liveness, `/health/detailed` (supabase/redis/rag_index checks, degraded state) |
 | `routes/energyhub.py` | EnergyHub API (see A.6) |
 | `routes/ecosim.py` | EcoSim API (see A.5) |
-| `routes/forecast.py` | `/forecast/run|backtest|models` |
+| `routes/forecast.py` | \`/forecast/run |
 | `routes/map.py` | suitability map data, PSGC hierarchy, coverage |
 | `routes/geospatial.py` | centroids + climate (hierarchy fallback) |
 | `routes/geothermal.py` | plants list + per-municipality geothermal |
@@ -258,7 +242,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 **Services** (rationale in A-sections where applicable)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `atlas_data.py` | Solar/Wind Atlas values, Supabase→CSV fallback |
 | `build_catchment_enrichment.py` | One-time builder: join municipality centroids to Boothroyd catchments + nearest order-1/2 streams |
 | `catchment_data.py` | Runtime loader for catchment enrichment (Supabase→CSV fallback) |
@@ -298,7 +282,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 | `rag_hybrid.py` | semantic+BM25 fusion + rerank |
 | `rag_knowledge_builder.py` | structured knowledge docs from all sources |
 | `rag_pgvector_store.py` | `rag_chunks`/`match_rag_chunks` store |
-| `rag_pipeline.py` | backend dispatcher pgvector|faiss |
+| `rag_pipeline.py` | backend dispatcher pgvector |
 | `redis_client.py` | Redis client + `NullRedis` no-op fallback + ecosim cache helpers |
 | `solar_output_calc.py` | NOCT temp factor, soiling/degradation, PR, output |
 | `supabase_service.py` | Supabase client singleton + JWT pattern |
@@ -310,7 +294,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 **Ops scripts** (`fastapi-backend/scripts/`)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `audit_dataless_municipalities.py` | Report/optionally delete municipalities with no climate data (API already hides them) |
 | `calibrate_all.py` | EcoSim API across ALL provinces+municipalities → CSV+report |
 | `calibrate_municipalities.py` | municipality-mode scoring bias report (30+ municipalities) |
@@ -336,7 +320,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### B.2 `react-frontend/src/` (every file)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `main.jsx`, `App.jsx` | app bootstrap + root component |
 | `routes/AppRoutes.jsx` | route table (incl. admin; ChatPage not routed) |
 | `layouts/MainLayout.jsx` | page shell |
@@ -382,7 +366,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### B.3 `python_scripts/` (data-prep pipeline)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `ingest_nasa_power_monthly.py` | NASA POWER monthly climate → `municipality_climate_monthly` (env-tunable: `START_YEAR=2018`, `ONLY_MISSING`, `BATCH_SIZE=500`, rate-limit/retry knobs) |
 | `elevation_etl.py` | Open-Meteo Elevation API → elevation enrichment |
 | `run_terrain_pipeline.py` + `terrain_pipeline/` | terrain raster → slope/morphometry per municipality (drives hydro runoff) |
@@ -402,7 +386,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### B.4 `scripts/` (top-level ops)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `extract_centroids.py` | GeoJSON → centroid+area CSVs (shapely, normalized-name matching) |
 | `extract_atlas_values.py` | sample Solar/Wind Atlas rasters at centroids |
 | `extract_era5_wind.py`, `inspect_era5.py` | ERA5 10 m wind extraction + GRIB inspect |
@@ -427,7 +411,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### B.5 `tests/` (root suite)
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `pytest.ini`, `conftest.py` | pythonpath + markers (`mock`/`live`/`local`/`benchmark`) |
 | `run_tests_and_save.py` | suite runner that persists reports |
 | `tests/unit/*.py` (7 + conftest) | unit suite — 177 cases (04 §4.1) |
@@ -441,7 +425,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### B.6 Deploy & root files
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `api/index.py` | Vercel serverless entry (ASGI wrapper to `main:app`) |
 | `api/requirements.txt` | serverless dep set |
 | `vercel.json` | Vercel build/route config (backend `lumi-backend-ten.vercel.app`) |
@@ -455,8 +439,8 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 
 ### B.7 `supabase/migrations/` (0001–0025, chronological)
 
-| # | One-line purpose |
-|---|---|
+| \# | One-line purpose |
+| --- | --- |
 | 0001 | geospatial architecture (admin units, `geospatial_metadata`) |
 | 0002 | PSGC data columns |
 | 0003 | schema hardening (constraints/indexes) |
@@ -468,7 +452,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 | 0009 | **RLS hardening** (user-owned table policies) |
 | 0010 | EcoSim climate (Supabase as source of truth) + AI cache |
 | 0011 | optimized admin usage-summary RPC (Vercel-free-tier-friendly single call) |
-| 0012 | `municipality_id` FKs on saved_* so frontend joins work |
+| 0012 | `municipality_id` FKs on saved\_\* so frontend joins work |
 | 0013 | `is_admin()` treats devs as admins |
 | 0014 | admin users-list function |
 | 0015 | `user_ecosim_logs` — per-request usage tracking (powers analytics) |
@@ -483,7 +467,7 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 | 0024 | pre-launch audit fixes (column-scope UPDATE privileges etc.) |
 | 0025 | Supabase security-lint fixes |
 
-*(PostgREST views/materialized views referenced by code — `regional_lookup`, `mv_province_map_data`, `mv_municipality_map_data` — live in `supabase/schema_structure/lumi_schema_latest.sql`.)*
+*(PostgREST views/materialized views referenced by code —* `regional_lookup`*,* `mv_province_map_data`*,* `mv_municipality_map_data` *— live in* `supabase/schema_structure/lumi_schema_latest.sql`*.)*
 
 ---
 
@@ -492,20 +476,20 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 ### C.1 Code in the repo the paper never mentions (exists, but be ready if asked)
 
 | Area | Files | Why it exists *(inferred unless cited)* |
-|---|---|---|
+| --- | --- | --- |
 | **Admin portal** | `routes/admin.py`, `pages/admin/*`, `components/admin/*`, migrations 0011–0018 | Internal ops: user management, usage analytics, audit logs, CSV export — built for the dev/admin side, not a defended feature |
 | **ETL framework** | `routes/etl.py` (dormant), `services/etl_orchestrator.py` | Data-lineage/validation framework for pipelines — disabled at runtime (SEC-08 note) |
 | **Ops/diagnostic scripts** | `fastapi-backend/scripts/check_*`, `diagnose_ecosim.py`, `regenerate_*.py`, `audit_dataless_municipalities.py`; `scripts/check_cache.py`, `debug_regions.py`, `temp_db_check.py`, `verify_fixes.py` | The calibration/QA toolchain behind score tuning and expert-validation rounds |
 | **Dormant chatbot** | `routes/chat.py`, `pages/ChatPage.jsx` | Descoped AI surface (GAP-01) |
 | **Example scaffolds** | `routes/example.py`, `services/example_service.py`, `schemas/example.py` | Template remnants |
 | **Resilience internals** | `middleware/timing.py`, `ml_worker_proxy.py`, `utils/postgrest.py`, `utils/network.py` | Post-audit hardening layer (Sep-7→18) |
-| **`.benchmarks/`** | performance snapshots | internal benchmarking |
-| **`expo-mobile/`** | stub | future mobile app |
+| `.benchmarks/` | performance snapshots | internal benchmarking |
+| `expo-mobile/` | stub | future mobile app |
 
 ### C.2 Paper/deck claims with no directly locatable code (or weak mapping)
 
 | Claim | Status |
-|---|---|
+| --- | --- |
 | "AI Assistant" as a discrete user-facing module (S10 implies chat-like assistant) | **Partial** — code exists (`routes/chat.py`, `ChatPage.jsx`, RAG stack) but the chat surface is unmounted; live assistant = explanation endpoints. Frame carefully. |
 | GitHub OAuth sign-in (functional-test doc lists TC-AUTH-002 GitHub) | `AuthContext`/Supabase supports providers, but **GitHub flow not evidenced in code** like Google's — `UNVERIFIED:` only Google OAuth is wired in `AuthContext.jsx`/`AuthCallback.jsx`. Say "Google + email + 2FA" per deck S16. |
 | "Barangay-level" assessments | Barangay endpoints exist (`/ecosim/barangays`, `list_barangays`; climate fallback hierarchy reaches barangay) but **suitability scoring is municipality-level** — be precise: coverage is province/municipality per S7. |
@@ -515,27 +499,14 @@ assets, `expo-mobile/` (stub, future work), `video/` (production assets).
 
 ---
 
-*Every path above was verified to exist at audit time (2026-10-31). File purposes cite docstrings
-or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix, not a mystery.*
+*Every path above was verified to exist at audit time (2026-10-31). File purposes cite docstrings or docs;* `*(inferred)*` *marks judgment calls. Report any path that 404s as a fix, not a mystery.*
 
 ---
 
-## PART D — Core file logic breakdowns (~25 files)
+## PART D — Core file logic breakdowns (\~25 files)
 
-> Function-by-function walkthrough of the files that carry thesis-defensible logic — the ones a
-> panel would actually ask "how does this work?" about. Every remaining cited file gets the same
-> treatment in `06a` (backend), `06b` (scripts/ETL), `06c` (frontend), `06d` (tests).
->
-> **Formula ↔ paper map:** thesis §2.7.2.2.8's nine algorithm items resolve to —
-> solar temp factor → `calculate_noct_cell_temp`/`calculate_temperature_factor_noct`;
-> solar PR aggregation → `calculate_performance_ratio`;
-> wind output → `calculate_wind_output`;
-> runoff coefficient → `estimate_runoff_coefficient`;
-> micro-hydro design flow → `estimated_flow_rate`;
-> micro-hydro electrical output → `calculate_hydropower`;
-> economic viability/recommendation scoring → `financials.*` + `_calculate_option_summary`;
-> ARIMA → `forecasting.*` + `ml/predictor.EnergyHubML`;
-> composite score → `mcda.aggregate_score` + `municipality_suitability_builder._compute_composite`.
+> Function-by-function walkthrough of the files that carry thesis-defensible logic — the ones a panel would actually ask "how does this work?" about. Every remaining cited file gets the same treatment in `06a` (backend), `06b` (scripts/ETL), `06c` (frontend), `06d` (tests).
+> ****Formula ↔ paper map:** thesis §2.7.2.2.8's nine algorithm items resolve to — solar temp factor → `calculate_noct_cell_temp`/`calculate_temperature_factor_noct`; solar PR aggregation → `calculate_performance_ratio`; wind output → `calculate_wind_output`; runoff coefficient → `estimate_runoff_coefficient`; micro-hydro design flow → `estimated_flow_rate`; micro-hydro electrical output → `calculate_hydropower`; economic viability/recommendation scoring → `financials.*` + `_calculate_option_summary`; ARIMA → `forecasting.*` + `ml/predictor.EnergyHubML`; composite score → `mcda.aggregate_score` + `municipality_suitability_builder._compute_composite`.
 
 ### D.1 `fastapi-backend/main.py` — app assembly & request pipeline
 
@@ -569,14 +540,14 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 
 ### D.4 `fastapi-backend/app/routes/energyhub.py` — EnergyHub HTTP boundary (253 ln)
 
-- **Role:** thin layer over `EnergyHubService`/`energyhub` helpers; ~20 GET/POST endpoints.
+- **Role:** thin layer over `EnergyHubService`/`energyhub` helpers; \~20 GET/POST endpoints.
 - **Endpoint map:** `/overview`, `/forecast` (metric enum), `/trends`, `/map-data` (level+type), `/source-breakdown`, `/grid-breakdown`, `/model-comparison`, `/ai-insight` (cached LLM or static), `POST /analyze-chart` (chart JSON → insight, content-hash cache), `/map-explanation`, `/provincial-demand`, `/municipal-demand/{province_id}`, `/irena/*` (overview, capacity, generation, renewable-share), `/meralco-rate`, `/solar-atlas`.
 - **Logic pattern:** each handler = parse params → call service → return typed response. `metric` params are Pydantic Literal enums → invalid values 422 at the boundary.
 - **Tie:** SO1/SO3 surfaces; every number the dashboard shows flows through these.
 
 ### D.5 `fastapi-backend/app/services/ecosim.py` — EcoSim orchestrator (2,265 ln)
 
-- **Role:** the module brain — fans in ~30 imports: climate/atlas/ERA5/catchment loaders, all three calc engines, plant-proximity boosters, geothermal, financials, caches.
+- **Role:** the module brain — fans in \~30 imports: climate/atlas/ERA5/catchment loaders, all three calc engines, plant-proximity boosters, geothermal, financials, caches.
 - **Logic flow (dashboard path):** input validation → municipality/province fetch → consumption calc → per-source calcs w/ plant boosts → suitability scores → option summaries (payback/CO₂/sizing/score) → best-option pick → static explanations + optional AI → assemble response.
 - **Key functions:**
   - `_load_climate_csv` (L69), `_get_climate_for_municipality(_ids)` (L80/119) — bundled-CSV fallback reads used when Supabase path misses.
@@ -588,11 +559,11 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `get_geothermal_data` (L754) — suitability+output w/ measured-vs-estimated flags.
   - `get_municipality_name_by_id`, `get_province_name_by_id` (L850/879) — lookups.
   - `consumption_calculator` (L908) — `monthly_kwh = bill / rate`; `daily = monthly / days`; `target = monthly × (1 − desired_savings)`.
-  - `renewable_energy_calculator` (L933-1457) — the core. Steps: fetch data by mode → build **params_hash** (all inputs + ~30 settings incl. every household-scale constant + `scoring_version: "v5"`) → Redis full-result cache check (L963-1018) → consumption results → pick irradiance (`solar_ghi_kwh_m2_day` atlas preferred, else `avg_allsky_sfc_sw_dwn` NASA) → per-source outputs (solar `solar_calc_pvout`, wind w/ `extrapolate_wind_speed` to hub height, hydro w/ catchment enrichment + plant floors, geothermal compute) → option summaries → best pick → return dict (+cache store).
+  - `renewable_energy_calculator` (L933-1457) — the core. Steps: fetch data by mode → build **params_hash** (all inputs + \~30 settings incl. every household-scale constant + `scoring_version: "v5"`) → Redis full-result cache check (L963-1018) → consumption results → pick irradiance (`solar_ghi_kwh_m2_day` atlas preferred, else `avg_allsky_sfc_sw_dwn` NASA) → per-source outputs (solar `solar_calc_pvout`, wind w/ `extrapolate_wind_speed` to hub height, hydro w/ catchment enrichment + plant floors, geothermal compute) → option summaries → best pick → return dict (+cache store).
   - `_build_static_renewable_explanations` (L1458) — template text per source from result numbers (works with zero LLM).
   - `_get_or_build_explanations` (L1608) — Supabase `municipality_renewable_explanations` cache; **staleness = any source text differs from freshly generated** → regenerate+upsert. This is why cards render without an AI call (migration 0019).
-  - `_calculate_option_summary` (L1657-1814) — the economic-scoring heart, docstring carries APA citations: **SPP** = cost / (monthly_savings×12) [Ngwakwe 2025]; **CO₂** = usable_kwh × 0.6835 kg/kWh [DOE 2019–2021 OMEF]; **system-kw proxy** = monthly_gen/30/4.0 peak-sun-hrs [Taduran & Piao 2025, NREL]; **weighted score** = `source_score × (0.4 + 0.6 × energy_ratio) × 100` — multiplicative so resource quality dominates and a weak source can't win on volume [Asadi 2023]. Source-specific cost bases (geothermal = utility MW-scale).
-  - `build_ecosim_dashboard_response` (L1815-2265) — route-facing wrapper: validates consumption/bill >0 (422), derives rate if absent, **mismatch guard**: if entered kWh vs bill/rate differ >20%, prefer bill-derived kWh + set `input_warning` (L1836-1843); resolves name/lat/lon/province (404 if unknown); calls `renewable_energy_calculator`; attaches explanations, warnings, confidence.
+  - `_calculate_option_summary` (L1657-1814) — the economic-scoring heart, docstring carries APA citations: **SPP** = cost / (monthly_savings×12) \[Ngwakwe 2025\]; **CO₂** = usable_kwh × 0.6835 kg/kWh \[DOE 2019–2021 OMEF\]; **system-kw proxy** = monthly_gen/30/4.0 peak-sun-hrs \[Taduran & Piao 2025, NREL\]; **weighted score** = `source_score × (0.4 + 0.6 × energy_ratio) × 100` — multiplicative so resource quality dominates and a weak source can't win on volume \[Asadi 2023\]. Source-specific cost bases (geothermal = utility MW-scale).
+  - `build_ecosim_dashboard_response` (L1815-2265) — route-facing wrapper: validates consumption/bill &gt;0 (422), derives rate if absent, **mismatch guard**: if entered kWh vs bill/rate differ &gt;20%, prefer bill-derived kWh + set `input_warning` (L1836-1843); resolves name/lat/lon/province (404 if unknown); calls `renewable_energy_calculator`; attaches explanations, warnings, confidence.
 - **Deps:** all `*_output_calc`, `financials`, `atlas_data`, `catchment_data`, `climate_service`, `geothermal/*`, `*_plants`, `mcda*`/`confidence` indirectly, `redis_client`, `data_cache`, `supabase_service`, `settings`.
 - **Tie:** SO4; printed in appendix; the params_hash + `scoring_version` is the honest answer to "how do you invalidate cached results?" — bump a constant, cache keys change.
 
@@ -627,7 +598,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `calculate_soiling_loss` (L79) — env-driven soiling ratio: dry+windy accumulation (`PRECTOTCORR<10` grows dust w/ wind & days-since-cleaning), rain cleaning (`>50mm`), high-humidity penalty (`RH>80`); clamped 0.80–1.0.
   - `calculate_dust_loss_from_wind`, `calculate_degradation_from_humidity` — legacy simple variants.
   - `calculate_air_density_correction` (L129) — `ρ_ratio = (P/101325)×(288.15/T_K)` → ±2% clamped.
-  - `calculate_performance_ratio` (L149) — product of system_efficiency(0.80) × temp × (soiling or dust) × inverter(0.96) × mismatch(0.98) × wiring(0.98) × degradation(0.99) [× air density] — the paper's PR aggregation list.
+  - `calculate_performance_ratio` (L149) — product of system_efficiency(0.80) × temp × (soiling or dust) × inverter(0.96) × mismatch(0.98) × wiring(0.98) × degradation(0.99) \[× air density\] — the paper's PR aggregation list.
   - `solar_calc` (L175) — legacy flat formula `kWp×GHI×PR`; score = min(GHI/6,1)×100.
   - `solar_calc_advanced` (L195) — full path: kWp → **POA transposition** — Hay-Davies-style when DNI+DHI present (`dhi×(1+cosβ)/2 + dni×aoi + ghi×albedo-term`, floor 0.9×GHI) else latitude tilt-gain on GHI → NOCT temp factor → soiling → air density → PR → daily/monthly kWh + full `loss_breakdown` + `transposition_source` tag (honesty about which model ran).
   - `solar_calc_pvout` (L312) — preferred path when Global Solar Atlas PVOUT exists: `kWp × PVOUT/365`, **no double PR** (PVOUT already embeds losses — docstring states this explicitly); score vs 1,800 kWh/kWp excellent-baseline.
@@ -639,7 +610,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 - **Functions:**
   - `_compute_wind_averages` (L24) / `load_wind_averages` (L56) — compute+cache household product averages (rotor radius, Cp) from scraped product CSV.
   - `extrapolate_wind_speed` (L107) — power law `V(h)=V_ref×(h/h_ref)^α`, **α=0.143 (1/7 law)** per NREL PH atlas which used 30 m reference — converts 10 m NASA wind to hub height.
-  - `calculate_wind_output` (L127) — steps: fill power-curve params from `settings` (household_wind_*), fill rotor/cp from product averages → **validate**: rotor>0, air density ∈[0.9,1.3], **Cp ≤ 0.593 Betz limit** (raises w/ citation), CF∈[0,1] → swept area πr² → raw cubic `P=½ρAV³Cp·η` → 3-region curve: <cut-in or ≥cut-out → 0; ≥rated → rated cap; else min(raw, rated) → energy = kW × 24h × CF × days.
+  - `calculate_wind_output` (L127) — steps: fill power-curve params from `settings` (household_wind\_\*), fill rotor/cp from product averages → **validate**: rotor&gt;0, air density ∈\[0.9,1.3\], **Cp ≤ 0.593 Betz limit** (raises w/ citation), CF∈\[0,1\] → swept area πr² → raw cubic `P=½ρAV³Cp·η` → 3-region curve: &lt;cut-in or ≥cut-out → 0; ≥rated → rated cap; else min(raw, rated) → energy = kW × 24h × CF × days.
   - Defaults read from `get_settings()` inside the function — calibration constants live in env config, not code.
 - **Tie:** the Betz guard is a great "we engineered for honesty" story — the model refuses nonphysical inputs.
 
@@ -648,8 +619,8 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 - **Role:** §2.7.2.2.8 runoff coefficient + design flow + electrical output (run-of-river micro-hydro).
 - **Functions:**
   - `normalize` (L6) — 0-1 clamp helper (returns 0 on degenerate range).
-  - `estimate_runoff_coefficient` (L14) — slope bands (Javadinejad 2022): <3°→0.30, <10°→0.45, <20°→0.60, else 0.75; None→0.45.
-  - `estimated_flow_rate` (L35) — rational-method-inspired `Q_design = (C × P_monthly × A) / seconds_month × design_factor × gravity_flow`: catchment km²→m², mm→m; `runoff_coefficient_override` (from Boothroyd enrichment) **bypasses** slope path to avoid double-counting terrain; else slope C moderated by runoff_potential & watershed_gradient. Design factor default 0.40 = environmental-flow reserve; gravity floor 0.1; output clamped [0.001, 0.5] m³/s — **`apply_flow_floor=False` lets genuinely dry sites return 0** instead of a fake floor (enrichment path).
+  - `estimate_runoff_coefficient` (L14) — slope bands (Javadinejad 2022): &lt;3°→0.30, &lt;10°→0.45, &lt;20°→0.60, else 0.75; None→0.45.
+  - `estimated_flow_rate` (L35) — rational-method-inspired `Q_design = (C × P_monthly × A) / seconds_month × design_factor × gravity_flow`: catchment km²→m², mm→m; `runoff_coefficient_override` (from Boothroyd enrichment) **bypasses** slope path to avoid double-counting terrain; else slope C moderated by runoff_potential & watershed_gradient. Design factor default 0.40 = environmental-flow reserve; gravity floor 0.1; output clamped \[0.001, 0.5\] m³/s — `apply_flow_floor=False` **lets genuinely dry sites return 0** instead of a fake floor (enrichment path).
   - `estimate_discharge` (L120) — plain `Q=(P×A×C)/seconds_month` variant using current month's real day count.
   - `calculate_hydropower` (L146) — `P_elec = η_turb × η_gen × ρ g Q H`: flow clamped ≤0.5 m³/s; head handling — `head_already_realistic` (stream-gradient×penstock) just clamps 0-25 m, else DEM head × `head_factor` (0.20) with 2-25 m band; hydraulic kW = ρgQH/1000; η = 0.75×0.90; optional `feasibility_penalty` (stream-distance, 0-1) scales energy; `hydro_score = normalize(monthly,0,100)×100` — 100 kWh/month = excellent-site baseline (docstring explains the conservative PH choice vs Feyissa's 500-2000).
 - **Tie:** the "why was hydro weakest (60% agreement)?" answer lives here — estimates depend on catchment proxies; enrichment (Boothroyd 2023) was added to close the gap.
@@ -671,9 +642,42 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 - **Role:** SO2 + §2.7.2.2.8 "recommendation scoring" — AHP validation, weighted sum, PROMETHEE II.
 - **Functions:**
   - `ahp_consistency_ratio` (L16) — eigenvector-approx priority vector → `λ_max` → `CI=(λ−n)/(n−1)` → Saaty RI table (n=1-10) → `CR=CI/RI`, `is_consistent = CR<0.10`. This is how expert weight matrices get *validated*, not just used.
-  - `aggregate_score` (L63) — weighted sum: weights from `get_weights(energy_type)` (DB w/ fallback) or equal-split if empty → normalize to Σ1 → per-criterion contributions → clamp 0-100 → classification bands (≥81 Very High … <21 Very Low). Returns `weights_used` + `contributions` — **fully auditable output** (each criterion's contribution is exposed).
+  - `aggregate_score` (L63) — weighted sum: weights from `get_weights(energy_type)` (DB w/ fallback) or equal-split if empty → normalize to Σ1 → per-criterion contributions → clamp 0-100 → classification bands (≥81 Very High … &lt;21 Very Low). Returns `weights_used` + `contributions` — **fully auditable output** (each criterion's contribution is exposed).
   - `promethee_ii` (L126) — outranking: per-criterion type-5 linear preference w/ threshold q (default 10% of range) → pairwise π matrix → positive/negative flows → net flow → rank. Cross-check for weighted-sum rankings.
 - **Tie:** the "is your engine a black box?" answer — every score decomposes into weights×contributions.
+- **Runtime status (verified by caller grep): DORMANT** — `ahp_consistency_ratio`, `aggregate_score`,
+  and `promethee_ii` have **zero callers** in routes/services/tests/scripts. They are callable
+  infrastructure for weight validation and outranking cross-checks; the live household engine is
+  the WLC in `ecosim.py`. If asked "does PROMETHEE run in production?" — honest answer: *implemented
+  and testable, not wired into the request path; the shipped engine is weighted-sum.*
+
+#### D.11a The actual weight/factor tables (condensed — full version: [`06e`](./06e-CODE-BREAKDOWNS-MCDM.md) §1)
+
+**AHP defaults** (`mcda_weights_service.py` L16–44; DB seeds geothermal rows only):
+
+| geothermal (LIVE) | solar (dormant) | wind (dormant) | hydro (dormant) |
+|---|---|---|---|
+| heat_flow .30 | irradiance .40 | wind_speed .40 | rainfall .30 |
+| fault .15 | temperature .20 | terrain_roughness .20 | watershed_slope .25 |
+| volcano .10 | cloud_cover .20 | elevation .20 | catchment_area .25 |
+| aquifer .15 | terrain_slope .10 | land_use .10 | hydraulic_head .20 |
+| temperature .10 | land_use .10 | air_density .10 | |
+| *(Σ=0.80; ~0.20 = plant-proximity headroom)* | | | |
+
+**Only geothermal's weights are fetched at runtime** (`features.py` L560 `get_weights("geothermal")`).
+Solar/wind/hydro scores come from output-normalized physics (`pvout/1800`, `kwh/300`, `kwh/100`),
+not the weight table — don't claim all four use AHP weights.
+
+**Other live weight sets:** confidence `.35 coverage + .15 recency + .30 maturity + .20 resolution`
+(`confidence.py` L105) · household composite `source_score × (0.4 + 0.6×energy_ratio) × 100`
+(`ecosim.py` L1767) · proximity boost `max_bonus×(1−d/radius)`, ≤30 pts, cap 100 (all `*_plants.py`)
+· catchment runoff C by slope .30/.45/.60/.75 × dd-mult 0.8–1.2 × hypsometric-mult 0.9–1.1
+(`build_catchment_enrichment.py`) · map composite = **unweighted mean**
+(`municipality_suitability_builder.py` L113–119).
+
+**Provenance: `UNVERIFIED:`** — "AHP-derived" is a code label; no pairwise matrices/derivation
+artifacts exist in-repo. Defend as literature-informed tunable defaults (Asadi 2023, Tarife 2023,
+Shatnawi 2021). Weight perturbation/masking behavior + worked examples → `06e` §4–5.
 
 ### D.12 `fastapi-backend/app/services/mcda_weights_service.py` — weights loader (113 ln)
 
@@ -692,7 +696,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `_score_data_coverage` (L32) — climate 0.3 + variables frac×0.3 + terrain 0.15 + population 0.1 + tariff 0.1 + inputs 0.05.
   - `_score_data_recency` (L56) — unknown→0.3; ≤2y→1.0, ≤5y→0.8, ≤10y→0.6, older→0.4 (anchor year 2025).
   - `_score_model_maturity` (L72) — solar 0.85 / wind 0.70 / hydro 0.65 / geothermal 0.40 — the code literally encodes "geothermal is reference-grade."
-  - `_score_spatial_resolution` (L83) — flat 0.55 (NASA POWER ~50 km grid; comment admits coarseness).
+  - `_score_spatial_resolution` (L83) — flat 0.55 (NASA POWER \~50 km grid; comment admits coarseness).
   - `calculate_confidence` (L90) — weighted blend `.35 coverage + .15 recency + .30 maturity + .20 resolution` → label bands (≥75 High, ≥55 Moderate, ≥35 Low) → factor breakdown + recommendations list.
   - `_generate_recommendations` (L144) — actionable fixes ("fetch NASA POWER", "add DEM terrain", "consult PHIVOLCS/DOE" for geothermal).
 - **Tie:** "how sure is the system?" — answered quantitatively, and geothermal's 0.40 explains why it stays reference-only.
@@ -721,7 +725,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `fit_sarima` (L88) — statsmodels SARIMAX(order, seasonal_order, trend; enforce_stationarity/invertibility=False).
   - `fit_arimax` (L117) — same w/ exogenous regressors.
   - `forecast_sarima` (L144) — `get_forecast(steps)` → mean + `conf_int(alpha)` → sanitized lists.
-  - `backtest_walk_forward` (L176) — train [0:cut], predict 1 step, append actual, refit, repeat → metrics + residuals + train/test period labels; per-step failure → naive fallback + warn.
+  - `backtest_walk_forward` (L176) — train \[0:cut\], predict 1 step, append actual, refit, repeat → metrics + residuals + train/test period labels; per-step failure → naive fallback + warn.
   - `calculate_metrics` (L250) — MAE, RMSE, **MAPE w/ zero-guard**, sMAPE.
   - `run_forecast_pipeline` (L275) — end-to-end: select target col → fit → forecast → metrics vs holdout.
   - `reconcile_forecast_cache` (L348) — cache integrity refresh.
@@ -735,16 +739,16 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 - **Members:**
   - `_sanitize_nan` (L18) — JSON-safe numbers.
   - `_load_csv_from_supabase` (L40) / `_load_csv` (L68) — Supabase-first, local `data/DOE_Data_Extracted` fallback; `_prefer_v2` picks `data_v2_preprocessed/` over legacy `data_v1/`.
-  - `EnergyHubML.__init__`/`_load_all` (L96/115) — eager-loads ~15 frames: master_preprocessed, forecast_consumption/peak/renewable_2025_2030, model_comparison×4, provincial_consumption_2003_2025, regional_sales_2025, IRENA capacity/generation/renewable-share, meralco_rates_2011_2020, solar_atlas_ph.
+  - `EnergyHubML.__init__`/`_load_all` (L96/115) — eager-loads \~15 frames: master_preprocessed, forecast_consumption/peak/renewable_2025_2030, model_comparison×4, provincial_consumption_2003_2025, regional_sales_2025, IRENA capacity/generation/renewable-share, meralco_rates_2011_2020, solar_atlas_ph.
   - Public getters: `get_latest_statistics`, `get_historical_trends`, `get_forecast(metric)`, `get_model_comparison(metric)`, `get_source_breakdown(year)`, `get_grid_breakdown(year)`, `get_ai_insight`, `get_provincial_consumption`, `get_regional_sales`, `get_irena_*`, `get_meralco_rate`, `get_solar_atlas` — each slices the preloaded frame, returns dicts/lists.
   - `get_energyhub_ml()` — singleton accessor.
-- **Tie:** clarifies the ML story — runtime serves *validated, versioned* forecast artifacts (from `python_scripts`/`tests/pilot_run` + `forecasting.py` pipelines); forecasting module can refit, but the served numbers are the frozen, evaluated ones. This is why the API stays ~104 ms.
+- **Tie:** clarifies the ML story — runtime serves *validated, versioned* forecast artifacts (from `python_scripts`/`tests/pilot_run` + `forecasting.py` pipelines); forecasting module can refit, but the served numbers are the frozen, evaluated ones. This is why the API stays \~104 ms.
 
 ### D.17 `fastapi-backend/app/services/llm_client.py` — provider switchboard (122 ln)
 
-- **Role:** single entry `generate_response` used by all callers; provider via `LLM_PROVIDER` (**runtime default `groq`**, L28).
+- **Role:** single entry `generate_response` used by all callers; provider via `LLM_PROVIDER` (**runtime default** `groq`, L28).
 - **Logic:**
-  - `generate_response` (L31) — inner `_attempt()`: provider `groq` → `generate_groq_response`; else `generate_gemini_response`, and **on total Gemini failure, emergency Groq fallback if `GROQ_API_KEY` present** (L77-90). Optional `timeout` wraps the whole attempt in a `ThreadPoolExecutor`; on `FutureTimeoutError` returns `""` so callers degrade gracefully (L92-103). Output passed through `clean_ai_output` unless `clean=False`.
+  - `generate_response` (L31) — inner `_attempt()`: provider `groq` → `generate_groq_response`; else `generate_gemini_response`, and **on total Gemini failure, emergency Groq fallback if** `GROQ_API_KEY` **present** (L77-90). Optional `timeout` wraps the whole attempt in a `ThreadPoolExecutor`; on `FutureTimeoutError` returns `""` so callers degrade gracefully (L92-103). Output passed through `clean_ai_output` unless `clean=False`.
   - `parse_json_response` (L108) — `json.loads`, else regex-extracts `{...}` block, else `{}`.
 - **Tie:** W2 watchlist — paper says Gemini primary; runtime default is Groq, but the *architecture* is provider-agnostic with fallback both ways of deployment history.
 
@@ -761,16 +765,16 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `_get_gemini_client`/`_generate_once`/`generate_gemini_response` (L256/270/334) — client lazy-init; per-model attempt; cascade over FALLBACK models w/ `SIMPLE_VOCABULARY_INSTRUCTION` system prompt (plain-English-for-homeowners persona, L318).
   - `_extract_json_block`, `parse_gemini_json_response`, `_extract_summary`, `_normalize_analysis_output` — output hardening.
   - `_build_renewable_analysis_prompt` (L514) — structured prompt w/ grounding rules.
-  - `analyze_renewable_results` (L606) — **the served path**: cache-key → return cached (skip stale timeout/pending placeholders) → `in_flight` lock prevents duplicate workers → ThreadPoolExecutor worker runs `_build_renewable_analysis_result` → **4 s outer timeout → returns `pending`** while worker continues → success cached 7 d; failure cached 5 min as `failed`. This is why the UI polls and why ~1.9 s fallback ≠ ~7.1 s live.
+  - `analyze_renewable_results` (L606) — **the served path**: cache-key → return cached (skip stale timeout/pending placeholders) → `in_flight` lock prevents duplicate workers → ThreadPoolExecutor worker runs `_build_renewable_analysis_result` → **4 s outer timeout → returns** `pending` while worker continues → success cached 7 d; failure cached 5 min as `failed`. This is why the UI polls and why \~1.9 s fallback ≠ \~7.1 s live.
   - `analyze_renewable_results_async` (L694) — async wrapper.
-- **Tie:** the pending/cache/in-flight design is the direct answer to "why does the AI take ~7 s and how do you keep the UI snappy?"
+- **Tie:** the pending/cache/in-flight design is the direct answer to "why does the AI take \~7 s and how do you keep the UI snappy?"
 
 ### D.19 `fastapi-backend/app/services/groq_client.py` — Groq client (131 ln)
 
 - **Role:** Groq free-tier client — runtime-default provider.
 - **Members:**
   - `_get_groq_client` (L41) — lazy singleton; raises clearly on missing key/package.
-  - `generate_groq_response` (L56) — `models_to_try = requested + FALLBACK_GROQ_MODELS` (`qwen/qwen3.8-27b` default per Sept-2026 re-verification, commit `0dca0be`); per model × retries w/ **exponential backoff `sleep(2**attempt)`**; skip empties w/ warning; raise last error if all fail. System prompt (L92-105) is the plain-language homeowner persona: jargon→simple words, numbers→comparisons, always tie to wallet.
+  - `generate_groq_response` (L56) — `models_to_try = requested + FALLBACK_GROQ_MODELS` (`qwen/qwen3.8-27b` default per Sept-2026 re-verification, commit `0dca0be`); per model × retries w/ **exponential backoff** `sleep(2**attempt)`; skip empties w/ warning; raise last error if all fail. System prompt (L92-105) is the plain-language homeowner persona: jargon→simple words, numbers→comparisons, always tie to wallet.
 - **Tie:** persona prompt is *why* explanations read at household level — cite L92-105 if asked "how do you make AI output accessible?"
 
 ### D.20 `fastapi-backend/app/services/rag_pipeline.py` — retrieval dispatcher (131 ln)
@@ -803,7 +807,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 ### D.22 `fastapi-backend/app/services/llm_sanitizer.py` — output firewall (236 ln)
 
 - **Role:** strips everything an LLM shouldn't emit before text reaches UI or downstream parsers.
-- **Functions:** `strip_thinking_blocks` (<think>/reasoning), `decode_html_entities`, `strip_html_tags`, `strip_markdown_fences`, `strip_json_wrappers`, `strip_key_value_formatting`, `normalize_whitespace`, `_extract_text` (nested dict/list → str), `sanitize_llm_output` (full pipeline), `extract_prescriptive_recommendation` (label→text mapping for recommendation cards), `_truncate_to_complete_sentence`, `clean_ai_output` (composed entry used by `llm_client`).
+- **Functions:** `strip_thinking_blocks` (/reasoning), `decode_html_entities`, `strip_html_tags`, `strip_markdown_fences`, `strip_json_wrappers`, `strip_key_value_formatting`, `normalize_whitespace`, `_extract_text` (nested dict/list → str), `sanitize_llm_output` (full pipeline), `extract_prescriptive_recommendation` (label→text mapping for recommendation cards), `_truncate_to_complete_sentence`, `clean_ai_output` (composed entry used by `llm_client`).
 - **Tie:** "LLM output is untrusted input" — the sanitization boundary behind the 4.70/5 clarity rating's safety.
 
 ### D.23 `fastapi-backend/app/dependencies/auth.py` — authN/Z deps (307 ln)
@@ -816,7 +820,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `get_current_user` (L91) — `auth.get_user(token)` → claims (401 on any failure).
   - `get_verified_user` (L103) — the strict path: **token-claims cache** (sha256 key, 60 s TTL — comment explains why: Supabase ES256 can't use the HS256 local fast path, so cache verified claims instead) → else `auth.get_user` → **email-confirmed required (403)** → claims cached (JSON-safe fields only) → `_get_user_status` active check (403 "Account suspended") → `is_active=True`.
   - `get_verified_user_optional` (L151) — same rules, returns `None` instead of raising — powers optional-auth endpoints (quota deps).
-  - `_get_user_role` (L193) — service_role read of `user_roles`, Redis-cached 300 s; **on DB failure returns `"user"`** — fail-safe *downgrade* (comment: safe, but admins get denied during outages).
+  - `_get_user_role` (L193) — service_role read of `user_roles`, Redis-cached 300 s; **on DB failure returns** `"user"` — fail-safe *downgrade* (comment: safe, but admins get denied during outages).
   - `_get_user_status` (L223) — `profiles.is_active`, Redis-cached; post-SEC-03 **fail-closed**.
   - `get_current_user_with_role`, `_get_effective_plan`, `get_current_user_with_role_and_plan`, `require_admin` (L257-307) — role/plan enrichment; admin/`dev` gate.
 - **Tie:** S16's backend half + SEC-03 fix evidence (status check now fails closed; role failure degrades privilege).
@@ -831,7 +835,7 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
   - `_check_and_incr_memory` (L84) — per-process dicts; window-since-last resets count.
   - `check_anonymous_quota` (L101) — public alias.
   - `check_authenticated_usage` (L110) — if `enforce_usage_limits`: admins/devs bypass; plan→limit map (`free/premium_simulation_limit`, `chat_message_limit`); read `user_usage_limits`; 429 at cap.
-  - `get_optional_user_or_quota` (L150) — the EcoSim/EnergyHub gate: verified user → usage check → dict; **localhost exemption via `_direct_peer_ip` only** (never spoofed headers, L171-172); else anonymous quota → 401 "Please log in to continue using {feature_name}".
+  - `get_optional_user_or_quota` (L150) — the EcoSim/EnergyHub gate: verified user → usage check → dict; **localhost exemption via** `_direct_peer_ip` **only** (never spoofed headers, L171-172); else anonymous quota → 401 "Please log in to continue using {feature_name}".
   - `get_ecosim_optional_user_or_quota`/`get_energyhub_optional_user_or_quota` (L194/202) — flavored wrappers.
 - **Tie:** D13 — accessibility-without-accounts decision + SEC-01-era IP trust rules.
 
@@ -841,9 +845,9 @@ or docs; `*(inferred)*` marks judgment calls. Report any path that 404s as a fix
 - **Logic:**
   - `_is_allowed_memory` (L39) — timestamp-list sliding window per IP.
   - `_is_allowed_redis` (L50) — Redis sorted-set window: `zremrangebyscore` (evict old) → `zcard` (count) → `zadd` (record) → `expire`; **always also updates the memory counter** so flapping Redis can't split counts (SEC-02 fix, comment L51-55); Redis error → memory path.
-  - `dispatch` (L85) — skip OPTIONS + `/health`; **localhost exemption checks `_direct_peer_ip`** — the direct socket peer, immune to spoofed XFF; tighter 10/min limit for non-GET admin/protected (auth-sensitive actions); over-limit → 429 JSON w/ `Retry-After`.
+  - `dispatch` (L85) — skip OPTIONS + `/health`; **localhost exemption checks** `_direct_peer_ip` — the direct socket peer, immune to spoofed XFF; tighter 10/min limit for non-GET admin/protected (auth-sensitive actions); over-limit → 429 JSON w/ `Retry-After`.
 - **Tie:** the rate-limit correctness story (merged counters, real-peer identity) — direct SEC-02/SEC-01 evidence.
 
 ---
 
-*Part D covers the ~25 core files. All remaining cited files → `06a` (backend), `06b` (ETL/scripts), `06c` (frontend), `06d` (tests).*
+*Part D covers the \~25 core files. All remaining cited files →* `06a` *(backend),* `06b` *(ETL/scripts),* `06c` *(frontend),* `06d` *(tests).*
