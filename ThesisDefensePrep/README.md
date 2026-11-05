@@ -17,6 +17,7 @@
 | [`03-SYSTEM-DESIGN-AUDIT.md`](./03-SYSTEM-DESIGN-AUDIT.md) | "Why we built it this way": request lifecycle, deployment topology, 25-item decision log, module boundaries, security model, migration narrative 0001–0025, known limitations. |
 | [`04-TESTING-AUDIT.md`](./04-TESTING-AUDIT.md) | Every test suite audited: actual suite runs in this session, evidence artifacts, count-drift reconciliation (the "315" claim vs current runs), failures/skips/environment limits, security findings. |
 | [`05-DEFENSE-KNOWLEDGE-BASE.md`](./05-DEFENSE-KNOWLEDGE-BASE.md) | Discrepancy watchlist (12 items), claims discipline, expanded panel Q&A bank, glossary, demo-day ops reference, honest-limitations script. |
+| [`07-MASTER-SCRIPT.md`](./07-MASTER-SCRIPT.md) | The delivery script: per-slide verbatim monologue + talk-track + 3-presenter assignments with hand-offs, demo choreography, Q&A-handling lines, and contingency/recovery lines — what you actually say, end to end. |
 
 ### Code-logic breakdown volumes (supplements)
 
@@ -35,6 +36,8 @@ Every code file cited by `02`–`04` gets a uniform logic walkthrough — what i
 
 1. **05 first** — skim §1 (watchlist) + §7 (limitations script) so the caveats are loaded early.
 2. **01** — rehearse the script slide-by-slide; time yourself against the ~11–13 min budget.
+   Then run **07** for full run-throughs — `07` is what you say and who says it; `01` is what it
+   means.
 3. **03** — learn the decision log (D1–D25); that's where "why did you…" questions live.
 4. **02** — don't memorize; learn its index structure so you can *find* any claim's code fast.
 5. **04** — know the honest test story: what passed, what failed, and why counts differ.
