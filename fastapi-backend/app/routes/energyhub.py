@@ -42,11 +42,12 @@ async def get_overview():
 async def get_forecast(
     metric: ForecastMetric = Query(default="consumption", description="Metric to forecast: consumption, peak_demand, or renewable_generation"),
 ):
-    """Return the ML forecast (2025-2030) with confidence intervals.
+    """Return the deployed ARIMA(1,1,1) forecast with confidence intervals.
 
-    The underlying model is ARIMA(1,1,1) trained on 2003-2020 data
-    and evaluated on 2021-2024. Pre-computed forecasts are served
-    directly without runtime retraining.
+    The deployed model is refit on the full 2003-2025 series and
+    forecasts 2026-2030. Held-out evaluation (train 2003-2020, test
+    2021-2024) is reported via /model-comparison. Pre-computed
+    forecasts are served directly without runtime retraining.
     """
     svc = get_energyhub_service()
     return svc.get_forecast(metric)

@@ -739,7 +739,7 @@ Shatnawi 2021). Weight perturbation/masking behavior + worked examples → `06e`
 - **Members:**
   - `_sanitize_nan` (L18) — JSON-safe numbers.
   - `_load_csv_from_supabase` (L40) / `_load_csv` (L68) — Supabase-first, local `data/DOE_Data_Extracted` fallback; `_prefer_v2` picks `data_v2_preprocessed/` over legacy `data_v1/`.
-  - `EnergyHubML.__init__`/`_load_all` (L96/115) — eager-loads \~15 frames: master_preprocessed, forecast_consumption/peak/renewable_2025_2030, model_comparison×4, provincial_consumption_2003_2025, regional_sales_2025, IRENA capacity/generation/renewable-share, meralco_rates_2011_2020, solar_atlas_ph.
+  - `EnergyHubML.__init__`/`_load_all` (L96/115) — eager-loads \~15 frames: master_preprocessed, forecast_consumption/peak/renewable_2026_2030, model_comparison×4, provincial_consumption_2003_2025, regional_sales_2025, IRENA capacity/generation/renewable-share, meralco_rates_2011_2020, solar_atlas_ph.
   - Public getters: `get_latest_statistics`, `get_historical_trends`, `get_forecast(metric)`, `get_model_comparison(metric)`, `get_source_breakdown(year)`, `get_grid_breakdown(year)`, `get_ai_insight`, `get_provincial_consumption`, `get_regional_sales`, `get_irena_*`, `get_meralco_rate`, `get_solar_atlas` — each slices the preloaded frame, returns dicts/lists.
   - `get_energyhub_ml()` — singleton accessor.
 - **Tie:** clarifies the ML story — runtime serves *validated, versioned* forecast artifacts (from `python_scripts`/`tests/pilot_run` + `forecasting.py` pipelines); forecasting module can refit, but the served numbers are the frozen, evaluated ones. This is why the API stays \~104 ms.

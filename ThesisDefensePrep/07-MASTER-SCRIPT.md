@@ -347,7 +347,7 @@ S1–S22 spine at **~11–13 min**, plus **2–4 min** demo. Over-time protocol 
   the name itself encodes the model: one autoregressive term — the forecast leans on the previous
   period's value; one differencing step — strips out trend; one moving-average term — smooths last
   period's error. It's the classic Box-Jenkins structure, chosen because national demand is
-  predictable and seasonal — and we verified the choice with an AIC configuration search plus a
+  steadily trending and predictable — and we verified the choice with an AIC configuration search plus a
   pilot bake-off against linear regression, Holt, and random forest. Now the three error metrics,
   because they answer different questions. MAPE — mean absolute *percentage* error — is 5.67% on
   held-out data the model never saw during fitting: on average the forecast misses actual national
@@ -537,8 +537,9 @@ only if invited or if they hold a critical correction.
   solar/wind/hydro score via output-normalized physics then the 0.4/0.6 composite. Documented
   defaults for the others exist but are dormant. `06e` §0. *(SOLIS)*
 - **"Why ARIMA(1,1,1)?"** → AIC grid search + pilot bake-off vs linear/Holt/RF; held-out MAPE
-  5.67%. If pressed "not lowest-MAPE": correct — selection = AIC + pilot + interpretability.
-  *(SOLIS)*
+  5.67%; deployed model refit on all data through 2025 → forecasts 2026–2030, plus a one-step
+  2025 check within 3.2%. If pressed "not lowest-MAPE": correct — selection = AIC + pilot +
+  interpretability + native prediction intervals. Full chart/model deep-dive → `08`. *(SOLIS)*
 - **"104 ms API but 7 s AI — contradiction?"** → Three different measurements: local API vs live
   LLM call vs cached path. Honest latency by design. *(SOLIS)*
 - **"GWh-scale MAE sounds terrible."** → National consumption is ~a hundred thousand GWh — MAPE

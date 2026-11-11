@@ -18,6 +18,7 @@
 | [`04-TESTING-AUDIT.md`](./04-TESTING-AUDIT.md) | Every test suite audited: actual suite runs in this session, evidence artifacts, count-drift reconciliation (the "315" claim vs current runs), failures/skips/environment limits, security findings. |
 | [`05-DEFENSE-KNOWLEDGE-BASE.md`](./05-DEFENSE-KNOWLEDGE-BASE.md) | Discrepancy watchlist (12 items), claims discipline, expanded panel Q&A bank, glossary, demo-day ops reference, honest-limitations script. |
 | [`07-MASTER-SCRIPT.md`](./07-MASTER-SCRIPT.md) | The delivery script: per-slide verbatim monologue + talk-track + 3-presenter assignments with hand-offs, demo choreography, Q&A-handling lines, and contingency/recovery lines — what you actually say, end to end. |
+| [`08-ENERGYTRENDS-ARIMA-JUSTIFICATION.md`](./08-ENERGYTRENDS-ARIMA-JUSTIFICATION.md) | EnergyTrends deep-dive: chart anatomy, forecast pipeline provenance, plain-English ARIMA(1,1,1) rationale, honest model-comparison story, per-chart talk-track, hostile-question bank, paste-ready methodology appendix, forecast-specific watchlist. |
 
 ### Code-logic breakdown volumes (supplements)
 

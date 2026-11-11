@@ -414,7 +414,7 @@
     name itself encodes the model: one autoregressive term — the forecast leans on the previous
     period's value — one differencing step, which strips out trend; and one moving-average
     term, which smooths last period's error. It's the classic Box-Jenkins-style structure,
-    chosen because national demand is predictable and seasonal — and we verified it through an
+    chosen because national demand is a steadily trending, predictable series — and we verified it through an
     AIC configuration search and a pilot bake-off against linear regression, Holt, and random
     forest."
   - `[core]` "Now the three error metrics, because they answer different questions. MAPE — mean

@@ -98,7 +98,9 @@ mean. Full truth map → `06e` §0.
 **Q: Why ARIMA(1,1,1)?**
 A: Selected via AIC grid search (`ml/aic_grid.csv`) and pilot comparison vs linear/Holt/RF
 (`tests/pilot_run/`); held-out MAPE 5.67%. It's a forecasting baseline a thesis can defend —
-interpretable orders (p,d,q), standard diagnostics.
+interpretable orders (p,d,q), standard diagnostics, native prediction intervals. The deployed
+forecast is refit on the full 2003–2025 series → 2026–2030; a one-step 2025 check landed within
+3.2% of actual. Deep-dive incl. honest per-series rankings → `08-ENERGYTRENDS-ARIMA-JUSTIFICATION.md`.
 
 **Q: How does the AI stay honest?**
 A: RAG grounding: retrieval over our own knowledge chunks (products, national stats, climate/

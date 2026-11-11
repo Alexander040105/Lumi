@@ -3,15 +3,13 @@ DOE Data v2 Preprocessing Pipeline
 ====================================
 Reads raw DOE Annex files (data_v2) and generates:
 1. master_preprocessed.csv          — same schema as data_v1 for predictor.py compatibility
-2. forecast_consumption_2025_2030.csv
-3. forecast_peak_demand_2025_2030.csv
-4. forecast_renewable_generation_2025_2030.csv
-5. model_comparison_consumption.csv
-6. model_comparison_peak_demand.csv
-7. model_comparison_renewable_generation.csv
-8. model_comparison_results.csv      — backward-compatible consumption comparison copy
-9. provincial_consumption_2003_2025.csv
-10. regional_sales_2025.csv
+2. forecast_{metric}_{start}_{end}.csv  — deployed ARIMA(1,1,1) refit on the full
+   series; horizon = 5 years after the last actual (currently 2026_2030)
+3. evaluation_{metric}_2021_2024.csv    — held-out comparison (train <=2020,
+   test 2021-2024), illustrative; canonical metrics live in
+   docs/09-Technical-Evaluation/artifacts/rerun-2026-09-15/ml/
+4. provincial_consumption_2003_2025.csv
+5. regional_sales_2025.csv
 
 Run from project root with the root .venv activated:
     python DOE_Data_Extracted/data_v2_preprocessing.py
@@ -279,7 +277,16 @@ def build_master_preprocessed(annex1):
 # ---------------------------------------------------------------------------
 
 def train_and_forecast_series(df, target_col):
-    """Train ARIMA and baseline models for one target series, return forecast and comparison DataFrames."""
+    """Evaluate baselines on the held-out window and refit ARIMA(1,1,1) on the full series.
+
+    Returns (forecast_df, eval_df):
+    - forecast_df: deployed forecast for the 5 years after the last actual,
+      from an ARIMA(1,1,1) refit on ALL observations (validate on holdout,
+      deploy refit-on-all-data).
+    - eval_df: held-out comparison (train <=2020, test 2021-2024) for the four
+      executed candidate models — illustrative; canonical metrics live in
+      docs/09-Technical-Evaluation/artifacts/rerun-2026-09-15/ml/.
+    """
     try:
         from statsmodels.tsa.arima.model import ARIMA
         from statsmodels.tsa.holtwinters import Holt
@@ -289,22 +296,25 @@ def train_and_forecast_series(df, target_col):
 
     train = df[df["year"] <= 2020][target_col].dropna()
     test = df[(df["year"] >= 2021) & (df["year"] <= 2024)][target_col].dropna()
-    forecast_years = list(range(2025, 2031))
 
     if len(train) < 3 or len(test) < 1:
         raise ValueError(f"Insufficient data for {target_col}: train={len(train)}, test={len(test)}")
 
-    model = ARIMA(train, order=(1, 1, 1)).fit()
-    fcast = model.get_forecast(steps=6)
-    fc_mean = fcast.predicted_mean
+    # Deployed forecast: refit on the full series, forecast the next 5 years.
+    full = df.set_index("year")[target_col].dropna()
+    last_year = int(full.index.max())
+    deploy_model = ARIMA(full, order=(1, 1, 1)).fit()
+    fcast = deploy_model.get_forecast(steps=5)
     ci = fcast.conf_int()
-
     forecast_df = pd.DataFrame({
-        "year": forecast_years,
-        target_col: fc_mean.values,
+        "year": list(range(last_year + 1, last_year + 6)),
+        target_col: fcast.predicted_mean.values,
         "ci_lower": ci.iloc[:, 0].values,
         "ci_upper": ci.iloc[:, 1].values,
     })
+
+    # Held-out evaluation uses a model trained only on <=2020.
+    model = ARIMA(train, order=(1, 1, 1)).fit()
 
     results = []
 
@@ -319,7 +329,7 @@ def train_and_forecast_series(df, target_col):
     results.append({"model": "Linear Trend Regression", "mae": mae_lr, "rmse": rmse_lr, "mape": mape_lr})
 
     # Holt Linear Smoothing
-    holt = Holt(train.values, exponential=False, damped_trend=False).fit(optimized=True)
+    holt = Holt(train.values, exponential=False, damped_trend=False, initialization_method="estimated").fit()
     pred_holt = holt.forecast(len(test))
     mae_h = np.mean(np.abs(test.values - pred_holt))
     rmse_h = np.sqrt(np.mean((test.values - pred_holt) ** 2))
@@ -340,15 +350,6 @@ def train_and_forecast_series(df, target_col):
     rmse_a = np.sqrt(np.mean((test.values - pred_arima) ** 2))
     mape_a = np.mean(np.abs((test.values - pred_arima) / test.values)) * 100
     results.append({"model": "ARIMA(1,1,1)", "mae": mae_a, "rmse": rmse_a, "mape": mape_a})
-
-    # SARIMAX and Random Forest placeholders (not executed, scaled off ARIMA for documentation)
-    placeholder_models = [
-        {"model": "SARIMAX(1,1,1) + Exog", "mae": mae_a * 1.45, "rmse": rmse_a * 1.39, "mape": mape_a * 1.46},
-        {"model": "Random Forest Regression", "mae": mae_a * 2.33, "rmse": rmse_a * 2.15, "mape": mape_a * 2.36},
-    ]
-    for p in placeholder_models:
-        p["note"] = "placeholder — model not executed"
-    results.extend(placeholder_models)
 
     comp_df = pd.DataFrame(results)
     return forecast_df, comp_df
@@ -413,13 +414,14 @@ def main():
     try:
         for target_col, metric in metric_map.items():
             fc, comp = train_and_forecast_series(master, target_col)
-            fc.to_csv(OUTPUT_DIR / f"forecast_{metric}_2025_2030.csv", index=False)
-            comp.to_csv(OUTPUT_DIR / f"model_comparison_{metric}.csv", index=False)
+            horizon = f"{int(fc['year'].min())}_{int(fc['year'].max())}"
+            fc.to_csv(OUTPUT_DIR / f"forecast_{metric}_{horizon}.csv", index=False)
+            comp.to_csv(OUTPUT_DIR / f"evaluation_{metric}_2021_2024.csv", index=False)
             unit = "GWh" if "gwh" in target_col else "MW"
-            print(f"    {metric} 2030 forecast: {fc[target_col].iloc[-1]:,.0f} {unit}")
-        # Preserve the legacy consumption comparison under the old filename
-        comp_consumption = pd.read_csv(OUTPUT_DIR / "model_comparison_consumption.csv")
-        comp_consumption.to_csv(OUTPUT_DIR / "model_comparison_results.csv", index=False)
+            print(f"    {metric} {int(fc['year'].max())} forecast: {fc[target_col].iloc[-1]:,.0f} {unit}")
+        # Canonical served comparison tables (model_comparison_*.csv,
+        # model_comparison_results.csv) come from the rerun-2026-09-15
+        # artifacts — not regenerated here.
     except Exception as exc:
         print(f"    WARNING: ARIMA training failed: {exc}")
         print("    Placeholder forecasts will NOT be written.")
