@@ -32,11 +32,8 @@ export default function ProfilePage() {
         if (data) setProfile((p) => ({ ...p, ...data }));
       });
 
-    // Sync OAuth avatar from auth metadata to profiles on first load
-    fetch(`${getApiBaseUrl()}/protected/sync-avatar`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${accessToken}` },
-    }).catch(() => {});
+    // NOTE: sync-avatar already runs once per session in AuthContext —
+    // do not fire a duplicate POST here (it burns the rate-limit budget).
   }, [user, accessToken]);
 
   const handleSave = async () => {
@@ -94,7 +91,7 @@ export default function ProfilePage() {
       if (!publicUrl) throw new Error("Failed to get public URL");
 
       // Update profile in DB
-      await fetch(`${getApiBaseUrl()}/protected/profile`, {
+      const res = await fetch(`${getApiBaseUrl()}/protected/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -102,6 +99,14 @@ export default function ProfilePage() {
         },
         body: JSON.stringify({ avatar_url: publicUrl }),
       });
+      if (!res.ok) {
+        const retry = res.headers.get("Retry-After");
+        throw new Error(
+          res.status === 429
+            ? `Too many requests — try again in ${retry ?? "a few"} seconds.`
+            : "Could not save avatar"
+        );
+      }
 
       setProfile((p) => ({ ...p, avatar_url: publicUrl }));
       setMessage(t("profile.avatarUpdated"));

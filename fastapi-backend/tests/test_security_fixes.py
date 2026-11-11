@@ -435,6 +435,79 @@ class TestRateLimitMergedCounters:
         assert allowed == 60
         assert denied == 5
 
+    def _run_dispatches(self, middleware, request, n):
+        call_next = AsyncMock(return_value="ok")
+
+        async def run() -> tuple[int, int]:
+            allowed = 0
+            denied = 0
+            for _ in range(n):
+                resp = await middleware.dispatch(request, call_next)
+                if resp == "ok":
+                    allowed += 1
+                else:
+                    denied += 1
+            return allowed, denied
+
+        return asyncio.run(run())
+
+    def _stub_memory_only_redis(self, monkeypatch):
+        from app.services.redis_client import NullRedis
+
+        monkeypatch.setattr(
+            "app.middleware.rate_limit.get_redis", lambda: NullRedis()
+        )
+
+    def _make_request(self, method, path):
+        request = MagicMock()
+        request.method = method
+        request.url.path = path
+        request.headers = {}
+        request.client.host = "1.2.3.4"
+        return request
+
+    def test_profile_put_uses_general_tier(self, monkeypatch):
+        """PUT /protected/profile is routine — must not hit the tight auth bucket."""
+        self._stub_memory_only_redis(monkeypatch)
+        middleware = RateLimitMiddleware(
+            MagicMock(), requests_per_minute=60, auth_requests_per_minute=5
+        )
+        request = self._make_request("PUT", "/api/v1/protected/profile")
+
+        allowed, denied = self._run_dispatches(middleware, request, 10)
+        # Under the old lumped bucket only 5 would pass.
+        assert allowed == 10
+        assert denied == 0
+
+    def test_sensitive_writes_still_tightly_limited(self, monkeypatch):
+        """DELETE /protected/me and admin writes keep the auth-tier budget."""
+        self._stub_memory_only_redis(monkeypatch)
+
+        for method, path in (
+            ("DELETE", "/api/v1/protected/me"),
+            ("POST", "/api/v1/protected/session"),
+            ("PUT", "/api/v1/admin/users/123"),
+        ):
+            middleware = RateLimitMiddleware(
+                MagicMock(), requests_per_minute=60, auth_requests_per_minute=3
+            )
+            request = self._make_request(method, path)
+            allowed, denied = self._run_dispatches(middleware, request, 6)
+            assert allowed == 3, f"{method} {path} allowed {allowed}"
+            assert denied == 3, f"{method} {path} denied {denied}"
+
+    def test_sync_avatar_uses_general_tier(self, monkeypatch):
+        """POST /protected/sync-avatar no longer burns the auth budget."""
+        self._stub_memory_only_redis(monkeypatch)
+        middleware = RateLimitMiddleware(
+            MagicMock(), requests_per_minute=60, auth_requests_per_minute=5
+        )
+        request = self._make_request("POST", "/api/v1/protected/sync-avatar")
+
+        allowed, denied = self._run_dispatches(middleware, request, 10)
+        assert allowed == 10
+        assert denied == 0
+
 
 class TestAdminCreateUser:
     def test_create_user_response_does_not_leak_temp_password(self, monkeypatch):

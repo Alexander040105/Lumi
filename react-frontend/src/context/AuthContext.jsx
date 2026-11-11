@@ -94,12 +94,17 @@ export function AuthProvider({ children }) {
 
     fetchRoleAndProfile();
 
-    // Sync OAuth avatar from auth metadata to profiles once per user
-    fetch(`${getApiBaseUrl()}/protected/sync-avatar`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${session.access_token}` },
-      signal,
-    }).catch(() => {});
+    // Sync OAuth avatar from auth metadata to profiles — once per browser
+    // session per user so remounts/tab restores don't burn rate-limit budget.
+    const syncKey = `lumi:avatarSynced:${session.user.id}`;
+    if (!sessionStorage.getItem(syncKey)) {
+      sessionStorage.setItem(syncKey, "1");
+      fetch(`${getApiBaseUrl()}/protected/sync-avatar`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session.access_token}` },
+        signal,
+      }).catch(() => {});
+    }
 
     return () => controller.abort();
   }, [session?.user?.id]);

@@ -20,15 +20,30 @@ from app.utils.network import _direct_peer_ip, _is_localhost, get_client_id
 logger = logging.getLogger(__name__)
 
 
+# Genuinely sensitive writes that keep the tight per-minute budget.
+# Everything else under /protected/ (PUT /profile, POST /sync-avatar) is a
+# routine user action and uses the normal limit.
+_SENSITIVE_WRITE_PATHS = {
+    ("DELETE", "/api/v1/protected/me"),
+    ("POST", "/api/v1/protected/session"),
+}
+
+
 class RateLimitMiddleware(BaseHTTPMiddleware):
-    """Sliding window rate limiter per client IP, Redis-backed when available."""
+    """Sliding window rate limiter per client IP, Redis-backed when available.
+
+    Three tiers: sensitive writes (admin mutations + account-level actions)
+    get ``auth_requests_per_minute``; all other traffic including routine
+    protected/profile writes gets ``requests_per_minute``; health checks and
+    OPTIONS are exempt.
+    """
 
     def __init__(
         self,
         app: Any,
         requests_per_minute: int = 60,
         window_seconds: int = 60,
-        auth_requests_per_minute: int = 10,
+        auth_requests_per_minute: int = 15,
     ) -> None:
         super().__init__(app)
         self.rate_limit = requests_per_minute
@@ -93,16 +108,13 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
 
         client_ip = self._client_ip(request)
 
-        # Admin and protected write endpoints are higher-sensitivity auth actions
-        # and get a much tighter per-minute budget.
-        is_auth_action = (
-            request.method != "GET"
-            and (
-                request.url.path.startswith("/api/v1/admin/")
-                or request.url.path.startswith("/api/v1/protected/")
-            )
+        # Tight budget only for sensitive writes: all admin mutations plus
+        # the account-level protected actions listed in _SENSITIVE_WRITE_PATHS.
+        is_sensitive = request.method != "GET" and (
+            request.url.path.startswith("/api/v1/admin/")
+            or (request.method, request.url.path) in _SENSITIVE_WRITE_PATHS
         )
-        limit = self.auth_rate_limit if is_auth_action else self.rate_limit
+        limit = self.auth_rate_limit if is_sensitive else self.rate_limit
         allowed = await self._is_allowed_redis(client_ip, limit=limit)
 
         if not allowed:

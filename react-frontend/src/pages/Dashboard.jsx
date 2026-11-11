@@ -209,7 +209,7 @@ export default function Dashboard() {
   // Avatar upload
   const handleAvatarUpload = async (e) => {
     const file = e.target.files?.[0];
-    if (!file || !isLoggedIn) return;
+    if (!file || !isLoggedIn || savingProfile) return;
 
     if (file.size > 2 * 1024 * 1024) {
       toast.error(t("dashboard.imageTooLarge"));
@@ -238,7 +238,14 @@ export default function Dashboard() {
         },
         body: JSON.stringify({ avatar_url: avatarUrl }),
       });
-      if (!res.ok) throw new Error("Could not save avatar");
+      if (!res.ok) {
+        const retry = res.headers.get("Retry-After");
+        throw new Error(
+          res.status === 429
+            ? `Too many requests — try again in ${retry ?? "a few"} seconds.`
+            : "Could not save avatar"
+        );
+      }
 
       setProfile((prev) => ({ ...prev, avatar_url: avatarUrl }));
       if (refreshProfile) await refreshProfile();
