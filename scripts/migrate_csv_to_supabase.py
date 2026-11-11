@@ -170,10 +170,13 @@ def _fix_category(row: dict[str, Any]) -> str:
 
 DOE_CSVS = [
     "DOE_Data_Extracted/data_v2_preprocessed/master_preprocessed.csv",
-    "DOE_Data_Extracted/data_v2_preprocessed/forecast_consumption_2026_2030.csv",
-    "DOE_Data_Extracted/data_v2_preprocessed/forecast_peak_demand_2026_2030.csv",
-    "DOE_Data_Extracted/data_v2_preprocessed/forecast_renewable_generation_2026_2030.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/forecast_consumption_2025_2030.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/forecast_peak_demand_2025_2030.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/forecast_renewable_generation_2025_2030.csv",
     "DOE_Data_Extracted/data_v2_preprocessed/model_comparison_results.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/model_comparison_consumption.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/model_comparison_peak_demand.csv",
+    "DOE_Data_Extracted/data_v2_preprocessed/model_comparison_renewable_generation.csv",
     "DOE_Data_Extracted/data_v2_preprocessed/irena_ph_capacity_by_tech.csv",
     "DOE_Data_Extracted/data_v2_preprocessed/irena_ph_generation_by_tech.csv",
     "DOE_Data_Extracted/data_v2_preprocessed/irena_renewable_share.csv",

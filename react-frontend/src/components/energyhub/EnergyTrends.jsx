@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Sparkles, Loader2, Maximize2 } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { sanitizeLLMOutput } from "@/utils/llmText";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -11,41 +12,9 @@ function cssVarColor(name, fallback) {
   return v ? `hsl(${v})` : fallback;
 }
 
-function sanitizeLLMOutput(text = "") {
-  if (!text) return "";
-  let t = text;
-
-  // Remove repetitive greeting lines that appear in every panel
-  t = t.replace(/Hello there! I'm LUMI, your friendly energy advisor\.\s*Let's chat about.*?\n*/is, "");
-  t = t.replace(/Hi there! I'm LUMI.*?\n*/is, "");
-
-  // Normalize repeated "Recommendation 1:" blocks into a single numbered list
-  // When the LLM restarts numbering mid-text, renumber them sequentially
-  const recBlocks = [];
-  const recRegex = /\*?\s*\*\*?\s*Recommendation\s*(\d+)[:\.*\-]*\s*\*?\*?\s*(.*?)(?=\*?\s*\*\*?\s*Recommendation\s*\d+[:\.*\-]*|$)/gis;
-  let m;
-  while ((m = recRegex.exec(t)) !== null) {
-    recBlocks.push(m[2].trim());
-  }
-  if (recBlocks.length > 0) {
-    const numbered = recBlocks.map((b, i) => `${i + 1}. ${b.replace(/\n+/g, " ")}`).join("\n");
-    t = t.replace(/\*?\s*\*\*?\s*Recommendation\s*\d+[:\.*\-]*\s*\*?\*?\s*.*/gis, "").trim();
-    t = t + "\n\nRecommendations:\n" + numbered;
-  }
-
-  // Collapse multiple blank lines into one
-  t = t.replace(/\n{3,}/g, "\n\n");
-
-  // Trim to a reasonable length for panel display (soft cap ~800 chars)
-  if (t.length > 900) {
-    t = t.slice(0, 900).replace(/\s+\S*$/, "") + "…";
-  }
-
-  return t.trim();
-}
-
 function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
   const { t } = useI18n();
+  const [expanded, setExpanded] = useState(false);
   if (!analysis && !loading) {
     return (
       <button
@@ -67,10 +36,31 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
     );
   }
 
+  const displayText = sanitizeLLMOutput(analysis?.insight);
+  const isLong = displayText.length > 350;
+
   return (
     <div className="mt-2 rounded-lg bg-warning/10 border border-warning/20 p-3">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-xs leading-relaxed text-warning whitespace-pre-line flex-1">{sanitizeLLMOutput(analysis?.insight)}</p>
+        <div className="flex-1 min-w-0">
+          <p
+            className={`text-xs leading-relaxed text-warning whitespace-pre-line ${
+              expanded ? "" : "line-clamp-4"
+            }`}
+          >
+            {displayText}
+          </p>
+          {isLong && (
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              className="mt-1 text-[10px] font-medium text-warning underline underline-offset-2 hover:text-warning/80 transition-colors"
+            >
+              {expanded ? t("energyHub.trends.showLess") : t("energyHub.trends.readMore")}
+            </button>
+          )}
+        </div>
         {onRefresh && (
           <button
             onClick={onRefresh}
@@ -137,7 +127,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.historical"),
-        line: { color: cssVarColor("--primary", "#3b82f6"), width: 3 },
+        line: { color: cssVarColor("--brand-success", "#10b981"), width: 3 },
         marker: { size: 6 },
         hovertemplate: t("energyHub.trends.hover.consumption", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
@@ -200,7 +190,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         type: "scatter",
         mode: "lines+markers",
         name: t("energyHub.trends.legend.historical"),
-        line: { color: cssVarColor("--warning", "#f43f5e"), width: 2 },
+        line: { color: cssVarColor("--brand-success", "#10b981"), width: 2 },
         marker: { size: 5 },
         hovertemplate: t("energyHub.trends.hover.peakDemand", { year: "%{x}", value: "%{y:,.0f}", extra: t("energyHub.trends.legend.historical") }),
       },
@@ -291,7 +281,7 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
         <h3 className="text-lg font-semibold">{t("energyHub.trends.title")}</h3>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
-            <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+            <span className="inline-block h-2 w-2 rounded-full bg-success" />
             {t("energyHub.trends.legend.historical")}
           </span>
           <span className="inline-flex items-center gap-1">

@@ -208,7 +208,7 @@ def extract_prescriptive_recommendation(text: str) -> dict[str, str]:
     return result
 
 
-def _truncate_to_complete_sentence(text: str) -> str:
+def truncate_to_complete_sentence(text: str) -> str:
     """Remove a trailing incomplete fragment so the UI never ends with '...'."""
     if not text:
         return text
@@ -233,4 +233,4 @@ def clean_ai_output(text: str) -> str:
     text = decode_html_entities(text)
     text = strip_html_tags(text)
     text = normalize_whitespace(text)
-    return _truncate_to_complete_sentence(text)
+    return truncate_to_complete_sentence(text)

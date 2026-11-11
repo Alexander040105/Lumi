@@ -97,7 +97,10 @@ def _generate_response(prompt: str) -> str:
             max_tokens=1024,
         )
         text = response.choices[0].message.content or ""
-        return text.strip()
+        # clean_ai_output also drops any trailing fragment left when the
+        # response hits max_tokens mid-sentence
+        from app.services.llm_sanitizer import clean_ai_output
+        return clean_ai_output(text)
     except Exception as exc:
         logger.warning("Groq chat generation failed: %s", exc)
         return "I'm sorry, I couldn't generate a response at this time. Our AI service is temporarily unavailable — please try again later."

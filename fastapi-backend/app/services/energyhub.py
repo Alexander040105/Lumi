@@ -198,7 +198,14 @@ class EnergyHubService:
     geographic/climate data, and the REST API.
     """
 
-    PROMPT_VERSION = "2"
+    PROMPT_VERSION = "3"
+
+    # Appended to prescriptive chart prompts so responses stay compact enough
+    # for the dashboard panels instead of being clipped by length limits.
+    _PRESCRIPTIVE_LENGTH_GUARD = (
+        "Keep the entire response under about 1,200 characters (roughly 180 words). "
+        "Be concise; prioritize only the highest-impact recommendations."
+    )
 
     def __init__(self) -> None:
         self._ml = get_energyhub_ml()
@@ -1017,7 +1024,7 @@ class EnergyHubService:
                 prompt,
                 temperature=0.5,
                 max_output_tokens=2000,
-                timeout=8.0,
+                timeout=15.0,
             )
         except Exception as exc:
             logger.warning("LLM call failed for map explanation: %s", exc)
@@ -1246,9 +1253,9 @@ class EnergyHubService:
             logger.warning("LLM client not available; falling back to static insight.")
             return self._ml.get_ai_insight()
 
-        prompt = self._build_chart_prompt(chart_type, chart_data)
+        prompt = self._build_chart_prompt(chart_type, chart_data) + "\n" + self._PRESCRIPTIVE_LENGTH_GUARD
         try:
-            text = generate_response(prompt, temperature=0.5, max_output_tokens=2000, timeout=8.0)
+            text = generate_response(prompt, temperature=0.5, max_output_tokens=2000, timeout=15.0)
         except Exception as exc:
             logger.warning("LLM call failed for chart analysis: %s", exc)
             return self._ml.get_ai_insight()
@@ -1371,11 +1378,12 @@ class EnergyHubService:
             "Each paragraph must end with 1-2 concrete, specific recommendations (what should be done, by whom, and by when).\n"
             "Do NOT invent numbers that are not in the data above. Do NOT return JSON or code blocks.\n"
             "Finish with a complete sentence. Do not end with an ellipsis or partial thought.\n"
-            "Use plain language suitable for students and communities."
+            "Use plain language suitable for students and communities.\n"
+            + self._PRESCRIPTIVE_LENGTH_GUARD
         )
 
         try:
-            text = generate_response(prompt, temperature=0.3, max_output_tokens=3000, timeout=8.0)
+            text = generate_response(prompt, temperature=0.3, max_output_tokens=3000, timeout=15.0)
         except Exception as exc:
             logger.warning("LLM call failed: %s", exc)
             return self._ml.get_ai_insight()
