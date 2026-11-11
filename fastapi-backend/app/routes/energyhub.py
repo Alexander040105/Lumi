@@ -117,6 +117,7 @@ async def get_model_comparison(
 async def get_ai_insight(
     request: Request,
     use_llm: bool = Query(default=False, description="Use LLM (Gemini/Groq) for dynamic analysis instead of static text"),
+    force_refresh: bool = Query(default=False, description="Bypass cache and generate a fresh LLM response"),
     user: dict | None = Depends(get_verified_user_optional),
 ):
     """Return a data-backed narrative insight and recommendation.
@@ -135,7 +136,7 @@ async def get_ai_insight(
             )
 
     svc = get_energyhub_service()
-    response = svc.get_ai_insight(use_llm=use_llm)
+    response = svc.get_ai_insight(use_llm=use_llm, force_refresh=force_refresh)
     response["remaining_anonymous_requests"] = remaining
     return response
 

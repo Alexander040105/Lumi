@@ -208,6 +208,25 @@ def extract_prescriptive_recommendation(text: str) -> dict[str, str]:
     return result
 
 
+def strip_source_dump(text: str) -> str:
+    """Remove a trailing 'Sources:' block that dumps raw table/file names.
+
+    Some prompts historically asked the model to end with a 'Sources' line
+    naming tables like ``municipalities.solar_suitability_score`` — useless
+    jargon for end users. The line is always a trailing block, so everything
+    from the 'Sources:' line to the end of the text is dropped.
+    """
+    if not text:
+        return text
+    text = re.sub(
+        r"(?:^|\n)[ \t]*\*{0,2}\s*(?:Data\s+)?Sources?\s*\*{0,2}\s*:[\s\S]*$",
+        "",
+        text,
+        flags=re.IGNORECASE | re.MULTILINE,
+    )
+    return text.rstrip()
+
+
 def truncate_to_complete_sentence(text: str) -> str:
     """Remove a trailing incomplete fragment so the UI never ends with '...'."""
     if not text:
@@ -233,4 +252,5 @@ def clean_ai_output(text: str) -> str:
     text = decode_html_entities(text)
     text = strip_html_tags(text)
     text = normalize_whitespace(text)
+    text = strip_source_dump(text)
     return truncate_to_complete_sentence(text)

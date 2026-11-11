@@ -79,6 +79,15 @@ def _run() -> None:
     assert cut == "First sentence. Second sentence.", "bad sentence cut: %r" % cut
 
     # 9. rag_hybrid.sanitize_output never ends with a dangling "..."
+    # Stub rag_pipeline so the import works without backend deps installed
+    # (rag_pipeline pulls in pydantic_settings, FAISS, etc. — none of which
+    # sanitize_output touches).
+    import types as _types
+    _rag_stub = _types.ModuleType("app.services.rag_pipeline")
+    _rag_stub.retrieve_context = lambda *a, **k: []
+    _rag_stub.retrieve_with_filter = lambda *a, **k: []
+    sys.modules.setdefault("app.services.rag_pipeline", _rag_stub)
+
     from app.services.rag_hybrid import sanitize_output
     big = ("The grid needs more capacity. " * 200) + "Trailing partial sent"
     sanitized = sanitize_output(big)

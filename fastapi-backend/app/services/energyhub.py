@@ -198,7 +198,7 @@ class EnergyHubService:
     geographic/climate data, and the REST API.
     """
 
-    PROMPT_VERSION = "3"
+    PROMPT_VERSION = "4"
 
     # Appended to prescriptive chart prompts so responses stay compact enough
     # for the dashboard panels instead of being clipped by length limits.
@@ -971,9 +971,9 @@ class EnergyHubService:
 
     # --- AI Insight ---
 
-    def get_ai_insight(self, use_llm: bool = False) -> dict[str, str]:
+    def get_ai_insight(self, use_llm: bool = False, force_refresh: bool = False) -> dict[str, str]:
         if use_llm:
-            return self._generate_llm_insight()
+            return self._generate_llm_insight(force_refresh=force_refresh)
         return self._ml.get_ai_insight()
 
     # --- Map Explanations ---
@@ -1287,62 +1287,20 @@ class EnergyHubService:
 
     def _get_cached_insight(self, chart_type: str, chart_hash: str) -> str | None:
         """Fetch a cached insight; if multiple exist, rotate randomly."""
-        client = get_supabase_client()
-        try:
-            resp = (
-                client.table("chart_ai_insights")
-                .select("insight")
-                .eq("chart_type", chart_type)
-                .eq("chart_data_hash", chart_hash)
-                .execute()
-            )
-            rows = resp.data or []
-            if not rows:
-                return None
-            # Rotate: pick one at random from cached variants (non-cryptographic)
-            import random
-            return random.choice(rows)["insight"]  # nosec B311
-        except Exception as exc:
-            logger.debug("Cache read failed (table may not exist yet): %s", exc)
-            return None
+        from app.services.llm_response_cache import get_cached_insight
+        return get_cached_insight(chart_type, chart_hash)
 
     def _cache_insight(self, chart_type: str, chart_hash: str, insight: str) -> None:
         """Store a new LLM insight in the cache. Keeps up to 3 variants per chart+hash."""
-        client = get_supabase_client()
-        try:
-            # Count existing variants
-            count_resp = (
-                client.table("chart_ai_insights")
-                .select("id", count="exact")
-                .eq("chart_type", chart_type)
-                .eq("chart_data_hash", chart_hash)
-                .execute()
-            )
-            existing = count_resp.count or 0
-            if existing >= 3:
-                # Evict oldest to keep cache bounded
-                oldest = (
-                    client.table("chart_ai_insights")
-                    .select("id")
-                    .eq("chart_type", chart_type)
-                    .eq("chart_data_hash", chart_hash)
-                    .order("created_at")
-                    .limit(1)
-                    .execute()
-                )
-                if oldest.data:
-                    old_id = oldest.data[0]["id"]
-                    client.table("chart_ai_insights").delete().eq("id", old_id).execute()
-            client.table("chart_ai_insights").insert({
-                "chart_type": chart_type,
-                "chart_data_hash": chart_hash,
-                "insight": insight,
-            }).execute()
-        except Exception as exc:
-            logger.debug("Cache write failed (table may not exist yet): %s", exc)
+        from app.services.llm_response_cache import cache_insight
+        cache_insight(chart_type, chart_hash, insight)
 
-    def _generate_llm_insight(self) -> dict[str, str]:
-        """Generate a comprehensive LLM insight from all energy data."""
+    def _generate_llm_insight(self, force_refresh: bool = False) -> dict[str, str]:
+        """Generate a comprehensive LLM insight from all energy data.
+
+        Cached in chart_ai_insights under chart_type="overview", keyed by
+        the exact stats that shape the prompt — a hit skips the LLM call.
+        """
         try:
             from app.services.llm_client import generate_response
         except Exception:
@@ -1352,6 +1310,19 @@ class EnergyHubService:
         latest = self._ml.get_latest_statistics()
         forecast = self._ml.get_forecast("consumption")
         source = self._ml.get_source_breakdown()
+
+        chart_hash = self._hash_chart_data(
+            {"latest": latest, "forecast": forecast, "sources": source}
+        )
+        if not force_refresh:
+            cached = self._get_cached_insight("overview", chart_hash)
+            if cached:
+                logger.info("Cache hit for overview insight (hash=%s)", chart_hash[:8])
+                return {
+                    "insight": cached,
+                    "recommendation": "",
+                    "data_year": latest.get("year", 2024),
+                }
 
         forecast_values = forecast.get("forecast_values") or []
         f_2030 = forecast_values[-1] if forecast_values else 0
@@ -1389,6 +1360,7 @@ class EnergyHubService:
             return self._ml.get_ai_insight()
 
         cleaned = self._clean_llm_text(text)
+        self._cache_insight("overview", chart_hash, cleaned)
         return {
             "insight": cleaned,
             "recommendation": "",
@@ -1564,7 +1536,7 @@ class EnergyHubService:
             "Write a concise, plain-language explanation (150–250 words) for the map shown. "
             "Your explanation must be descriptive and interpretive, not prescriptive. "
             "Do not use litotes (e.g., do not write 'not uncommon', 'not impossible', or 'not far'). "
-            "Do not invent data that is not in the provided context. Cite the listed data sources by name or file path.\n\n"
+            "Do not invent data that is not in the provided context.\n\n"
             f"Metric: {metric}\n"
             f"Geographic level: {chart_data.get('level')}\n"
             f"Total locations: {chart_data.get('count')}\n"
@@ -1575,8 +1547,9 @@ class EnergyHubService:
             f"Score distribution by class:\n{json.dumps(chart_data.get('distribution', {}), indent=2)}\n\n"
             f"Representative examples:\n{summary_json}\n\n"
             f"Focus for this explanation:\n{focus}\n\n"
-            "Cite the data sources listed in the examples. If you mention a specific place, use only the names and values shown above. "
-            "End with a short 'Sources' line naming the files or tables you used."
+            "If you mention a specific place, use only the names and values shown above. "
+            "Do NOT end with a Sources line, and do NOT name raw tables, columns, or file paths "
+            "(e.g. 'municipalities table' or 'solar_suitability_score') — write for a lay reader."
         )
 
     # --- Provincial & Municipal Demand ---

@@ -49,6 +49,28 @@ cd fastapi-backend
 python -m pytest tests -q       # 77 tests
 ```
 
+## LLM response cache
+
+LLM-generated text is cached durably in the Supabase `chart_ai_insights`
+table via `app/services/llm_response_cache.py`. Rows are keyed by
+`(chart_type, chart_data_hash)`; up to 3 variants per key are kept and a
+random one is served on read (`force_refresh=true` on the API routes
+bypasses the read and stores a new variant).
+
+| `chart_type` | Key contents | Expiry |
+|---|---|---|
+| chart analyses (e.g. `consumption_trend`) | chart payload + `PROMPT_VERSION` | none |
+| `map_explanation` | map payload + `PROMPT_VERSION` | none |
+| `overview` (ai-insight `use_llm=true`) | stats/forecast/source payload + `PROMPT_VERSION` | none |
+| `chat` | normalized message + retrieved-chunk text hashes + version | 7 days |
+
+Cached text is passed through `clean_ai_output`/`strip_source_dump` on
+both write and read, so legacy rows with raw `Sources:` dumps render
+clean without a migration. Cache failures log a warning and fall back to
+a fresh LLM call — they never break the request. Diagnose a deployed
+instance with `python scripts/check_ai_cache.py` (write → read-back →
+cleanup probe).
+
 ## Notes
 
 - `scripts/check_*.py` are interactive verification harnesses (live RAG/LLM

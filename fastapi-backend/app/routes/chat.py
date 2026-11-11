@@ -71,6 +71,13 @@ def _retrieve_context(query: str, top_k: int = 5) -> list[dict]:
             return []
 
 
+# Bump when the chat prompt or pipeline changes to invalidate cached answers.
+CHAT_CACHE_VERSION = "1"
+# Chat answers depend on the RAG corpus, which the cache key can't fully see —
+# expire entries after a week so stale citations don't live forever.
+CHAT_CACHE_MAX_AGE = 7 * 86400
+
+
 def _generate_response(prompt: str) -> str:
     """Call Groq directly (no Gemini, no JSON mode) for fast chat responses."""
     try:
@@ -152,15 +159,33 @@ async def chat_message(
     # Retrieve context with hybrid search + reranking
     chunks = _retrieve_context(message_text)
 
-    # Build prompt with chat history for multi-turn context
-    history = get_chat_history(session_id, limit=10) if session_id else []
-    prompt = _build_chat_prompt(message_text, chunks)
+    # LLM response cache: identical question + identical retrieved context.
+    # Note: the key excludes chat history, so a cached single-turn answer may
+    # serve an identical follow-up — bounded by CHAT_CACHE_MAX_AGE.
+    from app.services.llm_response_cache import (
+        cache_insight,
+        get_cached_insight,
+        hash_cache_key,
+    )
+    cache_key = hash_cache_key({
+        "v": CHAT_CACHE_VERSION,
+        "q": " ".join(message_text.lower().split()),
+        "ctx": [str(c.get("text", ""))[:400] for c in chunks],
+    })
+    response_text = get_cached_insight(
+        "chat", cache_key, max_age_seconds=CHAT_CACHE_MAX_AGE
+    )
+    if response_text is None:
+        # Build prompt with chat history for multi-turn context
+        history = get_chat_history(session_id, limit=10) if session_id else []
+        prompt = _build_chat_prompt(message_text, chunks)
 
-    # Generate response
-    response_text = _generate_response(prompt)
+        # Generate response
+        response_text = _generate_response(prompt)
 
-    # Output sanitization
-    response_text = sanitize_output(response_text)
+        # Output sanitization
+        response_text = sanitize_output(response_text)
+        cache_insight("chat", cache_key, response_text)
 
     # Citation verification
     citation_result = verify_citations(response_text, chunks) if chunks else None
