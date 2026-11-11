@@ -825,7 +825,9 @@
       "generating": "Gumagawa ng analysis...",
       "refresh": "I-refresh",
       "getDifferent": "Kumuha ng ibang paliwanag",
-      "enlarge": "Palakihin ang tsart"
+      "enlarge": "Palakihin ang tsart",
+      "readMore": "Basahin pa",
+      "showLess": "Itago"
     },
     "sources": {
       "title": "Energy Source Comparison",

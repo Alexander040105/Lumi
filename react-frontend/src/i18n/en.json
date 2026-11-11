@@ -825,7 +825,9 @@
       "aiExplain": "AI Explain",
       "generating": "Generating analysis...",
       "refresh": "Refresh",
-      "getDifferent": "Get a different explanation"
+      "getDifferent": "Get a different explanation",
+      "readMore": "Read more",
+      "showLess": "Show less"
     },
     "sources": {
       "title": "Energy Source Comparison",
