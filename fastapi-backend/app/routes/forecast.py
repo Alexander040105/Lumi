@@ -64,7 +64,8 @@ async def run_forecast(
     target_col = "total_consumption_gwh" if metric == "consumption" else "total_peak_demand_mw"
 
     config = SARIMAConfig(order=(order_p, order_d, order_q))
-    forecast_years = list(range(2025, forecast_to + 1))
+    start_year = int(ml._historical["year"].max()) + 1
+    forecast_years = list(range(start_year, forecast_to + 1))
 
     result = run_forecast_pipeline(
         df=ml._historical,
