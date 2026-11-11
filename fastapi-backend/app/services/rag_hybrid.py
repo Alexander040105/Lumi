@@ -389,9 +389,11 @@ def sanitize_output(response_text: str) -> str:
     # Remove any system prompt leaks
     response_text = re.sub(r"^(STEP \d+:.*?)(?:\n|$)", "", response_text, flags=re.MULTILINE)
 
-    # Limit response length
+    # Limit response length — cut at the last complete sentence so the
+    # answer never ends mid-word with a dangling "..."
     if len(response_text) > 4000:
-        response_text = response_text[:4000] + "..."
+        from app.services.llm_sanitizer import truncate_to_complete_sentence
+        response_text = truncate_to_complete_sentence(response_text[:4000])
 
     return response_text.strip()
 

@@ -15,6 +15,7 @@ from app.services.llm_sanitizer import (  # noqa: E402
     clean_ai_output,
     extract_prescriptive_recommendation,
     sanitize_llm_output,
+    truncate_to_complete_sentence,
 )
 
 # Tag constants to avoid any editor/encoding ambiguity.
@@ -72,6 +73,18 @@ def _run() -> None:
     cleaned = clean_ai_output(raw)
     assert "Let me think" not in cleaned, "clean_ai_output leaked thinking: %r" % cleaned
     assert cleaned.endswith("."), "clean_ai_output did not truncate to a sentence: %r" % cleaned
+
+    # 8. truncate_to_complete_sentence drops a trailing mid-sentence fragment
+    cut = truncate_to_complete_sentence("First sentence. Second sentence. Third sent")
+    assert cut == "First sentence. Second sentence.", "bad sentence cut: %r" % cut
+
+    # 9. rag_hybrid.sanitize_output never ends with a dangling "..."
+    from app.services.rag_hybrid import sanitize_output
+    big = ("The grid needs more capacity. " * 200) + "Trailing partial sent"
+    sanitized = sanitize_output(big)
+    assert len(sanitized) <= 4000, "sanitize_output exceeded cap: %d" % len(sanitized)
+    assert not sanitized.endswith("..."), "sanitize_output ended with dangling ellipsis: %r" % sanitized[-20:]
+    assert sanitized.endswith("."), "sanitize_output did not end on a sentence: %r" % sanitized[-20:]
 
     print("OK: all sanitizer assertions passed")
 
