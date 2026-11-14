@@ -1062,6 +1062,16 @@ CREATE TABLE IF NOT EXISTS "public"."products" (
     "reviews" "text",
     "price_note" "text",
     "rejection_reason" "text",
+    "brand" "text",
+    "model_number" "text",
+    "short_description" "text",
+    "description" "text",
+    "specs" "jsonb",
+    "image_url" "text",
+    "price_type" "text" DEFAULT 'fixed'::"text",
+    "wattage_w" numeric,
+    "capacity_wh" numeric,
+    "voltage_v" numeric,
     "updated_at" timestamp with time zone DEFAULT "now"()
 );
 
