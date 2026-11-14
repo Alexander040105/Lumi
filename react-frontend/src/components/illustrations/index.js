@@ -1,0 +1,9 @@
+export { default as IllustrationLocation } from "./IllustrationLocation";
+export { default as IllustrationBill } from "./IllustrationBill";
+export { default as IllustrationSavings } from "./IllustrationSavings";
+export { default as IllustrationAI } from "./IllustrationAI";
+export { default as IllustrationReview } from "./IllustrationReview";
+export { default as IllustrationSolar } from "./IllustrationSolar";
+export { default as IllustrationWind } from "./IllustrationWind";
+export { default as IllustrationHydro } from "./IllustrationHydro";
+export { default as IllustrationEmpty } from "./IllustrationEmpty";
