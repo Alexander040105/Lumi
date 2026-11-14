@@ -80,7 +80,7 @@
     "renewable_type": "solar",
     "category": "installation_cost",
     "product_type": "system",
-    "content": "Solar installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 33,623 (median PHP 6,350). Installation is estimated at 30-50% of equipment cost. Therefore a typical system installation may add PHP 10,087 - PHP 16,812 on top of equipment prices. Residential solar installation typically includes mounting structures, wiring, inverter installation, labour, permits, and net-metering setup. Small residential systems (1-2 kWp) may have higher per-watt installation costs.",
+    "content": "Solar installation cost estimate: Based on scraped equipment data, average equipment cost per major component is around PHP 33,316 (median PHP 6,200). Installation is estimated at 30-50% of equipment cost. Therefore a typical system installation may add PHP 9,995 - PHP 16,658 on top of equipment prices. Residential solar installation typically includes mounting structures, wiring, inverter installation, labour, permits, and net-metering setup. Small residential systems (1-2 kWp) may have higher per-watt installation costs.",
     "sources": [
       {
         "title": "Aggregated E-Commerce Pricing Data",
@@ -272,7 +272,7 @@
     "renewable_type": "solar",
     "category": "equipment_cost",
     "product_type": "battery",
-    "content": "Product: Le er 25mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 14,087 (original PHP 14087.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2803.",
+    "content": "Product: Leader 25mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 14,087 (original PHP 14087.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2803.",
     "sources": [
       {
         "title": "Solar Portal PH",
@@ -285,7 +285,7 @@
     "renewable_type": "solar",
     "category": "equipment_cost",
     "product_type": "battery",
-    "content": "Product: Le er 35mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 20,815 (original PHP 20815.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2804.",
+    "content": "Product: Leader 35mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 20,815 (original PHP 20815.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2804.",
     "sources": [
       {
         "title": "Solar Portal PH",
@@ -298,7 +298,7 @@
     "renewable_type": "solar",
     "category": "equipment_cost",
     "product_type": "battery",
-    "content": "Product: Le er 50mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 29,497 (original PHP 29497.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2805.",
+    "content": "Product: Leader 50mm2 Battery Cable BLK/RED 30m Roll. Type: solar battery. Price: PHP 29,497 (original PHP 29497.0). Source: solarportal. URL: https://solarportal.store/products/6a75bf5fe7130377b4cf2805.",
     "sources": [
       {
         "title": "Solar Portal PH",
