@@ -160,13 +160,17 @@ def token_set_similarity(a: str, b: str) -> float:
 def build_document(row: Dict[str, str]) -> str:
     brand = f"Brand: {row.get('brand', '')}. " if row.get("brand") else ""
     model = f"Model: {row.get('model_number', '')}. " if row.get("model_number") else ""
+    if row.get("price_type") == "quote" or not row.get("price_value"):
+        price_text = "Price: on request (quote only)."
+    else:
+        price_text = f"Price: {row.get('currency', '')} {row.get('price_value', '')}."
     return (
         f"{row['product_name']}. "
         f"{brand}{model}"
         f"Category: {row.get('category', '')}/{row.get('subcategory', '')}. "
         f"Renewable: {row.get('renewable_type', '')}. "
         f"Type: {row.get('product_type', '')}. "
-        f"Price: {row.get('currency', '')} {row.get('price_value', '')}. "
+        f"{price_text} "
         f"Source: {row.get('source', '')}. "
         f"Ratings: {row.get('ratings', '')} ({row.get('reviews', '')} reviews). "
         f"URL: {row.get('url', '')}."

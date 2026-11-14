@@ -257,13 +257,15 @@ def migrate_climate(client: Client) -> None:
 
 def _parse_specs_json(value: Any) -> Any:
     """Coerce the catalogue's specs_json text column into jsonb-ready values."""
-    if isinstance(value, (dict, list)):
+    if isinstance(value, dict):
         return value
-    if isinstance(value, str) and value.strip().startswith(("{", "[")):
+    if isinstance(value, str) and value.strip().startswith("{"):
         try:
-            return json.loads(value)
+            parsed = json.loads(value)
         except (ValueError, TypeError):
+            logger.warning("Dropping malformed specs_json: %.80s", value)
             return None
+        return parsed if isinstance(parsed, dict) else None
     return None
 
 

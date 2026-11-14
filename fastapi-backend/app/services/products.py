@@ -15,6 +15,7 @@ Known data quality issues:
 - Products without URLs are excluded from recommendation but included in audit.
 """
 
+import json
 import logging
 import os
 import threading
@@ -104,12 +105,19 @@ def _row_to_dict(row: pd.Series) -> dict:
         return val
 
     def _num(col):
-        val = row.get(col)
+        val = pd.to_numeric(row.get(col), errors="coerce")
         return round(val, 2) if pd.notna(val) else None
 
-    specs = _clean(row.get("specs"))
+    # Supabase returns `specs` (jsonb -> dict); the local CSV fallback carries
+    # the same payload as a JSON string in `specs_json`.
+    specs = _clean(row.get("specs")) or _clean(row.get("specs_json"))
     if isinstance(specs, str):
-        specs = _clean(row.get("specs_json"))
+        try:
+            specs = json.loads(specs)
+        except (ValueError, TypeError):
+            specs = None
+    if not isinstance(specs, dict):
+        specs = None
 
     return {
         "product_name": _clean(row.get("product_name")),

@@ -60,11 +60,11 @@ def _row_text(row: pd.Series) -> str:
 
 def compute_voltage_v(row: pd.Series) -> Optional[float]:
     """First plausible DC/system voltage in the text (1.5V-600V)."""
-    match = V_REGEX.search(_row_text(row))
-    if not match:
-        return None
-    volts = float(match.group(1))
-    return volts if 1.5 <= volts <= 600 else None
+    for match in V_REGEX.finditer(_row_text(row)):
+        volts = float(match.group(1))
+        if 1.5 <= volts <= 600:
+            return volts
+    return None
 
 
 def compute_capacity_wh(row: pd.Series) -> Optional[float]:
@@ -76,8 +76,9 @@ def compute_capacity_wh(row: pd.Series) -> Optional[float]:
     match = WH_REGEX.search(text)
     if match:
         wh = float(match.group(1))
-        # "550W"/"580w" panel wattage must not be read as Wh; require a
-        # battery-ish context word before trusting a bare Wh value.
+        # A bare "580Wh" in a panel/inverter listing is usually marketing
+        # wattage mislabeled; require a battery-ish context word before
+        # trusting Wh without an explicit kWh unit.
         if any(token in text for token in ("battery", "lifepo4", "lithium", "storage", "batt")):
             return wh
     volts = compute_voltage_v(row)
