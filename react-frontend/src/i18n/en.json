@@ -1117,6 +1117,20 @@
         "body": "You entered {{entered}} kWh, but your bill and rate suggest about {{effective}} kWh. We're using the effective value for this analysis."
       },
       "referenceOnly": "Reference only",
+      "academicOnly": "Site-potential only",
+      "windNotViable": "Below viability floor",
+      "sizing": {
+        "title": "Recommended Solar System Sizing",
+        "description": "Consumption-driven estimate per ERC net-metering rules — 550W panels, LiFePO4 storage when enabled.",
+        "systemSize": "System size",
+        "battery": "Battery storage",
+        "selfConsumed": "Self-consumed",
+        "exportCredit": "Export credit",
+        "investment": "Total investment",
+        "payback": "Simple payback",
+        "npv": "25-yr NPV",
+        "years": "{{count}} yrs"
+      },
       "utilityScaleNote": "utility-scale, not a home option",
       "sources": {
         "Solar": "Solar",
@@ -1323,68 +1337,17 @@
     "bom": {
       "title": "Bill of Materials",
       "description": "Estimated components for the recommended system",
-      "notApplicable": "Geothermal energy is a utility-scale resource. A home-scale bill of materials is not applicable.",
-      "estimated": "Estimated {{kw}} kW {{source}} system · {{cost}} total",
+      "sizingEstimate": "{{kw}} kWp system · {{panels}} panels · {{cost}} turnkey estimate",
       "component": "Component",
       "qty": "Qty",
-      "unit": "Unit",
-      "unitCost": "Unit Cost",
+      "share": "Cost share",
       "total": "Total",
       "estimatedTotal": "Estimated Total",
-      "items": {
-        "solar_panels": {
-          "item": "Solar panels (400 W)",
-          "unit": "panel"
-        },
-        "solar_inverter": {
-          "item": "Inverter",
-          "unit": "unit"
-        },
-        "solar_mounting": {
-          "item": "Mounting & wiring",
-          "unit": "set"
-        },
-        "solar_labor": {
-          "item": "Installation labor",
-          "unit": "set"
-        },
-        "solar_permits": {
-          "item": "Permits & miscellaneous",
-          "unit": "set"
-        },
-        "wind_turbine": {
-          "item": "Small wind turbine",
-          "unit": "unit"
-        },
-        "wind_tower": {
-          "item": "Tower / mast",
-          "unit": "unit"
-        },
-        "wind_controller": {
-          "item": "Controller & inverter",
-          "unit": "unit"
-        },
-        "wind_labor": {
-          "item": "Installation & anchoring",
-          "unit": "set"
-        },
-        "hydro_turbine": {
-          "item": "Micro-hydro turbine & generator",
-          "unit": "unit"
-        },
-        "hydro_penstock": {
-          "item": "Penstock & civil works",
-          "unit": "set"
-        },
-        "hydro_controller": {
-          "item": "Controller & protection",
-          "unit": "unit"
-        },
-        "hydro_labor": {
-          "item": "Installation & commissioning",
-          "unit": "set"
-        }
-      }
+      "quoteOnly": "Request for quote",
+      "viewProduct": "View product",
+      "viewSource": "Source",
+      "sourcesTitle": "View Sourced References",
+      "supports": "Supports: {{param}}"
     },
     "providers": {
       "title": "Renewable-Energy Providers & Retailers in Your Region",

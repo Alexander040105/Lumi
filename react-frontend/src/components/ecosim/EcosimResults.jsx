@@ -12,6 +12,7 @@ import InterpretationBadge, { getRating } from "@/components/shared/Interpretati
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
 import ExplanationModal from "./ExplanationModal";
+import EcosimBOM from "./EcosimBOM";
 import { resolveSourceAnalysis } from "@/utils/ecosimAnalysis";
 import ProviderRecommendations from "./ProviderRecommendations";
 
@@ -282,6 +283,10 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             const optionSource = item.source === "Hydro" ? "Hydropower" : item.source;
             const option = result.options?.find((o) => o.source === optionSource) || {};
             const isUtility = item.referenceOnly;
+            const isAcademic = option.source_type === "academic";
+            const windNotViable =
+              item.source === "Wind" &&
+              (result.renewable_energy_results?.climate?.avg_wind_hub_ms ?? 5) < 5;
             const scoreVal = isUtility
               ? (item.output?.suitability_score || 0)
               : (option.generation_score ?? 0);
@@ -300,6 +305,8 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
                     <span className="font-semibold">{t("ecosim.results.sources." + item.source)}</span>
                     {isRec && <Badge className="bg-primary text-primary-foreground text-xs">{t("ecosim.results.recommended")}</Badge>}
                     {item.referenceOnly && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.referenceOnly")}</Badge>}
+                    {isAcademic && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.academicOnly")}</Badge>}
+                    {windNotViable && <Badge className="bg-warning/15 text-warning-foreground border-warning/40 text-xs">{t("ecosim.results.windNotViable")}</Badge>}
                     {!isRec && <Badge className={`${rating.color} text-xs`}>{item.info.label}</Badge>}
                   </div>
                   <p className="text-sm text-muted-foreground mt-0.5">
@@ -456,6 +463,64 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
 
           {/* Scenario comparison hidden until financial modeling is reliable */}
         </div>
+      )}
+
+      {/* Sizing summary + Bill of Materials */}
+      {result.sizing && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Sun className="h-5 w-5 text-primary" aria-hidden="true" />
+                {t("ecosim.results.sizing.title")}
+              </CardTitle>
+              <CardDescription>{t("ecosim.results.sizing.description")}</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.systemSize")}</p>
+                <p className="text-lg font-semibold">
+                  {formatNumber(result.sizing.panels_needed)} × 550W = {formatNumber(result.sizing.actual_system_kwp, 2)} kWp
+                </p>
+              </div>
+              {result.sizing.battery_modules_needed > 0 && (
+                <div>
+                  <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.battery")}</p>
+                  <p className="text-lg font-semibold">
+                    {result.sizing.battery_modules_needed} × 5.12 = {formatNumber(result.sizing.installed_battery_kwh, 2)} kWh
+                  </p>
+                </div>
+              )}
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.selfConsumed")}</p>
+                <p className="text-lg font-semibold">{formatNumber(result.sizing.monthly_self_consumed_kwh, 1)} kWh/mo</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.exportCredit")}</p>
+                <p className="text-lg font-semibold">{formatCurrency(result.sizing.monthly_export_credit_php)}/mo</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.investment")}</p>
+                <p className="text-lg font-semibold">{formatCurrency(result.sizing.total_installation_cost_php)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.payback")}</p>
+                <p className="text-lg font-semibold">
+                  {result.sizing.simple_payback_years != null
+                    ? t("ecosim.results.sizing.years", { count: formatNumber(result.sizing.simple_payback_years, 1) })
+                    : "—"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-muted-foreground">{t("ecosim.results.sizing.npv")}</p>
+                <p className="text-lg font-semibold">
+                  {result.sizing.npv_php != null ? formatCurrency(result.sizing.npv_php) : "—"}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+          <EcosimBOM sizing={result.sizing} />
+        </>
       )}
     </div>
   );

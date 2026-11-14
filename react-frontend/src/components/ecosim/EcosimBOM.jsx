@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Package } from "lucide-react";
+import { AlertTriangle, ExternalLink, Package } from "lucide-react";
 import { useI18n } from "@/i18n";
 
 const formatCurrency = (value) =>
@@ -17,90 +17,45 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(value ?? 0);
 
-function deriveSystemKw(source, generationKwh) {
-  if (!generationKwh) return 0;
-  switch (source) {
-    case "Solar":
-      return generationKwh / (30 * 4.5);
-    case "Wind":
-      return generationKwh / (30 * 24 * 0.25);
-    case "Hydro":
-      return generationKwh / (30 * 24 * 0.5);
-    case "Geothermal":
-      return generationKwh / (30 * 24);
-    default:
-      return 0;
-  }
+function MatchedProduct({ product }) {
+  const { t } = useI18n();
+  if (!product) return null;
+  const label = [product.brand, product.product_name]
+    .filter(Boolean)
+    .join(" ");
+  return (
+    <div className="mt-1.5 text-xs text-muted-foreground">
+      <span className="font-medium text-foreground">{label}</span>
+      {" — "}
+      {product.price_php != null ? (
+        <span>{formatCurrency(product.price_php)}</span>
+      ) : (
+        <span className="italic">{t("ecosim.bom.quoteOnly")}</span>
+      )}
+      {product.source_site && <span> · {product.source_site}</span>}
+      {product.url && (
+        <a
+          href={product.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ml-1.5 inline-flex items-center gap-0.5 text-primary hover:underline"
+        >
+          {t("ecosim.bom.viewProduct")}
+          <ExternalLink className="h-3 w-3" aria-hidden="true" />
+        </a>
+      )}
+    </div>
+  );
 }
 
-const BOM_SCHEMA = {
-  Solar: [
-    {
-      id: "solar_panels",
-      costShare: 0.4,
-      qtyFn: (kw) => Math.max(1, Math.ceil((kw * 1000) / 400)),
-    },
-    { id: "solar_inverter", costShare: 0.2, qtyFn: () => 1 },
-    { id: "solar_mounting", costShare: 0.15, qtyFn: () => 1 },
-    { id: "solar_labor", costShare: 0.2, qtyFn: () => 1 },
-    { id: "solar_permits", costShare: 0.05, qtyFn: () => 1 },
-  ],
-  Wind: [
-    { id: "wind_turbine", costShare: 0.5, qtyFn: () => 1 },
-    { id: "wind_tower", costShare: 0.25, qtyFn: () => 1 },
-    { id: "wind_controller", costShare: 0.15, qtyFn: () => 1 },
-    { id: "wind_labor", costShare: 0.1, qtyFn: () => 1 },
-  ],
-  Hydro: [
-    { id: "hydro_turbine", costShare: 0.35, qtyFn: () => 1 },
-    { id: "hydro_penstock", costShare: 0.3, qtyFn: () => 1 },
-    { id: "hydro_controller", costShare: 0.15, qtyFn: () => 1 },
-    { id: "hydro_labor", costShare: 0.2, qtyFn: () => 1 },
-  ],
-};
-
-export default function EcosimBOM({ result }) {
+export default function EcosimBOM({ sizing }) {
   const { t } = useI18n();
-  const source = result?.recommended_source;
-  const rec = result?.options?.find((o) => o.source === source) || {};
-  const installationCost = rec.installation_cost ?? result?.installation_cost ?? 0;
-  const systemKw = rec.system_kw ?? deriveSystemKw(source, rec.estimated_generation_kwh ?? result?.estimated_generation_kwh);
+  const items = sizing?.bom_items ?? [];
+  if (!items.length) return null;
 
-  if (!source || installationCost <= 0) {
-    return null;
-  }
-
-  if (source === "Geothermal") {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <Package className="h-5 w-5 text-primary" aria-hidden="true" />
-            {t("ecosim.bom.title")}
-          </CardTitle>
-          <CardDescription>{t("ecosim.bom.description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-sm text-muted-foreground">
-            {t("ecosim.bom.notApplicable")}
-          </p>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  const items = BOM_SCHEMA[source] || [];
-  const rows = items.map((entry) => {
-    const qty = entry.qtyFn(systemKw);
-    const totalCost = installationCost * entry.costShare;
-    const unitCost = qty > 0 ? totalCost / qty : 0;
-    return {
-      ...entry,
-      qty,
-      unitCost,
-      totalCost,
-    };
-  });
+  const totalCost = sizing?.total_installation_cost_php ?? 0;
+  const solarShare = items.filter((i) => i.id !== "battery_storage");
+  const batteryItems = items.filter((i) => i.id === "battery_storage");
 
   return (
     <Card>
@@ -110,38 +65,102 @@ export default function EcosimBOM({ result }) {
           {t("ecosim.bom.title")}
         </CardTitle>
         <CardDescription>
-          {t("ecosim.bom.estimated", { kw: systemKw.toFixed(2), source: t("ecosim.results.sources." + source), cost: formatCurrency(installationCost) })}
+          {t("ecosim.bom.sizingEstimate", {
+            kw: (sizing.actual_system_kwp ?? 0).toFixed(2),
+            panels: sizing.panels_needed ?? 0,
+            cost: formatCurrency(totalCost),
+          })}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>{t("ecosim.bom.component")}</TableHead>
               <TableHead className="text-right">{t("ecosim.bom.qty")}</TableHead>
-              <TableHead>{t("ecosim.bom.unit")}</TableHead>
-              <TableHead className="text-right">{t("ecosim.bom.unitCost")}</TableHead>
+              <TableHead className="text-right">{t("ecosim.bom.share")}</TableHead>
               <TableHead className="text-right">{t("ecosim.bom.total")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rows.map((row) => (
+            {solarShare.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{t("ecosim.bom.items." + row.id + ".item")}</TableCell>
-                <TableCell className="text-right font-medium">{row.qty}</TableCell>
-                <TableCell className="text-muted-foreground">{t("ecosim.bom.items." + row.id + ".unit")}</TableCell>
-                <TableCell className="text-right">{formatCurrency(row.unitCost)}</TableCell>
-                <TableCell className="text-right font-medium">{formatCurrency(row.totalCost)}</TableCell>
+                <TableCell>
+                  <span className="text-sm">{row.name}</span>
+                  <MatchedProduct product={row.matched_product} />
+                </TableCell>
+                <TableCell className="text-right font-medium align-top">{row.qty}</TableCell>
+                <TableCell className="text-right text-muted-foreground align-top">
+                  {Math.round((row.cost_share ?? 0) * 100)}%
+                </TableCell>
+                <TableCell className="text-right font-medium align-top">
+                  {formatCurrency(row.total_php)}
+                </TableCell>
+              </TableRow>
+            ))}
+            {batteryItems.map((row) => (
+              <TableRow key={row.id} className="bg-primary/5">
+                <TableCell>
+                  <span className="text-sm">{row.name}</span>
+                  <MatchedProduct product={row.matched_product} />
+                </TableCell>
+                <TableCell className="text-right font-medium align-top">{row.qty}</TableCell>
+                <TableCell className="text-right text-muted-foreground align-top">—</TableCell>
+                <TableCell className="text-right font-medium align-top">
+                  {formatCurrency(row.total_php)}
+                </TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell colSpan={4} className="text-right font-semibold">
+              <TableCell colSpan={3} className="text-right font-semibold">
                 {t("ecosim.bom.estimatedTotal")}
               </TableCell>
-              <TableCell className="text-right font-bold">{formatCurrency(installationCost)}</TableCell>
+              <TableCell className="text-right font-bold">{formatCurrency(totalCost)}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
+
+        {sizing.disclaimers?.length > 0 && (
+          <div className="rounded-lg border border-warning/40 bg-warning/10 p-3 space-y-1.5" role="note">
+            {sizing.disclaimers.map((d, i) => (
+              <p key={i} className="text-xs text-warning-foreground flex items-start gap-2">
+                <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+                <span>{d}</span>
+              </p>
+            ))}
+          </div>
+        )}
+
+        {sizing.citations?.length > 0 && (
+          <details className="rounded-lg border bg-muted/30 p-3 text-sm">
+            <summary className="cursor-pointer font-medium text-primary">
+              {t("ecosim.bom.sourcesTitle")}
+            </summary>
+            <ul className="mt-3 space-y-2 list-disc pl-5">
+              {sizing.citations.map((c) => (
+                <li key={c.id} className="text-xs text-muted-foreground">
+                  <span>{c.apa_citation}</span>
+                  {c.parameter_supported && (
+                    <span className="block italic mt-0.5">
+                      {t("ecosim.bom.supports", { param: c.parameter_supported })}
+                    </span>
+                  )}
+                  {c.url && (
+                    <a
+                      href={c.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-1 inline-flex items-center gap-0.5 text-primary hover:underline"
+                    >
+                      {t("ecosim.bom.viewSource")}
+                      <ExternalLink className="h-3 w-3" aria-hidden="true" />
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
       </CardContent>
     </Card>
   );
