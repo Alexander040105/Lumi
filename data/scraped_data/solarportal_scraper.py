@@ -110,7 +110,9 @@ def build_product(raw: Dict, url_scheme: Optional[str]) -> Optional[Product]:
         price_value = float(retail)
     except (TypeError, ValueError):
         price_value = 0.0
-    price = f"{price_value:.2f}"
+    # quote rows must emit an empty price, not "0.00" — a literal zero would
+    # parse as a real PHP 0.00 and poison price-sorted recommendations
+    price = f"{price_value:.2f}" if price_value > 0 else ""
     price_type = "fixed" if price_value > 0 else "quote"
 
     images = raw.get("images") or []

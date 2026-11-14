@@ -119,14 +119,21 @@ def scrape_shop(soup: BeautifulSoup) -> List[Dict[str, str]]:
             )
             href = link["href"] if link else ""
             src = img["src"] if img else ""
+            # scraped hrefs are untrusted input — only http(s) URLs are emitted
+            url = requests.compat.urljoin(URL, href) if href else SHOP_URL
+            image_url = requests.compat.urljoin(URL, src) if src else ""
+            if not url.startswith("https://"):
+                url = SHOP_URL
+            if image_url and not image_url.startswith("https://"):
+                image_url = ""
             rows.append(base_row(
                 name=name,
                 price=price,
                 currency="PHP",
-                url=requests.compat.urljoin(URL, href) if href else SHOP_URL,
+                url=url,
                 source_category=category,
                 brand=detect_brand(name),
-                image_url=requests.compat.urljoin(URL, src),
+                image_url=image_url,
                 price_type=price_type,
             ))
     return rows
