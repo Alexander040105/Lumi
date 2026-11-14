@@ -47,15 +47,19 @@ export default function ReadAloud({ text, className = "" }) {
       type="button"
       onClick={toggle}
       aria-pressed={speaking}
-      aria-label={label}
       title={label}
-      className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground ${className}`}
+      className={`inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md px-3 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+        speaking
+          ? "bg-primary/10 text-primary hover:bg-primary/15"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground"
+      } ${className}`}
     >
       {speaking ? (
         <Square className="h-3.5 w-3.5" aria-hidden="true" />
       ) : (
-        <Volume2 className="h-4 w-4" aria-hidden="true" />
+        <Volume2 className="h-3.5 w-3.5" aria-hidden="true" />
       )}
+      <span>{label}</span>
     </button>
   );
 }
