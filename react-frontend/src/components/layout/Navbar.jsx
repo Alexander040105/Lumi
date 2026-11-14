@@ -67,7 +67,7 @@ const navLinks = [
 function LumLogo() {
   return (
     <div className="flex items-center gap-2">
-      <img src="/logo.png" alt="LUMI" className="h-14 w-auto object-contain" />
+      <img src="/logo.png" alt="LUMI" className="h-16 w-auto object-contain md:h-20" />
     </div>
   );
 }
