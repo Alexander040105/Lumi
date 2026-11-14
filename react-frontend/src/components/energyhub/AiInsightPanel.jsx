@@ -77,10 +77,10 @@ export default function AiInsightPanel({
                 }
               }}
               disabled={!!(llmLoading || {})[tab]}
-              className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors disabled:opacity-50 ${
+              className={`inline-flex items-center px-3 py-1 min-h-[36px] rounded-md text-xs font-medium whitespace-nowrap transition-colors disabled:opacity-50 ${
                 activeTab === tab
                   ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  : "bg-muted text-foreground hover:bg-muted/80"
               }`}
             >
               {t(`energyHub.aiInsight.tabs.${tab}`)}
@@ -104,9 +104,9 @@ export default function AiInsightPanel({
       </div>
 
       {(activeAnalysis?.recommendation || insight.recommendation) && (
-        <div className="mt-3 rounded-lg bg-secondary border border-border p-4 flex gap-3">
-          <Info className="h-4 w-4 text-primary shrink-0 mt-0.5" aria-hidden="true" />
-          <div className="text-sm leading-relaxed text-foreground">
+        <div className="mt-3 rounded-lg bg-secondary border border-border p-4 flex gap-3 text-secondary-foreground">
+          <Info className="h-4 w-4 text-secondary-foreground shrink-0 mt-0.5" aria-hidden="true" />
+          <div className="text-sm leading-relaxed [&_p]:text-secondary-foreground [&_strong]:text-secondary-foreground">
             <Markdown>{activeAnalysis?.recommendation || insight.recommendation}</Markdown>
           </div>
         </div>

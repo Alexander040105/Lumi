@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { Sun, Wind, Droplets, Flame, Factory, Fuel, Leaf, Mountain, Zap } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { useTheme } from "@/hooks/useTheme";
 import cssVarToHsl from "@/utils/cssVarToHsl";
@@ -14,6 +15,17 @@ const SOURCE_META = {
   solar: { label: "Solar", cssVar: "--chart-solar", color: "#eab308" },
   wind: { label: "Wind", cssVar: "--chart-wind", color: "#22c55e" },
   biomass: { label: "Biomass", color: "#8b5cf6" },
+};
+
+const SOURCE_ICONS = {
+  coal: Factory,
+  natural_gas: Flame,
+  oil_based: Fuel,
+  geothermal: Mountain,
+  hydro: Droplets,
+  solar: Sun,
+  wind: Wind,
+  biomass: Leaf,
 };
 
 export default function EnergySources({ breakdown }) {
@@ -46,9 +58,8 @@ export default function EnergySources({ breakdown }) {
         hole: 0.55,
         marker: { colors: chartData.map((d) => d.color) },
         textinfo: "percent",
-        textposition: "inside",
-        insidetextorientation: "radial",
-        textfont: { size: 11, color: "#ffffff" },
+        textposition: "outside",
+        textfont: { size: 11 },
         hovertemplate: t("energyHub.sources.hover", { value: "%{value}", gwh: "%{customdata:,.0f}" }),
         customdata: chartData.map((d) => d.gwh),
         showlegend: false,
@@ -60,7 +71,7 @@ export default function EnergySources({ breakdown }) {
   const plotlyLayout = useMemo(
     () => ({
       showlegend: false,
-      margin: { t: 12, r: 12, b: 12, l: 12 },
+      margin: { t: 20, r: 20, b: 20, l: 20 },
       annotations: [
         {
           text: `<b>${breakdown?.year || ""}</b><br><span style="font-size:11px;color:${cssVarToHsl("--muted-foreground", "#64748b")}">GWh</span>`,
@@ -96,29 +107,37 @@ export default function EnergySources({ breakdown }) {
       />
 
       <div className="mt-4 flex flex-col md:flex-row items-center gap-6">
-        <div className="w-80 h-80 shrink-0">
+        <div
+          className="w-64 h-64 sm:w-80 sm:h-80 max-w-full shrink-0"
+          role="img"
+          aria-label={t("energyHub.sources.title")}
+        >
           <PlotlyChart data={plotlyData} layout={plotlyLayout} />
         </div>
 
         <div className="flex-1 w-full">
           <div className="space-y-2.5">
-            {chartData.map((d) => (
-              <div key={d.key} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span
-                    className="inline-block h-3 w-3 rounded-sm"
-                    style={{ backgroundColor: d.color }}
-                  />
-                  <span className="text-sm font-medium">{d.label}</span>
+            {chartData.map((d) => {
+              const SourceIcon = SOURCE_ICONS[d.key] || Zap;
+              return (
+                <div key={d.key} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <SourceIcon
+                      className="h-4 w-4 shrink-0"
+                      style={{ color: d.color }}
+                      aria-hidden="true"
+                    />
+                    <span className="text-sm font-medium">{d.label}</span>
+                  </div>
+                  <div className="text-right min-w-[70px]">
+                    <span className="text-sm font-semibold">{d.share}%</span>
+                    <span className="ml-4 text-xs text-muted-foreground">
+                      {d.gwh.toLocaleString()} GWh
+                    </span>
+                  </div>
                 </div>
-                <div className="text-right min-w-[70px]">
-                  <span className="text-sm font-semibold">{d.share}%</span>
-                  <span className="ml-4 text-xs text-muted-foreground">
-                    {d.gwh.toLocaleString()} GWh
-                  </span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

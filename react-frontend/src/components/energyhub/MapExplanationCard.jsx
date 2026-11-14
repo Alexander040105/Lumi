@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
 import { Card, CardContent } from "@/components/ui/card";
 import { getEnergyHubMapExplanation } from "@/services/energyhub";
-import { Info, Loader2, RefreshCw, Eye, EyeOff } from "lucide-react";
+import { Info, Loader2, RefreshCw, Eye, EyeOff, Gauge } from "lucide-react";
 
 const HIDDEN_KEY = "lumi:hidden_map_explanations";
 
@@ -90,7 +90,7 @@ export default function MapExplanationCard({ metric, level }) {
       <CardContent className="py-3 px-4">
         {hidden ? (
           <div className="flex items-center justify-between gap-2 text-sm">
-            <span className="text-muted-foreground">{t("energyHub.map.explanationHidden")}</span>
+            <span className="text-foreground">{t("energyHub.map.explanationHidden")}</span>
             <button
               type="button"
               onClick={handleToggleHidden}
@@ -113,7 +113,7 @@ export default function MapExplanationCard({ metric, level }) {
                     disabled={loading}
                     title={t("energyHub.map.refreshExplanation")}
                     aria-label={t("energyHub.map.refreshExplanation")}
-                    className="inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted disabled:opacity-50"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted disabled:opacity-50"
                   >
                     {loading ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
@@ -126,23 +126,26 @@ export default function MapExplanationCard({ metric, level }) {
                     onClick={handleToggleHidden}
                     title={t("energyHub.map.hideExplanation")}
                     aria-label={t("energyHub.map.hideExplanation")}
-                    className="inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
+                    className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted"
                   >
                     <EyeOff className="h-3.5 w-3.5" aria-hidden="true" />
                   </button>
                 </div>
               </div>
               {loading && !result && (
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="flex items-center gap-2 text-foreground">
                   <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
                   {t("energyHub.map.explanationLoading")}
                 </div>
               )}
               {error && <p className="text-destructive text-xs">{error}</p>}
               {result?.insight && (
-                <p className="text-muted-foreground whitespace-pre-wrap leading-relaxed">
-                  {result.insight}
-                </p>
+                <div className="flex items-start gap-2">
+                  <Gauge className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                  <p className="text-foreground whitespace-pre-wrap leading-relaxed">
+                    {result.insight}
+                  </p>
+                </div>
               )}
             </div>
           </div>
