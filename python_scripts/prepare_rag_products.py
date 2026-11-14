@@ -39,6 +39,10 @@ CANONICAL_COLUMNS = [
     "ratings",
     "reviews",
     "source_file",
+    "brand",
+    "model_number",
+    "price_type",
+    "image_url",
 ]
 
 COLUMN_MAP = {
@@ -154,8 +158,11 @@ def token_set_similarity(a: str, b: str) -> float:
 
 
 def build_document(row: Dict[str, str]) -> str:
+    brand = f"Brand: {row.get('brand', '')}. " if row.get("brand") else ""
+    model = f"Model: {row.get('model_number', '')}. " if row.get("model_number") else ""
     return (
         f"{row['product_name']}. "
+        f"{brand}{model}"
         f"Category: {row.get('category', '')}/{row.get('subcategory', '')}. "
         f"Renewable: {row.get('renewable_type', '')}. "
         f"Type: {row.get('product_type', '')}. "
@@ -258,6 +265,10 @@ def flatten_metadata(row: Dict[str, str]) -> Dict[str, object]:
         "reviews": row.get("reviews", ""),
         "url": row.get("url", ""),
         "source_file": row.get("source_file", ""),
+        "brand": row.get("brand", ""),
+        "model_number": row.get("model_number", ""),
+        "price_type": row.get("price_type", ""),
+        "image_url": row.get("image_url", ""),
     }
     return metadata
 

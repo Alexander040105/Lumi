@@ -24,6 +24,10 @@ POSITIVE_KEYWORDS = {
         "solar", "pv", "photovoltaic", "panel", "inverter", "charge controller", "mppt",
         "pwm", "battery", "solar battery", "mounting", "microinverter",
         "energy meter", "smart meter",
+        # balance-of-system terms seen in PH retailer pricelists
+        "cable", "wire", "thhn", "mc4", "connector", "breaker", "fuse",
+        "combiner", "enclosure", "distribution", "surge", "spd", "gland",
+        "rail", "bracket", "pump", "adaptor", "adapter", "terminal", "lug",
     ],
     "wind": [
         "wind", "turbine", "windmill", "generator", "dump load", "wind controller",
@@ -41,7 +45,14 @@ SUBCATEGORY_KEYWORDS = {
         "inverter": ["inverter", "microinverter"],
         "charge_controller": ["charge controller", "mppt", "pwm"],
         "battery": ["battery"],
-        "mounting": ["mounting", "bracket"],
+        "combiner_box": ["combiner"],
+        "breaker": ["breaker", "fuse", "spd", "surge", "distribution"],
+        "pump": ["pump"],
+        "enclosure": ["enclosure", "tray", "gland", "box"],
+        "cable": ["cable", "wire", "thhn"],
+        "accessory": ["mc4", "connector", "adaptor", "adapter", "terminal", "lug", "clip", "clamp"],
+        "mounting": ["mounting", "bracket", "rail"],
+        "package": ["package", "bundle", "promo", "kit"],
         "meter": ["energy meter", "smart meter"],
     },
     "wind": {
@@ -66,6 +77,33 @@ EXCLUSION_KEYWORDS = [
 
 SPAM_PHRASES = [
     "sponsored", "ad", "best seller", "hot sale", "limited offer", "free shipping",
+]
+
+# Vendor-reported category labels -> (energy_category, energy_subcategory).
+# Checked as substrings against the normalized source_category, in order.
+VENDOR_CATEGORY_MAP = [
+    ("grid tie inverter", ("solar", "inverter")),
+    ("inverter", ("solar", "inverter")),
+    ("cable", ("solar", "cable")),
+    ("wire", ("solar", "cable")),
+    ("breaker", ("solar", "breaker")),
+    ("protection", ("solar", "breaker")),
+    ("combiner", ("solar", "combiner_box")),
+    ("controller", ("solar", "charge_controller")),
+    ("meter", ("solar", "meter")),
+    ("pump", ("solar", "pump")),
+    ("mount", ("solar", "mounting")),
+    ("rail", ("solar", "mounting")),
+    ("distribution", ("solar", "enclosure")),
+    ("enclosure", ("solar", "enclosure")),
+    ("promo", ("solar", "package")),
+    ("package", ("solar", "package")),
+    ("batter", ("solar", "battery")),
+    ("storage", ("solar", "battery")),
+    ("panel", ("solar", "panel")),
+    ("accessor", ("solar", "accessory")),
+    ("turbine", ("wind", "turbine")),
+    ("wind", ("wind", "turbine")),
 ]
 
 PLACEHOLDER_PRICES = {"n/a", "na", "none", "contact seller", "negotiable", "0", ""}
@@ -220,7 +258,21 @@ def parse_price_value(price_raw: str, source_site: str) -> Tuple[Optional[float]
     return values[0], ""
 
 
-def assign_category(name_normalized: str) -> Tuple[Optional[str], Optional[str]]:
+def assign_category(name_normalized: str, source_category: str = "") -> Tuple[Optional[str], Optional[str]]:
+    # Trust the vendor's own category label when present (PH retailer sources
+    # carry real categories; name-keyword matching is only a fallback).
+    if source_category:
+        lowered = source_category.lower()
+        for needle, (category, vendor_sub) in VENDOR_CATEGORY_MAP:
+            if needle in lowered:
+                # vendor category decides the energy_category; let the product
+                # name refine the subcategory (mixed sections like "Breakers,
+                # Wires & Electrical Supplies" hold several kinds of items)
+                for sub, keywords in SUBCATEGORY_KEYWORDS.get(category, {}).items():
+                    if any(keyword in name_normalized for keyword in keywords):
+                        return category, sub
+                return category, vendor_sub
+
     if not name_normalized:
         return None, None
 
@@ -259,10 +311,23 @@ def is_corrupted_name(name: str) -> bool:
     return False
 
 
-def is_spam_name(name: str) -> bool:
+_SPAM_RE = re.compile(
+    r"\b(?:" + "|".join(re.escape(phrase) for phrase in SPAM_PHRASES) + r")\b"
+)
+
+# Retailer sources whose pricelists legitimately use terse names ("DEYE",
+# "THHN", "Mc4") — only phrase-level spam applies to them.
+TRUSTED_NAME_SOURCES = {
+    "solarwarehouse", "solarportal", "solarmallph", "prosolar", "rs_components",
+}
+
+
+def is_spam_name(name: str, source: str = "") -> bool:
     lowered = name.lower()
-    if any(phrase in lowered for phrase in SPAM_PHRASES):
+    if _SPAM_RE.search(lowered):
         return True
+    if source in TRUSTED_NAME_SOURCES:
+        return not lowered.strip()
     if len(lowered) < 4:
         return True
     if len(set(lowered)) <= 3:
@@ -324,8 +389,16 @@ def process_file(path: Path, stats: Dict[str, int], rejected_rows: List[Dict[str
             rejection_reasons.append("missing name")
         if is_corrupted_name(row["product_name"]):
             rejection_reasons.append("corrupted name")
-        if is_spam_name(row["product_name"]):
-            rejection_reasons.append("spam name")
+        if is_spam_name(row["product_name"], row["source_site"]):
+            # trusted retailer rows may carry a bare brand/model name while
+            # the spec lives in `description` (e.g. "DEYE" + "8KW")
+            details = str(row.get("description") or "").strip()
+            if details and len(details) <= 60:
+                row["product_name_raw"] = f"{row['product_name'].strip()} {details}".strip()
+                row["product_name"] = row["product_name_raw"]
+                row["product_name_normalized"] = normalize_name(row["product_name"])
+            if is_spam_name(row["product_name"], row["source_site"]):
+                rejection_reasons.append("spam name")
 
         price_raw = row.get("price_raw", "")
         if not price_raw:
@@ -334,12 +407,20 @@ def process_file(path: Path, stats: Dict[str, int], rejected_rows: List[Dict[str
         price_value, price_note = parse_price_value(price_raw, row["source_site"])
         if price_note:
             row["price_note"] = price_note
-        if price_value is None:
+        # Quote-priced rows ("Message for price") are real catalogue items:
+        # keep them with price_type=quote instead of rejecting.
+        price_type = str(row.get("price_type", "") or "").strip().lower()
+        if price_type not in ("fixed", "quote"):
+            price_type = "fixed" if price_value is not None else "quote"
+        row["price_type"] = price_type
+        if price_value is None and price_type != "quote":
             rejection_reasons.append("invalid price")
         row["price_value"] = price_value
         row["currency"] = detect_currency(price_raw, row["source_site"])
 
-        category, subcategory = assign_category(row["product_name_normalized"])
+        category, subcategory = assign_category(
+            row["product_name_normalized"], row.get("source_category", "")
+        )
         row["energy_category"] = category
         row["energy_subcategory"] = subcategory
         if not category:
@@ -359,10 +440,23 @@ def process_file(path: Path, stats: Dict[str, int], rejected_rows: List[Dict[str
     return rows
 
 
+SOURCE_SITE_TOKENS = {
+    "solarwarehouse": "solarwarehouse",
+    "solarportal": "solarportal",
+    "solarmallph": "solarmallph",
+    "prosolar": "prosolar",
+    "rs_wind": "rs_components",
+    "amazon": "amazon",
+    "lazada": "lazada",
+    "alibaba": "alibaba",
+    "shopee": "shopee",
+}
+
+
 def infer_source_site(filename: str) -> str:
     lowered = filename.lower()
-    for site in ("amazon", "lazada", "alibaba", "shopee"):
-        if site in lowered:
+    for token, site in SOURCE_SITE_TOKENS.items():
+        if token in lowered:
             return site
     return "unknown"
 
@@ -382,6 +476,14 @@ def stable_column_order() -> List[str]:
         "url",
         "ratings",
         "reviews",
+        "source_category",
+        "brand",
+        "model_number",
+        "short_description",
+        "description",
+        "specs_json",
+        "image_url",
+        "price_type",
         "price_note",
         "rejection_reason",
     ]
