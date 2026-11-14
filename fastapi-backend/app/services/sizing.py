@@ -148,15 +148,19 @@ def _match_product(df, subcategory, *, w_range=None, cap_range=None,
         val = row.get(col)
         return round(float(val), 2) if val is not None and val == val else None
 
+    def _str(col):
+        val = row.get(col)
+        return str(val) if val is not None and val == val and str(val) else None
+
     return {
-        "product_name": row.get("product_name"),
-        "brand": row.get("brand") or None,
-        "model_number": row.get("model_number") or None,
-        "url": row.get("url") or None,
-        "image_url": row.get("image_url") or None,
+        "product_name": _str("product_name"),
+        "brand": _str("brand"),
+        "model_number": _str("model_number"),
+        "url": _str("url"),
+        "image_url": _str("image_url"),
         "price_php": _num("price_value"),
-        "price_type": row.get("price_type") or None,
-        "source_site": row.get("source_site") or None,
+        "price_type": _str("price_type"),
+        "source_site": _str("source_site"),
         "wattage_w": _num("wattage_w"),
         "capacity_wh": _num("capacity_wh"),
     }
