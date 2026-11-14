@@ -3,6 +3,7 @@ import { useI18n } from "@/i18n";
 import { Card, CardContent } from "@/components/ui/card";
 import { getEnergyHubMapExplanation } from "@/services/energyhub";
 import { Info, Loader2, RefreshCw, Eye, EyeOff, Gauge } from "lucide-react";
+import ReadAloud from "@/components/shared/ReadAloud";
 
 const HIDDEN_KEY = "lumi:hidden_map_explanations";
 
@@ -142,9 +143,10 @@ export default function MapExplanationCard({ metric, level }) {
               {result?.insight && (
                 <div className="flex items-start gap-2">
                   <Gauge className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                  <p className="text-foreground whitespace-pre-wrap leading-relaxed">
+                  <p className="text-foreground whitespace-pre-wrap leading-relaxed flex-1 min-w-0">
                     {result.insight}
                   </p>
+                  <ReadAloud text={result.insight} />
                 </div>
               )}
             </div>

@@ -35,7 +35,9 @@
       "fair": "Fair",
       "poor": "Poor",
       "limited": "Limited"
-    }
+    },
+    "readAloud": "Read aloud",
+    "stopReading": "Stop reading"
   },
   "citationSources": {
     "title": "Sources & References",

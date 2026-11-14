@@ -3,6 +3,7 @@ import { Sparkles, Loader2, Maximize2 } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { sanitizeLLMOutput } from "@/utils/llmText";
+import ReadAloud from "@/components/shared/ReadAloud";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -61,16 +62,19 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
             </button>
           )}
         </div>
-        {onRefresh && (
-          <button
-            onClick={onRefresh}
-            title={t("energyHub.trends.getDifferent")}
-            className="shrink-0 inline-flex items-center gap-1 rounded-md bg-warning/10 px-2 py-1 min-h-[36px] text-xs font-medium text-foreground border border-warning/20 hover:bg-warning/20 transition-colors"
-          >
-            <Sparkles className="h-3 w-3 text-warning" aria-hidden="true" />
-            {t("energyHub.trends.refresh")}
-          </button>
-        )}
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <ReadAloud text={displayText} />
+          {onRefresh && (
+            <button
+              onClick={onRefresh}
+              title={t("energyHub.trends.getDifferent")}
+              className="inline-flex items-center gap-1 rounded-md bg-warning/10 px-2 py-1 min-h-[36px] text-xs font-medium text-foreground border border-warning/20 hover:bg-warning/20 transition-colors"
+            >
+              <Sparkles className="h-3 w-3 text-warning" aria-hidden="true" />
+              {t("energyHub.trends.refresh")}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

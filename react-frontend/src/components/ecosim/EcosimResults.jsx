@@ -15,6 +15,7 @@ import InterpretationBadge, { getRating } from "@/components/shared/Interpretati
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
 import ExplanationModal from "./ExplanationModal";
+import ReadAloud from "@/components/shared/ReadAloud";
 import EcosimBOM from "./EcosimBOM";
 import { resolveSourceAnalysis } from "@/utils/ecosimAnalysis";
 import ProviderRecommendations from "./ProviderRecommendations";
@@ -262,7 +263,10 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
       {(aiLoading || result.ai_analysis || aiError) && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("ecosim.results.aiAnalysis.title")}</CardTitle>
+            <CardTitle className="text-lg flex items-center justify-between gap-2">
+              {t("ecosim.results.aiAnalysis.title")}
+              <ReadAloud text={result.ai_analysis?.summary} />
+            </CardTitle>
             <CardDescription>
               {aiError
                 ? t("ecosim.results.aiAnalysis.failedBody")

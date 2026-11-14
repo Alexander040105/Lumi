@@ -35,7 +35,9 @@
       "fair": "Tama lang",
       "poor": "Mahina",
       "limited": "Limitado"
-    }
+    },
+    "readAloud": "Basahin nang malakas",
+    "stopReading": "Itigil ang pagbasa"
   },
   "citationSources": {
     "title": "Mga Sanggunian",

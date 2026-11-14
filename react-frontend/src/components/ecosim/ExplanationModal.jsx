@@ -6,6 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Markdown from "@/components/shared/Markdown";
+import ReadAloud from "@/components/shared/ReadAloud";
 import { useI18n } from "@/i18n";
 
 export default function ExplanationModal({ title, content, aiSummary, aiPending, triggerText }) {
@@ -24,7 +25,10 @@ export default function ExplanationModal({ title, content, aiSummary, aiPending,
       </DialogTrigger>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="flex items-center justify-between gap-2 pr-6">
+            {title}
+            <ReadAloud text={`${content || ""} ${aiSummary || ""}`} />
+          </DialogTitle>
         </DialogHeader>
         <div className="max-h-[60vh] overflow-y-auto text-sm text-muted-foreground leading-relaxed">
           <Markdown>{content}</Markdown>

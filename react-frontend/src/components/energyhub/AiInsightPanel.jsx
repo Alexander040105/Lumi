@@ -3,6 +3,7 @@ import { Lightbulb, Info, Sparkles, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/i18n";
 import Markdown from "@/components/shared/Markdown";
+import ReadAloud from "@/components/shared/ReadAloud";
 
 export default function AiInsightPanel({
   insight,
@@ -97,8 +98,11 @@ export default function AiInsightPanel({
             {t("energyHub.aiInsight.loading")}
           </div>
         ) : (
-          <div className="text-sm leading-relaxed text-foreground">
-            <Markdown>{activeAnalysis?.insight || insight?.insight || ""}</Markdown>
+          <div className="flex items-start gap-3 text-sm leading-relaxed text-foreground">
+            <div className="flex-1 min-w-0">
+              <Markdown>{activeAnalysis?.insight || insight?.insight || ""}</Markdown>
+            </div>
+            <ReadAloud text={activeAnalysis?.insight || insight?.insight || ""} />
           </div>
         )}
       </div>
@@ -106,9 +110,10 @@ export default function AiInsightPanel({
       {(activeAnalysis?.recommendation || insight.recommendation) && (
         <div className="mt-3 rounded-lg bg-secondary border border-border p-4 flex gap-3 text-secondary-foreground">
           <Info className="h-4 w-4 text-secondary-foreground shrink-0 mt-0.5" aria-hidden="true" />
-          <div className="text-sm leading-relaxed [&_p]:text-secondary-foreground [&_strong]:text-secondary-foreground">
+          <div className="text-sm leading-relaxed flex-1 min-w-0 [&_p]:text-secondary-foreground [&_strong]:text-secondary-foreground">
             <Markdown>{activeAnalysis?.recommendation || insight.recommendation}</Markdown>
           </div>
+          <ReadAloud text={activeAnalysis?.recommendation || insight.recommendation} />
         </div>
       )}
     </div>
