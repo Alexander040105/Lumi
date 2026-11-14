@@ -1061,6 +1061,15 @@
       ],
       "aiAnalysis": "Isama ang simpleng paliwanag",
       "aiAnalysisHint": "Nagdadagdag ng simpleng paliwanag kung bakit inirerekomenda ang renewable option para sa iyong lugar.",
+      "batteryLabel": "Magdagdag ng battery storage (hybrid system)",
+      "batteryHint": "Mag-size ng LiFePO4 na mga baterya para sa gamit sa gabi mula sa sobrang solar sa araw. Mas mahal pero mas maraming nagagamit na enerhiya.",
+      "roofAreaLabel": "Magagamit na roof area (opsyonal)",
+      "roofAreaPlaceholder": "hal. 30 — iwanang blangko kung hindi sigurado",
+      "roofAreaHint": "Sa m². Kung ibinigay, hindi lalampas ang bilang ng panel sa kasya.",
+      "occupancyLabel": "May karaniwang nasa bahay ba sa araw?",
+      "occupancyOut": "Wala sa bahay sa araw",
+      "occupancyHome": "Kadalasang nasa bahay / WFH",
+      "occupancyHint": "Nakakaapekto ang konsumo sa araw kung gaano karaming solar ang direktang nagagamit kesa sa naka-export na kredito.",
       "explanationPreview": "Magdaragdag kami ng simpleng paliwanag kung bakit inirerekomenda ang nangungunang opsyon.",
       "summaryTitle": "Ang Iyong Inputs",
       "summary": {
@@ -1069,7 +1078,11 @@
         "bill": "Bill",
         "rate": "Rate bawat kWh",
         "savingsGoal": "Savings goal",
-        "aiAnalysis": "AI analysis"
+        "aiAnalysis": "AI analysis",
+        "battery": "Battery storage",
+        "roofArea": "Roof area",
+        "roofAreaUnknown": "Hindi ibinigay",
+        "occupancy": "Occupancy sa araw"
       },
       "reviewTitle": "Suriin ang iyong inputs",
       "compareText": "Ikumpara ang solar, wind, at hydro batay sa iyong lokasyon.",

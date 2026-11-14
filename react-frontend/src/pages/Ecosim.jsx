@@ -50,6 +50,9 @@ export default function Ecosim() {
   const [electricityRate, setElectricityRate] = useState(0);
   const [desiredSavings, setDesiredSavings] = useState(50);
   const [includeAi, setIncludeAi] = useState(true);
+  const [includeBattery, setIncludeBattery] = useState(false);
+  const [roofAreaM2, setRoofAreaM2] = useState("");
+  const [daytimeFraction, setDaytimeFraction] = useState(0.35);
   const [loading, setLoading] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -398,6 +401,9 @@ export default function Ecosim() {
         desiredSavings: Number(desiredSavings) / 100,
         includeAi: false,
         mode,
+        includeBattery,
+        roofAreaM2: roofAreaM2 === "" ? null : Number(roofAreaM2),
+        daytimeFraction,
       });
       setResult(data);
       hasCompleteDialogBeenShownRef.current = false;
@@ -420,6 +426,9 @@ export default function Ecosim() {
           electricityRate: Number(electricityRate),
           desiredSavings: Number(desiredSavings) / 100,
           mode,
+          includeBattery,
+          roofAreaM2: roofAreaM2 === "" ? null : Number(roofAreaM2),
+          daytimeFraction,
         };
         aiParamsRef.current = aiParams;
         startAiPoll(aiParams);
@@ -461,6 +470,9 @@ export default function Ecosim() {
               electricity_rate: Number(electricityRate),
               desired_savings_pct: Number(desiredSavings),
               include_ai: includeAi,
+              include_battery: includeBattery,
+              roof_area_m2: roofAreaM2 === "" ? null : Number(roofAreaM2),
+              daytime_fraction: daytimeFraction,
               mode,
             },
             results: simResult,
@@ -613,6 +625,12 @@ export default function Ecosim() {
         setDesiredSavings={setDesiredSavings}
         includeAi={includeAi}
         setIncludeAi={setIncludeAi}
+        includeBattery={includeBattery}
+        setIncludeBattery={setIncludeBattery}
+        roofAreaM2={roofAreaM2}
+        setRoofAreaM2={setRoofAreaM2}
+        daytimeFraction={daytimeFraction}
+        setDaytimeFraction={setDaytimeFraction}
         onRun={handleSubmit}
         loading={loading}
         aiLoading={aiLoading}

@@ -16,6 +16,7 @@ export default function EcosimWizard({
   provinceQuery, setProvinceQuery, provinceOpen, setProvinceOpen, filteredProvinces, provinceId, setProvinceId, provincesError,
   monthlyConsumption, setMonthlyConsumption, monthlyBill, setMonthlyBill, electricityRate, setElectricityRate,
   desiredSavings, setDesiredSavings, includeAi, setIncludeAi,
+  includeBattery, setIncludeBattery, roofAreaM2, setRoofAreaM2, daytimeFraction, setDaytimeFraction,
   onRun, loading, activeId, result, user, onSave, onDownloadPdf, downloadPdfLoading,
   onSaveLocation, locationSaved, resultSaved, aiLoading, aiError,
 }) {
@@ -327,6 +328,58 @@ export default function EcosimWizard({
                     </div>
                     <p className="text-xs text-muted-foreground">{t("ecosim.wizard.aiAnalysisHint")}</p>
                   </div>
+
+                  <div className="border-t pt-4">
+                    <div className="flex items-center gap-2 mb-1">
+                      <input
+                        id="ecosim-include-battery"
+                        type="checkbox"
+                        checked={includeBattery}
+                        onChange={(e) => setIncludeBattery(e.target.checked)}
+                        className="h-4 w-4 rounded border-input text-primary accent-primary"
+                      />
+                      <label htmlFor="ecosim-include-battery" className="text-sm font-medium">{t("ecosim.wizard.batteryLabel")}</label>
+                    </div>
+                    <p className="text-xs text-muted-foreground">{t("ecosim.wizard.batteryHint")}</p>
+                  </div>
+
+                  <div>
+                    <label htmlFor="ecosim-roof-area" className="text-sm font-medium block mb-1">{t("ecosim.wizard.roofAreaLabel")}</label>
+                    <Input
+                      id="ecosim-roof-area"
+                      type="number"
+                      min="1"
+                      step="0.5"
+                      placeholder={t("ecosim.wizard.roofAreaPlaceholder")}
+                      value={roofAreaM2}
+                      onChange={(e) => setRoofAreaM2(e.target.value)}
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.roofAreaHint")}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium mb-2">{t("ecosim.wizard.occupancyLabel")}</p>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={daytimeFraction === 0.35 ? "default" : "outline"}
+                        onClick={() => setDaytimeFraction(0.35)}
+                      >
+                        {t("ecosim.wizard.occupancyOut")}
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={daytimeFraction === 0.5 ? "default" : "outline"}
+                        onClick={() => setDaytimeFraction(0.5)}
+                      >
+                        {t("ecosim.wizard.occupancyHome")}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-1">{t("ecosim.wizard.occupancyHint")}</p>
+                  </div>
+
                   <p className="text-sm text-muted-foreground">{t("ecosim.wizard.explanationPreview")}</p>
                 </div>
               )}
@@ -375,6 +428,27 @@ export default function EcosimWizard({
                         <button type="button" onClick={() => setStep(4)} className="text-xs text-primary hover:underline">{t("ecosim.wizard.edit")}</button>
                       </div>
                       <p className="text-sm font-medium">{includeAi ? t("ecosim.wizard.yes") : t("ecosim.wizard.no")}</p>
+                    </div>
+                    <div className="rounded-lg border bg-muted/30 p-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.battery")}</p>
+                        <button type="button" onClick={() => setStep(4)} className="text-xs text-primary hover:underline">{t("ecosim.wizard.edit")}</button>
+                      </div>
+                      <p className="text-sm font-medium">{includeBattery ? t("ecosim.wizard.yes") : t("ecosim.wizard.no")}</p>
+                    </div>
+                    <div className="rounded-lg border bg-muted/30 p-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.roofArea")}</p>
+                        <button type="button" onClick={() => setStep(4)} className="text-xs text-primary hover:underline">{t("ecosim.wizard.edit")}</button>
+                      </div>
+                      <p className="text-sm font-medium">{roofAreaM2 ? `${roofAreaM2} m²` : t("ecosim.wizard.summary.roofAreaUnknown")}</p>
+                    </div>
+                    <div className="rounded-lg border bg-muted/30 p-3">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.occupancy")}</p>
+                        <button type="button" onClick={() => setStep(4)} className="text-xs text-primary hover:underline">{t("ecosim.wizard.edit")}</button>
+                      </div>
+                      <p className="text-sm font-medium">{daytimeFraction === 0.5 ? t("ecosim.wizard.occupancyHome") : t("ecosim.wizard.occupancyOut")}</p>
                     </div>
                   </div>
                   <p className="text-sm text-muted-foreground">{t("ecosim.wizard.compareText")}</p>
@@ -439,6 +513,9 @@ export default function EcosimWizard({
               <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.rate")}</p><p className="font-medium">₱{electricityRate?.toFixed(2) || 0}/kWh</p></div>
               <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.savingsGoal")}</p><p className="font-medium">{desiredSavings}%</p></div>
               <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.aiAnalysis")}</p><p className="font-medium">{includeAi ? t("ecosim.wizard.yes") : t("ecosim.wizard.no")}</p></div>
+              <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.battery")}</p><p className="font-medium">{includeBattery ? t("ecosim.wizard.yes") : t("ecosim.wizard.no")}</p></div>
+              <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.roofArea")}</p><p className="font-medium">{roofAreaM2 ? `${roofAreaM2} m²` : t("ecosim.wizard.summary.roofAreaUnknown")}</p></div>
+              <div><p className="text-xs text-muted-foreground">{t("ecosim.wizard.summary.occupancy")}</p><p className="font-medium">{daytimeFraction === 0.5 ? t("ecosim.wizard.occupancyHome") : t("ecosim.wizard.occupancyOut")}</p></div>
             </CardContent>
           </Card>
         </div>

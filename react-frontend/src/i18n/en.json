@@ -1067,6 +1067,15 @@
       ],
       "aiAnalysis": "Include simple explanation",
       "aiAnalysisHint": "Adds a simple explanation of why a renewable option is recommended for your area.",
+      "batteryLabel": "Add battery storage (hybrid system)",
+      "batteryHint": "Sizes LiFePO4 modules to cover your evening use from daytime solar surplus. Adds cost but increases self-consumed energy.",
+      "roofAreaLabel": "Usable roof area (optional)",
+      "roofAreaPlaceholder": "e.g. 30 — leave blank if unsure",
+      "roofAreaHint": "In m². If provided, the panel count is capped to what fits.",
+      "occupancyLabel": "Is someone usually home during the day?",
+      "occupancyOut": "Out most of the day",
+      "occupancyHome": "Mostly home / WFH",
+      "occupancyHint": "Daytime electricity use affects how much solar you consume directly vs. export for credit.",
       "explanationPreview": "We'll add a plain-language note explaining why the top option was recommended.",
       "summaryTitle": "Your Inputs",
       "summary": {
@@ -1075,7 +1084,11 @@
         "bill": "Bill",
         "rate": "Rate per kWh",
         "savingsGoal": "Savings goal",
-        "aiAnalysis": "AI analysis"
+        "aiAnalysis": "AI analysis",
+        "battery": "Battery storage",
+        "roofArea": "Roof area",
+        "roofAreaUnknown": "Not provided",
+        "occupancy": "Daytime occupancy"
       },
       "reviewTitle": "Review your inputs",
       "compareText": "Compare solar, wind, and hydro based on your location.",
