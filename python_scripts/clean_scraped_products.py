@@ -79,6 +79,13 @@ SPAM_PHRASES = [
     "sponsored", "ad", "best seller", "hot sale", "limited offer", "free shipping",
 ]
 
+# Word-boundary matching: bare substrings corrupt real names
+# ("ad" inside "Canadian"/"Adaptor", "sale" inside "wholesale").
+_SPAM_RE = re.compile(
+    r"\b(?:" + "|".join(re.escape(phrase) for phrase in SPAM_PHRASES) + r")\b",
+    re.IGNORECASE,
+)
+
 # Vendor-reported category labels -> (energy_category, energy_subcategory).
 # Checked as substrings against the normalized source_category, in order.
 VENDOR_CATEGORY_MAP = [
@@ -209,8 +216,7 @@ def normalize_text(text: str) -> str:
     if not text:
         return ""
     cleaned = re.sub(r"<[^>]+>", " ", text)
-    for phrase in SPAM_PHRASES:
-        cleaned = cleaned.replace(phrase, " ")
+    cleaned = _SPAM_RE.sub(" ", cleaned)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     return cleaned
 
@@ -311,10 +317,6 @@ def is_corrupted_name(name: str) -> bool:
     return False
 
 
-_SPAM_RE = re.compile(
-    r"\b(?:" + "|".join(re.escape(phrase) for phrase in SPAM_PHRASES) + r")\b"
-)
-
 # Retailer sources whose pricelists legitimately use terse names ("DEYE",
 # "THHN", "Mc4") — only phrase-level spam applies to them.
 TRUSTED_NAME_SOURCES = {
@@ -379,9 +381,20 @@ def process_file(path: Path, stats: Dict[str, int], rejected_rows: List[Dict[str
     for _, record in df.iterrows():
         stats["rows_read"] += 1
         row = {key: ("" if pd.isna(value) else str(value).strip()) for key, value in record.items()}
+        product_name = normalize_text(row.get("product_name", ""))
+        # trusted retailer rows may carry a bare brand/model name while the
+        # spec lives in `description` (e.g. "DEYE" + "8KW") — enrich once
+        details = str(row.get("description") or "").strip()
+        if (
+            row["source_site"] in TRUSTED_NAME_SOURCES
+            and 0 < len(product_name) < 14
+            and 0 < len(details) <= 60
+            and details.lower() not in product_name.lower()
+        ):
+            product_name = f"{product_name} {details}"
         row["product_name_raw"] = row.get("product_name", "")
-        row["product_name"] = normalize_text(row.get("product_name", ""))
-        row["product_name_normalized"] = normalize_name(row.get("product_name", ""))
+        row["product_name"] = product_name
+        row["product_name_normalized"] = normalize_name(product_name)
 
         rejection_reasons = []
 
@@ -390,15 +403,7 @@ def process_file(path: Path, stats: Dict[str, int], rejected_rows: List[Dict[str
         if is_corrupted_name(row["product_name"]):
             rejection_reasons.append("corrupted name")
         if is_spam_name(row["product_name"], row["source_site"]):
-            # trusted retailer rows may carry a bare brand/model name while
-            # the spec lives in `description` (e.g. "DEYE" + "8KW")
-            details = str(row.get("description") or "").strip()
-            if details and len(details) <= 60:
-                row["product_name_raw"] = f"{row['product_name'].strip()} {details}".strip()
-                row["product_name"] = row["product_name_raw"]
-                row["product_name_normalized"] = normalize_name(row["product_name"])
-            if is_spam_name(row["product_name"], row["source_site"]):
-                rejection_reasons.append("spam name")
+            rejection_reasons.append("spam name")
 
         price_raw = row.get("price_raw", "")
         if not price_raw:
