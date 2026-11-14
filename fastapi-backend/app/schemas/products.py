@@ -12,6 +12,15 @@ class ProductItem(BaseModel):
     url: str | None = None
     ratings: str | None = None
     reviews: str | None = None
+    brand: str | None = None
+    model_number: str | None = None
+    short_description: str | None = None
+    image_url: str | None = None
+    price_type: str | None = None
+    wattage_w: float | None = None
+    capacity_wh: float | None = None
+    voltage_v: float | None = None
+    specs: dict[str, Any] | None = None
 
 
 class ProductRecommendationRequest(BaseModel):

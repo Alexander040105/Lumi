@@ -1,8 +1,13 @@
 """
 Product Recommendation Service
 ==============================
-Reads cleaned_products_master.csv and provides filtering / recommendation
-endpoints for renewable energy products.
+Reads the cleaned product catalogue (Supabase `products` table, with
+`local_data/products.csv` as the offline fallback) and provides filtering /
+recommendation endpoints for renewable energy products.
+
+Catalogue is scraped from Philippine retailers: solarwarehouse.ph,
+solarportal.store, solarmallph.com.ph, prosolar.ph, and RS Components PH.
+All prices are PHP; `price_type` is 'fixed' or 'quote' (price on request).
 
 Known data quality issues:
 - Some hydro products are mis-tagged as "wind" due to scraper categorization
@@ -98,9 +103,17 @@ def _row_to_dict(row: pd.Series) -> dict:
             pass
         return val
 
+    def _num(col):
+        val = row.get(col)
+        return round(val, 2) if pd.notna(val) else None
+
+    specs = _clean(row.get("specs"))
+    if isinstance(specs, str):
+        specs = _clean(row.get("specs_json"))
+
     return {
         "product_name": _clean(row.get("product_name")),
-        "price_value": round(row.get("price_value"), 2) if pd.notna(row.get("price_value")) else None,
+        "price_value": _num("price_value"),
         "currency": _clean(row.get("currency")),
         "energy_category": _clean(row.get("energy_category")),
         "energy_subcategory": _clean(row.get("energy_subcategory")),
@@ -108,6 +121,15 @@ def _row_to_dict(row: pd.Series) -> dict:
         "url": _clean(row.get("url")),
         "ratings": _clean(row.get("ratings")),
         "reviews": _clean(row.get("reviews")),
+        "brand": _clean(row.get("brand")),
+        "model_number": _clean(row.get("model_number")),
+        "short_description": _clean(row.get("short_description")),
+        "image_url": _clean(row.get("image_url")),
+        "price_type": _clean(row.get("price_type")),
+        "wattage_w": _num("wattage_w"),
+        "capacity_wh": _num("capacity_wh"),
+        "voltage_v": _num("voltage_v"),
+        "specs": specs,
     }
 
 
@@ -158,7 +180,7 @@ def get_product_recommendations(energy_type: ProductEnergyType, budget_php: floa
         "energy_type": energy_type,
         "items": items,
         "count": len(items),
-        "note": "Prices converted from USD using PHP 56 = 1 USD when applicable. Links may be outdated; verify before purchase.",
+        "note": "Prices are in PHP from PH retailers (solarwarehouse.ph, solarportal.store, solarmallph.com.ph, RS Components). Quote-priced items need direct inquiry; verify links before purchase.",
     }
 
 
@@ -196,7 +218,7 @@ def browse_products(
         "total": total,
         "page": page,
         "page_size": page_size,
-        "note": "Prices may be in USD or local currency. Verify links before purchase.",
+        "note": "Prices are in PHP from PH retailers. Verify links before purchase.",
     }
 
 
@@ -223,9 +245,8 @@ def get_product_data_audit() -> dict:
         "category_counts": category_counts,
         "source_counts": source_counts,
         "recommendations": [
-            "Fix scraper categorization logic for hydro products (currently tagged as wind).",
-            "Add product image and description fields to scraper output.",
-            "Verify and update stale marketplace URLs quarterly.",
-            "Add availability / stock status scraping.",
+            "Refresh the PH retailer catalogue quarterly (scrapers are rerunnable).",
+            "Negotiate price visibility or mark quote-only items as stale over time.",
+            "Grow wind/hydro coverage — current catalogue is solar-dominant.",
         ],
     }
