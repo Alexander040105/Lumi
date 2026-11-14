@@ -16,17 +16,17 @@ export default function ChartExplanation({ title, what, why, action }) {
           <div className="space-y-1 text-sm">
             {title && <p className="font-semibold text-foreground">{title}</p>}
             {what && (
-              <p className="text-muted-foreground">
+              <p className="text-foreground">
                 <span className="font-medium text-foreground">{t("energyHub.chartExplanation.what")}</span> {what}
               </p>
             )}
             {why && (
-              <p className="text-muted-foreground">
+              <p className="text-foreground">
                 <span className="font-medium text-foreground">{t("energyHub.chartExplanation.why")}</span> {why}
               </p>
             )}
             {action && (
-              <p className="text-muted-foreground">
+              <p className="text-foreground">
                 <span className="font-medium text-foreground">{t("energyHub.chartExplanation.action")}</span> {action}
               </p>
             )}

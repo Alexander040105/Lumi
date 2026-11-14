@@ -79,6 +79,10 @@ const PAIRS = [
   ["--accent-foreground", "--accent"],
   ["--destructive-foreground", "--destructive"],
   ["--warning-foreground", "--warning"],
+  ["--muted-foreground", "--background"],
+  ["--muted-foreground", "--card"],
+  ["--primary", "--card"],
+  ["--warning", "--card"],
 ];
 
 function assertContrast(theme, name) {
