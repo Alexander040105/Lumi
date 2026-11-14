@@ -35,7 +35,9 @@
       "fair": "Fair",
       "poor": "Poor",
       "limited": "Limited"
-    }
+    },
+    "readAloud": "Read aloud",
+    "stopReading": "Stop reading"
   },
   "citationSources": {
     "title": "Sources & References",
@@ -997,15 +999,17 @@
         "step1": "Location",
         "step2": "Electricity Use",
         "step3": "Savings Goal",
-        "step4": "Explanation",
-        "step5": "Review"
+        "step4": "System Options",
+        "step5": "Explanation",
+        "step6": "Review"
       },
       "stepDescriptions": {
         "step1": "Select your city or municipality so we can analyze your local climate and resources.",
         "step2": "Enter the numbers from your latest electric bill.",
         "step3": "Choose how much of your bill renewable energy should cover.",
-        "step4": "Decide if you want a plain-language explanation of the results.",
-        "step5": "Review your inputs and run the analysis."
+        "step4": "Optional: add a battery, set your roof area, and tell us your daytime usage.",
+        "step5": "Decide if you want a plain-language explanation of the results.",
+        "step6": "Review your inputs and run the analysis."
       },
       "searchMode": "Select area type",
       "municipality": "City/Municipality",
@@ -1048,7 +1052,9 @@
         "title": "Where to find these on your bill",
         "kwh": "'Actual Consumption' or metered kWh for the billing period",
         "bill": "'Total Amount Due' or 'Current Charges', before subsidies or discounts",
-        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used"
+        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used",
+        "illustrationTitle": "Where to find these on your bill",
+        "illustrationDesc": "Electric bill with three highlighted zones: kWh used, amount due, and price per kWh"
       },
       "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
       "savingsLevels": {
@@ -1067,6 +1073,15 @@
       ],
       "aiAnalysis": "Include simple explanation",
       "aiAnalysisHint": "Adds a simple explanation of why a renewable option is recommended for your area.",
+      "batteryLabel": "Add battery storage (hybrid system)",
+      "batteryHint": "Sizes LiFePO4 modules to cover your evening use from daytime solar surplus. Adds cost but increases self-consumed energy.",
+      "roofAreaLabel": "Usable roof area (optional)",
+      "roofAreaPlaceholder": "e.g. 30 — leave blank if unsure",
+      "roofAreaHint": "In m². If provided, the panel count is capped to what fits.",
+      "occupancyLabel": "Is someone usually home during the day?",
+      "occupancyOut": "Out most of the day",
+      "occupancyHome": "Mostly home / WFH",
+      "occupancyHint": "Daytime electricity use affects how much solar you consume directly vs. export for credit.",
       "explanationPreview": "We'll add a plain-language note explaining why the top option was recommended.",
       "summaryTitle": "Your Inputs",
       "summary": {
@@ -1075,7 +1090,11 @@
         "bill": "Bill",
         "rate": "Rate per kWh",
         "savingsGoal": "Savings goal",
-        "aiAnalysis": "AI analysis"
+        "aiAnalysis": "AI analysis",
+        "battery": "Battery storage",
+        "roofArea": "Roof area",
+        "roofAreaUnknown": "Not provided",
+        "occupancy": "Daytime occupancy"
       },
       "reviewTitle": "Review your inputs",
       "compareText": "Compare solar, wind, and hydro based on your location.",
@@ -1089,7 +1108,9 @@
       "save": "Save",
       "saveToAccount": "Save to Account",
       "saveAsPdf": "Save as PDF",
-      "generatingPdf": "Generating..."
+      "generatingPdf": "Generating...",
+      "summaryEmpty": "Complete the steps to see your inputs.",
+      "editField": "Edit {{field}}"
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -1104,6 +1125,20 @@
         "body": "You entered {{entered}} kWh, but your bill and rate suggest about {{effective}} kWh. We're using the effective value for this analysis."
       },
       "referenceOnly": "Reference only",
+      "academicOnly": "Site-potential only",
+      "windNotViable": "Below viability floor",
+      "sizing": {
+        "title": "Recommended Solar System Sizing",
+        "description": "Consumption-driven estimate per ERC net-metering rules — 550W panels, LiFePO4 storage when enabled.",
+        "systemSize": "System size",
+        "battery": "Battery storage",
+        "selfConsumed": "Self-consumed",
+        "exportCredit": "Export credit",
+        "investment": "Total investment",
+        "payback": "Simple payback",
+        "npv": "25-yr NPV",
+        "years": "{{count}} yrs"
+      },
       "utilityScaleNote": "utility-scale, not a home option",
       "sources": {
         "Solar": "Solar",
@@ -1310,68 +1345,18 @@
     "bom": {
       "title": "Bill of Materials",
       "description": "Estimated components for the recommended system",
-      "notApplicable": "Geothermal energy is a utility-scale resource. A home-scale bill of materials is not applicable.",
-      "estimated": "Estimated {{kw}} kW {{source}} system · {{cost}} total",
+      "sizingEstimate": "{{kw}} kWp system · {{panels}} panels · {{cost}} turnkey estimate",
       "component": "Component",
       "qty": "Qty",
-      "unit": "Unit",
-      "unitCost": "Unit Cost",
+      "share": "Cost share",
       "total": "Total",
       "estimatedTotal": "Estimated Total",
-      "items": {
-        "solar_panels": {
-          "item": "Solar panels (400 W)",
-          "unit": "panel"
-        },
-        "solar_inverter": {
-          "item": "Inverter",
-          "unit": "unit"
-        },
-        "solar_mounting": {
-          "item": "Mounting & wiring",
-          "unit": "set"
-        },
-        "solar_labor": {
-          "item": "Installation labor",
-          "unit": "set"
-        },
-        "solar_permits": {
-          "item": "Permits & miscellaneous",
-          "unit": "set"
-        },
-        "wind_turbine": {
-          "item": "Small wind turbine",
-          "unit": "unit"
-        },
-        "wind_tower": {
-          "item": "Tower / mast",
-          "unit": "unit"
-        },
-        "wind_controller": {
-          "item": "Controller & inverter",
-          "unit": "unit"
-        },
-        "wind_labor": {
-          "item": "Installation & anchoring",
-          "unit": "set"
-        },
-        "hydro_turbine": {
-          "item": "Micro-hydro turbine & generator",
-          "unit": "unit"
-        },
-        "hydro_penstock": {
-          "item": "Penstock & civil works",
-          "unit": "set"
-        },
-        "hydro_controller": {
-          "item": "Controller & protection",
-          "unit": "unit"
-        },
-        "hydro_labor": {
-          "item": "Installation & commissioning",
-          "unit": "set"
-        }
-      }
+      "quoteOnly": "Request for quote",
+      "viewProduct": "View product",
+      "viewSource": "Source",
+      "sourcesTitle": "View Sourced References",
+      "supports": "Supports: {{param}}",
+      "caption": "Estimated bill of materials"
     },
     "providers": {
       "title": "Renewable-Energy Providers & Retailers in Your Region",

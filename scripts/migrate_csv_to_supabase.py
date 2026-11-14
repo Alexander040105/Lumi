@@ -12,6 +12,7 @@ Required environment variables (from the repo root .env):
 
 from __future__ import annotations
 
+import argparse
 import json
 import logging
 import math
@@ -254,12 +255,30 @@ def migrate_climate(client: Client) -> None:
 # ---------------------------------------------------------------------------
 
 
+def _parse_specs_json(value: Any) -> Any:
+    """Coerce the catalogue's specs_json text column into jsonb-ready values."""
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str) and value.strip().startswith("{"):
+        try:
+            parsed = json.loads(value)
+        except (ValueError, TypeError):
+            logger.warning("Dropping malformed specs_json: %.80s", value)
+            return None
+        return parsed if isinstance(parsed, dict) else None
+    return None
+
+
 def migrate_products(client: Client) -> None:
     csv_path = ROOT / "fastapi-backend/app/services/local_data/products.csv"
     df = pd.read_csv(csv_path)
     df["energy_category"] = df.apply(
         lambda row: _fix_category(row.to_dict()), axis=1
     )
+    if "specs_json" in df.columns:
+        df["specs"] = df["specs_json"].apply(_parse_specs_json)
+        df = df.drop(columns=["specs_json"])
+    df = df.drop(columns=[c for c in ("kw", "source_category") if c in df.columns])
     records = _records_from_df(df)
     # Source-of-truth refresh: delete existing rows then re-insert
     try:
@@ -500,15 +519,32 @@ def migrate_geojson(client: Client) -> None:
 # ---------------------------------------------------------------------------
 
 
+_STEPS = {
+    "doe": migrate_doe_datasets,
+    "climate": migrate_climate,
+    "products": migrate_products,
+    "wind": migrate_wind,
+    "geothermal": migrate_geothermal,
+    "geojson": migrate_geojson,
+}
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Migrate local datasets into Supabase.")
+    parser.add_argument(
+        "--only",
+        choices=sorted(_STEPS),
+        nargs="+",
+        help="Run only the listed migration steps (default: all).",
+    )
+    args = parser.parse_args()
+
     client = _get_client()
     logger.info("Starting CSV/GeoJSON migration to Supabase")
-    migrate_doe_datasets(client)
-    migrate_climate(client)
-    migrate_products(client)
-    migrate_wind(client)
-    migrate_geothermal(client)
-    migrate_geojson(client)
+    for name, step in _STEPS.items():
+        if args.only and name not in args.only:
+            continue
+        step(client)
     logger.info("Migration complete")
 
 

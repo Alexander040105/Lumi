@@ -24,7 +24,8 @@ async def recommend_products(
 ):
     """Get context-aware product recommendations for a renewable energy type.
 
-    Returns actual scraped products from Alibaba, Amazon, Lazada, and Shopee.
+    Returns actual scraped products from PH retailers (solarwarehouse.ph,
+    solarportal.store, solarmallph.com.ph, prosolar.ph, RS Components).
     Links are not fabricated; products without URLs are excluded.
     """
     return get_product_recommendations(energy_type, budget_php=budget_php, limit=limit)

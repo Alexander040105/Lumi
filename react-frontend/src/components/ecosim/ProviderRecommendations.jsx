@@ -3,7 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AlertTriangle, MapPin, ExternalLink, Building2, ShieldCheck, Phone, ChevronDown, ChevronUp, Package, Globe } from "lucide-react";
+import { MapPin, ExternalLink, Building2, ShieldCheck, Phone, ChevronDown, ChevronUp, Package, Globe } from "lucide-react";
+import { IllustrationEmpty } from "@/components/illustrations";
 import { useI18n } from "@/i18n";
 import providersData from "@/data/providers.json";
 import { getRegionFromProvince, getRegionFromMunicipality } from "@/utils/regionMap";
@@ -64,7 +65,7 @@ function ProviderCard({ p, visitLabel, verifiedLabel, registryBadgeLabel, retail
         </Badge>
       ) : null}
       {!isRetailer && p.verification && (
-        <p className="text-[11px] leading-snug text-muted-foreground line-clamp-2">{p.verification}</p>
+        <p className="text-xs leading-snug text-muted-foreground line-clamp-2">{p.verification}</p>
       )}
       <div className="flex items-center justify-between mt-auto pt-1">
         <span className="text-xs text-muted-foreground">{p.years || ""}</span>
@@ -102,9 +103,9 @@ function ProviderList({ matched, fallback, showFallbackNotice, cardProps, emptyT
   return (
     <>
       {showFallbackNotice && matched.length === 0 && fallback.length > 0 && (
-        <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground mb-3">
-          <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" aria-hidden="true" />
-          {t("ecosim.providers.fallbackTitle")}
+        <div className="rounded-lg border bg-muted/30 p-4 text-sm text-foreground mb-3 flex items-center gap-3">
+          <IllustrationEmpty className="h-12 w-12 shrink-0" />
+          <span>{t("ecosim.providers.fallbackTitle")}</span>
         </div>
       )}
       {displayed.length > 0 ? (
@@ -114,9 +115,9 @@ function ProviderList({ matched, fallback, showFallbackNotice, cardProps, emptyT
           ))}
         </div>
       ) : (
-        <div className="rounded-lg border bg-muted/30 p-4 text-sm text-muted-foreground">
-          <AlertTriangle className="h-4 w-4 inline mr-1 text-warning" aria-hidden="true" />
-          {emptyText}
+        <div className="rounded-lg border bg-muted/30 p-4 text-sm text-foreground flex items-center gap-3">
+          <IllustrationEmpty className="h-12 w-12 shrink-0" />
+          <span>{emptyText}</span>
         </div>
       )}
       {matched.length > VISIBLE_LIMIT && (
@@ -139,7 +140,7 @@ function ProviderList({ matched, fallback, showFallbackNotice, cardProps, emptyT
           </Button>
         </div>
       )}
-      <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
+      <div className="mt-3 space-y-1.5 text-sm text-muted-foreground">
         {shownTechs.has("Solar") && <p>{t("ecosim.providers.disclaimerSolar")}</p>}
         {shownTechs.has("Wind") && <p>{t("ecosim.providers.disclaimerWind")}</p>}
         {shownTechs.has("Hydro") && <p>{t("ecosim.providers.disclaimerHydro")}</p>}
@@ -194,7 +195,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="providers">
-          <TabsList>
+          <TabsList className="h-auto flex-wrap">
             <TabsTrigger value="providers">{t("ecosim.providers.tabProviders")}</TabsTrigger>
             <TabsTrigger value="retailers">{t("ecosim.providers.tabRetailers")}</TabsTrigger>
           </TabsList>
@@ -217,7 +218,7 @@ export default function ProviderRecommendations({ municipalityName, provinceName
               emptyText={t("ecosim.providers.noneRetailers", { area })}
               t={t}
             />
-            <p className="mt-3 text-xs text-muted-foreground">
+            <p className="mt-3 text-sm text-muted-foreground">
               {t("ecosim.providers.retailerDisclaimer")}
             </p>
           </TabsContent>

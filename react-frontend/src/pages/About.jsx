@@ -5,11 +5,8 @@ import {
   BrainCircuit,
   ChevronRight,
   Database,
-  FlaskConical,
   Globe,
-  LayoutDashboard,
   Lightbulb,
-  Microscope,
   Monitor,
   Server,
   Users,
@@ -18,9 +15,10 @@ import {
 
 import { useI18n } from "@/i18n";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CitationSources from "@/components/shared/CitationSources";
 import ExpandableBlock from "@/components/shared/ExpandableBlock";
+import { IllustrationLocation } from "@/components/illustrations";
 
 function SectionHeading({ title, subtitle }) {
   return (
@@ -119,6 +117,10 @@ export default function About() {
               {t("about.problem.paragraph1")}
             </p>
             <CitationSources ids={t("about.problem.citations")} className="mt-2" />
+            <IllustrationLocation
+              className="pointer-events-none mx-auto h-40 w-40 sm:h-48 sm:w-48"
+              ariaHidden
+            />
           </div>
           <div className="space-y-6">
             <div className="grid gap-4 sm:grid-cols-2">

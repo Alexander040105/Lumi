@@ -42,6 +42,11 @@ SOURCE_MAP: dict[str, dict[str, str]] = {
     "alibaba": {"title": "Alibaba Marketplace", "url": "https://www.alibaba.com", "org": "Alibaba Group"},
     "amazon": {"title": "Amazon Marketplace", "url": "https://www.amazon.com", "org": "Amazon"},
     "lazada": {"title": "Lazada Philippines", "url": "https://www.lazada.com.ph", "org": "Lazada"},
+    "solarwarehouse": {"title": "Solar Warehouse Philippines", "url": "https://solarwarehouse.ph", "org": "Solar Warehouse"},
+    "solarportal": {"title": "Solar Portal PH", "url": "https://solarportal.store", "org": "Solar Portal"},
+    "solarmallph": {"title": "Solar Mall Philippines", "url": "https://solarmallph.com.ph", "org": "Solar Mall"},
+    "prosolar": {"title": "ProSolar Philippines", "url": "https://prosolar.ph", "org": "ProSolar"},
+    "rs_components": {"title": "RS Components Philippines", "url": "https://ph.rs-online.com", "org": "RS Group"},
     "istabreeze": {"title": "iSTA Breeze Wind Products", "url": "https://istabreeze.com", "org": "iSTA Breeze"},
     "DOE national_energy_annual_ready.csv": {
         "title": "DOE Philippine Power Statistics",

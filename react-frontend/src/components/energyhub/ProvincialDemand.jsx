@@ -4,6 +4,7 @@ import { getProvincialDemand } from "@/services/energyhub";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useI18n } from "@/i18n";
 import ExpandableBlock from "@/components/shared/ExpandableBlock";
+import { IllustrationEmpty } from "@/components/illustrations";
 
 const SECTORS = ["Residential", "Commercial", "Industrial", "Others"];
 const VALID_REGIONS = new Set([
@@ -65,7 +66,8 @@ export default function ProvincialDemand({ region = null }) {
         <CardHeader>
           <CardTitle>{t("energyHub.provincialDemand.title")}</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col items-center gap-3 pb-6">
+          <IllustrationEmpty className="w-28 h-28" />
           <p className="text-destructive text-sm">{error}</p>
         </CardContent>
       </Card>
@@ -80,6 +82,9 @@ export default function ProvincialDemand({ region = null }) {
           <CardTitle>{t("energyHub.provincialDemand.title")}</CardTitle>
           <CardDescription>{data?.note || t("energyHub.provincialDemand.noData")}</CardDescription>
         </CardHeader>
+        <CardContent className="flex justify-center pb-6">
+          <IllustrationEmpty className="w-28 h-28" />
+        </CardContent>
       </Card>
     );
   }
@@ -131,12 +136,12 @@ export default function ProvincialDemand({ region = null }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="h-80">
+        <div className="h-64 sm:h-80" role="img" aria-label={t("energyHub.provincialDemand.title")}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="region" />
-              <YAxis tickFormatter={(v) => `${v.toFixed(0)}`} />
+              <XAxis dataKey="region" interval="preserveStartEnd" tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} />
+              <YAxis tickFormatter={(v) => `${v.toFixed(0)}`} tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }} />
               <Tooltip
                 formatter={(value, name) => [formatNumber(value) + " GWh", name]}
                 labelFormatter={(label) => t("energyHub.provincialDemand.regionLabel", { region: label })}

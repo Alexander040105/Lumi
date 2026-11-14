@@ -222,9 +222,9 @@ function FallbackMapGrid({ data, metric, level }) {
               {hasData && <span className="text-xs ml-0.5">{t("energyHub.map.unit")}</span>}
             </p>
             {hasData && (
-              <p className="text-[10px] text-muted-foreground">{getClassificationLabel(item.value, t)}</p>
+              <p className="text-xs text-muted-foreground">{getClassificationLabel(item.value, t)}</p>
             )}
-            <p className="text-[10px] text-muted-foreground uppercase tracking-wide">{t(`energyHub.map.metrics.${metric}`)}</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-wide">{t(`energyHub.map.metrics.${metric}`)}</p>
           </div>
         );
       })}
@@ -372,29 +372,29 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
     const province = item?.province || "";
 
     let tooltipHtml = `<div style="font-family:sans-serif;font-size:13px;line-height:1.4;min-width:160px">
-      <div style="font-size:14px;font-weight:600;color:var(--foreground);margin-bottom:2px">${displayName}</div>`;
+      <div style="font-size:14px;font-weight:600;color:hsl(var(--foreground));margin-bottom:2px">${displayName}</div>`;
 
     if (level === "municipality" && province) {
-      tooltipHtml += `<div style="color:var(--muted-foreground);font-size:12px;margin-bottom:4px">${province}</div>`;
+      tooltipHtml += `<div style="color:hsl(var(--foreground));font-size:12px;margin-bottom:4px">${province}</div>`;
     }
 
     if (hasData) {
       const unit = t("energyHub.map.unit");
       const color = getColorForValue(item.value);
       tooltipHtml += `<div style="margin-top:4px">
-        <span style="color:var(--muted-foreground);font-size:12px">${t(`energyHub.map.metrics.${metric}`)}:</span>
+        <span style="color:hsl(var(--foreground));font-size:12px">${t(`energyHub.map.metrics.${metric}`)}:</span>
         <strong style="font-size:14px;color:${color}">${item.value.toLocaleString()}${unit}</strong>
       </div>`;
       tooltipHtml += `<div style="margin-top:2px;font-size:12px;color:${color};font-weight:500">${getClassificationLabel(item.value, t)}</div>`;
       if (metric === "geothermal_potential") {
-        tooltipHtml += `<div style="margin-top:4px;font-size:11px;color:var(--muted-foreground)">${t("energyHub.map.geothermalTooltip")}</div>`;
+        tooltipHtml += `<div style="margin-top:4px;font-size:12px;color:hsl(var(--foreground))">${t("energyHub.map.geothermalTooltip")}</div>`;
       }
       const factorsHtml = formatFactors(item.factors);
       if (factorsHtml) {
-        tooltipHtml += `<div style="margin-top:6px;padding-top:4px;border-top:1px solid var(--border);color:var(--muted-foreground);font-size:11px;line-height:1.5">${factorsHtml}</div>`;
+        tooltipHtml += `<div style="margin-top:6px;padding-top:4px;border-top:1px solid hsl(var(--border));color:hsl(var(--foreground));font-size:12px;line-height:1.5">${factorsHtml}</div>`;
       }
     } else {
-      tooltipHtml += `<div style="margin-top:4px;color:var(--map-no-data);font-size:12px">${t("energyHub.map.classification.noData")}</div>`;
+      tooltipHtml += `<div style="margin-top:4px;color:hsl(var(--muted-foreground));font-size:12px">${t("energyHub.map.classification.noData")}</div>`;
     }
 
     tooltipHtml += `</div>`;
@@ -406,7 +406,11 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
   const operatingPlants = geothermalPlants.filter((p) => p.status === "operating");
 
   return (
-    <div className="rounded-xl border overflow-hidden" style={{ height: 480 }}>
+    <div
+      className="h-[300px] md:h-[480px] rounded-xl border overflow-hidden"
+      role="region"
+      aria-label={t("energyHub.map.title")}
+    >
       <MapContainer
         center={[12.8797, 121.774]}
         zoom={level === "municipality" ? 7 : 6}
@@ -435,15 +439,15 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
             >
               <RL.Popup>
                 <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 160 }}>
-                  <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 4 }}>
+                  <div style={{ fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 4 }}>
                     {p.project_name}
                   </div>
-                  <div style={{ color: "var(--muted-foreground)", fontSize: 12 }}>
+                  <div style={{ color: "hsl(var(--foreground))", fontSize: 12 }}>
                     {p.capacity_mw !== null && p.capacity_mw !== undefined ? `${p.capacity_mw} MW` : ""}
                     {p.technology ? ` · ${p.technology}` : ""}
                   </div>
-                  <div style={{ color: "var(--muted-foreground)", fontSize: 12, marginTop: 2 }}>
-                    {t("energyHub.map.status")}: <span style={{ color: "var(--primary)", fontWeight: 500 }}>{p.status}</span>
+                  <div style={{ color: "hsl(var(--foreground))", fontSize: 12, marginTop: 2 }}>
+                    {t("energyHub.map.status")}: <span style={{ color: "hsl(var(--primary))", fontWeight: 500 }}>{p.status}</span>
                   </div>
                   {p.wiki_url && (
                     <div style={{ marginTop: 6 }}>
@@ -451,7 +455,7 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
                         href={p.wiki_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{ color: "var(--primary)", fontSize: 12 }}
+                        style={{ color: "hsl(var(--primary))", fontSize: 12 }}
                       >
                         {t("energyHub.map.viewOnGemWiki")}
                       </a>
@@ -494,11 +498,11 @@ function LeafletMap({ data, metric, level, geothermalPlants = [], overlays = {},
             >
               <RL.Popup>
                 <div style={{ fontFamily: "sans-serif", fontSize: 13, lineHeight: 1.4, minWidth: 140 }}>
-                  <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 4 }}>
+                  <div style={{ fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 4 }}>
                     {name}
                   </div>
                   {province && (
-                    <div style={{ color: "var(--muted-foreground)", fontSize: 12 }}>
+                    <div style={{ color: "hsl(var(--foreground))", fontSize: 12 }}>
                       {province}
                     </div>
                   )}
@@ -569,10 +573,10 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           {/* Level toggle */}
-          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1">
-            <MapIcon className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1 min-h-[40px]">
+            <MapIcon className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
             <select
-              className="bg-transparent text-sm focus:outline-none"
+              className="min-h-[36px] bg-transparent py-1 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
               title={t("energyHub.map.levelTooltip")}
               aria-label={t("energyHub.map.levelTooltip")}
               value={level}
@@ -587,10 +591,10 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
           </div>
 
           {/* Metric selector */}
-          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1">
-            <Layers className="h-3.5 w-3.5 text-muted-foreground" />
+          <div className="flex items-center gap-1.5 rounded-md border bg-background px-2 py-1 min-h-[40px]">
+            <Layers className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
             <select
-              className="bg-transparent text-sm focus:outline-none"
+              className="min-h-[36px] bg-transparent py-1 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
               title={t("energyHub.map.metricTooltip")}
               aria-label={t("energyHub.map.metricTooltip")}
               value={metric}
@@ -611,7 +615,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
                 type="button"
                 onClick={() => setShowVolcanoes((v) => !v)}
                 aria-pressed={showVolcanoes}
-                className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                className={`flex items-center gap-1 rounded-md border px-2 py-1 min-h-[40px] text-xs font-medium transition-colors ${
                   showVolcanoes
                     ? "bg-destructive/10 border-destructive/20 text-foreground"
                     : "bg-background border-muted text-muted-foreground hover:bg-muted"
@@ -626,7 +630,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
                   type="button"
                   onClick={() => setShowFaults((v) => !v)}
                   aria-pressed={showFaults}
-                  className={`flex items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium transition-colors ${
+                  className={`flex items-center gap-1 rounded-md border px-2 py-1 min-h-[40px] text-xs font-medium transition-colors ${
                     showFaults
                       ? "bg-chart-geothermal/10 border-chart-geothermal/20 text-foreground"
                       : "bg-background border-muted text-muted-foreground hover:bg-muted"
@@ -648,7 +652,7 @@ function EnergyMap({ mapData, metric, level, onMetricChange, onLevelChange, mapL
       />
 
       {mapLoading && (
-        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground" style={{ height: 480 }}>
+        <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground h-[300px] md:h-[480px]">
           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
           {t("energyHub.map.loading")}
         </div>

@@ -52,9 +52,9 @@ function setup(overrides = {}) {
 }
 
 describe("EcosimWizard", () => {
-  it("renders step 1 of 5", () => {
+  it("renders step 1 of 6", () => {
     setup();
-    expect(screen.getByText("Step 1 of 5")).toBeInTheDocument();
+    expect(screen.getByText("Step 1 of 6")).toBeInTheDocument();
   });
 
   it("hides the province mode toggle", () => {
@@ -64,11 +64,11 @@ describe("EcosimWizard", () => {
 });
 
 describe("EcosimWizard Save as PDF gating", () => {
-  const goToStep5 = () => {
-    for (let i = 0; i < 4; i++) {
+  const goToStep6 = () => {
+    for (let i = 0; i < 5; i++) {
       fireEvent.click(screen.getByText("Next"));
     }
-    expect(screen.getByText("Step 5 of 5")).toBeInTheDocument();
+    expect(screen.getByText("Step 6 of 6")).toBeInTheDocument();
   };
 
   const stepProps = {
@@ -81,7 +81,7 @@ describe("EcosimWizard Save as PDF gating", () => {
 
   it("hides Save as PDF while AI analysis is still generating", () => {
     setup({ ...stepProps, includeAi: true, aiLoading: true });
-    goToStep5();
+    goToStep6();
     expect(screen.queryByText("Save as PDF")).not.toBeInTheDocument();
   });
 
@@ -92,7 +92,7 @@ describe("EcosimWizard Save as PDF gating", () => {
       aiLoading: false,
       result: { ai_analysis: { summary: "Analysis text" } },
     });
-    goToStep5();
+    goToStep6();
     expect(screen.getByText("Save as PDF")).toBeInTheDocument();
   });
 
@@ -103,19 +103,19 @@ describe("EcosimWizard Save as PDF gating", () => {
       aiLoading: false,
       result: { ai_analysis: { status: "pending", summary: "pending text" } },
     });
-    goToStep5();
+    goToStep6();
     expect(screen.queryByText("Save as PDF")).not.toBeInTheDocument();
   });
 
   it("shows Save as PDF when AI analysis failed", () => {
     setup({ ...stepProps, includeAi: true, aiLoading: false, aiError: "AI failed" });
-    goToStep5();
+    goToStep6();
     expect(screen.getByText("Save as PDF")).toBeInTheDocument();
   });
 
   it("shows Save as PDF immediately when AI is not included", () => {
     setup({ ...stepProps, includeAi: false });
-    goToStep5();
+    goToStep6();
     expect(screen.getByText("Save as PDF")).toBeInTheDocument();
   });
 });

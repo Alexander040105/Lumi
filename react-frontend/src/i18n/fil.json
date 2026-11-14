@@ -35,7 +35,9 @@
       "fair": "Tama lang",
       "poor": "Mahina",
       "limited": "Limitado"
-    }
+    },
+    "readAloud": "Basahin nang malakas",
+    "stopReading": "Itigil ang pagbasa"
   },
   "citationSources": {
     "title": "Mga Sanggunian",
@@ -991,15 +993,17 @@
         "step1": "Lokasyon",
         "step2": "Paggamit ng Kuryente",
         "step3": "Savings Goal",
-        "step4": "Paliwanag",
-        "step5": "Suriin"
+        "step4": "Mga Opsyon ng System",
+        "step5": "Paliwanag",
+        "step6": "Suriin"
       },
       "stepDescriptions": {
         "step1": "Piliin ang iyong lungsod o munisipalidad para ma-analyze namin ang lokal na klima at resources.",
         "step2": "Ilagay ang mga numero mula sa iyong pinakabagong electric bill.",
         "step3": "Piliin kung gaano kalaki ng iyong bill ang sasagutin ng renewable energy.",
-        "step4": "Magpasya kung gusto mo ng simpleng paliwanag ng mga resulta.",
-        "step5": "Suriin ang iyong inputs at patakbuhin ang analysis."
+        "step4": "Opsyonal: magdagdag ng baterya, ilagay ang roof area, at sabihin ang iyong konsumo sa araw.",
+        "step5": "Magpasya kung gusto mo ng simpleng paliwanag ng mga resulta.",
+        "step6": "Suriin ang iyong inputs at patakbuhin ang analysis."
       },
       "searchMode": "Piliin ang uri ng lugar",
       "municipality": "Lungsod/Munisipalidad",
@@ -1042,7 +1046,9 @@
         "title": "Saan matatagpuan ang mga ito sa iyong bill",
         "kwh": "'Actual Consumption' o metered kWh para sa billing period",
         "bill": "'Total Amount Due' o 'Current Charges', bago ang mga subsidyo o diskwento",
-        "rate": "'Generation Charge' o effective ₱/kWh — kung hindi nakalagay, hatiin ang total bill sa kWh na nagamit"
+        "rate": "'Generation Charge' o effective ₱/kWh — kung hindi nakalagay, hatiin ang total bill sa kWh na nagamit",
+        "illustrationTitle": "Saan matatagpuan ang mga ito sa iyong bill",
+        "illustrationDesc": "Electric bill na may tatlong naka-highlight na bahagi: kWh na ginamit, halagang babayaran, at presyo kada kWh"
       },
       "savingsLabel": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
       "savingsLevels": {
@@ -1061,6 +1067,15 @@
       ],
       "aiAnalysis": "Isama ang simpleng paliwanag",
       "aiAnalysisHint": "Nagdadagdag ng simpleng paliwanag kung bakit inirerekomenda ang renewable option para sa iyong lugar.",
+      "batteryLabel": "Magdagdag ng battery storage (hybrid system)",
+      "batteryHint": "Mag-size ng LiFePO4 na mga baterya para sa gamit sa gabi mula sa sobrang solar sa araw. Mas mahal pero mas maraming nagagamit na enerhiya.",
+      "roofAreaLabel": "Magagamit na roof area (opsyonal)",
+      "roofAreaPlaceholder": "hal. 30 — iwanang blangko kung hindi sigurado",
+      "roofAreaHint": "Sa m². Kung ibinigay, hindi lalampas ang bilang ng panel sa kasya.",
+      "occupancyLabel": "May karaniwang nasa bahay ba sa araw?",
+      "occupancyOut": "Wala sa bahay sa araw",
+      "occupancyHome": "Kadalasang nasa bahay / WFH",
+      "occupancyHint": "Nakakaapekto ang konsumo sa araw kung gaano karaming solar ang direktang nagagamit kesa sa naka-export na kredito.",
       "explanationPreview": "Magdaragdag kami ng simpleng paliwanag kung bakit inirerekomenda ang nangungunang opsyon.",
       "summaryTitle": "Ang Iyong Inputs",
       "summary": {
@@ -1069,7 +1084,11 @@
         "bill": "Bill",
         "rate": "Rate bawat kWh",
         "savingsGoal": "Savings goal",
-        "aiAnalysis": "AI analysis"
+        "aiAnalysis": "AI analysis",
+        "battery": "Battery storage",
+        "roofArea": "Roof area",
+        "roofAreaUnknown": "Hindi ibinigay",
+        "occupancy": "Occupancy sa araw"
       },
       "reviewTitle": "Suriin ang iyong inputs",
       "compareText": "Ikumpara ang solar, wind, at hydro batay sa iyong lokasyon.",
@@ -1083,7 +1102,9 @@
       "save": "I-save",
       "generatingPdf": "Binubuo ang PDF...",
       "saveAsPdf": "I-save bilang PDF",
-      "saveToAccount": "I-save sa Account"
+      "saveToAccount": "I-save sa Account",
+      "summaryEmpty": "Kumpletuhin ang mga hakbang para makita ang iyong mga input.",
+      "editField": "I-edit ang {{field}}"
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -1098,6 +1119,20 @@
         "body": "Naglagay ka ng {{entered}} kWh, ngunit sa bill at rate mo humihigit sa {{effective}} kWh. Ginagamit namin ang effective value para sa analysis na ito."
       },
       "referenceOnly": "Reference lamang",
+      "academicOnly": "Site-potential lamang",
+      "windNotViable": "Mababa sa viability floor",
+      "sizing": {
+        "title": "Inirerekomendang Solar System Sizing",
+        "description": "Tantiya batay sa konsumo alinsunod sa ERC net-metering — 550W panels, LiFePO4 storage kung naka-enable.",
+        "systemSize": "Laki ng system",
+        "battery": "Battery storage",
+        "selfConsumed": "Self-consumed",
+        "exportCredit": "Export credit",
+        "investment": "Kabuuang investment",
+        "payback": "Simple payback",
+        "npv": "25-taong NPV",
+        "years": "{{count}} taon"
+      },
       "utilityScaleNote": "utility-scale, hindi home option",
       "sources": {
         "Solar": "Solar",
@@ -1304,68 +1339,18 @@
     "bom": {
       "title": "Bill of Materials",
       "description": "Tinatayang components para sa inirerekomendang system",
-      "notApplicable": "Ang geothermal energy ay utility-scale resource. Hindi aplikable ang home-scale bill of materials.",
-      "estimated": "Tinatayang {{kw}} kW na {{source}} system · Kabuuang {{cost}}",
+      "sizingEstimate": "{{kw}} kWp system · {{panels}} panels · {{cost}} turnkey estimate",
       "component": "Component",
       "qty": "Qty",
-      "unit": "Unit",
-      "unitCost": "Unit Cost",
+      "share": "Bahagi ng gastos",
       "total": "Total",
       "estimatedTotal": "Tinatayang Total",
-      "items": {
-        "solar_panels": {
-          "item": "Solar panels (400 W)",
-          "unit": "panel"
-        },
-        "solar_inverter": {
-          "item": "Inverter",
-          "unit": "unit"
-        },
-        "solar_mounting": {
-          "item": "Mounting & wiring",
-          "unit": "set"
-        },
-        "solar_labor": {
-          "item": "Installation labor",
-          "unit": "set"
-        },
-        "solar_permits": {
-          "item": "Permits & miscellaneous",
-          "unit": "set"
-        },
-        "wind_turbine": {
-          "item": "Small wind turbine",
-          "unit": "unit"
-        },
-        "wind_tower": {
-          "item": "Tower / mast",
-          "unit": "unit"
-        },
-        "wind_controller": {
-          "item": "Controller & inverter",
-          "unit": "unit"
-        },
-        "wind_labor": {
-          "item": "Installation & anchoring",
-          "unit": "set"
-        },
-        "hydro_turbine": {
-          "item": "Micro-hydro turbine & generator",
-          "unit": "unit"
-        },
-        "hydro_penstock": {
-          "item": "Penstock & civil works",
-          "unit": "set"
-        },
-        "hydro_controller": {
-          "item": "Controller & protection",
-          "unit": "unit"
-        },
-        "hydro_labor": {
-          "item": "Installation & commissioning",
-          "unit": "set"
-        }
-      }
+      "quoteOnly": "Humingi ng quote",
+      "viewProduct": "Tingnan ang produkto",
+      "viewSource": "Pinagmulan",
+      "sourcesTitle": "Tingnan ang Mga Sangguniang Pinagmulan",
+      "supports": "Sinusuportahan: {{param}}",
+      "caption": "Tinatayang listahan ng mga materyales"
     },
     "providers": {
       "title": "Mga Renewable-Energy Provider at Retailer sa Iyong Rehiyon",

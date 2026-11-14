@@ -3,6 +3,7 @@ import { Sparkles, Loader2, Maximize2 } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { sanitizeLLMOutput } from "@/utils/llmText";
+import ReadAloud from "@/components/shared/ReadAloud";
 import PlotlyChart from "./PlotlyChart";
 import ChartExplanation from "./ChartExplanation";
 
@@ -19,9 +20,9 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
     return (
       <button
         onClick={onAnalyze}
-        className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-warning/10 px-3 py-1.5 text-xs font-medium text-warning border border-warning/20 hover:bg-warning/10 transition-colors"
+        className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-warning/10 px-3 py-2 min-h-[40px] text-xs font-medium text-foreground border border-warning/20 hover:bg-warning/20 transition-colors"
       >
-        <Sparkles className="h-3 w-3" />
+        <Sparkles className="h-3 w-3 text-warning" aria-hidden="true" />
         {t("energyHub.trends.aiExplain")}
       </button>
     );
@@ -29,8 +30,8 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
 
   if (loading) {
     return (
-      <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-warning/10 px-3 py-2 text-xs text-warning border border-warning/20">
-        <Loader2 className="h-3 w-3 animate-spin" />
+      <div className="mt-2 inline-flex items-center gap-2 rounded-md bg-warning/10 px-3 py-2 text-xs text-foreground border border-warning/20">
+        <Loader2 className="h-3 w-3 animate-spin text-warning" aria-hidden="true" />
         {t("energyHub.trends.generating")}
       </div>
     );
@@ -44,7 +45,7 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex-1 min-w-0">
           <p
-            className={`text-xs leading-relaxed text-warning whitespace-pre-line ${
+            className={`text-xs leading-relaxed text-foreground whitespace-pre-line ${
               expanded ? "" : "line-clamp-4"
             }`}
           >
@@ -55,22 +56,25 @@ function ChartAiPanel({ chartKey, analysis, onAnalyze, onRefresh, loading }) {
               type="button"
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
-              className="mt-1 text-[10px] font-medium text-warning underline underline-offset-2 hover:text-warning/80 transition-colors"
+              className="mt-1 text-xs font-medium text-foreground underline underline-offset-2 hover:text-primary transition-colors"
             >
               {expanded ? t("energyHub.trends.showLess") : t("energyHub.trends.readMore")}
             </button>
           )}
         </div>
-        {onRefresh && (
-          <button
-            onClick={onRefresh}
-            title={t("energyHub.trends.getDifferent")}
-            className="shrink-0 inline-flex items-center gap-1 rounded-md bg-warning/10 px-2 py-1 text-[10px] font-medium text-warning border border-warning/20 hover:bg-warning/20 transition-colors"
-          >
-            <Sparkles className="h-3 w-3" />
-            {t("energyHub.trends.refresh")}
-          </button>
-        )}
+        <div className="flex shrink-0 flex-col items-end gap-1.5">
+          <ReadAloud text={displayText} />
+          {onRefresh && (
+            <button
+              onClick={onRefresh}
+              title={t("energyHub.trends.getDifferent")}
+              className="inline-flex items-center gap-1 rounded-md bg-warning/10 px-2 py-1 min-h-[36px] text-xs font-medium text-foreground border border-warning/20 hover:bg-warning/20 transition-colors"
+            >
+              <Sparkles className="h-3 w-3 text-warning" aria-hidden="true" />
+              {t("energyHub.trends.refresh")}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -149,8 +153,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
       title: { text: "", font: { size: 14 } },
       xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
       yaxis: { title: t("energyHub.trends.chartAxis.gwh") },
-      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
-      margin: { t: 16, r: 100, b: 40, l: 56 },
+      legend: { orientation: "h", y: -0.25, font: { size: 11 } },
+      margin: { t: 16, r: 8, b: 48, l: 56 },
     }),
     [t]
   );
@@ -211,8 +215,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
     () => ({
       xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
       yaxis: { title: t("energyHub.trends.chartAxis.mw") },
-      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
-      margin: { t: 16, r: 100, b: 40, l: 56 },
+      legend: { orientation: "h", y: -0.25, font: { size: 11 } },
+      margin: { t: 16, r: 8, b: 48, l: 56 },
     }),
     [t]
   );
@@ -260,8 +264,8 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
     () => ({
       xaxis: { title: t("energyHub.trends.chartAxis.year"), tickmode: "linear", dtick: 1 },
       yaxis: { title: t("energyHub.trends.chartAxis.gwh") },
-      legend: { orientation: "v", x: 1, xanchor: "right", y: 1, yanchor: "top", font: { size: 11 } },
-      margin: { t: 16, r: 120, b: 40, l: 56 },
+      legend: { orientation: "h", y: -0.25, font: { size: 11 } },
+      margin: { t: 16, r: 8, b: 48, l: 56 },
     }),
     [t]
   );
@@ -315,12 +319,14 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                 layout: consumptionLayout,
               })
             }
-            className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
+            className="absolute top-2 right-2 z-10 flex h-10 w-10 items-center justify-center rounded-md border bg-card p-2 text-muted-foreground hover:text-foreground shadow-sm"
             aria-label={t("energyHub.trends.enlarge")}
           >
             <Maximize2 className="h-3.5 w-3.5" />
           </button>
-          <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
+          <div role="img" aria-label={t("energyHub.trends.consumption.title")} className="h-full w-full">
+            <PlotlyChart data={consumptionTraces} layout={consumptionLayout} />
+          </div>
         </div>
         {onAnalyzeChart && (
           <ChartAiPanel
@@ -354,12 +360,14 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                   layout: peakDemandLayout,
                 })
               }
-              className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              className="absolute top-2 right-2 z-10 flex h-10 w-10 items-center justify-center rounded-md border bg-card p-2 text-muted-foreground hover:text-foreground shadow-sm"
               aria-label={t("energyHub.trends.enlarge")}
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
-            <PlotlyChart data={peakDemandTraces} layout={peakDemandLayout} />
+            <div role="img" aria-label={t("energyHub.trends.peakDemand.title")} className="h-full w-full">
+              <PlotlyChart data={peakDemandTraces} layout={peakDemandLayout} />
+            </div>
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel
@@ -390,12 +398,14 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
                   layout: renewableGenLayout,
                 })
               }
-              className="absolute top-2 right-2 z-10 rounded-md border bg-card p-1 text-muted-foreground hover:text-foreground shadow-sm"
+              className="absolute top-2 right-2 z-10 flex h-10 w-10 items-center justify-center rounded-md border bg-card p-2 text-muted-foreground hover:text-foreground shadow-sm"
               aria-label={t("energyHub.trends.enlarge")}
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
-            <PlotlyChart data={renewableGenTraces} layout={renewableGenLayout} />
+            <div role="img" aria-label={t("energyHub.trends.renewable.title")} className="h-full w-full">
+              <PlotlyChart data={renewableGenTraces} layout={renewableGenLayout} />
+            </div>
           </div>
           {onAnalyzeChart && (
             <ChartAiPanel
@@ -416,7 +426,11 @@ export default function EnergyTrends({ trends, chartAnalyses, llmLoading, onAnal
             <DialogDescription>{modal?.subtitle}</DialogDescription>
           </DialogHeader>
           <div className="flex-1 min-h-0">
-            {modal && <PlotlyChart data={modal.data} layout={modal.layout} />}
+            {modal && (
+              <div role="img" aria-label={modal.title} className="h-full w-full">
+                <PlotlyChart data={modal.data} layout={modal.layout} />
+              </div>
+            )}
           </div>
         </DialogContent>
       </Dialog>

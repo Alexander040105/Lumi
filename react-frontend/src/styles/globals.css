@@ -24,7 +24,7 @@
     --secondary-foreground: 120 50% 10%; /* #0f260d */
 
     --muted: 120 35% 93%;              /* #ebf6eb */
-    --muted-foreground: 120 30% 28%;    /* #3a5c3b */
+    --muted-foreground: 120 32% 22%;    /* #264a26 */
 
     --accent: 45 90% 65%;              /* #f6d96a */
     --accent-foreground: 120 50% 15%;   /* #122f10 */
@@ -77,8 +77,8 @@
     --popover: 120 30% 8%;
     --popover-foreground: 116 37% 92%;
 
-    --primary: 119 38% 27%;             /* #2c5f2b */
-    --primary-foreground: 0 0% 100%;    /* white on dark primary */
+    --primary: 117 62% 54%;             /* #48d241 — luminous dark-theme green; legible as text AND fill */
+    --primary-foreground: 120 40% 2%;   /* near-black on bright primary */
 
     --secondary: 117 57% 35%;           /* #2b8c26 */
     --secondary-foreground: 120 40% 2%; /* background color for contrast */

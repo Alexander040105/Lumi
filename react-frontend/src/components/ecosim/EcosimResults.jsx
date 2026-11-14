@@ -6,12 +6,17 @@ import { Button } from "@/components/ui/button";
 import {
   Zap, TreePine, Sun, Wind, Droplets, Flame,
   CheckCircle, AlertTriangle, ChevronDown, ChevronUp,
-  TrendingUp, Loader2,
+  TrendingUp, Loader2, BatteryCharging, Home,
+  ArrowUpFromLine, Wallet, Timer,
+  Thermometer, CloudRain, Cloud, Gauge, Mountain,
 } from "lucide-react";
+import { IllustrationSolar, IllustrationWind, IllustrationHydro } from "@/components/illustrations";
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
 import ExplanationModal from "./ExplanationModal";
+import ReadAloud from "@/components/shared/ReadAloud";
+import EcosimBOM from "./EcosimBOM";
 import { resolveSourceAnalysis } from "@/utils/ecosimAnalysis";
 import ProviderRecommendations from "./ProviderRecommendations";
 
@@ -21,7 +26,7 @@ const formatCurrency = (value) =>
   new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP", maximumFractionDigits: 0 }).format(value ?? 0);
 
 const sourceMeta = {
-  Solar: { icon: Sun, iconColor: "text-foreground", bg: "bg-warning/10", bar: "bg-warning", name: "Solar" },
+  Solar: { icon: Sun, iconColor: "text-foreground", bg: "bg-chart-solar/20", bar: "bg-chart-solar", name: "Solar" },
   Wind: { icon: Wind, iconColor: "text-foreground", bg: "bg-chart-wind/10", bar: "bg-chart-wind", name: "Wind" },
   Hydro: { icon: Droplets, iconColor: "text-foreground", bg: "bg-chart-hydro/10", bar: "bg-chart-hydro", name: "Hydro" },
   Hydropower: { icon: Droplets, iconColor: "text-foreground", bg: "bg-chart-hydro/10", bar: "bg-chart-hydro", name: "Hydro" },
@@ -29,6 +34,22 @@ const sourceMeta = {
 };
 
 const sourceDisplayName = (source) => (source === "Hydropower" ? "Hydro" : source);
+
+const REC_ART = { Solar: IllustrationSolar, Wind: IllustrationWind, Hydro: IllustrationHydro };
+
+function SizingStat({ icon: Icon, label, value }) {
+  return (
+    <div className="flex items-start gap-3 rounded-lg bg-muted/40 p-3">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <Icon className="h-4 w-4" aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <p className="text-sm text-muted-foreground">{label}</p>
+        <p className="text-base font-semibold leading-snug">{value}</p>
+      </div>
+    </div>
+  );
+}
 
 function solarInfo(ghi, t) {
   if (ghi >= 5.0) return { level: "excellent", label: t("common.ratings.excellent"), desc: t("ecosim.results.info.Solar.excellent") };
@@ -73,6 +94,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
   const recScore = rec.generation_score ?? rec.suitability_score ?? 0;
   const recLabel = getRating(recScore, 100);
   const RecIcon = sourceMeta[recSource]?.icon || Zap;
+  const RecArt = REC_ART[recDisplay] || null;
 
   const climate = result.climate || {};
   const sInfo = solarInfo(climate.avg_allsky_sfc_sw_dwn, t);
@@ -114,7 +136,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
           <AlertTriangle className="h-5 w-5 text-warning shrink-0 mt-0.5" aria-hidden="true" />
           <div>
             <p className="font-medium text-sm">{t("ecosim.results.inputWarning.title")}</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-foreground">
               {t("ecosim.results.inputWarning.body", { entered: userCons.toFixed(0), effective: effectiveCons.toFixed(0) })}
             </p>
           </div>
@@ -130,27 +152,31 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">
               <span className="inline-flex items-center gap-2">
-                <RecIcon className="h-8 w-8" />
+                <RecIcon className="h-8 w-8" aria-hidden="true" />
                 {t("ecosim.results.isBestFor", { source: t("ecosim.results.sources." + recDisplay) })}
               </span>
             </h2>
-            <p className="text-muted-foreground max-w-2xl leading-relaxed">
+            <p className="text-foreground max-w-2xl leading-relaxed">
               {isGeothermalRec
                 ? t("ecosim.results.geothermalNote", { source: t("ecosim.results.sources." + recSource) })
                 : result.explanation}
             </p>
             {isGeothermalRec && (
-              <p className="mt-2 text-xs text-muted-foreground bg-muted/50 border rounded-md p-2 inline-block">
+              <p className="mt-2 text-xs text-foreground bg-muted/50 border rounded-md p-2 inline-block">
                 {t("ecosim.results.geothermalReference")}
               </p>
             )}
           </div>
-          <div className="shrink-0 text-center md:text-right">
+          <div className="shrink-0 text-center md:text-right space-y-2">
+            {RecArt && <RecArt className="h-20 w-20 md:h-24 md:w-24 mx-auto md:ml-auto" aria-hidden="true" />}
             <p className="text-2xl font-bold">
-              {formatNumber(rec.estimated_generation_kwh, 0)} <span className="text-base font-normal text-muted-foreground">kWh/month</span>
+              {formatNumber(rec.estimated_generation_kwh, 0)} <span className="text-base font-normal text-foreground">kWh/month</span>
             </p>
+            <div className="h-1.5 w-full md:w-40 md:ml-auto rounded-full bg-muted overflow-hidden" aria-hidden="true">
+              <div className="h-full rounded-full bg-primary" style={{ width: `${Math.min(Math.max(coverage, 0), 100)}%` }} />
+            </div>
             {result.remaining_anonymous_requests !== undefined && result.remaining_anonymous_requests !== null && (
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="text-xs text-foreground mt-1">
                 {t("ecosim.results.anonymousQuota", { remaining: result.remaining_anonymous_requests })}
               </p>
             )}
@@ -186,12 +212,26 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <CheckCircle className="h-5 w-5 text-primary" />
+            <CheckCircle className="h-5 w-5 text-primary" aria-hidden="true" />
             {t("ecosim.results.whyRecommended.title", { source: t("ecosim.results.sources." + recDisplay) })}
           </CardTitle>
           <CardDescription>{t("ecosim.results.whyRecommended.description")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              <Sun className="h-4 w-4 text-primary" aria-hidden="true" />
+              {formatNumber(climate.avg_allsky_sfc_sw_dwn, 2)} kWh/m²/day
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Wind className="h-4 w-4 text-primary" aria-hidden="true" />
+              {formatNumber(climate.avg_ws10m, 2)} m/s
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Droplets className="h-4 w-4 text-primary" aria-hidden="true" />
+              {formatNumber(result.renewable_energy_results?.hydro_output?.hydro_score, 0)}/100
+            </span>
+          </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-lg border bg-muted/30 p-4">
               <p className="font-semibold mb-1">{t("ecosim.results.whyRecommended.yourLocation")}</p>
@@ -223,7 +263,10 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
       {(aiLoading || result.ai_analysis || aiError) && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("ecosim.results.aiAnalysis.title")}</CardTitle>
+            <CardTitle className="text-lg flex items-center justify-between gap-2">
+              {t("ecosim.results.aiAnalysis.title")}
+              <ReadAloud text={result.ai_analysis?.summary} />
+            </CardTitle>
             <CardDescription>
               {aiError
                 ? t("ecosim.results.aiAnalysis.failedBody")
@@ -246,7 +289,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               <>
                 {(aiLoading || result.ai_analysis?.status === "pending") && (
                   <div className="flex items-center gap-2 rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-xs text-foreground">
-                    <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+                    <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" aria-hidden="true" />
                     {t("ecosim.results.aiAnalysis.pendingBody")}
                   </div>
                 )}
@@ -282,6 +325,10 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             const optionSource = item.source === "Hydro" ? "Hydropower" : item.source;
             const option = result.options?.find((o) => o.source === optionSource) || {};
             const isUtility = item.referenceOnly;
+            const isAcademic = option.source_type === "academic";
+            const windNotViable =
+              item.source === "Wind" &&
+              (result.renewable_energy_results?.climate?.avg_wind_hub_ms ?? 0) < 5;
             const scoreVal = isUtility
               ? (item.output?.suitability_score || 0)
               : (option.generation_score ?? 0);
@@ -293,13 +340,15 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             return (
               <div key={item.source} className={`flex items-start gap-4 p-3 rounded-lg border ${isRec ? "border-primary/30 bg-secondary/50" : ""}`}>
                 <div className={`shrink-0 w-10 h-10 rounded-full ${meta.bg} flex items-center justify-center`}>
-                  <meta.icon className={`h-5 w-5 ${meta.iconColor}`} />
+                  <meta.icon className={`h-5 w-5 ${meta.iconColor}`} aria-hidden="true" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-semibold">{t("ecosim.results.sources." + item.source)}</span>
                     {isRec && <Badge className="bg-primary text-primary-foreground text-xs">{t("ecosim.results.recommended")}</Badge>}
                     {item.referenceOnly && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.referenceOnly")}</Badge>}
+                    {isAcademic && <Badge className="bg-muted text-muted-foreground text-xs">{t("ecosim.results.academicOnly")}</Badge>}
+                    {windNotViable && <Badge className="bg-warning/10 text-foreground border-warning/40 text-xs">{t("ecosim.results.windNotViable")}</Badge>}
                     {!isRec && <Badge className={`${rating.color} text-xs`}>{item.info.label}</Badge>}
                   </div>
                   <p className="text-sm text-muted-foreground mt-0.5">
@@ -357,7 +406,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
+            <TrendingUp className="h-5 w-5 text-primary" aria-hidden="true" />
             {t("ecosim.results.nextSteps.title")}
           </CardTitle>
           <CardDescription>{t("ecosim.results.nextSteps.description")}</CardDescription>
@@ -393,17 +442,20 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               </CardHeader>
               <CardContent className="grid gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {[
-                  { label: t("ecosim.results.climateLabels.temperature"), value: climate.avg_t2m, unit: "°C", digits: 1 },
-                  { label: t("ecosim.results.climateLabels.humidity"), value: climate.avg_rh2m, unit: "%", digits: 1 },
-                  { label: t("ecosim.results.climateLabels.rainfall"), value: climate.avg_prectotcorr, unit: "mm/day", digits: 1 },
-                  { label: t("ecosim.results.climateLabels.solarIrradiance"), value: climate.avg_allsky_sfc_sw_dwn, unit: "kWh/m²/day", digits: 2 },
-                  { label: t("ecosim.results.climateLabels.windSpeed"), value: climate.avg_ws10m, unit: "m/s", digits: 2 },
-                  { label: t("ecosim.results.climateLabels.cloudCoverage"), value: climate.avg_cloud_amt, unit: "%", digits: 1 },
-                  { label: t("ecosim.results.climateLabels.surfacePressure"), value: climate.avg_surface_pressure, unit: "kPa", digits: 1 },
-                  { label: t("ecosim.results.climateLabels.elevation"), value: climate.elevation, unit: "m", digits: 0 },
+                  { icon: Thermometer, label: t("ecosim.results.climateLabels.temperature"), value: climate.avg_t2m, unit: "°C", digits: 1 },
+                  { icon: Droplets, label: t("ecosim.results.climateLabels.humidity"), value: climate.avg_rh2m, unit: "%", digits: 1 },
+                  { icon: CloudRain, label: t("ecosim.results.climateLabels.rainfall"), value: climate.avg_prectotcorr, unit: "mm/day", digits: 1 },
+                  { icon: Sun, label: t("ecosim.results.climateLabels.solarIrradiance"), value: climate.avg_allsky_sfc_sw_dwn, unit: "kWh/m²/day", digits: 2 },
+                  { icon: Wind, label: t("ecosim.results.climateLabels.windSpeed"), value: climate.avg_ws10m, unit: "m/s", digits: 2 },
+                  { icon: Cloud, label: t("ecosim.results.climateLabels.cloudCoverage"), value: climate.avg_cloud_amt, unit: "%", digits: 1 },
+                  { icon: Gauge, label: t("ecosim.results.climateLabels.surfacePressure"), value: climate.avg_surface_pressure, unit: "kPa", digits: 1 },
+                  { icon: Mountain, label: t("ecosim.results.climateLabels.elevation"), value: climate.elevation, unit: "m", digits: 0 },
                 ].map((item) => (
                   <div key={item.label}>
-                    <p className="text-sm text-muted-foreground">{item.label}</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+                      <item.icon className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                      {item.label}
+                    </p>
                     <p className="text-lg font-semibold">{formatNumber(item.value, item.digits)} {item.unit}</p>
                   </div>
                 ))}
@@ -456,6 +508,63 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
 
           {/* Scenario comparison hidden until financial modeling is reliable */}
         </div>
+      )}
+
+      {/* Sizing summary + Bill of Materials */}
+      {result.sizing && (
+        <>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg flex items-center gap-2">
+                <Sun className="h-5 w-5 text-primary" aria-hidden="true" />
+                {t("ecosim.results.sizing.title")}
+              </CardTitle>
+              <CardDescription>{t("ecosim.results.sizing.description")}</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <SizingStat
+                icon={Sun}
+                label={t("ecosim.results.sizing.systemSize")}
+                value={`${formatNumber(result.sizing.panels_needed)} × 550W = ${formatNumber(result.sizing.actual_system_kwp, 2)} kWp`}
+              />
+              {result.sizing.battery_modules_needed > 0 && (
+                <SizingStat
+                  icon={BatteryCharging}
+                  label={t("ecosim.results.sizing.battery")}
+                  value={`${result.sizing.battery_modules_needed} × 5.12 = ${formatNumber(result.sizing.installed_battery_kwh, 2)} kWh`}
+                />
+              )}
+              <SizingStat
+                icon={Home}
+                label={t("ecosim.results.sizing.selfConsumed")}
+                value={`${formatNumber(result.sizing.monthly_self_consumed_kwh, 1)} kWh/mo`}
+              />
+              <SizingStat
+                icon={ArrowUpFromLine}
+                label={t("ecosim.results.sizing.exportCredit")}
+                value={`${formatCurrency(result.sizing.monthly_export_credit_php)}/mo`}
+              />
+              <SizingStat
+                icon={Wallet}
+                label={t("ecosim.results.sizing.investment")}
+                value={formatCurrency(result.sizing.total_installation_cost_php)}
+              />
+              <SizingStat
+                icon={Timer}
+                label={t("ecosim.results.sizing.payback")}
+                value={result.sizing.simple_payback_years != null
+                  ? t("ecosim.results.sizing.years", { count: formatNumber(result.sizing.simple_payback_years, 1) })
+                  : "—"}
+              />
+              <SizingStat
+                icon={TrendingUp}
+                label={t("ecosim.results.sizing.npv")}
+                value={result.sizing.npv_php != null ? formatCurrency(result.sizing.npv_php) : "—"}
+              />
+            </CardContent>
+          </Card>
+          <EcosimBOM sizing={result.sizing} />
+        </>
       )}
     </div>
   );

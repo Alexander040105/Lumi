@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Info, Zap, BarChart3, Percent } from "lucide-react";
 
 import {
   getEnergyHubOverview,
@@ -237,8 +238,8 @@ export default function EnergyHub() {
                   {t("nav.home")}
                 </Link>
               </li>
-              <li>/</li>
-              <li className="text-foreground">{t("nav.energyHub")}</li>
+              <li aria-hidden="true">/</li>
+              <li className="text-foreground" aria-current="page">{t("nav.energyHub")}</li>
             </ol>
           </nav>
 
@@ -246,7 +247,8 @@ export default function EnergyHub() {
           <p className="mt-2 max-w-2xl text-muted-foreground">
             {t("energyHub.description")}
           </p>
-          <div className="mt-3 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm text-foreground">
+          <div className="mt-3 flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm text-foreground">
+            <Info className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             {t("energyHub.disclaimer")}
           </div>
         </div>
@@ -268,12 +270,15 @@ export default function EnergyHub() {
 
         {/* Section 2b: IRENA Benchmark */}
         {irena && irena.capacity?.length > 0 && (
-          <section className="rounded-xl border bg-card p-6 shadow-sm">
+          <section className="rounded-xl border bg-card p-4 shadow-sm">
             <h2 className="text-lg font-semibold">{t("energyHub.sections.irena.title")}</h2>
             <p className="text-sm text-muted-foreground">{t("energyHub.sections.irena.description")}</p>
             <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.latestReCapacity")}</p>
+              <div className="rounded-lg border bg-muted/30 p-2.5">
+                <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <Zap className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                  {t("energyHub.sections.irena.latestReCapacity")}
+                </p>
                 <p className="text-lg font-semibold">
                   {(() => {
                     const cap = irena.capacity
@@ -286,14 +291,18 @@ export default function EnergyHub() {
                   })()}
                 </p>
               </div>
-              <div className="rounded-lg border bg-muted/30 p-3">
-                <p className="text-xs text-muted-foreground">{t("energyHub.sections.irena.latestReGeneration")}</p>
+              <div className="rounded-lg border bg-muted/30 p-2.5">
+                <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <BarChart3 className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                  {t("energyHub.sections.irena.latestReGeneration")}
+                </p>
                 <p className="text-lg font-semibold">
                   {irena.generation.filter(g => g.technology === "Total renewable" && g.grid_connection === "On-grid").pop()?.generation_gwh?.toLocaleString?.() || "—"} {t("energyHub.sections.irena.unitGWh")}
                 </p>
               </div>
-              <div className="rounded-lg border bg-muted/30 p-3">
+              <div className="rounded-lg border bg-muted/30 p-2.5">
                 <div className="text-xs text-muted-foreground flex items-center gap-1">
+                  <Percent className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   <InfoTooltip
                     label={t("energyHub.sections.irena.reShareLatest")}
                     content={t("energyHub.sections.irena.reShareTooltip")}

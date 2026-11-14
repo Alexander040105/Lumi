@@ -134,6 +134,15 @@ export function getEcosim(params) {
   if (params.includeAi) {
     search.append("include_ai", "true");
   }
+  if (params.includeBattery) {
+    search.append("include_battery", "true");
+  }
+  if (params.roofAreaM2 !== undefined && params.roofAreaM2 !== null && params.roofAreaM2 !== "") {
+    search.append("roof_area_m2", String(params.roofAreaM2));
+  }
+  if (params.daytimeFraction !== undefined && params.daytimeFraction !== null) {
+    search.append("daytime_fraction", String(params.daytimeFraction));
+  }
   if (params.useRag && params.ragQuery) {
     search.append("use_rag", "true");
     search.append("rag_query", params.ragQuery);
@@ -156,6 +165,15 @@ export function getEcosimAI(params) {
   }
   if (params.desiredSavings !== undefined && params.desiredSavings !== null) {
     search.append("desired_savings", String(params.desiredSavings));
+  }
+  if (params.includeBattery) {
+    search.append("include_battery", "true");
+  }
+  if (params.roofAreaM2 !== undefined && params.roofAreaM2 !== null && params.roofAreaM2 !== "") {
+    search.append("roof_area_m2", String(params.roofAreaM2));
+  }
+  if (params.daytimeFraction !== undefined && params.daytimeFraction !== null) {
+    search.append("daytime_fraction", String(params.daytimeFraction));
   }
   if (params.useRag && params.ragQuery) {
     search.append("use_rag", "true");

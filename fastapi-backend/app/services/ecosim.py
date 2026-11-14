@@ -3,7 +3,9 @@ import datetime as dt
 import hashlib
 import json
 import logging
+import math
 import os
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -60,6 +62,12 @@ from app.services.hydro_plants import (
 )
 from app.services.financials import FinancialInputs, analyze_financials, to_dict as financials_to_dict
 from app.services.confidence import ConfidenceFactors, calculate_confidence
+from app.config.citations import CITATION_REGISTRY
+from app.services.sizing import (
+    DAYTIME_FRACTION_DEFAULT,
+    SizingInputs,
+    calculate_sizing,
+)
 logger = logging.getLogger(__name__)
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 _CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
@@ -930,6 +938,40 @@ def consumption_calculator(current_electricity_bill: float, electricity_rate: fl
 
 
 
+def _attach_sizing(
+    result_dict: dict,
+    municipality_data: dict,
+    consumption_results: dict,
+    *,
+    monthly_bill: float,
+    electricity_rate: float,
+    desired_savings: float,
+    roof_area_m2: float | None,
+    daytime_fraction: float | None,
+    include_battery: bool,
+) -> None:
+    """Attach the consumption-driven sizing block (spec: ECOSIM-SIZING-BATTERY).
+    Pure in-memory math — failures degrade to ``sizing=None`` without breaking
+    the surrounding response."""
+    try:
+        sizing = calculate_sizing(SizingInputs(
+            monthly_consumption_kwh=float(consumption_results.get("monthly_consumption_kwh") or 0.0),
+            monthly_bill_php=float(monthly_bill or 0.0),
+            electricity_rate_php=float(electricity_rate or 0.0),
+            desired_savings=float(desired_savings if desired_savings is not None else 0.5),
+            pvout_annual=municipality_data.get("solar_pvout_annual_kwh_kwp"),
+            ghi_kwh_m2_day=municipality_data.get("solar_ghi_kwh_m2_day")
+            or municipality_data.get("avg_allsky_sfc_sw_dwn"),
+            roof_area_m2=roof_area_m2,
+            daytime_fraction=daytime_fraction or DAYTIME_FRACTION_DEFAULT,
+            include_battery=include_battery,
+        ))
+        result_dict["sizing"] = asdict(sizing)
+    except Exception as exc:
+        logger.warning("EcoSim sizing calculation failed: %s", exc)
+        result_dict["sizing"] = None
+
+
 def renewable_energy_calculator(
     house: str,
     municipality: str,
@@ -944,6 +986,9 @@ def renewable_energy_calculator(
     municipality_id: int | None = None,
     data_source: str = "auto",
     use_cache: bool = True,
+    roof_area_m2: float | None = None,
+    include_battery: bool = False,
+    daytime_fraction: float | None = None,
 ) -> dict:
     # NOTE: Data fetching
     if mode == "province":
@@ -975,6 +1020,9 @@ def renewable_energy_calculator(
             "use_rag": use_rag,
             "rag_query": rag_query,
             "data_source": data_source,
+            "roof_area_m2": roof_area_m2,
+            "include_battery": include_battery,
+            "daytime_fraction": daytime_fraction,
             "household_solar_size_kwp": _s.household_solar_size_kwp,
             "household_wind_hub_height_m": _s.household_wind_hub_height_m,
             "wind_shear_exponent": _s.wind_shear_exponent,
@@ -1441,6 +1489,18 @@ def renewable_energy_calculator(
         "province": province,
     }
 
+    _attach_sizing(
+        result,
+        municipality_data,
+        consumption_results,
+        monthly_bill=current_electricity_bill,
+        electricity_rate=electricity_rate,
+        desired_savings=desired_savings,
+        roof_area_m2=roof_area_m2,
+        daytime_fraction=daytime_fraction,
+        include_battery=include_battery,
+    )
+
     if use_cache and geo_id and params_hash:
         # Don't persist a fallback AI summary for the full 30-minute window;
         # once the worker thread completes and writes the AI cache, a fresh
@@ -1823,6 +1883,9 @@ def build_ecosim_dashboard_response(
     rag_query: str | None = None,
     mode: str = "municipality",
     data_source: EcoSimDataSource = "auto",
+    roof_area_m2: float | None = None,
+    include_battery: bool = False,
+    daytime_fraction: float | None = None,
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
@@ -1902,6 +1965,9 @@ def build_ecosim_dashboard_response(
         mode=mode,
         municipality_id=municipality_id,
         data_source=data_source,
+        roof_area_m2=roof_area_m2,
+        include_battery=include_battery,
+        daytime_fraction=daytime_fraction,
     )
 
     renewable_results = base_results["renewable_energy_results"]
@@ -1953,6 +2019,17 @@ def build_ecosim_dashboard_response(
             wind_score = min(scaled_wind_kwh / 300.0, 1.0)
     else:
         wind_score = raw_wind_score
+
+    # Wind viability floor: household wind is non-viable below a 5.0 m/s mean
+    # hub-height wind speed (Alimon & Roxas 2022; NREL 2021). Keep the computed
+    # generation figures for informational display but zero the suitability
+    # score and exclude wind from the household recommendation.
+    hub_wind_speed = (renewable_results.get("climate") or {}).get("avg_wind_hub_ms") or 0.0
+    hub_wind_speed = float(hub_wind_speed) if math.isfinite(float(hub_wind_speed)) else 0.0
+    wind_below_floor = hub_wind_speed < 5.0
+    if wind_below_floor:
+        wind_score = 0.0
+        wind_output["wind_score"] = 0.0
 
     # Wikipedia hydro-plant suitability recalibration.
     nearby_hydro_plants: list[dict[str, Any]] = []
@@ -2062,6 +2139,10 @@ def build_ecosim_dashboard_response(
     ]
 
     for option in options:
+        # Micro-hydro is academic site-potential only: it requires NWRB water
+        # permits (PD 1067) and is not an off-the-shelf household purchase.
+        if option["source"] == "Hydropower":
+            option["source_type"] = "academic"
         gen = option["estimated_generation_kwh"]
         pct = (gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
         if option.get("source_type") == "utility":
@@ -2082,6 +2163,14 @@ def build_ecosim_dashboard_response(
                 f"{rating} reference-only match — {why} With a typical {option['source'].lower()} "
                 f"system, this could generate about {gen:.0f} kWh per month at utility scale."
             )
+        elif option.get("source_type") == "academic":
+            gen = option["estimated_generation_kwh"]
+            pct = (gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
+            option["explanation"] = (
+                f"Academic reference — this location could theoretically support about "
+                f"{gen:.0f} kWh per month of micro-hydro generation, roughly {pct:.0f}% "
+                f"of your electricity needs."
+            )
         else:
             score = option["generation_score"]
             if score is None:
@@ -2101,6 +2190,18 @@ def build_ecosim_dashboard_response(
             option["explanation"] = (
                 f"{rating} match — {why} With your effective usage, this system could generate about "
                 f"{gen:.0f} kWh per month, covering roughly {pct:.0f}% of your electricity needs."
+            )
+        if option["source"] == "Wind" and wind_below_floor:
+            option["explanation"] += (
+                f" However, the mean wind speed here ({hub_wind_speed:.1f} m/s at household hub "
+                "height) is below the 5.0 m/s viability floor for small wind turbines, so a "
+                "household system is not recommended (Alimon & Roxas 2022; NREL 2021)."
+            )
+        elif option["source"] == "Hydropower":
+            option["explanation"] += (
+                " Micro-hydro shown for site-potential reference only — any water-use "
+                "appropriation requires an NWRB water permit under Presidential Decree "
+                "No. 1067, and no off-the-shelf household purchase path exists."
             )
 
     # Confidence scoring per energy type
@@ -2125,7 +2226,12 @@ def build_ecosim_dashboard_response(
     # Cap the recommendation key at the user's consumption: a larger raw output does
     # not provide more household value. Use suitability_score as the tie-breaker so
     # the best natural resource wins when multiple sources can meet the need.
-    household_options = [o for o in options if o.get("source_type") != "utility"]
+    household_options = [
+        o
+        for o in options
+        if o.get("source_type") == "household"
+        and not (o["source"] == "Wind" and wind_below_floor)
+    ]
     if household_options:
 
         def _recommendation_key(item: dict) -> tuple:
@@ -2189,7 +2295,30 @@ def build_ecosim_dashboard_response(
             f"covering roughly {rec_pct:.0f}% of your effective electricity usage.{ai_text}"
         )
 
-    # Hide financial/LCOE fields until cost data is reliable
+    # Hide financial/LCOE fields for wind/hydro/geothermal — only solar now has
+    # catalog-backed turnkey pricing via the sizing engine.
+    sizing_block = base_results.get("sizing")
+    solar_baseline = sizing_block
+    if include_battery and sizing_block:
+        # Option card reflects the grid-tie baseline; the sizing block carries
+        # the user-selected hybrid system.
+        try:
+            solar_baseline = asdict(calculate_sizing(SizingInputs(
+                monthly_consumption_kwh=float(
+                    (base_results.get("consumption_results") or {}).get("monthly_consumption_kwh")
+                    or monthly_consumption
+                ),
+                monthly_bill_php=float(monthly_bill),
+                electricity_rate_php=float(electricity_rate),
+                desired_savings=float(desired_savings),
+                pvout_annual=(renewable_results.get("climate") or {}).get("solar_pvout_annual_kwh_kwp"),
+                ghi_kwh_m2_day=(renewable_results.get("climate") or {}).get("avg_allsky_sfc_sw_dwn"),
+                roof_area_m2=roof_area_m2,
+                daytime_fraction=daytime_fraction or DAYTIME_FRACTION_DEFAULT,
+                include_battery=False,
+            )))
+        except Exception:
+            solar_baseline = sizing_block
     for option in options:
         option["monthly_savings"] = None
         option["installation_cost"] = None
@@ -2200,6 +2329,13 @@ def build_ecosim_dashboard_response(
         option["lcoe_php_kwh"] = None
         option["benefit_cost_ratio"] = None
         option["system_kw"] = None
+        if option["source"] == "Solar" and solar_baseline:
+            option["monthly_savings"] = solar_baseline.get("total_monthly_benefit_php")
+            option["installation_cost"] = solar_baseline.get("solar_base_cost_php")
+            option["payback_years"] = solar_baseline.get("simple_payback_years")
+            option["discounted_payback_years"] = solar_baseline.get("discounted_payback_years")
+            option["npv_php"] = solar_baseline.get("npv_php")
+            option["system_kw"] = solar_baseline.get("actual_system_kwp")
         # Populate generation_score on the raw output dicts used by technical cards
         if option["source"] == "Solar":
             solar_output["generation_score"] = option["generation_score"]
@@ -2209,6 +2345,21 @@ def build_ecosim_dashboard_response(
         elif option["source"] == "Hydropower":
             hydro_output["generation_score"] = option["generation_score"]
             hydro_output["hydro_score"] = round(hydro_score * 100, 2)
+
+    # Append policy citations to the per-source fallback explanations.
+    explanations = dict(base_results.get("explanations") or {})
+    if wind_below_floor and explanations.get("wind"):
+        explanations["wind"] += (
+            f" Mean hub-height wind speed here is {hub_wind_speed:.1f} m/s — below the "
+            "5.0 m/s household viability floor (Alimon & Roxas 2022; NREL 2021), so "
+            "small wind is shown for informational purposes only."
+        )
+    if explanations.get("hydro"):
+        explanations["hydro"] += (
+            " Any water-use appropriation requires an NWRB water permit under "
+            "Presidential Decree No. 1067 (NWRB 2021); shown as academic "
+            "site-potential only, not a purchasable household system."
+        )
 
     renewable_results["solar_output"] = solar_output
     renewable_results["wind_output"] = wind_output
@@ -2245,9 +2396,10 @@ def build_ecosim_dashboard_response(
         # × energy coverage) rather than the highest raw generation output.
         "suitability_recommended_source": suitability_recommended["source"] if suitability_recommended else None,
         "suitability_recommended_score": suitability_recommended["suitability_score"] if suitability_recommended else None,
-        "monthly_savings": None,
-        "installation_cost": None,
-        "payback_years": None,
+        "monthly_savings": recommended.get("monthly_savings"),
+        "installation_cost": recommended.get("installation_cost"),
+        "payback_years": recommended.get("payback_years"),
+        "npv_php": recommended.get("npv_php"),
         "carbon_reduction": recommended["carbon_reduction"],
         "explanation": explanation,
         "options": options,
@@ -2256,10 +2408,11 @@ def build_ecosim_dashboard_response(
         "renewable_energy_results": renewable_results,
         "consumption_results": base_results.get("consumption_results"),
         "municipality_data": base_results.get("municipality_data"),
-        "explanations": base_results.get("explanations"),
+        "explanations": explanations,
         "ai_analysis": ai_analysis if include_ai else None,
         "nearby_geothermal_plants": nearby_geo_plants,
         "nearby_wind_plants": nearby_wind_plants,
         "nearby_hydro_plants": nearby_hydro_plants,
         "remaining_anonymous_requests": None,
+        "sizing": sizing_block,
     }

@@ -6,13 +6,11 @@ import {
   Droplets,
   LineChart,
   Lightbulb,
-  MapPin,
   Sun,
   TrendingUp,
   Wind,
   Zap,
-  ArrowRight,
-  ChevronRight
+  ArrowRight
 } from "lucide-react";
 
 import { useI18n } from "@/i18n";
@@ -20,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CitationSources from "@/components/shared/CitationSources";
+import { IllustrationSolar } from "@/components/illustrations";
 
 function SectionHeading({ title, subtitle }) {
   return (
@@ -44,7 +43,7 @@ function FeatureCard({ icon: Icon, title, description, tags, badge }) {
           <Icon className="h-6 w-6" />
         </div>
         {badge && (
-          <Badge variant="outline" className="w-fit text-[10px] uppercase tracking-wide">
+          <Badge variant="outline" className="w-fit text-xs uppercase tracking-wide">
             {badge}
           </Badge>
         )}
@@ -58,7 +57,7 @@ function FeatureCard({ icon: Icon, title, description, tags, badge }) {
           {tags.map((tag) => (
             <span
               key={tag}
-              className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground"
+              className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-foreground"
             >
               {tag}
             </span>
@@ -77,11 +76,11 @@ function StepCard({ number, icon: Icon, title, description }) {
         <Icon className="h-7 w-7" />
       </div>
       <div className="mt-5 space-y-2">
-        <div className="text-xs font-bold uppercase tracking-wider text-primary-foreground/70">
+        <div className="text-xs font-bold uppercase tracking-wider text-primary-foreground">
           {t("home.howItWorks.step")} {number}
         </div>
         <h3 className="text-lg font-semibold text-primary-foreground">{title}</h3>
-        <p className="text-sm leading-relaxed text-primary-foreground/85 max-w-xs">
+        <p className="text-sm leading-relaxed text-primary-foreground max-w-xs">
           {description}
         </p>
       </div>
@@ -99,7 +98,7 @@ function EnergyTypeCard({ icon: Icon, title, header, description, citationIds, c
         </div>
         <h3 className="text-xl font-semibold text-foreground">{title}</h3>
         {header && (
-          <p className="text-xs font-medium uppercase tracking-wider text-primary/80">
+          <p className="text-xs font-medium uppercase tracking-wider text-primary">
             {header}
           </p>
         )}
@@ -130,7 +129,7 @@ export default function Home() {
             <img
               src="/lumi-logo.png"
               alt="LUMI Logo"
-              className="h-20 w-auto object-contain drop-shadow-sm sm:h-24"
+              className="h-24 w-auto object-contain drop-shadow-sm sm:h-28"
             />
           </div>
 
@@ -222,7 +221,7 @@ export default function Home() {
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.howItWorks.title")}
             </h2>
-            <p className="text-lg text-primary-foreground/80 leading-relaxed">
+            <p className="text-lg text-primary-foreground leading-relaxed">
               {t("home.howItWorks.subtitle")}
             </p>
           </div>
@@ -285,6 +284,10 @@ export default function Home() {
               </p>
               <CitationSources ids={t("home.renewable.insight.citations")} />
             </div>
+            <IllustrationSolar
+              className="pointer-events-none h-24 w-24 shrink-0 sm:h-32 sm:w-32"
+              ariaHidden
+            />
           </div>
         </div>
       </section>
