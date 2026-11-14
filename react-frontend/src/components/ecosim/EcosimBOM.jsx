@@ -33,7 +33,7 @@ function MatchedProduct({ product }) {
         <span className="italic">{t("ecosim.bom.quoteOnly")}</span>
       )}
       {product.source_site && <span> · {product.source_site}</span>}
-      {product.url && (
+      {/^https?:\/\//i.test(product.url ?? "") && (
         <a
           href={product.url}
           target="_blank"

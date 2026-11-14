@@ -107,6 +107,26 @@ class TestRoofClamp:
         assert r.roof_area_constrained is False
 
 
+class TestBatteryEdgeCases:
+    def test_no_surplus_no_battery(self):
+        # Low savings target → tiny array → no daytime surplus → no battery.
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=0.2, pvout_annual=1400, include_battery=True,
+        ), products_df=_catalog())
+        assert r.battery_modules_needed == 0
+        assert r.battery_cost_php == 0
+        assert r.installed_battery_kwh == 0
+        assert all(i["id"] != "battery_storage" for i in r.bom_items)
+
+    def test_zero_fit_roof_means_zero_panels(self):
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400, roof_area_m2=1.5,
+        ), products_df=_catalog())
+        assert r.panels_needed == 0
+        assert r.roof_area_constrained is True
+        assert any("No " in d and "fits" in d for d in r.disclaimers)
+
+
 class TestDaytimeFraction:
     def test_home_during_day_self_consumes_more(self):
         out = calculate_sizing(SizingInputs(

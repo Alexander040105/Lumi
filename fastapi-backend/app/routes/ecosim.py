@@ -95,6 +95,9 @@ async def get_ecosim_ai(
         rag_query=rag_query,
         mode=params.mode,
         data_source=data_source,
+        roof_area_m2=params.roof_area_m2,
+        include_battery=params.include_battery,
+        daytime_fraction=params.daytime_fraction,
     )
 
     analysis_payload = {

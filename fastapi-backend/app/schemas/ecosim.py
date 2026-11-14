@@ -188,7 +188,9 @@ class EcosimOption(BaseModel):
     monthly_savings: float | None = None
     installation_cost: float | None = None
     payback_years: float | None = None
+    discounted_payback_years: int | None = None
     npv_php: float | None = None
+    system_kw: float | None = None
     carbon_reduction: float
     explanation: str
 

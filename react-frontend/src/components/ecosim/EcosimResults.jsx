@@ -286,7 +286,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             const isAcademic = option.source_type === "academic";
             const windNotViable =
               item.source === "Wind" &&
-              (result.renewable_energy_results?.climate?.avg_wind_hub_ms ?? 5) < 5;
+              (result.renewable_energy_results?.climate?.avg_wind_hub_ms ?? 0) < 5;
             const scoreVal = isUtility
               ? (item.output?.suitability_score || 0)
               : (option.generation_score ?? 0);

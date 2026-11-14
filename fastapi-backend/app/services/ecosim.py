@@ -3,7 +3,9 @@ import datetime as dt
 import hashlib
 import json
 import logging
+import math
 import os
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -66,7 +68,6 @@ from app.services.sizing import (
     SizingInputs,
     calculate_sizing,
 )
-from dataclasses import asdict
 logger = logging.getLogger(__name__)
 _LOCAL_DATA_DIR = Path(__file__).resolve().parent / "local_data"
 _CLIMATE_CSV = _LOCAL_DATA_DIR / "municipality_climate_averages.csv"
@@ -2024,7 +2025,8 @@ def build_ecosim_dashboard_response(
     # generation figures for informational display but zero the suitability
     # score and exclude wind from the household recommendation.
     hub_wind_speed = (renewable_results.get("climate") or {}).get("avg_wind_hub_ms") or 0.0
-    wind_below_floor = float(hub_wind_speed) < 5.0
+    hub_wind_speed = float(hub_wind_speed) if math.isfinite(float(hub_wind_speed)) else 0.0
+    wind_below_floor = hub_wind_speed < 5.0
     if wind_below_floor:
         wind_score = 0.0
         wind_output["wind_score"] = 0.0
@@ -2161,6 +2163,14 @@ def build_ecosim_dashboard_response(
                 f"{rating} reference-only match — {why} With a typical {option['source'].lower()} "
                 f"system, this could generate about {gen:.0f} kWh per month at utility scale."
             )
+        elif option.get("source_type") == "academic":
+            gen = option["estimated_generation_kwh"]
+            pct = (gen / monthly_consumption * 100) if monthly_consumption > 0 else 0
+            option["explanation"] = (
+                f"Academic reference — this location could theoretically support about "
+                f"{gen:.0f} kWh per month of micro-hydro generation, roughly {pct:.0f}% "
+                f"of your electricity needs."
+            )
         else:
             score = option["generation_score"]
             if score is None:
@@ -2294,7 +2304,10 @@ def build_ecosim_dashboard_response(
         # the user-selected hybrid system.
         try:
             solar_baseline = asdict(calculate_sizing(SizingInputs(
-                monthly_consumption_kwh=float(monthly_consumption),
+                monthly_consumption_kwh=float(
+                    (base_results.get("consumption_results") or {}).get("monthly_consumption_kwh")
+                    or monthly_consumption
+                ),
                 monthly_bill_php=float(monthly_bill),
                 electricity_rate_php=float(electricity_rate),
                 desired_savings=float(desired_savings),

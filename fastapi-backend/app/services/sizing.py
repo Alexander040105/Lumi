@@ -10,6 +10,8 @@ import math
 from dataclasses import dataclass, field
 from typing import Any
 
+import pandas as pd
+
 from app.config.citations import CITATION_REGISTRY
 
 # Sourced Engineering Constants (2021-2026)
@@ -122,7 +124,10 @@ def _match_product(df, subcategory, *, w_range=None, cap_range=None,
     if df is None or df.empty or "energy_subcategory" not in df:
         return None
     subs = [subcategory] if isinstance(subcategory, str) else list(subcategory)
-    cand = df[df["energy_subcategory"].isin(subs)]
+    cand = df[df["energy_subcategory"].isin(subs)].copy()
+    for col in ("wattage_w", "capacity_wh", "price_value"):
+        if col in cand:
+            cand[col] = pd.to_numeric(cand[col], errors="coerce")
     if w_range and "wattage_w" in cand:
         cand = cand[cand["wattage_w"].between(w_range[0], w_range[1])]
     if cap_range and "capacity_wh" in cand:
@@ -235,14 +240,16 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
     if inputs.roof_area_m2 and inputs.roof_area_m2 > 0:
         max_fit = math.floor(inputs.roof_area_m2 / PANEL_AREA_M2)
         if panels_raw > max_fit:
-            panels_raw = max(1, max_fit)
+            panels_raw = max_fit
             roof_constrained = True
             disclaimers.append(
                 f"Array constrained by usable roof area ({inputs.roof_area_m2:.1f} m²). "
                 f"Capped at {panels_raw} panels ({panels_raw * PANEL_WATTAGE / 1000.0:.2f} kWp)."
+                if panels_raw > 0 else
+                f"No {PANEL_WATTAGE}W panel fits within {inputs.roof_area_m2:.1f} m² of usable roof area."
             )
 
-    panels_needed = max(1, panels_raw)
+    panels_needed = max(1, panels_raw) if not (roof_constrained and panels_raw == 0) else 0
     actual_system_kwp = (panels_needed * PANEL_WATTAGE) / 1000.0
     daily_solar_gen = actual_system_kwp * yield_per_kwp_day
     monthly_solar_gen = daily_solar_gen * days_in_month
@@ -273,9 +280,15 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
         nameplate_storage = usable_storage / DEPTH_OF_DISCHARGE
         raw_modules = math.ceil(nameplate_storage / UNIT_BATTERY_KWH) if nameplate_storage > 0 else 0
 
-        # Continuous discharge power limit check (0.5C)
+        # Continuous discharge power limit check (0.5C). Gated on
+        # usable_storage: with no chargeable surplus there is nothing to
+        # discharge, so no battery should be sized or costed.
         est_evening_peak_kw = night_load / 5.0
-        modules_for_power = math.ceil(est_evening_peak_kw / (UNIT_BATTERY_KWH * BATTERY_MAX_C_RATE)) if est_evening_peak_kw > 0 else 0
+        modules_for_power = (
+            math.ceil(est_evening_peak_kw / (UNIT_BATTERY_KWH * BATTERY_MAX_C_RATE))
+            if est_evening_peak_kw > 0 and usable_storage > 0
+            else 0
+        )
 
         battery_modules = max(raw_modules, modules_for_power)
         installed_battery_kwh = battery_modules * UNIT_BATTERY_KWH
