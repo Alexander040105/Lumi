@@ -997,15 +997,17 @@
         "step1": "Location",
         "step2": "Electricity Use",
         "step3": "Savings Goal",
-        "step4": "Explanation",
-        "step5": "Review"
+        "step4": "System Options",
+        "step5": "Explanation",
+        "step6": "Review"
       },
       "stepDescriptions": {
         "step1": "Select your city or municipality so we can analyze your local climate and resources.",
         "step2": "Enter the numbers from your latest electric bill.",
         "step3": "Choose how much of your bill renewable energy should cover.",
-        "step4": "Decide if you want a plain-language explanation of the results.",
-        "step5": "Review your inputs and run the analysis."
+        "step4": "Optional: add a battery, set your roof area, and tell us your daytime usage.",
+        "step5": "Decide if you want a plain-language explanation of the results.",
+        "step6": "Review your inputs and run the analysis."
       },
       "searchMode": "Select area type",
       "municipality": "City/Municipality",
@@ -1048,7 +1050,9 @@
         "title": "Where to find these on your bill",
         "kwh": "'Actual Consumption' or metered kWh for the billing period",
         "bill": "'Total Amount Due' or 'Current Charges', before subsidies or discounts",
-        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used"
+        "rate": "'Generation Charge' or effective ₱/kWh — if not printed, divide your total bill by kWh used",
+        "illustrationTitle": "Where to find these on your bill",
+        "illustrationDesc": "Electric bill with three highlighted zones: kWh used, amount due, and price per kWh"
       },
       "savingsLabel": "How much would you like to reduce your monthly electricity bill?",
       "savingsLevels": {
@@ -1102,7 +1106,9 @@
       "save": "Save",
       "saveToAccount": "Save to Account",
       "saveAsPdf": "Save as PDF",
-      "generatingPdf": "Generating..."
+      "generatingPdf": "Generating...",
+      "summaryEmpty": "Complete the steps to see your inputs.",
+      "editField": "Edit {{field}}"
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -1347,7 +1353,8 @@
       "viewProduct": "View product",
       "viewSource": "Source",
       "sourcesTitle": "View Sourced References",
-      "supports": "Supports: {{param}}"
+      "supports": "Supports: {{param}}",
+      "caption": "Estimated bill of materials"
     },
     "providers": {
       "title": "Renewable-Energy Providers & Retailers in Your Region",

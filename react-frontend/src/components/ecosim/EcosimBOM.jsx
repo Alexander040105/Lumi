@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useState } from "react";
 import { AlertTriangle, ExternalLink, Package } from "lucide-react";
 import { useI18n } from "@/i18n";
 
@@ -19,31 +20,48 @@ const formatCurrency = (value) =>
 
 function MatchedProduct({ product }) {
   const { t } = useI18n();
+  const [imgFailed, setImgFailed] = useState(false);
   if (!product) return null;
   const label = [product.brand, product.product_name]
     .filter(Boolean)
     .join(" ");
+  const showImg = !imgFailed && /^https?:\/\//i.test(product.image_url ?? "");
   return (
-    <div className="mt-1.5 text-xs text-muted-foreground">
-      <span className="font-medium text-foreground">{label}</span>
-      {" — "}
-      {product.price_php != null ? (
-        <span>{formatCurrency(product.price_php)}</span>
+    <div className="mt-1.5 flex items-center gap-2 text-xs text-muted-foreground">
+      {showImg ? (
+        <img
+          src={product.image_url}
+          alt=""
+          loading="lazy"
+          onError={() => setImgFailed(true)}
+          className="h-10 w-10 shrink-0 rounded-md border bg-card object-contain p-0.5"
+        />
       ) : (
-        <span className="italic">{t("ecosim.bom.quoteOnly")}</span>
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border bg-muted text-muted-foreground" aria-hidden="true">
+          <Package className="h-4 w-4" />
+        </span>
       )}
-      {product.source_site && <span> · {product.source_site}</span>}
-      {/^https?:\/\//i.test(product.url ?? "") && (
-        <a
-          href={product.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ml-1.5 inline-flex items-center gap-0.5 text-primary hover:underline"
-        >
-          {t("ecosim.bom.viewProduct")}
-          <ExternalLink className="h-3 w-3" aria-hidden="true" />
-        </a>
-      )}
+      <span className="min-w-0">
+        <span className="font-medium text-foreground">{label}</span>
+        {" — "}
+        {product.price_php != null ? (
+          <span>{formatCurrency(product.price_php)}</span>
+        ) : (
+          <span className="italic">{t("ecosim.bom.quoteOnly")}</span>
+        )}
+        {product.source_site && <span> · {product.source_site}</span>}
+        {/^https?:\/\//i.test(product.url ?? "") && (
+          <a
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1.5 inline-flex items-center gap-0.5 text-primary hover:underline"
+          >
+            {t("ecosim.bom.viewProduct")}
+            <ExternalLink className="h-3 w-3" aria-hidden="true" />
+          </a>
+        )}
+      </span>
     </div>
   );
 }
@@ -73,7 +91,9 @@ export default function EcosimBOM({ sizing }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
+        <div className="overflow-x-auto">
         <Table>
+          <caption className="sr-only">{t("ecosim.bom.caption")}</caption>
           <TableHeader>
             <TableRow>
               <TableHead>{t("ecosim.bom.component")}</TableHead>
@@ -119,12 +139,13 @@ export default function EcosimBOM({ sizing }) {
             </TableRow>
           </TableBody>
         </Table>
+        </div>
 
         {sizing.disclaimers?.length > 0 && (
           <div className="rounded-lg border border-warning/40 bg-warning/10 p-3 space-y-1.5" role="note">
             {sizing.disclaimers.map((d, i) => (
-              <p key={i} className="text-xs text-warning-foreground flex items-start gap-2">
-                <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" aria-hidden="true" />
+              <p key={i} className="text-xs text-foreground flex items-start gap-2">
+                <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5 text-warning" aria-hidden="true" />
                 <span>{d}</span>
               </p>
             ))}

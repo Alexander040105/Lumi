@@ -991,15 +991,17 @@
         "step1": "Lokasyon",
         "step2": "Paggamit ng Kuryente",
         "step3": "Savings Goal",
-        "step4": "Paliwanag",
-        "step5": "Suriin"
+        "step4": "Mga Opsyon ng System",
+        "step5": "Paliwanag",
+        "step6": "Suriin"
       },
       "stepDescriptions": {
         "step1": "Piliin ang iyong lungsod o munisipalidad para ma-analyze namin ang lokal na klima at resources.",
         "step2": "Ilagay ang mga numero mula sa iyong pinakabagong electric bill.",
         "step3": "Piliin kung gaano kalaki ng iyong bill ang sasagutin ng renewable energy.",
-        "step4": "Magpasya kung gusto mo ng simpleng paliwanag ng mga resulta.",
-        "step5": "Suriin ang iyong inputs at patakbuhin ang analysis."
+        "step4": "Opsyonal: magdagdag ng baterya, ilagay ang roof area, at sabihin ang iyong konsumo sa araw.",
+        "step5": "Magpasya kung gusto mo ng simpleng paliwanag ng mga resulta.",
+        "step6": "Suriin ang iyong inputs at patakbuhin ang analysis."
       },
       "searchMode": "Piliin ang uri ng lugar",
       "municipality": "Lungsod/Munisipalidad",
@@ -1042,7 +1044,9 @@
         "title": "Saan matatagpuan ang mga ito sa iyong bill",
         "kwh": "'Actual Consumption' o metered kWh para sa billing period",
         "bill": "'Total Amount Due' o 'Current Charges', bago ang mga subsidyo o diskwento",
-        "rate": "'Generation Charge' o effective ₱/kWh — kung hindi nakalagay, hatiin ang total bill sa kWh na nagamit"
+        "rate": "'Generation Charge' o effective ₱/kWh — kung hindi nakalagay, hatiin ang total bill sa kWh na nagamit",
+        "illustrationTitle": "Saan matatagpuan ang mga ito sa iyong bill",
+        "illustrationDesc": "Electric bill na may tatlong naka-highlight na bahagi: kWh na ginamit, halagang babayaran, at presyo kada kWh"
       },
       "savingsLabel": "Gaano karami sa iyong buwanang bill ang gusto mong mabawasan?",
       "savingsLevels": {
@@ -1096,7 +1100,9 @@
       "save": "I-save",
       "generatingPdf": "Binubuo ang PDF...",
       "saveAsPdf": "I-save bilang PDF",
-      "saveToAccount": "I-save sa Account"
+      "saveToAccount": "I-save sa Account",
+      "summaryEmpty": "Kumpletuhin ang mga hakbang para makita ang iyong mga input.",
+      "editField": "I-edit ang {{field}}"
     },
     "results": {
       "bestMatch": "{{match}} Match",
@@ -1341,7 +1347,8 @@
       "viewProduct": "Tingnan ang produkto",
       "viewSource": "Pinagmulan",
       "sourcesTitle": "Tingnan ang Mga Sangguniang Pinagmulan",
-      "supports": "Sinusuportahan: {{param}}"
+      "supports": "Sinusuportahan: {{param}}",
+      "caption": "Tinatayang listahan ng mga materyales"
     },
     "providers": {
       "title": "Mga Renewable-Energy Provider at Retailer sa Iyong Rehiyon",

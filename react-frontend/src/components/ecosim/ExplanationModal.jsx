@@ -16,6 +16,7 @@ export default function ExplanationModal({ title, content, aiSummary, aiPending,
       <DialogTrigger asChild>
         <button
           type="button"
+          aria-haspopup="dialog"
           className="text-xs text-foreground underline decoration-dotted"
         >
           {triggerText}

@@ -19,7 +19,8 @@ import {
 import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import EcosimResults from "@/components/ecosim/EcosimResults";
 import EcosimWizard from "@/components/ecosim/EcosimWizard";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Info } from "lucide-react";
+import { IllustrationSolar, IllustrationWind, IllustrationHydro } from "@/components/illustrations";
 import { getEcosim, getEcosimAI, getMunicipalities, getProvinces } from "@/services/apiClient";
 import { saveLocation } from "@/services/savedLocations";
 import { filterMunicipalities, formatMunicipalityLabel } from "@/utils/municipalities";
@@ -578,18 +579,21 @@ export default function Ecosim() {
       </div>
 
       <Card className="bg-muted/50">
-        <CardContent className="pt-4 text-sm text-muted-foreground space-y-2">
-          <p>
-            <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-auto px-1 py-0 text-xs text-muted-foreground underline decoration-dotted"
-              onClick={() => setShowDisclaimer((v) => !v)}
-              aria-expanded={showDisclaimer}
-            >
-              {t("ecosim.disclaimerWhy")}
-            </Button>
+        <CardContent className="pt-4 text-sm text-foreground space-y-2">
+          <p className="flex items-start gap-2">
+            <Info className="h-4 w-4 mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+            <span>
+              <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-auto px-1 py-0 text-sm text-muted-foreground underline decoration-dotted hover:text-foreground"
+                onClick={() => setShowDisclaimer((v) => !v)}
+                aria-expanded={showDisclaimer}
+              >
+                {t("ecosim.disclaimerWhy")}
+              </Button>
+            </span>
           </p>
           {showDisclaimer && <p>{t("ecosim.disclaimerBody")}</p>}
         </CardContent>
@@ -700,8 +704,12 @@ export default function Ecosim() {
               {t("ecosim.completion.description")}
             </DialogDescription>
           </DialogHeader>
-          <div className="py-2 text-sm text-muted-foreground">
-            {t("ecosim.completion.recommendedLabel")}: {result?.recommended_source || "—"}
+          <div className="py-2 text-sm text-muted-foreground space-y-2">
+            {(() => {
+              const Art = { Solar: IllustrationSolar, Wind: IllustrationWind, Hydro: IllustrationHydro, Hydropower: IllustrationHydro }[result?.recommended_source];
+              return Art ? <Art className="mx-auto h-20 w-20" /> : null;
+            })()}
+            <p>{t("ecosim.completion.recommendedLabel")}: {result?.recommended_source || "—"}</p>
           </div>
           <DialogFooter>
             <Button
