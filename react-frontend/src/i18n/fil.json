@@ -375,9 +375,9 @@
     "hero": {
       "badge": "Kaalamang Pangkapaligiran para sa Pilipinas",
       "title": "Hanapin ang Pinakamahusay na Renewable Energy Option para sa",
-      "titleHighlight": "iyong Lugar",
-      "subtitle": "Tinutulungan ka ng LUMI na ikumpara ang solar, wind, at hydro gamit ang datos ng panahon at enerhiya mula sa iba't ibang lugar sa Pilipinas. Tingnan kung aling opsyon ang maaaring gumana sa iyong lugar, ang tinatayang gastos, at posibleng benepisyo.",
-      "tryEnergyHub": "Tuklasin ang Enerhiya sa Aking Lugar",
+      "titleHighlight": "Iyong Lugar.",
+      "subtitle": "Tinutulungan ka ng LUMI na ikumpara ang solar, wind, at hydro energy batay sa iyong lokasyon, tinatayang gastos, at posibleng tipid.",
+      "tryEnergyHub": "Tuklasin ang Datos ng Klima",
       "learnMore": "Paano Gumagana ang LUMI"
     },
     "stats": {
@@ -405,35 +405,33 @@
     "features": {
       "badge": "Mga Modyul ng Platforma",
       "title": "Mga Mataling Kasangkapan para sa Mga Desisyon sa Enerhiya",
-      "subtitle": "Pinagsama-sama ng LUMI ang mga interactive dashboard, predictive forecasting, at mga rekomendasyong pinapagana ng AI upang tulayin ang pagitan ng teknikal na datos ng klima at pang-unawa ng publiko.",
+      "subtitle": "Pinagsama-sama ng LUMI ang mga interactive dashboard, predictive forecasting, at madaling unawain na rekomendasyon upang tulayin ang pagitan ng teknikal na datos ng klima at pang-unawa ng publiko.",
       "energyHub": {
         "title": "EnergyHub",
         "description": "Tuklasin ang impormasyon sa enerhiya at panahon sa iyong lugar. Tingnan ang temperatura, rainfall, paggamit ng kuryente, at iba pang trend sa pamamagitan ng madaling basahing mga tsart at paliwanag.",
         "tags": [
           "Pagsala ayon sa Rehiyon",
           "Mga Tsart at Pangunahing Impormasyon",
-          "Mga Insight ng AI"
+          "Mga Insight ng Datos"
         ]
       },
       "ecosim": {
-        "title": "Ecosim",
+        "title": "EcoSim",
         "description": "Ikumpara ang mga opsyon sa renewable energy. Pumili ng lugar at ikumpara ang solar, wind, at hydro batay sa tinatayang gastos, savings, at lokal na kondisyon.",
         "tags": [
           "Mga Senaryong What-If",
           "Pagsusuri ng Gastos",
-          "Tinatayang Savings",
           "Pagkumpara ng Mapagkukunan"
         ]
       },
       "ai": {
-        "title": "Kumuha ng simpleng paliwanag",
+        "title": "Mga Malinaw na Paliwanag",
         "badge": "Pinapagana ng AI",
-        "description": "Kayang ipaliwanag ng LUMI ang mga tsart, forecast, at rekomendasyon gamit ang pang-araw-araw na wika.",
+        "description": "Kumuha ng simpleng paliwanag tungkol sa mga tsart, forecast, at rekomendasyon gamit ang pang-araw-araw na wika.",
         "tags": [
           "Simpleng Paliwanag",
           "Mga Paliwanag sa Tsart",
-          "Mga Rekomendasyon",
-          "Mga Pangingib na Pangkumpara"
+          "Mga Rekomendasyon"
         ]
       }
     },
@@ -526,14 +524,14 @@
       "badge": "Tungkol sa LUMI",
       "title": "Gawing Mas Madaling Unawain ang Impormasyon sa",
       "titleHighlight": "Renewable Energy",
-      "subtitle": "Ang LUMI ay isang platform mula sa Pilipinas na tumutulong sa mga tao na maunawaan ang impormasyon sa klima at enerhiya, ikumpara ang mga opsyon sa renewable energy, at gumawa ng mas impormadong desisyon.",
-      "exploreEnergyData": "Tuklasin ang Datos ng Enerhiya",
+      "subtitle": "Tinutulungan ka ng LUMI na ikumpara ang solar, wind, at hydro energy batay sa iyong lokasyon, tinatayang gastos, at posibleng tipid.",
+      "exploreEnergyData": "Tuklasin ang Datos ng Klima",
       "compareEnergyOptions": "Ikumpara ang mga Opsyon sa Enerhiya"
     },
     "problem": {
       "badge": "Bakit Ginawa ang LUMI",
       "title": "Bakit Ginawa ang LUMI",
-      "paragraph1": "Mahirap pumili ng renewable energy. Ang impormasyon tungkol sa gastos, kondisyon ng panahon, paggamit ng enerhiya, at mga available na teknolohiya ay kadalasang nakakalat sa iba't ibang mapagkukunan at mahirap unawain. Inilalapit ng LUMI ang impormasyong ito sa isang lugar at ipinaliliwanag sa mas simpleng paraan.",
+      "paragraph1": "Maaaring mahirap ang pagkuha ng impormasyon tungkol sa renewable energy. Pinagsasama ng LUMI ang datos ng klima, panahon, at lokasyon sa isang lugar at ipinapaliwanag ito sa mas simpleng paraan.",
       "citations": [
         13,
         24,
@@ -544,17 +542,17 @@
         "fossilShare": {
           "value": "70.5%",
           "label": "Bahaging Fossil Fuel",
-          "description": "Ng produksyon ng enerhiya ng Pilipinas ay mula sa fossil fuel, kung saan 43.1% ay mula sa coal"
+          "description": "Ng produksyon ng kuryente ng Pilipinas noong 2023 (DOE, 2024)."
         },
         "renewableShare": {
           "value": "29.5%",
           "label": "Bahaging Renewable",
-          "description": "Humigit-kumulang 29.5% lamang ng enerhiya ng bansa ang ginawa mula sa mga renewable source"
+          "description": "Mula sa solar, wind, hydro, at geothermal na mga pinagmulan (DOE, 2024)."
         },
         "barriers": {
           "value": "3 Hadlang",
           "label": "sa Pag-ampon",
-          "description": "Ang limitasyong pinansyal, mga hamon sa pamamahala, at pagtutol ng lipunan ay humahadlang sa paglipat sa renewable energy sa mga umuunlad na bansa"
+          "description": "Mataas na paunang gastos, limitadong kamalayan, at mga hadlang sa site/lokasyon."
         }
       },
       "viewSourcesPrompt": "Gusto mong makita ang ebidensya?",
@@ -574,30 +572,31 @@
       }
     },
     "beneficiaries": {
-      "badge": "Sino ang makakagamit ng LUMI?",
-      "title": "Sino ang makakagamit ng LUMI?",
+      "badge": "Sino ang Puwedeng Gumamit ng LUMI?",
+      "title": "Sino ang Puwedeng Gumamit ng LUMI?",
       "subtitle": "Ang LUMI ay ginawa para sa sinumang nais maunawaan ang mga opsyon sa renewable energy sa Pilipinas.",
-      "citations": [
-        2,
-        11,
-        22,
-        5,
-        16,
-        12,
-        17
-      ],
-      "students": {
-        "title": "Mga Estudyante at Mag-aaral",
-        "description": "Maaaring gamitin ang LUMI bilang kagamitan sa pag-aaral upang tuklasin ang datos ng klima at enerhiya, at gawing mas madaling unawain ang mga abstrak na konsepto."
-      },
-      "households": {
-        "title": "Mga Kabahayan",
-        "description": "Tinutulungan ng LUMI ang mga pamilya na ikumpara ang mga opsyon sa renewable energy at maunawaan ang posibleng pagtitipid batay sa kanilang lokasyon at paggamit ng enerhiya."
-      },
-      "communities": {
-        "title": "Mga Komunidad at Gumagawa ng Desisyon",
-        "description": "Maaaring tulungan ng LUMI ang mga lokal na planner, guro, at organisasyon na matukoy ang mga oportunidad sa renewable energy sa kanilang lugar."
-      }
+      "items": [
+        {
+          "title": "Mga Sambahayan at Komunidad",
+          "description": "Ikumpara ang mga opsyon sa renewable energy at tinatayang tipid batay sa lokasyon."
+        },
+        {
+          "title": "Department of Energy (DOE)",
+          "description": "Suportahan ang panrehiyong pagpaplano ng renewable energy gamit ang mga insight mula sa datos."
+        },
+        {
+          "title": "Department of Environment and Natural Resources (DENR)",
+          "description": "Tuklasin ang mga salik sa kapaligiran at heograpiya para sa paunang pagtatasa ng site."
+        },
+        {
+          "title": "National Grid Corporation of the Philippines (NGCP)",
+          "description": "Tingnan ang mga makasaysayan at inaasahang trend ng demand sa kuryente."
+        },
+        {
+          "title": "Mga Hinaharap na Mananaliksik at Developer",
+          "description": "Bumuo sa LUMI para mapabuti ang mga decision-support system sa renewable energy."
+        }
+      ]
     },
     "system": {
       "badge": "Paano Inorganisa ang LUMI",
@@ -625,6 +624,13 @@
       "title": "Technology Stack",
       "subtitle": "Gumagamit ang LUMI ng moderno at scalable na arkitektura na idinisenyo para sa performance, accessibility, at integration ng AI at datos ng kapaligiran.",
       "viewTechnical": "Tingnan ang Technical Architecture",
+      "badges": [
+        "Python",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "AI/ML"
+      ],
       "frontend": {
         "title": "Frontend",
         "items": [
@@ -688,7 +694,7 @@
     "footer": {
       "title": "Handa nang Tuklasin ang LUMI?",
       "subtitle": "Tingnan ang impormasyon sa enerhiya at panahon sa iyong lugar o ikumpara ang mga opsyon sa solar, wind, at hydro.",
-      "exploreMyArea": "Tuklasin ang Aking Lugar",
+      "exploreMyArea": "Tuklasin ang Datos ng Klima",
       "compareEnergyOptions": "Ikumpara ang mga Opsyon sa Enerhiya"
     }
   },
@@ -932,7 +938,7 @@
     }
   },
   "ecosim": {
-    "title": "Hanapin ang Pinakamahusay na Opsyon sa Renewable Energy para sa Iyong Lugar",
+    "title": "Hanapin ang Pinakamahusay na Opsyon sa Renewable Energy para sa Iyong Lugar.",
     "subtitle": "Tinitingnan ng EcoSim ang iyong lokasyon, paggamit ng kuryente, at lokal na kondisyon ng kapaligiran para tulungan kang tantiyahin kung aling opsyon sa renewable energy ang maaaring angkop sa iyo.",
     "errorCardTitle": "Simulation error",
     "disclaimerLead": "Mahalaga: Batay sa regional na data at pinasimpleng mga modelo ang mga estimate ng EcoSim.",
@@ -1080,11 +1086,11 @@
       "summaryTitle": "Ang Iyong Inputs",
       "summary": {
         "location": "Lokasyon",
-        "consumption": "Consumption",
-        "bill": "Bill",
+        "consumption": "Konsumo",
+        "bill": "Buwanang bill",
         "rate": "Rate bawat kWh",
-        "savingsGoal": "Savings goal",
-        "aiAnalysis": "AI analysis",
+        "savingsGoal": "Layunin sa pagtitipid",
+        "aiAnalysis": "Paliwanag ng AI",
         "battery": "Battery storage",
         "roofArea": "Roof area",
         "roofAreaUnknown": "Hindi ibinigay",

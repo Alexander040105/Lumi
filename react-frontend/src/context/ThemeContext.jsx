@@ -5,14 +5,11 @@ export const ThemeContext = createContext(null);
 const STORAGE_KEY = "lumi-theme";
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved === "dark" || saved === "light") {
-      setTheme(saved);
-    }
-  }, []);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light";
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    return saved === "dark" || saved === "light" ? saved : "light";
+  });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
