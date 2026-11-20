@@ -84,11 +84,11 @@ export default function About() {
               </Button>
             </div>
           </div>
-          <div className="rounded-3xl bg-sky-200 p-4 sm:p-6 lg:col-span-5">
+          <div className="lg:col-span-5">
             <img
               src={`${REVISED}/header-family.webp`}
               alt=""
-              className="w-full rounded-2xl object-contain"
+              className="w-full object-contain"
             />
           </div>
         </div>
