@@ -243,8 +243,13 @@ export default function EnergyHub() {
             </ol>
           </nav>
 
-          <h1 className="text-3xl font-bold tracking-tight">{t("energyHub.title")}</h1>
-          <p className="mt-2 max-w-2xl text-muted-foreground">
+          <h1 className="flex items-center gap-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <BarChart3 className="h-6 w-6" aria-hidden="true" />
+            </span>
+            {t("energyHub.title")}
+          </h1>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             {t("energyHub.description")}
           </p>
           <div className="mt-3 flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm text-foreground">

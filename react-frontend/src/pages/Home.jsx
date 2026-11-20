@@ -1,24 +1,24 @@
 import { Link } from "react-router-dom";
 import {
   BarChart3,
+  BookOpen,
   BrainCircuit,
+  Clock,
   Database,
   Droplets,
-  LineChart,
+  Leaf,
   Lightbulb,
+  LineChart,
+  MapPin,
+  Scale,
   Sun,
-  TrendingUp,
   Wind,
-  Zap,
-  ArrowRight
+  Zap
 } from "lucide-react";
 
 import { useI18n } from "@/i18n";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CitationSources from "@/components/shared/CitationSources";
-import { IllustrationSolar } from "@/components/illustrations";
 
 function SectionHeading({ title, subtitle }) {
   return (
@@ -35,36 +35,50 @@ function SectionHeading({ title, subtitle }) {
   );
 }
 
-function FeatureCard({ icon: Icon, title, description, tags, badge }) {
+const REVISED = "/assets/revised/home";
+
+function MetricCard({ icon: Icon, value, label, sub }) {
   return (
-    <Card className="group relative overflow-hidden border-border/60 transition-all hover:border-primary/40 hover:shadow-lg">
-      <CardHeader className="space-y-3">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary ring-1 ring-primary/20">
-          <Icon className="h-6 w-6" />
-        </div>
-        {badge && (
-          <Badge variant="outline" className="w-fit text-xs uppercase tracking-wide">
-            {badge}
-          </Badge>
-        )}
-        <CardTitle className="text-xl">{title}</CardTitle>
-        <CardDescription className="text-sm leading-relaxed">
-          {description}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="inline-flex items-center rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-foreground"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex items-start gap-4 rounded-2xl border border-border/80 bg-card p-5 transition-shadow hover:shadow-md">
+      <div className="rounded-full bg-primary/10 p-2.5 text-primary">
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </div>
+      <div>
+        <div className="text-2xl font-bold text-foreground">{value}</div>
+        <div className="text-sm font-semibold text-foreground">{label}</div>
+        <div className="text-xs text-muted-foreground">{sub}</div>
+      </div>
+    </div>
+  );
+}
+
+function ToolCard({ icon: Icon, title, description, tags, image, imageAlt }) {
+  return (
+    <div className="flex flex-col rounded-2xl border border-border/80 bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
+      <div className="flex items-center gap-2">
+        <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
+      </div>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        {description}
+      </p>
+      <img
+        src={image}
+        alt={imageAlt}
+        className="mx-auto my-4 h-40 w-auto max-w-full object-contain"
+        loading="lazy"
+      />
+      <div className="mt-auto flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span
+            key={tag}
+            className="inline-flex items-center rounded-full bg-muted/70 px-2.5 py-1 text-xs font-medium text-foreground"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -72,15 +86,15 @@ function StepCard({ number, icon: Icon, title, description }) {
   const { t } = useI18n();
   return (
     <div className="relative flex flex-col items-center text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground">
-        <Icon className="h-7 w-7" />
+      <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-white/30 bg-white/10 text-white">
+        <Icon className="h-7 w-7" aria-hidden="true" />
       </div>
-      <div className="mt-5 space-y-2">
-        <div className="text-xs font-bold uppercase tracking-wider text-primary-foreground">
+      <div className="mt-4 space-y-2">
+        <div className="text-xs font-bold uppercase tracking-wider text-white">
           {t("home.howItWorks.step")} {number}
         </div>
-        <h3 className="text-lg font-semibold text-primary-foreground">{title}</h3>
-        <p className="text-sm leading-relaxed text-primary-foreground max-w-xs">
+        <h3 className="text-lg font-semibold text-white">{title}</h3>
+        <p className="mx-auto max-w-xs text-sm leading-relaxed text-white/80">
           {description}
         </p>
       </div>
@@ -88,28 +102,32 @@ function StepCard({ number, icon: Icon, title, description }) {
   );
 }
 
-function EnergyTypeCard({ icon: Icon, title, header, description, citationIds, colorClass }) {
+function EnergyTypeCard({ icon: Icon, title, header, description, citationIds, badgeClass, image, imageAlt }) {
+  const { t } = useI18n();
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-6 transition-all hover:shadow-lg hover:border-primary/30">
-      <div className={`absolute -right-4 -top-4 h-24 w-24 rounded-full opacity-10 ${colorClass}`} />
-      <div className="space-y-4">
-        <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <Icon className="h-6 w-6" />
-        </div>
+    <div className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
+      <div className="flex items-center gap-2">
+        <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
         <h3 className="text-xl font-semibold text-foreground">{title}</h3>
-        {header && (
-          <p className="text-xs font-medium uppercase tracking-wider text-primary">
-            {header}
+      </div>
+      <span className={`w-fit rounded-full px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide ${badgeClass}`}>
+        {header}
+      </span>
+      <div className="flex items-center gap-4">
+        <div className="flex-1 space-y-4">
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {description}
           </p>
-        )}
-        <p className="text-sm leading-relaxed text-muted-foreground">
-          {description}
-        </p>
-        {citationIds?.length > 0 && (
-          <div className="pt-2">
-            <CitationSources ids={citationIds} />
-          </div>
-        )}
+          {citationIds?.length > 0 && (
+            <CitationSources ids={citationIds} dialogLabel={t("home.references.viewSources")} />
+          )}
+        </div>
+        <img
+          src={image}
+          alt={imageAlt}
+          className="h-32 w-32 shrink-0 object-contain sm:h-36 sm:w-36"
+          loading="lazy"
+        />
       </div>
     </div>
   );
@@ -121,117 +139,113 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-muted/30">
-
-      <div className="relative page-container py-20 sm:py-28">
-        <div className="mx-auto max-w-4xl text-center space-y-8">
-          <div className="flex justify-center">
-            <img
-              src="/lumi-logo.png"
-              alt="LUMI Logo"
-              className="h-24 w-auto object-contain drop-shadow-sm sm:h-28"
-            />
-          </div>
-
-          <div className="space-y-4">
-            <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+      <section className="page-container py-10 sm:py-16">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <h1 className="text-3xl font-extrabold leading-[1.15] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
               {t("home.hero.title")}{" "}
-              <span className="text-primary">
+              <span className="mt-1 block text-primary">
                 {t("home.hero.titleHighlight")}
               </span>
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-muted-foreground leading-relaxed sm:text-xl">
+            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               {t("home.hero.subtitle")}
             </p>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button asChild className="h-12 gap-2 rounded-full bg-primary px-6 text-base font-medium text-primary-foreground shadow-sm hover:bg-primary/90">
+                <Link to="/ecosim">
+                  <Zap className="h-4 w-4 fill-current" aria-hidden="true" />
+                  {t("home.cta.tryEcosim")}
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="h-12 gap-2 rounded-full border-border bg-muted/40 px-6 text-base font-medium text-foreground hover:bg-muted">
+                <Link to="/energyhub">
+                  <BarChart3 className="h-4 w-4 text-primary" aria-hidden="true" />
+                  {t("home.cta.tryEnergyHub")}
+                </Link>
+              </Button>
+            </div>
           </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button size="lg" className="gap-2 text-base" asChild>
-              <Link to="/energyhub">
-                <BarChart3 className="h-5 w-5" />
-                {t("home.hero.tryEnergyHub")}
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
-              <Link to="/about">
-                {t("home.hero.learnMore")}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-2 gap-4 pt-8 sm:grid-cols-4">
-            {[
-              { label: t("home.stats.regionsCovered.label"), value: t("home.stats.regionsCovered.value"), sub: t("home.stats.regionsCovered.sub") },
-              { label: t("home.stats.energySources.label"), value: t("home.stats.energySources.value"), sub: t("home.stats.energySources.sub") },
-              { label: t("home.stats.dataPoints.label"), value: t("home.stats.dataPoints.value"), sub: t("home.stats.dataPoints.sub") },
-              { label: t("home.stats.aiInsights.label"), value: t("home.stats.aiInsights.value"), sub: t("home.stats.aiInsights.sub") }
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className="rounded-xl border border-border/50 bg-card p-4"
-              >
-                <div className="text-2xl font-bold text-primary sm:text-3xl">{stat.value}</div>
-                <div className="text-sm font-medium text-foreground">{stat.label}</div>
-                <div className="text-xs text-muted-foreground">{stat.sub}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-
-      {/* FEATURES */}
-      <section className="relative border-t border-border/40">
-        <div className="page-container py-20 sm:py-24 space-y-16">
-          <SectionHeading
-            title={t("home.features.title")}
-            subtitle={t("home.features.subtitle")}
-          />
-
-          <div className="grid gap-6 md:grid-cols-3">
-            <FeatureCard
-              icon={BarChart3}
-              title={t("home.features.energyHub.title")}
-              description={t("home.features.energyHub.description")}
-              tags={t("home.features.energyHub.tags")}
-            />
-            <FeatureCard
-              icon={Zap}
-              title={t("home.features.ecosim.title")}
-              description={t("home.features.ecosim.description")}
-              tags={t("home.features.ecosim.tags")}
-            />
-            <FeatureCard
-              icon={BrainCircuit}
-              title={t("home.features.ai.title")}
-              description={t("home.features.ai.description")}
-              tags={t("home.features.ai.tags")}
-              badge={t("home.features.ai.badge")}
+          <div className="lg:col-span-5">
+            <img
+              src={`${REVISED}/header-graphic.webp`}
+              alt=""
+              className="w-full rounded-3xl object-contain"
             />
           </div>
         </div>
       </section>
 
+      {/* KEY METRICS */}
+      <section className="page-container">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: MapPin, key: "regionsCovered" },
+            { icon: Leaf, key: "energySources" },
+            { icon: Database, key: "dataPoints" },
+            { icon: Clock, key: "aiInsights" }
+          ].map(({ icon, key }) => (
+            <MetricCard
+              key={key}
+              icon={icon}
+              value={t(`home.stats.${key}.value`)}
+              label={t(`home.stats.${key}.label`)}
+              sub={t(`home.stats.${key}.sub`)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* INTELLIGENT TOOLS */}
+      <section className="page-container space-y-10 py-16 sm:py-20">
+        <SectionHeading
+          title={t("home.features.title")}
+          subtitle={t("home.features.subtitle")}
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          <ToolCard
+            icon={BarChart3}
+            title={t("home.features.energyHub.title")}
+            description={t("home.features.energyHub.description")}
+            tags={t("home.features.energyHub.tags")}
+            image={`${REVISED}/energyhub-graphic.webp`}
+            imageAlt=""
+          />
+          <ToolCard
+            icon={Zap}
+            title={t("home.features.ecosim.title")}
+            description={t("home.features.ecosim.description")}
+            tags={t("home.features.ecosim.tags")}
+            image={`${REVISED}/ecosim-graphic.webp`}
+            imageAlt=""
+          />
+          <ToolCard
+            icon={BrainCircuit}
+            title={t("home.features.ai.title")}
+            description={t("home.features.ai.description")}
+            tags={t("home.features.ai.tags")}
+            image={`${REVISED}/clear-explanations.webp`}
+            imageAlt=""
+          />
+        </div>
+      </section>
+
       {/* HOW IT WORKS */}
-      <section className="relative overflow-hidden bg-primary text-primary-foreground">
-        <div className="page-container py-20 sm:py-24 space-y-16">
-          <div className="mx-auto max-w-3xl text-center space-y-4">
+      <section className="bg-brand-dark text-white">
+        <div className="page-container space-y-12 py-16 sm:py-20">
+          <div className="mx-auto max-w-3xl space-y-4 text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("home.howItWorks.title")}
             </h2>
-            <p className="text-lg text-primary-foreground leading-relaxed">
+            <p className="text-lg leading-relaxed text-white/80">
               {t("home.howItWorks.subtitle")}
             </p>
           </div>
 
-          <div className="relative grid gap-12 md:grid-cols-4">
-            {/* Connector line for desktop */}
-            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-0.5 bg-primary-foreground/40" />
-
+          <div className="relative grid gap-10 md:grid-cols-4">
+            <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-px bg-white/20 md:block" aria-hidden="true" />
             {t("home.howItWorks.steps").map((step, index) => {
-              const icons = [Database, LineChart, BrainCircuit, Lightbulb];
+              const icons = [MapPin, LineChart, Scale, Lightbulb];
               const Icon = icons[index];
               return (
                 <StepCard
@@ -248,73 +262,60 @@ export default function Home() {
       </section>
 
       {/* RENEWABLE ENERGY */}
-      <section className="page-container py-20 sm:py-24 space-y-16">
+      <section className="page-container space-y-10 py-16 sm:py-20">
         <SectionHeading
           title={t("home.renewable.title")}
           subtitle={t("home.renewable.subtitle")}
         />
-
-        <div className="grid gap-6 sm:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3">
           {[
-            { icon: Sun, key: "solar", colorClass: "bg-accent" },
-            { icon: Wind, key: "wind", colorClass: "bg-brand-success" },
-            { icon: Droplets, key: "hydro", colorClass: "bg-primary" }
-          ].map(({ icon: Icon, key, colorClass }) => (
+            { icon: Sun, key: "solar", badgeClass: "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300" },
+            { icon: Wind, key: "wind", badgeClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300" },
+            { icon: Droplets, key: "hydro", badgeClass: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300" }
+          ].map(({ icon, key, badgeClass }) => (
             <EnergyTypeCard
               key={key}
-              icon={Icon}
+              icon={icon}
               title={t(`home.renewable.${key}.title`)}
               header={t(`home.renewable.${key}.header`)}
               description={t(`home.renewable.${key}.description`)}
               citationIds={t(`home.renewable.${key}.citations`)}
-              colorClass={colorClass}
+              badgeClass={badgeClass}
+              image={`${REVISED}/${key}-energy.webp`}
+              imageAlt=""
             />
           ))}
-        </div>
-
-        {/* Insight banner */}
-        <div className="rounded-2xl border border-border/60 bg-muted/30 p-6 sm:p-8">
-          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold text-foreground">
-                {t("home.renewable.insight.title")}
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-xl">
-                {t("home.renewable.insight.description")}
-              </p>
-              <CitationSources ids={t("home.renewable.insight.citations")} />
-            </div>
-            <IllustrationSolar
-              className="pointer-events-none h-24 w-24 shrink-0 sm:h-32 sm:w-32"
-              ariaHidden
-            />
-          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="relative overflow-hidden border-t border-border/40 bg-muted/30">
-        <div className="relative page-container py-20 sm:py-24">
-          <div className="mx-auto max-w-3xl rounded-3xl border border-border/60 bg-card p-8 text-center shadow-sm sm:p-12">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground mb-6">
-              <TrendingUp className="h-8 w-8" />
-            </div>
+      <section className="page-container">
+        <div className="grid grid-cols-1 items-center gap-8 rounded-3xl border border-border/80 bg-muted/30 p-8 sm:p-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <img
+              src={`${REVISED}/sunny-family-solar-home.webp`}
+              alt=""
+              className="w-full rounded-2xl object-contain"
+              loading="lazy"
+            />
+          </div>
+          <div className="lg:col-span-7">
             <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               {t("home.cta.title")}
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-muted-foreground">
               {t("home.cta.subtitle")}
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Button size="lg" className="gap-2 text-base" asChild>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Button asChild className="h-12 gap-2 rounded-full bg-primary px-6 text-base font-medium text-primary-foreground shadow-sm hover:bg-primary/90">
                 <Link to="/ecosim">
-                  <Zap className="h-5 w-5" />
+                  <Zap className="h-4 w-4 fill-current" aria-hidden="true" />
                   {t("home.cta.tryEcosim")}
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="gap-2 text-base" asChild>
+              <Button asChild variant="outline" className="h-12 gap-2 rounded-full border-border bg-muted/40 px-6 text-base font-medium text-foreground hover:bg-muted">
                 <Link to="/energyhub">
-                  <BarChart3 className="h-5 w-5" />
+                  <BarChart3 className="h-4 w-4 text-primary" aria-hidden="true" />
                   {t("home.cta.tryEnergyHub")}
                 </Link>
               </Button>
@@ -323,25 +324,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* REFERENCES */}
-      <section className="border-t border-border/40 bg-muted/20">
-        <div className="page-container py-12">
-          <div className="mx-auto max-w-4xl space-y-6">
-            <div className="space-y-2">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-                {t("home.references.title")}
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-2xl">
-                {t("home.references.intro")}
-              </p>
-            </div>
-            <CitationSources
-              ids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
-            />
-          </div>
+      {/* DATA & RESEARCH */}
+      <section className="page-container py-12">
+        <div className="flex flex-col items-start gap-4 rounded-2xl border border-border/80 bg-muted/30 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="flex items-start gap-2 text-sm text-muted-foreground">
+            <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+            <span>
+              <strong className="font-semibold text-foreground">{t("home.references.title")}:</strong>{" "}
+              {t("home.references.intro")}
+            </span>
+          </p>
+          <CitationSources
+            ids={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]}
+            dialogLabel={t("home.references.viewSources")}
+            className="shrink-0"
+          />
         </div>
       </section>
     </div>
   );
 }
-

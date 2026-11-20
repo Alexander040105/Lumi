@@ -73,9 +73,9 @@ class TestSpecAcceptanceVector:
         assert r.actual_system_kwp == pytest.approx(3.85)
         assert r.battery_modules_needed == 2
         assert r.installed_battery_kwh == pytest.approx(10.24)
-        assert r.monthly_export_credit_php == pytest.approx(214.5, abs=0.5)
+        assert r.monthly_export_credit_php == pytest.approx(300.3, abs=0.5)
         assert r.total_installation_cost_php == pytest.approx(365350.0, abs=1)
-        assert r.simple_payback_years == pytest.approx(6.31, abs=0.05)
+        assert r.simple_payback_years == pytest.approx(6.38, abs=0.05)
 
     def test_gridtie_vector(self):
         r = calculate_sizing(SizingInputs(
@@ -154,7 +154,7 @@ class TestBatteryCRate:
         daily = 3000 / 30.4167
         night = daily * 0.65
         surplus = max(0.0, r.actual_system_kwp * (1400 / 365) - daily * 0.35)
-        usable = min(surplus, night)
+        usable = min(surplus * 0.85, night)  # SURPLUS_CAPTURE_FRACTION
         energy_modules = math.ceil((usable / 0.90) / 5.12) if usable > 0 else 0
         power_modules = math.ceil((night / 5.0) / (5.12 * 0.5))
         assert r.battery_modules_needed == max(energy_modules, power_modules)
@@ -167,6 +167,75 @@ class TestExportCredit:
         assert r.export_rate_php == pytest.approx(12.0 * 0.55)
         assert r.monthly_export_credit_php == pytest.approx(
             r.monthly_exportable_kwh * r.export_rate_php, abs=0.5)
+
+    def test_export_rate_override(self):
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+            export_rate_override_php=7.0,
+        ), products_df=_catalog())
+        assert r.export_rate_php == pytest.approx(7.0)
+
+
+class TestMaximizeExportIntent:
+    def test_default_service_entrance_caps_at_15kw(self):
+        # maximize_export, no roof input, no amps → 15.0 kW service default →
+        # floor(15000/550) = 27 panels = 14.85 kWp (research: 60A/230V service).
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+            sizing_intent="maximize_export",
+        ), products_df=_catalog())
+        assert r.panels_needed == 27
+        assert r.actual_system_kwp == pytest.approx(14.85)
+        assert r.regulatory_capacity_cap_kw == pytest.approx(15.0)
+        assert r.roof_area_constrained is False
+        assert any("maximize" in d.lower() for d in r.disclaimers)
+
+    def test_service_entrance_amps_tightens_cap(self):
+        # 60A × 230V = 13.8 kW → floor(13800/550) = 25 panels = 13.75 kWp.
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+            sizing_intent="maximize_export", service_entrance_amps=60,
+        ), products_df=_catalog())
+        assert r.panels_needed == 25
+        assert r.regulatory_capacity_cap_kw == pytest.approx(13.8)
+
+    def test_roof_area_can_bind_export_sizing(self):
+        # floor(30/2.2) = 13 panels = 7.15 kWp < 15 kW cap → roof binds.
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+            sizing_intent="maximize_export", roof_area_m2=30.0,
+        ), products_df=_catalog())
+        assert r.panels_needed == 13
+        assert r.roof_area_constrained is True
+
+    def test_oversize_flags_and_bill_floor(self):
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+            sizing_intent="maximize_export",
+        ), products_df=_catalog())
+        assert r.sizing_intent == "maximize_export"
+        assert r.is_net_exporter is True          # 14.85 kWp >> 416 kWh/mo
+        assert r.oversizing_npv_positive is True   # 6.60 credit > 4.32 LCOE
+        assert r.net_monthly_bill_remaining_php == pytest.approx(120.0)
+        assert r.annual_export_income_php == pytest.approx(
+            r.monthly_export_credit_php * 12, abs=1)
+
+    def test_offset_bill_default_unchanged(self):
+        r = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=1.0, pvout_annual=1400,
+        ), products_df=_catalog())
+        assert r.sizing_intent == "offset_bill"
+        assert r.panels_needed == 7
+        # 100% offset rounds up to 449 kWh/mo > 417 consumption → net exporter;
+        # a 50% target (~257 kWh/mo) stays a net self-consumer.
+        assert r.is_net_exporter is True
+        half = calculate_sizing(SizingInputs(
+            **BASE, desired_savings=0.5, pvout_annual=1400,
+        ), products_df=_catalog())
+        assert half.is_net_exporter is False
+        # bill floor not hit at normal coverage
+        assert r.net_monthly_bill_remaining_php == pytest.approx(
+            max(120.0, 5000.0 - r.total_monthly_benefit_php), abs=0.5)
 
 
 class TestCashflows:

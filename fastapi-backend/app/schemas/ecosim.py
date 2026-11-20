@@ -14,6 +14,9 @@ class PostHouse(BaseModel):
     roof_area_m2: float | None = Field(None, gt=0, le=10000)
     include_battery: bool = False
     daytime_fraction: float | None = Field(None, gt=0, lt=1)
+    sizing_intent: str = Field(default="offset_bill", pattern="^(offset_bill|maximize_export)$")
+    service_entrance_amps: float | None = Field(None, gt=0, le=2000)
+    export_rate_override: float | None = Field(None, gt=0)
 
 
 class ProvinceOption(BaseModel):
@@ -140,6 +143,13 @@ class SizingBlock(BaseModel):
     monthly_exportable_kwh: float
     export_rate_php: float
     monthly_export_credit_php: float
+    annual_export_energy_kwh: float
+    annual_export_income_php: float
+    net_monthly_bill_remaining_php: float
+    is_net_exporter: bool
+    oversizing_npv_positive: bool
+    regulatory_capacity_cap_kw: float
+    sizing_intent: str
     monthly_direct_savings_php: float
     total_monthly_benefit_php: float
     solar_base_cost_php: float
@@ -176,6 +186,9 @@ class EcosimQueryParams(BaseModel):
     roof_area_m2: float | None = Field(None, gt=0, le=10000)
     include_battery: bool = False
     daytime_fraction: float | None = Field(None, gt=0, lt=1)
+    sizing_intent: str = Field(default="offset_bill", pattern="^(offset_bill|maximize_export)$")
+    service_entrance_amps: float | None = Field(None, gt=0, le=2000)
+    export_rate_override: float | None = Field(None, gt=0)
 
 
 class EcosimOption(BaseModel):

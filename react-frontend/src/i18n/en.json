@@ -375,9 +375,9 @@
     "hero": {
       "badge": "Environmental Intelligence for the Philippines",
       "title": "Find the Best Renewable Energy Option for",
-      "titleHighlight": "your Area",
-      "subtitle": "LUMI helps you compare solar, wind, and hydro energy using weather and energy data from different parts of the Philippines. See which options may work in your area, their estimated costs, and their possible benefits.",
-      "tryEnergyHub": "Explore Energy in my Area",
+      "titleHighlight": "Your Area.",
+      "subtitle": "LUMI helps you compare solar, wind, and hydro energy based on your location, estimated costs, and potential savings.",
+      "tryEnergyHub": "Explore Climate Data",
       "learnMore": "How LUMI Works"
     },
     "stats": {
@@ -405,35 +405,33 @@
     "features": {
       "badge": "Platform Modules",
       "title": "Intelligent Tools for Energy Decisions",
-      "subtitle": "LUMI combines interactive dashboards, predictive forecasting, and AI-driven recommendations to bridge the gap between technical climate data and public understanding.",
+      "subtitle": "LUMI combines interactive dashboards, predictive forecasting, and easy-to-understand recommendations to bridge the gap between technical climate data and public understanding.",
       "energyHub": {
         "title": "EnergyHub",
         "description": "Explore energy and weather information in your area. See temperature, rainfall, electricity use, and other trends through easy-to-read charts and explanations.",
         "tags": [
           "Regional Filtering",
           "Charts & Key Information",
-          "AI Insights"
+          "Data Insights"
         ]
       },
       "ecosim": {
-        "title": "Ecosim",
+        "title": "EcoSim",
         "description": "Compare renewable energy options. Choose a location and compare solar, wind, and hydro based on estimated cost, savings, and local conditions.",
         "tags": [
           "What-If Scenarios",
           "Cost Analysis",
-          "Estimated Savings",
           "Source Comparison"
         ]
       },
       "ai": {
-        "title": "Get simple explanations",
+        "title": "Clear Explanations",
         "badge": "Powered by AI",
-        "description": "LUMI can explain charts, forecasts, and recommendations using everyday language.",
+        "description": "Get simple explanations of charts, forecasts, and recommendations using everyday language.",
         "tags": [
           "Simple Explanations",
           "Chart Explanations",
-          "Recommendations",
-          "Comparative Summaries"
+          "Recommendations"
         ]
       }
     },
@@ -463,7 +461,7 @@
     },
     "renewable": {
       "badge": "Renewable Energy Evaluation",
-      "title": "Solar, Wind & Hydro Analysis",
+      "title": "Solar, Wind, & Hydro Analysis",
       "subtitle": "LUMI evaluates solar, wind, and hydropower using local conditions to help you understand which option may work best in your area.",
       "solar": {
         "title": "Solar Energy",
@@ -526,14 +524,14 @@
       "badge": "About LUMI",
       "title": "Making Renewable Energy Information",
       "titleHighlight": "Easier to Understand",
-      "subtitle": "LUMI is a Philippine-based platform that helps people understand climate and energy information, compare renewable energy options, and make more informed decisions.",
-      "exploreEnergyData": "Explore Energy Data",
+      "subtitle": "LUMI helps you compare solar, wind, and hydro energy based on your location, estimated costs, and potential savings.",
+      "exploreEnergyData": "Explore Climate Data",
       "compareEnergyOptions": "Compare Energy Options"
     },
     "problem": {
       "badge": "Why LUMI Was Created",
       "title": "Why LUMI Was Created",
-      "paragraph1": "Choosing renewable energy can be difficult. Information about costs, weather conditions, energy use, and available technologies is often spread across different sources and can be hard to understand. LUMI brings this information together in one place and explains it in a simpler way.",
+      "paragraph1": "Access to renewable energy information can be difficult. LUMI brings climate, weather, and location data together in one place and explains it in a simpler way.",
       "citations": [
         13,
         24,
@@ -544,17 +542,17 @@
         "fossilShare": {
           "value": "70.5%",
           "label": "Fossil Fuel Share",
-          "description": "Of the Philippines' energy production comes from fossil fuels, with coal at 43.1%"
+          "description": "Of the Philippines' power generation in 2023 (DOE, 2024)."
         },
         "renewableShare": {
           "value": "29.5%",
           "label": "Renewable Share",
-          "description": "Only about 29.5% of the country's energy is generated from renewable sources"
+          "description": "From solar, wind, hydro, and geothermal sources (DOE, 2024)."
         },
         "barriers": {
           "value": "3 Barriers",
           "label": "To Adoption",
-          "description": "Financial limitations, governance challenges, and societal resistance hinder renewable transition in developing countries"
+          "description": "High initial cost, limited awareness, and site/location constraints."
         }
       },
       "viewSourcesPrompt": "Want to see the evidence?",
@@ -574,30 +572,31 @@
       }
     },
     "beneficiaries": {
-      "badge": "Who can use LUMI?",
-      "title": "Who can use LUMI?",
+      "badge": "Who Can Use LUMI?",
+      "title": "Who Can Use LUMI?",
       "subtitle": "LUMI is built for anyone who wants to understand renewable energy options in the Philippines.",
-      "citations": [
-        2,
-        11,
-        22,
-        5,
-        16,
-        12,
-        17
-      ],
-      "students": {
-        "title": "Students & Learners",
-        "description": "LUMI can be used as a learning tool to explore climate and energy data, making abstract concepts easier to understand."
-      },
-      "households": {
-        "title": "Households",
-        "description": "LUMI helps families compare renewable energy options and understand possible savings based on their location and electricity use."
-      },
-      "communities": {
-        "title": "Communities & Decision-Makers",
-        "description": "LUMI can help local planners, educators, and organizations identify renewable energy opportunities in their area."
-      }
+      "items": [
+        {
+          "title": "Households & Community",
+          "description": "Compare renewable-energy options and estimated savings based on location."
+        },
+        {
+          "title": "Department of Energy (DOE)",
+          "description": "Support regional renewable-energy planning through data-driven insights."
+        },
+        {
+          "title": "Department of Environment and Natural Resources (DENR)",
+          "description": "Explore environmental and geographic factors for preliminary site assessments."
+        },
+        {
+          "title": "National Grid Corporation of the Philippines (NGCP)",
+          "description": "View historical and forecasted electricity-demand trends."
+        },
+        {
+          "title": "Future Researchers & Developers",
+          "description": "Build on LUMI to improve renewable-energy decision-support systems."
+        }
+      ]
     },
     "system": {
       "badge": "How LUMI is Structured",
@@ -625,6 +624,13 @@
       "title": "Technology Stack",
       "subtitle": "LUMI uses a modern, scalable architecture designed for performance, accessibility, and integration of AI and environmental data.",
       "viewTechnical": "View Technical Architecture",
+      "badges": [
+        "Python",
+        "FastAPI",
+        "React",
+        "PostgreSQL",
+        "AI/ML"
+      ],
       "frontend": {
         "title": "Frontend",
         "items": [
@@ -688,7 +694,7 @@
     "footer": {
       "title": "Ready to Explore LUMI?",
       "subtitle": "Check energy and weather information for your area or compare solar, wind, and hydro options.",
-      "exploreMyArea": "Explore my Area",
+      "exploreMyArea": "Explore Climate Data",
       "compareEnergyOptions": "Compare Energy Options"
     }
   },
@@ -938,8 +944,8 @@
     }
   },
   "ecosim": {
-    "title": "Find the Best Renewable Energy Options for your Area",
-    "subtitle": "EcoSim looks at your location, electricity use, and local environmental conditions to help estimate which renewable energy option may fit you best.",
+    "title": "Find the Best Renewable Energy Option for Your Area.",
+    "subtitle": "EcoSim looks at your location, electricity use, and local environmental conditions to help you estimate which renewable energy option may fit you best.",
     "errorCardTitle": "Simulation error",
     "disclaimerLead": "Important: EcoSim estimates are based on regional data and simplified models.",
     "disclaimerBody": "They are for educational and preliminary planning only. Always consult a licensed renewable energy professional before making investment decisions.",
@@ -1496,7 +1502,22 @@
     "peak_demand": "The highest amount of electricity the country needs at any single moment. High peaks can cause brownouts.",
     "brownout": "A temporary drop in electricity supply, causing lights to dim and appliances to work poorly.",
     "blackout": "A complete loss of electricity in an area, usually caused by storms or overloaded power systems.",
-    "municipality": "A city or town with its own local government. We use this to match your area with local climate and resource data."
+    "municipality": "A city or town with its own local government. We use this to match your area with local climate and resource data.",
+    "solar_sizing": "LUMI's estimate of how large a solar setup your home needs — how many panels, how much battery storage, and what it could save you each month.",
+    "system_size": "The total generating capacity of the recommended solar array, in kilowatt-peak (kWp). One kWp is about two standard 550W panels at full sun.",
+    "self_consumption": "Solar energy your home uses directly — during the day straight from the panels, and at night from the battery. This is what lowers your bill the most.",
+    "export_credit": "Money credited back to your bill for surplus solar energy your home cannot store or use, which is sent to the grid under the net-metering program. It is credited at a lower rate than what you pay for electricity.",
+    "installation_cost": "The estimated one-time price of the whole system — panels, inverter, mounting, wiring, labor, and permits.",
+    "net_present_value": "The total value of 25 years of savings, adjusted so future pesos count for less than pesos today, minus the installation cost. Positive means the investment pays off.",
+    "bill_of_materials": "The itemized shopping list for the recommended system — what parts are needed, how many, and what share of the budget each one takes.",
+    "quantity": "How many units of this item the estimate includes.",
+    "cost_share": "The percentage of the solar system cost that this component typically takes, based on Philippine installer benchmarks.",
+    "component_cost": "The estimated peso cost of this line item for your recommended system.",
+    "solar_panels": "The panels that turn sunlight into electricity. The count is chosen so the array covers your target share of your monthly bill.",
+    "mounting_racking": "The rails, brackets, and hardware that fasten the panels securely to your roof, angled for good sunlight exposure.",
+    "electrical_bos": "Balance of system — the breakers, wiring, grounding, and safety parts that connect the panels and inverter to your home's electrical panel.",
+    "installation_labor": "The cost of professional installation: mounting the panels, wiring the system, and commissioning it safely.",
+    "permits": "Paperwork required before switching on — the electrical permit, net-metering application, and utility approvals."
   },
   "security": {
     "title": "Security settings",

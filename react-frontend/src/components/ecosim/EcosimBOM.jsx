@@ -10,6 +10,18 @@ import {
 import { useState } from "react";
 import { AlertTriangle, ExternalLink, Package } from "lucide-react";
 import { useI18n } from "@/i18n";
+import HelpTooltip from "@/components/shared/HelpTooltip";
+
+// BOM line-item id -> glossary term shown as a tooltip on the component name.
+const ITEM_TERMS = {
+  solar_panels: "solar panels",
+  solar_inverter: "inverter",
+  mounting_racking: "mounting racking",
+  electrical_bos: "electrical bos",
+  labor_installation: "installation labor",
+  permits_compliance: "permits",
+  battery_storage: "battery storage",
+};
 
 const formatCurrency = (value) =>
   new Intl.NumberFormat("en-PH", {
@@ -80,7 +92,7 @@ export default function EcosimBOM({ sizing }) {
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
           <Package className="h-5 w-5 text-primary" aria-hidden="true" />
-          {t("ecosim.bom.title")}
+          <HelpTooltip term="bill of materials">{t("ecosim.bom.title")}</HelpTooltip>
         </CardTitle>
         <CardDescription>
           {t("ecosim.bom.sizingEstimate", {
@@ -97,16 +109,16 @@ export default function EcosimBOM({ sizing }) {
           <TableHeader>
             <TableRow>
               <TableHead>{t("ecosim.bom.component")}</TableHead>
-              <TableHead className="text-right">{t("ecosim.bom.qty")}</TableHead>
-              <TableHead className="text-right">{t("ecosim.bom.share")}</TableHead>
-              <TableHead className="text-right">{t("ecosim.bom.total")}</TableHead>
+              <TableHead className="text-right"><HelpTooltip term="quantity" className="justify-end">{t("ecosim.bom.qty")}</HelpTooltip></TableHead>
+              <TableHead className="text-right"><HelpTooltip term="cost share" className="justify-end">{t("ecosim.bom.share")}</HelpTooltip></TableHead>
+              <TableHead className="text-right"><HelpTooltip term="component cost" className="justify-end">{t("ecosim.bom.total")}</HelpTooltip></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {solarShare.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>
-                  <span className="text-sm">{row.name}</span>
+                  <span className="text-sm"><HelpTooltip term={ITEM_TERMS[row.id]}>{row.name}</HelpTooltip></span>
                   <MatchedProduct product={row.matched_product} />
                 </TableCell>
                 <TableCell className="text-right font-medium align-top">{row.qty}</TableCell>
@@ -121,7 +133,7 @@ export default function EcosimBOM({ sizing }) {
             {batteryItems.map((row) => (
               <TableRow key={row.id} className="bg-primary/5">
                 <TableCell>
-                  <span className="text-sm">{row.name}</span>
+                  <span className="text-sm"><HelpTooltip term={ITEM_TERMS[row.id]}>{row.name}</HelpTooltip></span>
                   <MatchedProduct product={row.matched_product} />
                 </TableCell>
                 <TableCell className="text-right font-medium align-top">{row.qty}</TableCell>
@@ -133,7 +145,7 @@ export default function EcosimBOM({ sizing }) {
             ))}
             <TableRow>
               <TableCell colSpan={3} className="text-right font-semibold">
-                {t("ecosim.bom.estimatedTotal")}
+                <HelpTooltip term="installation cost" className="justify-end">{t("ecosim.bom.estimatedTotal")}</HelpTooltip>
               </TableCell>
               <TableCell className="text-right font-bold">{formatCurrency(totalCost)}</TableCell>
             </TableRow>

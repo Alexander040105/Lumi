@@ -571,33 +571,48 @@ export default function Ecosim() {
         </ol>
       </nav>
 
-      <div className="space-y-2">
-        <h1>{t("ecosim.title")}</h1>
-        <p className="text-muted-foreground">
-          {t("ecosim.subtitle")}
-        </p>
+      <div className="relative overflow-hidden rounded-3xl">
+        <img
+          src="/assets/revised/ecosim/header-family-ecosim-dark.webp"
+          alt=""
+          className="w-full"
+        />
+        <div className="absolute inset-0 hidden sm:flex sm:justify-end">
+          <div className="w-[48%] max-w-xl px-6 pt-[3%] lg:px-10">
+            <h1 className="text-2xl font-extrabold leading-tight tracking-tight text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.4)] lg:text-3xl">
+              {t("ecosim.title")}
+            </h1>
+            <p className="mt-2 text-xs leading-relaxed text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.4)] lg:text-sm">
+              {t("ecosim.subtitle")}
+            </p>
+          </div>
+        </div>
+        <div className="space-y-3 bg-card p-5 sm:hidden">
+          <h1 className="text-2xl font-extrabold leading-tight tracking-tight text-foreground">
+            {t("ecosim.title")}
+          </h1>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {t("ecosim.subtitle")}
+          </p>
+        </div>
       </div>
 
-      <Card className="bg-muted/50">
-        <CardContent className="pt-4 text-sm text-foreground space-y-2">
-          <p className="flex items-start gap-2">
-            <Info className="h-4 w-4 mt-0.5 shrink-0 text-primary" aria-hidden="true" />
-            <span>
-              <strong>{t("ecosim.disclaimerLead")}</strong>{" "}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-auto px-1 py-0 text-sm text-muted-foreground underline decoration-dotted hover:text-foreground"
-                onClick={() => setShowDisclaimer((v) => !v)}
-                aria-expanded={showDisclaimer}
-              >
-                {t("ecosim.disclaimerWhy")}
-              </Button>
-            </span>
-          </p>
-          {showDisclaimer && <p>{t("ecosim.disclaimerBody")}</p>}
-        </CardContent>
-      </Card>
+      <div className="rounded-2xl border border-border/80 bg-card px-5 py-4 text-sm text-foreground">
+        <p className="flex flex-wrap items-center gap-2">
+          <Info className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+          <strong className="font-semibold">{t("ecosim.disclaimerLead")}</strong>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-auto px-1 py-0 text-sm text-muted-foreground underline decoration-dotted hover:text-foreground"
+            onClick={() => setShowDisclaimer((v) => !v)}
+            aria-expanded={showDisclaimer}
+          >
+            {t("ecosim.disclaimerWhy")}
+          </Button>
+        </p>
+        {showDisclaimer && <p className="mt-2 text-muted-foreground">{t("ecosim.disclaimerBody")}</p>}
+      </div>
 
       <EcosimWizard
         mode={mode}

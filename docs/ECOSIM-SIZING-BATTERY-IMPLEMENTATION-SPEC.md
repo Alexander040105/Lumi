@@ -271,8 +271,9 @@ $$\text{nighttime\_load\_kwh} = \text{daily\_consumption\_kwh} \times (1.0 - \te
 $$\text{direct\_day\_consumed\_kwh} = \min(\text{daily\_solar\_gen\_kwh}, \text{daytime\_load\_kwh})$$
 $$\text{daily\_solar\_surplus\_kwh} = \max(0.0, \text{daily\_solar\_gen\_kwh} - \text{daytime\_load\_kwh})$$
 
-Battery storage sizing (ADB, 2022; Preger et al., 2021):
-$$\text{usable\_storage\_kwh} = \min(\text{daily\_solar\_surplus\_kwh}, \text{nighttime\_load\_kwh}) \quad (\text{Hybrid Mode})$$
+Battery storage sizing (ADB, 2022; Preger et al., 2021). The battery can only capture a fraction of the surplus in real time — its charge-power ceiling and intra-day solar intermittency push the uncaptured remainder to the grid for export:
+$$\text{chargeable\_surplus\_kwh} = \text{daily\_solar\_surplus\_kwh} \times \text{SURPLUS\_CAPTURE\_FRACTION} \quad (0.85)$$
+$$\text{usable\_storage\_kwh} = \min(\text{chargeable\_surplus\_kwh}, \text{nighttime\_load\_kwh}) \quad (\text{Hybrid Mode})$$
 $$\text{nameplate\_storage\_kwh} = \frac{\text{usable\_storage\_kwh}}{0.90} \quad (\text{90\% DoD})$$
 $$\text{modules\_by\_energy} = \left\lceil \frac{\text{nameplate\_storage\_kwh}}{5.12} \right\rceil$$
 
@@ -491,6 +492,12 @@ ROUND_TRIP_EFFICIENCY: float = 0.88           # ADB (2022); Deye (2024)
 BATTERY_MAX_C_RATE: float = 0.50              # Deye (2024); Preger et al. (2021)
 BATTERY_LIFETIME_YEARS: int = 10              # ADB (2022)
 
+SURPLUS_CAPTURE_FRACTION: float = 0.85        # Deye (2024); ADB (2022)
+NET_METERING_MAX_KW: float = 100.0            # RA 9513 §10; ERC Res. 06-2019
+SERVICE_VOLTAGE_V: float = 230.0              # PH residential service voltage
+SERVICE_ENTRANCE_KW_DEFAULT: float = 15.0     # typical ~60A/230V service
+MIN_MONTHLY_BILL_FLOOR_PHP: float = 120.0     # non-bypassable fixed charge
+SOLAR_ROOFTOP_LCOE_PHP_KWH: float = 4.32      # incremental rooftop LCOE
 DEFAULT_EXPORT_FRACTION: float = 0.55         # ERC (2021); Meralco (2024)
 DAYTIME_FRACTION_DEFAULT: float = 0.35        # Mendoza & Tan (2022); PSA & DOE (2022)
 GRID_EMISSION_FACTOR: float = 0.6835          # DOE (2023a)
@@ -516,6 +523,11 @@ class SizingInputs:
     roof_area_m2: float | None = None
     daytime_fraction: float = DAYTIME_FRACTION_DEFAULT
     include_battery: bool = False
+    # "offset_bill" sizes to desired savings; "maximize_export" sizes to the
+    # largest legal array (net-metering cap / service entrance / roof).
+    sizing_intent: str = "offset_bill"
+    service_entrance_amps: float | None = None
+    export_rate_override_php: float | None = None
 
 
 @dataclass(frozen=True)
@@ -541,6 +553,13 @@ class SizingResults:
     monthly_exportable_kwh: float
     export_rate_php: float
     monthly_export_credit_php: float
+    annual_export_energy_kwh: float
+    annual_export_income_php: float
+    net_monthly_bill_remaining_php: float
+    is_net_exporter: bool
+    oversizing_npv_positive: bool
+    regulatory_capacity_cap_kw: float
+    sizing_intent: str
     monthly_direct_savings_php: float
     total_monthly_benefit_php: float
     solar_base_cost_php: float
@@ -579,10 +598,22 @@ def calculate_sizing(inputs: SizingInputs) -> SizingResults:
         yield_per_kwp_day = 3.84
 
     raw_required_kwp = daily_target / yield_per_kwp_day
-    panels_raw = math.ceil((raw_required_kwp * 1000.0) / PANEL_WATTAGE)
 
-    roof_constrained = False
-    if inputs.roof_area_m2 and inputs.roof_area_m2 > 0:
+    # Effective statutory cap (net-metering ceiling vs service entrance)
+    service_cap_kwp = (inputs.service_entrance_amps * SERVICE_VOLTAGE_V / 1000.0) if inputs.service_entrance_amps else SERVICE_ENTRANCE_KW_DEFAULT
+    regulatory_cap_kwp = min(NET_METERING_MAX_KW, service_cap_kwp)
+
+    max_fit_kwp = None
+    if inputs.sizing_intent == "maximize_export":
+        # Largest legal array: statutory cap, then roof area if supplied
+        max_fit_kwp = (math.floor(inputs.roof_area_m2 / PANEL_AREA_M2) * PANEL_WATTAGE / 1000.0) if inputs.roof_area_m2 else None
+        target_kwp = min(regulatory_cap_kwp, max_fit_kwp) if max_fit_kwp is not None else regulatory_cap_kwp
+        panels_raw = math.floor(target_kwp * 1000.0 / PANEL_WATTAGE)
+    else:
+        panels_raw = math.ceil((raw_required_kwp * 1000.0) / PANEL_WATTAGE)
+
+    roof_constrained = max_fit_kwp is not None and max_fit_kwp < regulatory_cap_kwp
+    if inputs.sizing_intent != "maximize_export" and inputs.roof_area_m2 and inputs.roof_area_m2 > 0:
         max_fit = math.floor(inputs.roof_area_m2 / PANEL_AREA_M2)
         if panels_raw > max_fit:
             panels_raw = max(1, max_fit)
@@ -619,7 +650,8 @@ def calculate_sizing(inputs: SizingInputs) -> SizingResults:
             CITATION_REGISTRY["adb_bess_handbook_2022"],
             CITATION_REGISTRY["bnef_battery_2023"],
         ])
-        usable_storage = min(daily_surplus, night_load)
+        chargeable_surplus = daily_surplus * SURPLUS_CAPTURE_FRACTION
+        usable_storage = min(chargeable_surplus, night_load)
         nameplate_storage = usable_storage / DEPTH_OF_DISCHARGE
         raw_modules = math.ceil(nameplate_storage / UNIT_BATTERY_KWH) if nameplate_storage > 0 else 0
 
@@ -912,30 +944,31 @@ Test Scenario Parameters:
    - $\text{nighttime\_load} = 13.70 \times 0.65 = \mathbf{8.90\text{ kWh/day}}$
    - $\text{direct\_day\_consumed} = \min(14.77, 4.80) = \mathbf{4.80\text{ kWh/day}}$
    - $\text{daily\_surplus} = 14.77 - 4.80 = \mathbf{9.97\text{ kWh/day}}$
-   - $\text{usable\_storage} = \min(9.97, 8.90) = \mathbf{8.90\text{ kWh/day}}$
-   - $\text{nameplate\_storage} = 8.90 / 0.90 = \mathbf{9.89\text{ kWh}}$
-   - $\text{modules\_by\_energy} = \lceil 9.89 / 5.12 \rceil = \mathbf{2\text{ modules}}$
+   - $\text{chargeable\_surplus} = 9.97 \times 0.85 = \mathbf{8.47\text{ kWh/day}}$
+   - $\text{usable\_storage} = \min(8.47, 8.90) = \mathbf{8.47\text{ kWh/day}}$
+   - $\text{nameplate\_storage} = 8.47 / 0.90 = \mathbf{9.42\text{ kWh}}$
+   - $\text{modules\_by\_energy} = \lceil 9.42 / 5.12 \rceil = \mathbf{2\text{ modules}}$
    - $\text{est\_evening\_peak} = 8.90 / 5.0 = 1.78\text{ kW}$
    - $\text{modules\_by\_power} = \lceil 1.78 / (5.12 \times 0.50) \rceil = \lceil 0.70 \rceil = 1\text{ module}$
    - $\text{battery\_modules\_needed} = \max(2, 1) = \mathbf{2\text{ modules}}$ ($10.24\text{ kWh}$ nominal $\text{LiFePO}_4$)
-   - $\text{nightly\_delivered} = 8.90 \times 0.88 = \mathbf{7.83\text{ kWh/day}}$
-   - $\text{daily\_storage\_loss} = 8.90 \times 0.12 = \mathbf{1.07\text{ kWh/day}}$
+   - $\text{nightly\_delivered} = 8.47 \times 0.88 = \mathbf{7.45\text{ kWh/day}}$
+   - $\text{daily\_storage\_loss} = 8.47 \times 0.12 = \mathbf{1.02\text{ kWh/day}}$
 
 4. **Net-Metering Export:**
-   - $\text{daily\_exportable} = \max(0.0, 9.97 - 8.90) = \mathbf{1.07\text{ kWh/day}}$
-   - $\text{monthly\_exportable} = 1.07 \times 30.4167 = \mathbf{32.5\text{ kWh/month}}$
+   - $\text{daily\_exportable} = \max(0.0, 9.97 - 8.47) = \mathbf{1.50\text{ kWh/day}}$
+   - $\text{monthly\_exportable} = 1.50 \times 30.4167 = \mathbf{45.5\text{ kWh/month}}$
    - $\text{export\_rate} = 12.00 \times 0.55 = \mathbf{₱6.60\text{ / kWh}}$ (Blended DU Generation Charge)
-   - $\text{monthly\_export\_credit} = 32.5 \times ₱6.60 = \mathbf{₱214.50\text{ / month}}$
+   - $\text{monthly\_export\_credit} = 45.5 \times ₱6.60 = \mathbf{₱300.30\text{ / month}}$
 
 5. **Monthly Benefit & Simple Payback:**
-   - $\text{daily\_self\_consumed} = 4.80 + 7.83 = \mathbf{12.63\text{ kWh/day}}$
-   - $\text{monthly\_self\_consumed} = 12.63 \times 30.4167 = \mathbf{384.2\text{ kWh/month}}$
-   - $\text{monthly\_direct\_savings} = 384.2 \times ₱12.00 = \mathbf{₱4,610.40\text{ / month}}$
-   - $\text{total\_monthly\_benefit} = ₱4,610.40 + ₱214.50 = \mathbf{₱4,824.90\text{ / month}}$
+   - $\text{daily\_self\_consumed} = 4.80 + 7.45 = \mathbf{12.25\text{ kWh/day}}$
+   - $\text{monthly\_self\_consumed} = 12.25 \times 30.4167 = \mathbf{372.7\text{ kWh/month}}$
+   - $\text{monthly\_direct\_savings} = 372.7 \times ₱12.00 = \mathbf{₱4,472.40\text{ / month}}$
+   - $\text{total\_monthly\_benefit} = ₱4,472.40 + ₱300.30 = \mathbf{₱4,772.70\text{ / month}}$
    - $\text{solar\_base\_cost} = 3.85\text{ kWp} \times ₱55,000.00 = \mathbf{₱211,750.00}$
    - $\text{battery\_cost} = 10.24\text{ kWh} \times ₱15,000.00 = \mathbf{₱153,600.00}$
    - $\text{total\_installation\_cost} = ₱211,750.00 + ₱153,600.00 = \mathbf{₱365,350.00}$
-   - $\text{simple\_payback} = ₱365,350.00 / (₱4,824.90 \times 12) = \mathbf{6.31\text{ years}}$
+   - $\text{simple\_payback} = ₱365,350.00 / (₱4,772.70 \times 12) = \mathbf{6.38\text{ years}}$
 
 ---
 

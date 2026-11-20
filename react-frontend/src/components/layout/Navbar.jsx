@@ -67,7 +67,8 @@ const navLinks = [
 function LumLogo() {
   return (
     <div className="flex items-center gap-2">
-      <img src="/logo.png" alt="LUMI" className="h-16 w-auto object-contain md:h-20" />
+      <img src="/logo.png" alt="" className="h-10 w-auto object-contain sm:h-12" />
+      <span className="text-xl font-extrabold tracking-tight text-primary">LUMI</span>
     </div>
   );
 }
@@ -101,10 +102,10 @@ export default function Navbar() {
         to={link.to}
         onClick={onClick}
         className={
-          "rounded-md px-3 py-2 text-sm font-medium transition-colors " +
+          "rounded-full text-sm font-medium transition-colors " +
           (isActive
-            ? "bg-primary text-primary-foreground"
-            : "text-muted-foreground hover:bg-muted hover:text-foreground")
+            ? "bg-primary text-primary-foreground font-semibold px-4 py-1.5 shadow-sm"
+            : "text-foreground/80 hover:text-primary hover:bg-muted/60 px-3 py-1.5")
         }
       >
         {link.label}
@@ -127,12 +128,14 @@ export default function Navbar() {
             ))}
           </div>
 
+          <div className="hidden md:block h-6 w-px bg-border mx-2" aria-hidden="true" />
+
           {session ? (
-            <div className="flex items-center gap-2 ml-2">
+            <div className="flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2 rounded-md hover:bg-muted transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring px-2 py-1">
-                    <UserAvatar user={user} profile={profile} className="h-8 w-8" />
+                  <button className="flex items-center gap-2 rounded-full border border-border/60 bg-muted/50 px-3 py-1 transition-colors hover:bg-muted focus:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <UserAvatar user={user} profile={profile} className="h-7 w-7" />
                     <span
                       className="text-sm font-medium hidden md:inline max-w-[120px] truncate"
                       title={displayName}
@@ -193,7 +196,7 @@ export default function Navbar() {
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button size="sm" asChild>
+                  <Button size="sm" className="rounded-full px-4" asChild>
                     <Link to="/login" aria-label={t("login.signIn")}>{t("nav.login")}</Link>
                   </Button>
                 </TooltipTrigger>

@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Check, Save, Printer, Bookmark, Receipt, Calculator, Sparkles, LocateFixed, SlidersHorizontal } from "lucide-react";
+import { MapPin, Zap, Target, ArrowRight, ArrowLeft, Loader2, Check, Save, Printer, Bookmark, Receipt, Calculator, Sparkles, LocateFixed, SlidersHorizontal, BatteryMedium, Ruler, Sun, ClipboardList, PhilippinePeso, BrainCircuit } from "lucide-react";
 import HelpTooltip from "@/components/shared/HelpTooltip";
 import SearchableSelect from "@/components/shared/SearchableSelect";
 import { formatMunicipalityLabel, nearestMunicipality } from "@/utils/municipalities";
@@ -20,6 +20,18 @@ const STEP_ART = {
   4: IllustrationSolar,
   5: IllustrationAI,
   6: IllustrationReview,
+};
+
+const SUMMARY_ICONS = {
+  location: MapPin,
+  consumption: Zap,
+  bill: PhilippinePeso,
+  rate: Calculator,
+  savingsGoal: Target,
+  aiAnalysis: BrainCircuit,
+  battery: BatteryMedium,
+  roofArea: Ruler,
+  occupancy: Sun,
 };
 
 export default function EcosimWizard({
@@ -84,19 +96,29 @@ export default function EcosimWizard({
     { key: "battery", label: t("ecosim.wizard.summary.battery"), value: includeBattery ? t("ecosim.wizard.yes") : t("ecosim.wizard.no"), set: true },
     { key: "roofArea", label: t("ecosim.wizard.summary.roofArea"), value: `${roofAreaM2} m²`, set: roofAreaM2 !== "" && roofAreaM2 != null },
     { key: "occupancy", label: t("ecosim.wizard.summary.occupancy"), value: daytimeFraction === 0.5 ? t("ecosim.wizard.occupancyHome") : t("ecosim.wizard.occupancyOut"), set: true },
-  ].filter((r) => r.set);
+  ];
 
-  const summaryContent = summaryRows.length ? (
-    <div className="space-y-3 text-sm">
-      {summaryRows.map((r) => (
-        <div key={r.key}>
-          <p className="text-sm text-muted-foreground">{r.label}</p>
-          <p className="font-medium">{r.value}</p>
-        </div>
-      ))}
+  const summaryContent = (
+    <div className="space-y-4 text-sm">
+      {summaryRows.map((r) => {
+        const Icon = SUMMARY_ICONS[r.key];
+        return (
+          <div key={r.key} className="flex items-center gap-3">
+            <div
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
+                r.set ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+              }`}
+            >
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs text-muted-foreground">{r.label}</p>
+              <p className="truncate font-medium">{r.set ? r.value : "—"}</p>
+            </div>
+          </div>
+        );
+      })}
     </div>
-  ) : (
-    <p className="text-sm text-muted-foreground">{t("ecosim.wizard.summaryEmpty")}</p>
   );
 
   const handleLocate = () => {
@@ -133,27 +155,27 @@ export default function EcosimWizard({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2" role="group" aria-label={t("ecosim.wizard.step", { current: step, total: totalSteps })}>
+      <div className="flex items-center justify-center gap-1.5 sm:gap-2" role="group" aria-label={t("ecosim.wizard.step", { current: step, total: totalSteps })}>
         {Array.from({ length: totalSteps }).map((_, i) => {
           const n = i + 1;
           const active = n === step;
           const done = n < step;
           return (
-            <div key={n} className="flex items-center gap-2">
+            <div key={n} className="flex items-center gap-1.5 sm:gap-2">
               <div
                 aria-current={active ? "step" : undefined}
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-primary/15 text-primary" : active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
+                className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold transition-colors ${done ? "bg-primary text-primary-foreground" : active ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}
               >
-                {done ? <Check className="h-4 w-4" /> : n}
+                {done ? <Check className="h-4 w-4 stroke-[3]" aria-hidden="true" /> : n}
               </div>
-              {n < totalSteps && <div className={`h-0.5 w-6 ${done ? "bg-primary/40" : "bg-border"}`} />}
+              {n < totalSteps && <div className={`h-0.5 w-3 sm:w-8 md:w-12 ${done ? "bg-primary" : "bg-border"}`} aria-hidden="true" />}
             </div>
           );
         })}
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        <div className="md:col-span-2">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-8">
           <Card>
             <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
               <div className="space-y-1.5">
@@ -516,7 +538,7 @@ export default function EcosimWizard({
                 </div>
               )}
 
-              <details className="md:hidden rounded-lg border bg-muted/30 p-3">
+              <details className="lg:hidden rounded-lg border bg-muted/30 p-3">
                 <summary className="cursor-pointer text-sm font-medium">{t("ecosim.wizard.summaryTitle")}</summary>
                 <div className="mt-2">{summaryContent}</div>
               </details>
@@ -535,7 +557,7 @@ export default function EcosimWizard({
                           disabled={loading}
                         >
                           <Save className="mr-2 h-4 w-4" />
-                          {t("ecosim.wizard.saveToAccount") || "Save to Account"}
+                          {t("ecosim.wizard.saveToAccount")}
                         </Button>
                       )}
                       {result && aiReady && (
@@ -551,8 +573,8 @@ export default function EcosimWizard({
                             <Printer className="mr-2 h-4 w-4" />
                           )}
                           {downloadPdfLoading
-                            ? t("ecosim.wizard.generatingPdf") || "Generating..."
-                            : t("ecosim.wizard.saveAsPdf") || "Save as PDF"}
+                            ? t("ecosim.wizard.generatingPdf")
+                            : t("ecosim.wizard.saveAsPdf")}
                         </Button>
                       )}
                       <Button
@@ -569,11 +591,11 @@ export default function EcosimWizard({
           </Card>
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:col-span-4 lg:block">
           <Card className="bg-muted/30">
             <CardHeader className="flex flex-row items-center gap-3 space-y-0">
-              {StepArt && <StepArt className="h-10 w-10 shrink-0" />}
-              <CardTitle className="text-sm">{t("ecosim.wizard.summaryTitle")}</CardTitle>
+              <ClipboardList className="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+              <CardTitle className="text-base">{t("ecosim.wizard.summaryTitle")}</CardTitle>
             </CardHeader>
             <CardContent>{summaryContent}</CardContent>
           </Card>
