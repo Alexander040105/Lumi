@@ -1496,7 +1496,22 @@
     "peak_demand": "Pinakamataas na dami ng kuryente na kailangan ng bansa sa anumang sandali. Mataas na peak ay maaaring magdulot ng brownout.",
     "brownout": "Pansamantalang pagbaba ng suplay ng kuryente, na nagdudulot ng pagdim ng ilaw at mahinang pagtakbo ng appliances.",
     "blackout": "Ganap na pagkawala ng kuryente sa isang lugar, kadalasang dulot ng bagyo o overloaded na power systems.",
-    "municipality": "Isang lungsod o bayan na may sariling local government. Ginagamit namin ito para i-match ang iyong lugar sa lokal na climate at resource data."
+    "municipality": "Isang lungsod o bayan na may sariling local government. Ginagamit namin ito para i-match ang iyong lugar sa lokal na climate at resource data.",
+    "solar_sizing": "Tantiya ng LUMI kung gaano kalaki ang solar setup na kailangan ng bahay mo — ilang panels, gaano kalaking battery storage, at kung magkano ang matitipid mo kada buwan.",
+    "system_size": "Ang kabuuang kapasidad ng iminungkahing solar array, sa kilowatt-peak (kWp). Ang isang kWp ay humigit-kumulang dalawang standard na 550W panels sa buong araw.",
+    "self_consumption": "Solar energy na direktang ginagamit ng bahay mo — sa araw mula mismo sa panels, at sa gabi mula sa battery. Ito ang pinakamalaking nagpapababa ng bill mo.",
+    "export_credit": "Pera na ibinabalik bilang credit sa bill mo para sa sobrang solar energy na hindi kayang i-store o gamitin ng bahay mo, na ipinapadala sa grid sa ilalim ng net-metering program. Mas mababa ang rate nito kaysa sa binabayaran mo sa kuryente.",
+    "installation_cost": "Ang tinatayang isang beses na presyo ng buong sistema — panels, inverter, mounting, wiring, labor, at permits.",
+    "net_present_value": "Ang kabuuang halaga ng 25 taon ng pagtitipid, na ina-adjust para ang mga piso sa hinaharap ay mas mababa ang halaga kaysa sa piso ngayon, minus ang installation cost. Kapag positibo, sulit ang investment.",
+    "bill_of_materials": "Ang naka-itemize na listahan ng mga kailangan para sa iminungkahing sistema — anong mga parte, ilan, at anong bahagi ng budget ang bawat isa.",
+    "quantity": "Ilang unit ng item na ito ang kasama sa tantiya.",
+    "cost_share": "Ang porsyento ng gastos ng solar system na karaniwang kinukuha ng component na ito, batay sa mga benchmark ng Philippine installers.",
+    "component_cost": "Ang tinatayang halaga sa piso ng line item na ito para sa iminungkahing sistema mo.",
+    "solar_panels": "Ang mga panel na nagko-convert ng sikat ng araw sa kuryente. Ang bilang ay pinili para takpan ng array ang target na bahagi ng buwanang bill mo.",
+    "mounting_racking": "Ang mga rail, bracket, at hardware na humihigpit sa mga panel sa bubong mo, nakatanod para sa magandang sikat ng araw.",
+    "electrical_bos": "Balance of system — ang mga breaker, wiring, grounding, at safety parts na nagdurugtong sa mga panel at inverter sa electrical panel ng bahay mo.",
+    "installation_labor": "Ang gastos ng propesyonal na pagkakabit: pag-mount ng mga panel, pag-wire ng sistema, at ligtas na pagpasok nito.",
+    "permits": "Mga dokumentong kailangan bago i-on — ang electrical permit, net-metering application, at mga aprub ng utility."
   },
   "security": {
     "title": "Mga security setting",

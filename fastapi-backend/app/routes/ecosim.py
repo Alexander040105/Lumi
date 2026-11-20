@@ -67,6 +67,9 @@ async def get_ecosim_results(
         roof_area_m2=params.roof_area_m2,
         include_battery=params.include_battery,
         daytime_fraction=params.daytime_fraction,
+        sizing_intent=params.sizing_intent,
+        service_entrance_amps=params.service_entrance_amps,
+        export_rate_override=params.export_rate_override,
     )
     _log_ecosim_request(auth.get("user"), params.municipality_id)
     result["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]
@@ -98,6 +101,9 @@ async def get_ecosim_ai(
         roof_area_m2=params.roof_area_m2,
         include_battery=params.include_battery,
         daytime_fraction=params.daytime_fraction,
+        sizing_intent=params.sizing_intent,
+        service_entrance_amps=params.service_entrance_amps,
+        export_rate_override=params.export_rate_override,
     )
 
     analysis_payload = {
@@ -170,6 +176,9 @@ async def post_item(
         roof_area_m2=body.roof_area_m2,
         include_battery=body.include_battery,
         daytime_fraction=body.daytime_fraction,
+        sizing_intent=body.sizing_intent,
+        service_entrance_amps=body.service_entrance_amps,
+        export_rate_override=body.export_rate_override,
     )
     _log_ecosim_request(auth.get("user"), None)
     response_data["remaining_anonymous_requests"] = auth["remaining_anonymous_requests"]

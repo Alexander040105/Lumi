@@ -56,6 +56,36 @@ export const GLOSSARY = {
     "A temporary drop in electricity supply, causing lights to dim and appliances to work poorly.",
   "blackout":
     "A complete loss of electricity in an area, usually caused by storms or overloaded power systems.",
+  "solar sizing":
+    "LUMI's estimate of how large a solar setup your home needs — how many panels, how much battery storage, and what it could save you each month.",
+  "system size":
+    "The total generating capacity of the recommended solar array, in kilowatt-peak (kWp). One kWp is about two standard 550W panels at full sun.",
+  "self consumption":
+    "Solar energy your home uses directly — during the day straight from the panels, and at night from the battery. This is what lowers your bill the most.",
+  "export credit":
+    "Money credited back to your bill for surplus solar energy your home cannot store or use, which is sent to the grid under the net-metering program. It is credited at a lower rate than what you pay for electricity.",
+  "installation cost":
+    "The estimated one-time price of the whole system — panels, inverter, mounting, wiring, labor, and permits.",
+  "net present value":
+    "The total value of 25 years of savings, adjusted so future pesos count for less than pesos today, minus the installation cost. Positive means the investment pays off.",
+  "bill of materials":
+    "The itemized shopping list for the recommended system — what parts are needed, how many, and what share of the budget each one takes.",
+  "quantity":
+    "How many units of this item the estimate includes.",
+  "cost share":
+    "The percentage of the solar system cost that this component typically takes, based on Philippine installer benchmarks.",
+  "component cost":
+    "The estimated peso cost of this line item for your recommended system.",
+  "solar panels":
+    "The panels that turn sunlight into electricity. The count is chosen so the array covers your target share of your monthly bill.",
+  "mounting racking":
+    "The rails, brackets, and hardware that fasten the panels securely to your roof, angled for good sunlight exposure.",
+  "electrical bos":
+    "Balance of system — the breakers, wiring, grounding, and safety parts that connect the panels and inverter to your home's electrical panel.",
+  "installation labor":
+    "The cost of professional installation: mounting the panels, wiring the system, and commissioning it safely.",
+  "permits":
+    "Paperwork required before switching on — the electrical permit, net-metering application, and utility approvals.",
 };
 
 export function getGlossary(term) {

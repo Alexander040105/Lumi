@@ -27,7 +27,20 @@ PHP_PER_KWH_BATTERY: float = 15000.0          # BloombergNEF (2023); ADB (2022)
 DEPTH_OF_DISCHARGE: float = 0.90              # Preger et al. (2021); ADB (2022)
 ROUND_TRIP_EFFICIENCY: float = 0.88           # ADB (2022); Deye (2024)
 BATTERY_MAX_C_RATE: float = 0.50              # Deye (2024); Preger et al. (2021)
+# The battery cannot absorb the full daytime surplus in real time: its charge
+# power ceiling and intra-day solar intermittency mean only a fraction of the
+# surplus reaches storage; the rest spills to the grid for export.
+# shortcut: fixed 0.85 capture heuristic, upgrade to an hourly dispatch
+# profile if sub-daily load data becomes available.
+SURPLUS_CAPTURE_FRACTION: float = 0.85        # Deye (2024); ADB (2022)
 BATTERY_LIFETIME_YEARS: int = 10              # ADB (2022)
+
+# Net-metering regulatory limits (docs/ECOSIM_SELL_ELECTRICITY_RESEARCH.md)
+NET_METERING_MAX_KW: float = 100.0            # RA 9513 §10; ERC Res. 06-2019
+SERVICE_VOLTAGE_V: float = 230.0              # PH residential service voltage
+SERVICE_ENTRANCE_KW_DEFAULT: float = 15.0     # typical ~60A/230V service
+MIN_MONTHLY_BILL_FLOOR_PHP: float = 120.0     # non-bypassable fixed charge
+SOLAR_ROOFTOP_LCOE_PHP_KWH: float = 4.32      # incremental rooftop LCOE
 BATTERY_REPLACEMENT_FACTOR: float = 0.60      # BloombergNEF (2023)
 
 DEFAULT_EXPORT_FRACTION: float = 0.55         # ERC (2021); Meralco (2024)
@@ -68,6 +81,11 @@ class SizingInputs:
     roof_area_m2: float | None = None
     daytime_fraction: float = DAYTIME_FRACTION_DEFAULT
     include_battery: bool = False
+    # "offset_bill" sizes to desired savings; "maximize_export" sizes to the
+    # largest legal array (net-metering cap / service entrance / roof).
+    sizing_intent: str = "offset_bill"
+    service_entrance_amps: float | None = None
+    export_rate_override_php: float | None = None
 
 
 @dataclass(frozen=True)
@@ -93,6 +111,13 @@ class SizingResults:
     monthly_exportable_kwh: float
     export_rate_php: float
     monthly_export_credit_php: float
+    annual_export_energy_kwh: float
+    annual_export_income_php: float
+    net_monthly_bill_remaining_php: float
+    is_net_exporter: bool
+    oversizing_npv_positive: bool
+    regulatory_capacity_cap_kw: float
+    sizing_intent: str
     monthly_direct_savings_php: float
     total_monthly_benefit_php: float
     solar_base_cost_php: float
@@ -234,20 +259,53 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
         yield_per_kwp_day = 3.84
 
     raw_required_kwp = daily_target / yield_per_kwp_day
-    panels_raw = math.ceil((raw_required_kwp * 1000.0) / PANEL_WATTAGE)
+
+    # Effective statutory cap: the smaller of the 100 kW net-metering ceiling
+    # and the service-entrance connected load (ERC Res. 06-2019; Meralco 2023).
+    service_cap_kwp = (
+        inputs.service_entrance_amps * SERVICE_VOLTAGE_V / 1000.0
+        if inputs.service_entrance_amps else SERVICE_ENTRANCE_KW_DEFAULT
+    )
+    regulatory_cap_kwp = min(NET_METERING_MAX_KW, service_cap_kwp)
 
     roof_constrained = False
-    if inputs.roof_area_m2 and inputs.roof_area_m2 > 0:
-        max_fit = math.floor(inputs.roof_area_m2 / PANEL_AREA_M2)
-        if panels_raw > max_fit:
-            panels_raw = max_fit
+    if inputs.sizing_intent == "maximize_export":
+        # Largest legal array: statutory cap, then roof area if supplied.
+        max_fit_kwp = (
+            math.floor(inputs.roof_area_m2 / PANEL_AREA_M2) * PANEL_WATTAGE / 1000.0
+            if inputs.roof_area_m2 and inputs.roof_area_m2 > 0 else None
+        )
+        target_kwp = (
+            min(regulatory_cap_kwp, max_fit_kwp)
+            if max_fit_kwp is not None else regulatory_cap_kwp
+        )
+        panels_raw = math.floor(target_kwp * 1000.0 / PANEL_WATTAGE)
+        if max_fit_kwp is not None and max_fit_kwp < regulatory_cap_kwp:
             roof_constrained = True
             disclaimers.append(
-                f"Array constrained by usable roof area ({inputs.roof_area_m2:.1f} m²). "
-                f"Capped at {panels_raw} panels ({panels_raw * PANEL_WATTAGE / 1000.0:.2f} kWp)."
-                if panels_raw > 0 else
-                f"No {PANEL_WATTAGE}W panel fits within {inputs.roof_area_m2:.1f} m² of usable roof area."
+                f"Export-maximizing array limited by usable roof area "
+                f"({inputs.roof_area_m2:.1f} m²) to {panels_raw} panels "
+                f"({panels_raw * PANEL_WATTAGE / 1000.0:.2f} kWp)."
             )
+        disclaimers.append(
+            f"System sized to maximize net-metering export within "
+            f"{regulatory_cap_kwp:.1f} kW (100 kW statutory cap / service-entrance "
+            f"limit). Final capacity is subject to transformer hosting-capacity "
+            f"approval by your distribution utility."
+        )
+    else:
+        panels_raw = math.ceil((raw_required_kwp * 1000.0) / PANEL_WATTAGE)
+        if inputs.roof_area_m2 and inputs.roof_area_m2 > 0:
+            max_fit = math.floor(inputs.roof_area_m2 / PANEL_AREA_M2)
+            if panels_raw > max_fit:
+                panels_raw = max_fit
+                roof_constrained = True
+                disclaimers.append(
+                    f"Array constrained by usable roof area ({inputs.roof_area_m2:.1f} m²). "
+                    f"Capped at {panels_raw} panels ({panels_raw * PANEL_WATTAGE / 1000.0:.2f} kWp)."
+                    if panels_raw > 0 else
+                    f"No {PANEL_WATTAGE}W panel fits within {inputs.roof_area_m2:.1f} m² of usable roof area."
+                )
 
     panels_needed = max(1, panels_raw) if not (roof_constrained and panels_raw == 0) else 0
     actual_system_kwp = (panels_needed * PANEL_WATTAGE) / 1000.0
@@ -276,7 +334,10 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
             CITATION_REGISTRY["adb_bess_handbook_2022"],
             CITATION_REGISTRY["bnef_battery_2023"],
         ])
-        usable_storage = min(daily_surplus, night_load)
+        # Only the chargeable portion of the surplus reaches storage; the
+        # uncaptured remainder still exports for net-metering credit.
+        chargeable_surplus = daily_surplus * SURPLUS_CAPTURE_FRACTION
+        usable_storage = min(chargeable_surplus, night_load)
         nameplate_storage = usable_storage / DEPTH_OF_DISCHARGE
         raw_modules = math.ceil(nameplate_storage / UNIT_BATTERY_KWH) if nameplate_storage > 0 else 0
 
@@ -298,7 +359,11 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
     # 5. Export Modeling (Credited at BGC)
     daily_exportable = max(0.0, daily_surplus - usable_storage)
     monthly_exportable = daily_exportable * days_in_month
-    export_rate = inputs.electricity_rate_php * DEFAULT_EXPORT_FRACTION
+    export_rate = (
+        inputs.export_rate_override_php
+        if inputs.export_rate_override_php
+        else inputs.electricity_rate_php * DEFAULT_EXPORT_FRACTION
+    )
     monthly_export_credit = monthly_exportable * export_rate
 
     # Total Monthly Benefit
@@ -306,6 +371,13 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
     monthly_self_consumed = daily_self_consumed * days_in_month
     monthly_direct_savings = monthly_self_consumed * inputs.electricity_rate_php
     total_monthly_benefit = monthly_direct_savings + monthly_export_credit
+
+    # Bill floor: fixed customer/metering charges are non-bypassable under
+    # net metering, so the residual bill can never reach zero.
+    net_monthly_bill = max(
+        MIN_MONTHLY_BILL_FLOOR_PHP,
+        inputs.monthly_bill_php - total_monthly_benefit,
+    )
 
     # 6. Turnkey Capital Costs & Dynamic BOM
     if inputs.include_battery:
@@ -423,6 +495,13 @@ def calculate_sizing(inputs: SizingInputs, products_df=None) -> SizingResults:
         monthly_exportable_kwh=round(monthly_exportable, 1),
         export_rate_php=round(export_rate, 2),
         monthly_export_credit_php=round(monthly_export_credit, 2),
+        annual_export_energy_kwh=round(monthly_exportable * 12.0, 1),
+        annual_export_income_php=round(monthly_export_credit * 12.0, 2),
+        net_monthly_bill_remaining_php=round(net_monthly_bill, 2),
+        is_net_exporter=monthly_solar_gen > inputs.monthly_consumption_kwh,
+        oversizing_npv_positive=export_rate > SOLAR_ROOFTOP_LCOE_PHP_KWH,
+        regulatory_capacity_cap_kw=round(regulatory_cap_kwp, 2),
+        sizing_intent=inputs.sizing_intent,
         monthly_direct_savings_php=round(monthly_direct_savings, 2),
         total_monthly_benefit_php=round(total_monthly_benefit, 2),
         solar_base_cost_php=round(solar_base_cost, 2),

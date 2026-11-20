@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { IllustrationSolar, IllustrationWind, IllustrationHydro } from "@/components/illustrations";
 import InterpretationBadge, { getRating } from "@/components/shared/InterpretationBadge";
+import HelpTooltip from "@/components/shared/HelpTooltip";
 import NextStepList from "@/components/shared/NextStepList";
 import Markdown from "@/components/shared/Markdown";
 import ExplanationModal from "./ExplanationModal";
@@ -37,14 +38,16 @@ const sourceDisplayName = (source) => (source === "Hydropower" ? "Hydro" : sourc
 
 const REC_ART = { Solar: IllustrationSolar, Wind: IllustrationWind, Hydro: IllustrationHydro };
 
-function SizingStat({ icon: Icon, label, value }) {
+function SizingStat({ icon: Icon, label, value, term }) {
   return (
     <div className="flex items-start gap-3 rounded-lg bg-muted/40 p-3">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
         <Icon className="h-4 w-4" aria-hidden="true" />
       </span>
       <div className="min-w-0">
-        <p className="text-sm text-muted-foreground">{label}</p>
+        <div className="text-sm text-muted-foreground">
+          {term ? <HelpTooltip term={term}>{label}</HelpTooltip> : label}
+        </div>
         <p className="text-base font-semibold leading-snug">{value}</p>
       </div>
     </div>
@@ -517,7 +520,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Sun className="h-5 w-5 text-primary" aria-hidden="true" />
-                {t("ecosim.results.sizing.title")}
+                <HelpTooltip term="solar sizing">{t("ecosim.results.sizing.title")}</HelpTooltip>
               </CardTitle>
               <CardDescription>{t("ecosim.results.sizing.description")}</CardDescription>
             </CardHeader>
@@ -525,33 +528,39 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               <SizingStat
                 icon={Sun}
                 label={t("ecosim.results.sizing.systemSize")}
+                term="system size"
                 value={`${formatNumber(result.sizing.panels_needed)} × 550W = ${formatNumber(result.sizing.actual_system_kwp, 2)} kWp`}
               />
               {result.sizing.battery_modules_needed > 0 && (
                 <SizingStat
                   icon={BatteryCharging}
                   label={t("ecosim.results.sizing.battery")}
+                  term="battery storage"
                   value={`${result.sizing.battery_modules_needed} × 5.12 = ${formatNumber(result.sizing.installed_battery_kwh, 2)} kWh`}
                 />
               )}
               <SizingStat
                 icon={Home}
                 label={t("ecosim.results.sizing.selfConsumed")}
+                term="self consumption"
                 value={`${formatNumber(result.sizing.monthly_self_consumed_kwh, 1)} kWh/mo`}
               />
               <SizingStat
                 icon={ArrowUpFromLine}
                 label={t("ecosim.results.sizing.exportCredit")}
+                term="export credit"
                 value={`${formatCurrency(result.sizing.monthly_export_credit_php)}/mo`}
               />
               <SizingStat
                 icon={Wallet}
                 label={t("ecosim.results.sizing.investment")}
+                term="installation cost"
                 value={formatCurrency(result.sizing.total_installation_cost_php)}
               />
               <SizingStat
                 icon={Timer}
                 label={t("ecosim.results.sizing.payback")}
+                term="payback period"
                 value={result.sizing.simple_payback_years != null
                   ? t("ecosim.results.sizing.years", { count: formatNumber(result.sizing.simple_payback_years, 1) })
                   : "—"}
@@ -559,6 +568,7 @@ export default function EcosimResults({ result, aiLoading = false, aiError = nul
               <SizingStat
                 icon={TrendingUp}
                 label={t("ecosim.results.sizing.npv")}
+                term="net present value"
                 value={result.sizing.npv_php != null ? formatCurrency(result.sizing.npv_php) : "—"}
               />
             </CardContent>

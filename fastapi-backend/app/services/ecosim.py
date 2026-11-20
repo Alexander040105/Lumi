@@ -949,6 +949,9 @@ def _attach_sizing(
     roof_area_m2: float | None,
     daytime_fraction: float | None,
     include_battery: bool,
+    sizing_intent: str = "offset_bill",
+    service_entrance_amps: float | None = None,
+    export_rate_override: float | None = None,
 ) -> None:
     """Attach the consumption-driven sizing block (spec: ECOSIM-SIZING-BATTERY).
     Pure in-memory math — failures degrade to ``sizing=None`` without breaking
@@ -965,6 +968,9 @@ def _attach_sizing(
             roof_area_m2=roof_area_m2,
             daytime_fraction=daytime_fraction or DAYTIME_FRACTION_DEFAULT,
             include_battery=include_battery,
+            sizing_intent=sizing_intent,
+            service_entrance_amps=service_entrance_amps,
+            export_rate_override_php=export_rate_override,
         ))
         result_dict["sizing"] = asdict(sizing)
     except Exception as exc:
@@ -989,6 +995,9 @@ def renewable_energy_calculator(
     roof_area_m2: float | None = None,
     include_battery: bool = False,
     daytime_fraction: float | None = None,
+    sizing_intent: str = "offset_bill",
+    service_entrance_amps: float | None = None,
+    export_rate_override: float | None = None,
 ) -> dict:
     # NOTE: Data fetching
     if mode == "province":
@@ -1023,6 +1032,9 @@ def renewable_energy_calculator(
             "roof_area_m2": roof_area_m2,
             "include_battery": include_battery,
             "daytime_fraction": daytime_fraction,
+            "sizing_intent": sizing_intent,
+            "service_entrance_amps": service_entrance_amps,
+            "export_rate_override": export_rate_override,
             "household_solar_size_kwp": _s.household_solar_size_kwp,
             "household_wind_hub_height_m": _s.household_wind_hub_height_m,
             "wind_shear_exponent": _s.wind_shear_exponent,
@@ -1499,6 +1511,9 @@ def renewable_energy_calculator(
         roof_area_m2=roof_area_m2,
         daytime_fraction=daytime_fraction,
         include_battery=include_battery,
+        sizing_intent=sizing_intent,
+        service_entrance_amps=service_entrance_amps,
+        export_rate_override=export_rate_override,
     )
 
     if use_cache and geo_id and params_hash:
@@ -1886,6 +1901,9 @@ def build_ecosim_dashboard_response(
     roof_area_m2: float | None = None,
     include_battery: bool = False,
     daytime_fraction: float | None = None,
+    sizing_intent: str = "offset_bill",
+    service_entrance_amps: float | None = None,
+    export_rate_override: float | None = None,
 ) -> dict:
     if monthly_consumption <= 0 or monthly_bill <= 0:
         raise HTTPException(
@@ -1968,6 +1986,9 @@ def build_ecosim_dashboard_response(
         roof_area_m2=roof_area_m2,
         include_battery=include_battery,
         daytime_fraction=daytime_fraction,
+        sizing_intent=sizing_intent,
+        service_entrance_amps=service_entrance_amps,
+        export_rate_override=export_rate_override,
     )
 
     renewable_results = base_results["renewable_energy_results"]
@@ -2316,6 +2337,9 @@ def build_ecosim_dashboard_response(
                 roof_area_m2=roof_area_m2,
                 daytime_fraction=daytime_fraction or DAYTIME_FRACTION_DEFAULT,
                 include_battery=False,
+                sizing_intent=sizing_intent,
+                service_entrance_amps=service_entrance_amps,
+                export_rate_override_php=export_rate_override,
             )))
         except Exception:
             solar_baseline = sizing_block
