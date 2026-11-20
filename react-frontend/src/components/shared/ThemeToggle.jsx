@@ -9,7 +9,13 @@ export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label={t("common.toggleTheme")}>
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={toggleTheme}
+      aria-label={t("common.toggleTheme")}
+      className="h-9 w-9 rounded-full border-border/80"
+    >
       {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
     </Button>
   );
